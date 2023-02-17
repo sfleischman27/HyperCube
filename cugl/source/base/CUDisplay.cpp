@@ -126,13 +126,13 @@ bool Display::init(std::string title, Rect bounds, Uint32 flags) {
         CULogError("Could not initialize display: %s",SDL_GetError());
         return false;
     }
-
+    
     // Initialize the TTF library
     if ( TTF_Init() < 0 ) {
         CULogError("Could not initialize TTF: %s",SDL_GetError());
         return false;
     }
-
+    
     // We have to set the OpenGL prefs BEFORE creating window
     if (!prepareOpenGL(flags & INIT_MULTISAMPLED)) {
         return false;
@@ -164,22 +164,20 @@ bool Display::init(std::string title, Rect bounds, Uint32 flags) {
         _bounds.origin.x = native.x;
         _bounds.origin.y = native.y;
         _bounds.size = bounds.size;
-    } else {
-        _bounds = bounds;
     }
-
+    
     // Make the window
     _title  = title;
     _window = SDL_CreateWindow(title.c_str(),
                                (int)_bounds.origin.x,   (int)_bounds.origin.y,
                                (int)_bounds.size.width, (int)_bounds.size.height,
                                sdlflags);
-
+    
     if (!_window) {
         CULogError("Could not create window: %s", SDL_GetError());
         return false;
     }
-
+    
 #if CU_PLATFORM == CU_PLATFORM_MACOS || CU_PLATFORM == CU_PLATFORM_IPHONE
     if (!_fullscreen) {
         _bounds.size   *= _scale;
@@ -192,7 +190,7 @@ bool Display::init(std::string title, Rect bounds, Uint32 flags) {
         _window = nullptr;
         return false;
     }
-
+    
     if (_fullscreen) {
         SDL_Rect usable;
         SDL_GetDisplaySafeBounds(_display,&usable);
@@ -240,7 +238,7 @@ void Display::dispose() {
     _bounds.size.set(0,0);
     _usable.size.set(0,0);
     _scale = 0.0f;
-
+    
     _initialOrientation = Orientation::UNKNOWN;
     _displayOrientation = Orientation::UNKNOWN;
     _deviceOrientation  = Orientation::UNKNOWN;
@@ -417,8 +415,8 @@ void Display::queryRenderTarget() {
  * @return true if preparation was successful
  */
 bool Display::prepareOpenGL(bool multisample) {
-    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-
+    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);    
+    
 #if CU_GL_PLATFORM == CU_GL_OPENGLES
     int profile = SDL_GL_CONTEXT_PROFILE_ES;
     int version = 3; // Force 3 on mobile
@@ -430,21 +428,21 @@ bool Display::prepareOpenGL(bool multisample) {
         SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
     }
 #endif
-
+    
     if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, profile) != 0) {
         CULogError("OpenGL is not supported on this platform: %s", SDL_GetError());
         return false;
     }
-
+    
     if (SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, version) != 0) {
         CULogError("OpenGL %d is not supported on this platform: %s", version, SDL_GetError());
         return false;
     }
-
+    
     // Enable stencil support for sprite batch
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
+    
     return true;
 }
 
@@ -471,7 +469,7 @@ bool Display::initOpenGL(bool multisample) {
         CULogError("Could not create OpenGL context: %s", SDL_GetError() );
         return false;
     }
-
+    
     // Multisampling support
 #if CU_GL_PLATFORM != CU_GL_OPENGLES
     glEnable(GL_LINE_SMOOTH);
@@ -479,8 +477,8 @@ bool Display::initOpenGL(bool multisample) {
         glEnable(GL_MULTISAMPLE);
     }
 #endif
-
-#if CU_PLATFORM == CU_PLATFORM_WINDOWS || CU_PLATFORM == CU_PLATFORM_LINUX
+    
+#if CU_PLATFORM == CU_PLATFORM_WINDOWS
     //Initialize GLEW
     glewExperimental = GL_TRUE;
     GLenum glewError = glewInit();
@@ -488,7 +486,7 @@ bool Display::initOpenGL(bool multisample) {
         SDL_Log("Error initializing GLEW: %s", glewGetErrorString(glewError));
     }
 #endif
-
+    
     queryRenderTarget();
     return true;
 }
@@ -525,3 +523,5 @@ void Display::refresh() {
         _orientationListener(oldDevice,_deviceOrientation,oldDisplay != _displayOrientation);
     }
 }
+
+

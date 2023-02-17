@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>box2d-ios.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>6217BDA5F36043CE891C6F5A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77D1F532314F40739E0B15CC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>84CC4247084A4C67A387A5AD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>916586B358C74ACD8675F791</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ACF489155AC24D5089A86382</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AD9F09D40F22482EB75EEFDA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B823EA9403AA4B448A8537A6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D8C6C7AB8D074EE5ACB8517F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E63A69781D134E539514C406</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EEA17DEC3B044B7B83940B82</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

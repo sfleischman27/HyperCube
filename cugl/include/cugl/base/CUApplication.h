@@ -151,8 +151,6 @@ protected:
     Rect _safearea;
     /** Whether this application is running in fullscreen */
     bool _fullscreen;
-    /** Whether this application is centered in the display */
-    bool _centered;
     /** Whether this application supports high dpi resolution */
     bool _highdpi;
 	/** Whether this application supports multisampling */
@@ -468,23 +466,6 @@ public:
      */
     void setDisplaySize(int width, int height);
 
-    /**
-     * Sets the position of the game window
-     *
-     * If the application is set to be full screen, this value will be ignored.
-     * Otherwise, this value specifies the location of the top left corner of
-     * the window on the display. By default, a window is centered in the
-     * display.
-     *
-     * This method may only be safely called before the application is
-     * initialized.  Once the application is initialized; this value may not
-     * be changed.
-     *
-     * @param x     The x-coordinate of the top-left corner
-     * @param y     The y-coordinate of the top-left corner
-     */
-    void setDisplayPosition(int x, int y);
-    
     /**
      * Returns the screen width of this application.
      *

@@ -65,7 +65,6 @@ _org("GDIAC"),
 _savesdir(""),
 _assetdir(""),
 _state(State::NONE),
-_centered(true),
 _fullscreen(false),
 _highdpi(true),
 _fps(0),
@@ -116,13 +115,10 @@ void Application::dispose() {
  */
 bool Application::init() {
     _state = State::STARTUP;
-    
-    
+
+
     // Initializate the video
-    Uint32 flags = 0;
-    if (_centered) {
-        flags |= Display::INIT_CENTERED;
-    }
+    Uint32 flags = Display::INIT_CENTERED;
     if (_fullscreen) {
         flags |= Display::INIT_FULLSCREEN;
     }
@@ -475,27 +471,6 @@ void Application::processCallbacks(Uint32 millis) {
 void Application::setDisplaySize(int width, int height) {
     CUAssertLog(_state == State::NONE, "Cannot reset application display after initialization");
     _display.size.set((float)width, (float)height);
-}
-
-/**
- * Sets the position of the game window
- *
- * If the application is set to be full screen, this value will be ignored.
- * Otherwise, this value specifies the location of the top left corner of
- * the window on the display. By default, a window is centered in the
- * display.
- *
- * This method may only be safely called before the application is
- * initialized.  Once the application is initialized; this value may not
- * be changed.
- *
- * @param x     The x-coordinate of the top-left corner
- * @param y     The y-coordinate of the top-left corner
- */
-void Application::setDisplayPosition(int x, int y) {
-    CUAssertLog(_state == State::NONE, "Cannot reset application display after initialization");
-    _centered = false;
-    _display.origin.set(x,y);
 }
 
 /**

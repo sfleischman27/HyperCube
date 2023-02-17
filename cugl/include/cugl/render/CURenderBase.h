@@ -64,8 +64,6 @@
     /** The current OpenGL platform */
     #define CU_GL_PLATFORM   CU_GL_OPENGL
 #elif defined (__LINUX__)
-    #include <GL/glew.h>
-    #include <SDL_opengl.h>
     #include <GL/gl.h>
     #include <GL/glu.h>
     #include <GL/glut.h>
