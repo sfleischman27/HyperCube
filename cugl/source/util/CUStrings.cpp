@@ -208,6 +208,36 @@ std::string to_string(double value, int precision) {
     return ss.str();
 }
 
+/**
+ * Returns a hexadecimal string for the given 32 bit integer
+ *
+ * If the value len is longer than the number of hexadecimal digits
+ * necessary to represent the value, the result will be padded
+ * with leading 0s to reach this length.
+ *
+ * @param  value    the numeric value to convert
+ * @param  len      the desired minimal length
+ *
+ * @return a hexadecimal string for the given 32 bit integer
+ */
+std::string to_hexstring(Uint32 value, size_t len) {
+    static const char* digits = "0123456789ABCDEF";
+
+    // Compute the actual length
+    size_t actual = value ? 0 : 1;
+    Uint32 check = value;
+    while (check) {
+        check = check >> 4;
+        actual += 1;
+    }
+    
+    actual = actual < len ? len : actual;
+    std::string result(actual,'0');
+    for (size_t ii=0, jj=(actual-1)*4 ; ii < actual; ++ii,jj-=4) {
+        result[ii] = digits[(value>>jj) & 0x0f];
+    }
+    return result;
+}
 
 #pragma mark -
 #pragma mark ARRAY TO STRING FUNCTIONS
@@ -464,7 +494,9 @@ Uint8 stou8(const std::string str, std::size_t* pos, int base) {
     const char* start = str.c_str();
     char* end;
     int result = (Uint8)std::strtol(start, &end, base);
-    *pos = (std::size_t)(end-start); // Bad but no alternative on android
+    if (pos) {
+	    *pos = (std::size_t)(end-start);
+	}
     return result;
 #else
     return (Uint8)std::stoi(str,pos,base);
@@ -490,7 +522,9 @@ Sint16 stos16(const std::string str, std::size_t* pos, int base)  {
     const char* start = str.c_str();
     char* end;
     int result = (Sint16)std::strtol(start, &end, base);
-    *pos = (std::size_t)(end-start); // Bad but no alternative on android
+    if (pos) {
+	    *pos = (std::size_t)(end-start);
+	}
     return result;
 #else
     return (Sint16)std::stoi(str,pos,base);
@@ -516,7 +550,9 @@ Uint16 stou16(const std::string str, std::size_t* pos, int base) {
     const char* start = str.c_str();
     char* end;
     int result = (Uint16)std::strtol(start, &end, base);
-    *pos = (std::size_t)(end-start); // Bad but no alternative on android
+    if (pos) {
+	    *pos = (std::size_t)(end-start); 
+	}
     return result;
 #else
     return (Uint16)std::stol(str,pos,base);
@@ -542,7 +578,9 @@ Sint32 stos32(const std::string str, std::size_t* pos, int base) {
     const char* start = str.c_str();
     char* end;
     int result = (Sint32)std::strtol(start, &end, base);
-    *pos = (std::size_t)(end-start); // Bad but no alternative on android
+    if (pos) {
+	    *pos = (std::size_t)(end-start);
+	}
     return result;
 #else
     return (Sint32)std::stol(str,pos,base);
@@ -568,7 +606,9 @@ Uint32 stou32(const std::string str, std::size_t* pos, int base) {
     const char* start = str.c_str();
     char* end;
     int result = (Uint32)std::strtoul(start, &end, base);
-    *pos = (std::size_t)(end-start); // Bad but no alternative on android
+    if (pos) {
+	    *pos = (std::size_t)(end-start);
+	}
     return result;
 #else
     return (Uint32)std::stoul(str,pos,base);
@@ -594,7 +634,9 @@ Sint64 stos64(const std::string str, std::size_t* pos, int base) {
     const char* start = str.c_str();
     char* end;
     int result = (Sint64)std::strtoll(start, &end, base);
-    *pos = (std::size_t)(end-start); // Bad but no alternative on android
+    if (pos) {
+	    *pos = (std::size_t)(end-start);
+	}
     return result;
 #else
     return (Sint64)std::stoll(str,pos,base);
@@ -621,7 +663,9 @@ Uint64 stou64(const std::string str, std::size_t* pos, int base) {
     const char* start = str.c_str();
     char* end;
     int result = (Uint64)std::strtoull(start, &end, base);
-    *pos = (std::size_t)(end-start); // Bad but no alternative on android
+    if (pos) {
+	    *pos = (std::size_t)(end-start);
+	}
     return result;
 #else
     return (Uint64)std::stoull(str,pos,base);
@@ -646,7 +690,9 @@ float  stof(const std::string str, std::size_t* pos) {
     const char* start = str.c_str();
     char* end;
     float result = (float)std::strtod(start, &end);
-    *pos = (std::size_t)(end-start); // Bad but no alternative on android
+    if (pos) {
+	    *pos = (std::size_t)(end-start);
+	}
     return result;
 #else
     return std::stof(str,pos);
@@ -671,7 +717,9 @@ double stod(const std::string str, std::size_t* pos) {
     const char* start = str.c_str();
     char* end;
     double result = std::strtod(start, &end);
-    *pos = (std::size_t)(end-start); // Bad but no alternative on android
+    if (pos) {
+	    *pos = (std::size_t)(end-start); 
+	}
     return result;
 #else
     return std::stod(str,pos);
@@ -848,7 +896,27 @@ bool isupper(const std::string str) {
     return result;
 }
 
-
+/**
+ * Returns true if str is a valid hexadecimal string.
+ *
+ * The letter components may either be lower or upper case to be valid.
+ *
+ * @param str   The string to check
+ *
+ * @return true if str is a valid hexadecimal string.
+ */
+bool ishex(std::string str) {
+    for (auto it = str.begin(); it != str.end(); ++it) {
+        char ch = *it;
+        if ((ch < '0' || ch > '9') &&
+            (ch < 'A' || ch > 'F') &&
+            (ch < 'a' || ch > 'f')) {
+            return false;
+        }
+    }
+  
+    return str.size() > 0;
+}
 
 
 #pragma mark -

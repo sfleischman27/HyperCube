@@ -61,7 +61,7 @@ set(DAV1D_SOURCES
 add_definitions(-DBITDEPTH=16)
 if (MSVC)
 else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-incompatible-pointer-types -Wno-stringop-overflow")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-incompatible-pointer-types")
 endif()
 add_library(dav1d STATIC ${DAV1D_SOURCES})
 target_include_directories(dav1d PUBLIC

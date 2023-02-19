@@ -152,7 +152,20 @@ namespace cugl {
      */
     std::string to_string(double value, int precision=-1);
 
-    
+    /**
+     * Returns a hexadecimal string for the given 32 bit integer
+     *
+     * If the value len is longer than the number of hexadecimal digits
+     * necessary to represent the value, the result will be padded
+     * with leading 0s to reach this length.
+     *
+     * @param  value    the numeric value to convert
+     * @param  len      the desired minimal length
+     *
+     * @return a hexadecimal string for the given 32 bit integer
+     */
+    std::string to_hexstring(Uint32 value, size_t len=0);
+
 #pragma mark -
 #pragma mark ARRAY TO STRING FUNCTIONS
     /**
@@ -536,6 +549,16 @@ namespace cugl {
      */
     bool isupper(const std::string str);
     
+    /**
+     * Returns true if str is a valid hexadecimal string.
+     *
+     * The letter components may either be lower or upper case to be valid.
+     *
+     * @param str   The string to check
+     *
+     * @return true if str is a valid hexadecimal string.
+     */
+    bool ishex(std::string str);
     
 #pragma mark -
 #pragma mark UTILITY FUNCTIONS
@@ -681,7 +704,7 @@ namespace cugl {
      * @return an upper case copy of str.
      */
     std::string toupper(const std::string str);
-    
+        
     /**
      * Returns a copy of str with the first instance of a replaced by b.
      *

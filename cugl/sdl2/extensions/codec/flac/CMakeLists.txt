@@ -165,9 +165,6 @@ add_compile_options(
 if(WITH_FORTIFY_SOURCE AND HAVE_LIBSSP)
   add_definitions(-D_FORTIFY_SOURCE=2)
 endif()
-if(WITH_FORTIFY_SOURCE)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O")
-endif()
 
 if(HAVE_STACK_PROTECTOR_FLAG AND HAVE_LIBSSP)
     add_compile_options($<$<OR:$<COMPILE_LANGUAGE:C>,$<COMPILE_LANGUAGE:CXX>>:-fstack-protector-strong>)
