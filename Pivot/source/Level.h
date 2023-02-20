@@ -10,6 +10,8 @@
 
 #ifndef Level_h
 #define Level_h
+#include <cugl/cugl.h>
+#include "GraphicsEngine.h"
 
 
 #endif /* Level_h */

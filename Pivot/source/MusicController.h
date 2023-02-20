@@ -9,6 +9,8 @@
 
 #ifndef MusicController_h
 #define MusicController_h
+#include <cugl/cugl.h>
+#include "DataController.h"
 
 
 #endif /* MusicController_h */

@@ -9,6 +9,8 @@
 
 #ifndef PlaneController_h
 #define PlaneController_h
+#include <cugl/cugl.h>
+#include "GameModel.h"
 
 
 #endif /* PlaneController_h */

@@ -9,6 +9,7 @@
 
 #ifndef GraphicsEngine_h
 #define GraphicsEngine_h
+#include <cugl/cugl.h>
 
 
 #endif /* GraphicsEngine_h */

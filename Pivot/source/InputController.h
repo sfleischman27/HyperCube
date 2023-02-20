@@ -9,6 +9,6 @@
 
 #ifndef InputController_h
 #define InputController_h
-
+#include <cugl/cugl.h>
 
 #endif /* InputController_h */

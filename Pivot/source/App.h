@@ -9,9 +9,13 @@
 //
 //  Created by Sarah Fleischman on 2/19/23.
 //
-
 #ifndef App_h
 #define App_h
+#include <cugl/cugl.h>
+#include "MusicController.h"
+#include "DataController.h"
+#include "GameplayController.h"
+
 
 
 #endif /* App_h */

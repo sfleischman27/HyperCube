@@ -9,6 +9,13 @@
 
 #ifndef GameplayController_h
 #define GameplayController_h
+#include <cugl/cugl.h>
+#include "DataController.h"
+#include "Level.h"
+#include "PhysicsController.h"
+#include "PlaneController.h"
+#include "InputController.h"
+#include "GameModel.h"
 
 
 #endif /* GameplayController_h */

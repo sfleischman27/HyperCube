@@ -9,6 +9,7 @@
 
 #ifndef GameModel_h
 #define GameModel_h
-
+#include <cugl/cugl.h>
+#include "GraphicsEngine.h"
 
 #endif /* GameModel_h */

@@ -9,6 +9,8 @@
 
 #ifndef PhysicsController_h
 #define PhysicsController_h
+#include <cugl/cugl.h>
+#include "GameModel.h"
 
 
 #endif /* PhysicsController_h */
