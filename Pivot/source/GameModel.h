@@ -10,6 +10,22 @@
 #ifndef GameModel_h
 #define GameModel_h
 #include <cugl/cugl.h>
-#include "GraphicsEngine.h"
+
+/**
+ *  Player information storage:
+ *   - sprite animation frame info
+ *   - 3D location of the player
+ */
+
+/**
+ *  Plane information storage:
+ *   - normal vector
+ *   - anything else?
+ */
+
+/**
+ *  Current cut information:
+ *    - poly 2 object(s)
+ */
 
 #endif /* GameModel_h */

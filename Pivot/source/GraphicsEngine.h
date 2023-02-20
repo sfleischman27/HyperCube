@@ -10,6 +10,11 @@
 #ifndef GraphicsEngine_h
 #define GraphicsEngine_h
 #include <cugl/cugl.h>
+#include "GameModel.h"
+
+/**
+ * Take in the GameModel and draw the player and cut
+ */
 
 
 #endif /* GraphicsEngine_h */

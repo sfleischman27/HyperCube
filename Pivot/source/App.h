@@ -15,7 +15,12 @@
 #include "MusicController.h"
 #include "DataController.h"
 #include "GameplayController.h"
+#include "GraphicsEngine.h"
 
-
+/**
+ * Includes constructor, deconstructor, update method,  draw method
+ *
+ * Eventually this will have startup, shutdown, suspend, and resume methods
+ */
 
 #endif /* App_h */

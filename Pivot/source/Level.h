@@ -11,7 +11,13 @@
 #ifndef Level_h
 #define Level_h
 #include <cugl/cugl.h>
-#include "GraphicsEngine.h"
+
+/**
+ *  Storage for the level mesh once loaded
+ *  Includes level default data (starting location, starting plane)
+ *  The default data will be placed in the Game Model and will be updated there
+ *  The default data here will be used to restart levels
+ */
 
 
 #endif /* Level_h */

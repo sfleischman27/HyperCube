@@ -11,7 +11,9 @@
 #define DataController_h
 #include <cugl/cugl.h>
 #include "Level.h"
-#include "GameModel.h"
 
+/**
+ *  Takes in level file and outputs Level object
+ */
 
 #endif /* DataController_h */

@@ -12,5 +12,11 @@
 #include <cugl/cugl.h>
 #include "DataController.h"
 
+/**
+ *  Include functions that play music for different states
+ *
+ *  Include start music and stop music functions
+ */
+
 
 #endif /* MusicController_h */
