@@ -666,6 +666,7 @@ std::pair<std::string, std::string> split_base(const std::string path) {
  * @return the given path, normalized to the current platform
  */
 const std::string normalize_path(const std::string path) {
+    return path; //TODO NOTE JACK DID THIS
     std::vector<std::string> items = fullsplit_path(path);
     
     // Handle the redundancies

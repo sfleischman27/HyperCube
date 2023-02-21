@@ -295,6 +295,8 @@ bool Texture::initWithData(const void *data, int width, int height, Texture::Pix
 bool Texture::initWithFile(const std::string filename) {
     std::string fullpath = filetool::normalize_path(filename);
     SDL_Surface* surface = IMG_Load(fullpath.c_str());
+
+    CULog((fullpath + "  <----look").c_str());
     if (surface == nullptr) {
         CULogError("Could not load file %s. %s", filename.c_str(), SDL_GetError());
         return false;

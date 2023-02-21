@@ -112,6 +112,8 @@ std::string JsonReader::readJsonString() {
 std::shared_ptr<JsonValue> JsonReader::readJson() {
     std::string data = readJsonString();
     if (!data.empty()) {
+        CULog("I AM HERE");
+        CULog(data.c_str());
         return JsonValue::allocWithJson(data);
     }
     return nullptr;
