@@ -22,6 +22,8 @@ class GameModel{
 private:
     /** Player location */
     Vec3 _loc;
+    /** Player velocity */
+    Vec3 _velocity
     /** Player animation frame */
     // TODO: figure out what type this should be (_frame)
     
@@ -40,12 +42,14 @@ public:
     /**
      * Creates the model state.
      *
-     * @param loc          The location of the player
-     * @param norm        The norm of the plane
-     * @param cut          The cut
+     * @param loc               The location of the player
+     * @param velocity    The velocity of the player
+     * @param norm             The norm of the plane
+     * @param cut               The cut
      */
-    GameModel(Vec3 loc, Vec3 norm, std::vector<Poly2> cut){
+    GameModel(Vec3 loc, Vec3 velocity, Vec3 norm, std::vector<Poly2> cut){
         setPlayerLoc(loc);
+        setPlayerVelocity(velocity);
         setPlaneNorm(norm);
         setCut(cut);
     }
@@ -59,6 +63,15 @@ public:
      */
     void setPlayerLoc(Vec3 loc) {
         _loc = loc;
+    }
+    
+    /**
+     *  Sets the velocity of the player
+     *
+     *  @param velocity          The location of the player
+     */
+    void setPlayerLoc(Vec3 velocity) {
+        _velocity = velocity;
     }
     
     /**
