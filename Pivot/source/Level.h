@@ -15,6 +15,7 @@
 #ifndef Level_h
 #define Level_h
 #include <cugl/cugl.h>
+#include "Mesh.h"
 
 using namespace cugl;
 
@@ -22,23 +23,24 @@ using namespace cugl;
  * A class representing a level and its starting data
  */
 class Level{
-  
+    
 #pragma mark State
 private:
     /** Player starting location */
     Vec3 _startLoc;
-    /** Plane starting plane */
+    /** Starting plane */
     Vec3 _startNorm;
     /** Level mesh object */
-    // TODO: figure out what type this should be (_mesh)
+    Mesh _mesh;
     
 public:
     /** A public accessible, read-only version of the starting location */
     const Vec3& startLoc;
     /** A public accessible, read-only version of the starting plane */
     const Vec3& startNorm;
-}
-
+    /** A public accessible, read-only version of the leve mesh */
+    const Mesh mesh;
+    
 #pragma mark Main Functions
 public:
     /**
@@ -48,14 +50,14 @@ public:
      * @param startNorm        The starting norm of the plane
      * @param mesh                   The mesh object
      */
-    TileModel(Vec3 startLoc, Vec3 startNorm): startLoc(_startLoc), startNorm(_startNorm) {
+    Level(Vec3 startLoc, Vec3 startNorm, Mesh mesh): startLoc(_startLoc), startNorm(_startNorm), mesh(_mesh) {
         // set attributes
         setPlayerLoc(startLoc);
         setPlaneNorm(startNorm);
-        setMesh();
+        setMesh(mesh);
     }
-
-#pragema mark Setters
+    
+#pragma mark Setters
 public:
     /**
      *  Sets the starting position of the player
@@ -65,7 +67,7 @@ public:
     void setPosition(Vec3 startLoc) {
         _startLoc = startLoc;
     }
-
+    
     /**
      *  Sets the starting normal of the plane
      *
@@ -74,15 +76,17 @@ public:
     void setPosition(Vec3 startNorm) {
         _startNorm = startNorm;
     }
-
+    
     /**
      *  Sets the level mesh
      *
      *  @param mesh  The level mesh
      */
-    void setMesh() {
-        return;
+    void setMesh(mesh) {
+        _mesh = mesh;
     }
-
+    
+    
+}
 
 #endif /* Level_h */
