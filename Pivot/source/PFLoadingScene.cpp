@@ -13,6 +13,7 @@
 //  Version:  2/9/17
 //
 #include "PFLoadingScene.h"
+#include <filesystem>
 
 using namespace cugl;
 
@@ -50,7 +51,12 @@ bool LoadingScene::init(const std::shared_ptr<cugl::AssetManager>& assets) {
     
     // IMMEDIATELY load the splash screen assets
     _assets = assets;
+<<<<<<< Updated upstream
     _assets->loadDirectory("json/loading.json");
+=======
+    _assets->loadDirectory("../json/loading.json");
+    CULog(std::filesystem::current_path().c_str());
+>>>>>>> Stashed changes
     auto layer = assets->get<scene2::SceneNode>("load");
     layer->setContentSize(dimen);
     layer->doLayout(); // This rearranges the children to fit the screen

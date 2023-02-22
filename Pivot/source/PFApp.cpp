@@ -51,7 +51,11 @@ void PlatformApp::onStartup() {
     
     // Que up the other assets
     AudioEngine::start();
+<<<<<<< Updated upstream
     _assets->loadDirectoryAsync("json/assets.json",nullptr);
+=======
+    _assets->loadDirectoryAsync("../json/assets.json",nullptr);
+>>>>>>> Stashed changes
     
     Application::onStartup(); // YOU MUST END with call to parent
 }
