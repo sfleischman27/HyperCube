@@ -18,7 +18,7 @@ using namespace cugl;
  */
 class Mesh{
     
-#prama mark State
+#pragma mark State
 private:
     /** Level mesh representation */
     int _mesh;
@@ -48,7 +48,7 @@ public:
     }
     
     
-}
+};
 
 
 #endif /* Mesh_h */

@@ -31,7 +31,7 @@ private:
     /** Starting plane */
     Vec3 _startNorm;
     /** Level mesh object */
-    Mesh _mesh;
+    // TODO: Mesh _mesh;
     
 public:
     /** A public accessible, read-only version of the starting location */
@@ -39,7 +39,7 @@ public:
     /** A public accessible, read-only version of the starting plane */
     const Vec3& startNorm;
     /** A public accessible, read-only version of the leve mesh */
-    const Mesh mesh;
+    // TODO: const Mesh mesh;
     
 #pragma mark Main Functions
 public:
@@ -50,11 +50,11 @@ public:
      * @param startNorm        The starting norm of the plane
      * @param mesh                   The mesh object
      */
-    Level(Vec3 startLoc, Vec3 startNorm, Mesh mesh): startLoc(_startLoc), startNorm(_startNorm), mesh(_mesh) {
+    Level(Vec3 startLoc, Vec3 startNorm): startLoc(_startLoc), startNorm(_startNorm) {
         // set attributes
         setPlayerLoc(startLoc);
         setPlaneNorm(startNorm);
-        setMesh(mesh);
+        setMesh();
     }
     
 #pragma mark Setters
@@ -64,7 +64,7 @@ public:
      *
      *  @param startLoc The starting location of the player
      */
-    void setPosition(Vec3 startLoc) {
+    void setPlayerLoc(Vec3 startLoc) {
         _startLoc = startLoc;
     }
     
@@ -73,7 +73,7 @@ public:
      *
      *  @param startLoc The starting norm of the plane
      */
-    void setPosition(Vec3 startNorm) {
+    void setPlaneNorm(Vec3 startNorm) {
         _startNorm = startNorm;
     }
     
@@ -82,11 +82,11 @@ public:
      *
      *  @param mesh  The level mesh
      */
-    void setMesh(mesh) {
-        _mesh = mesh;
+    void setMesh() {
+        return;
     }
     
     
-}
+};
 
 #endif /* Level_h */

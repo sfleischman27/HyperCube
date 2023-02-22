@@ -23,7 +23,7 @@ private:
     /** Player location */
     Vec3 _loc;
     /** Player velocity */
-    Vec3 _velocity
+    Vec3 _velocity;
     /** Player animation frame */
     // TODO: figure out what type this should be (_frame)
     
@@ -54,7 +54,7 @@ public:
         setCut(cut);
     }
     
-#pragema mark Setters
+#pragma mark Setters
 public:
     /**
      *  Sets the position of the player
@@ -70,7 +70,7 @@ public:
      *
      *  @param velocity          The location of the player
      */
-    void setPlayerLoc(Vec3 velocity) {
+    void setPlayerVelocity(Vec3 velocity) {
         _velocity = velocity;
     }
     
@@ -79,7 +79,7 @@ public:
      *
      *  @param norm        The norm of the plane
      */
-    void setPosition(Vec3 norm) {
+    void setPlaneNorm(Vec3 norm) {
         _norm = norm;
     }
     
@@ -88,10 +88,10 @@ public:
      *
      *  @param cut          The cut
      */
-    void setCut(cut) {
+    void setCut(std::vector<Poly2> cut) {
         _cut = cut;
     }
     
-}
+};
 
 #endif /* GameModel_h */
