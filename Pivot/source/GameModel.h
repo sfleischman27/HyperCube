@@ -57,7 +57,7 @@ public:
 #pragma mark Setters
 public:
     /**
-     *  Sets the position of the player
+     *  Sets the position of the player in 3D space
      *
      *  @param loc          The location of the player
      */
@@ -66,12 +66,25 @@ public:
     }
     
     /**
-     *  Sets the velocity of the player
+     *  Gets the position of the player in 3D space
+     *
+     *  @return loc          The location of the player
+     */
+    Vec3 getPlayerLoc() {
+        return _loc;
+    }
+    
+    /**
+     *  Sets the velocity of the player in 3D space
      *
      *  @param velocity          The location of the player
      */
     void setPlayerVelocity(Vec3 velocity) {
         _velocity = velocity;
+    }
+    
+    Vec3 getPlayerVelocity() {
+        return _velocity;
     }
     
     /**
@@ -90,6 +103,13 @@ public:
      */
     void setCut(std::vector<Poly2> cut) {
         _cut = cut;
+    }
+    
+    /**
+     * Returns if the player is touching the ground
+     */
+    bool touchingGround(){
+        return true;
     }
     
 };
