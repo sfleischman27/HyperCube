@@ -35,16 +35,19 @@ void PhysicsController::move2D(GameModel g, Vec2 velocity){
     g.setPlayerVelocity(Vec3(velocity.x, velocity.y, 0));
 }
 
+/**
+ *  Returns the sign (+1 -1) of float
+ */
 float getSignFloat(float f){
     return f/abs(f);
 };
 
-void fall(GameModel g){
+void PhysicsController::fall(GameModel g){
     //acceleration, with a max accel speed
     if(abs(g.getPlayerVelocity().y) <= MAX_V_SPEED){
-        g.setPlayerVelocity(Vec3(0, g.getPlayerVelocity().y - GRAVITY, 0));
+        move2D(g, Vec3(0, g.getPlayerVelocity().y - GRAVITY));
     } else {
-        g.setPlayerVelocity(Vec3(0, getSignFloat(g.getPlayerVelocity().y) * MAX_V_SPEED, 0));
+        move2D(g, Vec3(0, getSignFloat( g.getPlayerVelocity().y) * MAX_V_SPEED));
     }
 }
 

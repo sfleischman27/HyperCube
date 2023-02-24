@@ -68,11 +68,8 @@ private:
      */
     void move2D(GameModel g, Vec2 velocity);
     
-    /**
-     *  Returns the sign (+1 -1) of float
-     */
-    float getSignFloat(float f);
-    
+#pragma mark Convert Poly2s to physics objects
+
 };
 
 
