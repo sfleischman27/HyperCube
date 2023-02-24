@@ -43,19 +43,26 @@ public:
     
 #pragma mark Main Functions
 public:
+
+    Level() : startLoc(_startLoc), startNorm(_startNorm) {
+        _startLoc = Vec3::ZERO;
+        _startNorm = Vec3(-1, 0, 0);
+    }
+
     /**
      * Creates the model state.
      *
      * @param startLoc          The starting location of the player
      * @param startNorm        The starting norm of the plane
-     * @param mesh                   The mesh object
      */
-    Level(Vec3 startLoc, Vec3 startNorm): startLoc(_startLoc), startNorm(_startNorm) {
+    Level(Vec3 startLoc, Vec3 startNorm) : startLoc(_startLoc), startNorm(_startNorm) {
         // set attributes
         setPlayerLoc(startLoc);
         setPlaneNorm(startNorm);
         setMesh();
     }
+
+    
     
 #pragma mark Setters
 public:
@@ -85,8 +92,19 @@ public:
     void setMesh() {
         return;
     }
+
+    /**Gets a vector of Poly2 objects which represent a CUT throught the map at the given angle
+    * @param origin the origin of the cut plane
+    * @param normal the normal vector of the cut plane
+    */
+    std::vector<cugl::Poly2> GetMapCut(Vec3 origin, Vec3 normal);
     
-    
+
+    /** A static method for loading and returning a Level object from the given path*/
+    static Level loadLevel(std::string path) {
+        // for now this is just an empty level because the cut is hardcoded
+        return Level(Vec3::ZERO, Vec3(-1, 0, 0));
+    }
 };
 
 #endif /* Level_h */

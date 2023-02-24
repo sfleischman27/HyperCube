@@ -18,7 +18,7 @@ using namespace cugl;
 #pragma mark -
 #pragma mark Application State
 
-bool demo = true;
+bool demo = false;
 
 /**
  * The method called after OpenGL is initialized, but before running the application.

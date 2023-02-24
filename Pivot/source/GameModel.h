@@ -10,6 +10,7 @@
 #ifndef GameModel_h
 #define GameModel_h
 #include <cugl/cugl.h>
+#include "Level.h"
 
 using namespace cugl;
 
@@ -26,6 +27,9 @@ private:
     Vec3 _velocity;
     /** Player animation frame */
     // TODO: figure out what type this should be (_frame)
+
+    /**The Level being played*/
+    Level _level;
     
 #pragma mark Plane State
 private:
@@ -42,16 +46,13 @@ public:
     /**
      * Creates the model state.
      *
-     * @param loc               The location of the player
-     * @param velocity    The velocity of the player
-     * @param norm             The norm of the plane
-     * @param cut               The cut
+     * @param level The level object containing all the info necessary for initializing game
      */
-    GameModel(Vec3 loc, Vec3 velocity, Vec3 norm, std::vector<Poly2> cut){
-        setPlayerLoc(loc);
-        setPlayerVelocity(velocity);
-        setPlaneNorm(norm);
-        setCut(cut);
+    GameModel(Level level) {
+        setPlayerLoc(level.startLoc);
+        setPlayerVelocity(Vec3::ZERO);
+        setPlaneNorm(level.startNorm);
+        setCut(level.GetMapCut(_loc, _norm));
     }
     
 #pragma mark Setters
@@ -103,6 +104,10 @@ public:
      */
     void setCut(std::vector<Poly2> cut) {
         _cut = cut;
+    }
+
+    std::vector<Poly2> getCut() {
+        return _cut;
     }
     
     /**

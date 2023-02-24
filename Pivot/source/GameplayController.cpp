@@ -8,6 +8,7 @@
 //
 
 #include "GameplayController.h"
+#include <cugl/cugl.h>
 
 using namespace cugl;
 
@@ -17,7 +18,10 @@ using namespace cugl;
  * This constructor does not allocate any objects or start the controller.
  * This allows us to use a controller without a heap pointer.
  */
-GameplayController::GameplayController() : Scene2() {}
+GameplayController::GameplayController() : Scene2() {
+	Level level = Level::loadLevel("temp");
+	_model = std::make_unique<GameModel>(level);
+}
 
 /**
  * Disposes of all (non-static) resources allocated to this mode.
@@ -58,3 +62,27 @@ void GameplayController::reset() {}
  * @param  delta    Number of seconds since last animation frame
  */
 void GameplayController::update(float dt) {}
+
+/**
+ * Draws all this scene to the given SpriteBatch.
+ *
+ * The default implementation of this method simply draws the scene graph
+ * to the sprite batch.  By overriding it, you can do custom drawing
+ * in its place.
+ *
+ * @param batch     The SpriteBatch to draw with.
+ */
+void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch) {
+
+	//Begin Drawing
+	batch->begin();
+	batch->setColor(Color4::BLACK);
+	auto cuts = _model->getCut();
+	for (auto it = cuts.begin(); it != cuts.end(); it++) {
+		batch->fill(*it);
+	}
+	CULog(std::to_string(cuts.size()).c_str());
+	
+	// End Drawing
+	batch->end();
+}

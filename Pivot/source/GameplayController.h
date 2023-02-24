@@ -20,6 +20,9 @@
 #include "GraphicsEngine.h"
 
 class GameplayController : public cugl::Scene2 {
+
+private:
+    std::unique_ptr<GameModel> _model;
     
 public:
     /**
@@ -72,6 +75,16 @@ public:
      */
     void reset();
     
+    /**
+     * Draws all this scene to the given SpriteBatch.
+     *
+     * The default implementation of this method simply draws the scene graph
+     * to the sprite batch.  By overriding it, you can do custom drawing
+     * in its place.
+     *
+     * @param batch     The SpriteBatch to draw with.
+     */
+    void render(const std::shared_ptr<cugl::SpriteBatch>& batch) override;
 };
 
 #endif /* GameplayController_h */
