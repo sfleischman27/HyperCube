@@ -2,3 +2,10 @@
 
 build/
 
+# pycache
+
+__pycache__/
+
+# buildfiles
+
+buildfiles/
