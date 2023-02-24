@@ -4,11 +4,12 @@
 //
 //  Controls the level play loop
 //
-//  Created by Sarah Fleischman on 2/19/23.
+//  Created by Sarah Fleischman on 2/23/23.
 //
 
 #ifndef GameplayController_h
 #define GameplayController_h
+
 #include <cugl/cugl.h>
 #include "DataController.h"
 #include "Level.h"
@@ -18,14 +19,59 @@
 #include "GameModel.h"
 #include "GraphicsEngine.h"
 
-/**
- * Update method
- *
- * Uses input commands to run the correct PlaneController and PhysicsController methods
- */
+class GameplayController : public cugl::Scene2 {
+    
+public:
+    /**
+     * Creates a new game world with the default values.
+     *
+     * This constructor does not allocate any objects or start the controller.
+     * This allows us to use a controller without a heap pointer.
+     */
+    GameplayController();
+    
+    /**
+     * Disposes of all (non-static) resources allocated to this mode.
+     *
+     * This method is different from dispose() in that it ALSO shuts off any
+     * static resources, like the input controller.
+     */
+    ~GameplayController() { dispose(); }
+    
+    /**
+     * Disposes of all (non-static) resources allocated to this mode.
+     */
+    void dispose();
+    
+    /** Initializes the controller contents, and starts the game
+    *
+    * The constructor does not allocate any objects or memory.  This allows
+    * us to have a non-pointer reference to this controller, reducing our
+    * memory allocation.  Instead, allocation happens in this method.
+    *
+    * The game world is scaled so that the screen coordinates do not agree
+    * with the Box2d coordinates.  This initializer uses the default scale.
+    *
+    * @param assets    The (loaded) assets for this game mode
+    *
+    * @return true if the controller is initialized properly, false otherwise.
+    */
+    bool init(const std::shared_ptr<AssetManager>& assets);
+    
+    /**
+     * The method called to update the game mode.
+     *
+     * This method contains any gameplay code that is not an OpenGL call.
+     *
+     * @param timestep  The amount of time (in seconds) since the last frame
+     */
+    void update(float timestep);
 
-/**
- * Custom draw method that uses the GraphicsEngine giving it the Game Model
- */
+    /**
+     * Resets the status of the game so that we can play again.
+     */
+    void reset();
+    
+};
 
 #endif /* GameplayController_h */
