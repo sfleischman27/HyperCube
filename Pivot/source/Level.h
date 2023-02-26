@@ -101,9 +101,9 @@ public:
     
 
     /** A static method for loading and returning a Level object from the given path*/
-    static Level loadLevel(std::string path) {
+    static std::shared_ptr<Level> loadLevel(std::string path) {
         // for now this is just an empty level because the cut is hardcoded
-        return Level(Vec3::ZERO, Vec3(-1, 0, 0));
+        return std::make_shared<Level>(Vec3::ZERO, Vec3(-1, 0, 0));
     }
 };
 

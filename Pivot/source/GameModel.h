@@ -29,7 +29,7 @@ private:
     // TODO: figure out what type this should be (_frame)
 
     /**The Level being played*/
-    Level _level;
+    std::shared_ptr<Level> _level;
     
 #pragma mark Plane State
 private:
@@ -48,11 +48,13 @@ public:
      *
      * @param level The level object containing all the info necessary for initializing game
      */
-    GameModel(Level level) {
-        setPlayerLoc(level.startLoc);
+    GameModel(std::shared_ptr<Level> level) {
+        setPlayerLoc(level->startLoc);
         setPlayerVelocity(Vec3::ZERO);
-        setPlaneNorm(level.startNorm);
-        setCut(level.GetMapCut(_loc, _norm));
+        setPlaneNorm(level->startNorm);
+        setCut(level->GetMapCut(_loc, _norm));
+
+        _level = level;
     }
     
 #pragma mark Setters
@@ -89,13 +91,26 @@ public:
     }
     
     /**
-     *  Sets the normal of the plane
+     *  Sets the normal of the plane and recomputes the CUT
      *
      *  @param norm        The norm of the plane
      */
     void setPlaneNorm(Vec3 norm) {
         _norm = norm;
+        setCut(_level->GetMapCut(Vec3::ZERO, _norm));
     }
+
+    /**Rotate the normal around the player by some angle in radians*/
+    void rotateNorm(float radians) {
+        Vec3 newNorm = Vec3(
+            _norm.x * cos(radians) - _norm.y * sin(radians),
+            _norm.x * sin(radians) + _norm.y * cos(radians), 
+            0
+        );
+        setPlaneNorm(newNorm);
+    }
+
+
     
     /**
      *  Sets the cut

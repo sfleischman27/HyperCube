@@ -19,7 +19,7 @@ using namespace cugl;
  * This allows us to use a controller without a heap pointer.
  */
 GameplayController::GameplayController() : Scene2() {
-	Level level = Level::loadLevel("temp");
+	auto level = Level::loadLevel("temp");
 	_model = std::make_unique<GameModel>(level);
 }
 
@@ -61,7 +61,25 @@ void GameplayController::reset() {}
  *
  * @param  delta    Number of seconds since last animation frame
  */
-void GameplayController::update(float dt) {}
+void GameplayController::update(float dt) {
+	
+	/*animated by incrementing angle each frame*/
+	//_model->rotateNorm(.01);
+
+	/*give a normal directly (only the x,y coords matter)*/
+	//_model->setPlaneNorm(Vec3(1, 3, 0).normalize());
+
+	/*pick a specific angle to cut at(relative to UNIT_X)*/
+	float radians = M_PI / 3;
+	Vec3 newNorm = Vec3(
+		cos(radians),
+		sin(radians),
+		0
+	);
+	_model->setPlaneNorm(newNorm);
+
+	
+}
 
 /**
  * Draws all this scene to the given SpriteBatch.
@@ -81,7 +99,6 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
 		batch->fill(*it);
 	}
-	CULog(std::to_string(cuts.size()).c_str());
 	
 	// End Drawing
 	batch->end();
