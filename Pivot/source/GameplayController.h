@@ -23,6 +23,7 @@ class GameplayController : public cugl::Scene2 {
 
 private:
     std::unique_ptr<GameModel> _model;
+    InputController _input;
     
 public:
     /**

@@ -1434,7 +1434,7 @@ std::vector<Poly2> Level::GetMapCut(Vec3 origin, Vec3 normal) {
 		polygons.push_back(extruder->getPolygon());
 	
 	}
-	CULog(std::to_string(polygons.size()).c_str());
+	//CULog(std::to_string(polygons.size()).c_str());
 	
 	return polygons;
 

@@ -42,7 +42,10 @@ void GameplayController::dispose() {}
  *
  * @return true if the controller is initialized properly, false otherwise.
  */
-bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {return true;}
+bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
+    _input.init(Rect());
+
+    return true;}
 
 /**
  * Resets the status of the game so that we can play again.
@@ -62,21 +65,33 @@ void GameplayController::reset() {}
  * @param  delta    Number of seconds since last animation frame
  */
 void GameplayController::update(float dt) {
+    
+    _input.update(dt);
+    
+    if(_input.didIncreaseCut()){
+        CULog("Increased cut");
+        _model->rotateNorm(.03);
+    }
+    
+    if(_input.didDecreaseCut()){
+        CULog("Decreased cut");
+        _model->rotateNorm(-.03);
+    }
 	
 	/*animated by incrementing angle each frame*/
-	//_model->rotateNorm(.01);
+//	_model->rotateNorm(.01);
 
 	/*give a normal directly (only the x,y coords matter)*/
 	//_model->setPlaneNorm(Vec3(1, 3, 0).normalize());
 
 	/*pick a specific angle to cut at(relative to UNIT_X)*/
-	float radians = M_PI / 3;
-	Vec3 newNorm = Vec3(
-		cos(radians),
-		sin(radians),
-		0
-	);
-	_model->setPlaneNorm(newNorm);
+//	float radians = M_PI / 3;
+//	Vec3 newNorm = Vec3(
+//		cos(radians),
+//		sin(radians),
+//		0
+//	);
+//	_model->setPlaneNorm(newNorm);
 
 	
 }
