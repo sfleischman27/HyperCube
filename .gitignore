@@ -9,3 +9,5 @@ __pycache__/
 # buildfiles
 
 buildfiles/
+
+**/.DS_Store
