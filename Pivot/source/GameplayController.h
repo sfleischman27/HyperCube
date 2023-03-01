@@ -26,6 +26,15 @@ private:
     //std::shared_ptr<PhysicsController> _physics;
     PhysicsController _physics;
     InputController _input;
+    std::vector<Collectible> _collectibles;
+    
+//protected:
+//    /** The asset manager for this game mode. */
+//    std::shared_ptr<cugl::AssetManager> _assets;
+//    /** Reference to the left joystick image */
+//    std::shared_ptr<cugl::scene2::PolygonNode> _leftnode;
+//    /** Reference to the right joystick image */
+//    std::shared_ptr<cugl::scene2::PolygonNode> _rightnode;
     
 public:
     /**
@@ -88,6 +97,14 @@ public:
      * @param batch     The SpriteBatch to draw with.
      */
     void render(const std::shared_ptr<cugl::SpriteBatch>& batch) override;
+    
+    /**
+     * Returns the active screen size of this scene.
+     *
+     * This method is for graceful handling of different aspect
+     * ratios
+     */
+    cugl::Size computeActiveSize() const;
 };
 
 #endif /* GameplayController_h */

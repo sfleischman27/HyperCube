@@ -305,9 +305,13 @@ void InputController::processJoystick(const cugl::Vec2 pos) {
     if (std::fabsf(diff.x) > JSTICK_DEADZONE) {
         _joystick = true;
         if (diff.x > 0) {
+            _keyIncreaseCut = true;
+            _keyDecreaseCut = false;
             _keyLeft = true;
             _keyRight = false;
         } else {
+            _keyIncreaseCut = false;
+            _keyDecreaseCut = true;
             _keyLeft = false;
             _keyRight = true;
         }
@@ -418,6 +422,8 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _ltouch.touchids.clear();
         _keyLeft = false;
         _keyRight = false;
+        _keyIncreaseCut = false;
+        _keyDecreaseCut = false;
         _joystick = false;
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         _hasJumped = false;
