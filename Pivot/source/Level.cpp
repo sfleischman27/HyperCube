@@ -1411,6 +1411,7 @@ std::vector<Poly2> Level::GetMapCut(Vec3 origin, Vec3 normal) {
 
 	// NOTE this part is temporary as I am pulling from the hardcoded list of intersections PLANE_INTERSECTIONS
 	auto angle = Vec3::angle(normal, Vec3(1, 0, 0));
+	if (angle == 0) angle = M_PI; //bandaid fix - this line should definitely not be here
 	if (angle < 0) { angle += M_PI * 2; } // remap negative angle to reflex angles
 	int index = std::floor(angle / (2*M_PI) * PLANE_INTERSECTIONS.size());
 	auto floats = PLANE_INTERSECTIONS[index];
