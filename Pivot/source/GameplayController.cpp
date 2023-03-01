@@ -12,6 +12,10 @@
 
 using namespace cugl;
 
+/** This is adjusted by screen aspect ratio to get the height */
+#define SCENE_WIDTH 1024
+#define SCENE_HEIGHT 576
+
 /**
  * Creates a new game world with the default values.
  *
@@ -43,7 +47,20 @@ void GameplayController::dispose() {}
  * @return true if the controller is initialized properly, false otherwise.
  */
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
-    _input.init(Rect());
+//    _input.init(Rect());
+    
+    Size dimen = computeActiveSize();
+
+    if (assets == nullptr) {
+        return false;
+    } else if (!Scene2::init(dimen)) {
+        return false;
+    }
+    
+    // Start up the input handler
+//    _assets = assets;
+    _input.init(getBounds());
+    
 
     return true;}
 
@@ -117,4 +134,16 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	
 	// End Drawing
 	batch->end();
+}
+
+Size GameplayController::computeActiveSize() const {
+    Size dimen = Application::get()->getDisplaySize();
+    float ratio1 = dimen.width/dimen.height;
+    float ratio2 = ((float)SCENE_WIDTH)/((float)SCENE_HEIGHT);
+    if (ratio1 < ratio2) {
+        dimen *= SCENE_WIDTH/dimen.width;
+    } else {
+        dimen *= SCENE_HEIGHT/dimen.height;
+    }
+    return dimen;
 }
