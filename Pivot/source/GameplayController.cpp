@@ -71,8 +71,29 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
 //    for (Collectible c : _collectibles) {
 //        c.setTexture(assets->get<Texture>("bullet"));
 //    }
+    
+    /** Player */
+    
+    // The initial position of the player
+    float DUDE_POS[] = { 2.5f, 5.0f};
+    
+    Vec2 dudePos = DUDE_POS;
+        // TODO Gordi fill in your scene node right below
+        //node = scene2::SceneNode::alloc();
+    
+        //std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
+    
+        //TODO Gordi fill in your scale right below
+        //_player = PlayerModel::alloc(dudePos,image->getSize()/_scale,_scale);
+    
+        //std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
+        //_player->setSceneNode(sprite);
+    
+        //TODO Gordi add the player as an obstacle. The original code does something like: addObstacle(_player,sprite);
 
-    return true;}
+    return true;
+    
+}
 
 /**
  * Resets the status of the game so that we can play again.
@@ -109,7 +130,9 @@ void GameplayController::update(float dt) {
         _physics.update(dt);
     }
     
-    
+//    _player->setMovement(_input.getHorizontal()*_player->getForce());
+//    _player->setJumping( _input.didJump());
+//    _player->applyForce();
 	
 	/*animated by incrementing angle each frame*/
 //	_model->rotateNorm(.01);
