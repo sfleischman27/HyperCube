@@ -11,6 +11,7 @@
 #define GameModel_h
 #include <cugl/cugl.h>
 #include "Level.h"
+#include "Collectible.h"
 
 using namespace cugl;
 
@@ -41,6 +42,11 @@ private:
     /** Vector of cut polygons */
     std::vector<Poly2> _cut;
     
+#pragma mark Collectibles State
+private:
+    /** Vector of collectibles */
+    std::vector<Collectible> _collectibles;
+    
 #pragma mark Main Functions
 public:
     /**
@@ -53,7 +59,7 @@ public:
         setPlayerVelocity(Vec3::ZERO);
         setPlaneNorm(level->startNorm);
         setCut(level->GetMapCut(_loc, _norm));
-
+        setCollectibles();
         _level = level;
     }
     
@@ -110,6 +116,9 @@ public:
         setPlaneNorm(newNorm);
     }
 
+    Vec3 getPlaneNorm() {
+        return _norm;
+    }
 
     
     /**
@@ -130,6 +139,29 @@ public:
      */
     bool touchingGround(){
         return true;
+    }
+    
+    void setCollectibles() {
+//        Size size = Application::get()->getDisplaySize();
+//        // seed the random number generator with a fixed value of 42
+//        std::srand(42);
+//        // generate the first random number as x
+//        float randx1 = ((float)(std::rand()) / (float)(RAND_MAX)) * size.width;
+//        // generate the second random number as y
+//        float randy1 = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * size.height;
+//        std::cout << "Random (x,y): " << randx1 << " " << randy1 << std::endl;
+//        float randx2 = ((float)(std::rand()) / (float)(RAND_MAX)) * size.width;
+//        // generate the second random number as y
+//        float randy2 = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * size.height;
+//        std::cout << "Random (x,y): " << randx2 << " " << randy2 << std::endl;
+        Collectible one = Collectible(Vec3(100, 50, 0), "one");
+        Collectible two = Collectible(Vec3(200, 100, 0), "two");
+        _collectibles.push_back(one);
+        _collectibles.push_back(two);
+    }
+    
+    std::vector<Collectible> getCollectibles() {
+        return _collectibles;
     }
     
 };

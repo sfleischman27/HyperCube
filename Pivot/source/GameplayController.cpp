@@ -60,7 +60,12 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
     // Start up the input handler
 //    _assets = assets;
     _input.init(getBounds());
-    
+ 
+    _collectibles = _model->getCollectibles();
+//    TODO: How to draw collectibles
+//    for (Collectible c : _collectibles) {
+//        c.setTexture(assets->get<Texture>("bullet"));
+//    }
 
     return true;}
 
@@ -109,6 +114,9 @@ void GameplayController::update(float dt) {
 //		0
 //	);
 //	_model->setPlaneNorm(newNorm);
+    
+//    TODO: How to update collectibles: if still collectible
+//    TODO: Update player bag what is collected
 
 	
 }
@@ -132,6 +140,13 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 		batch->fill(*it);
 	}
 	
+    //    TODO: How to draw collectibles
+    //    for (Collectible c : _collectibles) {
+    //        if (c.canBeSeen(_model->getPlaneNorm()) && !c.getCollected()) {
+    //            c.draw(batch);
+    //        }
+    //    }
+    
 	// End Drawing
 	batch->end();
 }

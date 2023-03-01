@@ -24,6 +24,7 @@ class GameplayController : public cugl::Scene2 {
 private:
     std::unique_ptr<GameModel> _model;
     InputController _input;
+    std::vector<Collectible> _collectibles;
     
 //protected:
 //    /** The asset manager for this game mode. */
