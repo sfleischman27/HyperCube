@@ -75,7 +75,7 @@ void PhysicsController::createPhysics(GameModel g, Size b){
     std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, b / PHYSICS_SCALE);
     
     _world->init(*bounds, Vec2(0, -GRAVITY));
-    
+    \
     //get the cut from the gamemodel
     std::vector<cugl::Poly2> polys = g.getCut();
     
@@ -94,7 +94,7 @@ void PhysicsController::createPhysics(GameModel g, Size b){
 }
 
 void PhysicsController::update(float dt){
-    //_world->update(dt);
+    _world->update(dt);
 }
 
 
