@@ -23,6 +23,8 @@ class GameplayController : public cugl::Scene2 {
 
 private:
     std::unique_ptr<GameModel> _model;
+    //std::shared_ptr<PhysicsController> _physics;
+    PhysicsController _physics;
     InputController _input;
     
 public:

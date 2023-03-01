@@ -1,7 +1,6 @@
 //
 //  PhysicsController.h
 //  Platformer
-//
 //  Controls the physics of the player and updates the game model as needed
 //
 //  Created by Sarah Fleischman on 2/19/23.
@@ -12,6 +11,7 @@
 #include <cugl/cugl.h>
 #include "GameModel.h"
 
+//bool _active(false);
 /**
  *  Have a few functions that take in the GameModel and do the following:
  *   - alter the player movement vector to move right
@@ -24,10 +24,11 @@ class PhysicsController {
     
 #pragma mark Physics Controller
 public:
-        
     PhysicsController();
     
     ~PhysicsController(){ dispose(); };
+    
+    bool init();
     
     /**
      * Takes a GameModel g and moves it horizontally by a float speed
@@ -68,7 +69,25 @@ private:
      */
     void move2D(GameModel g, Vec2 velocity);
     
+    
 #pragma mark Convert Poly2s to physics objects
+
+protected:
+    std::shared_ptr<cugl::physics2::ObstacleWorld> _world;
+    std::vector<cugl::physics2::PolygonObstacle> _levelbounds;
+
+public:
+    /**
+    * Creates all physics objects from a list of Poly2s given by the GameModel.
+    */
+    void createPhysics(GameModel g, Size b);
+    
+    void update(float dt);
+    
+    /**
+     * mark old obstacles for garbage collection and remove them.
+     */
+    void removeObstacles();
 
 };
 

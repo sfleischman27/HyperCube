@@ -20,9 +20,17 @@
 
 #define JUMP_SPEED 100.0
 
-
-void PhysicsController::dispose() {
+PhysicsController::PhysicsController(){
     
+}
+
+bool PhysicsController::init(){
+    //bool success = true;
+    return true;
+}
+ 
+void PhysicsController::dispose() {
+    removeObstacles();
 }
 
 void PhysicsController::jump(GameModel g){
@@ -50,4 +58,43 @@ void PhysicsController::fall(GameModel g){
         move2D(g, Vec3(0, getSignFloat( g.getPlayerVelocity().y) * MAX_V_SPEED));
     }
 }
+
+void PhysicsController::removeObstacles(){
+    for (std::shared_ptr<cugl::physics2::Obstacle> obj : _world->getObstacles()){
+        obj->markRemoved(true);
+    }
+    _world->garbageCollect();
+}
+
+void PhysicsController::createPhysics(GameModel g, Size b){
+    //init physics world and bounding box
+    _world = std::make_shared<physics2::ObstacleWorld>();
+    
+    removeObstacles();
+    
+    std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, b / PHYSICS_SCALE);
+    
+    _world->init(*bounds, Vec2(0, -GRAVITY));
+    
+    //get the cut from the gamemodel
+    std::vector<cugl::Poly2> polys = g.getCut();
+    
+    for(Poly2 p : polys){
+        
+        std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = std::make_shared<cugl::physics2::PolygonObstacle>();
+        
+        bool initialized = obstacle->init(p);
+        CUAssertLog(initialized, "levelbounds polygonobstacle not initialized properly");
+
+        obstacle->setBodyType(b2_staticBody);
+        //obtacle->setPosition(getSize() / (2 * PHYSICS_SCALE));
+        
+        _world->addObstacle(obstacle);
+    }
+}
+
+void PhysicsController::update(float dt){
+    //_world->update(dt);
+}
+
 

@@ -12,6 +12,9 @@
 
 using namespace cugl;
 
+// Lock the screen size to fixed height regardless of aspect ratio
+#define SCENE_HEIGHT 720
+
 /**
  * Creates a new game world with the default values.
  *
@@ -21,6 +24,7 @@ using namespace cugl;
 GameplayController::GameplayController() : Scene2() {
 	auto level = Level::loadLevel("temp");
 	_model = std::make_unique<GameModel>(level);
+    //_physics = std::shared_ptr<PhysicsController>();
 }
 
 /**
@@ -43,7 +47,19 @@ void GameplayController::dispose() {}
  * @return true if the controller is initialized properly, false otherwise.
  */
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
+    Size dimen = Application::get()->getDisplaySize();
+    dimen *= SCENE_HEIGHT/dimen.height;
+    if (assets == nullptr) {
+        return false;
+    } else if (!Scene2::init(dimen)) {
+        return false;
+    }
+    
     _input.init(Rect());
+    _physics.init();
+    
+    //_physics = std::shared_ptr<PhysicsController>();
+    _physics.createPhysics(*_model,getSize());
 
     return true;}
 
@@ -67,16 +83,22 @@ void GameplayController::reset() {}
 void GameplayController::update(float dt) {
     
     _input.update(dt);
-    
+
     if(_input.didIncreaseCut()){
         CULog("Increased cut");
         _model->rotateNorm(.03);
+        _physics.createPhysics(*_model,getSize());
     }
     
-    if(_input.didDecreaseCut()){
+    else if(_input.didDecreaseCut()){
         CULog("Decreased cut");
         _model->rotateNorm(-.03);
+        _physics.createPhysics(*_model,getSize());
+    } else {
+        _physics.update(dt);
     }
+    
+    
 	
 	/*animated by incrementing angle each frame*/
 //	_model->rotateNorm(.01);
