@@ -126,7 +126,12 @@ void GameplayController::update(float dt) {
         CULog("Decreased cut");
         _model->rotateNorm(-.03);
         _physics.createPhysics(*_model,getSize());
-    } else {
+    }
+    else if(_input.didKeepChangingCut()) {
+        _model->rotateNorm(_input.getMoveNorm());
+        _physics.createPhysics(*_model,getSize());
+    }
+    else {
         _physics.update(dt);
     }
     
