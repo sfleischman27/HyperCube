@@ -143,9 +143,10 @@ public:
         /** The end location for the player */
         auto hckeyLoc = cugl::Vec3(2.50532717051, 2.75713430113, 3.90467730801);
         // set attributes
+        float scale = 0.01;
 
         // for now this is just an empty level because the cut is hardcoded
-        return std::make_shared<Level>(hcstartLoc, Vec3(-1, 0, 0), hcendLoc, hckeyLoc);
+        return std::make_shared<Level>(hcstartLoc*scale, Vec3(-1, 0, 0)*scale, hcendLoc*scale, hckeyLoc*scale);
     }
 
 };
