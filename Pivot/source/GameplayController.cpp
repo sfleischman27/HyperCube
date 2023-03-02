@@ -225,15 +225,10 @@ void GameplayController::update(float dt) {
         pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
         //down scale it by screen size for comparison
         pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
-        std::cout << " click x is " << pos.x << "\n";
-        std::cout << " click y is " << pos.y << "\n";
         for (int i = 0; i < _collectibles.size(); i++) {
             auto tuplec = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
             auto coords = std::get<0>(tuplec);
             auto dist = std::get<1>(tuplec);
-            std::cout << " collect x is " << coords.x << "\n";
-            std::cout << " collect y is " << coords.y << "\n";
-            //            std::cout<<" dist is " << dist << "\n";
             if (!_collectibles[i].getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
                 std::abs(pos.x - coords.x) <= CLICK_DIST &&
@@ -282,14 +277,6 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
         batch->fill(*it);
 	}
     
-    std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
-    for (std::shared_ptr<scene2::SceneNode> it : world) {
-        /*it->setContentSize(
-                           it->getWidth() * _physics.getScale(),
-                           it->getHeight() *  _physics.getScale());*/
-        it->render(batch);
-    }
-    
     
     /* TODO: Color in the obstacles for debug
     batch->setColor(Color4::GREEN);
@@ -299,7 +286,6 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
     }*/
 
     // draw exit
-    // TODO: Jack maybe you want to double check the exit location cuz it's not inside cuts right now (lmk if im wrong)
     tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
     auto screencoordsExit = std::get<0>(tupleExit);
     auto distanceExit = std::get<1>(tupleExit);
@@ -326,6 +312,14 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
                 batch->draw(yellow, Rect(bottomleft, Vec2(0.025, 0.04)));
             }
         }
+    }
+    
+    std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
+    for (std::shared_ptr<scene2::SceneNode> it : world) {
+        /*it->setContentSize(
+                           it->getWidth() * _physics.getScale(),
+                           it->getHeight() *  _physics.getScale());*/
+        it->render(batch);
     }
     
 	// End Drawing
