@@ -21,7 +21,7 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the visible distance */
-#define VISIBLE_DIST   0.00015
+#define VISIBLE_DIST   0.15
 
 /**
  * Creates a new game world with the default values.
@@ -265,13 +265,11 @@ Size GameplayController::computeActiveSize() const {
 * RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
 std::tuple<cugl::Vec2, float> GameplayController::ScreenCoordinatesFrom3DPoint(cugl::Vec3 location) {
 
-    // translate the location into player space
-    auto offset = location.subtract(_model->getPlayerLoc());
     //dot the point onto the plane normal to get the distance from the cut plane
-    auto dist = offset.dot(_model->getPlaneNorm());
+    auto dist = location.dot(_model->getPlaneNorm());
     // get the point projected onto the plane basis vectors (unit_z is always y-axis and x-axis is to the right)
-    auto xcoord = offset.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm()));
-    auto ycoord = offset.dot(cugl::Vec3::UNIT_Z);
+    auto xcoord = location.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm()));
+    auto ycoord = location.dot(cugl::Vec3::UNIT_Z);
     auto coords = cugl::Vec2(xcoord, ycoord);
 
     return(std::tuple<cugl::Vec2, float>(coords, dist));

@@ -102,7 +102,7 @@ public:
      *  @param norm        The norm of the plane
      */
     void setPlaneNorm(Vec3 norm) {
-        _norm = norm;
+        _norm = norm.normalize();
         setCut(_level->GetMapCut(Vec3::ZERO, _norm));
     }
 
