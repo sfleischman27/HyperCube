@@ -21,12 +21,20 @@
 
 class GameplayController : public cugl::Scene2 {
 
+protected:
+    /** set debug mode */
+    bool _debug;
+    
+    //DEBUG COLLISION NODE
+    std::shared_ptr<cugl::scene2::SceneNode> _debugnode;
+    
 private:
     std::unique_ptr<GameModel> _model;
     //std::shared_ptr<PhysicsController> _physics;
     PhysicsController _physics;
     InputController _input;
     std::vector<Collectible> _collectibles;
+
     
 //protected:
 //    /** The asset manager for this game mode. */
@@ -68,11 +76,14 @@ public:
     * with the Box2d coordinates.  This initializer uses the default scale.
     *
     * @param assets    The (loaded) assets for this game mode
+    * @param rect      The game bounds in Box2d coordinates
     *
     * @return true if the controller is initialized properly, false otherwise.
     */
+    
     bool init(const std::shared_ptr<AssetManager>& assets);
     
+    bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
     /**
      * The method called to update the game mode.
      *
@@ -105,6 +116,13 @@ public:
      * ratios
      */
     cugl::Size computeActiveSize() const;
+    
+#pragma mark State Access
+
+    bool isDebug( ) const { return _debug; }
+    
+    /** sets whether we are in debug mode or not */
+    void setDebug(bool value) { _debug = value; _debugnode->setVisible(value); }
 };
 
 #endif /* GameplayController_h */

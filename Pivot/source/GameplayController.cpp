@@ -16,22 +16,36 @@ using namespace cugl;
 #define SCENE_WIDTH 1024
 #define SCENE_HEIGHT 576
 
+/** Color to outline the physics nodes */
+#define DEBUG_COLOR     Color4::YELLOW
+/** Opacity of the physics outlines */
+#define DEBUG_OPACITY   192
+
 /**
  * Creates a new game world with the default values.
  *
  * This constructor does not allocate any objects or start the controller.
  * This allows us to use a controller without a heap pointer.
  */
-GameplayController::GameplayController() : Scene2() {
+GameplayController::GameplayController() : Scene2()
+{
 	auto level = Level::loadLevel("temp");
 	_model = std::make_unique<GameModel>(level);
+    
+    _debugnode = nullptr;
+    _debug = false;
     //_physics = std::shared_ptr<PhysicsController>();
 }
 
 /**
  * Disposes of all (non-static) resources allocated to this mode.
  */
-void GameplayController::dispose() {}
+void GameplayController::dispose() {
+    _input.dispose();
+    _physics.dispose();
+    _debugnode = nullptr;
+    Scene2::dispose();
+}
 
 /**
  * Initializes the controller contents, and starts the game
@@ -44,10 +58,16 @@ void GameplayController::dispose() {}
  * with the Box2d coordinates.  This initializer uses the default scale.
  *
  * @param assets    The (loaded) assets for this game mode
+ * @param rect      The game bounds in Box2d coordinates
  *
  * @return true if the controller is initialized properly, false otherwise.
  */
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
+    return init(assets,Rect(0,0,SCENE_WIDTH,SCENE_HEIGHT));
+}
+
+
+bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect) {
 //    _input.init(Rect());
     
     Size dimen = computeActiveSize();
@@ -62,8 +82,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
 //    _assets = assets;
     _input.init(getBounds());
     
-    _physics.init();
-    //_physics = std::shared_ptr<PhysicsController>();
+    //set up physics world
+    _physics.init(dimen, rect, SCENE_WIDTH);
     _physics.createPhysics(*_model,getSize());
 
     _collectibles = _model->getCollectibles();
@@ -71,6 +91,19 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
 //    for (Collectible c : _collectibles) {
 //        c.setTexture(assets->get<Texture>("bullet"));
 //    }
+    
+    
+    Vec2 offset((dimen.width-SCENE_WIDTH)/2.0f,(dimen.height-SCENE_HEIGHT)/2.0f);
+
+    /** FOR THE DEBUG WIREFRAME STUFF.
+     TODO: IMPLEMENT*/
+    
+    _debugnode = scene2::SceneNode::alloc();
+    _debugnode->setScale(dimen); // Debug node draws in PHYSICS coordinates
+    _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
+    //_debugnode->setPosition(offset);
+
+    addChild(_debugnode);
 
     return true;}
 
@@ -79,7 +112,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
  *
  * This method disposes of the world and creates a new one.
  */
-void GameplayController::reset() {}
+void GameplayController::reset() {
+    _physics.clear();
+    _debugnode->removeAllChildren();
+}
 
 /**
  * Executes the core gameplay loop of this world.

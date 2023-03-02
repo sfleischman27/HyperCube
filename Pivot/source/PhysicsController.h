@@ -22,13 +22,24 @@
 
 class PhysicsController {
     
-#pragma mark Physics Controller
+protected:
+    /** the physics world */
+    std::shared_ptr<cugl::physics2::ObstacleWorld> _world;
+    
+    //std::vector<cugl::physics2::PolygonObstacle> _levelbounds;
+    
+    /** The scale between the physics world and the screen (MUST BE UNIFORM) */
+    float _scale;
+
 public:
+    
+#pragma mark Physics Controller
+
     PhysicsController();
     
     ~PhysicsController(){ dispose(); };
     
-    bool init();
+    bool init(Size dimen, const Rect& rect, float scene_width);
     
     /**
      * Takes a GameModel g and moves it horizontally by a float speed
@@ -47,6 +58,27 @@ public:
     void jump(GameModel g);
     
     /**
+    * Processes the start of a collision
+    *
+    * This method is called when we first get a collision between two objects.  We use
+    * this method to test if it is the "right" kind of collision.  In particular, we
+    * use it to test if we make it to the win door.  We also us it to eliminate bullets.
+    *
+    * @param  contact  The two bodies that collided
+    */
+    void beginContact(b2Contact* contact);
+    
+    /**
+    * Processes the end of a collision
+    *
+    * This method is called when we no longer have a collision between two objects.
+    * We use this method allow the character to jump again.
+    *
+    * @param  contact  The two bodies that collided
+    */
+    void endContact(b2Contact* contact);
+    
+    /**
      * Disposes this physics controller, deactivating all listeners.
      *
      * As the listeners are deactived, the user will not be able to
@@ -62,6 +94,9 @@ public:
     
     void dispose();
     
+    void clear();
+    
+    
 private:
     /**
      * Moves player along the 2D plane?
@@ -69,18 +104,13 @@ private:
      */
     void move2D(GameModel g, Vec2 velocity);
     
-    
 #pragma mark Convert Poly2s to physics objects
-
-protected:
-    std::shared_ptr<cugl::physics2::ObstacleWorld> _world;
-    std::vector<cugl::physics2::PolygonObstacle> _levelbounds;
-
+    
 public:
     /**
     * Creates all physics objects from a list of Poly2s given by the GameModel.
     */
-    void createPhysics(GameModel g, Size b);
+    void createPhysics( GameModel g, Size b);
     
     void update(float dt);
     
