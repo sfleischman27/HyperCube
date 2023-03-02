@@ -5,7 +5,7 @@
 //  Created by JD on 2/23/23.
 //
 
-#include "PlayerModel.hpp"
+#include "PlayerModel.h"
 
 #include <cugl/scene2/graph/CUPolygonNode.h>
 #include <cugl/scene2/graph/CUTexturedNode.h>

@@ -37,10 +37,14 @@ private:
     bool  _keyLeft;
     /** Whether the right arrow key is down */
     bool  _keyRight;
-    /** Whether the increase cut key is down */
+    /** Whether the increase cut key is pressed */
     bool  _keyIncreaseCut;
-    /** Whether the decrease cut key is down */
+    /** Whether the decrease cut key is pressed */
     bool  _keyDecreaseCut;
+    /** Whether the increase cut key is down */
+    bool _keyKeepIncreasingCut;
+    /** Whether the decrease cut key is down */
+    bool _keyKeepDecreasingCut;
   
 protected:
     // INPUT RESULTS
@@ -60,6 +64,10 @@ protected:
     bool _increaseCutPressed;
     /** Whether the decrease cut action was chosen. */
     bool _decreaseCutPressed;
+    /** Whether the increase/decrease buttton is down. */
+    bool _keepChangingCut;
+    /** How much did we move norm? */
+    float _moveNorm;
 
 #pragma mark Internal Touch Management
     // The screen is divided into four zones: Left, Bottom, Right and Main/
@@ -245,6 +253,12 @@ public:
 #pragma mark -
 #pragma mark Input Results
     /**
+     * Returns the amount of norm changes.
+     *
+     * @return the amount of norm changes.
+     */
+    float getMoveNorm() const { return _moveNorm; }
+    /**
      * Returns the amount of sideways movement.
      *
      * -1 = left, 1 = right, 0 = still
@@ -266,7 +280,12 @@ public:
      * @return if the decrease cut button was pressed.
      */
     float didDecreaseCut() const { return _decreaseCutPressed; }
-
+    /**
+     * Returns if increase/decrease button was down.
+     *
+     * @return if the increase/decrease  button was down.
+     */
+    float didKeepChangingCut() const { return _keepChangingCut; }
     /**
      * Returns if the jump button was pressed.
      *

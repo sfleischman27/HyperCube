@@ -18,6 +18,7 @@
 #include "InputController.h"
 #include "GameModel.h"
 #include "GraphicsEngine.h"
+#include "PlayerModel.h"
 
 class GameplayController : public cugl::Scene2 {
 
@@ -27,6 +28,7 @@ private:
     PhysicsController _physics;
     InputController _input;
     std::vector<Collectible> _collectibles;
+    std::shared_ptr<PlayerModel> _player;
     
 //protected:
 //    /** The asset manager for this game mode. */
