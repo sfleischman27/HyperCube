@@ -21,9 +21,8 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the visible distance */
-
 #define VISIBLE_DIST   .02
-
+/** Threshold of the click distance */
 #define CLICK_DIST   0.05
 
 
@@ -199,73 +198,69 @@ void GameplayController::reset() {
  * @param  delta    Number of seconds since last animation frame
  */
 void GameplayController::update(float dt) {
-    
+
     _input.update(dt);
 
-    if(_input.didIncreaseCut()){
+    if (_input.didIncreaseCut()) {
         _model->rotateNorm(.03);
-        _physics.createPhysics(*_model,getSize());
+        _physics.createPhysics(*_model, getSize());
     }
-    
-    else if(_input.didDecreaseCut()){
+
+    else if (_input.didDecreaseCut()) {
         _model->rotateNorm(-.03);
-        _physics.createPhysics(*_model,getSize());
+        _physics.createPhysics(*_model, getSize());
     }
-    else if(_input.didKeepChangingCut()) {
+    else if (_input.didKeepChangingCut()) {
         _model->rotateNorm(_input.getMoveNorm());
-        _physics.createPhysics(*_model,getSize());
+        _physics.createPhysics(*_model, getSize());
     }
     else {
         _physics.update(dt);
     }
-    
+
     // TODO: Update player bag what is collected
     // TODO: check against player location to see if player can collect
     if (_input.didSelect()) {
-        auto pos =  _input.getSelection();
-        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize()/2);
+        auto pos = _input.getSelection();
+        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
         //down scale it by screen size for comparison
-        pos = Vec2(pos.x/(_dimen.width/2), pos.y/(_dimen.height/2));
-        std::cout<<" click x is " <<pos.x << "\n";
-        std::cout<<" click y is " <<pos.y << "\n";
+        pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
+        std::cout << " click x is " << pos.x << "\n";
+        std::cout << " click y is " << pos.y << "\n";
         for (int i = 0; i < _collectibles.size(); i++) {
             auto tuplec = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
             auto coords = std::get<0>(tuplec);
             auto dist = std::get<1>(tuplec);
-            std::cout<<" collect x is " <<coords.x << "\n";
-            std::cout<<" collect y is " <<coords.y << "\n";
-//            std::cout<<" dist is " << dist << "\n";
-            if (!_collectibles[i].getCollected() and
-                std::abs(dist) <= VISIBLE_DIST and
-                std::abs(pos.x - coords.x)<=CLICK_DIST and
-                std::abs(pos.y - coords.y)<=CLICK_DIST) {
+            std::cout << " collect x is " << coords.x << "\n";
+            std::cout << " collect y is " << coords.y << "\n";
+            //            std::cout<<" dist is " << dist << "\n";
+            if (!_collectibles[i].getCollected() &&
+                std::abs(dist) <= VISIBLE_DIST &&
+                std::abs(pos.x - coords.x) <= CLICK_DIST &&
+                std::abs(pos.y - coords.y) <= CLICK_DIST) {
                 _collectibles[i].setCollected(true);
             }
         }
     }
-    
-//    _player->setMovement(_input.getHorizontal()*_player->getForce());
-//    _player->setJumping( _input.didJump());
-//    _player->applyForce();
-	
-	/*animated by incrementing angle each frame*/
-//	_model->rotateNorm(.01);
 
-	/*give a normal directly (only the x,y coords matter)*/
-	//_model->setPlaneNorm(Vec3(1, 3, 0).normalize());
+    //    _player->setMovement(_input.getHorizontal()*_player->getForce());
+    //    _player->setJumping( _input.didJump());
+    //    _player->applyForce();
 
-	/*pick a specific angle to cut at(relative to UNIT_X)*/
-//	float radians = M_PI / 3;
-//	Vec3 newNorm = Vec3(
-//		cos(radians),
-//		sin(radians),
-//		0
-//	);
-//	_model->setPlaneNorm(newNorm);
-    
+        /*animated by incrementing angle each frame*/
+    //	_model->rotateNorm(.01);
 
+        /*give a normal directly (only the x,y coords matter)*/
+        //_model->setPlaneNorm(Vec3(1, 3, 0).normalize());
 
-	
+        /*pick a specific angle to cut at(relative to UNIT_X)*/
+    //	float radians = M_PI / 3;
+    //	Vec3 newNorm = Vec3(
+    //		cos(radians),
+    //		sin(radians),
+    //		0
+    //	);
+    //	_model->setPlaneNorm(newNorm);
 }
 
 /**
