@@ -10,6 +10,11 @@
 using namespace cugl;
 using namespace std;
 
+///** Threshold of the click distance */
+//#define CLICK_DIST   0.003
+///** Threshold of the pickup distance */
+//#define PICKUP_DIST   0.1
+
 #pragma mark Collectible
 /**
  *  Determines if the collectibles can be seen in current cut
@@ -39,8 +44,17 @@ bool Collectible::canBeSeen(Vec3 planeNorm) {
  *  if the player position is within the collecting-enabled distance
  *  @param playerPos    The current player position
  */
-bool Collectible::canBeCollected(Vec3 playerPos) {
+bool Collectible::canBeCollected(Vec2 playerPos, Vec2 clickPos) {
     //TODO: check if within certain distance to pick up
+//    if (std::abs(clickPos.x - _position.x)<=CLICK_DIST and
+//        std::abs(clickPos.y - _position.y)<=CLICK_DIST and
+//        std::abs(playerPos.x - _position.x)<=PICKUP_DIST and
+//        std::abs(playerPos.y - _position.y)<=PICKUP_DIST) {
+//        return true;
+//    }
+//    else{
+//        return false;
+//    }
     return true;
 }
 

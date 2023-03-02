@@ -38,8 +38,10 @@ private:
     InputController _input;
     std::vector<Collectible> _collectibles;
     std::shared_ptr<PlayerModel> _player;
+    cugl::Size _dimen;
     
-//protected:
+protected:
+    std::tuple<cugl::Vec2, float> tupleExit;
 //    /** The asset manager for this game mode. */
 //    std::shared_ptr<cugl::AssetManager> _assets;
 //    /** Reference to the left joystick image */
