@@ -132,7 +132,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
      */
 
     addChild(_worldnode);
-    addChild(_debugnode);
+    //addChild(_debugnode);
 
     _active = true;
     
@@ -247,6 +247,14 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
 		batch->fill(*it);
 	}
+    
+    std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
+    for (std::shared_ptr<scene2::SceneNode> it : world) {
+        /*it->setContentSize(
+                           it->getWidth() * _physics.getScale(),
+                           it->getHeight() *  _physics.getScale());*/
+        it->render(batch);
+    }
     
     
     /* TODO: Color in the obstacles for debug
