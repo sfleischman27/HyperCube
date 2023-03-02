@@ -21,7 +21,11 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the visible distance */
+
 #define VISIBLE_DIST   .02
+
+#define CLICK_DIST   0.05
+
 
 /**
  * Creates a new game world with the default values.
@@ -34,6 +38,7 @@ GameplayController::GameplayController() : Scene2()
 	auto level = Level::loadLevel("temp");
 	_model = std::make_unique<GameModel>(level);
     
+    _worldnode = nullptr;
     _debugnode = nullptr;
     _debug = false;
     //_physics = std::shared_ptr<PhysicsController>();
@@ -43,10 +48,13 @@ GameplayController::GameplayController() : Scene2()
  * Disposes of all (non-static) resources allocated to this mode.
  */
 void GameplayController::dispose() {
-    _input.dispose();
-    _physics.dispose();
-    _debugnode = nullptr;
-    Scene2::dispose();
+    if(_active){
+        _input.dispose();
+        _physics.dispose();
+        _worldnode = nullptr;
+        _debugnode = nullptr;
+        Scene2::dispose();
+    }
 }
 
 /**
@@ -72,11 +80,12 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect) {
 //    _input.init(Rect());
     
-    Size dimen = computeActiveSize();
+    _dimen = computeActiveSize();
+    
 
     if (assets == nullptr) {
         return false;
-    } else if (!Scene2::init(dimen)) {
+    } else if (!Scene2::init(_dimen)) {
         return false;
     }
     
@@ -85,7 +94,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _input.init(getBounds());
     
     //set up physics world
-    _physics.init(dimen, rect, SCENE_WIDTH);
+    _physics.init(_dimen, rect, SCENE_WIDTH);
     _physics.createPhysics(*_model,getSize());
 
     _collectibles = _model->getCollectibles();
@@ -100,8 +109,6 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     float DUDE_POS[] = { 2.5f, 5.0f};
     
     Vec2 dudePos = DUDE_POS;
-        // TODO Gordi fill in your scene node right below
-        //node = scene2::SceneNode::alloc();
     
         //std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
     
@@ -113,21 +120,63 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
         //TODO Gordi add the player as an obstacle. The original code does something like: addObstacle(_player,sprite);
 
-    Vec2 offset((dimen.width-SCENE_WIDTH)/2.0f,(dimen.height-SCENE_HEIGHT)/2.0f);
+    Vec2 offset((_dimen.width-SCENE_WIDTH)/2.0f,(_dimen.height-SCENE_HEIGHT)/2.0f);
 
-    /** FOR THE DEBUG WIREFRAME STUFF.
-     TODO: IMPLEMENT*/
+        // TODO Gordi fill in your scene node right below
+    _worldnode = scene2::SceneNode::alloc();
+    _worldnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
+    _worldnode->setPosition(offset);
     
+    std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
+
+    _player = PlayerModel::alloc(dudePos,image->getSize()/_physics.getScale(),_physics.getScale());
+
+    std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
+    _player->setSceneNode(sprite);
+
+    //TODO Gordi add the player as an obstacle. The original code does something like:
+    addObstacle(_player, sprite, true);
+    
+    /* FOR THE DEBUG WIREFRAME STUFF.
+     TODO: IMPLEMENT
+     
     _debugnode = scene2::SceneNode::alloc();
-    _debugnode->setScale(dimen); // Debug node draws in PHYSICS coordinates
+    _debugnode->setScale(_dimen); // Debug node draws in PHYSICS coordinates
     _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     //_debugnode->setPosition(offset);
+     */
 
-    addChild(_debugnode);
+    addChild(_worldnode);
+    //addChild(_debugnode);
 
+    _active = true;
+    
     return true;
     
 }
+
+void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
+                            const std::shared_ptr<cugl::scene2::SceneNode>& node,
+                            bool useObjPosition) {
+    _physics.getWorld()->addObstacle(obj);
+    //obj->setDebugScene(_debugnode);
+    
+    // Position the scene graph node (enough for static objects)
+      if (useObjPosition) {
+          node->setPosition(obj->getPosition()*_physics.getScale());
+      }
+      _worldnode->addChild(node);
+    
+    // Dynamic objects need constant updating
+    if (obj->getBodyType() == b2_dynamicBody) {
+        scene2::SceneNode* weak = node.get(); // No need for smart pointer in callback
+        obj->setListener([=](physics2::Obstacle* obs){
+            weak->setPosition(obs->getPosition()*_physics.getScale());
+            weak->setAngle(obs->getAngle());
+        });
+    }
+}
+
 
 /**
  * Resets the status of the game so that we can play again.
@@ -170,6 +219,31 @@ void GameplayController::update(float dt) {
         _physics.update(dt);
     }
     
+    // TODO: Update player bag what is collected
+    // TODO: check against player location to see if player can collect
+    if (_input.didSelect()) {
+        auto pos =  _input.getSelection();
+        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize()/2);
+        //down scale it by screen size for comparison
+        pos = Vec2(pos.x/(_dimen.width/2), pos.y/(_dimen.height/2));
+        std::cout<<" click x is " <<pos.x << "\n";
+        std::cout<<" click y is " <<pos.y << "\n";
+        for (int i = 0; i < _collectibles.size(); i++) {
+            auto tuplec = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
+            auto coords = std::get<0>(tuplec);
+            auto dist = std::get<1>(tuplec);
+            std::cout<<" collect x is " <<coords.x << "\n";
+            std::cout<<" collect y is " <<coords.y << "\n";
+//            std::cout<<" dist is " << dist << "\n";
+            if (!_collectibles[i].getCollected() and
+                std::abs(dist) <= VISIBLE_DIST and
+                std::abs(pos.x - coords.x)<=CLICK_DIST and
+                std::abs(pos.y - coords.y)<=CLICK_DIST) {
+                _collectibles[i].setCollected(true);
+            }
+        }
+    }
+    
 //    _player->setMovement(_input.getHorizontal()*_player->getForce());
 //    _player->setJumping( _input.didJump());
 //    _player->applyForce();
@@ -189,8 +263,7 @@ void GameplayController::update(float dt) {
 //	);
 //	_model->setPlaneNorm(newNorm);
     
-//    TODO: How to update collectibles: if still collectible
-//    TODO: Update player bag what is collected
+
 
 	
 }
@@ -213,10 +286,26 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
         batch->fill(*it);
 	}
+    
+    std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
+    for (std::shared_ptr<scene2::SceneNode> it : world) {
+        /*it->setContentSize(
+                           it->getWidth() * _physics.getScale(),
+                           it->getHeight() *  _physics.getScale());*/
+        it->render(batch);
+    }
+    
+    
+    /* TODO: Color in the obstacles for debug
+    batch->setColor(Color4::GREEN);
+    auto obstacles = _physics.getPolygonObstacles();
+    for (auto it = obstacles.begin(); it != obstacles.end(); it++) {
+        batch->fill(*it);
+    }*/
 
     // draw exit
     // TODO: Jack maybe you want to double check the exit location cuz it's not inside cuts right now (lmk if im wrong)
-    auto tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
+    tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
     auto screencoordsExit = std::get<0>(tupleExit);
     auto distanceExit = std::get<1>(tupleExit);
     if (std::abs(distanceExit) <= VISIBLE_DIST) {
@@ -229,9 +318,9 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 
     // draw collectibles if the collectible is within certain distance to the plane
     // and if the collectibe has not been not collected yet
-    for (Collectible c : _collectibles) {
-        if (!c.getCollected()) {
-            auto tupleKey = ScreenCoordinatesFrom3DPoint(c.getPosition());
+    for (int i = 0; i < _collectibles.size(); i++) {
+        if (!_collectibles[i].getCollected()) {
+            auto tupleKey = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
             auto screencoordsKey = std::get<0>(tupleKey);
             auto distanceKey = std::get<1>(tupleKey);
             if (std::abs(distanceKey) <= VISIBLE_DIST) {

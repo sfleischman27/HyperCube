@@ -82,6 +82,19 @@ void PhysicsController::fall(GameModel g){
 
 #pragma mark Cut to obstacles
 
+/** TODO: return the world's polygonObstacles*/
+std::vector<cugl::physics2::PolygonObstacle> PhysicsController::getPolygonObstacles(){
+    
+    auto obstacles = _world->getObstacles();
+    std::vector<cugl::physics2::PolygonObstacle> polygonObstacles;
+    
+    /*for (cugl::physics2::PolygonObstacle it = obstacles.begin(); it != obstacles.end(); it++) {
+        if(it.get)
+    }*/
+    
+    return std::vector<cugl::physics2::PolygonObstacle>();
+}
+
 void PhysicsController::removeObstacles(){
     for (std::shared_ptr<cugl::physics2::Obstacle> obj : _world->getObstacles()){
         obj->markRemoved(true);

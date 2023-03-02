@@ -102,6 +102,9 @@ void InputController::dispose() {
     if (_active) {
 #ifndef CU_TOUCH_SCREEN
         Input::deactivate<Keyboard>();
+        Mouse* mouse = Input::get<Mouse>();
+        mouse->removePressListener(LISTENER_KEY);
+        mouse->removeReleaseListener(LISTENER_KEY);
 #else
         Touchscreen* touch = Input::get<Touchscreen>();
         touch->removeBeginListener(LISTENER_KEY);
@@ -134,6 +137,15 @@ bool InputController::init(const Rect bounds) {
     
 #ifndef CU_TOUCH_SCREEN
     success = Input::activate<Keyboard>();
+    success = success && Input::activate<Mouse>();
+    Mouse* mouse = Input::get<Mouse>();
+    mouse->setPointerAwareness(cugl::Mouse::PointerAwareness::ALWAYS);
+    mouse->addPressListener(LISTENER_KEY, [=](const cugl::MouseEvent& event, Uint8 clicks, bool focus) {
+      this->mousePressBeganCB(event, clicks, focus);
+    });
+    mouse->addReleaseListener(LISTENER_KEY, [=](const cugl::MouseEvent& event, Uint8 clicks, bool focus) {
+      this->mouseReleasedCB(event, clicks, focus);
+    });
 #else
     Touchscreen* touch = Input::get<Touchscreen>();
     touch->addBeginListener(LISTENER_KEY,[=](const TouchEvent& event, bool focus) {
@@ -232,6 +244,8 @@ void InputController::clear() {
     _increaseCutPressed = false;
     _decreaseCutPressed = false;
     _keepChangingCut = false;
+    _dtouch = Vec2::ZERO;
+    _select = false;
 }
 
 #pragma mark -
@@ -306,7 +320,7 @@ Vec2 InputController::touch2Screen(const Vec2 pos) const {
  */
 void InputController::processJoystick(const cugl::Vec2 pos) {
     Vec2 diff =  _ltouch.position-pos;
-
+    
     // Reset the anchor if we drifted too far
     if (diff.lengthSquared() > JSTICK_RADIUS*JSTICK_RADIUS) {
         diff.normalize();
@@ -398,6 +412,17 @@ int InputController::processSwipe(const Vec2 start, const Vec2 stop, Timestamp c
 
 #pragma mark -
 #pragma mark Touch and Mouse Callbacks
+
+void InputController::mousePressBeganCB(const cugl::MouseEvent& event, Uint8 clicks, bool focus) {
+    Vec2 pos = event.position;
+    if (!_select) {
+        _dtouch = pos;
+    }
+    _select = true;
+}
+void InputController::mouseReleasedCB(const cugl::MouseEvent& event, Uint8 clicks, bool focus) {
+    _select = false;
+}
 /**
  * Callback for the beginning of a touch event
  *
@@ -406,7 +431,12 @@ int InputController::processSwipe(const Vec2 start, const Vec2 stop, Timestamp c
  */
 void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
     //CULog("Touch began %lld", event.touch);
+    // Update the touch location for later gestures
     Vec2 pos = event.position;
+    if (!_select) {
+        _dtouch = pos;
+    }
+    _select = true;
     Zone zone = getZone(pos);
     switch (zone) {
         case Zone::LEFT:
@@ -476,6 +506,7 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
 void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
     // Reset all keys that might have been set
     Vec2 pos = event.position;
+    _select = false;
     Zone zone = getZone(pos);
     if (_ltouch.touchids.find(event.touch) != _ltouch.touchids.end()) {
         _ltouch.touchids.clear();

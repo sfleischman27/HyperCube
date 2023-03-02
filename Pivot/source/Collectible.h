@@ -126,7 +126,7 @@ public:
      *
      *  @param playerPos    The current player position
      */
-    bool canBeCollected(Vec3 playerPos);
+    bool canBeCollected(Vec2 playerPos, Vec2 clickPos);
     
     void setTexture(const std::shared_ptr<cugl::Texture>& value);
     
