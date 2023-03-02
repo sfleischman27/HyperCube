@@ -150,6 +150,12 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
 		batch->fill(*it);
 	}
+
+    // TODO JOLENE: below is an example of how to reference the location of objects in the level
+    // and an example of how to get the elements from a std::tuple<Vec2,float>
+    auto tuple = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
+    auto screencoords = std::get<0>(tuple);
+    auto distance = std::get<1>(tuple);
 	
     //    TODO: How to draw collectibles
     //    for (Collectible c : _collectibles) {
@@ -172,4 +178,22 @@ Size GameplayController::computeActiveSize() const {
         dimen *= SCENE_HEIGHT/dimen.height;
     }
     return dimen;
+}
+
+/**Get the 2d coordinates relative to the cut plane of a 3d location
+* it also returns the projected distance from that point to the cut plane, which can be used to threshold drawing of an object at that location
+* RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
+std::tuple<cugl::Vec2, float> GameplayController::ScreenCoordinatesFrom3DPoint(cugl::Vec3 location) {
+
+    // translate the location into player space
+    auto offset = location.subtract(_model->getPlayerLoc());
+    //dot the point onto the plane normal to get the distance from the cut plane
+    auto dist = offset.dot(_model->getPlaneNorm());
+    // get the point projected onto the plane basis vectors (unit_z is always y-axis and x-axis is to the right)
+    auto xcoord = offset.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm()));
+    auto ycoord = offset.dot(cugl::Vec3::UNIT_Z);
+    auto coords = cugl::Vec2(xcoord, ycoord);
+
+    return(std::tuple<cugl::Vec2, float>(coords, dist));
+    
 }

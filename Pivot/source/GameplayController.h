@@ -105,6 +105,11 @@ public:
      * ratios
      */
     cugl::Size computeActiveSize() const;
+
+    /**Get the 2d coordinates relative to the cut plane of a 3d location
+    * it also returns the projected distance from that point to the cut plane, which can be used to threshold drawing of an object at that location
+    * RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
+    std::tuple<cugl::Vec2, float> ScreenCoordinatesFrom3DPoint(cugl::Vec3);
 };
 
 #endif /* GameplayController_h */
