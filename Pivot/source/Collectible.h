@@ -130,7 +130,7 @@ public:
     
     void setTexture(const std::shared_ptr<cugl::Texture>& value);
     
-    void draw(const std::shared_ptr<cugl::SpriteBatch>& batch);
+    void draw(const std::shared_ptr<cugl::SpriteBatch>& batch,const std::shared_ptr<cugl::Texture>& value, cugl::Rect pos);
     
 };
 

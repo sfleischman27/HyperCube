@@ -86,7 +86,10 @@ _keyRight(false),
 _horizontal(0.0f),
 _moveNorm(0.00),
 _joystick(false),
-_hasJumped(false) {
+_hasJumped(false),
+_keyKeepIncreasingCut(false),
+_keyKeepDecreasingCut(false),
+_keepChangingCut(false) {
 }
 
 /**
@@ -317,15 +320,49 @@ void InputController::processJoystick(const cugl::Vec2 pos) {
     if (std::fabsf(diff.x) > JSTICK_DEADZONE) {
         _joystick = true;
         if (diff.x > 0) {
-            _keyIncreaseCut = true;
-            _keyDecreaseCut = false;
             _keyLeft = true;
             _keyRight = false;
         } else {
-            _keyIncreaseCut = false;
-            _keyDecreaseCut = true;
             _keyLeft = false;
             _keyRight = true;
+        }
+    } else {
+        _joystick = false;
+        _keyLeft = false;
+        _keyRight = false;
+    }
+}
+
+/**
+ * Processes movement for the floating joystick.
+ *
+ * This will register movement as left or right (or neither).  It
+ * will also move the joystick anchor if the touch position moves
+ * too far.
+ *
+ * @param  pos  the current joystick position
+ */
+void InputController::processCutJoystick(const cugl::Vec2 pos) {
+    Vec2 diff =  _mtouch.position-pos;
+
+    // Reset the anchor if we drifted too far
+    if (diff.lengthSquared() > JSTICK_RADIUS*JSTICK_RADIUS) {
+        diff.normalize();
+        diff *= (JSTICK_RADIUS+JSTICK_DEADZONE)/2;
+        _mtouch.position = pos+diff;
+    }
+    _mtouch.position.y = pos.y;
+    _cutjoycenter = touch2Screen(_mtouch.position);
+    _cutjoycenter.y += JSTICK_OFFSET;
+    
+    if (std::fabsf(diff.x) > JSTICK_DEADZONE) {
+        _joystick = true;
+        if (diff.x > 0) {
+            _keyIncreaseCut = true;
+            _keyDecreaseCut = false;
+        } else {
+            _keyIncreaseCut = false;
+            _keyDecreaseCut = true;
         }
     } else {
         _joystick = false;
@@ -397,22 +434,32 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
             }
             break;
         case Zone::MAIN:
-            // Only check for double tap in Main if nothing else down
-            if (_ltouch.touchids.empty() && _rtouch.touchids.empty() && _mtouch.touchids.empty()) {
-                _keyDebug = (event.timestamp.ellapsedMillis(_mtime) <= DOUBLE_CLICK);
-            }
-            
-            // Keep count of touches in Main zone if next to each other.
             if (_mtouch.touchids.empty()) {
                 _mtouch.position = event.position;
+                _mtouch.timestamp.mark();
                 _mtouch.touchids.insert(event.touch);
-            } else {
-                Vec2 offset = event.position-_mtouch.position;
-                if (offset.lengthSquared() < NEAR_TOUCH*NEAR_TOUCH) {
-                    _mtouch.touchids.insert(event.touch);
-                }
+
+                _joystick = true;
+                _cutjoycenter = touch2Screen(event.position);
+                _cutjoycenter.y += JSTICK_OFFSET;
             }
             break;
+            // Only check for double tap in Main if nothing else down
+//            if (_ltouch.touchids.empty() && _rtouch.touchids.empty() && _mtouch.touchids.empty()) {
+//                _keyDebug = (event.timestamp.ellapsedMillis(_mtime) <= DOUBLE_CLICK);
+//            }
+//
+//            // Keep count of touches in Main zone if next to each other.
+//            if (_mtouch.touchids.empty()) {
+//                _mtouch.position = event.position;
+//                _mtouch.touchids.insert(event.touch);
+//            } else {
+//                Vec2 offset = event.position-_mtouch.position;
+//                if (offset.lengthSquared() < NEAR_TOUCH*NEAR_TOUCH) {
+//                    _mtouch.touchids.insert(event.touch);
+//                }
+//            }
+//            break;
         default:
             CUAssertLog(false, "Touch is out of bounds");
             break;
@@ -441,6 +488,14 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _hasJumped = false;
         _rtime = event.timestamp;
         _rtouch.touchids.clear();
+    } else if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
+        //_mtouch.touchids.erase(event.touch);
+        _mtouch.touchids.clear();
+        _keyLeft = false;
+        _keyRight = false;
+        _keyIncreaseCut = false;
+        _keyDecreaseCut = false;
+        _joystick = false;
     } else if (zone == Zone::MAIN) {
         if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
             _mtouch.touchids.erase(event.touch);
@@ -469,14 +524,16 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
                 _hasJumped = true;
             }
         }
+    } else if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
+        processCutJoystick(pos);
     } else if (_mtouch.touchids.size() > 1) {
         // We only process multifinger swipes in main
-        int swipe = processSwipe(_mtouch.position, event.position, event.timestamp);
-        if (swipe == 1) {
-            _keyReset = true;
-        } else if (swipe == -1) {
-            _keyExit = true;
-        }
+//        int swipe = processSwipe(_mtouch.position, event.position, event.timestamp);
+//        if (swipe == 1) {
+//            _keyReset = true;
+//        } else if (swipe == -1) {
+//            _keyExit = true;
+//        }
     }
 }
 

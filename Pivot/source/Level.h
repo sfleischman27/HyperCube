@@ -131,6 +131,8 @@ public:
     * RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
     std::tuple<cugl::Vec2, float> ScreenCoordinatesFrom3DPoint(cugl::Vec3);
     
+    std::vector<Vec3> GetCollectibleLocs();
+    
 
     /** A static method for loading and returning a Level object from the given path*/
     static std::shared_ptr<Level> loadLevel(std::string path) {
@@ -143,9 +145,10 @@ public:
         /** The end location for the player */
         auto hckeyLoc = cugl::Vec3(2.50532717051, 2.75713430113, 3.90467730801);
         // set attributes
+        float scale = 0.1;
 
         // for now this is just an empty level because the cut is hardcoded
-        return std::make_shared<Level>(hcstartLoc, Vec3(-1, 0, 0), hcendLoc, hckeyLoc);
+        return std::make_shared<Level>(hcstartLoc*scale, Vec3(-1, 0, 0)*scale, hcendLoc*scale, hckeyLoc*scale);
     }
 
 };

@@ -59,7 +59,7 @@ public:
         setPlayerVelocity(Vec3::ZERO);
         setPlaneNorm(level->startNorm);
         setCut(level->GetMapCut(_loc, _norm));
-        setCollectibles();
+        setCollectibles(level->GetCollectibleLocs());
         _level = level;
     }
     
@@ -102,7 +102,7 @@ public:
      *  @param norm        The norm of the plane
      */
     void setPlaneNorm(Vec3 norm) {
-        _norm = norm;
+        _norm = norm.normalize();
         setCut(_level->GetMapCut(Vec3::ZERO, _norm));
     }
 
@@ -141,7 +141,8 @@ public:
         return true;
     }
     
-    void setCollectibles() {
+    void setCollectibles(std::vector<Vec3> locs) {
+        
 //        Size size = Application::get()->getDisplaySize();
 //        // seed the random number generator with a fixed value of 42
 //        std::srand(42);
@@ -154,10 +155,9 @@ public:
 //        // generate the second random number as y
 //        float randy2 = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * size.height;
 //        std::cout << "Random (x,y): " << randx2 << " " << randy2 << std::endl;
-        Collectible one = Collectible(Vec3(100, 50, 0), "one");
-        Collectible two = Collectible(Vec3(200, 100, 0), "two");
-        _collectibles.push_back(one);
-        _collectibles.push_back(two);
+        for(int i = 0; i < locs.size(); i++) {
+            _collectibles.push_back(Collectible(locs[i], std::to_string(i)));
+        }
     }
     
     std::vector<Collectible> getCollectibles() {

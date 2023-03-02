@@ -44,6 +44,7 @@ bool Collectible::canBeCollected(Vec3 playerPos) {
     return true;
 }
 
+// TODO: figure out why setTexture and draw doesn't work
 void Collectible::setTexture(const std::shared_ptr<cugl::Texture>& value) {
     if (value) {
         _texture = value;
@@ -52,8 +53,6 @@ void Collectible::setTexture(const std::shared_ptr<cugl::Texture>& value) {
     }
 }
 
-void Collectible::draw(const std::shared_ptr<SpriteBatch>& batch) {
-    if (_texture) {
-        batch->draw(_texture, Vec2(_position.x, _position.y));
-    }
+void Collectible::draw(const std::shared_ptr<SpriteBatch>& batch,const std::shared_ptr<cugl::Texture>& value, Rect pos) {
+    batch->draw(value, pos);
 }

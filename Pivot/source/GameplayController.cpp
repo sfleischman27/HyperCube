@@ -20,6 +20,8 @@ using namespace cugl;
 #define DEBUG_COLOR     Color4::YELLOW
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
+/** Threshold of the visible distance */
+#define VISIBLE_DIST   0.15
 
 /**
  * Creates a new game world with the default values.
@@ -186,13 +188,11 @@ void GameplayController::update(float dt) {
     _input.update(dt);
 
     if(_input.didIncreaseCut()){
-        CULog("Increased cut");
         _model->rotateNorm(.03);
         _physics.createPhysics(*_model,getSize());
     }
     
     else if(_input.didDecreaseCut()){
-        CULog("Decreased cut");
         _model->rotateNorm(-.03);
         _physics.createPhysics(*_model,getSize());
     }
@@ -256,18 +256,35 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
         batch->fill(*it);
     }*/
 
-    // TODO JOLENE: below is an example of how to reference the location of objects in the level
-    // and an example of how to get the elements from a std::tuple<Vec2,float>
-    auto tuple = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
-    auto screencoords = std::get<0>(tuple);
-    auto distance = std::get<1>(tuple);
-	
-    //    TODO: How to draw collectibles
-    //    for (Collectible c : _collectibles) {
-    //        if (c.canBeSeen(_model->getPlaneNorm()) && !c.getCollected()) {
-    //            c.draw(batch);
-    //        }
-    //    }
+    // draw exit
+    // TODO: Jack maybe you want to double check the exit location cuz it's not inside cuts right now (lmk if im wrong)
+    auto tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
+    auto screencoordsExit = std::get<0>(tupleExit);
+    auto distanceExit = std::get<1>(tupleExit);
+    if (std::abs(distanceExit) <= VISIBLE_DIST) {
+        std::shared_ptr<Texture> blue = std::make_shared<Texture>();
+        static unsigned char bluecol[] = { 0, 0, 0xFF, 0xFF };
+        blue->initWithData(bluecol, 1, 1);
+        Vec2 bottomleftExit = screencoordsExit - Vec2(0.02, 0.02);
+        batch->draw(blue, Rect(bottomleftExit, Vec2(0.025, 0.04)));
+    }
+
+    // draw collectibles if the collectible is within certain distance to the plane
+    // and if the collectibe has not been not collected yet
+    for (Collectible c : _collectibles) {
+        if (!c.getCollected()) {
+            auto tupleKey = ScreenCoordinatesFrom3DPoint(c.getPosition());
+            auto screencoordsKey = std::get<0>(tupleKey);
+            auto distanceKey = std::get<1>(tupleKey);
+            if (std::abs(distanceKey) <= VISIBLE_DIST) {
+                std::shared_ptr<Texture> yellow = std::make_shared<Texture>();
+                static unsigned char yellowcol[] = { 0xFF, 0xFF, 0x00, 0xFF };
+                yellow->initWithData(yellowcol, 1, 1);
+                Vec2 bottomleft = screencoordsKey - Vec2(0.02, 0.02);
+                batch->draw(yellow, Rect(bottomleft, Vec2(0.025, 0.04)));
+            }
+        }
+    }
     
 	// End Drawing
 	batch->end();
@@ -290,15 +307,12 @@ Size GameplayController::computeActiveSize() const {
 * RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
 std::tuple<cugl::Vec2, float> GameplayController::ScreenCoordinatesFrom3DPoint(cugl::Vec3 location) {
 
-    // translate the location into player space
-    auto offset = location.subtract(_model->getPlayerLoc());
     //dot the point onto the plane normal to get the distance from the cut plane
-    auto dist = offset.dot(_model->getPlaneNorm());
+    auto dist = location.dot(_model->getPlaneNorm());
     // get the point projected onto the plane basis vectors (unit_z is always y-axis and x-axis is to the right)
-    auto xcoord = offset.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm()));
-    auto ycoord = offset.dot(cugl::Vec3::UNIT_Z);
+    auto xcoord = location.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm()));
+    auto ycoord = location.dot(cugl::Vec3::UNIT_Z);
     auto coords = cugl::Vec2(xcoord, ycoord);
 
     return(std::tuple<cugl::Vec2, float>(coords, dist));
-    
 }
