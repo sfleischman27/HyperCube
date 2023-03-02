@@ -86,7 +86,10 @@ _keyRight(false),
 _horizontal(0.0f),
 _moveNorm(0.00),
 _joystick(false),
-_hasJumped(false) {
+_hasJumped(false),
+_keyKeepIncreasingCut(false),
+_keyKeepDecreasingCut(false),
+_keepChangingCut(false) {
 }
 
 /**
