@@ -116,6 +116,8 @@ protected:
     bool _joystick;
     /** The position of the virtual joystick */
     cugl::Vec2 _joycenter;
+    /** The position of the virtual joystick that controls the cut */
+    cugl::Vec2 _cutjoycenter;
     /** Whether or not we have processed a jump for this swipe yet */
     bool _hasJumped;
     /** The timestamp for a double tap on the right */
@@ -165,6 +167,17 @@ protected:
      * @param  pos  the current joystick position
      */
     void processJoystick(const cugl::Vec2 pos);
+    
+    /**
+     * Processes movement for the floating joystick that controls the cut.
+     *
+     * This will register movement as left or right (or neither).  It
+     * will also move the joystick anchor if the touch position moves
+     * too far.
+     *
+     * @param  pos  the current joystick position
+     */
+    void processCutJoystick(const cugl::Vec2 pos);
     
     /**
      * Returns a nonzero value if this is a quick left or right swipe
@@ -315,6 +328,13 @@ public:
      * @return the scene graph position of the virtual joystick
      */
     cugl::Vec2 getJoystick() const { return _joycenter; }
+    
+    /**
+     * Returns the scene graph position of the virtual joystick that controls the cut
+     *
+     * @return the scene graph position of the virtual joystick
+     */
+    cugl::Vec2 getCutJoystick() const { return _cutjoycenter; }
 
 #pragma mark -
 #pragma mark Touch and Mouse Callbacks
