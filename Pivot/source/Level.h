@@ -131,6 +131,8 @@ public:
     * RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
     std::tuple<cugl::Vec2, float> ScreenCoordinatesFrom3DPoint(cugl::Vec3);
     
+    std::vector<Vec3> GetCollectibleLocs();
+    
 
     /** A static method for loading and returning a Level object from the given path*/
     static std::shared_ptr<Level> loadLevel(std::string path) {

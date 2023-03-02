@@ -1437,3 +1437,9 @@ std::vector<Poly2> Level::GetMapCut(Vec3 origin, Vec3 normal) {
 	}	
 	return polygons;
 }
+
+std::vector<Vec3> Level::GetCollectibleLocs() {
+    std::vector<Vec3> collectibles;
+    collectibles.push_back(keyLoc);
+    return collectibles;
+}
