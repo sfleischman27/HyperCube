@@ -18,6 +18,7 @@
 #include "InputController.h"
 #include "GameModel.h"
 #include "GraphicsEngine.h"
+#include "PlayerModel.h"
 
 class GameplayController : public cugl::Scene2 {
 
@@ -34,7 +35,7 @@ private:
     PhysicsController _physics;
     InputController _input;
     std::vector<Collectible> _collectibles;
-
+    std::shared_ptr<PlayerModel> _player;
     
 //protected:
 //    /** The asset manager for this game mode. */
@@ -123,6 +124,11 @@ public:
     
     /** sets whether we are in debug mode or not */
     void setDebug(bool value) { _debug = value; _debugnode->setVisible(value); }
+
+    /**Get the 2d coordinates relative to the cut plane of a 3d location
+    * it also returns the projected distance from that point to the cut plane, which can be used to threshold drawing of an object at that location
+    * RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
+    std::tuple<cugl::Vec2, float> ScreenCoordinatesFrom3DPoint(cugl::Vec3);
 };
 
 #endif /* GameplayController_h */

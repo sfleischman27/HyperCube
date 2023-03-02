@@ -84,6 +84,7 @@ _keyExit(false),
 _keyLeft(false),
 _keyRight(false),
 _horizontal(0.0f),
+_moveNorm(0.00),
 _joystick(false),
 _hasJumped(false) {
 }
@@ -174,6 +175,8 @@ void InputController::update(float dt) {
 
     _keyLeft = keys->keyDown(KeyCode::ARROW_LEFT);
     _keyRight = keys->keyDown(KeyCode::ARROW_RIGHT);
+    _keyKeepIncreasingCut = keys->keyDown(INCREASE_CUT_KEY);
+    _keyKeepDecreasingCut = keys->keyDown(DECREASE_CUT_KEY);
 #endif
 
     _resetPressed = _keyReset;
@@ -183,6 +186,7 @@ void InputController::update(float dt) {
     _jumpPressed  = _keyJump;
     _increaseCutPressed = _keyIncreaseCut;
     _decreaseCutPressed = _keyDecreaseCut;
+    _keepChangingCut = _keyKeepIncreasingCut || _keyKeepDecreasingCut;
 
     // Directional controls
     _horizontal = 0.0f;
@@ -191,6 +195,14 @@ void InputController::update(float dt) {
     }
     if (_keyLeft) {
         _horizontal -= 1.0f;
+    }
+    
+    _moveNorm = 0.00;
+    if (_keyKeepIncreasingCut) {
+        _moveNorm += 0.01;
+    }
+    if (_keyKeepDecreasingCut) {
+        _moveNorm -= 0.01;
     }
 
 // If it does not support keyboard, we must reset "virtual" keyboard
@@ -216,7 +228,7 @@ void InputController::clear() {
     _firePressed = false;
     _increaseCutPressed = false;
     _decreaseCutPressed = false;
-    
+    _keepChangingCut = false;
 }
 
 #pragma mark -

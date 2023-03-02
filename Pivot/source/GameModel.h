@@ -163,6 +163,10 @@ public:
     std::vector<Collectible> getCollectibles() {
         return _collectibles;
     }
+
+    std::shared_ptr<Level> getLevel() {
+        return _level;
+    }
     
 };
 

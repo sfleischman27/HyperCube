@@ -92,7 +92,25 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 //        c.setTexture(assets->get<Texture>("bullet"));
 //    }
     
+    /** Player */
     
+    // The initial position of the player
+    float DUDE_POS[] = { 2.5f, 5.0f};
+    
+    Vec2 dudePos = DUDE_POS;
+        // TODO Gordi fill in your scene node right below
+        //node = scene2::SceneNode::alloc();
+    
+        //std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
+    
+        //TODO Gordi fill in your scale right below
+        //_player = PlayerModel::alloc(dudePos,image->getSize()/_scale,_scale);
+    
+        //std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
+        //_player->setSceneNode(sprite);
+    
+        //TODO Gordi add the player as an obstacle. The original code does something like: addObstacle(_player,sprite);
+
     Vec2 offset((dimen.width-SCENE_WIDTH)/2.0f,(dimen.height-SCENE_HEIGHT)/2.0f);
 
     /** FOR THE DEBUG WIREFRAME STUFF.
@@ -105,7 +123,9 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 
     addChild(_debugnode);
 
-    return true;}
+    return true;
+    
+}
 
 /**
  * Resets the status of the game so that we can play again.
@@ -141,11 +161,18 @@ void GameplayController::update(float dt) {
         CULog("Decreased cut");
         _model->rotateNorm(-.03);
         _physics.createPhysics(*_model,getSize());
-    } else {
+    }
+    else if(_input.didKeepChangingCut()) {
+        _model->rotateNorm(_input.getMoveNorm());
+        _physics.createPhysics(*_model,getSize());
+    }
+    else {
         _physics.update(dt);
     }
     
-    
+//    _player->setMovement(_input.getHorizontal()*_player->getForce());
+//    _player->setJumping( _input.didJump());
+//    _player->applyForce();
 	
 	/*animated by incrementing angle each frame*/
 //	_model->rotateNorm(.01);
@@ -186,6 +213,12 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
 		batch->fill(*it);
 	}
+
+    // TODO JOLENE: below is an example of how to reference the location of objects in the level
+    // and an example of how to get the elements from a std::tuple<Vec2,float>
+    auto tuple = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
+    auto screencoords = std::get<0>(tuple);
+    auto distance = std::get<1>(tuple);
 	
     //    TODO: How to draw collectibles
     //    for (Collectible c : _collectibles) {
@@ -208,4 +241,22 @@ Size GameplayController::computeActiveSize() const {
         dimen *= SCENE_HEIGHT/dimen.height;
     }
     return dimen;
+}
+
+/**Get the 2d coordinates relative to the cut plane of a 3d location
+* it also returns the projected distance from that point to the cut plane, which can be used to threshold drawing of an object at that location
+* RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
+std::tuple<cugl::Vec2, float> GameplayController::ScreenCoordinatesFrom3DPoint(cugl::Vec3 location) {
+
+    // translate the location into player space
+    auto offset = location.subtract(_model->getPlayerLoc());
+    //dot the point onto the plane normal to get the distance from the cut plane
+    auto dist = offset.dot(_model->getPlaneNorm());
+    // get the point projected onto the plane basis vectors (unit_z is always y-axis and x-axis is to the right)
+    auto xcoord = offset.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm()));
+    auto ycoord = offset.dot(cugl::Vec3::UNIT_Z);
+    auto coords = cugl::Vec2(xcoord, ycoord);
+
+    return(std::tuple<cugl::Vec2, float>(coords, dist));
+    
 }
