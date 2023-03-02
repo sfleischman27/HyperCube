@@ -26,6 +26,8 @@ protected:
     /** set debug mode */
     bool _debug;
     
+    /** Reference to the physics root of the scene graph */
+    std::shared_ptr<cugl::scene2::SceneNode> _worldnode;
     //DEBUG COLLISION NODE
     std::shared_ptr<cugl::scene2::SceneNode> _debugnode;
     
@@ -85,6 +87,13 @@ public:
     bool init(const std::shared_ptr<AssetManager>& assets);
     
     bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
+    
+    
+    /** Adds obstacle to both physics world and scenenode */
+    void addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
+                                const std::shared_ptr<cugl::scene2::SceneNode>& node,
+                     bool useObjPosition);
+    
     /**
      * The method called to update the game mode.
      *

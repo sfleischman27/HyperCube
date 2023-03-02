@@ -32,6 +32,7 @@ GameplayController::GameplayController() : Scene2()
 	auto level = Level::loadLevel("temp");
 	_model = std::make_unique<GameModel>(level);
     
+    _worldnode = nullptr;
     _debugnode = nullptr;
     _debug = false;
     //_physics = std::shared_ptr<PhysicsController>();
@@ -41,10 +42,13 @@ GameplayController::GameplayController() : Scene2()
  * Disposes of all (non-static) resources allocated to this mode.
  */
 void GameplayController::dispose() {
-    _input.dispose();
-    _physics.dispose();
-    _debugnode = nullptr;
-    Scene2::dispose();
+    if(_active){
+        _input.dispose();
+        _physics.dispose();
+        _worldnode = nullptr;
+        _debugnode = nullptr;
+        Scene2::dispose();
+    }
 }
 
 /**
@@ -98,34 +102,64 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     float DUDE_POS[] = { 2.5f, 5.0f};
     
     Vec2 dudePos = DUDE_POS;
-        // TODO Gordi fill in your scene node right below
-        //node = scene2::SceneNode::alloc();
     
-        //std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
-    
-        //TODO Gordi fill in your scale right below
-        //_player = PlayerModel::alloc(dudePos,image->getSize()/_scale,_scale);
-    
-        //std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
-        //_player->setSceneNode(sprite);
-    
-        //TODO Gordi add the player as an obstacle. The original code does something like: addObstacle(_player,sprite);
-
     Vec2 offset((dimen.width-SCENE_WIDTH)/2.0f,(dimen.height-SCENE_HEIGHT)/2.0f);
 
-    /** FOR THE DEBUG WIREFRAME STUFF.
-     TODO: IMPLEMENT*/
+        // TODO Gordi fill in your scene node right below
+    _worldnode = scene2::SceneNode::alloc();
+    _worldnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
+    _worldnode->setPosition(offset);
     
+    std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
+
+    _player = PlayerModel::alloc(dudePos,image->getSize()/_physics.getScale(),_physics.getScale());
+
+    std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
+    _player->setSceneNode(sprite);
+
+    //TODO Gordi add the player as an obstacle. The original code does something like:
+    addObstacle(_player, sprite, true);
+    
+    /* FOR THE DEBUG WIREFRAME STUFF.
+     TODO: IMPLEMENT
+     
     _debugnode = scene2::SceneNode::alloc();
     _debugnode->setScale(dimen); // Debug node draws in PHYSICS coordinates
     _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     //_debugnode->setPosition(offset);
+     */
 
+    addChild(_worldnode);
     addChild(_debugnode);
 
+    _active = true;
+    
     return true;
     
 }
+
+void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
+                            const std::shared_ptr<cugl::scene2::SceneNode>& node,
+                            bool useObjPosition) {
+    _physics.getWorld()->addObstacle(obj);
+    //obj->setDebugScene(_debugnode);
+    
+    // Position the scene graph node (enough for static objects)
+      if (useObjPosition) {
+          node->setPosition(obj->getPosition()*_physics.getScale());
+      }
+      _worldnode->addChild(node);
+    
+    // Dynamic objects need constant updating
+    if (obj->getBodyType() == b2_dynamicBody) {
+        scene2::SceneNode* weak = node.get(); // No need for smart pointer in callback
+        obj->setListener([=](physics2::Obstacle* obs){
+            weak->setPosition(obs->getPosition()*_physics.getScale());
+            weak->setAngle(obs->getAngle());
+        });
+    }
+}
+
 
 /**
  * Resets the status of the game so that we can play again.
@@ -213,6 +247,14 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
 		batch->fill(*it);
 	}
+    
+    
+    /* TODO: Color in the obstacles for debug
+    batch->setColor(Color4::GREEN);
+    auto obstacles = _physics.getPolygonObstacles();
+    for (auto it = obstacles.begin(); it != obstacles.end(); it++) {
+        batch->fill(*it);
+    }*/
 
     // TODO JOLENE: below is an example of how to reference the location of objects in the level
     // and an example of how to get the elements from a std::tuple<Vec2,float>

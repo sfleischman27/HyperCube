@@ -90,6 +90,11 @@ public:
      * Takes a GameModel g and make it fall by the gravity
      * @param g
      */
+    
+    float getScale() { return _scale; };
+    
+    std::shared_ptr<cugl::physics2::ObstacleWorld> getWorld(){ return _world; };
+    
     void fall(GameModel g);
     
     void dispose();
@@ -114,6 +119,10 @@ public:
     
     void update(float dt);
     
+    /**
+     *
+     */
+    std::vector<cugl::physics2::PolygonObstacle> getPolygonObstacles();
     /**
      * mark old obstacles for garbage collection and remove them.
      */
