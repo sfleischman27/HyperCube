@@ -139,13 +139,13 @@ public:
 
         // HARD CODED STUFF
         /** The starting location for the player */
-        auto hcstartLoc = cugl::Vec3(0.0, 0.0, -4.47849889621);
+        auto hcstartLoc = cugl::Vec3(0.0723488601292 , -0.0809223593776, -4.47849889621);
         /** The end location for the player */
-        auto hcendLoc = cugl::Vec3(3.99815288094, 0.0, -2.60769182756);
+        auto hcendLoc = cugl::Vec3(-2.83521234341, 2.66340165704, -2.60769182756);
         /** The end location for the player */
-        auto hckeyLoc = cugl::Vec3(2.50532717051, 2.75713430113, 3.90467730801);
+        auto hckeyLoc = cugl::Vec3(0.142900888615, 3.64378919953, 3.90467730801);
         // set attributes
-        float scale = 0.1;
+        float scale = 0.1; //idk why this scale is not that same as the scale for the polyline :(
 
         // for now this is just an empty level because the cut is hardcoded
         return std::make_shared<Level>(hcstartLoc*scale, Vec3(-1, 0, 0)*scale, hcendLoc*scale, hckeyLoc*scale);

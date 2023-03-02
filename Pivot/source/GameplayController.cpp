@@ -21,7 +21,7 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the visible distance */
-#define VISIBLE_DIST   0.15
+#define VISIBLE_DIST   .02
 
 /**
  * Creates a new game world with the default values.
@@ -211,7 +211,7 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	batch->setColor(Color4::BLACK);
 	auto cuts = _model->getCut();
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
-		batch->fill(*it);
+        batch->fill(*it);
 	}
 
     // draw exit
@@ -268,8 +268,8 @@ std::tuple<cugl::Vec2, float> GameplayController::ScreenCoordinatesFrom3DPoint(c
     //dot the point onto the plane normal to get the distance from the cut plane
     auto dist = location.dot(_model->getPlaneNorm());
     // get the point projected onto the plane basis vectors (unit_z is always y-axis and x-axis is to the right)
-    auto xcoord = location.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm()));
-    auto ycoord = location.dot(cugl::Vec3::UNIT_Z);
+    auto xcoord = location.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm().negate()).normalize());
+    auto ycoord = location.dot(cugl::Vec3(0,0,1));
     auto coords = cugl::Vec2(xcoord, ycoord);
 
     return(std::tuple<cugl::Vec2, float>(coords, dist));
