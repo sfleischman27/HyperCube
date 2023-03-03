@@ -109,6 +109,15 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     /** Player */
     
     // The initial position of the player
+    
+    /*
+    auto startingScreenCoords = ScreenCoordinatesFrom3DPoint(_model->getLevel()->startLoc);
+    
+    Vec2 startCoords = std::get<0>(startingScreenCoords);
+    
+    float DUDE_POS[] = {(0.5f + startCoords.x) * _physics.getScale(), (0.5f + startCoords.y) * _physics.getScale()};
+     */
+    
     float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale()) - 4};
     
     Vec2 dudePos = DUDE_POS;
