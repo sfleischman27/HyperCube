@@ -347,22 +347,44 @@ void GameplayController::update(float dt) {
 
     // TODO: Update player bag what is collected
     // TODO: check against player location to see if player can collect
-    if (_input.didSelect()) {
-        auto pos = _input.getSelection();
-        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
-        //down scale it by screen size for comparison
-        pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
+//    if (_input.didSelect()) {
+//        auto pos = _input.getSelection();
+//        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
+//        //down scale it by screen size for comparison
+//        pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
+//        for (int i = 0; i < _collectibles.size(); i++) {
+//            auto tuplec = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
+//            auto coords = std::get<0>(tuplec);
+//            auto dist = std::get<1>(tuplec);
+//            //std::abs(pos.x - coords.x) <= CLICK_DIST &&
+//            //std::abs(pos.y - coords.y) <= CLICK_DIST
+//            if (!_collectibles[i].getCollected() &&
+//                std::abs(dist) <= VISIBLE_DIST &&
+//                std::abs(pos.x - coords.x) <= _player->getX() &&
+//                std::abs(pos.y - coords.y) <= _player->getY()) {
+//                _collectibles[i].setCollected(true);
+//            }
+//        }
+    
+    // TODO Jolene, set the collectibles to collected when the player is in range
         for (int i = 0; i < _collectibles.size(); i++) {
             auto tuplec = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
             auto coords = std::get<0>(tuplec);
             auto dist = std::get<1>(tuplec);
+            //std::abs(pos.x - coords.x) <= CLICK_DIST &&
+            //std::abs(pos.y - coords.y) <= CLICK_DIST
+//            CULog("%f", _collectibles[i].getPosition().x * SCENE_WIDTH);
+//            CULog("------");
+//            CULog("%f", _player->getX());
+//            CULog("%f", _collectibles[i].getPosition().y);
+//            CULog("------");
+//            CULog("%f", _player->getY());
             if (!_collectibles[i].getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
-                std::abs(pos.x - coords.x) <= CLICK_DIST &&
-                std::abs(pos.y - coords.y) <= CLICK_DIST) {
+                std::abs(_player->getX() - _collectibles[i].getPosition().x * SCENE_WIDTH) <= 1 &&
+                std::abs(_player->getY() - _collectibles[i].getPosition().y * SCENE_HEIGHT) <= 1) {
                 _collectibles[i].setCollected(true);
             }
-        }
     }
 
         _player->setMovement(_input.getHorizontal()*_player->getForce());
