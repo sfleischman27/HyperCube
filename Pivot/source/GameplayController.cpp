@@ -16,6 +16,9 @@ using namespace cugl;
 #define SCENE_WIDTH 1024
 #define SCENE_HEIGHT 576
 
+/** This is the aspect ratio for physics */
+#define SCENE_ASPECT 9.0/16.0
+
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color4::YELLOW
 /** Opacity of the physics outlines */
@@ -114,22 +117,25 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
 
+    
     _player = PlayerModel::alloc(dudePos,image->getSize()/_physics.getScale(),_physics.getScale());
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _player->setSceneNode(sprite);
+    
 
     //TODO Gordi add the player as an obstacle. The original code does something like:
     addObstacle(_player, sprite, true);
     
     /* FOR THE DEBUG WIREFRAME STUFF.
-     TODO: IMPLEMENT
+//     TODO: IMPLEMENT */
      
+    /*
     _debugnode = scene2::SceneNode::alloc();
     _debugnode->setScale(dimen); // Debug node draws in PHYSICS coordinates
     _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
-    //_debugnode->setPosition(offset);
-     */
+    _debugnode->setPosition(offset);*/
+     
 
     addChild(_worldnode);
     //addChild(_debugnode);
@@ -150,6 +156,7 @@ void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obsta
       if (useObjPosition) {
           node->setPosition(obj->getPosition()*_physics.getScale());
       }
+    
       _worldnode->addChild(node);
     
     // Dynamic objects need constant updating
@@ -256,6 +263,10 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
         it->render(batch);
     }
     
+    /*std::vector<std::shared_ptr<scene2::SceneNode>> debug = _debugnode->getChildren();
+    for (std::shared_ptr<scene2::SceneNode> it : world) {
+        it->render(batch);
+    }*/
     
     /* TODO: Color in the obstacles for debug
     batch->setColor(Color4::GREEN);
