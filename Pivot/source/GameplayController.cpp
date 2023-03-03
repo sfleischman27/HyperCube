@@ -200,6 +200,11 @@ void GameplayController::createCutObstacles(){
         float transformScale = _physics.getScale()/2;
         
         //for some reason multiply by aspect ratio?
+        
+        //use this if you are transforming the original drawn poly2:
+        //Poly2 bigp = p * Affine2(transformScale,0,0,transformScale,0,0);
+        
+        //use this if you are keeping the original drawn poly2 (vertically squished)
         Poly2 bigp = p * Affine2(transformScale,0,0,transformScale * _dimen.height/_dimen.width,0,0);
         
         std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(bigp);
@@ -389,6 +394,10 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	batch->setColor(Color4::BLACK);
 	auto cuts = _model->getCut();
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
+        
+        //TODO: temporary fix to stretch the level back to how it's "supposed" to be? take this out if its wrong
+        //*it *= Affine2(1, 0, 0, _dimen.width/_dimen.height, 0, 0);
+        
         batch->fill(*it);
 	}
     
