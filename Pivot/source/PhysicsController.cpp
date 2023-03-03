@@ -12,7 +12,7 @@
 //#define PHYSICS_SCALE 50
 
 /** The ratio between the physics world and the screen. */
-#define GRAVITY 9.8
+#define GRAVITY 0
 
 #define MAX_H_SPEED 100.0
 
@@ -123,7 +123,7 @@ void PhysicsController::createPhysics(GameModel g, Size b){
         CUAssertLog(initialized, "levelbounds polygonobstacle not initialized properly");
 
         obstacle->setBodyType(b2_staticBody);
-        obstacle->setPosition(obstacle->getPosition()*_scale);
+        obstacle->setPosition(obstacle->getPosition()/_scale);
         
         _world->addObstacle(obstacle);
     }

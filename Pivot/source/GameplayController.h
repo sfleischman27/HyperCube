@@ -119,7 +119,7 @@ public:
      *
      * @param batch     The SpriteBatch to draw with.
      */
-    void render(const std::shared_ptr<cugl::SpriteBatch>& batch) override;
+    void render(const std::shared_ptr<cugl::SpriteBatch>& batch);
     
     /**
      * Returns the active screen size of this scene.
