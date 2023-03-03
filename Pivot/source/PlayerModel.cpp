@@ -205,7 +205,8 @@ void PlayerModel::applyForce() {
     }
     
     // Jump!
-    if (isJumping() && isGrounded()) {
+    /*TODO: REMOVE COMMENT ONCE IMPLEMENT ISGROUNDED*/
+    if (isJumping()/* && isGrounded()*/) {
         b2Vec2 force(0, DUDE_JUMP);
         _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
     }

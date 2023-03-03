@@ -104,11 +104,11 @@ void PhysicsController::removeObstacles(){
     for (std::shared_ptr<cugl::physics2::Obstacle> obj : _world->getObstacles()){
         obj->markRemoved(true);
     }
-    _world->garbageCollect();
 }
 
 void PhysicsController::update(float dt){
     _world->update(dt);
+    _world->garbageCollect();
 }
 
 #pragma mark Collision Handling
