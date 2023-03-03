@@ -442,11 +442,9 @@ Size GameplayController::computeActiveSize() const {
     float ratio1 = dimen.width/dimen.height;
     float ratio2 = ((float)SCENE_WIDTH)/((float)SCENE_HEIGHT);
     if (ratio1 < ratio2) { //dimen has a higher width than scene_width : height ratio
-        dimen *= SCENE_WIDTH/dimen.width;
-        //dimen.width *= SCENE_WIDTH/SCENE_HEIGHT * dimen.height/dimen.width;
-    } else {
         dimen *= SCENE_HEIGHT/dimen.height;
-        //dimen.height *= SCENE_HEIGHT/dimen.height;
+    } else {
+        dimen *= SCENE_WIDTH/dimen.width;
     }
     
     //dimen *= SCENE_WIDTH/SCENE_HEIGHT * dimen.height/dimen.width;
