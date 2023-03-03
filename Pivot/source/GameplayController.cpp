@@ -376,13 +376,13 @@ void GameplayController::update(float dt) {
 //            CULog("%f", _collectibles[i].getPosition().x * SCENE_WIDTH);
 //            CULog("------");
 //            CULog("%f", _player->getX());
-//            CULog("%f", _collectibles[i].getPosition().y);
-//            CULog("------");
-//            CULog("%f", _player->getY());
+            CULog("%f", coords.y );
+            CULog("------");
+            CULog("%f", _player->getY());
             if (!_collectibles[i].getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
-                std::abs(_player->getX() - _collectibles[i].getPosition().x * SCENE_WIDTH) <= 1 &&
-                std::abs(_player->getY() - _collectibles[i].getPosition().y * SCENE_HEIGHT) <= 1) {
+                std::abs(_player->getX() - coords.x * 60.83) <= 1 &&
+                std::abs(_player->getY() - coords.y * 30.6) <= 1) {
                 _collectibles[i].setCollected(true);
             }
     }
