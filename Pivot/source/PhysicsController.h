@@ -9,6 +9,8 @@
 #ifndef PhysicsController_h
 #define PhysicsController_h
 #include <cugl/cugl.h>
+#include <box2d/b2_world_callbacks.h>
+#include <box2d/b2_fixture.h>
 #include "GameModel.h"
 
 //bool _active(false);
@@ -112,10 +114,6 @@ private:
 #pragma mark Convert Poly2s to physics objects
     
 public:
-    /**
-    * Creates all physics objects from a list of Poly2s given by the GameModel.
-    */
-    void createPhysics( GameModel g, Size b);
     
     void update(float dt);
     
@@ -123,6 +121,23 @@ public:
      *
      */
     std::vector<cugl::physics2::PolygonObstacle> getPolygonObstacles();
+    
+    
+    /**
+     * mark obstacle obj for garbage collection but do NOT remove it.
+     */
+    void markForRemoval(std::shared_ptr<cugl::physics2::Obstacle> obj){
+        obj->markRemoved(true);
+    };
+    
+    /**
+     * garbage collect obstacle obj
+     */
+    void garbageCollect(){
+        _world->garbageCollect();
+    };
+
+    
     /**
      * mark old obstacles for garbage collection and remove them.
      */

@@ -87,8 +87,6 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     Vec2 offset((_dimen.width-SCENE_WIDTH)/2.0f,(_dimen.height-SCENE_HEIGHT)/2.0f);
 
-    
-
     if (assets == nullptr) {
         return false;
     } else if (!Scene2::init(_dimen)) {
@@ -101,7 +99,6 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     //set up physics world
     _physics.init(_dimen, rect, SCENE_WIDTH);
-    _physics.createPhysics(*_model,getSize());
 
     _collectibles = _model->getCollectibles();
 //    TODO: How to draw collectibles
@@ -112,7 +109,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     /** Player */
     
     // The initial position of the player
-    float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale())};
+    float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale()) - 4};
     
     Vec2 dudePos = DUDE_POS;
     
@@ -128,18 +125,33 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 
         // TODO Gordi fill in your scene node right below
     _worldnode = scene2::SceneNode::alloc();
-    //_worldnode->setScale(_dimen);
     _worldnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     _worldnode->setPosition(offset);
+    
     
     _debugnode = scene2::SceneNode::alloc();
     _debugnode->setScale(_physics.getScale()); // Debug node draws in PHYSICS coordinates
     _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     _debugnode->setPosition(offset);
     
-    std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
+#pragma mark ADD WALL COLLIDERS FROM CUT
+    
+    //MUST be done before anything else is added to _worldnode
+    createCutObstacles();
+    
+    //debug obstacle
+//    std::shared_ptr<cugl::physics2::PolygonObstacle> ob = physics2::PolygonObstacle::alloc(Poly2(Rect(0,0,1,2)));
+//    ob->setBodyType(b2_staticBody);
+//    ob->setPosition(Vec2(SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale())-5));
+//    ob->setSize(ob->getSize());
+//    std::shared_ptr<cugl::scene2::SceneNode> n = scene2::SceneNode::alloc();
+//
+//    addObstacle(ob, n, true);
 
     
+#pragma mark ADD DUDE
+    std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
+
     //_player = PlayerModel::alloc(dudePos,image->getSize()/_physics.getScale(),_physics.getScale());
     _player = PlayerModel::alloc(dudePos,image->getSize()/_physics.getScale(),_physics.getScale());
     
@@ -148,12 +160,9 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _player->setSceneNode(sprite);
     _player->setDebugColor(DEBUG_COLOR);
     
-    //_player->setDebugScene(_debugnode);
-    
-
     //TODO Gordi add the player as an obstacle. The original code does something like:
     addObstacle(_player, sprite, true);
-
+    
     addChild(_worldnode);
     addChild(_debugnode);
 
@@ -163,16 +172,95 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
 }
 
+void GameplayController::createCutObstacles(){
+    //remove previous poly nodes
+    removePolyNodes();
+    //_worldnode->removeAllChildren();
+    //_physics.removeObstacles();
+    
+    std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, getSize() / _physics.getScale());
+    
+    //get the cut from the gamemodel
+    std::vector<cugl::Poly2> polys = _model->getCut();
+    
+    std::shared_ptr<scene2::SceneNode> cutnode = scene2::SceneNode::alloc();
+    
+    for(Poly2 p : polys){
+        
+        //Vec2() * Vec2();
+        std::vector<cugl::Vec2> vertices = p.getVertices();
+                
+        for(cugl::Vec2 v : vertices){
+            v.x *= 1;
+            v.y *= 1;
+        }
+        
+        //p.set(vertices);
+        
+        float transformScale = _physics.getScale()/2;
+        
+        //for some reason multiply by aspect ratio?
+        Poly2 bigp = p * Affine2(transformScale,0,0,transformScale * _dimen.height/_dimen.width,0,0);
+        
+        std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(bigp);
+        
+        /*bool initialized = obstacle->init(p);
+        CUAssertLog(initialized, "levelbounds polygonobstacle not initialized properly");*/
+
+        obstacle->setBodyType(b2_staticBody);
+        obstacle->setPosition(Vec2(SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale())));
+        
+        obstacle->setSize(obstacle->getSize());
+        
+        cutnode = scene2::SceneNode::alloc();
+        
+        _cutnodes.insert(cutnode);
+        _cutobstacles.insert(obstacle);
+
+        //_polynodes.insert(_polynodes.begin(),polynode);
+        
+        addObstacle(obstacle, cutnode, true);
+    }
+    
+}
+
+void GameplayController::removePolyNodes(){
+    //_debugnode->removeAllChildren();
+    
+    for(std::shared_ptr<cugl::scene2::SceneNode> node : _worldnode->getChildren()){
+        
+        bool is_in = _cutnodes.find(node) != _cutnodes.end();
+
+        if(is_in){
+            _cutnodes.erase(node);
+            _worldnode->removeChild(node);
+        }
+    }
+    for(std::shared_ptr<cugl::physics2::Obstacle> obstacle : _physics.getWorld()->getObstacles()){
+        
+        bool is_in = _cutobstacles.find(obstacle) != _cutobstacles.end();
+
+        if(is_in){
+            _cutobstacles.erase(obstacle);
+            _physics.markForRemoval(obstacle);
+        } else {
+            //CULog("Could not find cutobstacle %s", obstacle->toString().c_str());
+            //CULog("Could not find cutobstacle %p", obstacle.get());
+        }
+    }
+    _physics.garbageCollect();
+}
+
 void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
                             const std::shared_ptr<cugl::scene2::SceneNode>& node,
                             bool useObjPosition) {
     _physics.getWorld()->addObstacle(obj);
     obj->setDebugColor(DEBUG_COLOR);
     obj->setDebugScene(_debugnode);
-    
+        
     // Position the scene graph node (enough for static objects)
       if (useObjPosition) {
-          node->setPosition(obj->getPosition()*_physics.getScale());
+          node->setPosition(obj->getPosition()/_physics.getScale());
       }
     
       _worldnode->addChild(node);
@@ -221,18 +309,25 @@ void GameplayController::update(float dt) {
 
     if (_input.didIncreaseCut()) {
         _model->rotateNorm(.03);
-        _physics.createPhysics(*_model, getSize());
+        //createCutObstacles();
+        _rotating = true;
     }
 
     else if (_input.didDecreaseCut()) {
         _model->rotateNorm(-.03);
-        _physics.createPhysics(*_model, getSize());
+        //createCutObstacles();
+        _rotating = true;
     }
     else if (_input.didKeepChangingCut()) {
         _model->rotateNorm(_input.getMoveNorm());
-        _physics.createPhysics(*_model, getSize());
+        //createCutObstacles();
+        _rotating = true;
     }
     else {
+        if(_rotating){
+            createCutObstacles();
+            _rotating = false;
+        }
         _physics.update(dt);
     }
 
@@ -298,28 +393,7 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	}
     
     //_debugnode->draw(batch, Affine2(), DEBUG_COLOR);
-    _debugnode->render(batch);
-    /*
-    std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
-    for (std::shared_ptr<scene2::SceneNode> it : world) {
-        //it->setContentSize(
-        //                  it->getWidth() * _physics.getScale(),
-        //                   it->getHeight() *  _physics.getScale());
-        it->render(batch);
-    }
-    */
-    
-    /*std::vector<std::shared_ptr<scene2::SceneNode>> debug = _debugnode->getChildren();
-    for (std::shared_ptr<scene2::SceneNode> it : world) {
-        it->render(batch);
-    }*/
-    
-    /* TODO: Color in the obstacles for debug
-    batch->setColor(Color4::GREEN);
-    auto obstacles = _physics.getPolygonObstacles();
-    for (auto it = obstacles.begin(); it != obstacles.end(); it++) {
-        batch->fill(*it);
-    }*/
+    //_debugnode->render(batch);
 
     // draw exit
     tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
@@ -349,16 +423,7 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
             }
         }
     }
-    
-//    std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
-//    for (std::shared_ptr<scene2::SceneNode> it : world) {
-//        /*it->setContentSize(
-//                           it->getWidth() * _physics.getScale(),
-//                           it->getHeight() *  _physics.getScale());*/
-//        it->render(batch);
-//    }
-    //_player->getSceneNode()->render(batch, Affine2(0.002,0,0,0.002,0,0),Color4().GRAY);
-    
+        
 	// End Drawing
 	batch->end();
 }

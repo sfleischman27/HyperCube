@@ -12,7 +12,7 @@
 //#define PHYSICS_SCALE 50
 
 /** The ratio between the physics world and the screen. */
-#define GRAVITY 0
+#define GRAVITY 9.8
 
 #define MAX_H_SPEED 100.0
 
@@ -27,9 +27,14 @@ PhysicsController::PhysicsController(){
 bool PhysicsController::init(Size dimen, const Rect& rect, float scene_width){
     //bool success = true;
     
+    
+    /*_world = std::make_shared<physics2::ObstacleWorld>();
+    _world->init(*bounds, Vec2(0, -GRAVITY));*/
+    
     _world = physics2::ObstacleWorld::alloc(rect, Vec2(0,-GRAVITY));
     _world->activateCollisionCallbacks(true);
     _world->onBeginContact = [this](b2Contact* contact) {
+        CULog("contact");
       beginContact(contact);
     };
     _world->onEndContact = [this](b2Contact* contact) {
@@ -102,33 +107,6 @@ void PhysicsController::removeObstacles(){
     _world->garbageCollect();
 }
 
-void PhysicsController::createPhysics(GameModel g, Size b){
-    //init physics world and bounding box
-    _world = std::make_shared<physics2::ObstacleWorld>();
-    
-    removeObstacles();
-    
-    std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, b / _scale);
-    
-    _world->init(*bounds, Vec2(0, -GRAVITY));
-    
-    //get the cut from the gamemodel
-    std::vector<cugl::Poly2> polys = g.getCut();
-    
-    for(Poly2 p : polys){
-        
-        std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = std::make_shared<cugl::physics2::PolygonObstacle>();
-        
-        bool initialized = obstacle->init(p);
-        CUAssertLog(initialized, "levelbounds polygonobstacle not initialized properly");
-
-        obstacle->setBodyType(b2_staticBody);
-        obstacle->setPosition(obstacle->getPosition()/_scale);
-        
-        _world->addObstacle(obstacle);
-    }
-}
-
 void PhysicsController::update(float dt){
     _world->update(dt);
 }
@@ -145,6 +123,36 @@ void PhysicsController::update(float dt){
  */
 void PhysicsController::beginContact(b2Contact* contact) {
     /** TODO:  ADD BEGIN CONTACT COLLISIONS */
+        
+    //*contact.get();
+    
+    /*b2Fixture* fix1 = contact->GetFixtureA();
+    b2Fixture* fix2 = contact->GetFixtureB();
+
+    b2Body* body1 = fix1->GetBody();
+    b2Body* body2 = fix2->GetBody();
+
+    std::string* fd1 = reinterpret_cast<std::string*>(fix1->GetUserData().pointer);
+    std::string* fd2 = reinterpret_cast<std::string*>(fix2->GetUserData().pointer);
+
+    physics2::Obstacle* bd1 = reinterpret_cast<physics2::Obstacle*>(body1->GetUserData().pointer);
+    physics2::Obstacle* bd2 = reinterpret_cast<physics2::Obstacle*>(body2->GetUserData().pointer);
+    
+
+    // See if we have landed on the ground.
+    if ((_avatar->getSensorName() == fd2 && _avatar.get() != bd1) ||
+        (_avatar->getSensorName() == fd1 && _avatar.get() != bd2)) {
+        _avatar->setGrounded(true);
+        // Could have more than one ground
+        _sensorFixtures.emplace(_avatar.get() == bd1 ? fix2 : fix1);
+    }*/
+/*
+    // If we hit the "win" door, we are done
+    if((bd1 == _avatar.get()   && bd2 == _goalDoor.get()) ||
+        (bd1 == _goalDoor.get() && bd2 == _avatar.get())) {
+        setComplete(true);
+    }
+ */
 }
 
 /**

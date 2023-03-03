@@ -26,8 +26,15 @@ protected:
     /** set debug mode */
     bool _debug;
     
+    /** is the axis being rotated? (only remake colliders when false) */
+    bool _rotating = false;
+    
     /** Reference to the physics root of the scene graph */
     std::shared_ptr<cugl::scene2::SceneNode> _worldnode;
+    //SET OF CUT COLLISION OBSTACLES
+    std::set<std::shared_ptr<cugl::physics2::Obstacle>> _cutobstacles;
+    //SET OF CUT COLLISION NODES
+    std::set<std::shared_ptr<cugl::scene2::SceneNode>> _cutnodes;
     //DEBUG COLLISION NODE
     std::shared_ptr<cugl::scene2::SceneNode> _debugnode;
     
@@ -39,6 +46,11 @@ private:
     std::vector<Collectible> _collectibles;
     std::shared_ptr<PlayerModel> _player;
     cugl::Size _dimen;
+    
+    /**
+     * Removes all the nodes beloning to _polynodes from _worldnodes
+     */
+    void removePolyNodes();
     
 protected:
     std::tuple<cugl::Vec2, float> tupleExit;
@@ -89,6 +101,11 @@ public:
     bool init(const std::shared_ptr<AssetManager>& assets);
     
     bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
+    
+    /**
+    * Creates all physics objects from a list of Poly2s given by the GameModel.
+    */
+    void createCutObstacles();
     
     
     /** Adds obstacle to both physics world and scenenode */

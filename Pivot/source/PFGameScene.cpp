@@ -711,6 +711,7 @@ void GameScene::removeBullet(Bullet* bullet) {
  * @param  contact  The two bodies that collided
  */
 void GameScene::beginContact(b2Contact* contact) {
+    
 	b2Fixture* fix1 = contact->GetFixtureA();
 	b2Fixture* fix2 = contact->GetFixtureB();
 
@@ -753,6 +754,7 @@ void GameScene::beginContact(b2Contact* contact) {
  * double jumping.
  */
 void GameScene::endContact(b2Contact* contact) {
+    
 	b2Fixture* fix1 = contact->GetFixtureA();
 	b2Fixture* fix2 = contact->GetFixtureB();
 
@@ -772,6 +774,7 @@ void GameScene::endContact(b2Contact* contact) {
 			_avatar->setGrounded(false);
 		}
 	}
+     
 }
 
 /**
