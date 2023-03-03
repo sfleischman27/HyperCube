@@ -20,7 +20,7 @@
 /** Cooldown (in animation frames) for shooting */
 #define SHOOT_COOLDOWN  20
 /** The amount to shrink the body fixture (vertically) relative to the image */
-#define DUDE_VSHRINK  0.95f
+#define DUDE_VSHRINK  0.35f
 /** The amount to shrink the body fixture (horizontally) relative to the image */
 #define DUDE_HSHRINK  0.7f
 /** The amount to shrink the sensor fixture (horizontally) relative to the image */
@@ -205,7 +205,11 @@ void PlayerModel::applyForce() {
     }
     
     // Jump!
-    if (isJumping() && isGrounded()) {
+//    if (isJumping() && isGrounded()) {
+//        b2Vec2 force(0, DUDE_JUMP);
+//        _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
+//    }
+    if (isJumping()) {
         b2Vec2 force(0, DUDE_JUMP);
         _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
     }

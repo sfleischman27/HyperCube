@@ -312,18 +312,18 @@ void GameplayController::update(float dt) {
         
     }
 
-    if (_input.didIncreaseCut()) {
-        _model->rotateNorm(.03);
+    if (_input.didIncreaseCut() && (_player->getX() > DEFAULT_WIDTH/2 - 1) && (_player->getX() < DEFAULT_WIDTH/2 + 1)){
+        _model->rotateNorm(.01);
         //createCutObstacles();
         _rotating = true;
     }
 
-    else if (_input.didDecreaseCut()) {
-        _model->rotateNorm(-.03);
+    else if (_input.didDecreaseCut() && (_player->getX() > DEFAULT_WIDTH/2 - 1) && (_player->getX() < DEFAULT_WIDTH/2 + 1)) {
+        _model->rotateNorm(-.01);
         //createCutObstacles();
         _rotating = true;
     }
-    else if (_input.didKeepChangingCut()) {
+    else if (_input.didKeepChangingCut() && (_player->getX() > DEFAULT_WIDTH/2 - 1) && (_player->getX() < DEFAULT_WIDTH/2 + 1)) {
         _model->rotateNorm(_input.getMoveNorm());
         //createCutObstacles();
         _rotating = true;
