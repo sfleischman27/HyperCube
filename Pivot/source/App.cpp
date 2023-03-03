@@ -31,6 +31,19 @@ bool demo = false;
  * causing the application to run.
  */
 void PivotApp::onStartup() {
+
+    bool isMac;
+    // Detect OS
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    CULog("System: This is Windows");
+    isMac = false;
+#else
+    CULog("System: This is Mac");
+    isMac = true;
+#endif
+
+    std::string jsonPath = isMac ? "../json/assets.json" : "../../assets/jsonWindows/assets.json";
+	
     if (demo){
         _assets = AssetManager::alloc();
         _batch  = SpriteBatch::alloc();
@@ -41,7 +54,7 @@ void PivotApp::onStartup() {
 #else
         Input::activate<Mouse>();
 #endif
-        
+
         _assets->attach<Font>(FontLoader::alloc()->getHook());
         _assets->attach<Texture>(TextureLoader::alloc()->getHook());
         _assets->attach<Sound>(SoundLoader::alloc()->getHook());
@@ -53,7 +66,7 @@ void PivotApp::onStartup() {
         
         // Queue up the other assets
         AudioEngine::start();
-        _assets->loadDirectoryAsync("json/assets.json",nullptr);
+        _assets->loadDirectoryAsync(jsonPath, nullptr);
         
         Application::onStartup(); // YOU MUST END with call to parent
     }
@@ -82,7 +95,7 @@ void PivotApp::onStartup() {
         // TODO: change assets to be our assets (if/when we get some)
         // Queue up the other assets
         AudioEngine::start();
-        _assets->loadDirectoryAsync("json/assets.json",nullptr);
+        _assets->loadDirectoryAsync(jsonPath, nullptr);
         
         Application::onStartup(); // YOU MUST END with call to parent
     }
