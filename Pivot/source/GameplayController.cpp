@@ -16,6 +16,11 @@ using namespace cugl;
 #define SCENE_WIDTH 1024
 #define SCENE_HEIGHT 576
 
+/** Width of the game world in Box2d units */
+#define DEFAULT_WIDTH   32.0f
+/** Height of the game world in Box2d units */
+#define DEFAULT_HEIGHT  18.0f
+
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color4::YELLOW
 /** Opacity of the physics outlines */
@@ -72,9 +77,8 @@ void GameplayController::dispose() {
  * @return true if the controller is initialized properly, false otherwise.
  */
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
-    return init(assets,Rect(0,0,SCENE_WIDTH,SCENE_HEIGHT));
+    return init(assets,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT));
 }
-
 
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect) {
 //    _input.init(Rect());
@@ -105,7 +109,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     /** Player */
     
     // The initial position of the player
-    float DUDE_POS[] = { 2.5f, 5.0f};
+    float DUDE_POS[] = { 0, 0};
     
     Vec2 dudePos = DUDE_POS;
     
@@ -238,9 +242,9 @@ void GameplayController::update(float dt) {
         }
     }
 
-    //    _player->setMovement(_input.getHorizontal()*_player->getForce());
-    //    _player->setJumping( _input.didJump());
-    //    _player->applyForce();
+        _player->setMovement(_input.getHorizontal()*_player->getForce());
+        _player->setJumping( _input.didJump());
+        _player->applyForce();
 
         /*animated by incrementing angle each frame*/
     //	_model->rotateNorm(.01);
@@ -314,13 +318,14 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
         }
     }
     
-    std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
-    for (std::shared_ptr<scene2::SceneNode> it : world) {
-        /*it->setContentSize(
-                           it->getWidth() * _physics.getScale(),
-                           it->getHeight() *  _physics.getScale());*/
-        it->render(batch);
-    }
+//    std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
+//    for (std::shared_ptr<scene2::SceneNode> it : world) {
+//        /*it->setContentSize(
+//                           it->getWidth() * _physics.getScale(),
+//                           it->getHeight() *  _physics.getScale());*/
+//        it->render(batch);
+//    }
+    _player->getSceneNode()->render(batch, Affine2(0.002,0,0,0.002,0,0),Color4().GRAY);
     
 	// End Drawing
 	batch->end();
