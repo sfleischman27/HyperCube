@@ -48,9 +48,20 @@ bool LoadingScene::init(const std::shared_ptr<cugl::AssetManager>& assets) {
         return false;
     }
     
+    bool isMac;
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    isMac = false;
+#else
+    isMac = true;
+#endif
+
     // IMMEDIATELY load the splash screen assets
     _assets = assets;
-    _assets->loadDirectory("json/loading.json");
+    if (isMac) {
+        _assets->loadDirectory("../json/loading.json");
+    } else {
+        _assets->loadDirectory("../../assets/jsonWindows/loading.json");
+    }
     auto layer = assets->get<scene2::SceneNode>("load");
     layer->setContentSize(dimen);
     layer->doLayout(); // This rearranges the children to fit the screen
