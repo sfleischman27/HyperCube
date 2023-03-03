@@ -16,15 +16,20 @@ using namespace cugl;
 #define SCENE_WIDTH 1024
 #define SCENE_HEIGHT 576
 
-/** This is the aspect ratio for physics */
-#define SCENE_ASPECT 9.0/16.0
+/** Width of the game world in Box2d units */
+#define DEFAULT_WIDTH   32.0f
+/** Height of the game world in Box2d units */
+#define DEFAULT_HEIGHT  18.0f
 
 /** Color to outline the physics nodes */
 #define DEBUG_COLOR     Color4::YELLOW
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the visible distance */
-#define VISIBLE_DIST   0.15
+#define VISIBLE_DIST   .02
+/** Threshold of the click distance */
+#define CLICK_DIST   0.05
+
 
 /**
  * Creates a new game world with the default values.
@@ -72,18 +77,18 @@ void GameplayController::dispose() {
  * @return true if the controller is initialized properly, false otherwise.
  */
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
-    return init(assets,Rect(0,0,SCENE_WIDTH,SCENE_HEIGHT));
+    return init(assets,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT));
 }
-
 
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect) {
 //    _input.init(Rect());
     
-    Size dimen = computeActiveSize();
+    _dimen = computeActiveSize();
+    
 
     if (assets == nullptr) {
         return false;
-    } else if (!Scene2::init(dimen)) {
+    } else if (!Scene2::init(_dimen)) {
         return false;
     }
     
@@ -92,7 +97,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _input.init(getBounds());
     
     //set up physics world
-    _physics.init(dimen, rect, SCENE_WIDTH);
+    _physics.init(_dimen, rect, SCENE_WIDTH);
     _physics.createPhysics(*_model,getSize());
 
     _collectibles = _model->getCollectibles();
@@ -104,11 +109,21 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     /** Player */
     
     // The initial position of the player
-    float DUDE_POS[] = { 2.5f, 5.0f};
+    float DUDE_POS[] = { 0, 0};
     
     Vec2 dudePos = DUDE_POS;
     
-    Vec2 offset((dimen.width-SCENE_WIDTH)/2.0f,(dimen.height-SCENE_HEIGHT)/2.0f);
+        //std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
+    
+        //TODO Gordi fill in your scale right below
+        //_player = PlayerModel::alloc(dudePos,image->getSize()/_scale,_scale);
+    
+        //std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
+        //_player->setSceneNode(sprite);
+    
+        //TODO Gordi add the player as an obstacle. The original code does something like: addObstacle(_player,sprite);
+
+    Vec2 offset((_dimen.width-SCENE_WIDTH)/2.0f,(_dimen.height-SCENE_HEIGHT)/2.0f);
 
         // TODO Gordi fill in your scene node right below
     _worldnode = scene2::SceneNode::alloc();
@@ -132,7 +147,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
      
     /*
     _debugnode = scene2::SceneNode::alloc();
-    _debugnode->setScale(dimen); // Debug node draws in PHYSICS coordinates
+    _debugnode->setScale(_dimen); // Debug node draws in PHYSICS coordinates
     _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     _debugnode->setPosition(offset);*/
      
@@ -191,49 +206,64 @@ void GameplayController::reset() {
  * @param  delta    Number of seconds since last animation frame
  */
 void GameplayController::update(float dt) {
-    
+
     _input.update(dt);
 
-    if(_input.didIncreaseCut()){
+    if (_input.didIncreaseCut()) {
         _model->rotateNorm(.03);
-        _physics.createPhysics(*_model,getSize());
+        _physics.createPhysics(*_model, getSize());
     }
-    
-    else if(_input.didDecreaseCut()){
+
+    else if (_input.didDecreaseCut()) {
         _model->rotateNorm(-.03);
-        _physics.createPhysics(*_model,getSize());
+        _physics.createPhysics(*_model, getSize());
     }
-    else if(_input.didKeepChangingCut()) {
+    else if (_input.didKeepChangingCut()) {
         _model->rotateNorm(_input.getMoveNorm());
-        _physics.createPhysics(*_model,getSize());
+        _physics.createPhysics(*_model, getSize());
     }
     else {
         _physics.update(dt);
     }
-    
-//    _player->setMovement(_input.getHorizontal()*_player->getForce());
-//    _player->setJumping( _input.didJump());
-//    _player->applyForce();
-	
-	/*animated by incrementing angle each frame*/
-//	_model->rotateNorm(.01);
 
-	/*give a normal directly (only the x,y coords matter)*/
-	//_model->setPlaneNorm(Vec3(1, 3, 0).normalize());
+    // TODO: Update player bag what is collected
+    // TODO: check against player location to see if player can collect
+    if (_input.didSelect()) {
+        auto pos = _input.getSelection();
+        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
+        //down scale it by screen size for comparison
+        pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
+        for (int i = 0; i < _collectibles.size(); i++) {
+            auto tuplec = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
+            auto coords = std::get<0>(tuplec);
+            auto dist = std::get<1>(tuplec);
+            if (!_collectibles[i].getCollected() &&
+                std::abs(dist) <= VISIBLE_DIST &&
+                std::abs(pos.x - coords.x) <= CLICK_DIST &&
+                std::abs(pos.y - coords.y) <= CLICK_DIST) {
+                _collectibles[i].setCollected(true);
+            }
+        }
+    }
 
-	/*pick a specific angle to cut at(relative to UNIT_X)*/
-//	float radians = M_PI / 3;
-//	Vec3 newNorm = Vec3(
-//		cos(radians),
-//		sin(radians),
-//		0
-//	);
-//	_model->setPlaneNorm(newNorm);
-    
-//    TODO: How to update collectibles: if still collectible
-//    TODO: Update player bag what is collected
+        _player->setMovement(_input.getHorizontal()*_player->getForce());
+        _player->setJumping( _input.didJump());
+        _player->applyForce();
 
-	
+        /*animated by incrementing angle each frame*/
+    //	_model->rotateNorm(.01);
+
+        /*give a normal directly (only the x,y coords matter)*/
+        //_model->setPlaneNorm(Vec3(1, 3, 0).normalize());
+
+        /*pick a specific angle to cut at(relative to UNIT_X)*/
+    //	float radians = M_PI / 3;
+    //	Vec3 newNorm = Vec3(
+    //		cos(radians),
+    //		sin(radians),
+    //		0
+    //	);
+    //	_model->setPlaneNorm(newNorm);
 }
 
 /**
@@ -252,16 +282,18 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	batch->setColor(Color4::BLACK);
 	auto cuts = _model->getCut();
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
-		batch->fill(*it);
+        batch->fill(*it);
 	}
     
+    /*
     std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
     for (std::shared_ptr<scene2::SceneNode> it : world) {
-        /*it->setContentSize(
-                           it->getWidth() * _physics.getScale(),
-                           it->getHeight() *  _physics.getScale());*/
+        //it->setContentSize(
+        //                  it->getWidth() * _physics.getScale(),
+        //                   it->getHeight() *  _physics.getScale());
         it->render(batch);
     }
+    */
     
     /*std::vector<std::shared_ptr<scene2::SceneNode>> debug = _debugnode->getChildren();
     for (std::shared_ptr<scene2::SceneNode> it : world) {
@@ -276,8 +308,7 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
     }*/
 
     // draw exit
-    // TODO: Jack maybe you want to double check the exit location cuz it's not inside cuts right now (lmk if im wrong)
-    auto tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
+    tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
     auto screencoordsExit = std::get<0>(tupleExit);
     auto distanceExit = std::get<1>(tupleExit);
     if (std::abs(distanceExit) <= VISIBLE_DIST) {
@@ -290,9 +321,9 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 
     // draw collectibles if the collectible is within certain distance to the plane
     // and if the collectibe has not been not collected yet
-    for (Collectible c : _collectibles) {
-        if (!c.getCollected()) {
-            auto tupleKey = ScreenCoordinatesFrom3DPoint(c.getPosition());
+    for (int i = 0; i < _collectibles.size(); i++) {
+        if (!_collectibles[i].getCollected()) {
+            auto tupleKey = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
             auto screencoordsKey = std::get<0>(tupleKey);
             auto distanceKey = std::get<1>(tupleKey);
             if (std::abs(distanceKey) <= VISIBLE_DIST) {
@@ -304,6 +335,15 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
             }
         }
     }
+    
+//    std::vector<std::shared_ptr<scene2::SceneNode>> world = _worldnode->getChildren();
+//    for (std::shared_ptr<scene2::SceneNode> it : world) {
+//        /*it->setContentSize(
+//                           it->getWidth() * _physics.getScale(),
+//                           it->getHeight() *  _physics.getScale());*/
+//        it->render(batch);
+//    }
+    _player->getSceneNode()->render(batch, Affine2(0.002,0,0,0.002,0,0),Color4().GRAY);
     
 	// End Drawing
 	batch->end();
@@ -329,8 +369,8 @@ std::tuple<cugl::Vec2, float> GameplayController::ScreenCoordinatesFrom3DPoint(c
     //dot the point onto the plane normal to get the distance from the cut plane
     auto dist = location.dot(_model->getPlaneNorm());
     // get the point projected onto the plane basis vectors (unit_z is always y-axis and x-axis is to the right)
-    auto xcoord = location.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm()));
-    auto ycoord = location.dot(cugl::Vec3::UNIT_Z);
+    auto xcoord = location.dot(cugl::Vec3(0,0,1).cross(_model->getPlaneNorm().negate()).normalize());
+    auto ycoord = location.dot(cugl::Vec3(0,0,1));
     auto coords = cugl::Vec2(xcoord, ycoord);
 
     return(std::tuple<cugl::Vec2, float>(coords, dist));

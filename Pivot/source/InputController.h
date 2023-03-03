@@ -45,6 +45,9 @@ private:
     bool _keyKeepIncreasingCut;
     /** Whether the decrease cut key is down */
     bool _keyKeepDecreasingCut;
+    // TOUCH SUPPORT
+    /** The initial touch location for the current gesture, IN SCREEN COORDINATES */
+    cugl::Vec2 _dtouch;
   
 protected:
     // INPUT RESULTS
@@ -68,6 +71,9 @@ protected:
     bool _keepChangingCut;
     /** How much did we move norm? */
     float _moveNorm;
+    /** Are we registering an object selection? */
+    bool _select;
+
 
 #pragma mark Internal Touch Management
     // The screen is divided into four zones: Left, Bottom, Right and Main/
@@ -266,6 +272,25 @@ public:
 #pragma mark -
 #pragma mark Input Results
     /**
+     * Returns the amount of vertical movement.
+     *
+     * -1 = down, 1 = up, 0 = still
+     *
+     * @return the amount of vertical movement.
+     */
+    bool didSelect() const { return _select; }
+
+    /**
+     * Returns the location (in world space) of the selection.
+     *
+     * The origin of the coordinate space is the top left corner of the
+     * screen.  This will need to be transformed to world coordinates
+     * (via the scene graph) to be useful
+     *
+     * @return the location (in world space) of the selection.
+     */
+    const cugl::Vec2& getSelection() const { return _dtouch; }
+    /**
      * Returns the amount of norm changes.
      *
      * @return the amount of norm changes.
@@ -357,6 +382,16 @@ public:
 
 #pragma mark -
 #pragma mark Touch and Mouse Callbacks
+    
+    void mousePressBeganCB(const cugl::MouseEvent& event, Uint8 clicks, bool focus);
+  
+    /**
+     * Callback for a mouse release event.
+     *
+     * @param t     The touch information
+     * @param event The associated event
+     */
+    void mouseReleasedCB(const cugl::MouseEvent& event, Uint8 clicks, bool focus);
     /**
      * Callback for the beginning of a touch event
      *
