@@ -253,7 +253,7 @@ void GameplayController::removePolyNodes(){
             //CULog("Could not find cutobstacle %p", obstacle.get());
         }
     }
-    _physics.garbageCollect();
+    //_physics.garbageCollect();
 }
 
 void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
@@ -392,12 +392,12 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 	//Begin Drawing
 	batch->begin();
 	batch->setColor(Color4::BLACK);
-	auto cuts = _model->getCut();
+    auto cuts = _model->getCut();
 	for (auto it = cuts.begin(); it != cuts.end(); it++) {
         
         //TODO: temporary fix to stretch the level back to how it's "supposed" to be? take this out if its wrong
         //*it *= Affine2(1, 0, 0, _dimen.width/_dimen.height, 0, 0);
-        
+        //it.draw
         batch->fill(*it);
 	}
     
@@ -441,11 +441,16 @@ Size GameplayController::computeActiveSize() const {
     Size dimen = Application::get()->getDisplaySize();
     float ratio1 = dimen.width/dimen.height;
     float ratio2 = ((float)SCENE_WIDTH)/((float)SCENE_HEIGHT);
-    if (ratio1 < ratio2) {
+    if (ratio1 < ratio2) { //dimen has a higher width than scene_width : height ratio
         dimen *= SCENE_WIDTH/dimen.width;
+        //dimen.width *= SCENE_WIDTH/SCENE_HEIGHT * dimen.height/dimen.width;
     } else {
         dimen *= SCENE_HEIGHT/dimen.height;
+        //dimen.height *= SCENE_HEIGHT/dimen.height;
     }
+    
+    //dimen *= SCENE_WIDTH/SCENE_HEIGHT * dimen.height/dimen.width;
+    
     return dimen;
 }
 
