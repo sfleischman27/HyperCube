@@ -34,7 +34,7 @@ bool PhysicsController::init(Size dimen, const Rect& rect, float scene_width){
     _world = physics2::ObstacleWorld::alloc(rect, Vec2(0,-GRAVITY));
     _world->activateCollisionCallbacks(true);
     _world->onBeginContact = [this](b2Contact* contact) {
-        CULog("contact");
+        //CULog("contact");
       beginContact(contact);
     };
     _world->onEndContact = [this](b2Contact* contact) {

@@ -1417,8 +1417,8 @@ std::vector<Poly2> Level::GetMapCut(Vec3 origin, Vec3 normal) {
 	int index = std::floor(angle / (2*M_PI) * PLANE_INTERSECTIONS.size());
 	auto floats = PLANE_INTERSECTIONS[index];
 
-	CULog(std::to_string(index).c_str());
-	CULog(std::to_string(angle).c_str());
+	//CULog(std::to_string(index).c_str());
+	//CULog(std::to_string(angle).c_str());
 	// END temporary section
 
 	std::vector<cugl::Poly2> polygons;
