@@ -12,6 +12,10 @@
 
 using namespace cugl;
 
+RenderPipeline::RenderPipeline() {
+	return;
+}
+
 void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
 	return;
 }

@@ -15,6 +15,11 @@
 class RenderPipeline {
 public:
 
+	/** 
+	 * Construct the RenderPipeline
+	 */
+	RenderPipeline();
+
 	/**
 	 * Draws all this scene to the given SpriteBatch.
 	 *
@@ -25,7 +30,7 @@ public:
 	 * @param batch     The SpriteBatch to draw with.
 	 */
 
-	static void render(const std::unique_ptr<GameModel>& model);
+	void render(const std::unique_ptr<GameModel>& model);
 
 };
 

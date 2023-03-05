@@ -48,6 +48,7 @@ GameplayController::GameplayController() : Scene2()
     _worldnode = nullptr;
     _debugnode = nullptr;
     _debug = false;
+    _pipeline = std::make_shared<RenderPipeline>();
 }
 
 /**
@@ -387,60 +388,64 @@ void GameplayController::update(float dt) {
  * @param batch     The SpriteBatch to draw with.
  */
 void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch) {
-
-    RenderPipeline::render(_model); // this does nothing right now
-
-    Scene2::render(batch);
-    
-#pragma mark DRAW CUT
-	//Begin Drawing
-	batch->begin();
-	batch->setColor(Color4::BLACK);
-    auto cuts = _model->getCut();
-	for (auto it = cuts.begin(); it != cuts.end(); it++) {
-        
-        //TODO: temporary fix to stretch the level back to how it's "supposed" to be? take this out if its wrong
-        //*it *= Affine2(1, 0, 0, _dimen.width/_dimen.height, 0, 0);
-        //it.draw
-        batch->fill(*it);
-	}
-    
-    //_debugnode->draw(batch, Affine2(), DEBUG_COLOR);
-    //_debugnode->render(batch);
-#pragma mark DRAW EXIT
-    
-    // draw exit
-    tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
-    auto screencoordsExit = std::get<0>(tupleExit);
-    auto distanceExit = std::get<1>(tupleExit);
-    if (std::abs(distanceExit) <= VISIBLE_DIST) {
-        std::shared_ptr<Texture> blue = std::make_shared<Texture>();
-        static unsigned char bluecol[] = { 0, 0, 0xFF, 0xFF };
-        blue->initWithData(bluecol, 1, 1);
-        Vec2 bottomleftExit = screencoordsExit - Vec2(0.02, 0.02);
-        batch->draw(blue, Rect(bottomleftExit, Vec2(0.025, 0.04)));
+    bool useRP = false; // edit me
+    if (useRP) {
+        _pipeline->render(_model); // this does nothing right now
     }
+    else {
+
+        Scene2::render(batch);
+
+#pragma mark DRAW CUT
+        //Begin Drawing
+        batch->begin();
+        batch->setColor(Color4::BLACK);
+        auto cuts = _model->getCut();
+        for (auto it = cuts.begin(); it != cuts.end(); it++) {
+
+            //TODO: temporary fix to stretch the level back to how it's "supposed" to be? take this out if its wrong
+            //*it *= Affine2(1, 0, 0, _dimen.width/_dimen.height, 0, 0);
+            //it.draw
+            batch->fill(*it);
+        }
+
+        //_debugnode->draw(batch, Affine2(), DEBUG_COLOR);
+        //_debugnode->render(batch);
+#pragma mark DRAW EXIT
+
+    // draw exit
+        tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
+        auto screencoordsExit = std::get<0>(tupleExit);
+        auto distanceExit = std::get<1>(tupleExit);
+        if (std::abs(distanceExit) <= VISIBLE_DIST) {
+            std::shared_ptr<Texture> blue = std::make_shared<Texture>();
+            static unsigned char bluecol[] = { 0, 0, 0xFF, 0xFF };
+            blue->initWithData(bluecol, 1, 1);
+            Vec2 bottomleftExit = screencoordsExit - Vec2(0.02, 0.02);
+            batch->draw(blue, Rect(bottomleftExit, Vec2(0.025, 0.04)));
+        }
 
 #pragma mark DRAW COLLECTIBLES
-    // draw collectibles if the collectible is within certain distance to the plane
-    // and if the collectibe has not been not collected yet
-    for (int i = 0; i < _collectibles.size(); i++) {
-        if (!_collectibles[i].getCollected()) {
-            auto tupleKey = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
-            auto screencoordsKey = std::get<0>(tupleKey);
-            auto distanceKey = std::get<1>(tupleKey);
-            if (std::abs(distanceKey) <= VISIBLE_DIST) {
-                std::shared_ptr<Texture> yellow = std::make_shared<Texture>();
-                static unsigned char yellowcol[] = { 0xFF, 0xFF, 0x00, 0xFF };
-                yellow->initWithData(yellowcol, 1, 1);
-                Vec2 bottomleft = screencoordsKey - Vec2(0.02, 0.02);
-                batch->draw(yellow, Rect(bottomleft, Vec2(0.025, 0.04)));
+        // draw collectibles if the collectible is within certain distance to the plane
+        // and if the collectibe has not been not collected yet
+        for (int i = 0; i < _collectibles.size(); i++) {
+            if (!_collectibles[i].getCollected()) {
+                auto tupleKey = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
+                auto screencoordsKey = std::get<0>(tupleKey);
+                auto distanceKey = std::get<1>(tupleKey);
+                if (std::abs(distanceKey) <= VISIBLE_DIST) {
+                    std::shared_ptr<Texture> yellow = std::make_shared<Texture>();
+                    static unsigned char yellowcol[] = { 0xFF, 0xFF, 0x00, 0xFF };
+                    yellow->initWithData(yellowcol, 1, 1);
+                    Vec2 bottomleft = screencoordsKey - Vec2(0.02, 0.02);
+                    batch->draw(yellow, Rect(bottomleft, Vec2(0.025, 0.04)));
+                }
             }
         }
+
+        // End Drawing
+        batch->end();
     }
-        
-	// End Drawing
-	batch->end();
 }
 
 Size GameplayController::computeActiveSize() const {
