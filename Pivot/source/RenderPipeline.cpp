@@ -12,7 +12,7 @@
 
 using namespace cugl;
 
-RenderPipeline::RenderPipeline() {
+RenderPipeline::RenderPipeline(int screenWidth, int screenHeight) : width(screenWidth), height(screenHeight) {
 	return;
 }
 
