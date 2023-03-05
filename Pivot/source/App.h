@@ -15,7 +15,7 @@
 #include "MusicController.h"
 #include "DataController.h"
 #include "GameplayController.h"
-#include "GraphicsEngine.h"
+#include "RenderPipeline.h"
 
 // Demo mode
 #include "PFGameScene.h"

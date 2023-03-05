@@ -17,7 +17,7 @@
 #include "PlaneController.h"
 #include "InputController.h"
 #include "GameModel.h"
-#include "GraphicsEngine.h"
+#include "RenderPipeline.h"
 #include "PlayerModel.h"
 
 class GameplayController : public cugl::Scene2 {
