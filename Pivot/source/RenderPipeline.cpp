@@ -12,5 +12,10 @@
 
 using namespace cugl;
 
-void render(const std::shared_ptr<cugl::SpriteBatch>& batch, const std::shared_ptr<GameModel> model) {
+RenderPipeline::RenderPipeline() {
+	return;
+}
+
+void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
+	return;
 }
