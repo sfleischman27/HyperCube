@@ -418,6 +418,8 @@ void GameplayController::update(float dt) {
  */
 void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch) {
 
+    RenderPipeline::render(_model); // this does nothing right now
+
     Scene2::render(batch);
     
 	//Begin Drawing
