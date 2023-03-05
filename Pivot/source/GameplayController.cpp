@@ -48,7 +48,7 @@ GameplayController::GameplayController() : Scene2()
     _worldnode = nullptr;
     _debugnode = nullptr;
     _debug = false;
-    _pipeline = std::make_shared<RenderPipeline>(SCENE_WIDTH, SCENE_HEIGHT);
+    _pipeline = std::make_shared<RenderPipeline>();
 }
 
 /**
