@@ -23,6 +23,9 @@
 class GameplayController : public cugl::Scene2 {
 
 protected:
+    /** The asset manager for this game mode. */
+    std::shared_ptr<cugl::AssetManager> _assets;
+    
     /** set debug mode */
     bool _debug;
     
