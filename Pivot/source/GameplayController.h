@@ -46,8 +46,6 @@ private:
     //std::shared_ptr<PhysicsController> _physics;
     PhysicsController _physics;
     InputController _input;
-    std::vector<Collectible> _collectibles;
-    std::shared_ptr<PlayerModel> _player;
     cugl::Size _dimen;
     
     /**
