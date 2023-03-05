@@ -49,6 +49,7 @@ private:
     std::vector<Collectible> _collectibles;
     std::shared_ptr<PlayerModel> _player;
     cugl::Size _dimen;
+    std::shared_ptr<RenderPipeline> _pipeline;
     
     /**
      * Removes all the nodes beloning to _polynodes from _worldnodes
