@@ -47,7 +47,6 @@ private:
     PhysicsController _physics;
     InputController _input;
     cugl::Size _dimen;
-    std::shared_ptr<RenderPipeline> _pipeline;
     
     /**
      * Removes all the nodes beloning to _polynodes from _worldnodes

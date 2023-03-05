@@ -12,27 +12,16 @@
 #include <cugl/cugl.h>
 #include "GameModel.h"
 
-class RenderPipeline {
-public:
+/**
+ * Draws all this scene to the given SpriteBatch.
+ *
+ * The default implementation of this method simply draws the scene graph
+ * to the sprite batch.  By overriding it, you can do custom drawing
+ * in its place.
+ *
+ * @param batch     The SpriteBatch to draw with.
+ */
 
-	/** 
-	 * Construct the RenderPipeline
-	 */
-	RenderPipeline();
-
-	/**
-	 * Draws all this scene to the given SpriteBatch.
-	 *
-	 * The default implementation of this method simply draws the scene graph
-	 * to the sprite batch.  By overriding it, you can do custom drawing
-	 * in its place.
-	 *
-	 * @param batch     The SpriteBatch to draw with.
-	 */
-
-	void render(const std::unique_ptr<GameModel>& model);
-
-};
-
+void render(const std::shared_ptr<cugl::SpriteBatch>& batch, const std::shared_ptr<GameModel> model);
 
 #endif /* RenderPipeline_h */
