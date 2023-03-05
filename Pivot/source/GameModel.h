@@ -12,7 +12,6 @@
 #include <cugl/cugl.h>
 #include "Level.h"
 #include "Collectible.h"
-#include "PlayerModel.h"
 
 using namespace cugl;
 
@@ -22,11 +21,14 @@ using namespace cugl;
 class GameModel{
     
 #pragma mark Player State
-public:
-    /** Player */
-    std::shared_ptr<PlayerModel> _player;
-#pragma mark Level
 private:
+    /** Player location */
+    Vec3 _loc;
+    /** Player velocity */
+    Vec3 _velocity;
+    /** Player animation frame */
+    // TODO: figure out what type this should be (_frame)
+
     /**The Level being played*/
     std::shared_ptr<Level> _level;
     
@@ -41,7 +43,7 @@ private:
     std::vector<Poly2> _cut;
     
 #pragma mark Collectibles State
-public:
+private:
     /** Vector of collectibles */
     std::vector<Collectible> _collectibles;
     
@@ -53,8 +55,10 @@ public:
      * @param level The level object containing all the info necessary for initializing game
      */
     GameModel(std::shared_ptr<Level> level) {
+        setPlayerLoc(level->startLoc);
+        setPlayerVelocity(Vec3::ZERO);
         setPlaneNorm(level->startNorm);
-        setCut(level->GetMapCut(level->startLoc, level->startNorm));
+        setCut(level->GetMapCut(_loc, _norm));
         setCollectibles(level->GetCollectibleLocs());
         _level = level;
     }
@@ -62,12 +66,34 @@ public:
 #pragma mark Setters
 public:
     /**
-     * Sets the player model
+     *  Sets the position of the player in 3D space
      *
-     * @param player  The player object
+     *  @param loc          The location of the player
      */
-    void setPlayer(std::shared_ptr<PlayerModel> player){
-        _player = player;
+    void setPlayerLoc(Vec3 loc) {
+        _loc = loc;
+    }
+    
+    /**
+     *  Gets the position of the player in 3D space
+     *
+     *  @return loc          The location of the player
+     */
+    Vec3 getPlayerLoc() {
+        return _loc;
+    }
+    
+    /**
+     *  Sets the velocity of the player in 3D space
+     *
+     *  @param velocity          The location of the player
+     */
+    void setPlayerVelocity(Vec3 velocity) {
+        _velocity = velocity;
+    }
+    
+    Vec3 getPlayerVelocity() {
+        return _velocity;
     }
     
     /**
@@ -116,7 +142,7 @@ public:
     }
     
     void setCollectibles(std::vector<Vec3> locs) {
-        //TODO: clean -Jolene
+        
 //        Size size = Application::get()->getDisplaySize();
 //        // seed the random number generator with a fixed value of 42
 //        std::srand(42);
