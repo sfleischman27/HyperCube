@@ -57,7 +57,7 @@ public:
     GameModel(std::shared_ptr<Level> level) {
         setPlayerLoc(level->startLoc);
         setPlayerVelocity(Vec3::ZERO);
-        setPlaneNorm(level->startNorm);
+        _norm = level->startNorm;
         setCut(level->GetMapCut(_loc, _norm));
         setCollectibles(level->GetCollectibleLocs());
         _level = level;

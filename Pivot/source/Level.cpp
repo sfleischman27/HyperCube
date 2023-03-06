@@ -1411,35 +1411,34 @@ std::vector<std::vector<std::vector<float>>> PLANE_INTERSECTIONS = {
 
 std::vector<Poly2> Level::GetMapCut(Vec3 origin, Vec3 normal) {
 
-	// NOTE this part is temporary as I am pulling from the hardcoded list of intersections PLANE_INTERSECTIONS
-	auto angle = Vec3::angle(normal, Vec3(1, 0, .01));//the 0.01 in z ensures the angle is never exaclty 0 or pi radians which is causing bugs
-	if (angle < 0) { angle += M_PI * 2; } // remap negative angle to reflex angles
-	int index = std::floor(angle / (2*M_PI) * PLANE_INTERSECTIONS.size());
-	auto floats = PLANE_INTERSECTIONS[index];
+	//// NOTE this part is temporary as I am pulling from the hardcoded list of intersections PLANE_INTERSECTIONS
+	//auto angle = Vec3::angle(normal, Vec3(1, 0, .01));//the 0.01 in z ensures the angle is never exaclty 0 or pi radians which is causing bugs
+	//if (angle < 0) { angle += M_PI * 2; } // remap negative angle to reflex angles
+	//int index = std::floor(angle / (2*M_PI) * PLANE_INTERSECTIONS.size());
+	//auto floats = PLANE_INTERSECTIONS[index];
 
-	//CULog(std::to_string(index).c_str());
-	//CULog(std::to_string(angle).c_str());
-	// END temporary section
+	////CULog(std::to_string(index).c_str());
+	////CULog(std::to_string(angle).c_str());
+	//// END temporary section
+
+	auto m = getMesh();
+	auto slices = m->slice(origin, normal);
 
 	std::vector<cugl::Poly2> polygons;
 	auto extruder = new SimpleExtruder();
 
-	float scale = 0.01;
+	float width = .01;
 
-	for (int i = 0; i < floats.size(); i++) {
-		std::vector<Vec2> verts;
-		for (int j = 0; j < floats[i].size(); j = j + 2) {
-			verts.push_back(Vec2(floats[i][j], floats[i][j + 1])*scale);
-		}
-		float width = .01;
-		auto path = cugl::Path2(verts);
-
+	for (int i = 0; i < slices.size(); i++) {
+		auto path = cugl::Path2(slices[i]);
 		extruder->set(path);
 		extruder->calculate(width);
 		polygons.push_back(extruder->getPolygon());
-	
 	}	
 	return polygons;
+
+
+	
 }
 
 std::vector<Vec3> Level::GetCollectibleLocs() {

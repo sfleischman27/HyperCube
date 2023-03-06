@@ -51,6 +51,7 @@ public:
     const Vec3& exitLoc;
     /** A public accessbile, read-only version of the key location */
     const Vec3& keyLoc;
+
     
 #pragma mark Main Functions
 public:
@@ -60,6 +61,7 @@ public:
         _startNorm = Vec3(-1, 0, 0);
         _exitLoc = Vec3(0, 0.03, 0.03);
         _keyLoc = Vec3(0, -0.02, -0.02);
+
     }
 
     /**
@@ -71,11 +73,12 @@ public:
     Level(Vec3 startLoc, Vec3 startNorm, Vec3 exitLoc, Vec3 keyLoc, std::shared_ptr<PivotMesh> mesh)
         : startLoc(_startLoc), startNorm(_startNorm), exitLoc(_exitLoc), keyLoc(_keyLoc) {
 
+        setMesh(mesh);
         setPlayerLoc(startLoc);
         setPlaneNorm(startNorm);
         setExitLoc(exitLoc);
         setkeyLoc(keyLoc);
-        setMesh(mesh);
+        
     }
 
     
@@ -154,13 +157,13 @@ public:
         /** The end location for the player */
         auto hckeyLoc = cugl::Vec3(0.142900888615, 3.64378919953, 3.90467730801);
         // set attributes
-        float scale = 0.1; //idk why this scale is not that same as the scale for the polyline :(
+        float scale = 0.01; //idk why this scale is not that same as the scale for the polyline :(
 
         // for now this is just an empty level because the cut is hardcoded
 
         //Make a mesh object from an obj file
         CULog(std::filesystem::current_path().string().c_str());
-        path = "..\\..\\assets\\meshes\\MapTest.obj";
+        path = "..\\..\\assets\\meshes\\GameplayPrototype.obj";
         auto mesh = PivotMesh::MeshFromOBJ(path);
 
         return std::make_shared<Level>(hcstartLoc*scale, Vec3(-1, 0, 0)*scale, hcendLoc*scale, hckeyLoc*scale, mesh);

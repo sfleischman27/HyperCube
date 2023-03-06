@@ -44,6 +44,9 @@ public:
     PivotMesh(): vertices(_vertices), faces(_faces) {
     }
 
+    /**Slice the mesh with a plane defined by an origin and normal. The y axis is assumed to be coplanar with the up vector at the provided origin*/
+    std::vector<std::vector<Vec2>> slice(Vec3 origin, Vec3 normal);
+
 public:
     
     /**Static Method To create a pivot mesh object from an .obj file path*/
