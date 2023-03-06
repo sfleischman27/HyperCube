@@ -103,9 +103,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     //set up physics world
     _physics.init(_dimen, rect, SCENE_WIDTH);
-    //setup collectables
-    _collectibles = _model->getCollectibles();
-
+  
     
     _worldnode = scene2::SceneNode::alloc();
     _worldnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -129,14 +127,14 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
 
-    _player = PlayerModel::alloc(dudePos,image->getSize()/_physics.getScale(),_physics.getScale());
+    _model->setPlayer(PlayerModel::alloc(dudePos,image->getSize()/_physics.getScale(),_physics.getScale()));
     
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
-    _player->setSceneNode(sprite);
-    _player->setDebugColor(DEBUG_COLOR);
+    _model->_player->setSceneNode(sprite);
+    _model->_player->setDebugColor(DEBUG_COLOR);
     
-    addObstacle(_player, sprite, true);
+    addObstacle(_model->_player, sprite, true);
     
     addChild(_worldnode);
     addChild(_debugnode);
@@ -292,18 +290,18 @@ void GameplayController::update(float dt) {
         
     }
 
-    if (_input.didIncreaseCut() && (_player->getX() > DEFAULT_WIDTH/2 - 1) && (_player->getX() < DEFAULT_WIDTH/2 + 1)){
+    if (_input.didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
         _model->rotateNorm(.01);
         //createCutObstacles();
         _rotating = true;
     }
 
-    else if (_input.didDecreaseCut() && (_player->getX() > DEFAULT_WIDTH/2 - 1) && (_player->getX() < DEFAULT_WIDTH/2 + 1)) {
+    else if (_input.didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
         _model->rotateNorm(-.01);
         //createCutObstacles();
         _rotating = true;
     }
-    else if (_input.didKeepChangingCut() && (_player->getX() > DEFAULT_WIDTH/2 - 1) && (_player->getX() < DEFAULT_WIDTH/2 + 1)) {
+    else if (_input.didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
         _model->rotateNorm(_input.getMoveNorm());
         //createCutObstacles();
         _rotating = true;
@@ -340,8 +338,8 @@ void GameplayController::update(float dt) {
 //        }
     
     // TODO Jolene, set the collectibles to collected when the player is in range
-        for (int i = 0; i < _collectibles.size(); i++) {
-            auto tuplec = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
+        for (int i = 0; i < _model->_collectibles.size(); i++) {
+            auto tuplec = ScreenCoordinatesFrom3DPoint(_model->_collectibles[i].getPosition());
             auto coords = std::get<0>(tuplec);
             auto dist = std::get<1>(tuplec);
             //std::abs(pos.x - coords.x) <= CLICK_DIST &&
@@ -352,19 +350,19 @@ void GameplayController::update(float dt) {
             //CULog("%f", coords.y );
             //CULog("------");
             //CULog("%f", _player->getY());
-            if (!_collectibles[i].getCollected() &&
+            if (!_model->_collectibles[i].getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
-                std::abs(_player->getX() - coords.x * 60.83) <= 1 &&
-                std::abs(_player->getY() - coords.y * 30.6) <= 1) {
-                _collectibles[i].setCollected(true);
+                std::abs(_model->_player->getX() - coords.x * 60.83) <= 1 &&
+                std::abs(_model->_player->getY() - coords.y * 30.6) <= 1) {
+                _model->_collectibles[i].setCollected(true);
             }
     }
     
 #pragma mark PLAYER
     
-        _player->setMovement(_input.getHorizontal()*_player->getForce());
-        _player->setJumping( _input.didJump());
-        _player->applyForce();
+    _model->_player->setMovement(_input.getHorizontal()*_model->_player->getForce());
+    _model->_player->setJumping( _input.didJump());
+    _model->_player->applyForce();
 
 }
 
@@ -418,9 +416,9 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 #pragma mark DRAW COLLECTIBLES
     // draw collectibles if the collectible is within certain distance to the plane
     // and if the collectibe has not been not collected yet
-    for (int i = 0; i < _collectibles.size(); i++) {
-        if (!_collectibles[i].getCollected()) {
-            auto tupleKey = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
+    for (int i = 0; i < _model->_collectibles.size(); i++) {
+        if (!_model->_collectibles[i].getCollected()) {
+            auto tupleKey = ScreenCoordinatesFrom3DPoint(_model->_collectibles[i].getPosition());
             auto screencoordsKey = std::get<0>(tupleKey);
             auto distanceKey = std::get<1>(tupleKey);
             if (std::abs(distanceKey) <= VISIBLE_DIST) {

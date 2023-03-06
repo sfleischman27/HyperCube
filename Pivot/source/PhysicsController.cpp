@@ -66,7 +66,7 @@ void PhysicsController::jump(GameModel g){
 }
 
 void PhysicsController::move2D(GameModel g, Vec2 velocity){
-    g.setPlayerVelocity(Vec3(velocity.x, velocity.y, 0));
+    g._player->setVelocity(Vec3(velocity.x, velocity.y, 0));
 }
 
 /**
@@ -78,10 +78,10 @@ float getSignFloat(float f){
 
 void PhysicsController::fall(GameModel g){
     //acceleration, with a max accel speed
-    if(abs(g.getPlayerVelocity().y) <= MAX_V_SPEED){
-        move2D(g, Vec3(0, g.getPlayerVelocity().y - GRAVITY));
+    if(abs(g._player->getVelocity().y) <= MAX_V_SPEED){
+        move2D(g, Vec3(0, g._player->getVelocity().y - GRAVITY));
     } else {
-        move2D(g, Vec3(0, getSignFloat( g.getPlayerVelocity().y) * MAX_V_SPEED));
+        move2D(g, Vec3(0, getSignFloat( g._player->getVelocity().y) * MAX_V_SPEED));
     }
 }
 

@@ -90,6 +90,8 @@ protected:
     std::shared_ptr<cugl::scene2::SceneNode> _node;
     /** The scale between the physics world and the screen (MUST BE UNIFORM) */
     float _drawScale;
+    /** The current velocity of the player */
+    cugl::Vec3 _vel;
 
     /**
     * Redraws the outline of the physics fixtures to the debug node
@@ -411,6 +413,20 @@ public:
      * @return true if this character is facing right
      */
     bool isFacingRight() const { return _faceRight; }
+    
+    /**
+     * Returns current velocity of this character.
+     *
+     * @return velocity of this character.
+     */
+    cugl::Vec3 getVelocity() const { return _vel; }
+    
+    /**
+     * Sets velocity of this character.
+     *
+     * @param velocity velocity of this character.
+     */
+    void setVelocity(cugl::Vec3 velocity) { _vel = velocity; }
 
     
 #pragma mark -
