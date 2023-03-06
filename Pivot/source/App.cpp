@@ -32,6 +32,8 @@ bool demo = false;
  */
 void PivotApp::onStartup() {
 
+    getDisplaySize();
+
     bool isMac;
     // Detect OS
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
@@ -96,6 +98,9 @@ void PivotApp::onStartup() {
         // Queue up the other assets
         AudioEngine::start();
         _assets->loadDirectoryAsync(jsonPath, nullptr);
+
+        // set clear color for entire canvas
+        setClearColor(Color4(255, 255, 255, 255));
         
         Application::onStartup(); // YOU MUST END with call to parent
     }
@@ -210,7 +215,7 @@ void PivotApp::update(float timestep) {
             _demoloading.update(0.01f);
         } else if (!_loaded) {
             _demoloading.dispose(); // Disables the input listeners in this mode
-            _gameplay.init(_assets);
+            _gameplay.init(_assets, getDisplaySize());
             _loaded = true;
         } else {
             _gameplay.update(timestep);

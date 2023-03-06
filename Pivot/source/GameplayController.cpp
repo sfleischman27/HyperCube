@@ -40,15 +40,13 @@ using namespace cugl;
  * This constructor does not allocate any objects or start the controller.
  * This allows us to use a controller without a heap pointer.
  */
-GameplayController::GameplayController() : Scene2()
-{
+GameplayController::GameplayController() : Scene2() {
 	auto level = Level::loadLevel("temp");
 	_model = std::make_unique<GameModel>(level);
     
     _worldnode = nullptr;
     _debugnode = nullptr;
     _debug = false;
-    _pipeline = std::make_shared<RenderPipeline>(SCENE_WIDTH, SCENE_HEIGHT);
 }
 
 /**
@@ -79,7 +77,9 @@ void GameplayController::dispose() {
  *
  * @return true if the controller is initialized properly, false otherwise.
  */
-bool GameplayController::init(const std::shared_ptr<AssetManager>& assets) {
+bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize) {
+    _pipeline = std::make_shared<RenderPipeline>(SCENE_WIDTH, displaySize);
+	
     return init(assets,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT));
 }
 
@@ -359,9 +359,9 @@ void GameplayController::update(float dt) {
 //            CULog("%f", _collectibles[i].getPosition().x * SCENE_WIDTH);
 //            CULog("------");
 //            CULog("%f", _player->getX());
-            CULog("%f", coords.y );
-            CULog("------");
-            CULog("%f", _player->getY());
+            //CULog("%f", coords.y );
+            //CULog("------");
+            //CULog("%f", _player->getY());
             if (!_collectibles[i].getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
                 std::abs(_player->getX() - coords.x * 60.83) <= 1 &&
@@ -389,6 +389,11 @@ void GameplayController::update(float dt) {
  */
 void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch) {
 
+    bool useRP = false;
+    if (useRP) {
+        _pipeline->render(_model);
+        return;
+    }
     Scene2::render(batch);
     
 #pragma mark DRAW CUT

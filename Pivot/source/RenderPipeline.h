@@ -15,21 +15,24 @@
 class RenderPipeline {
 public:
 
-	const int width;
-	const int height;
+	const Size screenSize;
+	const std::string vertexShader =
+#include "shaders/vertex.vert"
+	;
+	const std::string fragmentShader =
+#include "shaders/fragment.frag"
+	;
 
-	//	const std::string vertexShader =
-	//#include "shaders/vertex.vert"
-	//	;
 
-	//	const std::string fragmentShader =
-	//#include "shaders/fragment.frag"
-	//	;
+	std::shared_ptr<cugl::OrthographicCamera> _camera;
+	std::shared_ptr<cugl::Shader> _shader;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuff;
+	cugl::Mesh<cugl::SpriteVertex3> _mesh;
 
 	/**
 	 * Construct the RenderPipeline
 	 */
-	RenderPipeline(int screenWidth, int screenHeight);
+	RenderPipeline(int screenWidth, const Size& displaySize);
 	
 	/**
 	* Renders a given gamemodel
