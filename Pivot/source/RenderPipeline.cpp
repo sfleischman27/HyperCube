@@ -18,6 +18,12 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
     _camera->setPosition(_camera->getPosition() + Vec3(0, 0, 0)); //depth of camera
     _camera->update();
 	_shader = Shader::alloc(SHADER(vertexShader), SHADER(fragmentShader));
+    CULog("initPos");
+    CULog(_camera->getPosition().toString().c_str());
+    CULog("initDir");
+    CULog(_camera->getDirection().toString().c_str());
+    CULog("initUp");
+    CULog(_camera->getUp().toString().c_str());
 	_shader->setUniformMat4("uPerspective", _camera->getCombined());
     _vertbuff = VertexBuffer::alloc(sizeof(SpriteVertex3));
 	
@@ -46,10 +52,10 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
     _mesh.clear();
     SpriteVertex3 vert; // To define individual vertices
     Color4f colors[3] = { Color4f::RED,  Color4f::GREEN, Color4f::BLUE };
-    int depth = -1;
+    //int depth = -1;
     for (int ii = 0; ii < 3; ii++) {
-        vert.position = Vec3(triang.vertices[ii].x, triang.vertices[ii].y, depth);
-        depth++;
+        vert.position = Vec3(triang.vertices[ii].x, triang.vertices[ii].y, 0);
+        // depth++;
         vert.color = colors[ii].getPacked();  // Converts color to int
 
         _mesh.vertices.push_back(vert);
@@ -66,6 +72,23 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
 }
 
 void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
+
+    Vec3 altNorm(model->getPlaneNorm().y, 0, model->getPlaneNorm().x);
+    CULog("\n\n");
+    CULog("altnorm");
+    CULog(altNorm.toString().c_str());
+    CULog("altpos");
+    float r = 60.0;
+    Vec3 nPos = Vec3(512 + (7 * screenSize.height / 16), 288, 0) - (r * altNorm);
+    CULog(nPos.toString().c_str());
+    _camera->setFar(5000);
+    CULog("camFar");
+    CULog("%f", _camera->getFar());
+
+    _camera->setPosition(nPos);
+    _camera->setDirection(altNorm);
+    _camera->update();
+    _shader->setUniformMat4("uPerspective", _camera->getCombined());
 
     // OpenGL commands to enable alpha blending (if needed)
     glEnable(GL_BLEND);
