@@ -37,7 +37,7 @@ public:
 	/**
 	* Renders a given gamemodel
 	*/
-	void RenderPipeline::render(const std::unique_ptr<GameModel>& model);
+	void render(const std::unique_ptr<GameModel>& model);
 };
 
 #endif /* RenderPipeline_h */
