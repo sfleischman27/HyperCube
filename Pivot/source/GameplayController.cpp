@@ -121,18 +121,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     //MUST be done before anything else is added to _worldnode
     createCutObstacles();
-    
-    //TODO: remove -Gordi
-    //debug obstacle
-//    std::shared_ptr<cugl::physics2::PolygonObstacle> ob = physics2::PolygonObstacle::alloc(Poly2(Rect(0,0,1,2)));
-//    ob->setBodyType(b2_staticBody);
-//    ob->setPosition(Vec2(SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale())-5));
-//    ob->setSize(ob->getSize());
-//    std::shared_ptr<cugl::scene2::SceneNode> n = scene2::SceneNode::alloc();
-//
-//    addObstacle(ob, n, true);
 
-    
 #pragma mark ADD PLAYER
     float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale()) - 4};
     
@@ -158,23 +147,27 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
 }
 
+/**
+* Generates obstacle instances from the given cut, specified by the list of Poly2s given by the GameModel _model
+* (should I split this into 2 methods where I have one taking a cut for code cleanliness?)
+*/
 void GameplayController::createCutObstacles(){
     // TODO: clean this and add function comment -Gordi
     //remove previous poly nodes
     removePolyNodes();
-    //_worldnode->removeAllChildren();
-    //_physics.removeObstacles();
-    
-    std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, getSize() / _physics.getScale());
-    
-    //get the cut from the gamemodel
-    std::vector<cugl::Poly2> polys = _model->getCut();
+    createObstacleFromPolys(_model->getCut());
+}
+
+/**
+ * Generates obstacle instances from a list of Poly2s. Each poly2 represents a new obstacle.
+ * @param polys the list of Poly2s
+ */
+void GameplayController::createObstacleFromPolys(std::vector<cugl::Poly2> polys){
+    //std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, getSize() / _physics.getScale());
     
     std::shared_ptr<scene2::SceneNode> cutnode = scene2::SceneNode::alloc();
     
     for(Poly2 p : polys){
-        
-        //Vec2() * Vec2();
         std::vector<cugl::Vec2> vertices = p.getVertices();
                 
         for(cugl::Vec2 v : vertices){
@@ -182,11 +175,9 @@ void GameplayController::createCutObstacles(){
             v.y *= 1;
         }
         
-        //p.set(vertices);
-        
         float transformScale = _physics.getScale()/2;
         
-        //for some reason multiply by aspect ratio?
+        //for some reason multiply by aspect ratio to make the obstacles in-line with the drawn cut?
         
         //use this if you are transforming the original drawn poly2:
         //Poly2 bigp = p * Affine2(transformScale,0,0,transformScale,0,0);
@@ -195,9 +186,6 @@ void GameplayController::createCutObstacles(){
         Poly2 bigp = p * Affine2(transformScale,0,0,transformScale * _dimen.height/_dimen.width,0,0);
         
         std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(bigp);
-        
-        /*bool initialized = obstacle->init(p);
-        CUAssertLog(initialized, "levelbounds polygonobstacle not initialized properly");*/
 
         obstacle->setBodyType(b2_staticBody);
         obstacle->setPosition(Vec2(SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale())));
@@ -208,18 +196,16 @@ void GameplayController::createCutObstacles(){
         
         _cutnodes.insert(cutnode);
         _cutobstacles.insert(obstacle);
-
-        //_polynodes.insert(_polynodes.begin(),polynode);
         
         addObstacle(obstacle, cutnode, true);
     }
     
 }
 
+/**
+ * Removes all the nodes beloning to _polynodes from _worldnodes. In essence, this cleans up all the old collisions and SceneNodes pertaining to a previous cut to make room for the new cut's collisions.
+ */
 void GameplayController::removePolyNodes(){
-    // TODO: clean this and add function comment -Gordi
-    //_debugnode->removeAllChildren();
-    
     for(std::shared_ptr<cugl::scene2::SceneNode> node : _worldnode->getChildren()){
         
         bool is_in = _cutnodes.find(node) != _cutnodes.end();
@@ -233,21 +219,25 @@ void GameplayController::removePolyNodes(){
         
         bool is_in = _cutobstacles.find(obstacle) != _cutobstacles.end();
 
+        //if obstacle is an obstacle generated from the cut (and not something like the player's body)
         if(is_in){
             _cutobstacles.erase(obstacle);
             _physics.markForRemoval(obstacle);
-        } else {
-            //CULog("Could not find cutobstacle %s", obstacle->toString().c_str());
-            //CULog("Could not find cutobstacle %p", obstacle.get());
         }
     }
-    //_physics.garbageCollect();
+    //_physics.garbageCollect(); //<- thought i needed this but it's working w it commented out? so im keeping it like this?
 }
 
+
+/**
+ * Adds obstacle to both physics world and world node/debug node via an intermediary SceneNode
+ * @param obj the obstacle
+ * @param node the SceneNode you're adding the obj to (which will then be added to the world+debug scenenodes
+ * @param useObjPosition whether you should use the object's local position when adding to scenes. Default is true.
+ */
 void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
                             const std::shared_ptr<cugl::scene2::SceneNode>& node,
                             bool useObjPosition) {
-    // TODO: function comment -Gordi
     _physics.getWorld()->addObstacle(obj);
     obj->setDebugColor(DEBUG_COLOR);
     obj->setDebugScene(_debugnode);

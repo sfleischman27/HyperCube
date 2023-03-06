@@ -52,7 +52,7 @@ private:
     std::shared_ptr<RenderPipeline> _pipeline;
     
     /**
-     * Removes all the nodes beloning to _polynodes from _worldnodes
+     * Removes all the nodes beloning to _polynodes from _worldnodes. In essence, this cleans up all the old collisions and SceneNodes pertaining to a previous cut to make room for the new cut's collisions.
      */
     void removePolyNodes();
     
@@ -107,15 +107,23 @@ public:
     bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
     
     /**
-    * Creates all physics objects from a list of Poly2s given by the GameModel.
+    * Generates obstacle instances from the given cut, specified by the list of Poly2s given by the GameModel _model.
     */
     void createCutObstacles();
     
+    void createObstacleFromPolys(std::vector<cugl::Poly2> polys);
+
     
-    /** Adds obstacle to both physics world and scenenode */
+    
+    /**
+     * Adds obstacle to both physics world and world node/debug node via an intermediary SceneNode
+     * @param obj the obstacle
+     * @param node the SceneNode you're adding the obj to (which will then be added to the world+debug scenenodes
+     * @param useObjPosition whether you should use the object's local position when adding to scenes. Default is true.
+     */
     void addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
                                 const std::shared_ptr<cugl::scene2::SceneNode>& node,
-                     bool useObjPosition);
+                     bool useObjPosition = true);
     
     /**
      * The method called to update the game mode.
