@@ -102,7 +102,7 @@ public:
     * @return true if the controller is initialized properly, false otherwise.
     */
     
-    bool init(const std::shared_ptr<AssetManager>& assets);
+    bool init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize);
     
     bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
     
