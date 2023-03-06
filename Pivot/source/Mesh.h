@@ -10,43 +10,44 @@
 #ifndef Mesh_h
 #define Mesh_h
 #include <cugl/cugl.h>
+#include <igl/isolines.h>
+#include <igl/readOBJ.h>
+#include <igl/readPLY.h>
 
 using namespace cugl;
 
 /**
  * A class representing a mesh
  */
-class Mesh{
+class PivotMesh{
     
 #pragma mark State
 private:
-    /** Level mesh representation */
-    int _mesh;
+    /** vertices of the mesh*/
+    Eigen::MatrixXd _vertices;
+
+    /** index face lists of the mesh */
+    Eigen::MatrixXi _faces;
     
 public:
-    /** A public accessible, read-only version of the mesh */
-    const int& mesh;
+    /** A public accessible, read-only version list of vertices */
+    const Eigen::MatrixXd& vertices;
+
+    /** A public accessible, read-only version list of face indices */
+    const Eigen::MatrixXi& faces;
     
 #pragma mark Main Functions
 public:
     /**
-     * Creates the mesh.
+     * Creates an empty mesh object. Recommended that you use MeshFromOBJ() to create Meshes instead
      */
-    Mesh(): mesh(_mesh) {
-        setMesh();
+    PivotMesh(): vertices(_vertices), faces(_faces) {
     }
-    
-#pragma mark Setters
+
 public:
-    /**
-     *  Sets the starting position of the player
-     *
-     *  @param startLoc The starting location of the player
-     */
-    void setMesh() {
-        _mesh = 42;
-    }
     
+    /**Static Method To create a pivot mesh object from an .obj file path*/
+    static std::shared_ptr<PivotMesh> MeshFromOBJ(std::string path);
     
 };
 

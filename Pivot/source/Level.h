@@ -16,6 +16,8 @@
 #define Level_h
 #include <cugl/cugl.h>
 #include "Mesh.h"
+#include <filesystem>
+
 
 using namespace cugl;
 
@@ -34,6 +36,10 @@ private:
     Vec3 _exitLoc;
     /** The location of the key*/
     Vec3 _keyLoc;
+
+    /** The Mesh For the Level*/
+    std::shared_ptr<PivotMesh> _mesh;
+    
 
     
 public:
@@ -62,13 +68,14 @@ public:
      * @param startLoc          The starting location of the player
      * @param startNorm        The starting norm of the plane
      */
-    Level(Vec3 startLoc, Vec3 startNorm, Vec3 exitLoc, Vec3 keyLoc)
+    Level(Vec3 startLoc, Vec3 startNorm, Vec3 exitLoc, Vec3 keyLoc, std::shared_ptr<PivotMesh> mesh)
         : startLoc(_startLoc), startNorm(_startNorm), exitLoc(_exitLoc), keyLoc(_keyLoc) {
 
         setPlayerLoc(startLoc);
         setPlaneNorm(startNorm);
         setExitLoc(exitLoc);
         setkeyLoc(keyLoc);
+        setMesh(mesh);
     }
 
     
@@ -98,8 +105,15 @@ public:
      *
      *  @param mesh  The level mesh
      */
-    void setMesh() {
-        return;
+    void setMesh(std::shared_ptr<PivotMesh> mesh) {
+        _mesh = mesh;
+    }
+
+    /**
+    *   Gets the level mesh
+    */
+    std::shared_ptr<PivotMesh> getMesh() {
+        return _mesh;
     }
 
     /**
@@ -125,11 +139,6 @@ public:
     * @param normal the normal vector of the cut plane
     */
     std::vector<cugl::Poly2> GetMapCut(Vec3 origin, Vec3 normal);
-
-    /**Get the 2d coordinates relative to the cut plane of a 3d location
-    * it also returns the projected distance from that point to the cut plane, which can be used to threshold drawing of an object at that location
-    * RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
-    std::tuple<cugl::Vec2, float> ScreenCoordinatesFrom3DPoint(cugl::Vec3);
     
     std::vector<Vec3> GetCollectibleLocs();
     
@@ -148,7 +157,13 @@ public:
         float scale = 0.1; //idk why this scale is not that same as the scale for the polyline :(
 
         // for now this is just an empty level because the cut is hardcoded
-        return std::make_shared<Level>(hcstartLoc*scale, Vec3(-1, 0, 0)*scale, hcendLoc*scale, hckeyLoc*scale);
+
+        //Make a mesh object from an obj file
+        CULog(std::filesystem::current_path().string().c_str());
+        path = "..\\..\\assets\\meshes\\MapTest.obj";
+        auto mesh = PivotMesh::MeshFromOBJ(path);
+
+        return std::make_shared<Level>(hcstartLoc*scale, Vec3(-1, 0, 0)*scale, hcendLoc*scale, hckeyLoc*scale, mesh);
     }
 
 };
