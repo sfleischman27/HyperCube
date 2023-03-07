@@ -43,7 +43,12 @@ private:
 #pragma mark Collectibles State
 public:
     /** Vector of collectibles */
-    std::vector<Collectible> _collectibles;
+    std::unordered_map<std::string, Collectible> _collectibles;
+    
+#pragma mark Backpack State
+public:
+    /** Vector of collectibles in player backpack */
+    std::unordered_set<std::string> _backpack;
     
 #pragma mark Main Functions
 public:
@@ -117,13 +122,10 @@ public:
     
     void setCollectibles(std::vector<Vec3> locs) {
         for(int i = 0; i < locs.size(); i++) {
-            _collectibles.push_back(Collectible(locs[i], std::to_string(i)));
+            _collectibles.insert({std::to_string(i), Collectible(locs[i], std::to_string(i))});
         }
     }
     
-    std::vector<Collectible> getCollectibles() {
-        return _collectibles;
-    }
 
     std::shared_ptr<Level> getLevel() {
         return _level;

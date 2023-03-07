@@ -326,21 +326,22 @@ void GameplayController::update(float dt) {
         pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
         //down scale the click position by screen size for comparison
         pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
-        for (int i = 0; i < _model->_collectibles.size(); i++) {
-            auto tuplec = ScreenCoordinatesFrom3DPoint(_model->_collectibles[i].getPosition());
+        for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
+            auto tuplec = ScreenCoordinatesFrom3DPoint(itr->second.getPosition());
             auto coords = std::get<0>(tuplec);
             auto dist = std::get<1>(tuplec);
             //down scale the player position by screen size for comparison
             float w = (_dimen.width/_physics->getScale())/2;
             float h = (_dimen.height/_physics->getScale())/2;
             Vec2 playerpos = Vec2((_model->_player->getX()-w)/w,(_model->_player->getY()-h)/h);
-            if (!_model->_collectibles[i].getCollected() &&
+            if (!itr->second.getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
                 std::abs(pos.x - coords.x) <= CLICK_DIST &&
                 std::abs(pos.y - coords.y) <= CLICK_DIST &&
                 std::abs(playerpos.x - coords.x) <= COLLECTING_DIST &&
                 std::abs(playerpos.y - coords.y) <= COLLECTING_DIST) {
-                _model->_collectibles[i].setCollected(true);
+                itr->second.setCollected(true);
+                _model->_backpack.insert(itr->first);
             }
         }
     }
@@ -403,9 +404,10 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 #pragma mark DRAW COLLECTIBLES
     // draw collectibles if the collectible is within certain distance to the plane
     // and if the collectibe has not been not collected yet
-    for (int i = 0; i < _model->_collectibles.size(); i++) {
-        if (!_model->_collectibles[i].getCollected()) {
-            auto tupleKey = ScreenCoordinatesFrom3DPoint(_model->_collectibles[i].getPosition());
+//    std::unordered_map<std::string, Collectible>::iterator itr;
+    for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
+        if (!itr->second.getCollected()) {
+            auto tupleKey = ScreenCoordinatesFrom3DPoint(itr->second.getPosition());
             auto screencoordsKey = std::get<0>(tupleKey);
             auto distanceKey = std::get<1>(tupleKey);
             if (std::abs(distanceKey) <= VISIBLE_DIST) {
