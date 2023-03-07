@@ -29,10 +29,10 @@ using namespace cugl;
 #define DEBUG_OPACITY   192
 /** Threshold of the visible distance */
 #define VISIBLE_DIST   .02
-// TODO: remove this -Jolene
-/** Threshold of the click distance DEPRECATED*/
+/** Threshold of the click distance */
 #define CLICK_DIST   0.05
-
+/** Threshold of the collecting distance */
+#define COLLECTING_DIST   0.1
 
 /**
  * Creates a new game world with the default values.
@@ -121,7 +121,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     createCutObstacles();
 
 #pragma mark ADD PLAYER
-    float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale()) - 4};
+//    float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale()) - 4};
+    float DUDE_POS[] = { _dimen.width/(2 * _physics.getScale()), _dimen.height/(2 * _physics.getScale()) - 4};
     
     Vec2 dudePos = DUDE_POS;
     
@@ -316,46 +317,29 @@ void GameplayController::update(float dt) {
 
 #pragma mark COLLECTIBLES
     
-    // TODO: Update player bag what is collected
-    // TODO: check against player location to see if player can collect
-//    if (_input.didSelect()) {
-//        auto pos = _input.getSelection();
-//        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
-//        //down scale it by screen size for comparison
-//        pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
-//        for (int i = 0; i < _collectibles.size(); i++) {
-//            auto tuplec = ScreenCoordinatesFrom3DPoint(_collectibles[i].getPosition());
-//            auto coords = std::get<0>(tuplec);
-//            auto dist = std::get<1>(tuplec);
-//            //std::abs(pos.x - coords.x) <= CLICK_DIST &&
-//            //std::abs(pos.y - coords.y) <= CLICK_DIST
-//            if (!_collectibles[i].getCollected() &&
-//                std::abs(dist) <= VISIBLE_DIST &&
-//                std::abs(pos.x - coords.x) <= _player->getX() &&
-//                std::abs(pos.y - coords.y) <= _player->getY()) {
-//                _collectibles[i].setCollected(true);
-//            }
-//        }
-    
-    // TODO Jolene, set the collectibles to collected when the player is in range
+    // TODO: Update player bag what is collected -Jolene
+    if (_input.didSelect()) {
+        auto pos = _input.getSelection();
+        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
+        //down scale the click position by screen size for comparison
+        pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
         for (int i = 0; i < _model->_collectibles.size(); i++) {
             auto tuplec = ScreenCoordinatesFrom3DPoint(_model->_collectibles[i].getPosition());
             auto coords = std::get<0>(tuplec);
             auto dist = std::get<1>(tuplec);
-            //std::abs(pos.x - coords.x) <= CLICK_DIST &&
-            //std::abs(pos.y - coords.y) <= CLICK_DIST
-//            CULog("%f", _collectibles[i].getPosition().x * SCENE_WIDTH);
-//            CULog("------");
-//            CULog("%f", _player->getX());
-            //CULog("%f", coords.y );
-            //CULog("------");
-            //CULog("%f", _player->getY());
+            //down scale the player position by screen size for comparison
+            float w = (_dimen.width/_physics.getScale())/2;
+            float h = (_dimen.height/_physics.getScale())/2;
+            Vec2 playerpos = Vec2((_model->_player->getX()-w)/w,(_model->_player->getY()-h)/h);
             if (!_model->_collectibles[i].getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
-                std::abs(_model->_player->getX() - coords.x * 60.83) <= 1 &&
-                std::abs(_model->_player->getY() - coords.y * 30.6) <= 1) {
+                std::abs(pos.x - coords.x) <= CLICK_DIST &&
+                std::abs(pos.y - coords.y) <= CLICK_DIST &&
+                std::abs(playerpos.x - coords.x) <= COLLECTING_DIST &&
+                std::abs(playerpos.y - coords.y) <= COLLECTING_DIST) {
                 _model->_collectibles[i].setCollected(true);
             }
+        }
     }
     
 #pragma mark PLAYER

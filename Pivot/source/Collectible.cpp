@@ -24,19 +24,7 @@ using namespace std;
  *  @param planeNorm    The current plane norm vector
  */
 bool Collectible::canBeSeen(Vec3 planeNorm) {
-    //TODO: How to decide if the plane go through the collectibe
-//    Vec2 collectible = Vec2(_position.x, _position.y);
-//    float angle = collectible.getAngle(Vec2(planeNorm.x, planeNorm.y)) * 180/M_PI;
-//    if (angle < 0) {
-//        angle += 360;
-//    }
-//    cout << "angle is equal to " << angle;
-//    if ((angle >= 80 and angle <= 100) or (angle >= 260 and angle <= 280)) {
-//        return true;
-//    }
-//    else {
-//        return false;
-//    }
+    // Maybe later, right now all check codes are in GamePlayController
     return true;
 }
 /**
@@ -45,20 +33,12 @@ bool Collectible::canBeSeen(Vec3 planeNorm) {
  *  @param playerPos    The current player position
  */
 bool Collectible::canBeCollected(Vec2 playerPos, Vec2 clickPos) {
-    //TODO: check if within certain distance to pick up
-//    if (std::abs(clickPos.x - _position.x)<=CLICK_DIST and
-//        std::abs(clickPos.y - _position.y)<=CLICK_DIST and
-//        std::abs(playerPos.x - _position.x)<=PICKUP_DIST and
-//        std::abs(playerPos.y - _position.y)<=PICKUP_DIST) {
-//        return true;
-//    }
-//    else{
-//        return false;
-//    }
+    // Maybe later, right now all check codes are in GamePlayController
     return true;
 }
 
-// TODO: figure out why setTexture and draw doesn't work
+// TODO Jolene: figure out why setTexture and draw doesn't work
+// later switch to sceneNode
 void Collectible::setTexture(const std::shared_ptr<cugl::Texture>& value) {
     if (value) {
         _texture = value;

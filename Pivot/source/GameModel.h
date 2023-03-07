@@ -116,19 +116,6 @@ public:
     }
     
     void setCollectibles(std::vector<Vec3> locs) {
-        //TODO: clean -Jolene
-//        Size size = Application::get()->getDisplaySize();
-//        // seed the random number generator with a fixed value of 42
-//        std::srand(42);
-//        // generate the first random number as x
-//        float randx1 = ((float)(std::rand()) / (float)(RAND_MAX)) * size.width;
-//        // generate the second random number as y
-//        float randy1 = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * size.height;
-//        std::cout << "Random (x,y): " << randx1 << " " << randy1 << std::endl;
-//        float randx2 = ((float)(std::rand()) / (float)(RAND_MAX)) * size.width;
-//        // generate the second random number as y
-//        float randy2 = (static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX)) * size.height;
-//        std::cout << "Random (x,y): " << randx2 << " " << randy2 << std::endl;
         for(int i = 0; i < locs.size(); i++) {
             _collectibles.push_back(Collectible(locs[i], std::to_string(i)));
         }
