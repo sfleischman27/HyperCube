@@ -54,8 +54,8 @@ GameplayController::GameplayController() : Scene2() {
  */
 void GameplayController::dispose() {
     if(_active){
-        _input.dispose();
-        _physics.dispose();
+        _input->dispose();
+        _physics->dispose();
         _worldnode = nullptr;
         _debugnode = nullptr;
         Scene2::dispose();
@@ -97,12 +97,15 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     // Start up the input handler
     _assets = assets;
-    _input.init(getBounds());
+    
+    _input = std::make_shared<InputController>();
+    _input->init(getBounds());
     
 #pragma mark SCENE GRAPH SETUP
     
     //set up physics world
-    _physics.init(_dimen, rect, SCENE_WIDTH);
+    _physics = std::make_shared<PhysicsController>();
+    _physics->init(_dimen, rect, SCENE_WIDTH);
   
     
     _worldnode = scene2::SceneNode::alloc();
@@ -111,7 +114,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     
     _debugnode = scene2::SceneNode::alloc();
-    _debugnode->setScale(_physics.getScale()); // Debug node draws in PHYSICS coordinates
+    _debugnode->setScale(_physics->getScale()); // Debug node draws in PHYSICS coordinates
     _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     _debugnode->setPosition(offset);
     
@@ -121,14 +124,14 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     createCutObstacles();
 
 #pragma mark ADD PLAYER
-//    float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale()) - 4};
-    float DUDE_POS[] = { _dimen.width/(2 * _physics.getScale()), _dimen.height/(2 * _physics.getScale()) - 4};
+//    float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics->getScale()), SCENE_HEIGHT/(2 * _physics->getScale()) - 4};
+    float DUDE_POS[] = { _dimen.width/(2 * _physics->getScale()), _dimen.height/(2 * _physics->getScale()) - 4};
     
     Vec2 dudePos = DUDE_POS;
     
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
 
-    _model->setPlayer(PlayerModel::alloc(dudePos,image->getSize()/_physics.getScale(),_physics.getScale()));
+    _model->setPlayer(PlayerModel::alloc(dudePos,image->getSize()/_physics->getScale(),_physics->getScale()));
     
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
@@ -162,7 +165,7 @@ void GameplayController::createCutObstacles(){
  * @param polys the list of Poly2s
  */
 void GameplayController::createObstacleFromPolys(std::vector<cugl::Poly2> polys){
-    //std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, getSize() / _physics.getScale());
+    //std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, getSize() / _physics->getScale());
     
     std::shared_ptr<scene2::SceneNode> cutnode = scene2::SceneNode::alloc();
     
@@ -174,7 +177,7 @@ void GameplayController::createObstacleFromPolys(std::vector<cugl::Poly2> polys)
             v.y *= 1;
         }
         
-        float transformScale = _physics.getScale()/2;
+        float transformScale = _physics->getScale()/2;
         
         //for some reason multiply by aspect ratio to make the obstacles in-line with the drawn cut?
         
@@ -187,7 +190,7 @@ void GameplayController::createObstacleFromPolys(std::vector<cugl::Poly2> polys)
         std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(bigp);
 
         obstacle->setBodyType(b2_staticBody);
-        obstacle->setPosition(Vec2(SCENE_WIDTH/(2 * _physics.getScale()), SCENE_HEIGHT/(2 * _physics.getScale())));
+        obstacle->setPosition(Vec2(SCENE_WIDTH/(2 * _physics->getScale()), SCENE_HEIGHT/(2 * _physics->getScale())));
         
         obstacle->setSize(obstacle->getSize());
         
@@ -214,17 +217,17 @@ void GameplayController::removePolyNodes(){
             _worldnode->removeChild(node);
         }
     }
-    for(std::shared_ptr<cugl::physics2::Obstacle> obstacle : _physics.getWorld()->getObstacles()){
+    for(std::shared_ptr<cugl::physics2::Obstacle> obstacle : _physics->getWorld()->getObstacles()){
         
         bool is_in = _cutobstacles.find(obstacle) != _cutobstacles.end();
 
         //if obstacle is an obstacle generated from the cut (and not something like the player's body)
         if(is_in){
             _cutobstacles.erase(obstacle);
-            _physics.markForRemoval(obstacle);
+            _physics->markForRemoval(obstacle);
         }
     }
-    //_physics.garbageCollect(); //<- thought i needed this but it's working w it commented out? so im keeping it like this?
+    _physics->garbageCollect(); //<- thought i needed this but it's working w it commented out? so im keeping it like this?
 }
 
 
@@ -237,13 +240,13 @@ void GameplayController::removePolyNodes(){
 void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
                             const std::shared_ptr<cugl::scene2::SceneNode>& node,
                             bool useObjPosition) {
-    _physics.getWorld()->addObstacle(obj);
+    _physics->getWorld()->addObstacle(obj);
     obj->setDebugColor(DEBUG_COLOR);
     obj->setDebugScene(_debugnode);
         
     // Position the scene graph node (enough for static objects)
       if (useObjPosition) {
-          node->setPosition(obj->getPosition()/_physics.getScale());
+          node->setPosition(obj->getPosition()/_physics->getScale());
       }
     
       _worldnode->addChild(node);
@@ -252,7 +255,7 @@ void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obsta
     if (obj->getBodyType() == b2_dynamicBody) {
         scene2::SceneNode* weak = node.get(); // No need for smart pointer in callback
         obj->setListener([=](physics2::Obstacle* obs){
-            weak->setPosition(obs->getPosition()*_physics.getScale());
+            weak->setPosition(obs->getPosition()*_physics->getScale());
             weak->setAngle(obs->getAngle());
         });
     }
@@ -265,7 +268,7 @@ void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obsta
  * This method disposes of the world and creates a new one.
  */
 void GameplayController::reset() {
-    _physics.clear();
+    _physics->clear();
     _worldnode->removeAllChildren();
     _debugnode->removeAllChildren();
 }
@@ -283,27 +286,27 @@ void GameplayController::reset() {
 void GameplayController::update(float dt) {
 
 #pragma mark INPUT
-    _input.update(dt);
+    _input->update(dt);
     
-    if (_input.didDebug()) {
+    if (_input->didDebug()) {
         setDebug(!isDebug());
         CULog("Debug mode is: %d, visibility: %d", isDebug(), _debugnode->isVisible());
         
     }
 
-    if (_input.didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
+    if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
         _model->rotateNorm(.01);
         //createCutObstacles();
         _rotating = true;
     }
 
-    else if (_input.didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
+    else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
         _model->rotateNorm(-.01);
         //createCutObstacles();
         _rotating = true;
     }
-    else if (_input.didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-        _model->rotateNorm(_input.getMoveNorm());
+    else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
+        _model->rotateNorm(_input->getMoveNorm());
         //createCutObstacles();
         _rotating = true;
     }
@@ -312,14 +315,14 @@ void GameplayController::update(float dt) {
             createCutObstacles();
             _rotating = false;
         }
-        _physics.update(dt);
+        _physics->update(dt);
     }
 
 #pragma mark COLLECTIBLES
     
     // TODO: Update player bag what is collected -Jolene
-    if (_input.didSelect()) {
-        auto pos = _input.getSelection();
+    if (_input->didSelect()) {
+        auto pos = _input->getSelection();
         pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
         //down scale the click position by screen size for comparison
         pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
@@ -328,8 +331,8 @@ void GameplayController::update(float dt) {
             auto coords = std::get<0>(tuplec);
             auto dist = std::get<1>(tuplec);
             //down scale the player position by screen size for comparison
-            float w = (_dimen.width/_physics.getScale())/2;
-            float h = (_dimen.height/_physics.getScale())/2;
+            float w = (_dimen.width/_physics->getScale())/2;
+            float h = (_dimen.height/_physics->getScale())/2;
             Vec2 playerpos = Vec2((_model->_player->getX()-w)/w,(_model->_player->getY()-h)/h);
             if (!_model->_collectibles[i].getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
@@ -344,8 +347,8 @@ void GameplayController::update(float dt) {
     
 #pragma mark PLAYER
     
-    _model->_player->setMovement(_input.getHorizontal()*_model->_player->getForce());
-    _model->_player->setJumping( _input.didJump());
+    _model->_player->setMovement(_input->getHorizontal()*_model->_player->getForce());
+    _model->_player->setJumping( _input->didJump());
     _model->_player->applyForce();
 
 }

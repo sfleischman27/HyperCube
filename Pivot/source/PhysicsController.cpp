@@ -108,7 +108,7 @@ void PhysicsController::removeObstacles(){
 
 void PhysicsController::update(float dt){
     _world->update(dt);
-    _world->garbageCollect();
+    //_world->garbageCollect();
 }
 
 #pragma mark Collision Handling

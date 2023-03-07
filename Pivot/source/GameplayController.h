@@ -44,8 +44,8 @@ protected:
 private:
     std::unique_ptr<GameModel> _model;
     //std::shared_ptr<PhysicsController> _physics;
-    PhysicsController _physics;
-    InputController _input;
+    std::shared_ptr<PhysicsController> _physics;
+    std::shared_ptr<InputController> _input;
     cugl::Size _dimen;
     std::shared_ptr<RenderPipeline> _pipeline;
     
