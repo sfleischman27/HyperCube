@@ -1422,7 +1422,7 @@ std::vector<Poly2> Level::GetMapCut(Vec3 origin, Vec3 normal) {
 	// END temporary section
 
 	std::vector<cugl::Poly2> polygons;
-	auto extruder = new SimpleExtruder();
+	std::shared_ptr<SimpleExtruder> extruder = std::make_shared<SimpleExtruder>();
 
 	float scale = 0.01;
 
