@@ -32,6 +32,9 @@ private:
     /** vertices of the mesh*/
     std::vector<cugl::Vec3> _cuglvertices;
 
+    /** vertices of the mesh*/
+    std::vector<cugl::Vec3> _cuglnormals;
+
     /** index face lists of the mesh */
     std::vector<std::vector<int>> _cuglfaces;
     
@@ -45,6 +48,9 @@ public:
     /** A public accessible, read-only version list of vertices */
     const std::vector<cugl::Vec3>& cuglvertices;
 
+    /** A public accessible, read-only version list of normals */
+    const std::vector<cugl::Vec3>& cuglnormals;
+
     /** A public accessible, read-only version list of face indices */
     const std::vector<std::vector<int>>& cuglfaces;
     
@@ -53,7 +59,7 @@ public:
     /**
      * Creates an empty mesh object. Recommended that you use MeshFromOBJ() to create Meshes instead
      */
-    PivotMesh(): vertices(_vertices), faces(_faces), cuglvertices(_cuglvertices), cuglfaces(_cuglfaces) {
+    PivotMesh(): vertices(_vertices), faces(_faces), cuglvertices(_cuglvertices), cuglfaces(_cuglfaces), cuglnormals(_cuglnormals) {
     }
 
 public:

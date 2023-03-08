@@ -9,6 +9,7 @@
 
 #include "mesh.h"
 #include <cugl/cugl.h>
+#include <igl/per_vertex_normals.h>
 
 /**Static Method To create a pivot mesh object from an .obj file path*/
 std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path, float scale) {
@@ -24,6 +25,11 @@ std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path, float scale)
         mesh->_vertices = V;
         mesh->_faces = F;
 
+        auto N = Eigen::MatrixXd();
+        igl::per_vertex_normals(V, F, N);
+
+        
+
         // convert everything into cugl types
         auto cuv = std::vector<Vec3>();
         for (int i = 0; i < V.rows(); i++) {
@@ -36,6 +42,12 @@ std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path, float scale)
             cuf.push_back(std::vector<int>{ F(i, 0), F(i, 1), F(i, 2)});
         }
         mesh->_cuglfaces = cuf;
+
+        auto cun = std::vector<Vec3>();
+        for (int i = 0; i < N.rows(); i++) {
+            cun.push_back(Vec3(V(i, 0), V(i, 1), V(i, 2)));
+        }
+        mesh->_cuglnormals = cuf;
 
         CULog("Mesh was loaded successfully");
     }
