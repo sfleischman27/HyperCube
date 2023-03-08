@@ -23,6 +23,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
     _camera->setZoom(1);
     _camera->update();
 
+    // Mesh shader
 	_shader = Shader::alloc(SHADER(vertexShader), SHADER(fragmentShader));
 	_shader->setUniformMat4("uPerspective", _camera->getCombined());
 
@@ -32,6 +33,17 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
     _vertbuff->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
         offsetof(cugl::SpriteVertex3, color));
 	_vertbuff->attach(_shader);
+
+    // Billboard shader
+    _shaderBill = Shader::alloc(SHADER(vertexShader), SHADER(billboardShader));
+    _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
+
+    _vertbuffBill = VertexBuffer::alloc(sizeof(SpriteVertex3));
+    _vertbuffBill->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(cugl::SpriteVertex3, position));
+    _vertbuffBill->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
+        offsetof(cugl::SpriteVertex3, color));
+    _vertbuffBill->attach(_shaderBill);
 
     // OpenGL commands to enable alpha blending (if needed)
     glEnable(GL_BLEND);
@@ -43,6 +55,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
 
 void RenderPipeline::sceneSetup(const std::unique_ptr<GameModel>& model) {
     levelId = 1; //TODO: set using model's level
+    fbo.init(screenSize.width, screenSize.height);
 
     _mesh.clear();
     SpriteVertex3 tempV;
@@ -92,10 +105,12 @@ void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
     if (levelId == 0) {
         sceneSetup(model);
     }
+    _shader->bind();
+    //fbo.begin();
 
     // Compute rotation and position change
     Vec3 altNorm(model->getPlaneNorm().y, model->getPlaneNorm().z, -model->getPlaneNorm().x);
-    const float r = 0.0f;
+    const float r = 0.001f;
     Vec3 charPos = model->_player->getPosition() * 32;
     charPos -= Vec3(screenSize / 2, 0);
     //CULog("%f, %f, %f", charPos.x, charPos.y, charPos.z);
@@ -109,7 +124,45 @@ void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
 
     // Since we only have one shader and one vertex buffer
     // we never need to bind or unbind either of these
+    _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
+    _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
     _vertbuff->draw(_mesh.command, (int)_mesh.indices.size(), 0);
-	
+
+    //fbo.end();
+    _shader->unbind();
+
+    _shaderBill->bind();
+
+    // construct mesh for the player
+    _meshBill.clear();
+    Vec3 basisUp = Vec3(0, 1, 0);
+    Vec3 basisRight = altNorm.cross(basisUp);
+    SpriteVertex3 tempV;
+    for (int i = -9; i <= 9; i += 18) {
+        for (int j = -9; j <= 9; j += 18) {
+            // not a projection to the plane. to do this, find distance from character position in 3D and the plane.
+            // set this as the z-coordinate
+            tempV.position = charPos + i * basisRight + j * basisUp;
+            tempV.color = Color4f::GREEN.getPacked();
+            _meshBill.vertices.push_back(tempV);
+        }
+    }
+
+    _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
+    _shaderBill->setUniformMat4("Mv", _camera->getView());
+    
+    _meshBill.indices.push_back(0);
+    _meshBill.indices.push_back(1);
+    _meshBill.indices.push_back(2);
+    _meshBill.indices.push_back(1);
+    _meshBill.indices.push_back(2);
+    _meshBill.indices.push_back(3);
+
+    _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
+    _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
+
+    _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
+    _shaderBill->unbind();
+
 	return;
 }

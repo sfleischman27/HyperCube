@@ -294,18 +294,21 @@ void GameplayController::update(float dt) {
         
     }
 
-    if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
+    //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
+    if (_input->didIncreaseCut()) {
         _model->rotateNorm(.01);
         //createCutObstacles();
         _rotating = true;
     }
 
-    else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
+    //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
+    else if (_input->didDecreaseCut()) {
         _model->rotateNorm(-.01);
         //createCutObstacles();
         _rotating = true;
     }
-    else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
+    //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
+    else if (_input->didKeepChangingCut()) {
         _model->rotateNorm(_input->getMoveNorm());
         //createCutObstacles();
         _rotating = true;
@@ -365,7 +368,7 @@ void GameplayController::update(float dt) {
  */
 void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch) {
 
-    bool useRP = false;
+    bool useRP = true;
     if (useRP) {
         _pipeline->render(_model);
         return;

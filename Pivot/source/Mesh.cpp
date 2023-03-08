@@ -48,7 +48,7 @@ std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path, float scale)
         for (int i = 0; i < N.rows(); i++) {
             cun.push_back(Vec3(V(i, 0), V(i, 1), V(i, 2)));
         }
-        mesh->_cuglnormals = cuf;
+        mesh->_cuglnormals = cun;
 
         CULog("Mesh was loaded successfully");
     }
