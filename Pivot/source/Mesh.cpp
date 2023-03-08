@@ -39,7 +39,8 @@ std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path, float scale)
 
         auto cuf = std::vector<std::vector<int>>();
         for (int i = 0; i < F.rows(); i++) {
-            cuf.push_back(std::vector<int>{ F(i, 0), F(i, 1), F(i, 2)});
+            cuf.push_back(std::vector<int>{ F(i, 0), F(i, 1), F(i, 2), F(i, 3)});
+            //CULog("%i, %i, %i, %i", F(i, 0), F(i, 1), F(i, 2), F(i, 3));
         }
         mesh->_cuglfaces = cuf;
 

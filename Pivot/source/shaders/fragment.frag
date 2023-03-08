@@ -20,7 +20,7 @@ uniform mat4 Mv;
 void main(void) {
 	float d = -(Mv * pos).z;
 	float div = 100;
-	frag_color = vec4(1, 1, 1, 1) - vec4(d / div, d / div, d / div, 0);
+	frag_color = vec4(0, 0, 0, 1);// - vec4(d / div, d / div, d / div, 0);
 }
 
 /////////// SHADER END //////////)"

@@ -19,7 +19,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
 
 	_camera = OrthographicCamera::alloc(screenSize);
     _camera->setPosition(_camera->getPosition() + Vec3(0, 0, 0)); //depth of camera
-    _camera->setFar(5000);
+    _camera->setFar(1000);
     _camera->setZoom(1);
     _camera->update();
 
@@ -44,33 +44,6 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
 void RenderPipeline::sceneSetup(const std::unique_ptr<GameModel>& model) {
     levelId = 1; //TODO: set using model's level
 
-    // Make a triangle
-    /*
-    float radius = 7 * screenSize.height / 16;
-    Vec2 up(0, radius);
-    Vec2 center(screenSize.width / 2, 3 * screenSize.height / 7);
-
-    Path2 triang;
-    triang.vertices.push_back(center + up);
-    up.rotate(-M_PI * 2 / 3);
-    triang.vertices.push_back(center + up);
-    up.rotate(-M_PI * 2 / 3);
-    triang.vertices.push_back(center + up);
-    triang.closed = true;
-
-    // Convert it into a mesh
-    _mesh.clear();
-    SpriteVertex3 vert; // To define individual vertices
-    Color4f colors[3] = { Color4f::RED,  Color4f::GREEN, Color4f::BLUE };
-    for (int ii = 0; ii < 3; ii++) {
-        vert.position = Vec3(triang.vertices[ii].x, triang.vertices[ii].y, 0);
-        vert.color = colors[ii].getPacked();  // Converts color to int
-
-        _mesh.vertices.push_back(vert);
-        _mesh.indices.push_back(ii);
-    }
-    */
-
     _mesh.clear();
     SpriteVertex3 tempV;
     Color4f color = { Color4f::BLACK };
@@ -82,8 +55,18 @@ void RenderPipeline::sceneSetup(const std::unique_ptr<GameModel>& model) {
     }
 
     for (int i = 0; i < ourMesh->cuglfaces.size(); i += 1) {
+        // first triangle 0 1 2
         for (int j = 0; j < 3; j++) {
             _mesh.indices.push_back(ourMesh->cuglfaces[i][j]);
+        }
+        // second triangle as .obj does quads 0 2 3
+        for (int j = 1; j < 4; j++) {
+            if (j == 1) {
+                _mesh.indices.push_back(ourMesh->cuglfaces[i][0]);
+            }
+            else {
+                _mesh.indices.push_back(ourMesh->cuglfaces[i][j]);
+            }
         }
     }
 
@@ -93,7 +76,7 @@ void RenderPipeline::sceneSetup(const std::unique_ptr<GameModel>& model) {
 
     // Print out mesh indices and vertex data
     for (int i = 0; i < ourMesh->cuglvertices.size(); i += 3) {
-        CULog("%f, %f, %f", _mesh.vertices[i].position.x, _mesh.vertices[i].position.y, _mesh.vertices[i].position.z);
+        //CULog("%f, %f, %f", _mesh.vertices[i].position.x, _mesh.vertices[i].position.y, _mesh.vertices[i].position.z);
     }
     for (int i = 0; i < ourMesh->cuglfaces.size(); i += 3) {
         //CULog("%i, %i, %i", _mesh.indices[i], _mesh.indices[i+1], _mesh.indices[i+2]);
@@ -111,7 +94,6 @@ void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
     }
 
     // Compute rotation and position change
-    //Vec3 altNorm(model->getPlaneNorm().x, model->getPlaneNorm().z, model->getPlaneNorm().y); // must rotate
     Vec3 altNorm(model->getPlaneNorm().y, model->getPlaneNorm().z, -model->getPlaneNorm().x);
     const float r = 0.0f;
     Vec3 charPos = model->_player->getPosition() * 32;
