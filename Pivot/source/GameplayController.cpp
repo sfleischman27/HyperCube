@@ -365,7 +365,7 @@ void GameplayController::update(float dt) {
  */
 void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch) {
 
-    bool useRP = true;
+    bool useRP = false;
     if (useRP) {
         _pipeline->render(_model);
         return;
