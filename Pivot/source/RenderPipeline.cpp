@@ -123,6 +123,7 @@ void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
     _camera->setDirection(-altNorm);
     _camera->update();
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
+    _shader->setUniformMat4("Mv", _camera->getView());
 
     // Since we only have one shader and one vertex buffer
     // we never need to bind or unbind either of these

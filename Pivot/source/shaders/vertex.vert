@@ -14,7 +14,7 @@ uniform mat4 uPerspective;
 // Transform and pass through
 void main(void) {
     gl_Position = uPerspective * aPosition;
-    pos = gl_Position;
+    pos = aPosition;
     outColor = aColor;
 }
 

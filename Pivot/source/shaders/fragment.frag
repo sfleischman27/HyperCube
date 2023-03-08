@@ -12,11 +12,15 @@ in vec4 pos;
 // The output color
 out vec4 frag_color;
 
+uniform mat4 Mv;
+
 /**
  * Performs the main fragment shading.
  */
 void main(void) {
-	frag_color = vec4(0, 0, 0, 1);
+	float d = -(Mv * pos).z;
+	float div = 100;
+	frag_color = vec4(1, 1, 1, 1) - vec4(d / div, d / div, d / div, 0);
 }
 
 /////////// SHADER END //////////)"
