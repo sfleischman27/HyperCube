@@ -23,6 +23,7 @@ public:
 #include "shaders/fragment.frag"
 	;
 
+	int levelId;
 
 	std::shared_ptr<cugl::OrthographicCamera> _camera;
 	std::shared_ptr<cugl::Shader> _shader;
@@ -33,10 +34,15 @@ public:
 	 * Construct the RenderPipeline
 	 */
 	RenderPipeline(int screenWidth, const Size& displaySize);
+
+	/**
+	 * Sets up the scene
+	 */
+	void sceneSetup(const std::unique_ptr<GameModel>& model);
 	
 	/**
-	* Renders a given gamemodel
-	*/
+	 * Renders a given gamemodel
+	 */
 	void render(const std::unique_ptr<GameModel>& model);
 };
 

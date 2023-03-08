@@ -16,7 +16,7 @@ out vec4 frag_color;
  * Performs the main fragment shading.
  */
 void main(void) {
-	frag_color = outColor;
+	frag_color = vec4(0, 0, 0, 1);
 }
 
 /////////// SHADER END //////////)"
