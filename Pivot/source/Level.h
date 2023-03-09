@@ -160,7 +160,7 @@ public:
 
         //Make a mesh object from an obj file
         CULog(std::filesystem::current_path().string().c_str());
-        path = "..\\..\\assets\\meshes\\GameplayPrototype.obj";
+        path = "../../assets/meshes/GameplayPrototype.obj";
         auto mesh = PivotMesh::MeshFromOBJ(path, scale);
 
         return std::make_shared<Level>(hcstartLoc*scale, Vec3(-1, 0, 0)*scale, hcendLoc*scale, hckeyLoc*scale, mesh);
