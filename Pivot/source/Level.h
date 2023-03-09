@@ -159,9 +159,16 @@ public:
         // for now this is just an empty level because the cut is hardcoded
 
         //Make a mesh object from an obj file
-        CULog(std::filesystem::current_path().string().c_str());
-        path = "../../assets/meshes/GameplayPrototype.obj";
-        auto mesh = PivotMesh::MeshFromOBJ(path, scale);
+        //CULog(std::filesystem::current_path().string().c_str());
+        bool isMac;
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+        isMac = false;
+#else
+        isMac = true;
+#endif
+
+        std::string objPath = isMac ? "../meshes/GameplayPrototype.obj" : "../../assets/meshes/GameplayPrototype.obj";
+        auto mesh = PivotMesh::MeshFromOBJ(objPath, scale);
 
         return std::make_shared<Level>(hcstartLoc*scale, Vec3(-1, 0, 0)*scale, hcendLoc*scale, hckeyLoc*scale, mesh);
     }

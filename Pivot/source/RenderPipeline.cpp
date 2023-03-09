@@ -142,7 +142,7 @@ void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
         for (int j = -9; j <= 9; j += 18) {
             // not a projection to the plane. to do this, find distance from character position in 3D and the plane.
             // set this as the z-coordinate
-            tempV.position = charPos + i * basisRight + j * basisUp;
+            tempV.position = charPos + i * basisRight + j * basisUp; // replace "charPos" with an arbitrary Vec3 to demo real billboarding
             tempV.color = Color4f::GREEN.getPacked();
             _meshBill.vertices.push_back(tempV);
         }
