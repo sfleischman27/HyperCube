@@ -16,13 +16,16 @@ class RenderPipeline {
 public:
 
 	const Size screenSize;
-	const std::string vertexShader =
-#include "shaders/vertex.vert"
+	const std::string meshVert =
+#include "shaders/mesh.vert"
 	;
-	const std::string fragmentShader =
-#include "shaders/fragment.frag"
+	const std::string meshFrag =
+#include "shaders/mesh.frag"
 	;
-	const std::string billboardShader =
+	const std::string billboardVert =
+#include "shaders/billboard.vert"
+		;
+	const std::string billboardFrag =
 #include "shaders/billboard.frag"
 	;
 

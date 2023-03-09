@@ -27,7 +27,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
     _camera->update();
 
     // Mesh shader
-	_shader = Shader::alloc(SHADER(vertexShader), SHADER(fragmentShader));
+	_shader = Shader::alloc(SHADER(meshVert), SHADER(meshFrag));
 	_shader->setUniformMat4("uPerspective", _camera->getCombined());
 
     _vertbuff = VertexBuffer::alloc(sizeof(SpriteVertex3));
@@ -38,7 +38,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
 	_vertbuff->attach(_shader);
 
     // Billboard shader
-    _shaderBill = Shader::alloc(SHADER(vertexShader), SHADER(billboardShader));
+    _shaderBill = Shader::alloc(SHADER(billboardVert), SHADER(billboardFrag));
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
 
     _vertbuffBill = VertexBuffer::alloc(sizeof(SpriteVertex3));
