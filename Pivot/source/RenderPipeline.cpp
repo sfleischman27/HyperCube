@@ -17,8 +17,11 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
     // Setup current level id
     levelId = 0;
 
+    // FBO setup
+    fbo.init(screenSize.width, screenSize.height);
+
+    // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
-    _camera->setPosition(_camera->getPosition() + Vec3(0, 0, 0)); //depth of camera
     _camera->setFar(1000);
     _camera->setZoom(1);
     _camera->update();
@@ -49,54 +52,43 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
     glEnable(GL_BLEND);
     glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_CULL_FACE);
 
 	return;
 }
 
 void RenderPipeline::sceneSetup(const std::unique_ptr<GameModel>& model) {
     levelId = 1; //TODO: set using model's level
-    fbo.init(screenSize.width, screenSize.height);
 
+    // Setup mesh vertices
+    const float scale = 500;
     _mesh.clear();
     SpriteVertex3 tempV;
     Color4f color = { Color4f::BLACK };
     auto ourMesh = model->getLevel()->getMesh();
     for (int i = 0; i < ourMesh->cuglvertices.size(); i++) {
-        tempV.position = ourMesh->cuglvertices[i] * 500;
+        tempV.position = ourMesh->cuglvertices[i] * scale;
         tempV.color = color.getPacked();
         _mesh.vertices.push_back(tempV);
     }
 
+    // Setup mesh indices
     for (int i = 0; i < ourMesh->cuglfaces.size(); i += 1) {
-        // first triangle 0 1 2
         for (int j = 0; j < 3; j++) {
+            // first triangle 0 1 2
             _mesh.indices.push_back(ourMesh->cuglfaces[i][j]);
         }
-        // second triangle as .obj does quads 0 2 3
         for (int j = 1; j < 4; j++) {
+            // second triangle as .obj does quads 0 2 3
             if (j == 1) {
                 _mesh.indices.push_back(ourMesh->cuglfaces[i][0]);
-            }
-            else {
+            } else {
                 _mesh.indices.push_back(ourMesh->cuglfaces[i][j]);
             }
         }
     }
-
-    // Only one triangle, so this is best command
-    //glEnable(GL_CULL_FACE);
+    
     _mesh.command = GL_TRIANGLES;
-
-    // Print out mesh indices and vertex data
-    for (int i = 0; i < ourMesh->cuglvertices.size(); i += 3) {
-        //CULog("%f, %f, %f", _mesh.vertices[i].position.x, _mesh.vertices[i].position.y, _mesh.vertices[i].position.z);
-    }
-    for (int i = 0; i < ourMesh->cuglfaces.size(); i += 3) {
-        //CULog("%i, %i, %i", _mesh.indices[i], _mesh.indices[i+1], _mesh.indices[i+2]);
-    }
-
-    _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
-    _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
 }
 
 void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
@@ -105,25 +97,26 @@ void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
     if (levelId == 0) {
         sceneSetup(model);
     }
-    _shader->bind();
-    //fbo.begin();
 
     // Compute rotation and position change
-    Vec3 altNorm(model->getPlaneNorm().y, model->getPlaneNorm().z, -model->getPlaneNorm().x);
     const float r = 0.001f;
-    Vec3 charPos = model->_player->getPosition() * 32;
-    charPos -= Vec3(screenSize / 2, 0);
-    //CULog("%f, %f, %f", charPos.x, charPos.y, charPos.z);
+    const float box2dToScreen = 32;
+    Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().z, -model->getPlaneNorm().x);
+    Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
     Vec3 newPos = charPos + (r * altNorm);
 
+    // Update camera
     _camera->setPosition(newPos);
     _camera->setDirection(-altNorm);
     _camera->update();
+
+    // --------------- Pass 1: Mesh --------------- //
+    _shader->bind();
+    //fbo.begin();
+
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
     _shader->setUniformMat4("Mv", _camera->getView());
 
-    // Since we only have one shader and one vertex buffer
-    // we never need to bind or unbind either of these
     _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
     _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
     _vertbuff->draw(_mesh.command, (int)_mesh.indices.size(), 0);
@@ -131,37 +124,56 @@ void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
     //fbo.end();
     _shader->unbind();
 
-    _shaderBill->bind();
+    // --------------- TEMP: Billboard pre-calculations --------------- //
 
-    // construct mesh for the player
+    // hard-coded billboards
+    const int numBill = 2;
+    Vec3 billboardOrigins[numBill];
+    billboardOrigins[0] = charPos;
+    billboardOrigins[1] = Vec3(350, 50, 0);
+    Color4f billboardCols[numBill];
+    billboardCols[0] = Color4f::RED;
+    billboardCols[1] = Color4f::GREEN;
+
+    // construct basis
+    const Vec3 basisUp = Vec3(0, 1, 0);
+    const Vec3 basisRight = altNorm.cross(basisUp);
+
+    // add all billboard vertices
     _meshBill.clear();
-    Vec3 basisUp = Vec3(0, 1, 0);
-    Vec3 basisRight = altNorm.cross(basisUp);
     SpriteVertex3 tempV;
-    for (int i = -9; i <= 9; i += 18) {
-        for (int j = -9; j <= 9; j += 18) {
-            // not a projection to the plane. to do this, find distance from character position in 3D and the plane.
-            // set this as the z-coordinate
-            tempV.position = charPos + i * basisRight + j * basisUp; // replace "charPos" with an arbitrary Vec3 to demo real billboarding
-            tempV.color = Color4f::GREEN.getPacked();
-            _meshBill.vertices.push_back(tempV);
+    for (int n = 0; n < numBill; n++) {
+        for (int i = -9; i <= 9; i += 18) {
+            for (int j = -9; j <= 9; j += 18) {
+                // TODO: not a projection to the plane. to do this, find distance from character position in 3D and the plane.
+                // set this as the z-coordinate
+                tempV.position = billboardOrigins[n] + i * basisRight + j * basisUp;
+                tempV.color = billboardCols[n].getPacked();
+                _meshBill.vertices.push_back(tempV);
+            }
         }
     }
 
+    // add all billboard indices
+    for (int c = 0; c < numBill; c++) {
+        int startIndex = c * 4;
+        for (int tri = 0; tri <= 1; tri++) {
+            for (int i = 0; i < 3; i++) {
+                _meshBill.indices.push_back(startIndex + tri + i);
+            }
+        }
+    }
+
+    // --------------- Pass 2: Billboard --------------- //
+    _shaderBill->bind();
+
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderBill->setUniformMat4("Mv", _camera->getView());
-    
-    _meshBill.indices.push_back(0);
-    _meshBill.indices.push_back(1);
-    _meshBill.indices.push_back(2);
-    _meshBill.indices.push_back(1);
-    _meshBill.indices.push_back(2);
-    _meshBill.indices.push_back(3);
 
     _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
     _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
-
     _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
+
     _shaderBill->unbind();
 
 	return;

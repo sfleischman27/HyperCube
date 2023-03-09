@@ -18,7 +18,7 @@ uniform mat4 Mv;
  * Performs the main fragment shading.
  */
 void main(void) {
-	frag_color = vec4(1, 0, 0, 1);
+	frag_color = outColor;
 }
 
 /////////// SHADER END //////////)"
