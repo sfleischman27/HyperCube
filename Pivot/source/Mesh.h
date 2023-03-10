@@ -16,57 +16,49 @@
 
 using namespace cugl;
 
+class PivotVertex3 : public cugl::SpriteVertex3 {
+
+public:
+    Vec3 normal;
+};
+
 /**
  * A class representing a mesh
  */
-class PivotMesh{
+class PivotMesh: public cugl::Mesh<PivotVertex3> {
     
-#pragma mark State
 private:
-    /** vertices of the mesh*/
-    Eigen::MatrixXd _vertices;
+    /**Eigen representation of vertices*/
+    Eigen::MatrixXd Everts;
 
-    /** index face lists of the mesh */
-    Eigen::MatrixXi _faces;
-
-    /** vertices of the mesh*/
-    std::vector<cugl::Vec3> _cuglvertices;
-
-    /** vertices of the mesh*/
-    std::vector<cugl::Vec3> _cuglnormals;
-
-    /** index face lists of the mesh */
-    std::vector<std::vector<int>> _cuglfaces;
+    /**Eigen representation of face indices*/
+    Eigen::MatrixXi Einds;
     
-public:
-    /** A public accessible, read-only version list of vertices */
-    const Eigen::MatrixXd& vertices;
-
-    /** A public accessible, read-only version list of face indices */
-    const Eigen::MatrixXi& faces;
-
-    /** A public accessible, read-only version list of vertices */
-    const std::vector<cugl::Vec3>& cuglvertices;
-
-    /** A public accessible, read-only version list of normals */
-    const std::vector<cugl::Vec3>& cuglnormals;
-
-    /** A public accessible, read-only version list of face indices */
-    const std::vector<std::vector<int>>& cuglfaces;
     
 #pragma mark Main Functions
 public:
     /**
      * Creates an empty mesh object. Recommended that you use MeshFromOBJ() to create Meshes instead
      */
-    PivotMesh(): vertices(_vertices), faces(_faces), cuglvertices(_cuglvertices), cuglfaces(_cuglfaces), cuglnormals(_cuglnormals) {
-    }
+    PivotMesh() {}
 
 public:
     
-    /**Static Method To create a pivot mesh object from an .obj file path*/
-    static std::shared_ptr<PivotMesh> MeshFromOBJ(std::string path, float scale);
-    
+    /**Static Method To create a pivot mesh object from an .obj file path
+    *
+    *@param path the filepath to the desired .obj file
+    */
+    static std::shared_ptr<PivotMesh> MeshFromOBJ(std::string path);
+
+
+    /**Slice the mesh with a plane
+    *
+    * @param origin the origin of the plane
+    * @param normal the normal of the plane
+    *
+    * @note the plane will be oriented such that the y-axis is coplanar with the up-vector*/
+
+    std::tuple<Eigen::MatrixXd, Eigen::MatrixXi> intersectPlane(Vec3 origin, Vec3 normal);
 };
 
 

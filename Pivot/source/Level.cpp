@@ -43,7 +43,7 @@ std::shared_ptr<Level> Level::loadLevel(std::string path) {
 #endif
 
     std::string objPath = isMac ? "../meshes/GameplayPrototype.obj" : "../../assets/meshes/GameplayPrototype.obj";
-    auto mesh = PivotMesh::MeshFromOBJ(objPath, scale);
+    auto mesh = PivotMesh::MeshFromOBJ(objPath);
 
     return std::make_shared<Level>(hcstartLoc * scale, Vec3(-1, 0, 0) * scale, hcendLoc * scale, hckeyLoc * scale, mesh);
 }

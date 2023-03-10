@@ -378,6 +378,20 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
     bool useRP = true;
     if (useRP) {
         _pipeline->render(_model);
+
+        batch->begin();
+        batch->setColor(Color4::BLACK);
+        auto cuts = _model->getCut();
+        for (auto it = cuts.begin(); it != cuts.end(); it++) {
+
+            batch->fill(*it);
+        }
+        std::shared_ptr<Texture> blue = std::make_shared<Texture>();
+        static unsigned char bluecol[] = { 0, 0, 0xFF, 0xFF };
+        blue->initWithData(bluecol, 1, 1);
+        batch->draw(blue, Rect(Vec2(0,0)-_model->_player->getPosition(), Vec2(1, 1)-_model->_player->getPosition()));
+        batch->end();
+
         return;
     }
     Scene2::render(batch);

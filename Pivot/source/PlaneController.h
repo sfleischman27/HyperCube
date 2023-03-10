@@ -50,5 +50,10 @@ public:
 	* @param normal the normal vector of the cut plane
 	*/
 	void calculateCut();
+
+	/**Get the right basis vector in 3d space
+	*this is useful for moving the players 3d coordinates based on some motion in the 2d world
+	*/
+	Vec3 getBasisRight();
 };
 #endif /* PlaneController_h */

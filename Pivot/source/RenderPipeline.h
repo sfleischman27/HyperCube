@@ -11,6 +11,7 @@
 #define RenderPipeline_h
 #include <cugl/cugl.h>
 #include "GameModel.h"
+#include "Mesh.h"
 
 class RenderPipeline {
 public:
@@ -45,9 +46,9 @@ public:
 	std::shared_ptr<cugl::VertexBuffer> _vertbuff;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBill;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffFsq;
-	cugl::Mesh<cugl::SpriteVertex3> _mesh;
-	cugl::Mesh<cugl::SpriteVertex3> _meshBill;
-	cugl::Mesh<cugl::SpriteVertex3> _meshFsq;
+	cugl::Mesh<PivotVertex3> _mesh;
+	cugl::Mesh<PivotVertex3> _meshBill;
+	cugl::Mesh<PivotVertex3> _meshFsq;
 	cugl::RenderTarget fbo;
 
 	/**
