@@ -24,9 +24,15 @@ public:
 	;
 	const std::string billboardVert =
 #include "shaders/billboard.vert"
-		;
+	;
 	const std::string billboardFrag =
 #include "shaders/billboard.frag"
+	;
+	const std::string fsqVert =
+#include "shaders/fsq.vert"
+	;
+	const std::string fsqFrag =
+#include "shaders/fsq.frag"
 	;
 
 	int levelId;
@@ -35,10 +41,13 @@ public:
 	std::shared_ptr<cugl::OrthographicCamera> _camera;
 	std::shared_ptr<cugl::Shader> _shader;
 	std::shared_ptr<cugl::Shader> _shaderBill;
+	std::shared_ptr<cugl::Shader> _shaderFsq;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuff;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBill;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffFsq;
 	cugl::Mesh<cugl::SpriteVertex3> _mesh;
 	cugl::Mesh<cugl::SpriteVertex3> _meshBill;
+	cugl::Mesh<cugl::SpriteVertex3> _meshFsq;
 	cugl::RenderTarget fbo;
 
 	/**

@@ -53,6 +53,15 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
         offsetof(cugl::SpriteVertex3, color));
     _vertbuffBill->attach(_shaderBill);
 
+    // FSQ shader
+    _shaderFsq = Shader::alloc(SHADER(fsqVert), SHADER(fsqFrag));
+    _vertbuffFsq = VertexBuffer::alloc(sizeof(SpriteVertex3));
+    _vertbuffFsq->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(cugl::SpriteVertex3, position));
+    _vertbuffFsq->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(cugl::SpriteVertex3, texcoord));
+    _vertbuffFsq->attach(_shaderFsq);
+
     // OpenGL commands to enable alpha blending (if needed)
     glEnable(GL_BLEND);
     glBlendEquation(GL_FUNC_ADD);
@@ -94,6 +103,25 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
             }
         }
     }
+
+    // add all fsq vertices
+    _meshFsq.clear();
+    for (int n = 0; n < 2; n++) {
+        for (int i = -1; i <= 1; i += 2) {
+            for (int j = -1; j <= 1; j += 2) {
+                tempV.position = Vec3(i, j, 0.01);
+                tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 1 : 0);
+                _meshFsq.vertices.push_back(tempV);
+            }
+        }
+    }
+
+    // add all fsq indices
+    for (int tri = 0; tri <= 1; tri++) {
+        for (int i = 0; i < 3; i++) {
+            _meshFsq.indices.push_back(tri + i);
+        }
+    }
     
     _mesh.command = GL_TRIANGLES;
 }
@@ -124,7 +152,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // --------------- Pass 1: Mesh --------------- //
     const int insideTex = 0;
     _vertbuff->bind();
-    //fbo.begin();
+    fbo.begin();
     cobbleTex->setBindPoint(insideTex);
     cobbleTex->bind();
 
@@ -137,7 +165,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuff->draw(_mesh.command, (int)_mesh.indices.size(), 0);
 
     cobbleTex->unbind();
-    //fbo.end();
     _vertbuff->unbind();
 
     // --------------- TEMP: Billboard pre-calculations --------------- //
@@ -161,8 +188,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     for (int n = 0; n < numBill; n++) {
         for (int i = -9; i <= 9; i += 18) {
             for (int j = -9; j <= 9; j += 18) {
-                // TODO: not a projection to the plane. to do this, find distance from character position in 3D and the plane.
-                // set this as the z-coordinate
                 tempV.position = billboardOrigins[n] + i * basisRight + j * basisUp;
                 tempV.color = billboardCols[n].getPacked();
                 _meshBill.vertices.push_back(tempV);
@@ -182,21 +207,35 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // --------------- Pass 2: Billboard --------------- //
 
-    const int meshTex = 1;
     _vertbuffBill->bind();
-    fbo.getTexture()->setBindPoint(meshTex);
-    //fbo.getTexture()->bind();
 
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderBill->setUniformMat4("Mv", _camera->getView());
-    _shaderBill->setUniform1i("meshTexture", meshTex);
 
     _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
     _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
     _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
 
-    //fbo.getTexture()->unbind();
+    fbo.end();
     _vertbuffBill->unbind();
+
+    // --------------- Pass 3: FSQ --------------- //
+
+    const int fsqTex = 1;
+    _vertbuffFsq->bind();
+    fbo.getTexture()->setBindPoint(fsqTex);
+    fbo.getTexture()->bind();
+
+    _shaderFsq->setUniformMat4("uPerspective", _camera->getCombined());
+    _shaderFsq->setUniformMat4("Mv", _camera->getView());
+    _shaderFsq->setUniform1i("fsqTexture", fsqTex);
+
+    _vertbuffFsq->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffFsq->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffFsq->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+
+    fbo.getTexture()->unbind();
+    _vertbuffFsq->unbind();
 
 	return;
 }
