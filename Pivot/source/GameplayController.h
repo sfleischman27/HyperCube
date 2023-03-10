@@ -43,12 +43,13 @@ protected:
     std::shared_ptr<cugl::scene2::SceneNode> _debugnode;
     
 private:
-    std::unique_ptr<GameModel> _model;
+    std::shared_ptr<GameModel> _model;
     //std::shared_ptr<PhysicsController> _physics;
     std::shared_ptr<PhysicsController> _physics;
     std::shared_ptr<InputController> _input;
     cugl::Size _dimen;
     std::shared_ptr<RenderPipeline> _pipeline;
+    std::shared_ptr<PlaneController> _plane;
     
     /**
      * Removes all the nodes beloning to _polynodes from _worldnodes. In essence, this cleans up all the old collisions and SceneNodes pertaining to a previous cut to make room for the new cut's collisions.

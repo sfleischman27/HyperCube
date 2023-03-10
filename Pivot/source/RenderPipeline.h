@@ -48,12 +48,12 @@ public:
 	/**
 	 * Sets up the scene
 	 */
-	void sceneSetup(const std::unique_ptr<GameModel>& model);
+	void sceneSetup(const std::shared_ptr<GameModel>& model);
 	
 	/**
 	 * Renders a given gamemodel
 	 */
-	void render(const std::unique_ptr<GameModel>& model);
+	void render(const std::shared_ptr<GameModel>& model);
 };
 
 #endif /* RenderPipeline_h */

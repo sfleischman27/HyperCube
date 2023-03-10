@@ -17,5 +17,38 @@
  *  - Update the plane info to rotate plane a specified amount of degrees then update the cut info to reflect the new plane
  */
 
+class PlaneController {
 
+	std::shared_ptr<GameModel> _model;
+
+public:
+	/**Constructor for an empty Plane Controller Object, must call init to allocate properties
+	* */
+	PlaneController() {}
+
+	/**set up the properties of the plane controller
+	* @param gamemodel the game model which is begin manipulated by this controller
+	*/
+	void init(std::shared_ptr<GameModel> gamemodel) 
+	{
+		_model = gamemodel;
+		calculateCut();
+	}
+
+    /**
+    *  Sets the normal of the plane and recomputes the CUT
+    *
+    *  @param norm        The norm of the plane
+    */
+	void setPlaneNorm(Vec3 norm);
+
+    /**Rotate the normal around the player by some angle in radians*/
+	void rotateNorm(float radians);
+
+	/**Gets a vector of Poly2 objects which represent a CUT throught the map at the given angle
+	* @param origin the origin of the cut plane
+	* @param normal the normal vector of the cut plane
+	*/
+	void calculateCut();
+};
 #endif /* PlaneController_h */

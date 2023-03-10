@@ -41,9 +41,7 @@ using namespace cugl;
  * This allows us to use a controller without a heap pointer.
  */
 GameplayController::GameplayController() : Scene2() {
-	auto level = Level::loadLevel("temp");
-	_model = std::make_unique<GameModel>(level);
-    
+    _model = nullptr;
     _worldnode = nullptr;
     _debugnode = nullptr;
     _debug = false;
@@ -58,6 +56,7 @@ void GameplayController::dispose() {
         _physics->dispose();
         _worldnode = nullptr;
         _debugnode = nullptr;
+        _model = nullptr;
         Scene2::dispose();
     }
 }
@@ -94,6 +93,14 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     } else if (!Scene2::init(_dimen)) {
         return false;
     }
+
+    //set up the game model
+    auto level = Level::loadLevel("temp");
+    _model = std::make_shared<GameModel>(level);
+
+    //set up the plane controller
+    _plane = std::make_shared<PlaneController>();
+    _plane->init(_model);
     
     // Start up the input handler
     _assets = assets;
@@ -296,20 +303,20 @@ void GameplayController::update(float dt) {
 
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
     if (_input->didIncreaseCut()) {
-        _model->rotateNorm(.01);
+        _plane->rotateNorm(.01);
         //createCutObstacles();
         _rotating = true;
     }
 
     //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_input->didDecreaseCut()) {
-        _model->rotateNorm(-.01);
+        _plane->rotateNorm(-.01);
         //createCutObstacles();
         _rotating = true;
     }
     //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_input->didKeepChangingCut()) {
-        _model->rotateNorm(_input->getMoveNorm());
+        _plane->rotateNorm(_input->getMoveNorm());
         //createCutObstacles();
         _rotating = true;
     }

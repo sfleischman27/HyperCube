@@ -57,7 +57,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
 	return;
 }
 
-void RenderPipeline::sceneSetup(const std::unique_ptr<GameModel>& model) {
+void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     levelId = 1; //TODO: set using model's level
 
     // Setup mesh vertices
@@ -91,7 +91,7 @@ void RenderPipeline::sceneSetup(const std::unique_ptr<GameModel>& model) {
     _mesh.command = GL_TRIANGLES;
 }
 
-void RenderPipeline::render(const std::unique_ptr<GameModel>& model) {
+void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // If new level, reload vertex and index data
     if (levelId == 0) {

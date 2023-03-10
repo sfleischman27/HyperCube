@@ -59,7 +59,6 @@ public:
      */
     GameModel(std::shared_ptr<Level> level) {
         setPlaneNorm(level->startNorm);
-        setCut(level->GetMapCut(level->startLoc, level->startNorm));
         setCollectibles(level->GetCollectibleLocs());
         _level = level;
     }
@@ -74,26 +73,24 @@ public:
     void setPlayer(std::shared_ptr<PlayerModel> player){
         _player = player;
     }
-    
+
+
     /**
-     *  Sets the normal of the plane and recomputes the CUT
-     *
-     *  @param norm        The norm of the plane
+     *  Sets the Norm
+     * 
+     * NOTE: YOU should not use this method to set the plane normal,
+     * instead use the methods available through  the PLANE CONTROLLER
+     * 
+     * IF you do use this method it will NOT recompute the cut
      */
-    void setPlaneNorm(Vec3 norm) {
-        _norm = norm.normalize();
-        setCut(_level->GetMapCut(Vec3::ZERO, _norm));
+
+    void setPlaneNorm( Vec3 norm) {
+        _norm =norm;
     }
 
-    /**Rotate the normal around the player by some angle in radians*/
-    void rotateNorm(float radians) {
-        Vec3 newNorm = Vec3(
-            _norm.x * cos(radians) - _norm.y * sin(radians),
-            _norm.x * sin(radians) + _norm.y * cos(radians), 
-            0
-        );
-        setPlaneNorm(newNorm);
-    }
+    /**
+     *  Gets the Current Norm
+     */
 
     Vec3 getPlaneNorm() {
         return _norm;
@@ -109,6 +106,9 @@ public:
         _cut = cut;
     }
 
+    /**
+     *  Gets the cut
+     */
     std::vector<Poly2> getCut() {
         return _cut;
     }
