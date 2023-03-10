@@ -51,7 +51,18 @@ std::vector<std::vector<Vec2>> PivotMesh::slice(Vec3 origin, Vec3 normal) {
     auto zzrows = pln_eq.rows();
 
     //get the verts on the contour
-    igl::isolines(_vertices, _faces, pln_eq, 20, V, E);
+    igl::isolines(_vertices, _faces, pln_eq, 3, V, E);
+
+
+    //print some stuff to read into rhino to figure out what the hell this does
+    for (int i = 0; i < V.rows(); i++) {
+        CULog("v%f,%f,%f", V(i, 0), V(i, 1), V(i, 2));
+    }
+    for (int i = 0; i < E.rows(); i++) {
+        CULog("e%i,%i", E(i, 0), E(i, 1));
+    }
+
+
     // Sad sad this makes stupide dashes I give up
 
     // IDK what this will do
