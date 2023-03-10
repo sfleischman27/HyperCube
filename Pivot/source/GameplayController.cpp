@@ -77,7 +77,7 @@ void GameplayController::dispose() {
  * @return true if the controller is initialized properly, false otherwise.
  */
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize) {
-    _pipeline = std::make_shared<RenderPipeline>(SCENE_WIDTH, displaySize);
+    _pipeline = std::make_shared<RenderPipeline>(SCENE_WIDTH, displaySize, assets);
 	
     return init(assets,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT));
 }

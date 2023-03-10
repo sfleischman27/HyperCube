@@ -12,7 +12,10 @@
 
 using namespace cugl;
 
-RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : screenSize(displaySize * (screenWidth / displaySize.width)) {
+RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const std::shared_ptr<AssetManager>& assets) : screenSize(displaySize * (screenWidth / displaySize.width)) {
+
+    // Asset manager
+    this->assets = assets;
 
     // Setup current level id
     levelId = 0;
@@ -35,13 +38,17 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize) : scree
         offsetof(cugl::SpriteVertex3, position));
     _vertbuff->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
         offsetof(cugl::SpriteVertex3, color));
+    _vertbuff->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(cugl::SpriteVertex3, texcoord));
 	_vertbuff->attach(_shader);
 
     // Billboard shader
+    
     _shaderBill = Shader::alloc(SHADER(billboardVert), SHADER(billboardFrag));
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
-
+    
     _vertbuffBill = VertexBuffer::alloc(sizeof(SpriteVertex3));
+    
     _vertbuffBill->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(cugl::SpriteVertex3, position));
     _vertbuffBill->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
@@ -69,6 +76,7 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     for (int i = 0; i < ourMesh->cuglvertices.size(); i++) {
         tempV.position = ourMesh->cuglvertices[i] * scale;
         tempV.color = color.getPacked();
+        tempV.texcoord = Vec2(0, 0); // TODO fill with ourMesh
         _mesh.vertices.push_back(tempV);
     }
 
@@ -99,20 +107,25 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // Compute rotation and position change
-    const float r = 0.001f;
+    const float epsilon = 0.001f;
     const float box2dToScreen = 32;
     Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().z, -model->getPlaneNorm().x);
     Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
-    Vec3 newPos = charPos + (r * altNorm);
+    Vec3 newPos = charPos + (epsilon * altNorm);
 
     // Update camera
     _camera->setPosition(newPos);
     _camera->setDirection(-altNorm);
     _camera->update();
 
+    // --------------- TEMP: Mesh pre-calculations --------------- //
+    // Load cobblestone texture
+    std::shared_ptr<Texture> cobbleTex = assets->get<Texture>("dude");
+
     // --------------- Pass 1: Mesh --------------- //
-    _shader->bind();
+    _vertbuff->bind();
     //fbo.begin();
+    cobbleTex->bind();
 
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
     _shader->setUniformMat4("Mv", _camera->getView());
@@ -121,8 +134,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
     _vertbuff->draw(_mesh.command, (int)_mesh.indices.size(), 0);
 
+    cobbleTex->unbind();
     //fbo.end();
-    _shader->unbind();
+    _vertbuff->unbind();
 
     // --------------- TEMP: Billboard pre-calculations --------------- //
 
@@ -165,7 +179,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // --------------- Pass 2: Billboard --------------- //
-    _shaderBill->bind();
+
+    _vertbuffBill->bind();
 
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderBill->setUniformMat4("Mv", _camera->getView());
@@ -174,7 +189,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
     _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
 
-    _shaderBill->unbind();
+    _vertbuffBill->unbind();
 
 	return;
 }

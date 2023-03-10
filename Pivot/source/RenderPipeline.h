@@ -31,6 +31,7 @@ public:
 
 	int levelId;
 
+	std::shared_ptr<AssetManager> assets;
 	std::shared_ptr<cugl::OrthographicCamera> _camera;
 	std::shared_ptr<cugl::Shader> _shader;
 	std::shared_ptr<cugl::Shader> _shaderBill;
@@ -43,7 +44,7 @@ public:
 	/**
 	 * Construct the RenderPipeline
 	 */
-	RenderPipeline(int screenWidth, const Size& displaySize);
+	RenderPipeline(int screenWidth, const Size& displaySize, const std::shared_ptr<AssetManager>& assets);
 
 	/**
 	 * Sets up the scene
