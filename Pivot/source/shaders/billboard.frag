@@ -10,10 +10,11 @@ in vec4 pos;
 out vec4 frag_color;
 
 uniform mat4 Mv;
+uniform sampler2D meshTexture;
 
 void main(void) {
-	frag_color = outColor;// + vec4(.00001 * outTexCoord, 0, 0);
-	//frag_color = vec4(outTexCoord, 0, 1);
+	//vec4 cur = texture(meshTexture, pos.xy / pos.z);
+	frag_color = outColor;
 }
 
 /////////// SHADER END //////////)"

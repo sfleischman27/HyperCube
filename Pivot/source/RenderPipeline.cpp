@@ -43,12 +43,10 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
 	_vertbuff->attach(_shader);
 
     // Billboard shader
-    
     _shaderBill = Shader::alloc(SHADER(billboardVert), SHADER(billboardFrag));
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
     
     _vertbuffBill = VertexBuffer::alloc(sizeof(SpriteVertex3));
-    
     _vertbuffBill->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(cugl::SpriteVertex3, position));
     _vertbuffBill->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
@@ -60,6 +58,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     //glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 
 	return;
 }
@@ -76,7 +75,7 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     for (int i = 0; i < ourMesh->cuglvertices.size(); i++) {
         tempV.position = ourMesh->cuglvertices[i] * scale;
         tempV.color = color.getPacked();
-        tempV.texcoord = Vec2(0, 0); // TODO fill with ourMesh
+        tempV.texcoord = Vec2(.5, .5); // TODO fill with ourMesh
         _mesh.vertices.push_back(tempV);
     }
 
@@ -123,12 +122,15 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     std::shared_ptr<Texture> cobbleTex = assets->get<Texture>("dude");
 
     // --------------- Pass 1: Mesh --------------- //
+    const int insideTex = 0;
     _vertbuff->bind();
     //fbo.begin();
+    cobbleTex->setBindPoint(insideTex);
     cobbleTex->bind();
 
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
     _shader->setUniformMat4("Mv", _camera->getView());
+    _shader->setUniform1i("uTexture", insideTex);
 
     _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
     _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
@@ -180,15 +182,20 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // --------------- Pass 2: Billboard --------------- //
 
+    const int meshTex = 1;
     _vertbuffBill->bind();
+    fbo.getTexture()->setBindPoint(meshTex);
+    //fbo.getTexture()->bind();
 
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderBill->setUniformMat4("Mv", _camera->getView());
+    _shaderBill->setUniform1i("meshTexture", meshTex);
 
     _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
     _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
     _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
 
+    //fbo.getTexture()->unbind();
     _vertbuffBill->unbind();
 
 	return;

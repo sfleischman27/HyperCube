@@ -10,7 +10,7 @@ uniform mat4 uPerspective;
 
 void main(void) {
     gl_Position = uPerspective * aPosition;
-    pos = aPosition;
+    pos = gl_Position;
     outColor = aColor;
 }
 
