@@ -127,6 +127,14 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     
     auto m = model->getLevel()->getMesh();
     _mesh = *m;
+    /*
+    // TEMP: redistribute tex coords. Unsure why this doesn't work here (re-added in <Mesh.cpp's PivotMesh::MeshFromOBJ)
+    const int numTexOneSide = 20;
+    for (PivotVertex3 pv : _mesh.vertices) {
+        pv.texcoord.x = fmod(pv.texcoord.x * numTexOneSide, 1.0);
+        pv.texcoord.y = fmod(pv.texcoord.y * numTexOneSide, 1.0);
+    }
+    */
     _mesh.command = GL_TRIANGLES;
 }
 

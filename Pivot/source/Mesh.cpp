@@ -44,6 +44,11 @@ std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path) {
             temp.color = color.getPacked();
             temp.normal = Vec3(N(i, 0), N(i, 1), N(i, 2));
             temp.texcoord = Vec2(TC(i, 0), TC(i, 1));
+            // Below 3 lines have been added by Matt to support texture tiling (for now)
+            const int numTexOneSide = 14;
+            temp.texcoord.x = fmod(temp.texcoord.x * numTexOneSide, 1.0);
+            temp.texcoord.y = fmod(temp.texcoord.y * numTexOneSide, 1.0);
+            // End what Matt has added
             mesh->vertices.push_back(temp);
         }
 
