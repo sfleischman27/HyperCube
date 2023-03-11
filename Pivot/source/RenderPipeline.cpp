@@ -25,7 +25,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
 
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
-    _camera->setFar(1000);
+    _camera->setFar(10000);
     _camera->setZoom(1);
     _camera->update();
 
@@ -190,8 +190,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _meshBill.clear();
     PivotVertex3 tempV;
     for (int n = 0; n < numBill; n++) {
-        for (int i = -9; i <= 9; i += 18) {
-            for (int j = -9; j <= 9; j += 18) {
+        for (float i = -5; i <= 5; i += 10) {
+            for (float j = -5; j <= 5; j += 10) {
                 tempV.position = billboardOrigins[n] + i * basisRight + j * basisUp;
                 tempV.color = billboardCols[n].getPacked();
                 _meshBill.vertices.push_back(tempV);
