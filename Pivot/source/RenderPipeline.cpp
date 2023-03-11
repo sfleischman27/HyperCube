@@ -138,7 +138,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // Compute rotation and position change
-    const float epsilon = 100.f;//0.001f;
+    const float epsilon = 500.f;//0.001f;
     const float box2dToScreen = 32;
     Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().x, -model->getPlaneNorm().z);
     Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
