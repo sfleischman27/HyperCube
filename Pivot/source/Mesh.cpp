@@ -15,9 +15,6 @@
 /**Static Method To create a pivot mesh object from an .obj file path*/
 std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path) {
 
-    // use this to test scales... but ultimately lets try not to have any scaling bc it will make booboos later
-    float scale = 10;
-
     //make an empty mesh
     auto mesh = std::make_shared<PivotMesh>();
 
@@ -43,7 +40,7 @@ std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path) {
         // convert everything into cugl friendly types and assign it to the mesh
         for (int i = 0; i < V.rows(); i++) {
             PivotVertex3 temp;
-            temp.position = Vec3(V(i, 0), V(i, 1), V(i, 2))*scale;
+            temp.position = Vec3(V(i, 0), V(i, 1), V(i, 2));
             temp.color = color.getPacked();
             temp.normal = Vec3(N(i, 0), N(i, 1), N(i, 2));
             //temp.texcoord = Vec2(TC(i, 0), TC(i, 1));

@@ -101,6 +101,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
     _plane->init(_model);
+    _plane->debugCut(10);
+    //_plane->calculateCut();
     
     // Start up the input handler
     _assets = assets;
@@ -322,6 +324,8 @@ void GameplayController::update(float dt) {
     }
     else {
         if(_rotating){
+            //_plane->calculateCut();//calculate cut here so it only happens when we finish rotating
+            _plane->debugCut(10);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
             _rotating = false;
         }
@@ -362,6 +366,10 @@ void GameplayController::update(float dt) {
     _model->_player->setJumping( _input->didJump());
     _model->_player->applyForce();
 
+
+    auto v = _model->_player->getPosition();
+    CULog("%f , %f", v.x, v.y);
+
 }
 
 /**
@@ -375,22 +383,12 @@ void GameplayController::update(float dt) {
  */
 void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch) {
 
-    bool useRP = true;
+
+    //False to render the way we did for gameplay prototype
+    //True to use Matts renderer
+    bool useRP = false;
     if (useRP) {
         _pipeline->render(_model);
-
-        batch->begin();
-        batch->setColor(Color4::BLACK);
-        auto cuts = _model->getCut();
-        for (auto it = cuts.begin(); it != cuts.end(); it++) {
-
-            batch->fill(*it);
-        }
-        std::shared_ptr<Texture> blue = std::make_shared<Texture>();
-        static unsigned char bluecol[] = { 0, 0, 0xFF, 0xFF };
-        blue->initWithData(bluecol, 1, 1);
-        batch->draw(blue, Rect(Vec2(0,0)-_model->_player->getPosition(), Vec2(1, 1)-_model->_player->getPosition()));
-        batch->end();
 
         return;
     }
@@ -411,8 +409,7 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
     
     //_debugnode->draw(batch, Affine2(), DEBUG_COLOR);
     //_debugnode->render(batch);
-#pragma mark DRAW EXIT
-    
+#pragma mark DRAW EXIT    
     // draw exit
     tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
     auto screencoordsExit = std::get<0>(tupleExit);

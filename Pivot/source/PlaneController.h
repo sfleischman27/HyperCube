@@ -51,6 +51,12 @@ public:
 	*/
 	void calculateCut();
 
+	/**Debugging with crazy cuts is hard, so this sets the cut to be a box with given size
+	* 
+	* @param float size the length of the edge of the square
+	*/
+	void debugCut(float size);
+
 	/**Get the right basis vector in 3d space
 	*this is useful for moving the players 3d coordinates based on some motion in the 2d world
 	*/

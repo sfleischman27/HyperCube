@@ -15,7 +15,7 @@
 void PlaneController::setPlaneNorm(Vec3 norm) {
     norm = norm.normalize();
     _model->setPlaneNorm(norm);
-	calculateCut();
+	//calculateCut();//too heavy to calculate every frame
 }
 
 /**Rotate the normal around the player by some angle in radians*/
@@ -82,6 +82,34 @@ void PlaneController::calculateCut() {
 
 	_model->setCut(cut);
 	return;
+}
+
+/**Debugging with crazy cuts is hard, so this sets the cut to be a box with given size
+	*
+	* @param float size the length of the edge of the square
+	*/
+void PlaneController::debugCut(float size) {
+
+	// init the cut list
+	std::vector<Poly2> cut;
+
+	auto width = 1;
+
+	// init the extruder
+	std::shared_ptr<SimpleExtruder> extruder = std::make_shared<SimpleExtruder>();
+
+	auto verts = std::vector<Vec2>{
+		Vec2(-size/2, -size/2),
+		Vec2(size / 2, -size / 2),
+		Vec2(size / 2, size / 2),
+		Vec2(-size / 2, size / 2)
+	};
+	extruder->set(Path2(verts));
+	extruder->calculate(width);
+	cut.push_back(extruder->getPolygon());
+
+	_model->setCut(cut);
+
 }
 
 /**Get the right basis vector in 3d space

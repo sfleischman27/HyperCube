@@ -21,20 +21,16 @@ std::vector<Vec3> Level::GetCollectibleLocs() {
 /** A static method for loading and returning a Level object from the given path*/
 std::shared_ptr<Level> Level::loadLevel(std::string path) {
 
-    // HARD CODED STUFF
+    // HARD CODED STUFF: last updated 3/10/23 by jack to match gameplayPrototype.obj mesh object
     /** The starting location for the player */
-    auto hcstartLoc = cugl::Vec3(0.0723488601292, -0.0809223593776, -4.47849889621);
+    auto hcstartLoc = cugl::Vec3(-4.55713, 5.70794, -169.109);
     /** The end location for the player */
-    auto hcendLoc = cugl::Vec3(-2.83521234341, 2.66340165704, -2.60769182756);
+    auto hcendLoc = cugl::Vec3(89.7733, -81.1569, -104.641);
     /** The end location for the player */
-    auto hckeyLoc = cugl::Vec3(0.142900888615, 3.64378919953, 3.90467730801);
-    // set attributes
-    float scale = 0.1; //idk why this scale is not that same as the scale for the polyline :(
+    auto hckeyLoc = cugl::Vec3(-101.054, 180.439, 31.7418);
+    /**the starting normal cut*/
+    auto hcnormal = Vec3(-1, 0, 0);
 
-    // for now this is just an empty level because the cut is hardcoded
-
-    //Make a mesh object from an obj file
-    //CULog(std::filesystem::current_path().string().c_str());
     bool isMac;
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
     isMac = false;
@@ -45,5 +41,5 @@ std::shared_ptr<Level> Level::loadLevel(std::string path) {
     std::string objPath = isMac ? "../meshes/GameplayPrototype.obj" : "../../assets/meshes/GameplayPrototype.obj";
     auto mesh = PivotMesh::MeshFromOBJ(objPath);
 
-    return std::make_shared<Level>(hcstartLoc * scale, Vec3(-1, 0, 0) * scale, hcendLoc * scale, hckeyLoc * scale, mesh);
+    return std::make_shared<Level>(hcstartLoc, hcnormal, hcendLoc, hckeyLoc, mesh);
 }
