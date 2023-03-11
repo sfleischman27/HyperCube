@@ -386,7 +386,7 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
 
     //False to render the way we did for gameplay prototype
     //True to use Matts renderer
-    bool useRP = false;
+    bool useRP = true;
     if (useRP) {
         _pipeline->render(_model);
 

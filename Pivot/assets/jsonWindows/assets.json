@@ -1,12 +1,15 @@
 {
-	"textures": {
-		"earth": {
-			"file":     "../../assets/textures/earthtile.png",
-            "wrapS":    "repeat",
-            "wrapT":    "repeat"
-		},
+  "textures": {
+    "earth": {
+      "file": "../../assets/textures/earthtile.png",
+      "wrapS": "repeat",
+      "wrapT": "repeat"
+    },
     "dude": {
       "file": "../../assets/textures/dude.png"
+    },
+    "cobble": {
+      "file": "../../assets/textures/cobblestone.png"
     },
     "spinner": {
       "file": "../../assets/textures/barrier.png"
@@ -31,7 +34,7 @@
         "right": [ 128, 128, 255, 255 ]
       }
     }
-	},
+  },
     "sounds": {
         "game": {
             "type":     "sample",

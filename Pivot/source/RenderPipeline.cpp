@@ -147,11 +147,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Update camera
     _camera->setPosition(newPos);
     _camera->setDirection(-altNorm);
+    _camera->setUp(Vec3(0, 1, 0));
     _camera->update();
 
     // --------------- TEMP: Mesh pre-calculations --------------- //
     // Load cobblestone texture
-    std::shared_ptr<Texture> cobbleTex = assets->get<Texture>("dude");
+    std::shared_ptr<Texture> cobbleTex = assets->get<Texture>("cobble");
 
     // --------------- Pass 1: Mesh --------------- //
     const int insideTex = 0;
@@ -183,7 +184,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     billboardCols[1] = Color4f::GREEN;
 
     // construct basis
-    const Vec3 basisUp = Vec3(0, 1, 0);
+    const Vec3 basisUp = _camera->getUp();
     const Vec3 basisRight = altNorm.cross(basisUp);
 
     // add all billboard vertices
