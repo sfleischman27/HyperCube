@@ -40,6 +40,8 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
         offsetof(PivotVertex3, color));
     _vertbuff->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, texcoord));
+    _vertbuff->setupAttribute("aNormal", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, normal));
 	_vertbuff->attach(_shader);
 
     // Billboard shader
@@ -146,10 +148,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // Compute rotation and position change
-    const float epsilon = 500.f;//0.001f;
+    const float epsilon = 0.001f;
     const float box2dToScreen = 32;
     Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().x, -model->getPlaneNorm().z);
     Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
+    // TEMP (good starting position though)
+    charPos = Vec3(16.5, 9, -5) * box2dToScreen - Vec3(screenSize / 2, 0);
     Vec3 newPos = charPos + (epsilon * altNorm);
 
     // Update camera
@@ -170,6 +174,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     cobbleTex->bind();
 
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
+    _shader->setUniformVec3("uDirection", altNorm);
     _shader->setUniformMat4("Mv", _camera->getView());
     _shader->setUniform1i("uTexture", insideTex);
 
@@ -186,7 +191,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     const int numBill = 2;
     Vec3 billboardOrigins[numBill];
     billboardOrigins[0] = charPos;
-    billboardOrigins[1] = Vec3(350, 50, 0);
+    billboardOrigins[1] = Vec3(8.5, 9, -5.25) * box2dToScreen - Vec3(screenSize / 2, 0);
     Color4f billboardCols[numBill];
     billboardCols[0] = Color4f::RED;
     billboardCols[1] = Color4f::GREEN;
