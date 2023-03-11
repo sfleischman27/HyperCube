@@ -138,16 +138,16 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // Compute rotation and position change
-    const float epsilon = 0.001f;
+    const float epsilon = 100.f;//0.001f;
     const float box2dToScreen = 32;
-    Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().z, -model->getPlaneNorm().x);
+    Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().x, -model->getPlaneNorm().z);
     Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
     Vec3 newPos = charPos + (epsilon * altNorm);
 
     // Update camera
     _camera->setPosition(newPos);
     _camera->setDirection(-altNorm);
-    _camera->setUp(Vec3(0, 1, 0));
+    _camera->setUp(Vec3(0, 0, 1));
     _camera->update();
 
     // --------------- TEMP: Mesh pre-calculations --------------- //
