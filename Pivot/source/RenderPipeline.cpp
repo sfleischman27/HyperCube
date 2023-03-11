@@ -232,21 +232,30 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo.end();
     _vertbuffBill->unbind();
 
+    // --------------- TEMP: FSQ pre-calculations --------------- //
+    // Load cobblestone texture
+    std::shared_ptr<Texture> earthTex = assets->get<Texture>("earth");
+
     // --------------- Pass 3: FSQ --------------- //
 
     const int fsqTex = 1;
+    const int outsideTex = 2;
     _vertbuffFsq->bind();
     fbo.getTexture()->setBindPoint(fsqTex);
     fbo.getTexture()->bind();
+    earthTex->setBindPoint(outsideTex);
+    earthTex->bind();
 
     _shaderFsq->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderFsq->setUniformMat4("Mv", _camera->getView());
     _shaderFsq->setUniform1i("fsqTexture", fsqTex);
+    _shaderFsq->setUniform1i("outsideTexture", outsideTex);
 
     _vertbuffFsq->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFsq->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffFsq->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
+    earthTex->unbind();
     fbo.getTexture()->unbind();
     _vertbuffFsq->unbind();
 
