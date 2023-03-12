@@ -12,7 +12,7 @@
 #ifndef App_h
 #define App_h
 #include <cugl/cugl.h>
-#include "MusicController.h"
+#include "SoundController.h"
 #include "DataController.h"
 #include "GameplayController.h"
 #include "RenderPipeline.h"

@@ -11,6 +11,7 @@
 #define SoundController_h
 #include <cugl/cugl.h>
 #include "DataController.h"
+#include "Sound.h"
 
 /**
  *  Include functions that play music for different states
