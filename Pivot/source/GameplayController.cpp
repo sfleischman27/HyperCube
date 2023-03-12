@@ -93,10 +93,14 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     } else if (!Scene2::init(_dimen)) {
         return false;
     }
+    
+    _assets = assets;
 
     //set up the game model
-    auto level = Level::loadLevel("temp");
-    _model = std::make_shared<GameModel>(level);
+    _model = std::make_shared<GameModel>(GameModel());
+    DataController data = DataController();
+    data.init(_assets);
+    data.initGameModel("levelAssets.json", _model);
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
@@ -105,8 +109,6 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     //_plane->calculateCut();
     
     // Start up the input handler
-    _assets = assets;
-    
     _input = std::make_shared<InputController>();
     _input->init(getBounds());
     
@@ -411,7 +413,7 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
     //_debugnode->render(batch);
 #pragma mark DRAW EXIT    
     // draw exit
-    tupleExit = ScreenCoordinatesFrom3DPoint(_model->getLevel()->exitLoc);
+    tupleExit = ScreenCoordinatesFrom3DPoint(_model->getExitLoc());
     auto screencoordsExit = std::get<0>(tupleExit);
     auto distanceExit = std::get<1>(tupleExit);
     if (std::abs(distanceExit) <= VISIBLE_DIST) {

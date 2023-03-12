@@ -10,9 +10,9 @@
 #ifndef GameModel_h
 #define GameModel_h
 #include <cugl/cugl.h>
-#include "Level.h"
 #include "Collectible.h"
 #include "PlayerModel.h"
+#include "Mesh.h"
 
 using namespace cugl;
 
@@ -20,15 +20,22 @@ using namespace cugl;
  * A class representing an active level and its starting data
  */
 class GameModel{
+   
+#pragma mark Initialization
+private:
+    /** starting player location */
+    Vec3 _startPlayerLoc;
+    /** starting plane normal */
+    Vec3 _startPlaneNorm;
+    /** exit location */
+    Vec3 _exit;
+    /** exit texture */
+    std::shared_ptr<cugl::Texture> _exitTex;
     
 #pragma mark Player State
 public:
     /** Player */
     std::shared_ptr<PlayerModel> _player;
-#pragma mark Level
-private:
-    /**The Level being played*/
-    std::shared_ptr<Level> _level;
     
 #pragma mark Plane State
 private:
@@ -50,21 +57,84 @@ public:
     /** Vector of collectibles in player backpack */
     std::unordered_set<std::string> _backpack;
     
+#pragma mark Mesh
+public:
+    /** Level mesh object */
+    std::shared_ptr<PivotMesh> _mesh;
+    
 #pragma mark Main Functions
 public:
     /**
      * Creates the model state.
-     *
-     * @param level The level object containing all the info necessary for initializing game
      */
-    GameModel(std::shared_ptr<Level> level) {
-        setPlaneNorm(level->startNorm);
-        setCollectibles(level->GetCollectibleLocs());
-        _level = level;
-    }
+    GameModel() {}
     
 #pragma mark Setters
 public:
+    /**
+     *  Sets the initial player location
+     *
+     *  @param loc   The player location
+     */
+    void setInitPlayerLoc(Vec3 loc) {
+        _startPlayerLoc = loc;
+    }
+
+    /**
+     *  Gets the initial player location
+     */
+    Vec3 getInitPlayerLoc() {
+        return _startPlayerLoc;
+    }
+    
+    /**
+     *  Sets the initial plane norm
+     *
+     *  @param norm   The plane norm
+     */
+    void setInitPlaneNorm(Vec3 norm) {
+        _startPlaneNorm = norm;
+    }
+
+    /**
+     *  Gets the initial plane norm
+     */
+    Vec3 getInitPlaneNorm() {
+        return _startPlaneNorm;
+    }
+    
+    /**
+     *  Sets the exit location
+     *
+     *  @param loc   The exit location
+     */
+    void setExitLoc(Vec3 loc) {
+        _exit = loc;
+    }
+
+    /**
+     *  Gets the exit location
+     */
+    Vec3 getExitLoc() {
+        return _startPlayerLoc;
+    }
+    
+    /**
+     *  Sets the exit texture
+     *
+     *  @param tex   The exit texture
+     */
+    void setExitTex(std::shared_ptr<cugl::Texture> tex) {
+        _exitTex = tex;
+    }
+
+    /**
+     *  Gets the exit texture
+     */
+    std::shared_ptr<cugl::Texture> getExitTex() {
+        return _exitTex;
+    }
+    
     /**
      * Sets the player model
      *
@@ -74,7 +144,6 @@ public:
         _player = player;
     }
 
-
     /**
      *  Sets the Norm
      * 
@@ -83,19 +152,16 @@ public:
      * 
      * IF you do use this method it will NOT recompute the cut
      */
-
     void setPlaneNorm( Vec3 norm) {
-        _norm =norm;
+        _norm = norm;
     }
 
     /**
      *  Gets the Current Norm
      */
-
     Vec3 getPlaneNorm() {
         return _norm;
     }
-
     
     /**
      *  Sets the cut
@@ -114,21 +180,39 @@ public:
     }
     
     /**
+     * Sets the mesh
+     */
+    void setMesh(std::shared_ptr<PivotMesh> mesh){
+        _mesh = mesh;
+    }
+    
+    /**
+     * Gets the mesh
+     */
+    std::shared_ptr<PivotMesh> getMesh() {
+        return _mesh;
+    }
+    
+    // this should not be here -Jolene
+    /**
      * Returns if the player is touching the ground
      */
     bool touchingGround(){
         return true;
     }
     
-    void setCollectibles(std::vector<Vec3> locs) {
+    /**
+     * Initializes collectibles with locations and textures
+     *
+     * @param locs  List of collectible locations
+     * @param texs  List of collectible textures
+     */
+    void setCollectibles(std::vector<Vec3> locs, std::vector<std::shared_ptr<cugl::Texture>> texs) {
         for(int i = 0; i < locs.size(); i++) {
-            _collectibles.insert({std::to_string(i), Collectible(locs[i], std::to_string(i))});
+            Collectible item = Collectible(locs[i], std::to_string(i));
+            item.setTexture(texs[i]);
+            _collectibles.insert({std::to_string(i), item});
         }
-    }
-    
-
-    std::shared_ptr<Level> getLevel() {
-        return _level;
     }
     
 };

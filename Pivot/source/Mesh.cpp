@@ -7,7 +7,7 @@
 //  Created by Jack on 3/5/23.
 //
 
-#include "mesh.h"
+#include "Mesh.h"
 #include <cugl/cugl.h>
 #include <igl/per_vertex_normals.h>
 #include <igl/isolines.h>

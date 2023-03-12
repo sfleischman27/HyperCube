@@ -92,6 +92,8 @@ protected:
     float _drawScale;
     /** The current velocity of the player */
     cugl::Vec3 _vel;
+    /** The location of the player in 3D*/
+    cugl::Vec3 _3DLoc;
 
     /**
     * Redraws the outline of the physics fixtures to the debug node
@@ -427,6 +429,20 @@ public:
      * @param velocity velocity of this character.
      */
     void setVelocity(cugl::Vec3 velocity) { _vel = velocity; }
+    
+    /**
+     * Returns current 3D location of the player
+     *
+     * @return 3D location of the player
+     */
+    cugl::Vec3 get3DLoc() const { return _3DLoc; }
+    
+    /**
+     * Sets 3D locaiton of the player
+     *
+     * @param loc  3D locaiton of the player
+     */
+    void set3DLoc(cugl::Vec3 loc) { _3DLoc = loc; }
 
     
 #pragma mark -

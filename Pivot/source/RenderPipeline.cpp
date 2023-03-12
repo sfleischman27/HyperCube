@@ -127,7 +127,7 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
         }
     }
     
-    auto m = model->getLevel()->getMesh();
+    auto m = model->getMesh();
     _mesh = *m;
     /*
     // TEMP: redistribute tex coords. Unsure why this doesn't work here (re-added in <Mesh.cpp's PivotMesh::MeshFromOBJ)

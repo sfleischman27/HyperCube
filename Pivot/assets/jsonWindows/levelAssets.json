@@ -1,0 +1,28 @@
+{
+    "textures": {
+        "exit": {
+            "file": "../../assets/textures/bullet.png"
+            },
+        "col1": {
+            "file": "../../assets/textures/bullet.png"
+            },
+        "col2": {
+            "file": "../../assets/textures/bullet.png"
+            },
+        "col3": {
+            "file": "../../assets/textures/bullet.png"
+            },
+        "deco1": {
+            "file": "../../assets/textures/bullet.png"
+            },
+        "deco2": {
+            "file": "../../assets/textures/bullet.png"
+            },
+        "deco3": {
+            "file": "../../assets/textures/bullet.png"
+            }
+    },
+    "jsons" : {
+        "constants" : "../../assets/json/levelTest.json"
+    }
+}
