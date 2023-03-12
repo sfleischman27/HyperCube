@@ -12,7 +12,6 @@
 
 #include <cugl/cugl.h>
 #include "DataController.h"
-#include "Level.h"
 #include "PhysicsController.h"
 #include "PlaneController.h"
 #include "InputController.h"
@@ -44,7 +43,6 @@ protected:
     
 private:
     std::shared_ptr<GameModel> _model;
-    //std::shared_ptr<PhysicsController> _physics;
     std::shared_ptr<PhysicsController> _physics;
     std::shared_ptr<InputController> _input;
     cugl::Size _dimen;
