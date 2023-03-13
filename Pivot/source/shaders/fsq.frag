@@ -13,6 +13,7 @@ out vec4 frag_color;
 uniform mat4 Mv;
 uniform sampler2D fsqTexture;
 uniform sampler2D outsideTexture;
+//uniform sampler2D depthTexture;
 
 void main(void) {
 	//float d = -(Mv * pos).z;
@@ -20,7 +21,7 @@ void main(void) {
 	//frag_color = vec4(0, 0, 0, 1);// - vec4(d / div, d / div, d / div, 0);
 	//frag_color = vec4(0, 0, 0, 1);
 	frag_color = texture(fsqTexture, outTexCoord);
-	if (frag_color.xyz == vec3(0, 0, 0)) {
+	if (frag_color.xyz == vec3(1, 0, 1)) {
         // TEMP: layer tex coords
 		vec2 transTexCoord;
         int numTexX = 16;
@@ -30,7 +31,6 @@ void main(void) {
 		// End temp
 		frag_color = texture(outsideTexture, transTexCoord);
 	}
-	//frag_color = vec4(outTexCoord, 0, 1);
 }
 
 /////////// SHADER END //////////)"

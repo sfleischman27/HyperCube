@@ -22,6 +22,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
 
     // FBO setup
     fbo.init(screenSize.width, screenSize.height);
+    fbo.setClearColor(Color4f::MAGENTA);
 
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
@@ -70,6 +71,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     //glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
 
 	return;
 }
@@ -245,21 +247,26 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     const int fsqTex = 1;
     const int outsideTex = 2;
+    //const int depthTex = 3;
     _vertbuffFsq->bind();
     fbo.getTexture()->setBindPoint(fsqTex);
     fbo.getTexture()->bind();
     earthTex->setBindPoint(outsideTex);
     earthTex->bind();
+    //fbo.getDepthStencil()->setBindPoint(depthTex);
+    //fbo.getDepthStencil()->bind();
 
     _shaderFsq->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderFsq->setUniformMat4("Mv", _camera->getView());
     _shaderFsq->setUniform1i("fsqTexture", fsqTex);
     _shaderFsq->setUniform1i("outsideTexture", outsideTex);
+    //_shaderFsq->setUniform1i("depthTexture", depthTex);
 
     _vertbuffFsq->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFsq->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffFsq->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
+    //fbo.getDepthStencil()->unbind();
     earthTex->unbind();
     fbo.getTexture()->unbind();
     _vertbuffFsq->unbind();
