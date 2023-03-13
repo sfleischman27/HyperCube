@@ -34,17 +34,7 @@ void PivotApp::onStartup() {
 
     getDisplaySize();
 
-    bool isMac;
-    // Detect OS
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    CULog("System: This is Windows");
-    isMac = false;
-#else
-    CULog("System: This is Mac");
-    isMac = true;
-#endif
-
-    std::string jsonPath = isMac ? "../json/assets.json" : "../../assets/jsonWindows/assets.json";
+    std::string jsonPath = "json/assets.json";
 	
     if (demo){
         _assets = AssetManager::alloc();

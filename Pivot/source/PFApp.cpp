@@ -32,22 +32,12 @@ using namespace cugl;
 void PlatformApp::onStartup() {
     _assets = AssetManager::alloc();
     _batch  = SpriteBatch::alloc();
-    bool isMac;
     
     // Start-up basic input
 #ifdef CU_TOUCH_SCREEN
     Input::activate<Touchscreen>();
 #else
     Input::activate<Mouse>();
-#endif
-
-    // Detect OS
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    CULog("System: This is Windows");
-    isMac = false;
-#else
-    CULog("System: This is Mac");
-    isMac = true;
 #endif
     
     _assets->attach<Font>(FontLoader::alloc()->getHook());
@@ -61,11 +51,7 @@ void PlatformApp::onStartup() {
     
     // Que up the other assets
     AudioEngine::start();
-    if (isMac) {
-        _assets->loadDirectoryAsync("../json/assets.json", nullptr);
-    } else {
-        _assets->loadDirectoryAsync("../../assets/jsonWindows/assets.json", nullptr);
-    }
+    _assets->loadDirectoryAsync("json/assets.json", nullptr);
     
     Application::onStartup(); // YOU MUST END with call to parent
 }

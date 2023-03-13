@@ -1,28 +1,28 @@
 {
     "textures": {
         "exit": {
-            "file": "../textures/bullet.png"
+            "file": "textures/bullet.png"
             },
         "col1": {
-            "file": "../textures/bullet.png"
+            "file": "textures/bullet.png"
             },
         "col2": {
-            "file": "../textures/bullet.png"
+            "file": "textures/bullet.png"
             },
         "col3": {
-            "file": "../textures/bullet.png"
+            "file": "textures/bullet.png"
             },
         "deco1": {
-            "file": "../textures/bullet.png"
+            "file": "textures/bullet.png"
             },
         "deco2": {
-            "file": "../textures/bullet.png"
+            "file": "textures/bullet.png"
             },
         "deco3": {
-            "file": "../textures/bullet.png"
+            "file": "textures/bullet.png"
             }
     },
     "jsons" : {
-        "constants" : "../json/levelTest.json"
+        "constants" : "json/levelTest.json"
     }
 }

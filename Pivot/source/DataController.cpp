@@ -25,18 +25,7 @@ using namespace cugl;
  */
 bool DataController::initGameModel(std::string level, const std::shared_ptr<GameModel>& model) {
     
-    bool isMac;
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    isMac = false;
-#else
-    isMac = true;
-#endif
-    
-    if (isMac) {
-        _assets->loadDirectory("../json/" + level);
-    } else {
-        _assets->loadDirectory("../../assets/jsonWindows/" + level);
-    }
+    _assets->loadDirectory("json/" + level);
     
     std::shared_ptr<cugl::JsonValue> constants = _assets->get<JsonValue>("constants");
     
@@ -81,5 +70,6 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     }
     model->setCollectibles(locs, texs);
     
+    return true;
 }
 
