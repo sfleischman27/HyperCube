@@ -107,7 +107,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _plane = std::make_shared<PlaneController>();
     _plane->init(_model);
     _plane->debugCut(10);
-    //_plane->calculateCut();
+    // _plane->calculateCut();
     
     // Start up the input handler
     _input = std::make_shared<InputController>();
@@ -136,15 +136,12 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     createCutObstacles();
 
 #pragma mark ADD PLAYER
-//    float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics->getScale()), SCENE_HEIGHT/(2 * _physics->getScale()) - 4};
-//    float DUDE_POS[] = { _dimen.width/(2 * _physics->getScale()), _dimen.height/(2 * _physics->getScale())};
-    
     Vec2 dudePos = Vec2::ZERO;
     prevPlay2DPos = dudePos;
     
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
 
-    _model->setPlayer(PlayerModel::alloc(dudePos,image->getSize()/_physics->getScale(),_physics->getScale()));
+    _model->setPlayer(PlayerModel::alloc(dudePos));
     
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
@@ -169,7 +166,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 void GameplayController::createCutObstacles(){
     // TODO: clean this and add function comment -Gordi
     //remove previous poly nodes
-    removePolyNodes();
+    //removePolyNodes();
     createObstacleFromPolys(_model->getCut());
 }
 
@@ -184,34 +181,11 @@ void GameplayController::createObstacleFromPolys(std::vector<cugl::Poly2> polys)
     
     for(Poly2 p : polys){
         std::vector<cugl::Vec2> vertices = p.getVertices();
-                
-//        for(cugl::Vec2 v : vertices){
-//            v.x *= 1;
-//            v.y *= 1;
-//        }
-        
-//        float transformScale = _physics->getScale()/2;
-        
-        //for some reason multiply by aspect ratio to make the obstacles in-line with the drawn cut?
-        
-        //use this if you are transforming the original drawn poly2:
-        //Poly2 bigp = p * Affine2(transformScale,0,0,transformScale,0,0);
-        
-        //use this if you are keeping the original drawn poly2 (vertically squished)
-//        Poly2 bigp = p * Affine2(transformScale,0,0,transformScale * _dimen.height/_dimen.width,0,0);
-        
         std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(p);
-
         obstacle->setBodyType(b2_staticBody);
-//        obstacle->setPosition(Vec2(SCENE_WIDTH/(2 * _physics->getScale()), SCENE_HEIGHT/(2 * _physics->getScale())));
-        
-//        obstacle->setSize(obstacle->getSize());
-        
         cutnode = scene2::SceneNode::alloc();
-        
         _cutnodes.insert(cutnode);
         _cutobstacles.insert(obstacle);
-        
         addObstacle(obstacle, cutnode, true);
     }
     
@@ -328,11 +302,11 @@ void GameplayController::update(float dt) {
     }
     else {
         if(_rotating){
-            //_plane->calculateCut();//calculate cut here so it only happens when we finish rotating
-            // TODO: destroy curr physics world
-            // TODO: set player 2d coord to  0,0
-            // TODO: create a new debugCut(same size)
-            // TODO: Remake the physics world for this cut
+            _physics->clear();
+            _model->_player->setPosition(Vec2::ZERO);
+            prevPlay2DPos = Vec2::ZERO;
+            _physics->getWorld()->addObstacle(_model->_player);
+            // _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
             _plane->debugCut(10);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
             _rotating = false;
@@ -368,11 +342,7 @@ void GameplayController::update(float dt) {
         }
     }
 
-    
-// TODO: Save previous player Location
-// TODO: compare with current player Location to get x and y displacement
-// TODO: Update previous to be current
-// TODO: call update 3D location
+
 #pragma mark PLAYER
     
     _model->_player->setMovement(_input->getHorizontal()*_model->_player->getForce());
@@ -381,10 +351,11 @@ void GameplayController::update(float dt) {
 
     currPlay2DPos = _model->_player->getPosition();
     CULog("currPos: %f , %f", currPlay2DPos.x, currPlay2DPos.y);
+    CULog("prevPos: %f , %f", prevPlay2DPos.x, prevPlay2DPos.y);
     Vec2 displacement = currPlay2DPos - prevPlay2DPos;
+    CULog("displacement: %f , %f", displacement.x, displacement.y);
     updatePlayer3DLoc(displacement);
     prevPlay2DPos = currPlay2DPos;
-//    auto v = _model->_player->getPosition();
 }
 
 /**
@@ -492,9 +463,17 @@ std::tuple<cugl::Vec2, float> GameplayController::ScreenCoordinatesFrom3DPoint(c
 void GameplayController::updatePlayer3DLoc(Vec2 displacement) {
     float x = displacement.x;
     float y = displacement.y;
+    std::cout<<"_plane->getBasisRight().x: " << _plane->getBasisRight().x << std::endl;
+    std::cout<<"_plane->getBasisRight().y: " << _plane->getBasisRight().x << std::endl;
+    std::cout<<"_plane->getBasisRight().z: " << _plane->getBasisRight().x << std::endl;
+    std::cout<<"2d-displacement x: " <<x<<std::endl;
+    std::cout<<"2d-displacement y: " <<y<<std::endl;
     Vec3 displacementIn3D = x * _plane->getBasisRight() + Vec3(0,0,y);
-    std::cout<<"here x: " <<_model->getPlayer3DLoc().x<<std::endl;
-    std::cout<<"here y: " <<_model->getPlayer3DLoc().y<<std::endl;
-    std::cout<<"here z: " <<_model->getPlayer3DLoc().z<<std::endl;
+    std::cout<<"3d-displacement x: " <<displacementIn3D.x<<std::endl;
+    std::cout<<"3d-displacement y: " <<displacementIn3D.y<<std::endl;
+    std::cout<<"3d-displacement z: " <<displacementIn3D.z<<std::endl;
+    std::cout<<"here x: " <<(_model->getPlayer3DLoc() + displacementIn3D).x<<std::endl;
+    std::cout<<"here y: " <<(_model->getPlayer3DLoc() + displacementIn3D).y<<std::endl;
+    std::cout<<"here z: " <<(_model->getPlayer3DLoc() + displacementIn3D).z<<std::endl;
     _model->setPlayer3DLoc(_model->getPlayer3DLoc() + displacementIn3D);
 }

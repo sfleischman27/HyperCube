@@ -34,7 +34,9 @@ void PlaneController::calculateCut() {
 
 	// set the origin and normal
 	auto origin = Vec3(0, 0, 0);
+//    auto origin = _model->getPlayer3DLoc();
 	auto normal = Vec3(-1, 0, 0);
+//    auto normal = _model->getPlaneNorm();
 
 	// need the plane basis vectors to do plane projection
 	auto upvec = Vec3(0,0,1);
@@ -118,7 +120,7 @@ void PlaneController::debugCut(float size) {
 	*this is useful for moving the players 3d coordinates based on some motion in the 2d world
 	*/
 Vec3 PlaneController::getBasisRight(){
-	auto z = Vec3(0,0,0);
+	auto z = Vec3(0,0,1);
 	z.cross(_model->getPlaneNorm());
 	return z.normalize();
 }

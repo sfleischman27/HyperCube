@@ -151,9 +151,10 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     const float epsilon = 0.001f;
     const float box2dToScreen = 32;
     Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().x, -model->getPlaneNorm().z);
-    Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
-    // TEMP (good starting position though)
-    charPos = Vec3(16.5, 9, -5) * box2dToScreen - Vec3(screenSize / 2, 0);
+//    Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
+//    // TEMP (good starting position though)
+//    charPos = Vec3(16.5, 9, -5) * box2dToScreen - Vec3(screenSize / 2, 0);
+    Vec3 charPos = model->getPlayer3DLoc();
     Vec3 newPos = charPos + (epsilon * altNorm);
 
     // Update camera
