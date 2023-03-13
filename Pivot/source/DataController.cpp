@@ -60,7 +60,7 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     exit.x = constants->get("exit")->get(0)->asFloat();
     exit.y = constants->get("exit")->get(1)->asFloat();
     exit.z = constants->get("exit")->get(2)->asFloat();
-    model->setInitPlayerLoc(exit);
+    model->setExitLoc(exit);
     
     model->setExitTex(_assets->get<Texture>("exit"));
     

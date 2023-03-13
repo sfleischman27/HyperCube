@@ -116,7 +116,7 @@ public:
      *  Gets the exit location
      */
     Vec3 getExitLoc() {
-        return _startPlayerLoc;
+        return _exit;
     }
     
     /**
