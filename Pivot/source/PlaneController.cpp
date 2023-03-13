@@ -104,7 +104,9 @@ void PlaneController::debugCut(float size) {
 		Vec2(size / 2, size / 2),
 		Vec2(-size / 2, size / 2)
 	};
-	extruder->set(Path2(verts));
+    auto path = Path2(verts);
+    path.closed = true;
+	extruder->set(path);
 	extruder->calculate(width);
 	cut.push_back(extruder->getPolygon());
 

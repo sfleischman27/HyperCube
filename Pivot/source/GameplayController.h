@@ -40,6 +40,8 @@ protected:
     std::set<std::shared_ptr<cugl::scene2::SceneNode>> _cutnodes;
     //DEBUG COLLISION NODE
     std::shared_ptr<cugl::scene2::SceneNode> _debugnode;
+    cugl::Vec2 prevPlay2DPos;
+    cugl::Vec2 currPlay2DPos;
     
 private:
     std::shared_ptr<GameModel> _model;
@@ -167,6 +169,8 @@ public:
     * it also returns the projected distance from that point to the cut plane, which can be used to threshold drawing of an object at that location
     * RETURN: screen coordinates and projection distance pairs are returned as a std::tuple<Vec2,float>*/
     std::tuple<cugl::Vec2, float> ScreenCoordinatesFrom3DPoint(cugl::Vec3);
+    
+    void updatePlayer3DLoc(Vec2 displacement);
 };
 
 #endif /* GameplayController_h */
