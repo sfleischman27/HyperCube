@@ -1,0 +1,35 @@
+{
+    "variables": {
+        "buttonSize": ["data", "size"],
+        "buttonScale": ["data", "scale"],
+        "buttonDirection": ["children", "up", "data", "texture"],
+        "buttonAnchor": ["data", "anchor"],
+        "buttonHorizontal": ["layout", "x_anchor"],
+        "buttonXPos": ["layout", "x_offset"],
+        "buttonYPos": ["layout", "y_offset"]
+    },
+    "contents": {
+        "type": "Button",
+        "data": {
+           "upnode": "up",
+           "size": [200,200],
+           "anchor": [0,0],
+           "scale": 1
+        },
+        "children": {
+            "up":{
+                "type": "Image",
+                "data": {
+                    "texture": "left"
+                }
+            }
+        },
+        "layout": {
+            "x_anchor": "left",
+            "y_anchor" : "bottom",
+            "x_offset" : 0.05,
+            "y_offset" : 0.05
+        }
+    }
+}
+

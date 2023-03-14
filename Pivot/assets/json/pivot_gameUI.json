@@ -1,0 +1,53 @@
+{
+	"textures": {
+        "exit": {
+            "file": "textures/game_exitbutton.png"
+        },
+        "left": {
+            "file": "textures/game_leftbutton.png"
+        },
+        "right": {
+            "file": "textures/game_rightbutton.png"
+        },
+        "jump": {
+            "file": "textures/game_jumpbutton.png"
+        },
+        "tick": {
+            "file": "textures/game_tickmark.png"
+        },
+        "collectedkey":{
+            "file": "textures/game_collectedkey.png"
+        },
+        "uncollectedkey":{
+            "file": "textures/game_uncollectedkey.png"
+        }
+	},
+	"fonts": {
+	},
+    "widgets" : {
+      "exit": "widgets/exit.json",
+      "movement": "widgets/movement.json",
+      "compass": "widgets/compass.json",
+      "inventory": "widgets/inventory.json",
+      "gameUI": "widgets/gameUI.json"
+    },
+    "scene2s" : {
+        "lab": {
+            "type"      : "Node",
+            "comment"   : "This is the root node of the scene for the lab",
+            "format"    : {
+                "type" : "Anchored"
+            },
+            "children" : {
+                "gameUIScreen": {
+                    "type": "Widget",
+                    "data": {
+                        "key": "gameUI",
+                        "variables":{
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

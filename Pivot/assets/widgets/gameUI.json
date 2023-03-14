@@ -1,0 +1,111 @@
+{
+    "variables": {
+        
+    },
+    "contents": {
+       "type" : "Node",
+       "format": {
+           "type": "Anchored"
+       },
+       "data": {
+           "size": [1280,720],
+           "anchor": [0,1],
+           "visible": true
+       },
+       "layout":{
+           "x_anchor": "left",
+           "y_anchor" : "top"
+       },
+       "children":{
+           "exitB" : {
+               "type": "Widget",
+               "data": {
+                   "key": "exit",
+                   "variables": {
+                       "exitSize": [70,70],
+                       "exitScale": 0.75,
+                       "exitXPos": 0.015,
+                       "exitYPos": -0.025
+                   }
+               }
+           },
+           "leftB": {
+               "type": "Widget",
+               "data":{
+                   "key": "movement",
+                   "variables":{
+                       "buttonScale": 0.75,
+                       "buttonSize": [200,200],
+                       "buttonDirection": "left",
+                       "buttonAnchor": [0,0],
+                       "buttonHorizontal": "left",
+                       "buttonXPos": 0.025,
+                       "buttonYPos": 0.015
+                   }
+               }
+           },
+           "rightB": {
+               "type": "Widget",
+               "data":{
+                   "key": "movement",
+                   "variables":{
+                       "buttonScale": 0.75,
+                       "buttonSize": [200,200],
+                       "buttonDirection": "right",
+                       "buttonAnchor": [0,0],
+                       "buttonHorizontal": "left",
+                       "buttonXPos": 0.15,
+                       "buttonYPos": 0.015
+                   }
+               }
+           },
+           "jumpB": {
+               "type": "Widget",
+               "data":{
+                   "key": "movement",
+                   "variables":{
+                       "buttonScale": 0.75,
+                       "buttonSize": [200,200],
+                       "buttonDirection": "jump",
+                       "buttonAnchor": [1,0],
+                       "buttonHorizontal": "right",
+                       "buttonXPos": -0.05,
+                       "buttonYPos": 0.015
+                   }
+               }
+           },
+           "compassBar":{
+               "type": "Widget",
+               "data": {
+                   "key": "compass",
+                   "variables":{
+                       "compassSize": [600,100],
+                       "showCompass": true,
+                       "compassScale": 0.8,
+                       "compassYPos": -0.025
+                   }
+               }
+           },
+           "inventory": {
+               "type": "Widget",
+               "data":{
+                   "key": "inventory",
+                   "variables": {
+                       "inventorySize": [300,150],
+                       "inventoryScale": 0.8,
+                       "showInventory":  true,
+                       "iventoryXPos": 0.09,
+                       "showEmptyOne": true,
+                       "showEmptyTwo": true,
+                       "showEmptyThree": true,
+                       "showEmptyFour": true,
+                       "showKeyOne": true,
+                       "showKeyTwo": true,
+                       "showKeyThree": true,
+                       "showKeyFour": false
+                   }
+               }
+           }
+        }
+    }
+}
