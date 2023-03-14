@@ -203,16 +203,15 @@ void PlayerModel::applyForce() {
         b2Vec2 force(getMovement(),0);
         _body->ApplyForce(force,_body->GetPosition(),true);
     }
-    
-    // Jump!
-//    if (isJumping() && isGrounded()) {
-//        b2Vec2 force(0, DUDE_JUMP);
-//        _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
-//    }
-    if (isJumping()) {
+
+    if (isJumping() && isGrounded()) {
         b2Vec2 force(0, DUDE_JUMP);
         _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
     }
+//    if (isJumping()) {
+//        b2Vec2 force(0, DUDE_JUMP);
+//        _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
+//    }
 }
 
 /**

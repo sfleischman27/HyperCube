@@ -40,8 +40,13 @@ protected:
     std::set<std::shared_ptr<cugl::scene2::SceneNode>> _cutnodes;
     //DEBUG COLLISION NODE
     std::shared_ptr<cugl::scene2::SceneNode> _debugnode;
+    
     cugl::Vec2 prevPlay2DPos;
+    
     cugl::Vec2 currPlay2DPos;
+    
+    /** Mark set to handle more sophisticated collision callbacks */
+    std::unordered_set<b2Fixture*> _sensorFixtures;
     
 private:
     std::shared_ptr<GameModel> _model;
@@ -171,6 +176,27 @@ public:
     std::tuple<cugl::Vec2, float> ScreenCoordinatesFrom3DPoint(cugl::Vec3);
     
     void updatePlayer3DLoc(Vec2 displacement);
+    
+#pragma mark Cut and player Collision Handling
+    /**
+    * Processes the start of a collision
+    *
+    * This method is called when we first get a collision between two objects.  We use
+    * this method to test if it is the "right" kind of collision.  In particular, we
+    * use it to test if we make it to the win door.  We also us it to eliminate bullets.
+    *
+    * @param  contact  The two bodies that collided
+    */
+    void beginContact(b2Contact* contact);
+    /**
+    * Processes the end of a collision
+    *
+    * This method is called when we no longer have a collision between two objects.
+    * We use this method allow the character to jump again.
+    *
+    * @param  contact  The two bodies that collided
+    */
+    void endContact(b2Contact* contact);
 };
 
 #endif /* GameplayController_h */

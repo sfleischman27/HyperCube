@@ -9,6 +9,9 @@
 
 #include "GameplayController.h"
 #include <cugl/cugl.h>
+#include <box2d/b2_world.h>
+#include <box2d/b2_contact.h>
+#include <box2d/b2_collision.h>
 
 using namespace cugl;
 
@@ -120,7 +123,13 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     //set up physics world
     _physics = std::make_shared<PhysicsController>();
     _physics->init(_dimen, rect, SCENE_WIDTH);
-  
+    _physics->getWorld()->onBeginContact= [this](b2Contact* contact) {
+        CULog("contact");
+      beginContact(contact);
+    };
+    _physics->getWorld()->onEndContact = [this](b2Contact* contact) {
+      endContact(contact);
+    };
     
     _worldnode = scene2::SceneNode::alloc();
     _worldnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -284,20 +293,20 @@ void GameplayController::update(float dt) {
     }
 
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
-    if (_input->didIncreaseCut()) {
+    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
         _plane->rotateNorm(.01);
         //createCutObstacles();
         _rotating = true;
     }
 
     //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-    else if (_input->didDecreaseCut()) {
+    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
         _plane->rotateNorm(-.01);
         //createCutObstacles();
         _rotating = true;
     }
     //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-    else if (_input->didKeepChangingCut()) {
+    else if (_model->_player->isGrounded() && _input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm());
         //createCutObstacles();
         _rotating = true;
@@ -492,4 +501,61 @@ void GameplayController::updatePlayer3DLoc(Vec2 displacement) {
     std::cout<<"here y: " <<(_model->getPlayer3DLoc() + displacementIn3D).y<<std::endl;
     std::cout<<"here z: " <<(_model->getPlayer3DLoc() + displacementIn3D).z<<std::endl;*/
     _model->setPlayer3DLoc(_model->getPlayer3DLoc() + displacementIn3D);
+}
+
+void GameplayController::beginContact(b2Contact* contact) {
+    b2Fixture* fix1 = contact->GetFixtureA();
+    b2Fixture* fix2 = contact->GetFixtureB();
+
+    b2Body* body1 = fix1->GetBody();
+    b2Body* body2 = fix2->GetBody();
+
+    std::string* fd1 = reinterpret_cast<std::string*>(fix1->GetUserData().pointer);
+    std::string* fd2 = reinterpret_cast<std::string*>(fix2->GetUserData().pointer);
+
+    physics2::Obstacle* bd1 = reinterpret_cast<physics2::Obstacle*>(body1->GetUserData().pointer);
+    physics2::Obstacle* bd2 = reinterpret_cast<physics2::Obstacle*>(body2->GetUserData().pointer);
+
+    // See if we have landed on the ground.
+    if ((_model->_player->getSensorName() == fd2 && _model->_player.get() != bd1) ||
+        (_model->_player->getSensorName() == fd1 && _model->_player.get() != bd2)) {
+        _model->_player->setGrounded(true);
+        // Could have more than one ground
+        _sensorFixtures.emplace(_model->_player.get() == bd1 ? fix2 : fix1);
+    }
+
+    // If we hit the "win" door, we are done
+//    if((bd1 == _model->_player.get() && bd2 == _goalDoor.get()) ||
+//        (bd1 == _goalDoor.get() && bd2 == _model->_player.get())) {
+//        setComplete(true);
+//    }
+}
+
+/**
+ * Callback method for the start of a collision
+ *
+ * This method is called when two objects cease to touch.  The main use of this method
+ * is to determine when the characer is NOT on the ground.  This is how we prevent
+ * double jumping.
+ */
+void GameplayController::endContact(b2Contact* contact) {
+    b2Fixture* fix1 = contact->GetFixtureA();
+    b2Fixture* fix2 = contact->GetFixtureB();
+
+    b2Body* body1 = fix1->GetBody();
+    b2Body* body2 = fix2->GetBody();
+
+    std::string* fd1 = reinterpret_cast<std::string*>(fix1->GetUserData().pointer);
+    std::string* fd2 = reinterpret_cast<std::string*>(fix2->GetUserData().pointer);
+
+    physics2::Obstacle* bd1 = reinterpret_cast<physics2::Obstacle*>(body1->GetUserData().pointer);
+    physics2::Obstacle* bd2 = reinterpret_cast<physics2::Obstacle*>(body2->GetUserData().pointer);
+
+    if ((_model->_player->getSensorName() == fd2 && _model->_player.get() != bd1) ||
+        (_model->_player->getSensorName() == fd1 && _model->_player.get() != bd2)) {
+        _sensorFixtures.erase(_model->_player.get() == bd1 ? fix2 : fix1);
+        if (_sensorFixtures.empty()) {
+            _model->_player->setGrounded(false);
+        }
+    }
 }
