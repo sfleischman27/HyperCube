@@ -17,6 +17,16 @@ uniform sampler2D outsideTexture;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	// remove this function to remove denoising
+	vec4 cur = texture(fsqTexture, outTexCoord);
+	if (cur == vec4(1, 0, 0, 1)) {
+		return false;
+	}
+	if (cur == vec4(0, 1, 0, 1)) {
+		return false;
+	}
+	if (cur == vec4(0, 0, 1, 1)) {
+		return false;
+	}
 	float bound = 2;
 	float offX = bound/1024;
 	float offY = bound/576;

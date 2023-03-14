@@ -195,8 +195,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     for (int i = 0; i < cut.size(); i++) {
         for (int j = 0; j < cut[i].vertices.size(); j++) {
             auto unplane = (cut[i].vertices[j].x * basisRight);
-            billboardOrigins.push_back(Vec3(-unplane.x, -unplane.y, cut[i].vertices[j].y) + model->getPlaneOrigin());
-            billboardCols.push_back(Color4f::BLUE);
+            //billboardOrigins.push_back(Vec3(-unplane.x, -unplane.y, cut[i].vertices[j].y) + model->getPlaneOrigin());
+            //billboardCols.push_back(Color4f::BLUE);
         }
     }
 
