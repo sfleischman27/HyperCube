@@ -370,7 +370,7 @@ void GameplayController::update(float dt) {
 
 
     auto v = _model->_player->getPosition();
-    CULog("%f , %f", v.x, v.y);
+    //CULog("%f , %f", v.x, v.y);
 
 }
 

@@ -24,8 +24,8 @@ void main(void) {
 	if (frag_color.xyz == vec3(1, 0, 1)) {
         // TEMP: layer tex coords
 		vec2 transTexCoord;
-        int numTexX = 16;
-        int numTexY = 9;
+        float numTexX = (16 / 10) * 2;
+        float numTexY = (9 / 6) * .5;
         transTexCoord.x = mod(outTexCoord.x * numTexX, 1.0);
         transTexCoord.y = mod(outTexCoord.y * numTexY, 1.0);
 		// End temp

@@ -27,7 +27,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
     _camera->setFar(10000);
-    _camera->setZoom(1);
+    _camera->setZoom(2);
     _camera->update();
 
     // Mesh shader
@@ -72,6 +72,11 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     //glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
+
+    backgrounds = {};
+    for (int i = 1; i <= 15; i++) {
+        backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
+    }
 
 	return;
 }
@@ -241,7 +246,17 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // --------------- TEMP: FSQ pre-calculations --------------- //
     // Load cobblestone texture
-    std::shared_ptr<Texture> earthTex = assets->get<Texture>("earth");
+    //std::shared_ptr<Texture> earthTex = assets->get<Texture>("earth");
+    const int numImages = 15;
+    const int repeatAngle = 45;
+    const float degToRad = 0.0174533;
+    Vec3 vInit = Vec3(-1, 0, 0);
+    float ang = altNorm.getAngle(vInit);
+    if (ang < 0) ang += M_PI;
+    int index = int(fmod(ang, repeatAngle * degToRad) / (degToRad));
+    CULog("%f", ang);
+    std::shared_ptr<Texture> earthTex = backgrounds[index/(repeatAngle/numImages)];
+    CULog("%i", index / (repeatAngle / numImages));
 
     // --------------- Pass 3: FSQ --------------- //
 

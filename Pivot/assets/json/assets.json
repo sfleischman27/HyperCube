@@ -20,6 +20,51 @@
     "bullet": {
       "file": "textures/bullet.png"
     },
+    "section_cut (1)": {
+      "file": "textures/section_cut (1).png"
+    },
+    "section_cut (2)": {
+      "file": "textures/section_cut (2).png"
+    },
+    "section_cut (3)": {
+      "file": "textures/section_cut (3).png"
+    },
+    "section_cut (4)": {
+      "file": "textures/section_cut (4).png"
+    },
+    "section_cut (5)": {
+      "file": "textures/section_cut (5).png"
+    },
+    "section_cut (6)": {
+      "file": "textures/section_cut (6).png"
+    },
+    "section_cut (7)": {
+      "file": "textures/section_cut (7).png"
+    },
+    "section_cut (8)": {
+      "file": "textures/section_cut (8).png"
+    },
+    "section_cut (9)": {
+      "file": "textures/section_cut (9).png"
+    },
+    "section_cut (10)": {
+      "file": "textures/section_cut (10).png"
+    },
+    "section_cut (11)": {
+      "file": "textures/section_cut (11).png"
+    },
+    "section_cut (12)": {
+      "file": "textures/section_cut (12).png"
+    },
+    "section_cut (13)": {
+      "file": "textures/section_cut (13).png"
+    },
+    "section_cut (14)": {
+      "file": "textures/section_cut (14).png"
+    },
+    "section_cut (15)": {
+      "file": "textures/section_cut (15).png"
+    },
     "goal": {
       "file": "textures/goaldoor.png"
     },

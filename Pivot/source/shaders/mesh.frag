@@ -25,7 +25,7 @@ void main(void) {
 	if (dot(uDirection, transNormal) >= cullOutside) {
         frag_color = vec4(1, 0, 1, 1);
     } else {
-		frag_color = texture(uTexture, outTexCoord);
+		frag_color = texture(uTexture, outTexCoord) * .5 + vec4(.5, .5, .5, 1) * .5;
 
 		// TODO added depth stuff here but should use a depth buffer
 		float d = -(Mv * pos).z;
