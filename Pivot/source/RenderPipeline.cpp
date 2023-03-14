@@ -244,7 +244,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     const int repeatAngle = 45;
     const float degToRad = 0.0174533;
     Vec3 vInit = Vec3(-1, 0, 0);
-    float ang = altNorm.getAngle(vInit);
+    float ang = model->getPlaneNorm().getAngle(vInit);
     if (ang < 0) ang += M_PI;
     int index = int(fmod(ang, repeatAngle * degToRad) / (degToRad));
     //CULog("%f", ang);
