@@ -33,17 +33,17 @@ void PlaneController::rotateNorm(float radians) {
 void PlaneController::calculateCut() {
 
 	// set the origin and normal
-	auto origin = Vec3(0, 0, 0);
-//    auto origin = _model->getPlayer3DLoc();
-	auto normal = Vec3(-1, 0, 0);
-//    auto normal = _model->getPlaneNorm();
+	//auto origin = Vec3(0, 0, 0);
+    auto origin = _model->getPlayer3DLoc();
+	//auto normal = Vec3(-1, 0, 0);
+    auto normal = _model->getPlaneNorm();
 
 	// need the plane basis vectors to do plane projection
 	auto upvec = Vec3(0,0,1);
 	auto rightvec = getBasisRight();
 
 	// how much to extrude the cut
-	float width = .05;
+	float width = 1;
 
 	// init the extruder
 	std::shared_ptr<SimpleExtruder> extruder = std::make_shared<SimpleExtruder>();
@@ -58,8 +58,6 @@ void PlaneController::calculateCut() {
 
 	//for each edge get the corresponding start and end vertices
 	//dot them with the basis vectors to get their plane projection
-	//create a path2 object from them
-	std::vector<Path2> segments;
 	for (int i = 0; i < Ecut.rows(); i++) {
 
 		// Dot the first point to the x axis then the y axis;
@@ -78,8 +76,8 @@ void PlaneController::calculateCut() {
 		extruder->calculate(width);
 		cut.push_back(extruder->getPolygon());
 
-		//CULog("v%f,%f,%f", v0.x, v0.y, 0.0f);
-		//CULog("v%f,%f,%f", v1.x, v1.y, 0.0f);
+		CULog("v%f,%f,%f", v0.x, v0.y, 0.0f);
+		CULog("v%f,%f,%f", v1.x, v1.y, 0.0f);
 	}
 
 	_model->setCut(cut);
@@ -120,7 +118,12 @@ void PlaneController::debugCut(float size) {
 	*this is useful for moving the players 3d coordinates based on some motion in the 2d world
 	*/
 Vec3 PlaneController::getBasisRight(){
+
 	auto z = Vec3(0,0,1);
 	z.cross(_model->getPlaneNorm());
-	return z.normalize();
+	z.normalize();
+
+	auto angle = z.getAngle(_model->getPlaneNorm());
+
+	return z;
 }

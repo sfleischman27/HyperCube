@@ -69,7 +69,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     //glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
 
 	return;
 }
@@ -149,8 +149,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Compute rotation and position change
     const float epsilon = 0.001f;
-    const float box2dToScreen = 32;
-    Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().x, -model->getPlaneNorm().z);
+    const float box2dToScreen = 1;
+    
+    Vec3 altNorm = Vec3(model->getPlaneNorm().x, model->getPlaneNorm().y, -model->getPlaneNorm().z);
 //    Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
 //    // TEMP (good starting position though)
 //    charPos = Vec3(16.5, 9, -5) * box2dToScreen - Vec3(screenSize / 2, 0);
@@ -189,22 +190,41 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // --------------- TEMP: Billboard pre-calculations --------------- //
 
     // hard-coded billboards
-    const int numBill = 2;
-    Vec3 billboardOrigins[numBill];
-    billboardOrigins[0] = charPos;
-    billboardOrigins[1] = Vec3(8.5, 9, -5.25) * box2dToScreen - Vec3(screenSize / 2, 0);
-    Color4f billboardCols[numBill];
-    billboardCols[0] = Color4f::RED;
-    billboardCols[1] = Color4f::GREEN;
+    std::vector<Vec3> billboardOrigins;
+    billboardOrigins.push_back(charPos);
+    billboardOrigins.push_back(Vec3(-102.167, 200.171, 24.8627));
+    billboardOrigins.push_back(Vec3(-226.363, -5.93188, -14.9972));
+    billboardOrigins.push_back(Vec3(298.159, 9.74568, -34.609));// * box2dToScreen - Vec3(screenSize / 2, 0);
+    std::vector<Color4f> billboardCols;
+    billboardCols.push_back(Color4f::RED);
+    billboardCols.push_back(Color4f::GREEN);
+    billboardCols.push_back(Color4f::GREEN);
+    billboardCols.push_back(Color4f::GREEN);
+
 
     // construct basis
     const Vec3 basisUp = _camera->getUp();
     const Vec3 basisRight = altNorm.cross(basisUp);
 
+
+    // get debugger info from the plane controller
+    
+    auto cut = model->getCut();
+    auto o = model->getPlayer3DLoc();
+    for (int i = 0; i < cut.size(); i++) {
+        for (int j = 0; j < cut[i].vertices.size(); j++) {
+            auto unplane = (cut[i].vertices[j].x * basisRight);
+            billboardOrigins.push_back(Vec3(unplane.x, unplane.y, cut[i].vertices[j].y));
+            billboardCols.push_back(Color4f::BLUE);
+        }
+    }
+
+    
+
     // add all billboard vertices
     _meshBill.clear();
     PivotVertex3 tempV;
-    for (int n = 0; n < numBill; n++) {
+    for (int n = 0; n < billboardOrigins.size(); n++) {
         for (float i = -5; i <= 5; i += 10) {
             for (float j = -5; j <= 5; j += 10) {
                 tempV.position = billboardOrigins[n] + i * basisRight + j * basisUp;
@@ -215,7 +235,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // add all billboard indices
-    for (int c = 0; c < numBill; c++) {
+    for (int c = 0; c < billboardCols.size(); c++) {
         int startIndex = c * 4;
         for (int tri = 0; tri <= 1; tri++) {
             for (int i = 0; i < 3; i++) {

@@ -23,6 +23,6 @@
             }
     },
     "jsons" : {
-        "constants" : "../../assets/json/levelTest.json"
+        "constants" : "../../assets/jsonWindows/levelTest.json"
     }
 }

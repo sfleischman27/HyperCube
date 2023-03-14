@@ -57,7 +57,7 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     norm.z = constants->get("norm")->get(2)->asFloat();
     model->setInitPlaneNorm(norm);
     
-    model->setPlaneNorm(norm);
+    //model->setPlaneNorm(norm);
     
     Vec3 exit;
     exit.x = constants->get("exit")->get(0)->asFloat();
@@ -84,5 +84,6 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     }
     model->setCollectibles(locs, texs);
     
+    return true;
 }
 

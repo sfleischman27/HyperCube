@@ -101,13 +101,15 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     DataController data = DataController();
     data.init(_assets);
     data.initGameModel("levelAssets.json", _model);
+    
     _model->setPlayer3DLoc(_model->getInitPlayerLoc());
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
     _plane->init(_model);
-    _plane->debugCut(10);
-    // _plane->calculateCut();
+    _plane->setPlaneNorm(_model->getInitPlaneNorm());
+    _plane->debugCut(100);
+    //_plane->calculateCut();
     
     // Start up the input handler
     _input = std::make_shared<InputController>();
@@ -306,8 +308,8 @@ void GameplayController::update(float dt) {
             _model->_player->setPosition(Vec2::ZERO);
             prevPlay2DPos = Vec2::ZERO;
             _physics->getWorld()->addObstacle(_model->_player);
-            // _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
-            _plane->debugCut(10);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
+            //_plane->calculateCut();//calculate cut here so it only happens when we finish rotating
+            _plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
             _rotating = false;
         }
@@ -463,17 +465,18 @@ std::tuple<cugl::Vec2, float> GameplayController::ScreenCoordinatesFrom3DPoint(c
 void GameplayController::updatePlayer3DLoc(Vec2 displacement) {
     float x = displacement.x;
     float y = displacement.y;
-    std::cout<<"_plane->getBasisRight().x: " << _plane->getBasisRight().x << std::endl;
+    /*std::cout<<"_plane->getBasisRight().x: " << _plane->getBasisRight().x << std::endl;
     std::cout<<"_plane->getBasisRight().y: " << _plane->getBasisRight().x << std::endl;
     std::cout<<"_plane->getBasisRight().z: " << _plane->getBasisRight().x << std::endl;
     std::cout<<"2d-displacement x: " <<x<<std::endl;
-    std::cout<<"2d-displacement y: " <<y<<std::endl;
-    Vec3 displacementIn3D = x * _plane->getBasisRight() + Vec3(0,0,y);
-    std::cout<<"3d-displacement x: " <<displacementIn3D.x<<std::endl;
+    std::cout<<"2d-displacement y: " <<y<<std::endl;*/
+    Vec3 temp = x * _plane->getBasisRight();
+    Vec3 displacementIn3D = Vec3(temp.x, temp.y, y);
+    /*std::cout<<"3d-displacement x: " <<displacementIn3D.x<<std::endl;
     std::cout<<"3d-displacement y: " <<displacementIn3D.y<<std::endl;
     std::cout<<"3d-displacement z: " <<displacementIn3D.z<<std::endl;
     std::cout<<"here x: " <<(_model->getPlayer3DLoc() + displacementIn3D).x<<std::endl;
     std::cout<<"here y: " <<(_model->getPlayer3DLoc() + displacementIn3D).y<<std::endl;
-    std::cout<<"here z: " <<(_model->getPlayer3DLoc() + displacementIn3D).z<<std::endl;
+    std::cout<<"here z: " <<(_model->getPlayer3DLoc() + displacementIn3D).z<<std::endl;*/
     _model->setPlayer3DLoc(_model->getPlayer3DLoc() + displacementIn3D);
 }

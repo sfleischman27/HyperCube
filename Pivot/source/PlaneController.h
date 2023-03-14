@@ -32,7 +32,8 @@ public:
 	void init(std::shared_ptr<GameModel> gamemodel) 
 	{
 		_model = gamemodel;
-		calculateCut();
+		setPlaneNorm(_model->getInitPlaneNorm());
+		//calculateCut();
 	}
 
     /**
