@@ -30,7 +30,7 @@
 /** The density of the character */
 #define DUDE_DENSITY    1.0f
 /** The impulse for the character jump */
-#define DUDE_JUMP       5.5f
+#define DUDE_JUMP       200.0f
 /** Debug color for the sensor */
 #define DEBUG_COLOR     Color4::RED
 
@@ -203,16 +203,15 @@ void PlayerModel::applyForce() {
         b2Vec2 force(getMovement(),0);
         _body->ApplyForce(force,_body->GetPosition(),true);
     }
-    
-    // Jump!
-//    if (isJumping() && isGrounded()) {
-//        b2Vec2 force(0, DUDE_JUMP);
-//        _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
-//    }
-    if (isJumping()) {
+
+    if (isJumping() && isGrounded()) {
         b2Vec2 force(0, DUDE_JUMP);
         _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
     }
+//    if (isJumping()) {
+//        b2Vec2 force(0, DUDE_JUMP);
+//        _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
+//    }
 }
 
 /**

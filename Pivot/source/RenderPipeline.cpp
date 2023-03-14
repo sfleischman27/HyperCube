@@ -119,16 +119,17 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Compute rotation and position change
     const float epsilon = 0.001f;
-    const float box2dToScreen = 32;
-    Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().x, -model->getPlaneNorm().z);
-    Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
-    // TEMP (good starting position though)
-    charPos = Vec3(16.5, 9, -5) * box2dToScreen - Vec3(screenSize / 2, 0);
-    Vec3 newPos = charPos + (epsilon * altNorm);
+    
+    Vec3 norm = model->getPlaneNorm();
+//    Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
+//    // TEMP (good starting position though)
+//    charPos = Vec3(16.5, 9, -5) * box2dToScreen - Vec3(screenSize / 2, 0);
+    Vec3 charPos = model->getPlayer3DLoc();
+    Vec3 newPos = charPos + (epsilon * norm);
 
     // Update camera
     _camera->setPosition(newPos);
-    _camera->setDirection(-altNorm);
+    _camera->setDirection(-norm);
     _camera->setUp(Vec3(0, 0, 1));
     _camera->update();
 
@@ -144,7 +145,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     cobbleTex->bind();
 
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
-    _shader->setUniformVec3("uDirection", altNorm);
+    _shader->setUniformVec3("uDirection", norm);
     _shader->setUniformMat4("Mv", _camera->getView());
     _shader->setUniform1i("uTexture", insideTex);
 
@@ -184,12 +185,27 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // construct basis
     const Vec3 basisUp = _camera->getUp();
-    const Vec3 basisRight = altNorm.cross(basisUp);
+    const Vec3 basisRight = norm.cross(basisUp);
+
+
+    // get debugger info from the plane controller to visualize physics
+    
+    auto cut = model->getCut();
+    auto o = model->getPlayer3DLoc();
+    for (int i = 0; i < cut.size(); i++) {
+        for (int j = 0; j < cut[i].vertices.size(); j++) {
+            auto unplane = (cut[i].vertices[j].x * basisRight);
+            billboardOrigins.push_back(Vec3(-unplane.x, -unplane.y, cut[i].vertices[j].y) + model->getPlaneOrigin());
+            billboardCols.push_back(Color4f::BLUE);
+        }
+    }
+
+    
 
     // add all billboard vertices
     _meshBill.clear();
     PivotVertex3 tempV;
-    for (int n = 0; n < numBill; n++) {
+    for (int n = 0; n < billboardOrigins.size(); n++) {
         for (float i = -5; i <= 5; i += 10) {
             for (float j = -5; j <= 5; j += 10) {
                 tempV.position = billboardOrigins[n] + i * basisRight + j * basisUp;
@@ -200,7 +216,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // add all billboard indices
-    for (int c = 0; c < numBill; c++) {
+    for (int c = 0; c < billboardCols.size(); c++) {
         int startIndex = c * 4;
         for (int tri = 0; tri <= 1; tri++) {
             for (int i = 0; i < 3; i++) {
