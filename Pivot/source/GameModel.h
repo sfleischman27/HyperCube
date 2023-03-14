@@ -46,6 +46,9 @@ public:
 private:
     /** Plane normal vector */
     Vec3 _norm;
+
+    /**The origin of the cut plane AND 3d origin from which physics world is defined*/
+    Vec3 _origin;
     
 #pragma mark Cut State
 private:
@@ -182,6 +185,25 @@ public:
      */
     Vec3 getPlaneNorm() {
         return _norm;
+    }
+
+    /**
+     *  Sets the plane origin
+     *
+     * NOTE: YOU should not use this method to set the plane origin,
+     * instead use the methods available through  the PLANE CONTROLLER
+     *
+     * IF you do use this method it will NOT recompute the cut
+     */
+    void setPlaneOrigin(Vec3 origin) {
+        _origin = origin;
+    }
+
+    /**
+     *  Gets the Current plane origin
+     */
+    Vec3 getPlaneOrigin() {
+        return _origin;
     }
     
     /**

@@ -12,21 +12,26 @@
     *
     *  @param norm        The norm of the plane
     */
-void PlaneController::setPlaneNorm(Vec3 norm) {
+void PlaneController::setPlane(Vec3 origin, Vec3 norm) {
+	_model->setPlaneOrigin(origin);
     norm = norm.normalize();
     _model->setPlaneNorm(norm);
-	//calculateCut();//too heavy to calculate every frame
 }
 
 /**Rotate the normal around the player by some angle in radians*/
-void PlaneController::rotateNorm(float radians) {
-    auto norm = _model->getPlaneNorm();
+void PlaneController::rotateNorm(float radians){   
+	auto norm = _model->getPlaneNorm();
     Vec3 newNorm = Vec3(
         norm.x * cos(radians) - norm.y * sin(radians),
         norm.x * sin(radians) + norm.y * cos(radians),
         0
     );
-    setPlaneNorm(newNorm);
+    setPlane(_model->getPlaneOrigin(), newNorm);
+}
+
+/**Move the planes origin to the location of the player*/
+void PlaneController::movePlaneToPlayer() {
+	setPlane(_model->getPlayer3DLoc(), _model->getPlaneNorm());
 }
 
 
@@ -34,7 +39,7 @@ void PlaneController::calculateCut() {
 
 	// set the origin and normal
 	//auto origin = Vec3(0, 0, 0);
-    auto origin = _model->getPlayer3DLoc();
+    auto origin = _model->getPlaneOrigin();
 	//auto normal = Vec3(-1, 0, 0);
     auto normal = _model->getPlaneNorm();
 
@@ -56,17 +61,19 @@ void PlaneController::calculateCut() {
 	auto Vcut = std::get<0>(cutdata);
 	auto Ecut = std::get<1>(cutdata);
 
+	//make origin at the player origin
+
 	//for each edge get the corresponding start and end vertices
 	//dot them with the basis vectors to get their plane projection
 	for (int i = 0; i < Ecut.rows(); i++) {
 
 		// Dot the first point to the x axis then the y axis;
-		auto x0 = rightvec.x * Vcut(Ecut(i,0), 0) + rightvec.y * Vcut(Ecut(i, 0), 1) + rightvec.z * Vcut(Ecut(i, 0), 2);
-		auto y0 = upvec.x * Vcut(Ecut(i, 0), 0) + upvec.y * Vcut(Ecut(i, 0), 1) + upvec.z * Vcut(Ecut(i, 0), 2);
+		auto x0 = rightvec.x * (Vcut(Ecut(i,0), 0)-origin.x) + rightvec.y * (Vcut(Ecut(i, 0), 1)-origin.y) + rightvec.z * (Vcut(Ecut(i, 0), 2)-origin.z);
+		auto y0 = upvec.x * (Vcut(Ecut(i, 0), 0)-origin.x) + upvec.y * (Vcut(Ecut(i, 0), 1) - origin.y) + upvec.z * (Vcut(Ecut(i, 0), 2)-origin.z);
 
 		// Dot the second point to the x axis then the y axis;
-		auto x1 = rightvec.x * Vcut(Ecut(i, 1), 0) + rightvec.y * Vcut(Ecut(i, 1), 1) + rightvec.z * Vcut(Ecut(i, 1), 2);
-		auto y1 = upvec.x * Vcut(Ecut(i, 1), 0) + upvec.y * Vcut(Ecut(i, 1), 1) + upvec.z * Vcut(Ecut(i, 1), 2);
+		auto x1 = rightvec.x * (Vcut(Ecut(i, 1), 0) - origin.x) + rightvec.y * (Vcut(Ecut(i, 1), 1) - origin.y) + rightvec.z * (Vcut(Ecut(i, 1), 2) - origin.z);
+		auto y1 = upvec.x * (Vcut(Ecut(i, 1), 0) - origin.x) + upvec.y * (Vcut(Ecut(i, 1), 1) - origin.y) + upvec.z * (Vcut(Ecut(i, 1), 2) - origin.z);
 
 		// Make Vec2 Objects, make a path, add the path to segments
 		auto v0 = Vec2(x0, y0);
@@ -76,8 +83,8 @@ void PlaneController::calculateCut() {
 		extruder->calculate(width);
 		cut.push_back(extruder->getPolygon());
 
-		CULog("v%f,%f,%f", v0.x, v0.y, 0.0f);
-		CULog("v%f,%f,%f", v1.x, v1.y, 0.0f);
+		//CULog("v%f,%f,%f", v0.x, v0.y, 0.0f);
+		//CULog("v%f,%f,%f", v1.x, v1.y, 0.0f);
 	}
 
 	_model->setCut(cut);

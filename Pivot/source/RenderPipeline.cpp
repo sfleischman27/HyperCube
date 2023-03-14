@@ -26,7 +26,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
     _camera->setFar(10000);
-    _camera->setZoom(1);
+    _camera->setZoom(2);
     _camera->update();
 
     // Mesh shader
@@ -69,7 +69,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     //glEnable(GL_CULL_FACE);
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 
 	return;
 }
@@ -149,18 +149,17 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Compute rotation and position change
     const float epsilon = 0.001f;
-    const float box2dToScreen = 1;
     
-    Vec3 altNorm = Vec3(model->getPlaneNorm().x, model->getPlaneNorm().y, -model->getPlaneNorm().z);
+    Vec3 norm = model->getPlaneNorm();
 //    Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
 //    // TEMP (good starting position though)
 //    charPos = Vec3(16.5, 9, -5) * box2dToScreen - Vec3(screenSize / 2, 0);
     Vec3 charPos = model->getPlayer3DLoc();
-    Vec3 newPos = charPos + (epsilon * altNorm);
+    Vec3 newPos = charPos + (epsilon * norm);
 
     // Update camera
     _camera->setPosition(newPos);
-    _camera->setDirection(-altNorm);
+    _camera->setDirection(-norm);
     _camera->setUp(Vec3(0, 0, 1));
     _camera->update();
 
@@ -176,7 +175,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     cobbleTex->bind();
 
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
-    _shader->setUniformVec3("uDirection", altNorm);
+    _shader->setUniformVec3("uDirection", norm);
     _shader->setUniformMat4("Mv", _camera->getView());
     _shader->setUniform1i("uTexture", insideTex);
 
@@ -204,17 +203,17 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // construct basis
     const Vec3 basisUp = _camera->getUp();
-    const Vec3 basisRight = altNorm.cross(basisUp);
+    const Vec3 basisRight = norm.cross(basisUp);
 
 
-    // get debugger info from the plane controller
+    // get debugger info from the plane controller to visualize physics
     
     auto cut = model->getCut();
     auto o = model->getPlayer3DLoc();
     for (int i = 0; i < cut.size(); i++) {
         for (int j = 0; j < cut[i].vertices.size(); j++) {
             auto unplane = (cut[i].vertices[j].x * basisRight);
-            billboardOrigins.push_back(Vec3(unplane.x, unplane.y, cut[i].vertices[j].y));
+            billboardOrigins.push_back(Vec3(-unplane.x, -unplane.y, cut[i].vertices[j].y) + model->getPlaneOrigin());
             billboardCols.push_back(Color4f::BLUE);
         }
     }

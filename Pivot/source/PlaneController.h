@@ -32,7 +32,7 @@ public:
 	void init(std::shared_ptr<GameModel> gamemodel) 
 	{
 		_model = gamemodel;
-		setPlaneNorm(_model->getInitPlaneNorm());
+		setPlane(_model->getInitPlayerLoc(), _model->getInitPlaneNorm());
 		//calculateCut();
 	}
 
@@ -41,10 +41,13 @@ public:
     *
     *  @param norm        The norm of the plane
     */
-	void setPlaneNorm(Vec3 norm);
+	void setPlane(Vec3 origin, Vec3 norm);
 
     /**Rotate the normal around the player by some angle in radians*/
 	void rotateNorm(float radians);
+
+	/**Move the planes origin to the location of the player*/
+	void movePlaneToPlayer();
 
 	/**Gets a vector of Poly2 objects which represent a CUT throught the map at the given angle
 	* @param origin the origin of the cut plane

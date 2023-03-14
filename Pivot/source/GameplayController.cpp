@@ -107,9 +107,9 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
     _plane->init(_model);
-    _plane->setPlaneNorm(_model->getInitPlaneNorm());
-    _plane->debugCut(100);
-    //_plane->calculateCut();
+    //_plane->setPlane(_model->getInitPlaneNorm());
+    //_plane->debugCut(100);
+    _plane->calculateCut();
     
     // Start up the input handler
     _input = std::make_shared<InputController>();
@@ -276,11 +276,11 @@ void GameplayController::update(float dt) {
 
 #pragma mark INPUT
     _input->update(dt);
-    
+
     if (_input->didDebug()) {
         setDebug(!isDebug());
         CULog("Debug mode is: %d, visibility: %d", isDebug(), _debugnode->isVisible());
-        
+
     }
 
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
@@ -303,13 +303,14 @@ void GameplayController::update(float dt) {
         _rotating = true;
     }
     else {
-        if(_rotating){
+        if (_rotating) {
             _physics->clear();
             _model->_player->setPosition(Vec2::ZERO);
             prevPlay2DPos = Vec2::ZERO;
             _physics->getWorld()->addObstacle(_model->_player);
-            //_plane->calculateCut();//calculate cut here so it only happens when we finish rotating
-            _plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
+            _plane->movePlaneToPlayer();
+            _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
+            //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
             _rotating = false;
         }
@@ -317,7 +318,7 @@ void GameplayController::update(float dt) {
     }
 
 #pragma mark COLLECTIBLES
-    
+
     // TODO: Update player bag what is collected -Jolene
     if (_input->didSelect()) {
         auto pos = _input->getSelection();
@@ -329,9 +330,9 @@ void GameplayController::update(float dt) {
             auto coords = std::get<0>(tuplec);
             auto dist = std::get<1>(tuplec);
             //down scale the player position by screen size for comparison
-            float w = (_dimen.width/_physics->getScale())/2;
-            float h = (_dimen.height/_physics->getScale())/2;
-            Vec2 playerpos = Vec2((_model->_player->getX()-w)/w,(_model->_player->getY()-h)/h);
+            float w = (_dimen.width / _physics->getScale()) / 2;
+            float h = (_dimen.height / _physics->getScale()) / 2;
+            Vec2 playerpos = Vec2((_model->_player->getX() - w) / w, (_model->_player->getY() - h) / h);
             if (!itr->second.getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
                 std::abs(pos.x - coords.x) <= CLICK_DIST &&
@@ -346,18 +347,29 @@ void GameplayController::update(float dt) {
 
 
 #pragma mark PLAYER
-    
-    _model->_player->setMovement(_input->getHorizontal()*_model->_player->getForce());
-    _model->_player->setJumping( _input->didJump());
+
+    _model->_player->setMovement(_input->getHorizontal() * _model->_player->getForce());
+    _model->_player->setJumping(_input->didJump());
     _model->_player->applyForce();
 
     currPlay2DPos = _model->_player->getPosition();
-    CULog("currPos: %f , %f", currPlay2DPos.x, currPlay2DPos.y);
-    CULog("prevPos: %f , %f", prevPlay2DPos.x, prevPlay2DPos.y);
+    //CULog("currPos: %f , %f", currPlay2DPos.x, currPlay2DPos.y);
+    //CULog("prevPos: %f , %f", prevPlay2DPos.x, prevPlay2DPos.y);
     Vec2 displacement = currPlay2DPos - prevPlay2DPos;
-    CULog("displacement: %f , %f", displacement.x, displacement.y);
+    //CULog("displacement: %f , %f", displacement.x, displacement.y);
     updatePlayer3DLoc(displacement);
     prevPlay2DPos = currPlay2DPos;
+
+
+    //Jacks trying another way 
+    //[it worked the same as above... if we get drifting from floating point error try this one instead]
+    /*currPlay2DPos = _model->_player->getPosition();
+    Vec3 temp = currPlay2DPos.x * _plane->getBasisRight();
+    Vec3 displacementIn3D = Vec3(temp.x, temp.y, currPlay2DPos.y);
+    _model->setPlayer3DLoc(_model->getPlaneOrigin() + displacementIn3D);*/
+
+    //CULog("PLayer 3d Coords: %f, %f, %f", _model->getPlayer3DLoc().x, _model->getPlayer3DLoc().y, _model->getPlayer3DLoc().z);
+    CULog("NORMAL: %f _ %f _ %f", _model->getPlaneNorm().x, _model->getPlaneNorm().y, _model->getPlaneNorm().z);
 }
 
 /**
