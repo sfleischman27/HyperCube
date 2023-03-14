@@ -366,7 +366,7 @@ void GameplayController::update(float dt) {
     //CULog("currPos: %f , %f", currPlay2DPos.x, currPlay2DPos.y);
     //CULog("prevPos: %f , %f", prevPlay2DPos.x, prevPlay2DPos.y);
     Vec2 displacement = currPlay2DPos - prevPlay2DPos;
-    CULog("speed: %f , %f", displacement.x/dt, displacement.y/dt);
+    //CULog("speed: %f , %f", displacement.x/dt, displacement.y/dt);
     updatePlayer3DLoc(displacement);
     prevPlay2DPos = currPlay2DPos;
 
@@ -379,7 +379,7 @@ void GameplayController::update(float dt) {
     _model->setPlayer3DLoc(_model->getPlaneOrigin() + displacementIn3D);*/
 
     //CULog("PLayer 3d Coords: %f, %f, %f", _model->getPlayer3DLoc().x, _model->getPlayer3DLoc().y, _model->getPlayer3DLoc().z);
-    CULog("NORMAL: %f _ %f _ %f", _model->getPlaneNorm().x, _model->getPlaneNorm().y, _model->getPlaneNorm().z);
+    //CULog("NORMAL: %f _ %f _ %f", _model->getPlaneNorm().x, _model->getPlaneNorm().y, _model->getPlaneNorm().z);
 }
 
 /**

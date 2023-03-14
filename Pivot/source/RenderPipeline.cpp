@@ -20,6 +20,10 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     // Setup current level id
     levelId = 0;
 
+    // For cut texture transform
+    storePlayerPos = Vec2(0, 0);
+    prevPlayerPos = Vec2(0, 0);
+
     // FBO setup
     fbo.init(screenSize.width, screenSize.height);
     fbo.setClearColor(Color4f::MAGENTA);
@@ -251,6 +255,17 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     std::shared_ptr<Texture> earthTex = backgrounds[index/(repeatAngle/numImages)];
     //CULog("%i", index / (repeatAngle / numImages));
 
+    if (model->_player->getPosition() == Vec2(0, 0)) {
+        storePlayerPos += prevPlayerPos;
+    }
+    prevPlayerPos = model->_player->getPosition();
+    Vec2 transOffset = storePlayerPos + model->_player->getPosition();
+    transOffset.x /= (1024 / 2);
+    transOffset.y /= (576 / 2);
+    //transOffset.x = ((charPos * norm).x + (charPos * norm).y) / (-1024 / 2);
+    //transOffset.x = charPos.dot(norm) / (-1024 / 2);
+    //transOffset.y = (charPos * basisUp).z / (576 / 2);
+
     // --------------- Pass 3: FSQ --------------- //
 
     const int fsqTex = 1;
@@ -268,6 +283,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderFsq->setUniformMat4("Mv", _camera->getView());
     _shaderFsq->setUniform1i("fsqTexture", fsqTex);
     _shaderFsq->setUniform1i("outsideTexture", outsideTex);
+    _shaderFsq->setUniformVec2("transOffset", transOffset);
     //_shaderFsq->setUniform1i("depthTexture", depthTex);
 
     _vertbuffFsq->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());

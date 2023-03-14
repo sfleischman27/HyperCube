@@ -14,6 +14,7 @@ uniform mat4 Mv;
 uniform sampler2D fsqTexture;
 uniform sampler2D outsideTexture;
 //uniform sampler2D depthTexture;
+uniform vec2 transOffset;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	// remove this function to remove denoising
@@ -62,10 +63,13 @@ void main(void) {
 	if (frag_color.xyz == vec3(1, 0, 1) || checkNeighboring(fsqTexture, outTexCoord)) {
         // TEMP: layer tex coords
 		vec2 transTexCoord;
-        float numTexX = (16 / 10) * 2;
-        float numTexY = (9 / 6) * .5;
-        transTexCoord.x = mod(outTexCoord.x * numTexX, 1.0);
-        transTexCoord.y = mod(outTexCoord.y * numTexY, 1.0);
+		float xStretch = 2;
+		float yStretch = .5;
+        float numTexX = (16 / 10) * xStretch;
+        float numTexY = (9 / 6) * yStretch;
+		vec2 midTexCoord = mod(outTexCoord + transOffset, 1.0);
+        transTexCoord.x = mod(midTexCoord.x * numTexX, 1.0);
+        transTexCoord.y = mod(midTexCoord.y * numTexY, 1.0);
 		// End temp
 		frag_color = texture(outsideTexture, transTexCoord);
 	}
