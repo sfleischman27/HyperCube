@@ -200,6 +200,13 @@ public:
     bool touchingGround(){
         return true;
     }
+
+    /**
+     * Gets the map of collectibles
+     */
+    std::unordered_map<std::string, Collectible> getCollectibles() {
+        return _collectibles;
+    }
     
     /**
      * Initializes collectibles with locations and textures

@@ -158,6 +158,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // --------------- TEMP: Billboard pre-calculations --------------- //
 
     // hard-coded billboards
+    /*
     const int numBill = 2;
     Vec3 billboardOrigins[numBill];
     billboardOrigins[0] = charPos;
@@ -165,6 +166,21 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     Color4f billboardCols[numBill];
     billboardCols[0] = Color4f::RED;
     billboardCols[1] = Color4f::GREEN;
+    */
+
+    // Grabs position of existing billboards
+    std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
+    const int numBill = colls.size() + 2; // adding player and exit
+    std::vector<Vec3> billboardOrigins = {};
+    std::vector<Color4f> billboardCols = {};
+    billboardOrigins.push_back(charPos);
+    billboardOrigins.push_back(model->getExitLoc());
+    billboardCols.push_back(Color4f::RED);
+    billboardCols.push_back(Color4f::BLUE);
+    for (std::pair<std::string, Collectible> c : colls) {
+        billboardOrigins.push_back(c.second.getPosition());
+        billboardCols.push_back(Color4f::GREEN);
+    }
 
     // construct basis
     const Vec3 basisUp = _camera->getUp();
