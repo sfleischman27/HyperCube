@@ -17,7 +17,7 @@ uniform sampler2D outsideTexture;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	// remove this function to remove denoising
-	float bound = 1;
+	float bound = 2;
 	float offX = bound/1024;
 	float offY = bound/576;
 	vec2 temp = oTex;

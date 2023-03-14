@@ -84,35 +84,6 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
 void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     levelId = 1; //TODO: set using model's level
 
-    //// Setup mesh vertices
-    //const float scale = 500;
-    //_mesh.clear();
-    //PivotVertex3 tempV;
-    //Color4f color = { Color4f::BLACK };
-    //auto ourMesh = model->getLevel()->getMesh();
-    //for (int i = 0; i < ourMesh->cuglvertices.size(); i++) {
-    //    tempV.position = ourMesh->cuglvertices[i] * scale;
-    //    tempV.color = color.getPacked();
-    //    tempV.texcoord = Vec2(.5, .5); // TODO fill with ourMesh
-    //    _mesh.vertices.push_back(tempV);
-    //}
-
-    //// Setup mesh indices
-    //for (int i = 0; i < ourMesh->cuglfaces.size(); i += 1) {
-    //    for (int j = 0; j < 3; j++) {
-    //        // first triangle 0 1 2
-    //        _mesh.indices.push_back(ourMesh->cuglfaces[i][j]);
-    //    }
-    //    for (int j = 1; j < 4; j++) {
-    //        // second triangle as .obj does quads 0 2 3
-    //        if (j == 1) {
-    //            _mesh.indices.push_back(ourMesh->cuglfaces[i][0]);
-    //        } else {
-    //            _mesh.indices.push_back(ourMesh->cuglfaces[i][j]);
-    //        }
-    //    }
-    //}
-
     PivotVertex3 tempV;
 
     // add all fsq vertices
@@ -136,14 +107,6 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     
     auto m = model->getMesh();
     _mesh = *m;
-    /*
-    // TEMP: redistribute tex coords. Unsure why this doesn't work here (re-added in <Mesh.cpp's PivotMesh::MeshFromOBJ)
-    const int numTexOneSide = 20;
-    for (PivotVertex3 pv : _mesh.vertices) {
-        pv.texcoord.x = fmod(pv.texcoord.x * numTexOneSide, 1.0);
-        pv.texcoord.y = fmod(pv.texcoord.y * numTexOneSide, 1.0);
-    }
-    */
     _mesh.command = GL_TRIANGLES;
 }
 
@@ -245,8 +208,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBill->unbind();
 
     // --------------- TEMP: FSQ pre-calculations --------------- //
-    // Load cobblestone texture
-    //std::shared_ptr<Texture> earthTex = assets->get<Texture>("earth");
     const int numImages = 15;
     const int repeatAngle = 45;
     const float degToRad = 0.0174533;
@@ -254,9 +215,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     float ang = altNorm.getAngle(vInit);
     if (ang < 0) ang += M_PI;
     int index = int(fmod(ang, repeatAngle * degToRad) / (degToRad));
-    CULog("%f", ang);
+    //CULog("%f", ang);
     std::shared_ptr<Texture> earthTex = backgrounds[index/(repeatAngle/numImages)];
-    CULog("%i", index / (repeatAngle / numImages));
+    //CULog("%i", index / (repeatAngle / numImages));
 
     // --------------- Pass 3: FSQ --------------- //
 
