@@ -12,7 +12,7 @@
 //#define PHYSICS_SCALE 50
 
 /** The ratio between the physics world and the screen. */
-#define GRAVITY 9.8
+#define GRAVITY 200.0
 
 #define MAX_H_SPEED 100.0
 

@@ -43,11 +43,11 @@
 #pragma mark -
 #pragma mark Physics Constants
 /** The factor to multiply by the input */
-#define DUDE_FORCE      20.0f
+#define DUDE_FORCE      80.0f
 /** The amount to slow the character down */
-#define DUDE_DAMPING    10.0f
+#define DUDE_DAMPING    5.0f
 /** The maximum character speed */
-#define DUDE_MAXSPEED   5.0f
+#define DUDE_MAXSPEED   50.0f
 
 
 #pragma mark -
@@ -90,8 +90,8 @@ protected:
     std::shared_ptr<cugl::scene2::SceneNode> _node;
     /** The scale between the physics world and the screen (MUST BE UNIFORM) */
     float _drawScale;
-    /** The current velocity of the player */
-    cugl::Vec3 _vel;
+    /** The current velocity of the player in 2D*/
+    cugl::Vec2 _vel;
     /** The location of the player in 3D*/
     cugl::Vec3 _3DLoc;
 
@@ -421,14 +421,14 @@ public:
      *
      * @return velocity of this character.
      */
-    cugl::Vec3 getVelocity() const { return _vel; }
+    cugl::Vec2 getVelocity() const { return _vel; }
     
     /**
      * Sets velocity of this character.
      *
      * @param velocity velocity of this character.
      */
-    void setVelocity(cugl::Vec3 velocity) { _vel = velocity; }
+    void setVelocity(cugl::Vec2 velocity) { _vel = velocity; }
     
     /**
      * Returns current 3D location of the player

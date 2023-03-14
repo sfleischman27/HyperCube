@@ -315,6 +315,7 @@ void GameplayController::update(float dt) {
             _rotating = false;
         }
         _physics->update(dt);
+        std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
 
 #pragma mark COLLECTIBLES
@@ -356,7 +357,7 @@ void GameplayController::update(float dt) {
     //CULog("currPos: %f , %f", currPlay2DPos.x, currPlay2DPos.y);
     //CULog("prevPos: %f , %f", prevPlay2DPos.x, prevPlay2DPos.y);
     Vec2 displacement = currPlay2DPos - prevPlay2DPos;
-    //CULog("displacement: %f , %f", displacement.x, displacement.y);
+    CULog("speed: %f , %f", displacement.x/dt, displacement.y/dt);
     updatePlayer3DLoc(displacement);
     prevPlay2DPos = currPlay2DPos;
 
