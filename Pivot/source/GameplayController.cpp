@@ -124,7 +124,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _physics = std::make_shared<PhysicsController>();
     _physics->init(_dimen, rect, SCENE_WIDTH);
     _physics->getWorld()->onBeginContact= [this](b2Contact* contact) {
-        CULog("contact");
+        //CULog("contact");
       beginContact(contact);
     };
     _physics->getWorld()->onEndContact = [this](b2Contact* contact) {

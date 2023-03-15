@@ -70,8 +70,8 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     for (int i = 0; i < it; i ++){
         Vec3 loc;
         loc.x = collectibles->get(std::to_string(i+1))->get("loc")->get(0)->asFloat();
-        loc.x = collectibles->get(std::to_string(i+1))->get("loc")->get(1)->asFloat();
-        loc.x = collectibles->get(std::to_string(i+1))->get("loc")->get(2)->asFloat();
+        loc.y = collectibles->get(std::to_string(i+1))->get("loc")->get(1)->asFloat();
+        loc.z = collectibles->get(std::to_string(i+1))->get("loc")->get(2)->asFloat();
         locs.push_back(loc);
         texs.push_back(_assets->get<Texture>("col" + std::to_string(i)));
     }

@@ -113,10 +113,10 @@ std::tuple<Eigen::MatrixXd, Eigen::MatrixXi> PivotMesh::intersectPlane(Vec3 orig
 
     //print some stuff to read into rhino to figure out what the hell this does
     for (int i = 0; i < Vcut.rows(); i++) {
-        CULog("v%f,%f,%f", Vcut(i, 0), Vcut(i, 1), Vcut(i, 2));
+        //CULog("v%f,%f,%f", Vcut(i, 0), Vcut(i, 1), Vcut(i, 2));
     }
     for (int i = 0; i < Ecut.rows(); i++) {
-        CULog("e%i,%i", Ecut(i, 0), Ecut(i, 1));
+        //CULog("e%i,%i", Ecut(i, 0), Ecut(i, 1));
     }
 
     return std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>{Vcut, Ecut};

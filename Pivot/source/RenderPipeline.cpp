@@ -172,8 +172,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     billboardCols[0] = Color4f::RED;
     billboardCols[1] = Color4f::GREEN;
     */
-    Vec3 tp = Vec3(8.5, 9, -5.25) * 32 - Vec3(screenSize / 2, 0);
-    CULog("%f, %f, %f", tp.x, tp.y, tp.z);
+    //Vec3 tp = Vec3(8.5, 9, -5.25) * 32 - Vec3(screenSize / 2, 0);
+    //CULog("%f, %f, %f", tp.x, tp.y, tp.z);
 
     // Grabs position of existing billboards
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
