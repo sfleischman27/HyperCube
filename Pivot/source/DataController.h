@@ -9,6 +9,7 @@
 
 #ifndef DataController_h
 #define DataController_h
+#include <cugl/base/CUApplication.h>
 #include <cugl/cugl.h>
 #include "GameModel.h"
 

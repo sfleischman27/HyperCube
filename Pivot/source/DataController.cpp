@@ -53,8 +53,12 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     
     model->setExitTex(_assets->get<Texture>("exit"));
     
+    //CULog(std::filesystem::current_path().c_str());
+    CULog("%s", Application::get()->getAssetDirectory().c_str());
+    std::string assetDirectoryPath = Application::get()->getAssetDirectory();
     std::string meshPath = constants->getString("mesh");
-    model->_mesh = PivotMesh::MeshFromOBJ(meshPath);
+    assetDirectoryPath.append(meshPath);
+    model->_mesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
     
     std::vector<Vec3> locs;
     std::vector<std::shared_ptr<cugl::Texture>> texs;
