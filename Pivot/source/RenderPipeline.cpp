@@ -262,8 +262,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
     prevPlayerPos = model->_player->getPosition();
     Vec2 transOffset = storePlayerPos + model->_player->getPosition();
-    transOffset.x /= (1024 / 2);
-    transOffset.y /= (576 / 2);
+    transOffset.x /= (screenSize.width / 2);
+    transOffset.y /= (screenSize.height / 2);
+    CULog("%f, %f", screenSize.width, screenSize.height);
 
     // --------------- Pass 3: FSQ --------------- //
 
@@ -283,6 +284,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderFsq->setUniform1i("fsqTexture", fsqTex);
     _shaderFsq->setUniform1i("outsideTexture", outsideTex);
     _shaderFsq->setUniformVec2("transOffset", transOffset);
+    _shaderFsq->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     //_shaderFsq->setUniform1i("depthTexture", depthTex);
 
     _vertbuffFsq->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());

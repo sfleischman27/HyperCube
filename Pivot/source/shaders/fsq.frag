@@ -15,6 +15,7 @@ uniform sampler2D fsqTexture;
 uniform sampler2D outsideTexture;
 //uniform sampler2D depthTexture;
 uniform vec2 transOffset;
+uniform vec2 screenSize;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	// remove this function to remove denoising
@@ -29,8 +30,8 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 		return false;
 	}
 	float bound = 2;
-	float offX = bound/1024;
-	float offY = bound/576;
+	float offX = bound/screenSize.x;
+	float offY = bound/screenSize.y;
 	vec2 temp = oTex;
 	temp.x = temp.x - offX;
 	if (texture(tx, temp).xyz == vec3(1, 0, 1)) {
