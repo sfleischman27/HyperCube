@@ -20,7 +20,7 @@ void main(void) {
 	//float div = 100;
 	//frag_color = vec4(0, 0, 0, 1);// - vec4(d / div, d / div, d / div, 0);
 	//frag_color = vec4(outTexCoord, 0, 1);
-	vec3 transNormal = normalize(outNormal.xyz * 2 - 1);
+	vec3 transNormal = normalize(outNormal.xyz * 2 - vec3(1, 1, 1));
     int cullOutside = 0; // set to 0 for cuts, set to 999 for visualization
 	if (dot(uDirection, transNormal) >= cullOutside) {
         frag_color = vec4(1, 0, 1, 1);
