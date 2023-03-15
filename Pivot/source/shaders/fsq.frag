@@ -63,8 +63,8 @@ void main(void) {
 	if (frag_color.xyz == vec3(1, 0, 1) || checkNeighboring(fsqTexture, outTexCoord)) {
         // TEMP: layer tex coords
 		vec2 transTexCoord;
-		float xStretch = 2;
-		float yStretch = .5;
+		float xStretch = 1; // should be 2
+		float yStretch = 1; // should be .5
         float numTexX = (16 / 10) * xStretch;
         float numTexY = (9 / 6) * yStretch;
 		vec2 midTexCoord = mod(outTexCoord + transOffset, 1.0);

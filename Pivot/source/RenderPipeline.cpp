@@ -172,6 +172,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     billboardCols[0] = Color4f::RED;
     billboardCols[1] = Color4f::GREEN;
     */
+    Vec3 tp = Vec3(8.5, 9, -5.25) * 32 - Vec3(screenSize / 2, 0);
+    CULog("%f, %f, %f", tp.x, tp.y, tp.z);
 
     // Grabs position of existing billboards
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
@@ -255,16 +257,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     std::shared_ptr<Texture> earthTex = backgrounds[index/(repeatAngle/numImages)];
     //CULog("%i", index / (repeatAngle / numImages));
 
-    if (model->_player->getPosition() == Vec2(0, 0)) {
+    if (model->_justFinishRotating) {
         storePlayerPos += prevPlayerPos;
     }
     prevPlayerPos = model->_player->getPosition();
     Vec2 transOffset = storePlayerPos + model->_player->getPosition();
     transOffset.x /= (1024 / 2);
     transOffset.y /= (576 / 2);
-    //transOffset.x = ((charPos * norm).x + (charPos * norm).y) / (-1024 / 2);
-    //transOffset.x = charPos.dot(norm) / (-1024 / 2);
-    //transOffset.y = (charPos * basisUp).z / (576 / 2);
 
     // --------------- Pass 3: FSQ --------------- //
 
