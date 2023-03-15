@@ -135,7 +135,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model, bool rotati
     _camera->setPosition(newPos);
     _camera->setDirection(-norm);
     _camera->setUp(Vec3(0, 0, 1));
-    if (rotating) {
+    if (false) {
         _camera->setZoom(1);
     }
     else {
