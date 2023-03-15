@@ -43,7 +43,7 @@ std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path) {
             temp.position = Vec3(V(i, 0), V(i, 1), V(i, 2));
             temp.color = color.getPacked();
             temp.normal = Vec3(N(i, 0), N(i, 1), N(i, 2));
-            CULog("%f, %f, %f", temp.normal.x, temp.normal.y, temp.normal.z);
+            // CULog("%f, %f, %f", temp.normal.x, temp.normal.y, temp.normal.z);
             temp.texcoord = Vec2(TC(i, 0), TC(i, 1));
             // Below 3 lines have been added by Matt to support texture tiling (for now)
             const int numTexOneSide = 14;
@@ -104,20 +104,20 @@ std::tuple<Eigen::MatrixXd, Eigen::MatrixXi> PivotMesh::intersectPlane(Vec3 orig
     //Evaluate the plane equation for all vertices
     for (int i = 0; i < Everts.rows(); i++) {
         //do a dot product for each vertex to the normal
-        pln_eq(i) = (i, 0) * normal.x + Everts(i, 1) * normal.y + Everts(i, 2) * normal.z;
+        pln_eq(i) = Everts(i, 0) * normal.x + Everts(i, 1) * normal.y + Everts(i, 2) * normal.z;
     }
 
     //get the vert edge structure of the contour
     igl::isolines(Everts, Einds, pln_eq, 2, Vcut, Ecut);
 
 
-    ////print some stuff to read into rhino to figure out what the hell this does
-    //for (int i = 0; i < Vcut.rows(); i++) {
-    //    CULog("v%f,%f,%f", Vcut(i, 0), Vcut(i, 1), Vcut(i, 2));
-    //}
-    //for (int i = 0; i < Ecut.rows(); i++) {
-    //    CULog("e%i,%i", Ecut(i, 0), Ecut(i, 1));
-    //}
+    //print some stuff to read into rhino to figure out what the hell this does
+    for (int i = 0; i < Vcut.rows(); i++) {
+        CULog("v%f,%f,%f", Vcut(i, 0), Vcut(i, 1), Vcut(i, 2));
+    }
+    for (int i = 0; i < Ecut.rows(); i++) {
+        CULog("e%i,%i", Ecut(i, 0), Ecut(i, 1));
+    }
 
     return std::tuple<Eigen::MatrixXd, Eigen::MatrixXi>{Vcut, Ecut};
     

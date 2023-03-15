@@ -33,6 +33,9 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     playerLoc.x = constants->get("player_loc")->get(0)->asFloat();
     playerLoc.y = constants->get("player_loc")->get(1)->asFloat();
     playerLoc.z = constants->get("player_loc")->get(2)->asFloat();
+    std::cout<<"init x: " <<playerLoc.x <<std::endl;
+    std::cout<<"init y: " <<playerLoc.y<<std::endl;
+    std::cout<<"init z: " <<playerLoc.z<<std::endl;
     model->setInitPlayerLoc(playerLoc);
     
     //model->_player->set3DLoc(playerLoc);
@@ -43,7 +46,7 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     norm.z = constants->get("norm")->get(2)->asFloat();
     model->setInitPlaneNorm(norm);
     
-    model->setPlaneNorm(norm);
+    //model->setPlaneNorm(norm);
     
     Vec3 exit;
     exit.x = constants->get("exit")->get(0)->asFloat();

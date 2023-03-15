@@ -20,13 +20,18 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     // Setup current level id
     levelId = 0;
 
+    // For cut texture transform
+    storePlayerPos = Vec2(0, 0);
+    prevPlayerPos = Vec2(0, 0);
+
     // FBO setup
     fbo.init(screenSize.width, screenSize.height);
+    fbo.setClearColor(Color4f::MAGENTA);
 
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
     _camera->setFar(10000);
-    _camera->setZoom(1);
+    _camera->setZoom(2);
     _camera->update();
 
     // Mesh shader
@@ -70,41 +75,18 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     //glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+
+    backgrounds = {};
+    for (int i = 1; i <= 15; i++) {
+        backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
+    }
 
 	return;
 }
 
 void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     levelId = 1; //TODO: set using model's level
-
-    //// Setup mesh vertices
-    //const float scale = 500;
-    //_mesh.clear();
-    //PivotVertex3 tempV;
-    //Color4f color = { Color4f::BLACK };
-    //auto ourMesh = model->getLevel()->getMesh();
-    //for (int i = 0; i < ourMesh->cuglvertices.size(); i++) {
-    //    tempV.position = ourMesh->cuglvertices[i] * scale;
-    //    tempV.color = color.getPacked();
-    //    tempV.texcoord = Vec2(.5, .5); // TODO fill with ourMesh
-    //    _mesh.vertices.push_back(tempV);
-    //}
-
-    //// Setup mesh indices
-    //for (int i = 0; i < ourMesh->cuglfaces.size(); i += 1) {
-    //    for (int j = 0; j < 3; j++) {
-    //        // first triangle 0 1 2
-    //        _mesh.indices.push_back(ourMesh->cuglfaces[i][j]);
-    //    }
-    //    for (int j = 1; j < 4; j++) {
-    //        // second triangle as .obj does quads 0 2 3
-    //        if (j == 1) {
-    //            _mesh.indices.push_back(ourMesh->cuglfaces[i][0]);
-    //        } else {
-    //            _mesh.indices.push_back(ourMesh->cuglfaces[i][j]);
-    //        }
-    //    }
-    //}
 
     PivotVertex3 tempV;
 
@@ -129,14 +111,6 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     
     auto m = model->getMesh();
     _mesh = *m;
-    /*
-    // TEMP: redistribute tex coords. Unsure why this doesn't work here (re-added in <Mesh.cpp's PivotMesh::MeshFromOBJ)
-    const int numTexOneSide = 20;
-    for (PivotVertex3 pv : _mesh.vertices) {
-        pv.texcoord.x = fmod(pv.texcoord.x * numTexOneSide, 1.0);
-        pv.texcoord.y = fmod(pv.texcoord.y * numTexOneSide, 1.0);
-    }
-    */
     _mesh.command = GL_TRIANGLES;
 }
 
@@ -149,16 +123,17 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Compute rotation and position change
     const float epsilon = 0.001f;
-    const float box2dToScreen = 32;
-    Vec3 altNorm = Vec3(model->getPlaneNorm().y, model->getPlaneNorm().x, -model->getPlaneNorm().z);
-    Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
-    // TEMP (good starting position though)
-    charPos = Vec3(16.5, 9, -5) * box2dToScreen - Vec3(screenSize / 2, 0);
-    Vec3 newPos = charPos + (epsilon * altNorm);
+    
+    Vec3 norm = model->getPlaneNorm();
+//    Vec3 charPos = (model->_player->getPosition() * box2dToScreen) - Vec3(screenSize / 2, 0);
+//    // TEMP (good starting position though)
+//    charPos = Vec3(16.5, 9, -5) * box2dToScreen - Vec3(screenSize / 2, 0);
+    Vec3 charPos = model->getPlayer3DLoc();
+    Vec3 newPos = charPos + (epsilon * norm);
 
     // Update camera
     _camera->setPosition(newPos);
-    _camera->setDirection(-altNorm);
+    _camera->setDirection(-norm);
     _camera->setUp(Vec3(0, 0, 1));
     _camera->update();
 
@@ -174,7 +149,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     cobbleTex->bind();
 
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
-    _shader->setUniformVec3("uDirection", altNorm);
+    _shader->setUniformVec3("uDirection", norm);
     _shader->setUniformMat4("Mv", _camera->getView());
     _shader->setUniform1i("uTexture", insideTex);
 
@@ -188,6 +163,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // --------------- TEMP: Billboard pre-calculations --------------- //
 
     // hard-coded billboards
+    /*
     const int numBill = 2;
     Vec3 billboardOrigins[numBill];
     billboardOrigins[0] = charPos;
@@ -195,15 +171,47 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     Color4f billboardCols[numBill];
     billboardCols[0] = Color4f::RED;
     billboardCols[1] = Color4f::GREEN;
+    */
+    Vec3 tp = Vec3(8.5, 9, -5.25) * 32 - Vec3(screenSize / 2, 0);
+    CULog("%f, %f, %f", tp.x, tp.y, tp.z);
+
+    // Grabs position of existing billboards
+    std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
+    const int numBill = colls.size() + 2; // adding player and exit
+    std::vector<Vec3> billboardOrigins = {};
+    std::vector<Color4f> billboardCols = {};
+    billboardOrigins.push_back(charPos);
+    billboardOrigins.push_back(model->getExitLoc());
+    billboardCols.push_back(Color4f::RED);
+    billboardCols.push_back(Color4f::BLUE);
+    for (std::pair<std::string, Collectible> c : colls) {
+        billboardOrigins.push_back(c.second.getPosition());
+        billboardCols.push_back(Color4f::GREEN);
+    }
 
     // construct basis
     const Vec3 basisUp = _camera->getUp();
-    const Vec3 basisRight = altNorm.cross(basisUp);
+    const Vec3 basisRight = norm.cross(basisUp);
+
+
+    // get debugger info from the plane controller to visualize physics
+    
+    auto cut = model->getCut();
+    auto o = model->getPlayer3DLoc();
+    for (int i = 0; i < cut.size(); i++) {
+        for (int j = 0; j < cut[i].vertices.size(); j++) {
+            auto unplane = (cut[i].vertices[j].x * basisRight);
+            //billboardOrigins.push_back(Vec3(-unplane.x, -unplane.y, cut[i].vertices[j].y) + model->getPlaneOrigin());
+            //billboardCols.push_back(Color4f::BLUE);
+        }
+    }
+
+    
 
     // add all billboard vertices
     _meshBill.clear();
     PivotVertex3 tempV;
-    for (int n = 0; n < numBill; n++) {
+    for (int n = 0; n < billboardOrigins.size(); n++) {
         for (float i = -5; i <= 5; i += 10) {
             for (float j = -5; j <= 5; j += 10) {
                 tempV.position = billboardOrigins[n] + i * basisRight + j * basisUp;
@@ -214,7 +222,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // add all billboard indices
-    for (int c = 0; c < numBill; c++) {
+    for (int c = 0; c < billboardCols.size(); c++) {
         int startIndex = c * 4;
         for (int tri = 0; tri <= 1; tri++) {
             for (int i = 0; i < 3; i++) {
@@ -238,28 +246,50 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBill->unbind();
 
     // --------------- TEMP: FSQ pre-calculations --------------- //
-    // Load cobblestone texture
-    std::shared_ptr<Texture> earthTex = assets->get<Texture>("earth");
+    const int numImages = 15;
+    const int repeatAngle = 45;
+    const float degToRad = 0.0174533;
+    Vec3 vInit = Vec3(-1, 0, 0);
+    float ang = model->getPlaneNorm().getAngle(vInit);
+    if (ang < 0) ang += M_PI;
+    int index = int(fmod(ang, repeatAngle * degToRad) / (degToRad));
+    //CULog("%f", ang);
+    std::shared_ptr<Texture> earthTex = backgrounds[index/(repeatAngle/numImages)];
+    //CULog("%i", index / (repeatAngle / numImages));
+
+    if (model->_justFinishRotating) {
+        storePlayerPos += prevPlayerPos;
+    }
+    prevPlayerPos = model->_player->getPosition();
+    Vec2 transOffset = storePlayerPos + model->_player->getPosition();
+    transOffset.x /= (1024 / 2);
+    transOffset.y /= (576 / 2);
 
     // --------------- Pass 3: FSQ --------------- //
 
     const int fsqTex = 1;
     const int outsideTex = 2;
+    //const int depthTex = 3;
     _vertbuffFsq->bind();
     fbo.getTexture()->setBindPoint(fsqTex);
     fbo.getTexture()->bind();
     earthTex->setBindPoint(outsideTex);
     earthTex->bind();
+    //fbo.getDepthStencil()->setBindPoint(depthTex);
+    //fbo.getDepthStencil()->bind();
 
     _shaderFsq->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderFsq->setUniformMat4("Mv", _camera->getView());
     _shaderFsq->setUniform1i("fsqTexture", fsqTex);
     _shaderFsq->setUniform1i("outsideTexture", outsideTex);
+    _shaderFsq->setUniformVec2("transOffset", transOffset);
+    //_shaderFsq->setUniform1i("depthTexture", depthTex);
 
     _vertbuffFsq->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFsq->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffFsq->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
+    //fbo.getDepthStencil()->unbind();
     earthTex->unbind();
     fbo.getTexture()->unbind();
     _vertbuffFsq->unbind();

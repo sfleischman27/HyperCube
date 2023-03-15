@@ -9,6 +9,9 @@
 
 #include "GameplayController.h"
 #include <cugl/cugl.h>
+#include <box2d/b2_world.h>
+#include <box2d/b2_contact.h>
+#include <box2d/b2_collision.h>
 
 using namespace cugl;
 
@@ -101,12 +104,15 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     DataController data = DataController();
     data.init(_assets);
     data.initGameModel("levelAssets.json", _model);
+    
+    _model->setPlayer3DLoc(_model->getInitPlayerLoc());
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
     _plane->init(_model);
-    _plane->debugCut(10);
-    //_plane->calculateCut();
+    //_plane->setPlane(_model->getInitPlaneNorm());
+    //_plane->debugCut(100);
+    _plane->calculateCut();
     
     // Start up the input handler
     _input = std::make_shared<InputController>();
@@ -117,7 +123,13 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     //set up physics world
     _physics = std::make_shared<PhysicsController>();
     _physics->init(_dimen, rect, SCENE_WIDTH);
-  
+    _physics->getWorld()->onBeginContact= [this](b2Contact* contact) {
+        CULog("contact");
+      beginContact(contact);
+    };
+    _physics->getWorld()->onEndContact = [this](b2Contact* contact) {
+      endContact(contact);
+    };
     
     _worldnode = scene2::SceneNode::alloc();
     _worldnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -135,14 +147,12 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     createCutObstacles();
 
 #pragma mark ADD PLAYER
-//    float DUDE_POS[] = { SCENE_WIDTH/(2 * _physics->getScale()), SCENE_HEIGHT/(2 * _physics->getScale()) - 4};
-    float DUDE_POS[] = { _dimen.width/(2 * _physics->getScale()), _dimen.height/(2 * _physics->getScale()) - 4};
-    
-    Vec2 dudePos = DUDE_POS;
+    Vec2 dudePos = Vec2::ZERO;
+    prevPlay2DPos = dudePos;
     
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
 
-    _model->setPlayer(PlayerModel::alloc(dudePos,image->getSize()/_physics->getScale(),_physics->getScale()));
+    _model->setPlayer(PlayerModel::alloc(dudePos));
     
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
@@ -167,7 +177,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 void GameplayController::createCutObstacles(){
     // TODO: clean this and add function comment -Gordi
     //remove previous poly nodes
-    removePolyNodes();
+    //removePolyNodes();
     createObstacleFromPolys(_model->getCut());
 }
 
@@ -182,34 +192,11 @@ void GameplayController::createObstacleFromPolys(std::vector<cugl::Poly2> polys)
     
     for(Poly2 p : polys){
         std::vector<cugl::Vec2> vertices = p.getVertices();
-                
-        for(cugl::Vec2 v : vertices){
-            v.x *= 1;
-            v.y *= 1;
-        }
-        
-        float transformScale = _physics->getScale()/2;
-        
-        //for some reason multiply by aspect ratio to make the obstacles in-line with the drawn cut?
-        
-        //use this if you are transforming the original drawn poly2:
-        //Poly2 bigp = p * Affine2(transformScale,0,0,transformScale,0,0);
-        
-        //use this if you are keeping the original drawn poly2 (vertically squished)
-        Poly2 bigp = p * Affine2(transformScale,0,0,transformScale * _dimen.height/_dimen.width,0,0);
-        
-        std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(bigp);
-
+        std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(p);
         obstacle->setBodyType(b2_staticBody);
-        obstacle->setPosition(Vec2(SCENE_WIDTH/(2 * _physics->getScale()), SCENE_HEIGHT/(2 * _physics->getScale())));
-        
-        obstacle->setSize(obstacle->getSize());
-        
         cutnode = scene2::SceneNode::alloc();
-        
         _cutnodes.insert(cutnode);
         _cutobstacles.insert(obstacle);
-        
         addObstacle(obstacle, cutnode, true);
     }
     
@@ -295,47 +282,61 @@ void GameplayController::reset() {
  * @param  delta    Number of seconds since last animation frame
  */
 void GameplayController::update(float dt) {
-
+    _model->_justFinishRotating = false;
 #pragma mark INPUT
     _input->update(dt);
-    
+
     if (_input->didDebug()) {
         setDebug(!isDebug());
         CULog("Debug mode is: %d, visibility: %d", isDebug(), _debugnode->isVisible());
-        
+
     }
 
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
-    if (_input->didIncreaseCut()) {
+    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
         _plane->rotateNorm(.01);
         //createCutObstacles();
         _rotating = true;
     }
 
     //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-    else if (_input->didDecreaseCut()) {
+    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
         _plane->rotateNorm(-.01);
         //createCutObstacles();
         _rotating = true;
     }
     //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-    else if (_input->didKeepChangingCut()) {
+    else if (_model->_player->isGrounded() && _input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm());
         //createCutObstacles();
         _rotating = true;
     }
     else {
-        if(_rotating){
-            //_plane->calculateCut();//calculate cut here so it only happens when we finish rotating
-            _plane->debugCut(10);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
-            createCutObstacles();
+        if (_rotating) {
+            _physics->clear();
+            _model->_player->setPosition(Vec2::ZERO);
+            prevPlay2DPos = Vec2::ZERO;
+//            _physics->getWorld()->addObstacle(_model->_player);
+//            _plane->movePlaneToPlayer();
+//            _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
+//            //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
+//            createCutObstacles();
             _rotating = false;
+            _model->_justFinishRotating = true;
+        }
+        if (_model->_justFinishRotating) {
+            _physics->getWorld()->addObstacle(_model->_player);
+            _plane->movePlaneToPlayer();
+            _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
+            //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
+            createCutObstacles();
         }
         _physics->update(dt);
+        // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
 
 #pragma mark COLLECTIBLES
-    
+
     // TODO: Update player bag what is collected -Jolene
     if (_input->didSelect()) {
         auto pos = _input->getSelection();
@@ -347,9 +348,9 @@ void GameplayController::update(float dt) {
             auto coords = std::get<0>(tuplec);
             auto dist = std::get<1>(tuplec);
             //down scale the player position by screen size for comparison
-            float w = (_dimen.width/_physics->getScale())/2;
-            float h = (_dimen.height/_physics->getScale())/2;
-            Vec2 playerpos = Vec2((_model->_player->getX()-w)/w,(_model->_player->getY()-h)/h);
+            float w = (_dimen.width / _physics->getScale()) / 2;
+            float h = (_dimen.height / _physics->getScale()) / 2;
+            Vec2 playerpos = Vec2((_model->_player->getX() - w) / w, (_model->_player->getY() - h) / h);
             if (!itr->second.getCollected() &&
                 std::abs(dist) <= VISIBLE_DIST &&
                 std::abs(pos.x - coords.x) <= CLICK_DIST &&
@@ -361,17 +362,32 @@ void GameplayController::update(float dt) {
             }
         }
     }
-    
+
+
 #pragma mark PLAYER
-    
-    _model->_player->setMovement(_input->getHorizontal()*_model->_player->getForce());
-    _model->_player->setJumping( _input->didJump());
+
+    _model->_player->setMovement(_input->getHorizontal() * _model->_player->getForce());
+    _model->_player->setJumping(_input->didJump());
     _model->_player->applyForce();
 
+    currPlay2DPos = _model->_player->getPosition();
+    //CULog("currPos: %f , %f", currPlay2DPos.x, currPlay2DPos.y);
+    //CULog("prevPos: %f , %f", prevPlay2DPos.x, prevPlay2DPos.y);
+    Vec2 displacement = currPlay2DPos - prevPlay2DPos;
+    //CULog("speed: %f , %f", displacement.x/dt, displacement.y/dt);
+    updatePlayer3DLoc(displacement);
+    prevPlay2DPos = currPlay2DPos;
 
-    auto v = _model->_player->getPosition();
-    CULog("%f , %f", v.x, v.y);
 
+    //Jacks trying another way 
+    //[it worked the same as above... if we get drifting from floating point error try this one instead]
+    /*currPlay2DPos = _model->_player->getPosition();
+    Vec3 temp = currPlay2DPos.x * _plane->getBasisRight();
+    Vec3 displacementIn3D = Vec3(temp.x, temp.y, currPlay2DPos.y);
+    _model->setPlayer3DLoc(_model->getPlaneOrigin() + displacementIn3D);*/
+
+    //CULog("PLayer 3d Coords: %f, %f, %f", _model->getPlayer3DLoc().x, _model->getPlayer3DLoc().y, _model->getPlayer3DLoc().z);
+    //CULog("NORMAL: %f _ %f _ %f", _model->getPlaneNorm().x, _model->getPlaneNorm().y, _model->getPlaneNorm().z);
 }
 
 /**
@@ -474,4 +490,80 @@ std::tuple<cugl::Vec2, float> GameplayController::ScreenCoordinatesFrom3DPoint(c
     auto coords = cugl::Vec2(xcoord, ycoord);
 
     return(std::tuple<cugl::Vec2, float>(coords, dist));
+}
+
+void GameplayController::updatePlayer3DLoc(Vec2 displacement) {
+    float x = displacement.x;
+    float y = displacement.y;
+    /*std::cout<<"_plane->getBasisRight().x: " << _plane->getBasisRight().x << std::endl;
+    std::cout<<"_plane->getBasisRight().y: " << _plane->getBasisRight().x << std::endl;
+    std::cout<<"_plane->getBasisRight().z: " << _plane->getBasisRight().x << std::endl;
+    std::cout<<"2d-displacement x: " <<x<<std::endl;
+    std::cout<<"2d-displacement y: " <<y<<std::endl;*/
+    Vec3 temp = x * _plane->getBasisRight();
+    Vec3 displacementIn3D = Vec3(temp.x, temp.y, y);
+    /*std::cout<<"3d-displacement x: " <<displacementIn3D.x<<std::endl;
+    std::cout<<"3d-displacement y: " <<displacementIn3D.y<<std::endl;
+    std::cout<<"3d-displacement z: " <<displacementIn3D.z<<std::endl;
+    std::cout<<"here x: " <<(_model->getPlayer3DLoc() + displacementIn3D).x<<std::endl;
+    std::cout<<"here y: " <<(_model->getPlayer3DLoc() + displacementIn3D).y<<std::endl;
+    std::cout<<"here z: " <<(_model->getPlayer3DLoc() + displacementIn3D).z<<std::endl;*/
+    _model->setPlayer3DLoc(_model->getPlayer3DLoc() + displacementIn3D);
+}
+
+void GameplayController::beginContact(b2Contact* contact) {
+    b2Fixture* fix1 = contact->GetFixtureA();
+    b2Fixture* fix2 = contact->GetFixtureB();
+
+    b2Body* body1 = fix1->GetBody();
+    b2Body* body2 = fix2->GetBody();
+
+    std::string* fd1 = reinterpret_cast<std::string*>(fix1->GetUserData().pointer);
+    std::string* fd2 = reinterpret_cast<std::string*>(fix2->GetUserData().pointer);
+
+    physics2::Obstacle* bd1 = reinterpret_cast<physics2::Obstacle*>(body1->GetUserData().pointer);
+    physics2::Obstacle* bd2 = reinterpret_cast<physics2::Obstacle*>(body2->GetUserData().pointer);
+
+    // See if we have landed on the ground.
+    if ((_model->_player->getSensorName() == fd2 && _model->_player.get() != bd1) ||
+        (_model->_player->getSensorName() == fd1 && _model->_player.get() != bd2)) {
+        _model->_player->setGrounded(true);
+        // Could have more than one ground
+        _sensorFixtures.emplace(_model->_player.get() == bd1 ? fix2 : fix1);
+    }
+
+    // If we hit the "win" door, we are done
+//    if((bd1 == _model->_player.get() && bd2 == _goalDoor.get()) ||
+//        (bd1 == _goalDoor.get() && bd2 == _model->_player.get())) {
+//        setComplete(true);
+//    }
+}
+
+/**
+ * Callback method for the start of a collision
+ *
+ * This method is called when two objects cease to touch.  The main use of this method
+ * is to determine when the characer is NOT on the ground.  This is how we prevent
+ * double jumping.
+ */
+void GameplayController::endContact(b2Contact* contact) {
+    b2Fixture* fix1 = contact->GetFixtureA();
+    b2Fixture* fix2 = contact->GetFixtureB();
+
+    b2Body* body1 = fix1->GetBody();
+    b2Body* body2 = fix2->GetBody();
+
+    std::string* fd1 = reinterpret_cast<std::string*>(fix1->GetUserData().pointer);
+    std::string* fd2 = reinterpret_cast<std::string*>(fix2->GetUserData().pointer);
+
+    physics2::Obstacle* bd1 = reinterpret_cast<physics2::Obstacle*>(body1->GetUserData().pointer);
+    physics2::Obstacle* bd2 = reinterpret_cast<physics2::Obstacle*>(body2->GetUserData().pointer);
+
+    if ((_model->_player->getSensorName() == fd2 && _model->_player.get() != bd1) ||
+        (_model->_player->getSensorName() == fd1 && _model->_player.get() != bd2)) {
+        _sensorFixtures.erase(_model->_player.get() == bd1 ? fix2 : fix1);
+        if (_sensorFixtures.empty()) {
+            _model->_player->setGrounded(false);
+        }
+    }
 }

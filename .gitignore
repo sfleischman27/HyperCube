@@ -12,3 +12,6 @@ buildfiles/
 
 **/.DS_Store
 Pivot/.vs/
+
+eigen/
+libigl/

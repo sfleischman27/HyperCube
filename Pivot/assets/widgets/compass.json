@@ -1,0 +1,141 @@
+{
+    "variables":{
+        "compassSize": ["data", "size"],
+        "compassScale": ["data","scale"],
+        "showCompass": ["data", "visible"],
+        "compassXPos": ["layout", "x_offset"],
+        "compassYPos": ["layout", "y_offset"]
+    },
+    "contents":{
+        "type": "Node",
+        "format": {
+            "type": "Anchored"
+        },
+        "data": {
+            "size": [1000, 100],
+            "scale": 1,
+            "anchor": [0.5,1],
+            "visible": true
+        },
+        "layout": {
+            "x_anchor": "center",
+            "y_anchor": "top",
+            "y_offset": -0.05,
+            "x_offset": 0
+        },
+        "children": {
+            "right-one": {
+                "type": "Image",
+                "data": {
+                    "texture": "tick",
+                    "size": [15,75],
+                    "anchor": [0.5,1]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "top",
+                    "x_offset": 0.4,
+                    "y_offset": 0
+                }
+            },
+            "right-two": {
+                "type": "Image",
+                "data": {
+                    "texture": "tick",
+                    "size": [15,75],
+                    "anchor": [0.5,1]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "top",
+                    "x_offset": 0.6,
+                    "y_offset": 0
+                }
+            },
+            "right-three": {
+                "type": "Image",
+                "data": {
+                    "texture": "tick",
+                    "size": [15,75],
+                    "anchor": [0.5,1]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "top",
+                    "x_offset": 0.7,
+                    "y_offset": 0
+                }
+            },
+            "right-four": {
+                "type": "Image",
+                "data": {
+                    "texture": "tick",
+                    "size": [15,75],
+                    "anchor": [0.5,1]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "top",
+                    "x_offset": 0.75,
+                    "y_offset": 0
+                }
+            },
+            "left-one": {
+                "type": "Image",
+                "data": {
+                    "texture": "tick",
+                    "size": [15,75],
+                    "anchor": [0.5,1]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "top",
+                    "x_offset": -0.4,
+                    "y_offset": 0
+                }
+            },
+            "left-two": {
+                "type": "Image",
+                "data": {
+                    "texture": "tick",
+                    "size": [15,75],
+                    "anchor": [0.5,1]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "top",
+                    "x_offset": -0.6,
+                    "y_offset": 0
+                }
+            },
+            "left-three": {
+                "type": "Image",
+                "data": {
+                    "texture": "tick",
+                    "size": [15,75],
+                    "anchor": [0.5,1]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "top",
+                    "x_offset": -0.7,
+                    "y_offset": 0
+                }
+            },
+            "left-four": {
+                "type": "Image",
+                "data": {
+                    "texture": "tick",
+                    "size": [15,75],
+                    "anchor": [0.5,1]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "top",
+                    "x_offset": -0.75,
+                    "y_offset": 0
+                }
+            }
+        }
+    }
+}

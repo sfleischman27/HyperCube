@@ -36,11 +36,20 @@ private:
 public:
     /** Player */
     std::shared_ptr<PlayerModel> _player;
+
+    /** Player 3D Location */
+    Vec3 _player3DLoc;
+    
+    /** If player just finishes rotating the cut */
+    bool _justFinishRotating = false;
     
 #pragma mark Plane State
 private:
     /** Plane normal vector */
     Vec3 _norm;
+
+    /**The origin of the cut plane AND 3d origin from which physics world is defined*/
+    Vec3 _origin;
     
 #pragma mark Cut State
 private:
@@ -69,7 +78,7 @@ public:
      */
     GameModel() {}
     
-#pragma mark Setters
+#pragma mark Getters and Setters
 public:
     /**
      *  Sets the initial player location
@@ -143,6 +152,22 @@ public:
     void setPlayer(std::shared_ptr<PlayerModel> player){
         _player = player;
     }
+    
+    /**
+     *  Sets the player 3d location
+     *
+     *  @param player3DLoc   The player 3D loc
+     */
+    void setPlayer3DLoc(Vec3 player3DLoc) {
+        _player3DLoc = player3DLoc;
+    }
+
+    /**
+     *  Gets the player 3d location
+     */
+    Vec3 getPlayer3DLoc() {
+        return _player3DLoc;
+    }
 
     /**
      *  Sets the Norm
@@ -161,6 +186,25 @@ public:
      */
     Vec3 getPlaneNorm() {
         return _norm;
+    }
+
+    /**
+     *  Sets the plane origin
+     *
+     * NOTE: YOU should not use this method to set the plane origin,
+     * instead use the methods available through  the PLANE CONTROLLER
+     *
+     * IF you do use this method it will NOT recompute the cut
+     */
+    void setPlaneOrigin(Vec3 origin) {
+        _origin = origin;
+    }
+
+    /**
+     *  Gets the Current plane origin
+     */
+    Vec3 getPlaneOrigin() {
+        return _origin;
     }
     
     /**
@@ -199,6 +243,13 @@ public:
      */
     bool touchingGround(){
         return true;
+    }
+
+    /**
+     * Gets the map of collectibles
+     */
+    std::unordered_map<std::string, Collectible> getCollectibles() {
+        return _collectibles;
     }
     
     /**

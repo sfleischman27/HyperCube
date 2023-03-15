@@ -12,7 +12,7 @@
 //#define PHYSICS_SCALE 50
 
 /** The ratio between the physics world and the screen. */
-#define GRAVITY 9.8
+#define GRAVITY 200.0
 
 #define MAX_H_SPEED 100.0
 
@@ -112,56 +112,10 @@ void PhysicsController::update(float dt){
 }
 
 #pragma mark Collision Handling
-/**
- * Processes the start of a collision
- *
- * This method is called when we first get a collision between two objects.  We use
- * this method to test if it is the "right" kind of collision.  In particular, we
- * use it to test if we make it to the win door.
- *
- * @param  contact  The two bodies that collided
- */
+// Deprecated: will delete later
 void PhysicsController::beginContact(b2Contact* contact) {
-    /** TODO:  ADD BEGIN CONTACT COLLISIONS */
-        
-    //*contact.get();
-    
-    /*b2Fixture* fix1 = contact->GetFixtureA();
-    b2Fixture* fix2 = contact->GetFixtureB();
-
-    b2Body* body1 = fix1->GetBody();
-    b2Body* body2 = fix2->GetBody();
-
-    std::string* fd1 = reinterpret_cast<std::string*>(fix1->GetUserData().pointer);
-    std::string* fd2 = reinterpret_cast<std::string*>(fix2->GetUserData().pointer);
-
-    physics2::Obstacle* bd1 = reinterpret_cast<physics2::Obstacle*>(body1->GetUserData().pointer);
-    physics2::Obstacle* bd2 = reinterpret_cast<physics2::Obstacle*>(body2->GetUserData().pointer);
-    
-
-    // See if we have landed on the ground.
-    if ((_avatar->getSensorName() == fd2 && _avatar.get() != bd1) ||
-        (_avatar->getSensorName() == fd1 && _avatar.get() != bd2)) {
-        _avatar->setGrounded(true);
-        // Could have more than one ground
-        _sensorFixtures.emplace(_avatar.get() == bd1 ? fix2 : fix1);
-    }*/
-/*
-    // If we hit the "win" door, we are done
-    if((bd1 == _avatar.get()   && bd2 == _goalDoor.get()) ||
-        (bd1 == _goalDoor.get() && bd2 == _avatar.get())) {
-        setComplete(true);
-    }
- */
+    /** Deprecated: the method is moved to GamePlayController as it involved player and cut collision */
 }
-
-/**
- * Callback method for the start of a collision
- *
- * This method is called when two objects cease to touch.  The main use of this method
- * is to determine when the characer is NOT on the ground.  This is how we prevent
- * double jumping.
- */
 void PhysicsController::endContact(b2Contact* contact) {
-    /** TODO:  ADD END CONTACT COLLISIONS */
+    /** Deprecated: the method is moved to GamePlayController as it involved player and cut collision */
 }

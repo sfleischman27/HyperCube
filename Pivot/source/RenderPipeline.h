@@ -50,6 +50,9 @@ public:
 	cugl::Mesh<PivotVertex3> _meshBill;
 	cugl::Mesh<PivotVertex3> _meshFsq;
 	cugl::RenderTarget fbo;
+	std::vector<std::shared_ptr<Texture>> backgrounds;
+	Vec2 prevPlayerPos;
+	Vec2 storePlayerPos;
 
 	/**
 	 * Construct the RenderPipeline
