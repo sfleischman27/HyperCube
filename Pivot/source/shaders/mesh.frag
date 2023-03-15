@@ -20,20 +20,20 @@ void main(void) {
 	//float div = 100;
 	//frag_color = vec4(0, 0, 0, 1);// - vec4(d / div, d / div, d / div, 0);
 	//frag_color = vec4(outTexCoord, 0, 1);
-	vec3 transNormal = normalize(outNormal.xyz * 2.0 - vec3(1.0, 1.0, 1.0));
-    float cullOutside = 0.0; // set to 0 for cuts, set to 999 for visualization
+	vec3 transNormal = normalize(outNormal.xyz * 2 - vec3(1, 1, 1));
+    int cullOutside = 0; // set to 0 for cuts, set to 999 for visualization
 	if (dot(uDirection, transNormal) >= cullOutside) {
-        frag_color = vec4(1.0, 0.0, 1.0, 1.0);
+        frag_color = vec4(1, 0, 1, 1);
     } else {
-		frag_color = texture(uTexture, outTexCoord) * .5 + vec4(.5, .5, .5, 1.0) * .5;
+		frag_color = texture(uTexture, outTexCoord) * .5 + vec4(.5, .5, .5, 1) * .5;
 
 		// TODO added depth stuff here but should use a depth buffer
 		float d = -(Mv * pos).z;
-		float maxDepth = 35.0;
+		float maxDepth = 35;
 		float ratio = d / maxDepth;
-		vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1.0);
+		vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1);
 		frag_color = frag_color - fadeColor * ratio;
-		frag_color.a = 1.0;
+		frag_color.a = 1;
 	}
 	//frag_color = vec4(normalize(outColor.xyz * 2 - 1), 1);
 }

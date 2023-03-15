@@ -11,8 +11,8 @@ icon:   icon.png
 orientation: landscape              # The orientation for mobile devices
 
 includes:
-    - ../libigl/include
-    - ../eigen
+    - ../libigl-main/include
+    - ../eigen-3.4.0
 
 sources:                            # The list of the source code files
     - source/*.cpp
