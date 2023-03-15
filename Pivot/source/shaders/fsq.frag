@@ -68,8 +68,8 @@ void main(void) {
 		float xStretch = 1.0; // should be 2
 		float yStretch = 1.0; // should be .5
 		if (rotating == 1) {
-			xStretch = xStretch * 2;
-			yStretch = yStretch * 2;
+			xStretch = xStretch * 2.0;
+			yStretch = yStretch * 2.0;
 		}
         float numTexX = (16.0 / 10.0) * xStretch;
         float numTexY = (9.0 / 6.0) * yStretch;
