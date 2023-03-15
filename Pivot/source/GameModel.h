@@ -37,10 +37,11 @@ public:
     /** Player */
     std::shared_ptr<PlayerModel> _player;
 
-#pragma mark Player 3D Location
-public:
     /** Player 3D Location */
     Vec3 _player3DLoc;
+    
+    /** If player just finishes rotating the cut */
+    bool _justFinishRotating = false;
     
 #pragma mark Plane State
 private:

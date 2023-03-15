@@ -282,7 +282,7 @@ void GameplayController::reset() {
  * @param  delta    Number of seconds since last animation frame
  */
 void GameplayController::update(float dt) {
-    _justFinishRotating = false;
+    _model->_justFinishRotating = false;
 #pragma mark INPUT
     _input->update(dt);
 
@@ -322,9 +322,9 @@ void GameplayController::update(float dt) {
 //            //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
 //            createCutObstacles();
             _rotating = false;
-            _justFinishRotating = true;
+            _model->_justFinishRotating = true;
         }
-        if (_justFinishRotating) {
+        if (_model->_justFinishRotating) {
             _physics->getWorld()->addObstacle(_model->_player);
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating

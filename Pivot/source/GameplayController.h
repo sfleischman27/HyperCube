@@ -32,8 +32,6 @@ protected:
     /** is the axis being rotated? (only remake colliders when false) */
     bool _rotating = false;
     
-    bool _justFinishRotating = false;
-    
     /** Reference to the physics root of the scene graph */
     std::shared_ptr<cugl::scene2::SceneNode> _worldnode;
     //SET OF CUT COLLISION OBSTACLES
