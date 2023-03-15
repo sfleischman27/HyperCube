@@ -16,7 +16,7 @@ void main(void) {
     gl_Position = uPerspective * aPosition;
     pos = aPosition;
     outTexCoord = aTexCoord;
-    outNormal = (aNormal + 1) / 2;
+    outNormal = (aNormal + vec3(1, 1, 1) / 2);
     outColor = aColor;
     //outColor = aColor;
     //outColor = vec4(uDirection, 1);
