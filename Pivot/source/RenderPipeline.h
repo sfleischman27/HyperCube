@@ -67,7 +67,7 @@ public:
 	/**
 	 * Renders a given gamemodel
 	 */
-	void render(const std::shared_ptr<GameModel>& model);
+	void render(const std::shared_ptr<GameModel>& model, bool rotating);
 };
 
 #endif /* RenderPipeline_h */

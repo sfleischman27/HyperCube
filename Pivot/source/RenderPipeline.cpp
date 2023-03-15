@@ -114,7 +114,7 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     _mesh.command = GL_TRIANGLES;
 }
 
-void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
+void RenderPipeline::render(const std::shared_ptr<GameModel>& model, bool rotating) {
 
     // If new level, reload vertex and index data
     if (levelId == 0) {
@@ -135,6 +135,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _camera->setPosition(newPos);
     _camera->setDirection(-norm);
     _camera->setUp(Vec3(0, 0, 1));
+    if (rotating) {
+        _camera->setZoom(1);
+    }
+    else {
+        _camera->setZoom(2);
+    }
     _camera->update();
 
     // --------------- TEMP: Mesh pre-calculations --------------- //
@@ -285,6 +291,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderFsq->setUniform1i("outsideTexture", outsideTex);
     _shaderFsq->setUniformVec2("transOffset", transOffset);
     _shaderFsq->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
+    _shaderFsq->setUniform1i("rotating", rotating ? 1 : 0);
     //_shaderFsq->setUniform1i("depthTexture", depthTex);
 
     _vertbuffFsq->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());

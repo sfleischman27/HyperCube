@@ -16,6 +16,7 @@ uniform sampler2D outsideTexture;
 //uniform sampler2D depthTexture;
 uniform vec2 transOffset;
 uniform vec2 screenSize;
+uniform int rotating;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	// remove this function to remove denoising
@@ -66,6 +67,10 @@ void main(void) {
 		vec2 transTexCoord;
 		float xStretch = 1.0; // should be 2
 		float yStretch = 1.0; // should be .5
+		if (rotating == 1) {
+			xStretch = xStretch * 2;
+			yStretch = yStretch * 2;
+		}
         float numTexX = (16.0 / 10.0) * xStretch;
         float numTexY = (9.0 / 6.0) * yStretch;
 		vec2 midTexCoord = mod(outTexCoord + transOffset, 1.0);
