@@ -177,7 +177,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 void GameplayController::createCutObstacles(){
     // TODO: clean this and add function comment -Gordi
     //remove previous poly nodes
-    //removePolyNodes();
+    removePolyNodes();
     createObstacleFromPolys(_model->getCut());
 }
 
@@ -196,7 +196,7 @@ void GameplayController::createObstacleFromPolys(std::vector<cugl::Poly2> polys)
         obstacle->setBodyType(b2_staticBody);
         cutnode = scene2::SceneNode::alloc();
         _cutnodes.insert(cutnode);
-        _cutobstacles.insert(obstacle);
+        //_cutobstacles.insert(obstacle);
         addObstacle(obstacle, cutnode, true);
     }
     
@@ -215,7 +215,8 @@ void GameplayController::removePolyNodes(){
             _worldnode->removeChild(node);
         }
     }
-    for(std::shared_ptr<cugl::physics2::Obstacle> obstacle : _physics->getWorld()->getObstacles()){
+    //commented out because addressed in update with the physics.clear method -- remember to uncomment the cutobstacles insert line if youre uncommenting this again
+    /*for(std::shared_ptr<cugl::physics2::Obstacle> obstacle : _physics->getWorld()->getObstacles()){
         
         bool is_in = _cutobstacles.find(obstacle) != _cutobstacles.end();
 
@@ -224,7 +225,7 @@ void GameplayController::removePolyNodes(){
             _cutobstacles.erase(obstacle);
             _physics->markForRemoval(obstacle);
         }
-    }
+    }*/
     _physics->garbageCollect(); //<- thought i needed this but it's working w it commented out? so im keeping it like this?
 }
 
