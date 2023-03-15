@@ -17,11 +17,11 @@ void main(void) {
 
 	// TODO added depth stuff here but should use a depth buffer
 	float d = -(Mv * pos).z;
-	float maxDepth = 35;
+	float maxDepth = 35.0;
 	float ratio = d / maxDepth;
-	vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1);
+	vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1.0);
 	frag_color = outColor - fadeColor * ratio;
-	frag_color.a = 1;
+	frag_color.a = 1.0;
 }
 
 /////////// SHADER END //////////)"

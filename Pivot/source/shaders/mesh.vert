@@ -16,10 +16,10 @@ void main(void) {
     gl_Position = uPerspective * aPosition;
     pos = aPosition;
     outTexCoord = aTexCoord;
-    outNormal = aNormal + vec3(1, 1, 1);
-    outNormal.x = outNormal.x / 2;
-    outNormal.y = outNormal.y / 2;
-    outNormal.z = outNormal.z / 2;
+    outNormal = aNormal + vec3(1.0, 1.0, 1.0);
+    outNormal.x = outNormal.x / 2.0;
+    outNormal.y = outNormal.y / 2.0;
+    outNormal.z = outNormal.z / 2.0;
     outColor = aColor;
     //outColor = aColor;
     //outColor = vec4(uDirection, 1);
