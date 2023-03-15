@@ -346,8 +346,6 @@ def expand_includes(config):
                 files = util.expand_wildcards(root,config[target]['includes'],'directory')
                 includes.extend(map(util.posix_to_path,files))
         result[target] = includes
-        
-        print(result)
     
     config['include_dict'] = result
 
