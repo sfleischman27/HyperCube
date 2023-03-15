@@ -67,7 +67,7 @@ void main(void) {
 		vec2 transTexCoord;
 		float xStretch = 1.0; // should be 2
 		float yStretch = 1.0; // should be .5
-		if (rotating == 2.0) { // should be 1.0
+		if (rotating == 2) { // should be 1
 			xStretch = xStretch * 2.0;
 			yStretch = yStretch * 2.0;
 		}
