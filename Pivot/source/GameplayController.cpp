@@ -159,7 +159,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
     
-    addObstacle(_model->_player, sprite, true);
+    //dont actually need dynamically update nodes(sprite in this case) in worldnode because it's already been done somewhere else?
+    addObstacle(_model->_player/*, sprite*/, true);
     
     addChild(_worldnode);
     addChild(_debugnode);
@@ -177,7 +178,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 void GameplayController::createCutObstacles(){
     // TODO: clean this and add function comment -Gordi
     //remove previous poly nodes
-    removePolyNodes();
+    //removePolyNodes();
     createObstacleFromPolys(_model->getCut());
 }
 
@@ -188,16 +189,16 @@ void GameplayController::createCutObstacles(){
 void GameplayController::createObstacleFromPolys(std::vector<cugl::Poly2> polys){
     //std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, getSize() / _physics->getScale());
     
-    std::shared_ptr<scene2::SceneNode> cutnode = scene2::SceneNode::alloc();
+    //std::shared_ptr<scene2::SceneNode> cutnode = scene2::SceneNode::alloc();
     
     for(Poly2 p : polys){
         std::vector<cugl::Vec2> vertices = p.getVertices();
         std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(p);
         obstacle->setBodyType(b2_staticBody);
-        cutnode = scene2::SceneNode::alloc();
-        _cutnodes.insert(cutnode);
+        //cutnode = scene2::SceneNode::alloc();
+        //_cutnodes.insert(cutnode);
         //_cutobstacles.insert(obstacle);
-        addObstacle(obstacle, cutnode, true);
+        addObstacle(obstacle, true);
     }
     
 }
@@ -237,27 +238,27 @@ void GameplayController::removePolyNodes(){
  * @param useObjPosition whether you should use the object's local position when adding to scenes. Default is true.
  */
 void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
-                            const std::shared_ptr<cugl::scene2::SceneNode>& node,
+                            //const std::shared_ptr<cugl::scene2::SceneNode>& node,
                             bool useObjPosition) {
     _physics->getWorld()->addObstacle(obj);
     obj->setDebugColor(DEBUG_COLOR);
     obj->setDebugScene(_debugnode);
         
     // Position the scene graph node (enough for static objects)
-      if (useObjPosition) {
+      /*if (useObjPosition) {
           node->setPosition(obj->getPosition()/_physics->getScale());
-      }
+      }*/
     
-      _worldnode->addChild(node);
+      //_worldnode->addChild(node);
     
     // Dynamic objects need constant updating
-    if (obj->getBodyType() == b2_dynamicBody) {
+    /*if (obj->getBodyType() == b2_dynamicBody) {
         scene2::SceneNode* weak = node.get(); // No need for smart pointer in callback
         obj->setListener([=](physics2::Obstacle* obs){
             weak->setPosition(obs->getPosition()*_physics->getScale());
             weak->setAngle(obs->getAngle());
         });
-    }
+    }*/
 }
 
 

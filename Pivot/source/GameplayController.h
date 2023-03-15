@@ -127,7 +127,7 @@ public:
      * @param useObjPosition whether you should use the object's local position when adding to scenes. Default is true.
      */
     void addObstacle(const std::shared_ptr<cugl::physics2::Obstacle>& obj,
-                                const std::shared_ptr<cugl::scene2::SceneNode>& node,
+                                //const std::shared_ptr<cugl::scene2::SceneNode>& node,
                      bool useObjPosition = true);
     
     /**
