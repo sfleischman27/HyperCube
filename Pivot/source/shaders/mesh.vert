@@ -21,9 +21,6 @@ void main(void) {
     outNormal.y = outNormal.y / 2.0;
     outNormal.z = outNormal.z / 2.0;
     outColor = aColor;
-    //outColor = aColor;
-    //outColor = vec4(uDirection, 1);
-    //outColor = vec4((aNormal + 1) / 2, 1);
 }
 
 /////////// SHADER END //////////)"

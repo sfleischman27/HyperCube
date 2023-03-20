@@ -12,10 +12,8 @@ out vec4 frag_color;
 uniform mat4 Mv;
 
 void main(void) {
-	//vec4 cur = texture(meshTexture, pos.xy / pos.z);
-	frag_color = outColor;
 
-	// TODO added depth stuff here but should use a depth buffer
+	// TODO added depth stuff here but should use a depth buffer in FSQ
 	float d = -(Mv * pos).z;
 	float maxDepth = 35.0;
 	float ratio = d / maxDepth;
