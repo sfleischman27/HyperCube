@@ -12,6 +12,8 @@
 #include <cugl/base/CUApplication.h>
 #include <cugl/cugl.h>
 #include "GameModel.h"
+#include "GameplayController.h"
+#include <vector>
 
 /**
  *  Takes in level file and outputs Level object
@@ -58,7 +60,6 @@ public:
 
     };
     
-    
     /**
      * Initializes the game model contents
      *
@@ -68,6 +69,13 @@ public:
      * @return true if the controller is initialized properly, false otherwise.
      */
     bool initGameModel(std::string level, const std::shared_ptr<GameModel>& model);
+    
+    /**
+     * Initializes the gameUI
+     *
+     * @return true if the controller is initialized properly, false otherwise.
+     */
+    bool initGameUI();
     
 };
 

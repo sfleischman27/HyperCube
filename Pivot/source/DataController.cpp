@@ -8,9 +8,6 @@
 //
 
 #include "DataController.h"
-#include <cugl/cugl.h>
-#include "GameplayController.h"
-#include <vector>
 
 using namespace cugl;
 
@@ -80,3 +77,16 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     return true;
 }
 
+/**
+ * Initializes the gameUI
+ *
+ * @return true if the controller is initialized properly, false otherwise.
+ */
+bool DataController::initGameUI() {
+    
+    _assets->loadDirectory("json/pivot_gameUI.json");
+    
+    auto layer = _assets->get<cugl::scene2::SceneNode>("lab");
+    
+    return true;
+}
