@@ -1,7 +1,7 @@
 ---
-name:   Platform Demo               # The application display name
-short:  Platformer                  # A shortened name for reference
-appid:  edu.cornell.gdiac.physics2  # Application identifier for Mac, iOS, Android
+name:   Pivot               # The application display name
+short:  Pivot                  # A shortened name for reference
+appid:  edu.cornell.gdiac.pivot  # Application identifier for Mac, iOS, Android
 suffix: G833D43B
 
 build:  build                       # The build directory (targets are each a subdirectory)
