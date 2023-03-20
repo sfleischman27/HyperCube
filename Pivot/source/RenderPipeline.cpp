@@ -41,8 +41,6 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     _vertbuff = VertexBuffer::alloc(sizeof(PivotVertex3));
     _vertbuff->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, position));
-    _vertbuff->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
-        offsetof(PivotVertex3, color));
     _vertbuff->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, texcoord));
     _vertbuff->setupAttribute("aNormal", 3, GL_FLOAT, GL_FALSE,
@@ -83,8 +81,6 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     for (int i = 1; i <= 15; i++) {
         backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
     }
-
-	return;
 }
 
 void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
@@ -171,7 +167,6 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
             }
         }
     }
-    return;
 }
 
 void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
@@ -256,7 +251,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     earthTex->bind();
 
     _shaderFsq->setUniformMat4("uPerspective", _camera->getCombined());
-    _shaderFsq->setUniformMat4("Mv", _camera->getView());
     _shaderFsq->setUniform1i("fsqTexture", fsqTex);
     _shaderFsq->setUniform1i("outsideTexture", outsideTex);
     _shaderFsq->setUniformVec2("transOffset", transOffset);
@@ -268,6 +262,4 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     earthTex->unbind();
     fbo.getTexture()->unbind();
     _vertbuffFsq->unbind();
-
-	return;
 }

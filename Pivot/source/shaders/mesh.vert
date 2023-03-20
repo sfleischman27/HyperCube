@@ -1,11 +1,9 @@
 R"(////////// SHADER BEGIN /////////
 
 in vec4 aPosition;
-in vec4 aColor;
 in vec2 aTexCoord;
 in vec3 aNormal;
 
-out vec4 outColor;
 out vec4 pos;
 out vec2 outTexCoord;
 out vec3 outNormal;
@@ -20,7 +18,6 @@ void main(void) {
     outNormal.x = outNormal.x / 2.0;
     outNormal.y = outNormal.y / 2.0;
     outNormal.z = outNormal.z / 2.0;
-    outColor = aColor;
 }
 
 /////////// SHADER END //////////)"

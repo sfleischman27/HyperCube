@@ -4,13 +4,11 @@ R"(////////// SHADER BEGIN /////////
 precision mediump float;
 #endif
 
-in vec4 outColor;
 in vec4 pos;
 in vec2 outTexCoord;
 
 out vec4 frag_color;
 
-uniform mat4 Mv;
 uniform sampler2D fsqTexture;
 uniform sampler2D outsideTexture;
 uniform vec2 transOffset;

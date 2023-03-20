@@ -4,7 +4,6 @@ R"(////////// SHADER BEGIN /////////
 precision mediump float;
 #endif
 
-in vec4 outColor;
 in vec4 pos;
 in vec2 outTexCoord;
 in vec3 outNormal;

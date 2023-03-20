@@ -3,7 +3,6 @@ R"(////////// SHADER BEGIN /////////
 in vec4 aPosition;
 in vec2 aTexCoord;
 
-out vec4 outColor;
 out vec4 pos;
 out vec2 outTexCoord;
 
