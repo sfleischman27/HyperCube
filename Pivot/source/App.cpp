@@ -18,7 +18,6 @@ using namespace cugl;
 #pragma mark -
 #pragma mark Application State
 
-bool demo = false;
 
 /**
  * The method called after OpenGL is initialized, but before running the application.
@@ -36,65 +35,38 @@ void PivotApp::onStartup() {
 
     std::string jsonPath = "json/assets.json";
 	
-    if (demo){
-        _assets = AssetManager::alloc();
-        _batch  = SpriteBatch::alloc();
-        
-        // Start-up basic input
+    _assets = AssetManager::alloc();
+    _batch  = SpriteBatch::alloc();
+    
+    // Start-up basic input
 #ifdef CU_TOUCH_SCREEN
-        Input::activate<Touchscreen>();
+    Input::activate<Touchscreen>();
 #else
-        Input::activate<Mouse>();
+    Input::activate<Mouse>();
 #endif
+    
+    // TODO: remove the unnessisary loaders
+    _assets->attach<Font>(FontLoader::alloc()->getHook());
+    _assets->attach<Texture>(TextureLoader::alloc()->getHook());
+    _assets->attach<Sound>(SoundLoader::alloc()->getHook());
+    _assets->attach<scene2::SceneNode>(Scene2Loader::alloc()->getHook());
+    _assets->attach<JsonValue>(JsonLoader::alloc()->getHook());
+    
+    // TODO: make our own loading screen
+    // Create a "loading" screen
+    _loaded = false;
+    _demoloading.init(_assets);
+    
+    // TODO: change assets to be our assets (if/when we get some)
+    // Queue up the other assets
+    AudioEngine::start();
+    _assets->loadDirectoryAsync(jsonPath, nullptr);
 
-        _assets->attach<Font>(FontLoader::alloc()->getHook());
-        _assets->attach<Texture>(TextureLoader::alloc()->getHook());
-        _assets->attach<Sound>(SoundLoader::alloc()->getHook());
-        _assets->attach<scene2::SceneNode>(Scene2Loader::alloc()->getHook());
-        
-        // Create a "loading" screen
-        _loaded = false;
-        _demoloading.init(_assets);
-        
-        // Queue up the other assets
-        AudioEngine::start();
-        _assets->loadDirectoryAsync(jsonPath, nullptr);
-        
-        Application::onStartup(); // YOU MUST END with call to parent
-    }
-    else{
-        _assets = AssetManager::alloc();
-        _batch  = SpriteBatch::alloc();
-        
-        // Start-up basic input
-#ifdef CU_TOUCH_SCREEN
-        Input::activate<Touchscreen>();
-#else
-        Input::activate<Mouse>();
-#endif
-        
-        // TODO: remove the unnessisary loaders
-        _assets->attach<Font>(FontLoader::alloc()->getHook());
-        _assets->attach<Texture>(TextureLoader::alloc()->getHook());
-        _assets->attach<Sound>(SoundLoader::alloc()->getHook());
-        _assets->attach<scene2::SceneNode>(Scene2Loader::alloc()->getHook());
-        _assets->attach<JsonValue>(JsonLoader::alloc()->getHook());
-        
-        // TODO: make our own loading screen
-        // Create a "loading" screen
-        _loaded = false;
-        _demoloading.init(_assets);
-        
-        // TODO: change assets to be our assets (if/when we get some)
-        // Queue up the other assets
-        AudioEngine::start();
-        _assets->loadDirectoryAsync(jsonPath, nullptr);
+    // set clear color for entire canvas
+    setClearColor(Color4(255, 255, 255, 255));
+    
+    Application::onStartup(); // YOU MUST END with call to parent
 
-        // set clear color for entire canvas
-        setClearColor(Color4(255, 255, 255, 255));
-        
-        Application::onStartup(); // YOU MUST END with call to parent
-    }
 }
 
 /**
@@ -109,39 +81,21 @@ void PivotApp::onStartup() {
  * causing the application to be deleted.
  */
 void PivotApp::onShutdown() {
-    if (demo){
-        _demoloading.dispose();
-        _demogameplay.dispose();
-        _assets = nullptr;
-        _batch = nullptr;
-        
-        // Shutdown input
+    // TODO: dispose of other modes here (ex: level select) when they are implemented
+    _demoloading.dispose();
+    _gameplay.dispose();
+    _assets = nullptr;
+    _batch = nullptr;
+    
+    // Shutdown input
 #ifdef CU_TOUCH_SCREEN
-        Input::deactivate<Touchscreen>();
+    Input::deactivate<Touchscreen>();
 #else
-        Input::deactivate<Mouse>();
+    Input::deactivate<Mouse>();
 #endif
-        
-        AudioEngine::stop();
-        Application::onShutdown();  // YOU MUST END with call to parent
-    }
-    else{
-        // TODO: dispose of other modes here (ex: level select) when they are implemented
-        _demoloading.dispose();
-        _gameplay.dispose();
-        _assets = nullptr;
-        _batch = nullptr;
-        
-        // Shutdown input
-#ifdef CU_TOUCH_SCREEN
-        Input::deactivate<Touchscreen>();
-#else
-        Input::deactivate<Mouse>();
-#endif
-        
-        AudioEngine::stop();
-        Application::onShutdown();  // YOU MUST END with call to parent
-    }
+    
+    AudioEngine::stop();
+    Application::onShutdown();  // YOU MUST END with call to parent
 }
 
 /**
@@ -189,28 +143,15 @@ void PivotApp::onResume() {
  * @param timestep  The amount of time (in seconds) since the last frame
  */
 void PivotApp::update(float timestep) {
-    if (demo){
-        if (!_loaded && _demoloading.isActive()) {
-            _demoloading.update(0.01f);
-        } else if (!_loaded) {
-            _demoloading.dispose(); // Disables the input listeners in this mode
-            _demogameplay.init(_assets);
-            _loaded = true;
-        } else {
-            _demogameplay.update(timestep);
-        }
-    }
-    else{
-        // TODO: add structure for multiple "modes" once they have been created
-        if (!_loaded && _demoloading.isActive()) {
-            _demoloading.update(0.01f);
-        } else if (!_loaded) {
-            _demoloading.dispose(); // Disables the input listeners in this mode
-            _gameplay.init(_assets, getDisplaySize());
-            _loaded = true;
-        } else {
-            _gameplay.update(timestep);
-        }
+    // TODO: add structure for multiple "modes" once they have been created
+    if (!_loaded && _demoloading.isActive()) {
+        _demoloading.update(0.01f);
+    } else if (!_loaded) {
+        _demoloading.dispose(); // Disables the input listeners in this mode
+        _gameplay.init(_assets, getDisplaySize());
+        _loaded = true;
+    } else {
+        _gameplay.update(timestep);
     }
 }
 
@@ -224,20 +165,11 @@ void PivotApp::update(float timestep) {
  * at all. The default implmentation does nothing.
  */
 void PivotApp::draw() {
-    if (demo){
-        if (!_loaded) {
-            _demoloading.render(_batch);
-        } else {
-            _demogameplay.render(_batch);
-        }
-    }
-    else{
-        // TODO: add structure for multiple "modes" once they have been created
-        if (!_loaded) {
-            _demoloading.render(_batch);
-        } else {
-            _gameplay.render(_batch);
-        }
+    // TODO: add structure for multiple "modes" once they have been created
+    if (!_loaded) {
+        _demoloading.render(_batch);
+    } else {
+        _gameplay.render(_batch);
     }
 }
 

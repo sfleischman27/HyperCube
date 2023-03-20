@@ -18,7 +18,6 @@
 #include "RenderPipeline.h"
 
 // Demo mode
-#include "PFGameScene.h"
 #include "PFLoadingScene.h"
 
 /**
@@ -34,8 +33,6 @@ protected:
     // TODO: change this to be our loading and game scenes
     // TODO: add more scenes as they are created
     // Player modes
-    /** The primary controller for the demo game world */
-    GameScene _demogameplay;
     /** The controller for the demo loading screen */
     LoadingScene _demoloading;
     /** The primary controller for the game world */
