@@ -408,7 +408,7 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
     //True to use Matts renderer
     bool useRP = true;
     if (useRP) {
-        _pipeline->render(_model, _rotating);
+        _pipeline->render(_model);
 
         return;
     }

@@ -37,6 +37,11 @@ public:
 	;
 
 	int levelId;
+	const float epsilon = 0.001f;
+	const int insideTex = 0;
+	const int fsqTex = 1;
+	const int outsideTex = 2;
+	const bool drawCut = false;
 
 	std::shared_ptr<AssetManager> assets;
 	std::shared_ptr<cugl::OrthographicCamera> _camera;
@@ -53,6 +58,8 @@ public:
 	std::vector<std::shared_ptr<Texture>> backgrounds;
 	Vec2 prevPlayerPos;
 	Vec2 storePlayerPos;
+	std::vector<Vec3> billboardOrigins;
+	std::vector<Color4f> billboardCols;
 
 	/**
 	 * Construct the RenderPipeline
@@ -63,11 +70,16 @@ public:
 	 * Sets up the scene
 	 */
 	void sceneSetup(const std::shared_ptr<GameModel>& model);
+
+	/**
+	 * Sets up the billboards
+	 */
+	void billboardSetup(const std::shared_ptr<GameModel>& model);
 	
 	/**
 	 * Renders a given gamemodel
 	 */
-	void render(const std::shared_ptr<GameModel>& model, bool rotating);
+	void render(const std::shared_ptr<GameModel>& model);
 };
 
 #endif /* RenderPipeline_h */

@@ -4,19 +4,15 @@ R"(////////// SHADER BEGIN /////////
 precision mediump float;
 #endif
 
-in vec4 outColor;
 in vec4 pos;
 in vec2 outTexCoord;
 
 out vec4 frag_color;
 
-uniform mat4 Mv;
 uniform sampler2D fsqTexture;
 uniform sampler2D outsideTexture;
-//uniform sampler2D depthTexture;
 uniform vec2 transOffset;
 uniform vec2 screenSize;
-uniform int rotating;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	// remove this function to remove denoising
@@ -57,26 +53,20 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 }
 
 void main(void) {
-	//float d = -(Mv * pos).z;
-	//float div = 100;
-	//frag_color = vec4(0, 0, 0, 1);// - vec4(d / div, d / div, d / div, 0);
-	//frag_color = vec4(0, 0, 0, 1);
 	frag_color = texture(fsqTexture, outTexCoord);
 	if (frag_color.xyz == vec3(1.0, 0.0, 1.0) || checkNeighboring(fsqTexture, outTexCoord)) {
+
         // TEMP: layer tex coords
 		vec2 transTexCoord;
 		float xStretch = 1.0; // should be 2
 		float yStretch = 1.0; // should be .5
-		if (rotating == 2) { // should be 1
-			xStretch = xStretch * 2.0;
-			yStretch = yStretch * 2.0;
-		}
         float numTexX = (16.0 / 10.0) * xStretch;
         float numTexY = (9.0 / 6.0) * yStretch;
 		vec2 midTexCoord = mod(outTexCoord + transOffset, 1.0);
         transTexCoord.x = mod(midTexCoord.x * numTexX, 1.0);
         transTexCoord.y = mod(midTexCoord.y * numTexY, 1.0);
 		// End temp
+
 		frag_color = texture(outsideTexture, transTexCoord);
 	}
 }
