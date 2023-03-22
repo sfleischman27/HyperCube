@@ -3,23 +3,27 @@
     "player_loc": [-4.55713, 5.70794, -169.109],
     "norm": [-1, 0, 0],
     "exit": [89.7733, -81.1569, -104.641],
-    "numCol": 1,
-    "collectibles": {
+    "glowsitcks": 4,
+    "col": {
         "1": {
-            "loc": [-240, 0, -174]
+            "loc": [-240, 0, -174],
+            "tex": "bullet"
             }
         },
-    "numDeco": 3,
     "deco": {
         "1": {
-            "loc": [0,0,0]
+            "loc": [0,0,0],
+            "tex": "bullet"
             },
         "2": {
-            "loc": [0,0,0]
+            "loc": [0,0,0],
+            "tex": "bullet"
             },
         "3": {
-            "loc": [0,0,0]
+            "loc": [0,0,0],
+            "tex": "bullet"
             }
         },
     "mesh": "meshes/GameplayPrototype.obj"
 }
+

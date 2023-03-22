@@ -120,5 +120,8 @@
           "file": "fonts/RetroGame.ttf",
           "size": 64
         }
-	}
+	},
+    "jsons" : {
+        "levelTest" : "json/levelTest.json"
+    }
 }

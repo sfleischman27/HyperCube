@@ -22,9 +22,7 @@ using namespace cugl;
  */
 bool DataController::initGameModel(std::string level, const std::shared_ptr<GameModel>& model) {
     
-    _assets->loadDirectory("json/" + level);
-    
-    std::shared_ptr<cugl::JsonValue> constants = _assets->get<JsonValue>("constants");
+    std::shared_ptr<cugl::JsonValue> constants = _assets->get<JsonValue>(level);
     
     Vec3 playerLoc;
     playerLoc.x = constants->get("player_loc")->get(0)->asFloat();
@@ -62,15 +60,17 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     
     std::vector<Vec3> locs;
     std::vector<std::shared_ptr<cugl::Texture>> texs;
-    std::shared_ptr<cugl::JsonValue> collectibles = constants->get("collectibles");
-    int it = constants->getInt("numCol");
+    std::shared_ptr<cugl::JsonValue> collectibles = constants->get("col");
+    int it = collectibles->size();
     for (int i = 0; i < it; i ++){
         Vec3 loc;
         loc.x = collectibles->get(std::to_string(i+1))->get("loc")->get(0)->asFloat();
         loc.y = collectibles->get(std::to_string(i+1))->get("loc")->get(1)->asFloat();
         loc.z = collectibles->get(std::to_string(i+1))->get("loc")->get(2)->asFloat();
+        std::string texKey = collectibles->get(std::to_string(i+1))->getString("tex");
+        std::shared_ptr<Texture> tex = _assets->get<Texture>(texKey);
         locs.push_back(loc);
-        texs.push_back(_assets->get<Texture>("col" + std::to_string(i)));
+        texs.push_back(tex);
     }
     model->setCollectibles(locs, texs);
     

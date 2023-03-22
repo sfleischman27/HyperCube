@@ -103,7 +103,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _model = std::make_shared<GameModel>(GameModel());
     DataController data = DataController();
     data.init(_assets);
-    data.initGameModel("levelAssets.json", _model);
+    data.initGameModel("levelTest", _model);
     
     _model->setPlayer3DLoc(_model->getInitPlayerLoc());
 
