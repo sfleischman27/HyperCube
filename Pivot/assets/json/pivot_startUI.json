@@ -1,0 +1,43 @@
+{
+    "textures": {
+        "background": {
+            "file": "textures/start_background.png"
+        },
+        "start": {
+            "file": "textures/start_startbutton.png"
+        },
+        "resume": {
+            "file": "textures/start_resumebutton.png"
+        }
+    },
+    "fonts": {
+        "gyparody": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     48
+        }
+    },
+    "widgets" : {
+        "startUI": "widgets/startUI.json",
+        "startbuttons": "widgets/startbuttons.json"
+    },
+    "scene2s" : {
+        "lab": {
+            "type"      : "Node",
+            "comment"   : "This is the root node of the scene for the lab",
+            "format"    : {
+                "type" : "Anchored"
+            },
+            "children" : {
+                "startScreen": {
+                    "type": "Widget",
+                    "data": {
+                        "key": "startUI",
+                        "variables": {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

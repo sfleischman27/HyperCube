@@ -20,6 +20,9 @@
         },
         "uncollectedkey":{
             "file": "textures/game_uncollectedkey.png"
+        },
+        "glowstick": {
+            "file": "textures/game_glowstickbutton.png"
         }
 	},
 	"fonts": {
@@ -29,6 +32,7 @@
       "movement": "widgets/movement.json",
       "compass": "widgets/compass.json",
       "inventory": "widgets/inventory.json",
+      "glowstick": "widgets/glowstick.json",
       "gameUI": "widgets/gameUI.json"
     },
     "scene2s" : {

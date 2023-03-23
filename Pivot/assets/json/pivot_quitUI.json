@@ -1,0 +1,45 @@
+{
+    "textures": {
+        "vignette": {
+            "file": "textures/quit_background.png"
+        },
+        "board": {
+            "file": "textures/quit_promptboard.png"
+        },
+        "quit": {
+            "file": "textures/quit_buttons.png"
+        }
+    },
+    "fonts": {
+        "gyparody": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     48
+        }
+    },
+    "widgets" : {
+        "quitUI": "widgets/quitUI.json",
+        "quitboard": "widgets/quitboard.json",
+        "quitbuttons": "widgets/quitbuttons.json"
+    },
+    "scene2s" : {
+        "lab": {
+            "type"      : "Node",
+            "comment"   : "This is the root node of the scene for the lab",
+            "format"    : {
+                "type" : "Anchored"
+            },
+            "children" : {
+                "quitScreen": {
+                    "type": "Widget",
+                    "data": {
+                        "key": "quitUI",
+                        "variables": {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+

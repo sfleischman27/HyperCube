@@ -1,0 +1,45 @@
+{
+    "textures": {
+        "end": {
+            "file": "textures/end_background.png"
+        },
+        "option": {
+            "file": "textures/end_buttons.png"
+        },
+        "map": {
+            "file": "textures/end_map.png"
+        }
+    },
+    "fonts": {
+        "gyparody": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     48
+        }
+    },
+    "widgets" : {
+        "endUI": "widgets/endUI.json",
+        "endbutton": "widgets/endbutton.json"
+    },
+    "scene2s" : {
+        "lab": {
+            "type"      : "Node",
+            "comment"   : "This is the root node of the scene for the lab",
+            "format"    : {
+                "type" : "Anchored"
+            },
+            "children" : {
+                "endScreen": {
+                    "type": "Widget",
+                    "data": {
+                        "key": "endUI",
+                        "variables": {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+

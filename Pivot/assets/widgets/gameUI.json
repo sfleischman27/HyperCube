@@ -1,6 +1,6 @@
 {
     "variables": {
-        
+        "showGameUI" : ["data","visible"]
     },
     "contents": {
        "type" : "Node",
@@ -73,6 +73,18 @@
                        "buttonYPos": 0.015
                    }
                }
+           },
+           "glowstickB": {
+              "type": "Widget",
+              "data":{
+                  "key": "glowstick",
+                  "variables": {
+                      "glowstickSize": [150, 150],
+                      "glowstickScale": 0.75,
+                      "glowstickXPos": -0.2,
+                      "glowstickYPos": 0.04
+                  }
+              }
            },
            "compassBar":{
                "type": "Widget",

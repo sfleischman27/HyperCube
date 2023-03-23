@@ -1,0 +1,103 @@
+{
+    "variables": {
+        "showEndUI" : ["data", "visible"]
+    },
+    "contents": {
+        "type": "Node",
+        "format" : {
+            "type": "Anchored"
+        },
+        "data": {
+            "size": [1280,720],
+            "anchor": [0,1],
+            "visible": true
+        },
+        "layout": {
+            "x_anchor": "left",
+            "y_anchor": "top"
+        },
+        "children":{
+            "background": {
+                "type": "Image",
+                "format": {
+                    "type": "Anchored"
+                },
+                "data": {
+                    "texture": "end",
+                    "scale": 1,
+                    "anchor": [0.5,0.5]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "middle"
+                },
+                "children": {
+                    "board": {
+                        "type": "Node",
+                        "format": {
+                            "type": "Anchored"
+                        },
+                        "data": {
+                            "size": [1500, 800],
+                            "anchor": [0.5,0.5],
+                            "scale": 0.5
+                        },
+                        "layout": {
+                            "x_anchor": "center",
+                            "y_anchor": "middle"
+                        },
+                        "children": {
+                            "map": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "endbutton",
+                                    "variables": {
+                                        "buttonSize": [1500,600],
+                                        "buttonAnchor": [0,1],
+                                        "buttonXStart": "left",
+                                        "buttonYStart": "top",
+                                        "button": "map",
+                                        "buttonText": "Show Map",
+                                        "buttonTextColor": [0,0,0,255]
+                                    }
+                                }
+                            },
+                            "replay": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "endbutton",
+                                    "variables": {
+                                        "buttonAnchor": [0,0],
+                                        "buttonText": "Replay"
+                                    }
+                                }
+                            },
+                            "level": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "endbutton",
+                                    "variables": {
+                                        "buttonAnchor": [0.5,0],
+                                        "buttonXStart": "center",
+                                        "buttonText": "Level Select"
+                                    }
+                                }
+                            },
+                            "next":{
+                                "type": "Widget",
+                                "data": {
+                                    "key": "endbutton",
+                                    "variables": {
+                                        "buttonAnchor": [1,0],
+                                        "buttonXStart": "right",
+                                        "buttonText": "Next Level"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
