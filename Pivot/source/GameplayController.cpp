@@ -145,6 +145,36 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     //MUST be done before anything else is added to _worldnode
     createCutObstacles();
+    
+#pragma mark ADD UI
+    
+    //load the json with the assets for the UI and the scene graph structure (talk to Czar)
+    _assets->loadDirectory("json/pivot_gameUI.json");
+    
+    //All UI elements are contained in a node called lab in the json
+    auto layer = _assets->get<cugl::scene2::SceneNode>("lab");
+    layer->setContentSize(_dimen);
+    layer->doLayout();
+    //I beleive adding the layer is what draws everything contained within lab
+    addChild(layer);
+    
+    //Lab has 1 child called gameScreenUI, and gameScreenUI has multiple children which represent all the UI elements
+    auto kids = layer->getChildren()[0]->getChildren();
+    CULog("%lu", kids.size());
+    /**For some reason, trying to load the Compass bar and collectibles UI elements causes issues, so this for loop
+    only loads the left, right, jump, and exit buttons**/
+    for(int i = 0; i < 4; ++i) {
+        //We cast the nodes defined in the json to Buttons
+        std::shared_ptr<scene2::Button> butt = std::dynamic_pointer_cast<scene2::Button>(kids[i]);
+//        CULog(butt->getName().c_str());
+        //Then store them in a vector
+        _buttons[butt->getName()] = butt;
+    }
+    
+    //Activate the buttons so they register inputs (they do not do anything yet though)
+    for(auto it = _buttons.begin(); it != _buttons.end(); ++it) {
+        it->second->activate();
+    }
 
 #pragma mark ADD PLAYER
     Vec2 dudePos = Vec2::ZERO;

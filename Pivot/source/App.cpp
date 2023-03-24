@@ -51,6 +51,7 @@ void PivotApp::onStartup() {
     _assets->attach<Sound>(SoundLoader::alloc()->getHook());
     _assets->attach<scene2::SceneNode>(Scene2Loader::alloc()->getHook());
     _assets->attach<JsonValue>(JsonLoader::alloc()->getHook());
+    _assets->attach<WidgetValue>(WidgetLoader::alloc()->getHook());
     
     // TODO: make our own loading screen
     // Create a "loading" screen

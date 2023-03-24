@@ -48,6 +48,8 @@ protected:
     /** Mark set to handle more sophisticated collision callbacks */
     std::unordered_set<b2Fixture*> _sensorFixtures;
     
+    std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
+    
 private:
     std::shared_ptr<GameModel> _model;
     std::shared_ptr<PhysicsController> _physics;
