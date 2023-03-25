@@ -34,7 +34,10 @@ using namespace cugl;
 #define COLLECTING_DIST   12
 /** Threshold of the reaching exit distance */
 #define EXITING_DIST   12
-
+/** Number of glowsticks allowed to put */
+#define NUM_GLOWSTICKS 4
+/** Glowstick pickup distance*/
+#define PICKING_DIST   10
 
 /**
  * Creates a new game world with the default values.
@@ -383,6 +386,30 @@ void GameplayController::update(float dt) {
         else{
             // TODO: maybe saying find lost colletibles or something? - Sarah
         }
+    }
+
+#pragma mark Glowsticks
+    if (_input->didSelect()) {
+        auto pos = _input->getSelection();
+        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
+        
+        //put an imaginary button here for putting down glowstick for now (Jolene debug use)
+        if (abs(pos.x - _dimen.width/2) <= 150 && abs(pos.y + _dimen.height/2) <= 150){
+            Vec3 player3DPos = _model->getPlayer3DLoc();
+            for(auto g =_model->_glowsticks.begin(); g!=_model->_glowsticks.end();){
+                if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
+                    g = _model->_glowsticks.erase(g);
+                    _pickupGlowstick = true;
+                }
+                else{
+                    ++g;
+                }
+            }
+            if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
+                _model->_glowsticks.push_back(Glowstick(player3DPos));
+            }
+        }
+        _pickupGlowstick = false;
     }
 
 

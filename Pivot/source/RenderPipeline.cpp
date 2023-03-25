@@ -119,6 +119,8 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Collectibles
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
+    // Glowsticks
+    std::vector<Glowstick> glows = model->_glowsticks;
     billboardOrigins.push_back(model->getPlayer3DLoc());
     billboardOrigins.push_back(model->getExitLoc());
     billboardCols.push_back(Color4f::RED);
@@ -129,7 +131,11 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
             billboardCols.push_back(Color4f::GREEN);
         }
     }
-
+    for (Glowstick g : glows) {
+        billboardOrigins.push_back(g.getPosition());
+        billboardCols.push_back(Color4f::YELLOW);
+    }
+    
     // Construct basis
     const Vec3 basisUp = _camera->getUp();
     const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);

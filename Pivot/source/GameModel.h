@@ -13,6 +13,7 @@
 #include "Collectible.h"
 #include "PlayerModel.h"
 #include "Mesh.h"
+#include "Glowstick.h"
 
 using namespace cugl;
 
@@ -70,6 +71,11 @@ public:
 private:
     /** Vector of collectibles need to be collected*/
     std::unordered_set<std::string> _expectedCol;
+    
+#pragma mark Glowsticks State
+public:
+    /** Vector of glowsticks */
+    std::vector<Glowstick> _glowsticks;
     
 #pragma mark Mesh
 public:
