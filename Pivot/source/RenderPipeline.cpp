@@ -124,8 +124,10 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     billboardCols.push_back(Color4f::RED);
     billboardCols.push_back(Color4f::BLUE);
     for (std::pair<std::string, Collectible> c : colls) {
-        billboardOrigins.push_back(c.second.getPosition());
-        billboardCols.push_back(Color4f::GREEN);
+        if (!c.second.getCollected()) {
+            billboardOrigins.push_back(c.second.getPosition());
+            billboardCols.push_back(Color4f::GREEN);
+        }
     }
 
     // Construct basis

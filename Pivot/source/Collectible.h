@@ -20,10 +20,6 @@ protected:
     Vec3 _position;
     /** Collectible status */
     bool _collected;
-    /** The drawing scale of the collectibles (can vary in size) */
-    float _scale;
-    /** The sprite sheet for the collectible */
-    std::shared_ptr<SpriteSheet> _sprite;
     /** The texture for the asteroid sprite sheet. */
     std::shared_ptr<cugl::Texture> _texture;
 
@@ -67,22 +63,6 @@ public:
     void setCollected(bool v) {
         _collected = v;
     }
-    /**
-     *  Sets the scale of the collectible
-     *
-     *  @param s
-     */
-    void setScale(float s) {
-        _scale = s;
-    }
-    /**
-     * Sets the sprite sheet for this collectible
-     *
-     * @param sprite  The sprite sheet for this collectible
-     */
-    void setSprite(const std::shared_ptr<SpriteSheet>& sprite) {
-        _sprite = sprite;
-    }
     
 #pragma mark Getters
 public:
@@ -98,16 +78,6 @@ public:
      *  Returns the collectible status
      */
     bool getCollected() { return _collected; }
-    /**
-     *  Returns the scale of the collectible
-     */
-    float getScale() { return _scale; }
-    /**
-     * Returns the sprite sheet for this collectible
-     */
-    const std::shared_ptr<SpriteSheet>& getSprite() const {
-        return _sprite;
-    }
     
 #pragma mark Gameplay Methods
 public:
@@ -119,19 +89,9 @@ public:
      *
      *  @param planeNorm    The current plane norm vector
      */
-    bool canBeSeen(Vec3 planeNorm);
-    /**
-     *  Determines if the collectibles can be collected by the player
-     *  if the player position is within the collecting-enabled distance
-     *
-     *  @param playerPos    The current player position
-     */
-    bool canBeCollected(Vec2 playerPos, Vec2 clickPos);
+    bool canBeSeen(Vec3 playerPos, Vec3 planeNorm);
     
     void setTexture(const std::shared_ptr<cugl::Texture>& value);
-    
-    void draw(const std::shared_ptr<cugl::SpriteBatch>& batch,const std::shared_ptr<cugl::Texture>& value, cugl::Rect pos);
-    
 };
 
 #endif /* Collectible_h */

@@ -43,6 +43,8 @@ public:
     /** If player just finishes rotating the cut */
     bool _justFinishRotating = false;
     
+    bool _endOfGame = false;
+    
 #pragma mark Plane State
 private:
     /** Plane normal vector */
@@ -65,6 +67,9 @@ public:
 public:
     /** Vector of collectibles in player backpack */
     std::unordered_set<std::string> _backpack;
+private:
+    /** Vector of collectibles need to be collected*/
+    std::unordered_set<std::string> _expectedCol;
     
 #pragma mark Mesh
 public:
@@ -263,7 +268,24 @@ public:
             Collectible item = Collectible(locs[i], std::to_string(i));
             item.setTexture(texs[i]);
             _collectibles.insert({std::to_string(i), item});
+            _expectedCol.insert(std::to_string(i));
         }
+    }
+    
+    void setExpectedCol(std::unordered_set<std::string> expectedCol) {
+        _expectedCol = expectedCol;
+    }
+
+    std::unordered_set<std::string> getExpectedCol() {
+        return _expectedCol;
+    }
+    
+    /**
+     * check if player has collected all required collectibles
+     * expectedCol right now is just all existing collectibles
+     */
+    bool checkBackpack() {
+        return _expectedCol == _backpack;
     }
     
 };

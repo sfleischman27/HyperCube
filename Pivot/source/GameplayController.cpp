@@ -30,12 +30,11 @@ using namespace cugl;
 #define DEBUG_COLOR     Color4::YELLOW
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
-/** Threshold of the visible distance */
-#define VISIBLE_DIST   .02
-/** Threshold of the click distance */
-#define CLICK_DIST   0.05
 /** Threshold of the collecting distance */
-#define COLLECTING_DIST   0.1
+#define COLLECTING_DIST   12
+/** Threshold of the reaching exit distance */
+#define EXITING_DIST   12
+
 
 /**
  * Creates a new game world with the default values.
@@ -368,30 +367,21 @@ void GameplayController::update(float dt) {
     }
 
 #pragma mark COLLECTIBLES
-
-    // TODO: Update player bag what is collected -Jolene
-    if (_input->didSelect()) {
-        auto pos = _input->getSelection();
-        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
-        //down scale the click position by screen size for comparison
-        pos = Vec2(pos.x / (_dimen.width / 2), pos.y / (_dimen.height / 2));
-        for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
-            auto tuplec = ScreenCoordinatesFrom3DPoint(itr->second.getPosition());
-            auto coords = std::get<0>(tuplec);
-            auto dist = std::get<1>(tuplec);
-            //down scale the player position by screen size for comparison
-            float w = (_dimen.width / _physics->getScale()) / 2;
-            float h = (_dimen.height / _physics->getScale()) / 2;
-            Vec2 playerpos = Vec2((_model->_player->getX() - w) / w, (_model->_player->getY() - h) / h);
-            if (!itr->second.getCollected() &&
-                std::abs(dist) <= VISIBLE_DIST &&
-                std::abs(pos.x - coords.x) <= CLICK_DIST &&
-                std::abs(pos.y - coords.y) <= CLICK_DIST &&
-                std::abs(playerpos.x - coords.x) <= COLLECTING_DIST &&
-                std::abs(playerpos.y - coords.y) <= COLLECTING_DIST) {
-                itr->second.setCollected(true);
-                _model->_backpack.insert(itr->first);
-            }
+    for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
+        if (itr->second.canBeSeen(_model->getPlayer3DLoc(), _model->getPlaneNorm()) &&
+           _model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
+            itr->second.setCollected(true);
+            _model->_backpack.insert(itr->first);
+        }
+    }
+    
+    if(_model->getPlayer3DLoc().distance(_model->getExitLoc()) <= EXITING_DIST) {
+        // TODO: Game ends here by checking if the player collects all colletibles - Sarah
+        if (_model->checkBackpack()) {
+            _model->_endOfGame = true;
+        }
+        else{
+            // TODO: maybe saying find lost colletibles or something? - Sarah
         }
     }
 
@@ -443,60 +433,12 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
         return;
     }
     Scene2::render(batch);
-    
-#pragma mark DRAW CUT
-	//Begin Drawing
-	batch->begin();
-	batch->setColor(Color4::BLACK);
-    auto cuts = _model->getCut();
-	for (auto it = cuts.begin(); it != cuts.end(); it++) {
-        
-        //TODO: temporary fix to stretch the level back to how it's "supposed" to be? take this out if its wrong
-        //*it *= Affine2(1, 0, 0, _dimen.width/_dimen.height, 0, 0);
-        //it.draw
-        batch->fill(*it);
-	}
-    
-    //_debugnode->draw(batch, Affine2(), DEBUG_COLOR);
-    //_debugnode->render(batch);
-#pragma mark DRAW EXIT    
-    // draw exit
-    tupleExit = ScreenCoordinatesFrom3DPoint(_model->getExitLoc());
-    auto screencoordsExit = std::get<0>(tupleExit);
-    auto distanceExit = std::get<1>(tupleExit);
-    if (std::abs(distanceExit) <= VISIBLE_DIST) {
-        std::shared_ptr<Texture> blue = std::make_shared<Texture>();
-        static unsigned char bluecol[] = { 0, 0, 0xFF, 0xFF };
-        blue->initWithData(bluecol, 1, 1);
-        Vec2 bottomleftExit = screencoordsExit - Vec2(0.02, 0.02);
-        batch->draw(blue, Rect(bottomleftExit, Vec2(0.025, 0.04)));
-    }
-
-#pragma mark DRAW COLLECTIBLES
-    // draw collectibles if the collectible is within certain distance to the plane
-    // and if the collectibe has not been not collected yet
-//    std::unordered_map<std::string, Collectible>::iterator itr;
-    for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
-        if (!itr->second.getCollected()) {
-            auto tupleKey = ScreenCoordinatesFrom3DPoint(itr->second.getPosition());
-            auto screencoordsKey = std::get<0>(tupleKey);
-            auto distanceKey = std::get<1>(tupleKey);
-            if (std::abs(distanceKey) <= VISIBLE_DIST) {
-                std::shared_ptr<Texture> yellow = std::make_shared<Texture>();
-                static unsigned char yellowcol[] = { 0xFF, 0xFF, 0x00, 0xFF };
-                yellow->initWithData(yellowcol, 1, 1);
-                Vec2 bottomleft = screencoordsKey - Vec2(0.02, 0.02);
-                batch->draw(yellow, Rect(bottomleft, Vec2(0.025, 0.04)));
-            }
-        }
-    }
         
 	// End Drawing
 	batch->end();
 }
 
 Size GameplayController::computeActiveSize() const {
-    // TODO: add function comment -Jolene
     Size dimen = Application::get()->getDisplaySize();
     float ratio1 = dimen.width/dimen.height;
     float ratio2 = ((float)SCENE_WIDTH)/((float)SCENE_HEIGHT);
