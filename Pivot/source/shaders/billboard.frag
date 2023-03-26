@@ -10,6 +10,7 @@ in vec4 pos;
 out vec4 frag_color;
 
 uniform mat4 Mv;
+//uniform int textureList[];
 
 void main(void) {
 

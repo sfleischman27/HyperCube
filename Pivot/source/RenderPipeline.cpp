@@ -143,6 +143,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     for (int i = 0; i < drawables.size(); i++) {
         drawables[i].tex->setBindPoint(100 + i);
     }
+
     // Add all billboard vertices
     drawables;
     _meshBill.clear();
@@ -235,13 +236,23 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // --------------- Pass 2: Billboard --------------- //
     _vertbuffBill->bind();
+    std::vector<int> texList = {};
+    /*
+    for (DrawObject dro : drawables) {
+        dro.tex->bind();
+        texList.push_back(dro.tex->getBindPoint());
+    }*/
 
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderBill->setUniformMat4("Mv", _camera->getView());
+    //_shaderBill->setUniform1iv("textureList", texList.size(), texList.data());
     _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
     _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
     _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
-
+    /*
+    for (DrawObject dro : drawables) {
+        dro.tex->unbind();
+    }*/
     fbo.end();
     _vertbuffBill->unbind();
 
