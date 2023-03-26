@@ -35,6 +35,8 @@ protected:
     // Player modes
     /** The controller for the demo loading screen */
     LoadingScene _demoloading;
+    /** The  controller for all sound functions */
+    //SoundController _sound;
     /** The primary controller for the game world */
     GameplayController _gameplay;
     /** The controller for the loading screen */

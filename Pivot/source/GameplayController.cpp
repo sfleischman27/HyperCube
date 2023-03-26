@@ -425,6 +425,7 @@ void GameplayController::update(float dt) {
 
     _model->_player->setMovement(_input->getHorizontal() * _model->_player->getForce());
     _model->_player->setJumping(_input->didJump());
+    _sound->playSound("jump", 1.0);
     _model->_player->applyForce();
 
     currPlay2DPos = _model->_player->getPosition();
