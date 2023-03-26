@@ -56,6 +56,10 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
         offsetof(PivotVertex3, position));
     _vertbuffBill->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
         offsetof(PivotVertex3, color));
+    _vertbuff->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffBill->setupAttribute("aTexBindPoint", 1, GL_INT, GL_FALSE,
+        offsetof(PivotVertex3, texBindPoint));
     _vertbuffBill->attach(_shaderBill);
 
     // FSQ shader
@@ -150,11 +154,13 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     PivotVertex3 tempV;
     for (DrawObject dro : drawables) {
         Size sz = dro.tex->getSize();
-        for (float i = -sz.width/2; i <= sz.width / 2; i += sz.width) {
-            for (float j = -sz.height/2; j <= sz.height / 2; j += sz.height) {
+        for (int i = -sz.width/2; i <= sz.width / 2; i += sz.width) {
+            for (int j = -sz.height/2; j <= sz.height / 2; j += sz.height) {
                 tempV.position = dro.pos + i * basisRight + j * basisUp;
                 tempV.color = dro.col.getPacked();
-                tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 1 : 0);
+                //tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 1 : 0);
+                tempV.texcoord = Vec2(.5, .5);
+                tempV.texBindPoint = dro.tex->getBindPoint();
                 _meshBill.vertices.push_back(tempV);
             }
         }
@@ -237,22 +243,21 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // --------------- Pass 2: Billboard --------------- //
     _vertbuffBill->bind();
     std::vector<int> texList = {};
-    /*
     for (DrawObject dro : drawables) {
         dro.tex->bind();
         texList.push_back(dro.tex->getBindPoint());
-    }*/
+    }
 
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderBill->setUniformMat4("Mv", _camera->getView());
-    //_shaderBill->setUniform1iv("textureList", texList.size(), texList.data());
+    _shaderBill->setUniform1iv("textureList", texList.size(), texList.data());
     _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
     _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
     _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
-    /*
+
     for (DrawObject dro : drawables) {
         dro.tex->unbind();
-    }*/
+    }
     fbo.end();
     _vertbuffBill->unbind();
 

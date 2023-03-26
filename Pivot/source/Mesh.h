@@ -20,6 +20,7 @@ class PivotVertex3 : public cugl::SpriteVertex3 {
 
 public:
     Vec3 normal;
+    int texBindPoint;
 };
 
 /**
