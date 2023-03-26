@@ -456,10 +456,9 @@ void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch)
     bool useRP = true;
     if (useRP) {
         _pipeline->render(_model);
-
+        Scene2::render(batch);
         return;
     }
-    Scene2::render(batch);
         
 	// End Drawing
 	batch->end();

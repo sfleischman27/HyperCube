@@ -76,7 +76,8 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     glDepthMask(GL_TRUE);
     //glEnable(GL_CULL_FACE);
 
-    // Set up Voronoi backgrounds
+    // Set up textures
+    cobbleTex = assets->get<Texture>("cobble");
     backgrounds = {};
     for (int i = 1; i <= 15; i++) {
         backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
@@ -208,8 +209,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     int index = int(fmod(ang, repeatAngle * degToRad) / (degToRad));
 
     // Get texture objects
-    std::shared_ptr<Texture> cobbleTex = assets->get<Texture>("cobble"); // should be passed in through model and not loaded every frame
-    std::shared_ptr<Texture> earthTex = backgrounds[index / (repeatAngle / numImages)];
+    earthTex = backgrounds[index / (repeatAngle / numImages)];
 
     // Set bind points
     cobbleTex->setBindPoint(insideTex);

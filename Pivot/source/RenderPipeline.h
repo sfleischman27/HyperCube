@@ -60,6 +60,8 @@ public:
 	Vec2 storePlayerPos;
 	std::vector<Vec3> billboardOrigins;
 	std::vector<Color4f> billboardCols;
+	std::shared_ptr<Texture> cobbleTex;
+	std::shared_ptr<Texture> earthTex;
 
 	/**
 	 * Construct the RenderPipeline
