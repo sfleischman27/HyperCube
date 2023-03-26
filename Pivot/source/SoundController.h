@@ -10,7 +10,6 @@
 #ifndef SoundController_h
 #define SoundController_h
 #include <cugl/cugl.h>
-#include "DataController.h"
 #include "GameSound.h"
 
 /**
@@ -29,7 +28,6 @@ protected:
 
 #pragma mark constructor
 public:
-    
     SoundController();
     
     ~SoundController(){ dispose(); };

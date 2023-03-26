@@ -11,6 +11,7 @@
 #define GameplayController_h
 
 #include <cugl/cugl.h>
+#include "SoundController.h"
 #include "DataController.h"
 #include "PhysicsController.h"
 #include "PlaneController.h"
@@ -53,6 +54,7 @@ protected:
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
     
 private:
+    std::shared_ptr<SoundController> _sound;
     std::shared_ptr<GameModel> _model;
     std::shared_ptr<PhysicsController> _physics;
     std::shared_ptr<InputController> _input;

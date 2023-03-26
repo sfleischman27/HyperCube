@@ -70,14 +70,14 @@ public:
 
     void play(bool loop){
         if(_streaming){
-            AudioEngine::get()->getMusicQueue()->play(_source, loop, _volume);
+            cugl::AudioEngine::get()->getMusicQueue()->play(_source, loop, _volume);
         } else {
-            AudioEngine::get()->play(_name, _source, loop, _volume);
+            cugl::AudioEngine::get()->play(_name, _source, loop, _volume);
         }
     }
 
     bool isPlaying(){
-        return AudioEngine::get()->isActive(_name);
+        return cugl::AudioEngine::get()->isActive(_name);
     }
 
     

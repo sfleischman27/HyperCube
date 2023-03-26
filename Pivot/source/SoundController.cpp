@@ -23,7 +23,7 @@ void SoundController::createSound(std::string name){
     bool streaming = false;
     
     //cast the source into AudioSample (all of our sounds should be this, but just in case i've added some an edge case if we use AudioWaveform for some unknown reason) (which shouldn't be streamed)
-    if (AudioSample* sample = dynamic_cast<AudioSample*>(source.get()))
+    if (cugl::AudioSample* sample = dynamic_cast<cugl::AudioSample*>(source.get()))
     {
         streaming = sample->isStreamed();
     }
