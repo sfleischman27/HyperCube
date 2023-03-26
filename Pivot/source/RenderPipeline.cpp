@@ -150,6 +150,8 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     PivotVertex3 tempV;
     for (DrawObject dro : drawables) {
         Size sz = dro.tex->getSize();
+        sz.width = 10;
+        sz.height = 10;
         for (float i = -sz.width/2; i <= sz.width / 2; i += sz.width) {
             for (float j = -sz.height/2; j <= sz.height / 2; j += sz.height) {
                 tempV.position = dro.pos + i * basisRight + j * basisUp;
