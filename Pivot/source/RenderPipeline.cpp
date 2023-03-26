@@ -139,6 +139,10 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     const Vec3 basisUp = _camera->getUp();
     const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);
 
+    // Set bind points
+    for (int i = 0; i < drawables.size(); i++) {
+        drawables[i].tex->setBindPoint(100 + i);
+    }
     // Add all billboard vertices
     drawables;
     _meshBill.clear();

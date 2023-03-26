@@ -54,7 +54,7 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 
 void main(void) {
 	frag_color = texture(fsqTexture, outTexCoord);
-	if (frag_color.xyz == vec3(1.0, 0.0, 1.0) || checkNeighboring(fsqTexture, outTexCoord)) {
+	if (frag_color.xyz >= vec3(.95, 0.0, .95) || checkNeighboring(fsqTexture, outTexCoord)) {
 
         // TEMP: layer tex coords
 		vec2 transTexCoord;
