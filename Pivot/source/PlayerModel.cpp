@@ -28,9 +28,9 @@
 /** Height of the sensor attached to the player's feet */
 #define SENSOR_HEIGHT   0.1f
 /** The density of the character */
-#define DUDE_DENSITY    1.0f
+#define DUDE_DENSITY    0.01f
 /** The impulse for the character jump */
-#define DUDE_JUMP       200.0f
+#define DUDE_JUMP       500.0f
 /** Debug color for the sensor */
 #define DEBUG_COLOR     Color4::RED
 
@@ -58,8 +58,8 @@ using namespace cugl;
  */
 bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scale) {
     Size nsize = size;
-    nsize.width  *= DUDE_HSHRINK;
-    nsize.height *= DUDE_VSHRINK;
+//    nsize.width  *= DUDE_HSHRINK;
+//    nsize.height *= DUDE_VSHRINK;
     _drawScale = scale;
     
     if (CapsuleObstacle::init(pos,nsize)) {

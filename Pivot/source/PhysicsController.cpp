@@ -12,13 +12,13 @@
 //#define PHYSICS_SCALE 50
 
 /** The ratio between the physics world and the screen. */
-#define GRAVITY 200.0
+#define GRAVITY 180.0
 
-#define MAX_H_SPEED 100.0
+#define MAX_H_SPEED 300.0
 
-#define MAX_V_SPEED 200.0
+#define MAX_V_SPEED 300.0
 
-#define JUMP_SPEED 100.0
+#define JUMP_SPEED 400.0
 
 PhysicsController::PhysicsController(){
     
