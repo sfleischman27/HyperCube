@@ -20,12 +20,17 @@ void SoundController::dispose(){
 void SoundController::createSound(std::string name){
     std::shared_ptr<cugl::Sound> source = _assets->get<cugl::Sound>(name);
     
-    //cast the source into AudioSample
+    bool streaming = false;
+    
+    //cast the source into AudioSample (all of our sounds should be this, but just in case i've added some an edge case if we use AudioWaveform for some unknown reason) (which shouldn't be streamed)
     if (AudioSample* sample = dynamic_cast<AudioSample*>(source.get()))
     {
-        std::shared_ptr<GameSound> sound = std::make_shared<GameSound>(name, sample, 0.0f, sample->isStreamed());
-        _sounds[name] = sound;
+        streaming = sample->isStreamed();
     }
+
+    std::shared_ptr<GameSound> sound = std::make_shared<GameSound>(name, source, 0.0f, streaming);;
+    _sounds[name] = sound;
+
 }
 
 /**

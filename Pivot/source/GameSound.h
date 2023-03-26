@@ -7,8 +7,8 @@
 //  Created by Gordi Tenev on 3/12/23.
 //
 
-#ifndef Sound_h
-#define Sound_h
+#ifndef GameSound_h
+#define GameSound_h
 #include <cugl/cugl.h>
 
 /**
@@ -67,10 +67,7 @@ public:
     void play(){
         play(false);
     }
-    
-    /** plays the Sound
-     * @param loop set whether the sound loops or not
-     */
+
     void play(bool loop){
         if(_streaming){
             AudioEngine::get()->getMusicQueue()->play(_source, loop, _volume);
@@ -78,6 +75,12 @@ public:
             AudioEngine::get()->play(_name, _source, loop, _volume);
         }
     }
+
+    bool isPlaying(){
+        return AudioEngine::get()->isActive(_name);
+    }
+
+    
 };
 
 #endif /* Sound_h */
