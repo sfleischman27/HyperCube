@@ -449,19 +449,8 @@ void GameplayController::update(float dt) {
  * @param batch     The SpriteBatch to draw with.
  */
 void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch) {
-
-
-    //False to render the way we did for gameplay prototype
-    //True to use Matts renderer
-    bool useRP = true;
-    if (useRP) {
-        _pipeline->render(_model);
-        Scene2::render(batch);
-        return;
-    }
-        
-	// End Drawing
-	batch->end();
+    _pipeline->render(_model);
+    Scene2::render(batch);
 }
 
 Size GameplayController::computeActiveSize() const {
