@@ -115,60 +115,53 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
 
 void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
-    billboardOrigins = {}; // should have a Billboard class (a model class already exists, just use that)
-    billboardCols = {}; // also this should be done in sceneSetup (kept here for drawing physics cut)
+    drawables.clear();
+
+    // Player and exit
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"))); //TODO fix texture
+    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("dude"))); //TODO fix texture
 
     // Collectibles
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
-    // Glowsticks
-    std::vector<Glowstick> glows = model->_glowsticks;
-    billboardOrigins.push_back(model->getPlayer3DLoc());
-    billboardOrigins.push_back(model->getExitLoc());
-    billboardCols.push_back(Color4f::RED);
-    billboardCols.push_back(Color4f::BLUE);
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            billboardOrigins.push_back(c.second.getPosition());
-            billboardCols.push_back(Color4f::GREEN);
+            drawables.push_back(DrawObject(c.second.getPosition(), Color4f::GREEN, c.second.getTexture()));
         }
     }
+
+    // Glowsticks
+    std::vector<Glowstick> glows = model->_glowsticks;
     for (Glowstick g : glows) {
-        billboardOrigins.push_back(g.getPosition());
-        billboardCols.push_back(Color4f::YELLOW);
+        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("dude"))); //TODO fix texture
     }
     
     // Construct basis
     const Vec3 basisUp = _camera->getUp();
     const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);
 
-    // Optionally collect the physics object
-    if (drawCut) {
-        auto cut = model->getCut();
-        auto o = model->getPlayer3DLoc();
-        for (int i = 0; i < cut.size(); i++) {
-            for (int j = 0; j < cut[i].vertices.size(); j++) {
-                auto unplane = (cut[i].vertices[j].x * basisRight);
-                billboardOrigins.push_back(Vec3(-unplane.x, -unplane.y, cut[i].vertices[j].y) + model->getPlaneOrigin());
-                billboardCols.push_back(Color4f::BLUE);
-            }
-        }
+    // Set bind points
+    for (int i = 0; i < drawables.size(); i++) {
+        drawables[i].tex->setBindPoint(100 + i);
     }
 
     // Add all billboard vertices
+    drawables;
     _meshBill.clear();
     PivotVertex3 tempV;
-    for (int n = 0; n < billboardOrigins.size(); n++) {
-        for (float i = -5; i <= 5; i += 10) {
-            for (float j = -5; j <= 5; j += 10) {
-                tempV.position = billboardOrigins[n] + i * basisRight + j * basisUp;
-                tempV.color = billboardCols[n].getPacked();
+    for (DrawObject dro : drawables) {
+        Size sz = dro.tex->getSize();
+        for (float i = -sz.width/2; i <= sz.width / 2; i += sz.width) {
+            for (float j = -sz.height/2; j <= sz.height / 2; j += sz.height) {
+                tempV.position = dro.pos + i * basisRight + j * basisUp;
+                tempV.color = dro.col.getPacked();
+                tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 1 : 0);
                 _meshBill.vertices.push_back(tempV);
             }
         }
     }
 
     // Add all billboard indices
-    for (int c = 0; c < billboardCols.size(); c++) {
+    for (int c = 0; c < drawables.size(); c++) {
         int startIndex = c * 4;
         for (int tri = 0; tri <= 1; tri++) {
             for (int i = 0; i < 3; i++) {
@@ -243,13 +236,23 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // --------------- Pass 2: Billboard --------------- //
     _vertbuffBill->bind();
+    std::vector<int> texList = {};
+    /*
+    for (DrawObject dro : drawables) {
+        dro.tex->bind();
+        texList.push_back(dro.tex->getBindPoint());
+    }*/
 
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderBill->setUniformMat4("Mv", _camera->getView());
+    //_shaderBill->setUniform1iv("textureList", texList.size(), texList.data());
     _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
     _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
     _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
-
+    /*
+    for (DrawObject dro : drawables) {
+        dro.tex->unbind();
+    }*/
     fbo.end();
     _vertbuffBill->unbind();
 

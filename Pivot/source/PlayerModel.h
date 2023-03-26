@@ -43,11 +43,11 @@
 #pragma mark -
 #pragma mark Physics Constants
 /** The factor to multiply by the input */
-#define DUDE_FORCE      80.0f
+#define DUDE_FORCE      200.0f
 /** The amount to slow the character down */
 #define DUDE_DAMPING    5.0f
 /** The maximum character speed */
-#define DUDE_MAXSPEED   50.0f
+#define DUDE_MAXSPEED   60.0f
 
 
 #pragma mark -

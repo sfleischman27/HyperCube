@@ -38,6 +38,12 @@ using namespace cugl;
 #define NUM_GLOWSTICKS 4
 /** Glowstick pickup distance*/
 #define PICKING_DIST   10
+/** Scale from player image to capsule */
+#define CAP_SCALE   3.0f
+/** Width of the player capsule */
+#define PLAYER_WIDTH   10.0f
+/** Height of the player capsule*/
+#define PLAYER_HEIGHT  10.0f
 
 /**
  * Creates a new game world with the default values.
@@ -184,7 +190,9 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
 
-    _model->setPlayer(PlayerModel::alloc(dudePos));
+    // Use the commented code if we want to manully define the player capsule size
+    //_model->setPlayer(PlayerModel::alloc(dudePos, Size(PLAYER_WIDTH, PLAYER_HEIGHT)));
+    _model->setPlayer(PlayerModel::alloc(dudePos, image->getSize()/CAP_SCALE));
     
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
@@ -406,7 +414,7 @@ void GameplayController::update(float dt) {
                 }
             }
             if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
-                _model->_glowsticks.push_back(Glowstick(player3DPos));
+                _model->_glowsticks.push_back(Glowstick(player3DPos-_model->getPlaneNorm()*0.5));
             }
         }
         _pickupGlowstick = false;

@@ -54,20 +54,20 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 
 void main(void) {
 	frag_color = texture(fsqTexture, outTexCoord);
-	if (frag_color.xyz == vec3(1.0, 0.0, 1.0) || checkNeighboring(fsqTexture, outTexCoord)) {
+	bool occlude = frag_color.x > .95 && frag_color.y < .05 && frag_color.z > .95;
+	if (occlude || checkNeighboring(fsqTexture, outTexCoord)) {
 
         // TEMP: layer tex coords
 		vec2 transTexCoord;
-		float xStretch = 1.0; // should be 2
-		float yStretch = 1.0; // should be .5
-        float numTexX = (16.0 / 10.0) * xStretch;
-        float numTexY = (9.0 / 6.0) * yStretch;
-		vec2 midTexCoord = mod(outTexCoord + transOffset, 1.0);
+        float numTexX = 1;
+        float numTexY = 1;
+		vec2 midTexCoord = outTexCoord + transOffset;
         transTexCoord.x = mod(midTexCoord.x * numTexX, 1.0);
         transTexCoord.y = mod(midTexCoord.y * numTexY, 1.0);
 		// End temp
 
 		frag_color = texture(outsideTexture, transTexCoord);
+		//frag_color = vec4(midTexCoord, 0, 1);
 	}
 }
 

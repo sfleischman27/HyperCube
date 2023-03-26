@@ -14,6 +14,19 @@
 #include "Mesh.h"
 
 class RenderPipeline {
+private:
+	struct DrawObject {
+		Vec3 pos;
+		Color4f col;
+		std::shared_ptr<cugl::Texture> tex;
+
+		DrawObject(Vec3 pos, Color4f col, std::shared_ptr<cugl::Texture> tex) {
+			this->pos = pos;
+			this->col = col;
+			this->tex = tex;
+		}
+	};
+
 public:
 
 	const Size screenSize;
@@ -58,10 +71,9 @@ public:
 	std::vector<std::shared_ptr<Texture>> backgrounds;
 	Vec2 prevPlayerPos;
 	Vec2 storePlayerPos;
-	std::vector<Vec3> billboardOrigins;
-	std::vector<Color4f> billboardCols;
 	std::shared_ptr<Texture> cobbleTex;
 	std::shared_ptr<Texture> earthTex;
+	std::vector<DrawObject> drawables;
 
 	/**
 	 * Construct the RenderPipeline
