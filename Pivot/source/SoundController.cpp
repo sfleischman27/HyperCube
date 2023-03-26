@@ -60,7 +60,9 @@ void SoundController::playSound(std::string name, float volume){
  */
 void SoundController::playSound(std::string name, bool loop, float volume){
     //sound->play(loop);
-    if(_sounds[name] == nullptr){
+    
+    
+    if(_sounds.count(name) == 0){
         createSound(name);
     }
     setVolume(name, volume);
