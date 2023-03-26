@@ -78,6 +78,10 @@ public:
      *  Returns the collectible status
      */
     bool getCollected() { return _collected; }
+    /**
+     *  Returns the texture
+     */
+    std::shared_ptr<Texture> getTexture() { return _texture; }
     
 #pragma mark Gameplay Methods
 public:

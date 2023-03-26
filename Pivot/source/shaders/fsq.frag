@@ -58,16 +58,15 @@ void main(void) {
 
         // TEMP: layer tex coords
 		vec2 transTexCoord;
-		float xStretch = 1.0; // should be 2
-		float yStretch = 1.0; // should be .5
-        float numTexX = (16.0 / 10.0) * xStretch;
-        float numTexY = (9.0 / 6.0) * yStretch;
-		vec2 midTexCoord = mod(outTexCoord + transOffset, 1.0);
+        float numTexX = 4;
+        float numTexY = 4;
+		vec2 midTexCoord = outTexCoord + transOffset;
         transTexCoord.x = mod(midTexCoord.x * numTexX, 1.0);
         transTexCoord.y = mod(midTexCoord.y * numTexY, 1.0);
 		// End temp
 
 		frag_color = texture(outsideTexture, transTexCoord);
+		//frag_color = vec4(midTexCoord, 0, 1);
 	}
 }
 
