@@ -113,6 +113,12 @@
             "type": "sample",
             "file": "sounds/plop.wav",
             "volume": 0.5
+        },
+        "music_test": {
+            "type": "sample",
+            "file": "sounds/music/pivot-test.ogg",
+            "stream": true,
+            "volume": 0.5
         }
     },
 	"fonts": {
