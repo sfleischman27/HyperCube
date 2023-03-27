@@ -15,15 +15,18 @@ uniform sampler2D billTex;
 
 void main(void) {
 
+	frag_color = texture(billTex, outTexCoord);
+
 	// TODO added depth stuff here but should use a depth buffer in FSQ
 	float d = -(Mv * pos).z;
 	float maxDepth = 35.0;
 	float ratio = d / maxDepth;
 	vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1.0);
-	frag_color = outColor - fadeColor * ratio;
-	frag_color.a = 1.0;
+	frag_color = frag_color - fadeColor * ratio;
 
-	frag_color = texture(billTex, outTexCoord);
+	if (frag_color.a < 0.8) {
+		discard;
+	}
 }
 
 /////////// SHADER END //////////)"

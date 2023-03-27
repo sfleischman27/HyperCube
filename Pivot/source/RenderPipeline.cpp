@@ -121,7 +121,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Player and exit
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"))); //TODO fix texture
-    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("dude"))); //TODO fix texture
+    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("bullet"))); //TODO fix texture
 
     // Collectibles
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
@@ -145,35 +145,6 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     for (int i = 0; i < drawables.size(); i++) {
         drawables[i].tex->setBindPoint(100 + i);
     }
-
-    // Add all billboard vertices
-    /*
-    _meshBill.clear();
-    PivotVertex3 tempV;
-    for (DrawObject dro : drawables) {
-        Size sz = dro.tex->getSize();
-        sz.width = 10;
-        sz.height = 10;
-        for (float i = -sz.width/2; i <= sz.width / 2; i += sz.width) {
-            for (float j = -sz.height/2; j <= sz.height / 2; j += sz.height) {
-                tempV.position = dro.pos + i * basisRight + j * basisUp;
-                tempV.color = dro.col.getPacked();
-                tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 1 : 0);
-                _meshBill.vertices.push_back(tempV);
-            }
-        }
-    }
-
-    // Add all billboard indices
-    for (int c = 0; c < drawables.size(); c++) {
-        int startIndex = c * 4;
-        for (int tri = 0; tri <= 1; tri++) {
-            for (int i = 0; i < 3; i++) {
-                _meshBill.indices.push_back(startIndex + tri + i);
-            }
-        }
-    }
-    */
 }
 
 void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
