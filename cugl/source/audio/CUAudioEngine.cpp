@@ -622,7 +622,7 @@ bool AudioEngine::play(const std::string key, const std::shared_ptr<Sound>& soun
             clear(key,0);
             removeKey(key);
         } else {
-            CULogError("Sound effect key is in use");
+            //CULogError("Sound effect key is in use");
             return false;
         }
     }

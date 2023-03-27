@@ -26,7 +26,7 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	if (cur == vec4(0.0, 0.0, 1.0, 1.0)) {
 		return false;
 	}
-	float bound = 2.0;
+	float bound = 4.0;
 	float offX = bound/screenSize.x;
 	float offY = bound/screenSize.y;
 	vec2 temp = oTex;
@@ -65,7 +65,7 @@ void main(void) {
 		vec2 midTexCoord = outTexCoord + transOffset;
         
         transTexCoord.x = mod(midTexCoord.x * numTexX, 1.0);
-        transTexCoord.y = mod(midTexCoord.y * numTexY, 1.0);
+        transTexCoord.y = 1.0 - mod(midTexCoord.y * numTexY, 1.0);
 		// End temp
 
 		frag_color = texture(outsideTexture, transTexCoord);

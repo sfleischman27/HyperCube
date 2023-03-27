@@ -56,6 +56,8 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
         offsetof(PivotVertex3, position));
     _vertbuffBill->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
         offsetof(PivotVertex3, color));
+    _vertbuffBill->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
     _vertbuffBill->attach(_shaderBill);
 
     // FSQ shader
@@ -79,7 +81,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     // Set up textures
     cobbleTex = assets->get<Texture>("cobble");
     backgrounds = {};
-    for (int i = 1; i <= 15; i++) {
+    for (int i = 1; i <= 14; i++) {
         backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
     }
 }
@@ -119,7 +121,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Player and exit
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"))); //TODO fix texture
-    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("dude"))); //TODO fix texture
+    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("bridge"))); //TODO fix texture
 
     // Collectibles
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
@@ -132,7 +134,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Glowsticks
     std::vector<Glowstick> glows = model->_glowsticks;
     for (Glowstick g : glows) {
-        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("dude"))); //TODO fix texture
+        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("spinner"))); //TODO fix texture
     }
     
     // Construct basis
@@ -141,35 +143,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Set bind points
     for (int i = 0; i < drawables.size(); i++) {
-        drawables[i].tex->setBindPoint(100 + i);
-    }
-
-    // Add all billboard vertices
-    drawables;
-    _meshBill.clear();
-    PivotVertex3 tempV;
-    for (DrawObject dro : drawables) {
-        Size sz = dro.tex->getSize();
-        sz.width = 10;
-        sz.height = 10;
-        for (float i = -sz.width/2; i <= sz.width / 2; i += sz.width) {
-            for (float j = -sz.height/2; j <= sz.height / 2; j += sz.height) {
-                tempV.position = dro.pos + i * basisRight + j * basisUp;
-                tempV.color = dro.col.getPacked();
-                tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 1 : 0);
-                _meshBill.vertices.push_back(tempV);
-            }
-        }
-    }
-
-    // Add all billboard indices
-    for (int c = 0; c < drawables.size(); c++) {
-        int startIndex = c * 4;
-        for (int tri = 0; tri <= 1; tri++) {
-            for (int i = 0; i < 3; i++) {
-                _meshBill.indices.push_back(startIndex + tri + i);
-            }
-        }
+        drawables[i].tex->setBindPoint(10 + i);
     }
 }
 
@@ -195,16 +169,22 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // --------------- Pass 0: Textures --------------- //
     // Calculate voronoi angle
-    const int numImages = 15;
-    const int repeatAngle = 45;
+    const int numImages = backgrounds.size();
+    const int repeat = 3;
+    const int repeatAngle = numImages * repeat;
     const float degToRad = 0.0174533;
     Vec3 vInit = Vec3(-1, 0, 0);
     float ang = model->getPlaneNorm().getAngle(vInit);
     if (ang < 0) ang += M_PI;
-    int index = int(fmod(ang, repeatAngle * degToRad) / (degToRad));
+
+    // Calculate correct index
+    int degreeAng = int(ang / degToRad);
+    int localAng = degreeAng % repeatAngle;
+    int index = localAng / repeat;
+    CULog("%i", index);
 
     // Get texture objects
-    earthTex = backgrounds[index / (repeatAngle / numImages)];
+    earthTex = backgrounds[index];
 
     // Set bind points
     cobbleTex->setBindPoint(insideTex);
@@ -236,25 +216,44 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     cobbleTex->unbind();
     _vertbuff->unbind();
 
-    // --------------- Pass 2: Billboard --------------- //
-    _vertbuffBill->bind();
-    std::vector<int> texList = {};
-    /*
-    for (DrawObject dro : drawables) {
-        dro.tex->bind();
-        texList.push_back(dro.tex->getBindPoint());
-    }*/
 
-    _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
-    _shaderBill->setUniformMat4("Mv", _camera->getView());
-    //_shaderBill->setUniform1iv("textureList", texList.size(), texList.data());
-    _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
-    _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
-    _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
-    /*
+    // --------------- Pass 2: Billboard --------------- //
+    // Set up mesh indices
+    for (int tri = 0; tri <= 1; tri++) {
+        for (int i = 0; i < 3; i++) {
+            _meshBill.indices.push_back(tri + i);
+        }
+    }
+
+    // Bind buffer and iterate
+    _vertbuffBill->bind();
+    PivotVertex3 tempV;
+    const Vec3 basisUp = _camera->getUp();
+    const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);
     for (DrawObject dro : drawables) {
+        // Set up vertices
+        _meshBill.vertices.clear();
+        Size sz = dro.tex->getSize();
+        for (float i = -sz.width / 2; i <= sz.width / 2; i += sz.width) {
+            for (float j = -sz.height / 2; j <= sz.height / 2; j += sz.height) {
+                tempV.position = dro.pos + i * basisRight + j * basisUp;
+                tempV.color = dro.col.getPacked();
+                tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
+                _meshBill.vertices.push_back(tempV);
+            }
+        }
+
+        // Draw
+        dro.tex->bind();
+        _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
+        _shaderBill->setUniformMat4("Mv", _camera->getView());
+        _shaderBill->setUniform1i("billTex", dro.tex->getBindPoint());
+        _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
+        _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
+        _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
         dro.tex->unbind();
-    }*/
+    }
+    
     fbo.end();
     _vertbuffBill->unbind();
 
