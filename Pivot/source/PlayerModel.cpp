@@ -75,6 +75,10 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
         
         _shootCooldown = 0;
         _jumpCooldown  = 0;
+        
+        // Sound Cues
+        _jumpCue = false;
+        
         return true;
     }
     return false;
@@ -207,6 +211,7 @@ void PlayerModel::applyForce() {
     if (isJumping() && isGrounded()) {
         b2Vec2 force(0, DUDE_JUMP);
         _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
+        _jumpCue = true;
     }
 //    if (isJumping()) {
 //        b2Vec2 force(0, DUDE_JUMP);

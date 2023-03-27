@@ -333,20 +333,20 @@ void GameplayController::update(float dt) {
     _model->_justFinishRotating = false;
 #pragma mark INPUT
     _input->update(dt);
-
+    
     if (_input->didDebug()) {
         setDebug(!isDebug());
         CULog("Debug mode is: %d, visibility: %d", isDebug(), _debugnode->isVisible());
-
+        
     }
-
+    
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
     if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
         _plane->rotateNorm(.01);
         //createCutObstacles();
         _rotating = true;
     }
-
+    
     //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
         _plane->rotateNorm(-.01);
@@ -364,11 +364,11 @@ void GameplayController::update(float dt) {
             _physics->clear();
             _model->_player->setPosition(Vec2::ZERO);
             prevPlay2DPos = Vec2::ZERO;
-//            _physics->getWorld()->addObstacle(_model->_player);
-//            _plane->movePlaneToPlayer();
-//            _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
-//            //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
-//            createCutObstacles();
+            //            _physics->getWorld()->addObstacle(_model->_player);
+            //            _plane->movePlaneToPlayer();
+            //            _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
+            //            //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
+            //            createCutObstacles();
             _rotating = false;
             _model->_justFinishRotating = true;
         }
@@ -382,11 +382,11 @@ void GameplayController::update(float dt) {
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
-
+    
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
         if (itr->second.canBeSeen(_model->getPlayer3DLoc(), _model->getPlaneNorm()) &&
-           _model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
+            _model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
             itr->second.setCollected(true);
             _model->_backpack.insert(itr->first);
         }
@@ -401,7 +401,7 @@ void GameplayController::update(float dt) {
             // TODO: maybe saying find lost colletibles or something? - Sarah
         }
     }
-
+    
 #pragma mark Glowsticks
     if (_input->didSelect()) {
         auto pos = _input->getSelection();
@@ -425,14 +425,15 @@ void GameplayController::update(float dt) {
         }
         _pickupGlowstick = false;
     }
-
-
+    
+    
 #pragma mark PLAYER
-
+    
     _model->_player->setMovement(_input->getHorizontal() * _model->_player->getForce());
     _model->_player->setJumping(_input->didJump());
+    
     _model->_player->applyForce();
-
+    
     currPlay2DPos = _model->_player->getPosition();
     //CULog("currPos: %f , %f", currPlay2DPos.x, currPlay2DPos.y);
     //CULog("prevPos: %f , %f", prevPlay2DPos.x, prevPlay2DPos.y);
@@ -440,17 +441,25 @@ void GameplayController::update(float dt) {
     //CULog("speed: %f , %f", displacement.x/dt, displacement.y/dt);
     updatePlayer3DLoc(displacement);
     prevPlay2DPos = currPlay2DPos;
-
-
-    //Jacks trying another way 
+    
+    
+    //Jacks trying another way
     //[it worked the same as above... if we get drifting from floating point error try this one instead]
     /*currPlay2DPos = _model->_player->getPosition();
-    Vec3 temp = currPlay2DPos.x * _plane->getBasisRight();
-    Vec3 displacementIn3D = Vec3(temp.x, temp.y, currPlay2DPos.y);
-    _model->setPlayer3DLoc(_model->getPlaneOrigin() + displacementIn3D);*/
-
+     Vec3 temp = currPlay2DPos.x * _plane->getBasisRight();
+     Vec3 displacementIn3D = Vec3(temp.x, temp.y, currPlay2DPos.y);
+     _model->setPlayer3DLoc(_model->getPlaneOrigin() + displacementIn3D);*/
+    
     //CULog("PLayer 3d Coords: %f, %f, %f", _model->getPlayer3DLoc().x, _model->getPlayer3DLoc().y, _model->getPlayer3DLoc().z);
     //CULog("NORMAL: %f _ %f _ %f", _model->getPlaneNorm().x, _model->getPlaneNorm().y, _model->getPlaneNorm().z);
+    
+#pragma mark SOUND CUES
+    
+    if(_model->_player->_jumpCue){
+        _sound->playSound("jump", 0.5, false);
+        _model->_player->_jumpCue = false;
+    }
+    
 }
 
 /**
