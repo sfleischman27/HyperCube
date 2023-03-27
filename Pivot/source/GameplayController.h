@@ -22,7 +22,9 @@
 #include "Collectible.h"
 
 class GameplayController : public cugl::Scene2 {
-
+public:
+    bool atEnd;
+    
 protected:
     /** The asset manager for this game mode. */
     std::shared_ptr<cugl::AssetManager> _assets;

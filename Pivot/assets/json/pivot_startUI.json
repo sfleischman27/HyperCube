@@ -21,7 +21,7 @@
         "startbuttons": "widgets/startbuttons.json"
     },
     "scene2s" : {
-        "lab": {
+        "startLab": {
             "type"      : "Node",
             "comment"   : "This is the root node of the scene for the lab",
             "format"    : {

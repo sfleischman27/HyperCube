@@ -20,7 +20,7 @@
         "level": "widgets/level.json"
     },
     "scene2s" : {
-        "lab": {
+        "levelLab": {
             "type"      : "Node",
             "comment"   : "This is the root node of the scene for the lab",
             "format"    : {

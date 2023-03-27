@@ -317,6 +317,8 @@ void GameplayController::reset() {
     _physics->clear();
     _worldnode->removeAllChildren();
     _debugnode->removeAllChildren();
+    atEnd = false;
+    //TODO: reset game model?
 }
 
 /**
@@ -396,6 +398,7 @@ void GameplayController::update(float dt) {
         // TODO: Game ends here by checking if the player collects all colletibles - Sarah
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;
+            atEnd = true;
         }
         else{
             // TODO: maybe saying find lost colletibles or something? - Sarah

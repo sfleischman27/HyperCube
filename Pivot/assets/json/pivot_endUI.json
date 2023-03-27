@@ -21,7 +21,7 @@
         "endbutton": "widgets/endbutton.json"
     },
     "scene2s" : {
-        "lab": {
+        "endLab": {
             "type"      : "Node",
             "comment"   : "This is the root node of the scene for the lab",
             "format"    : {

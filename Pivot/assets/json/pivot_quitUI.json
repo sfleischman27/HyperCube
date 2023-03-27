@@ -22,7 +22,7 @@
         "quitbuttons": "widgets/quitbuttons.json"
     },
     "scene2s" : {
-        "lab": {
+        "quitLab": {
             "type"      : "Node",
             "comment"   : "This is the root node of the scene for the lab",
             "format"    : {
