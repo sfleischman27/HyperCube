@@ -26,7 +26,7 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	if (cur == vec4(0.0, 0.0, 1.0, 1.0)) {
 		return false;
 	}
-	float bound = 2.0;
+	float bound = 4.0;
 	float offX = bound/screenSize.x;
 	float offY = bound/screenSize.y;
 	vec2 temp = oTex;
