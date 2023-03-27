@@ -21,12 +21,13 @@ void main(void) {
 	float d = -(Mv * pos).z;
 	float maxDepth = 35.0;
 	float ratio = d / maxDepth;
-	vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1.0);
-	frag_color = frag_color - fadeColor * ratio;
+	vec3 fadeColor = vec3(0.1, 0.1, 0.1);
+	frag_color.xyz = frag_color.xyz - fadeColor * ratio;
 
 	if (frag_color.a < 0.8) {
 		discard;
 	}
+	frag_color.a = 1.0;
 }
 
 /////////// SHADER END //////////)"

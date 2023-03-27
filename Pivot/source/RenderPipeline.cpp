@@ -121,7 +121,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Player and exit
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"))); //TODO fix texture
-    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("bullet"))); //TODO fix texture
+    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("bridge"))); //TODO fix texture
 
     // Collectibles
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
@@ -134,7 +134,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Glowsticks
     std::vector<Glowstick> glows = model->_glowsticks;
     for (Glowstick g : glows) {
-        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("dude"))); //TODO fix texture
+        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("spinner"))); //TODO fix texture
     }
     
     // Construct basis
