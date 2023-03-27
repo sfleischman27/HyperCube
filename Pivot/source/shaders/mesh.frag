@@ -6,7 +6,7 @@ precision mediump float;
 
 in vec4 pos;
 in vec2 outTexCoord;
-in vec3 outNormal;
+in vec4 outNormal;
 
 out vec4 frag_color;
 
@@ -16,6 +16,9 @@ uniform vec3 uDirection;
 
 void main(void) {
 	vec3 transNormal = normalize(outNormal.xyz * 2.0 - vec3(1.0, 1.0, 1.0));
+	//if (outNormal.a < 1.0) {
+	//	discard;
+	//}
     float cullOutside = 0.0; // set to 0.0 for cuts, set to 999.0 for visualization
 	if (dot(uDirection, transNormal) >= cullOutside) {
         frag_color = vec4(1.0, 0.0, 1.0, 1.0);
@@ -28,7 +31,7 @@ void main(void) {
 		float ratio = d / maxDepth;
 		vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1.0);
 		frag_color = frag_color - fadeColor * ratio;
-		frag_color.a = 1.0;
+		//frag_color = vec4(dot(uDirection, transNormal), dot(uDirection, transNormal), dot(uDirection, transNormal), 1.0);
 	}
 }
 

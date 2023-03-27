@@ -30,7 +30,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
 
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
-    _camera->setFar(10000);
+    _camera->setFar(100);
     _camera->setZoom(2);
     _camera->update();
 

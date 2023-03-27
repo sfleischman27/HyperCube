@@ -15,6 +15,7 @@ uniform vec2 transOffset;
 uniform vec2 screenSize;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
+	return false;
 	// remove this function to remove denoising
 	vec4 cur = texture(fsqTexture, outTexCoord);
 	if (cur == vec4(1.0, 0.0, 0.0, 1.0)) {
@@ -54,7 +55,8 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 
 void main(void) {
 	frag_color = texture(fsqTexture, outTexCoord);
-	bool occlude = frag_color.x > .95 && frag_color.y < .05 && frag_color.z > .95;
+	//bool occlude = frag_color.x > .25 && frag_color.y < .25 && frag_color.z > .25;
+	bool occlude = frag_color.x > frag_color.y;
 	if (occlude || checkNeighboring(fsqTexture, outTexCoord)) {
 
         // TEMP: layer tex coords
