@@ -54,7 +54,7 @@ void SoundController::setVolume(std::string name, float volume){
  *  @param volume the volume of the sound, from 0.0-1.0
  */
 void SoundController::playSound(std::string name, float volume){
-    playSound(name, false, volume);
+    playSound(name, volume, false);
 }
 
 /**
@@ -64,13 +64,16 @@ void SoundController::playSound(std::string name, float volume){
  *  @param loop should the sound be looping
  *  @param volume the volume of the sound, from 0.0-1.0
  */
-void SoundController::playSound(std::string name, bool loop, float volume){
+void SoundController::playSound(std::string name, float volume, bool loop){
     //sound->play(loop);
-    
-    
     if(_sounds.find(name) == _sounds.end()){
         createSound(name);
     }
     setVolume(name, volume);
+    
+    
+    if(_sounds[name]->isPlaying()){
+        _sounds[name]->stop();
+    }
     _sounds[name]->play(loop);
 }

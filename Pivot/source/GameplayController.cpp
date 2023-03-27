@@ -207,6 +207,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     addChild(_worldnode);
     addChild(_debugnode);
 
+#pragma mark start bg music
+    
+    _sound->playSound("music_test", 1.0, true);
+    
     _active = true;
     
     return true;
@@ -427,7 +431,6 @@ void GameplayController::update(float dt) {
 
     _model->_player->setMovement(_input->getHorizontal() * _model->_player->getForce());
     _model->_player->setJumping(_input->didJump());
-    _sound->playSound("jump", 1.0);
     _model->_player->applyForce();
 
     currPlay2DPos = _model->_player->getPosition();

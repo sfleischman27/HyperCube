@@ -68,7 +68,7 @@ public:
      *  @param loop should the sound be looping
      *  @param volume the volume of the sound, from 0.0-1.0
      */
-    void playSound(std::string name, bool loop, float volume);
+    void playSound(std::string name, float volume, bool loop);
 };
 
 #endif /* SoundController_h */

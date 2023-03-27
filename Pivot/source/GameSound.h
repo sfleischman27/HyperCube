@@ -62,7 +62,6 @@ public:
     bool isStreaming(){
         return _streaming;
     }
-    
     /** plays the Sound without looping */
     void play(){
         play(false);
@@ -73,6 +72,14 @@ public:
             cugl::AudioEngine::get()->getMusicQueue()->play(_source, loop, _volume);
         } else {
             cugl::AudioEngine::get()->play(_name, _source, loop, _volume);
+        }
+    }
+    
+    void stop(){
+        if(_streaming){
+            cugl::AudioEngine::get()->getMusicQueue()->clear();
+        } else {
+            cugl::AudioEngine::get()->clear(_name);
         }
     }
 
