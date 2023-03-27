@@ -6,11 +6,12 @@ precision mediump float;
 
 in vec4 outColor;
 in vec4 pos;
+in vec2 outTexCoord;
 
 out vec4 frag_color;
 
 uniform mat4 Mv;
-//uniform int textureList[];
+uniform sampler2D billTex;
 
 void main(void) {
 
@@ -21,6 +22,8 @@ void main(void) {
 	vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1.0);
 	frag_color = outColor - fadeColor * ratio;
 	frag_color.a = 1.0;
+
+	frag_color = texture(billTex, outTexCoord);
 }
 
 /////////// SHADER END //////////)"

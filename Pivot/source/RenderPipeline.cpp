@@ -56,6 +56,8 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
         offsetof(PivotVertex3, position));
     _vertbuffBill->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
         offsetof(PivotVertex3, color));
+    _vertbuffBill->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
     _vertbuffBill->attach(_shaderBill);
 
     // FSQ shader
@@ -145,7 +147,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     }
 
     // Add all billboard vertices
-    drawables;
+    /*
     _meshBill.clear();
     PivotVertex3 tempV;
     for (DrawObject dro : drawables) {
@@ -171,6 +173,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
             }
         }
     }
+    */
 }
 
 void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
@@ -242,25 +245,44 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     cobbleTex->unbind();
     _vertbuff->unbind();
 
-    // --------------- Pass 2: Billboard --------------- //
-    _vertbuffBill->bind();
-    std::vector<int> texList = {};
-    /*
-    for (DrawObject dro : drawables) {
-        dro.tex->bind();
-        texList.push_back(dro.tex->getBindPoint());
-    }*/
 
-    _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
-    _shaderBill->setUniformMat4("Mv", _camera->getView());
-    //_shaderBill->setUniform1iv("textureList", texList.size(), texList.data());
-    _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
-    _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
-    _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
-    /*
+    // --------------- Pass 2: Billboard --------------- //
+    // Set up mesh indices
+    for (int tri = 0; tri <= 1; tri++) {
+        for (int i = 0; i < 3; i++) {
+            _meshBill.indices.push_back(tri + i);
+        }
+    }
+
+    // Bind buffer and iterate
+    _vertbuffBill->bind();
+    PivotVertex3 tempV;
+    const Vec3 basisUp = _camera->getUp();
+    const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);
     for (DrawObject dro : drawables) {
+        // Set up vertices
+        _meshBill.vertices.clear();
+        Size sz = dro.tex->getSize();
+        for (float i = -sz.width / 2; i <= sz.width / 2; i += sz.width) {
+            for (float j = -sz.height / 2; j <= sz.height / 2; j += sz.height) {
+                tempV.position = dro.pos + i * basisRight + j * basisUp;
+                tempV.color = dro.col.getPacked();
+                tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
+                _meshBill.vertices.push_back(tempV);
+            }
+        }
+
+        // Draw
+        dro.tex->bind();
+        _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
+        _shaderBill->setUniformMat4("Mv", _camera->getView());
+        _shaderBill->setUniform1i("billTex", dro.tex->getBindPoint());
+        _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
+        _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
+        _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
         dro.tex->unbind();
-    }*/
+    }
+    
     fbo.end();
     _vertbuffBill->unbind();
 
