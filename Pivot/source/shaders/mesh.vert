@@ -20,9 +20,9 @@ void main(void) {
     outNormal.y = outNormal.y / 2.0;
     outNormal.z = outNormal.z / 2.0;
     outNormal.a = 1.0;
-    if(dot(uDirection, aNormal) >= 0.0) {
-        outNormal.a = 0.0;
-    }
+    //if(dot(uDirection, aNormal) >= 0.0) {
+    //    outNormal.a = 0.0;
+    //}
 }
 
 /////////// SHADER END //////////)"
