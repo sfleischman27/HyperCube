@@ -40,7 +40,7 @@
                        "buttonAnchor": [0,0],
                        "buttonHorizontal": "left",
                        "buttonXPos": 0.025,
-                       "buttonYPos": 0.015
+                       "buttonYPos": 0.17
                    }
                }
            },
@@ -55,7 +55,7 @@
                        "buttonAnchor": [0,0],
                        "buttonHorizontal": "left",
                        "buttonXPos": 0.15,
-                       "buttonYPos": 0.015
+                       "buttonYPos": 0.17
                    }
                }
            },
@@ -70,7 +70,7 @@
                        "buttonAnchor": [1,0],
                        "buttonHorizontal": "right",
                        "buttonXPos": -0.05,
-                       "buttonYPos": 0.015
+                       "buttonYPos": 0.17
                    }
                }
            },
@@ -82,7 +82,7 @@
                       "glowstickSize": [150, 150],
                       "glowstickScale": 0.75,
                       "glowstickXPos": -0.2,
-                      "glowstickYPos": 0.04
+                      "glowstickYPos": 0.17
                   }
               }
            },

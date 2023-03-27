@@ -181,7 +181,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     int degreeAng = int(ang / degToRad);
     int localAng = degreeAng % repeatAngle;
     int index = localAng / repeat;
-    CULog("%i", index);
+    //CULog("%i", index);
 
     // Get texture objects
     earthTex = backgrounds[index];

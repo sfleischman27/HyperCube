@@ -25,6 +25,8 @@ private:
     // KEYBOARD EMULATION
     /** Whether the jump key is down */
     bool  _keyJump;
+    /** Whether the glowstick key is down */
+    bool  _keyGlowstick;
     /** Whether the fire key is down */
     bool  _keyFire;
     /** Whether the reset key is down */
@@ -61,6 +63,8 @@ protected:
     bool _firePressed;
     /** Whether the jump action was chosen. */
     bool _jumpPressed;
+    /** Whether the glowstick action was chosen. */
+    bool _glowstickPressed;
     /** How much did we move horizontally? */
     float _horizontal;
     /** Whether the increase cut action was chosen. */
@@ -73,6 +77,11 @@ protected:
     float _moveNorm;
     /** Are we registering an object selection? */
     bool _select;
+    
+    std::shared_ptr<cugl::scene2::Button> _buttonJump;
+    std::shared_ptr<cugl::scene2::Button> _buttonLeft;
+    std::shared_ptr<cugl::scene2::Button> _buttonRight;
+    std::shared_ptr<cugl::scene2::Button> _buttonGlowstick;
 
 
 #pragma mark Internal Touch Management
@@ -191,7 +200,7 @@ protected:
      *
      * @param  pos  the current joystick position
      */
-    void processCutJoystick(const cugl::Vec2 pos);
+    void processCutJoystick(const cugl::Vec2 pos, TouchInstance loc);
     
     /**
      * Returns a nonzero value if this is a quick left or right swipe
@@ -237,13 +246,15 @@ public:
      * the bounds of the scene graph do not match the bounds of the display.
      * This allows the input device to do the proper conversion for us.
      *
-     * @param bounds    the scene graph bounds
+     * @param bounds   the scene graph bounds
+     * @param left     the button that moves the player left
+     * @param right    the button that moves the player right
      *
      * @return true if the controller was initialized successfully
      */
-    bool init(const cugl::Rect bounds);
+    bool init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2::Button> jump, std::shared_ptr<cugl::scene2::Button> left, std::shared_ptr<cugl::scene2::Button> right, std::shared_ptr<cugl::scene2::Button> glowstick);
     
-#pragma mark -
+#pragma mark
 #pragma mark Input Detection
     /**
      * Returns true if the input handler is currently active
@@ -330,6 +341,13 @@ public:
      * @return if the jump button was pressed.
      */
     float didJump() const { return _jumpPressed; }
+    
+    /**
+     * Returns if the glowstick button was pressed.
+     *
+     * @return if the glowstick button was pressed.
+     */
+    float didGlowstick() const { return _glowstickPressed; }
 
     /**
      * Returns true if the fire button was pressed.

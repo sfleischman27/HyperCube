@@ -21,6 +21,8 @@ using namespace cugl;
 #define FIRE_KEY KeyCode::SPACE
 /** The key for jumping up */
 #define JUMP_KEY KeyCode::ARROW_UP
+/** The key for dropping a glowstick */
+#define GLOWSTICK_KEY KeyCode::R
 /** The key for increasing the cut */
 #define INCREASE_CUT_KEY KeyCode::E
 /** The key for decreasing the cut */
@@ -75,6 +77,7 @@ _exitPressed(false),
 _firePressed(false),
 _jumpPressed(false),
 _keyJump(false),
+_keyGlowstick(false),
 _keyIncreaseCut(false),
 _keyDecreaseCut(false),
 _keyFire(false),
@@ -125,7 +128,7 @@ void InputController::dispose() {
  *
  * @return true if the controller was initialized successfully
  */
-bool InputController::init(const Rect bounds) {
+bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2::Button> jump, std::shared_ptr<cugl::scene2::Button> left, std::shared_ptr<cugl::scene2::Button> right, std::shared_ptr<cugl::scene2::Button> glowstick) {
     bool success = true;
     _sbounds = bounds;
     _tbounds = Application::get()->getDisplayBounds();
@@ -158,6 +161,44 @@ bool InputController::init(const Rect bounds) {
         this->touchesMovedCB(event, previous, focus);
     });
     
+    _buttonJump = jump;
+    _buttonLeft = left;
+    _buttonRight = right;
+    _buttonGlowstick = glowstick;
+    
+    _buttonJump->addListener([this](const std::string& name, bool down) {
+        if (down) {
+            _keyJump = true;
+        }
+    });
+    
+    _buttonLeft->addListener([this](const std::string& name, bool down) {
+        if (down) {
+            _keyLeft = true;
+            _keyRight = false;
+        } else {
+            _keyLeft = false;
+            _keyRight = false;
+        }
+    });
+    
+    _buttonRight->addListener([this](const std::string& name, bool down) {
+        if (down) {
+            _keyLeft = false;
+            _keyRight = true;
+        } else {
+            _keyLeft = false;
+            _keyRight = false;
+        }
+    });
+    
+    _buttonGlowstick->addListener([this](const std::string& name, bool down) {
+        if (down) {
+            _keyGlowstick = true;
+            CULog("drop glowstick");
+        }
+    });
+    
 #endif
     _active = success;
     return success;
@@ -185,6 +226,7 @@ void InputController::update(float dt) {
     _keyExit   = keys->keyPressed(EXIT_KEY);
     _keyFire   = keys->keyPressed(FIRE_KEY);
     _keyJump   = keys->keyPressed(JUMP_KEY);
+    _keyGlowstick = keys->keyPressed(GLOWSTICK_KEY);
     _keyIncreaseCut = keys->keyPressed(INCREASE_CUT_KEY);
     _keyDecreaseCut = keys->keyPressed(DECREASE_CUT_KEY);
 
@@ -199,6 +241,7 @@ void InputController::update(float dt) {
     _exitPressed  = _keyExit;
     _firePressed  = _keyFire;
     _jumpPressed  = _keyJump;
+    _glowstickPressed = _keyGlowstick;
     _increaseCutPressed = _keyIncreaseCut;
     _decreaseCutPressed = _keyDecreaseCut;
     _keepChangingCut = _keyKeepIncreasingCut || _keyKeepDecreasingCut;
@@ -226,6 +269,7 @@ void InputController::update(float dt) {
     _keyReset = false;
     _keyDebug = false;
     _keyJump  = false;
+    _keyGlowstick = false;
     _keyIncreaseCut = false;
     _keyDecreaseCut = false;
     _keyFire  = false;
@@ -240,6 +284,7 @@ void InputController::clear() {
     _debugPressed = false;
     _exitPressed  = false;
     _jumpPressed = false;
+    _glowstickPressed = false;
     _firePressed = false;
     _increaseCutPressed = false;
     _decreaseCutPressed = false;
@@ -356,14 +401,14 @@ void InputController::processJoystick(const cugl::Vec2 pos) {
  *
  * @param  pos  the current joystick position
  */
-void InputController::processCutJoystick(const cugl::Vec2 pos) {
-    Vec2 diff =  _mtouch.position-pos;
+void InputController::processCutJoystick(const cugl::Vec2 pos, TouchInstance loc) {
+    Vec2 diff =  loc.position-pos;
 
     // Reset the anchor if we drifted too far
     if (diff.lengthSquared() > JSTICK_RADIUS*JSTICK_RADIUS) {
         diff.normalize();
         diff *= (JSTICK_RADIUS+JSTICK_DEADZONE)/2;
-        _mtouch.position = pos+diff;
+        loc.position = pos+diff;
     }
     _mtouch.position.y = pos.y;
     _cutjoycenter = touch2Screen(_mtouch.position);
@@ -442,25 +487,25 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
         case Zone::LEFT:
             // Only process if no touch in zone
             if (_ltouch.touchids.empty()) {
-                // Left is the floating joystick
-                _ltouch.position = event.position;
-                _ltouch.timestamp.mark();
-                _ltouch.touchids.insert(event.touch);
-
-                _joystick = true;
-                _joycenter = touch2Screen(event.position);
-                _joycenter.y += JSTICK_OFFSET;
+//                // Left is the floating joystick
+//                _ltouch.position = event.position;
+//                _ltouch.timestamp.mark();
+//                _ltouch.touchids.insert(event.touch);
+//
+//                _joystick = true;
+//                _joycenter = touch2Screen(event.position);
+//                _joycenter.y += JSTICK_OFFSET;
             }
             break;
         case Zone::RIGHT:
             // Only process if no touch in zone
             if (_rtouch.touchids.empty()) {
                 // Right is jump AND fire controls
-                _keyFire = (event.timestamp.ellapsedMillis(_rtime) <= DOUBLE_CLICK);
+//                _keyFire = (event.timestamp.ellapsedMillis(_rtime) <= DOUBLE_CLICK);
                 _rtouch.position = event.position;
                 _rtouch.timestamp.mark();
                 _rtouch.touchids.insert(event.touch);
-                _hasJumped = false;
+//                _hasJumped = false;
             }
             break;
         case Zone::MAIN:
@@ -469,9 +514,9 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _mtouch.timestamp.mark();
                 _mtouch.touchids.insert(event.touch);
 
-                _joystick = true;
-                _cutjoycenter = touch2Screen(event.position);
-                _cutjoycenter.y += JSTICK_OFFSET;
+//                _joystick = true;
+//                _cutjoycenter = touch2Screen(event.position);
+//                _cutjoycenter.y += JSTICK_OFFSET;
             }
             break;
             // Only check for double tap in Main if nothing else down
@@ -547,16 +592,18 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
     Vec2 pos = event.position;
     // Only check for swipes in the main zone if there is more than one finger.
     if (_ltouch.touchids.find(event.touch) != _ltouch.touchids.end()) {
-        processJoystick(pos);
+//        processJoystick(pos);
+        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
-        if (!_hasJumped) {
-            if ((_rtouch.position.y-pos.y) > SWIPE_LENGTH) {
-                _keyJump = true;
-                _hasJumped = true;
-            }
-        }
+        processCutJoystick(pos, _rtouch);
+//        if (!_hasJumped) {
+//            if ((_rtouch.position.y-pos.y) > SWIPE_LENGTH) {
+//                _keyJump = true;
+//                _hasJumped = true;
+//            }
+//        }
     } else if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
-        processCutJoystick(pos);
+        processCutJoystick(pos, _mtouch);
     } else if (_mtouch.touchids.size() > 1) {
         // We only process multifinger swipes in main
 //        int swipe = processSwipe(_mtouch.position, event.position, event.timestamp);

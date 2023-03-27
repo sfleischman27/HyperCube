@@ -122,10 +122,6 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     //_plane->debugCut(100);
     _plane->calculateCut();
     
-    // Start up the input handler
-    _input = std::make_shared<InputController>();
-    _input->init(getBounds());
-    
     _sound->init(assets);
     
 #pragma mark SCENE GRAPH SETUP
@@ -173,7 +169,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     CULog("%lu", kids.size());
     /**For some reason, trying to load the Compass bar and collectibles UI elements causes issues, so this for loop
     only loads the left, right, jump, and exit buttons**/
-    for(int i = 0; i < 4; ++i) {
+    for(int i = 0; i < 5; ++i) {
         //We cast the nodes defined in the json to Buttons
         std::shared_ptr<scene2::Button> butt = std::dynamic_pointer_cast<scene2::Button>(kids[i]);
 //        CULog(butt->getName().c_str());
@@ -185,6 +181,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it) {
         it->second->activate();
     }
+    
+    // Start up the input handler
+    _input = std::make_shared<InputController>();
+    _input->init(getBounds(),_buttons["jumpB"], _buttons["leftB"], _buttons["rightB"],_buttons["glowstickB"]);
 
 #pragma mark ADD PLAYER
     Vec2 dudePos = Vec2::ZERO;
@@ -403,12 +403,8 @@ void GameplayController::update(float dt) {
     }
     
 #pragma mark Glowsticks
-    if (_input->didSelect()) {
-        auto pos = _input->getSelection();
-        pos = Vec2(screenToWorldCoords(pos)).subtract(getSize() / 2);
+    if (_input->didGlowstick()) {
         
-        //put an imaginary button here for putting down glowstick for now (Jolene debug use)
-        if (abs(pos.x - _dimen.width/2) <= 150 && abs(pos.y + _dimen.height/2) <= 150){
             Vec3 player3DPos = _model->getPlayer3DLoc();
             for(auto g =_model->_glowsticks.begin(); g!=_model->_glowsticks.end();){
                 if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
@@ -422,7 +418,7 @@ void GameplayController::update(float dt) {
             if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
                 _model->_glowsticks.push_back(Glowstick(player3DPos-_model->getPlaneNorm()*0.5));
             }
-        }
+        
         _pickupGlowstick = false;
     }
     
