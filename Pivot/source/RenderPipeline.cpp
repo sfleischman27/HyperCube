@@ -143,7 +143,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Set bind points
     for (int i = 0; i < drawables.size(); i++) {
-        drawables[i].tex->setBindPoint(100 + i);
+        drawables[i].tex->setBindPoint(10 + i);
     }
 }
 
