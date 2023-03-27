@@ -54,7 +54,7 @@ protected:
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
     
 private:
-    std::shared_ptr<SoundController> _sound;
+    std::shared_ptr<SoundController> _sound = std::make_shared<SoundController>();
     std::shared_ptr<GameModel> _model;
     std::shared_ptr<PhysicsController> _physics;
     std::shared_ptr<InputController> _input;

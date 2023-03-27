@@ -28,9 +28,11 @@ protected:
 
 #pragma mark constructor
 public:
-    SoundController();
+    SoundController() { };
     
     ~SoundController(){ dispose(); };
+    
+    bool init(std::shared_ptr<cugl::AssetManager> _assets);
     
     /** removes the sound hashmap */
     void dispose();

@@ -7,6 +7,12 @@
 
 #include "SoundController.h"
 
+bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
+    _sounds = std::unordered_map<std::string, std::shared_ptr<GameSound>>();
+    _assets = assets;
+    return true;
+}
+
 /** removes the sound hashmap */
 void SoundController::dispose(){
     _sounds.clear(); //TODO: make sure there are no leaks here!
@@ -62,7 +68,7 @@ void SoundController::playSound(std::string name, bool loop, float volume){
     //sound->play(loop);
     
     
-    if(_sounds.count(name) == 0){
+    if(_sounds.find(name) == _sounds.end()){
         createSound(name);
     }
     setVolume(name, volume);

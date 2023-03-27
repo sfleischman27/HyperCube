@@ -59,9 +59,11 @@ void main(void) {
 
         // TEMP: layer tex coords
 		vec2 transTexCoord;
-        float numTexX = 1;
-        float numTexY = 1;
+        
+        float numTexX = 1.0;
+        float numTexY = 1.0;
 		vec2 midTexCoord = outTexCoord + transOffset;
+        
         transTexCoord.x = mod(midTexCoord.x * numTexX, 1.0);
         transTexCoord.y = mod(midTexCoord.y * numTexY, 1.0);
 		// End temp

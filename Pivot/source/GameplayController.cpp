@@ -126,6 +126,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _input = std::make_shared<InputController>();
     _input->init(getBounds());
     
+    _sound->init(assets);
+    
 #pragma mark SCENE GRAPH SETUP
     
     //set up physics world
