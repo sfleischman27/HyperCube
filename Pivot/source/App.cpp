@@ -45,7 +45,6 @@ void PivotApp::onStartup() {
     Input::activate<Mouse>();
 #endif
     
-    // TODO: remove the unnessisary loaders
     _assets->attach<Font>(FontLoader::alloc()->getHook());
     _assets->attach<Texture>(TextureLoader::alloc()->getHook());
     _assets->attach<Sound>(SoundLoader::alloc()->getHook());
@@ -55,10 +54,8 @@ void PivotApp::onStartup() {
     
     // TODO: make our own loading screen
     // Create a "loading" screen
-    _loaded = false;
     _demoloading.init(_assets);
     
-    // TODO: change assets to be our assets (if/when we get some)
     // Queue up the other assets
     AudioEngine::start();
     _assets->loadDirectoryAsync(jsonPath, nullptr);
@@ -67,7 +64,6 @@ void PivotApp::onStartup() {
     setClearColor(Color4(255, 255, 255, 255));
     
     Application::onStartup(); // YOU MUST END with call to parent
-
 }
 
 /**
@@ -85,6 +81,9 @@ void PivotApp::onShutdown() {
     // TODO: dispose of other modes here (ex: level select) when they are implemented
     _demoloading.dispose();
     _gameplay.dispose();
+    _mainMenu.dispose();
+    _levelSelect.dispose();
+    _endMenu.dispose();
     _assets = nullptr;
     _batch = nullptr;
     
@@ -144,15 +143,22 @@ void PivotApp::onResume() {
  * @param timestep  The amount of time (in seconds) since the last frame
  */
 void PivotApp::update(float timestep) {
-    // TODO: add structure for multiple "modes" once they have been created
-    if (!_loaded && _demoloading.isActive()) {
-        _demoloading.update(0.01f);
-    } else if (!_loaded) {
-        _demoloading.dispose(); // Disables the input listeners in this mode
-        _gameplay.init(_assets, getDisplaySize());
-        _loaded = true;
-    } else {
-        _gameplay.update(timestep);
+    switch (_scene) {
+        case LOAD:
+            updateLoadingScene(timestep);
+            break;
+        case MAIN:
+            updateMainScene(timestep);
+            break;
+        case LEVEL:
+            updateLevelScene(timestep);
+            break;
+        case END:
+            updateEndScene(timestep);
+            break;
+        case GAME:
+            updateGameScene(timestep);
+            break;
     }
 }
 
@@ -166,11 +172,117 @@ void PivotApp::update(float timestep) {
  * at all. The default implmentation does nothing.
  */
 void PivotApp::draw() {
-    // TODO: add structure for multiple "modes" once they have been created
-    if (!_loaded) {
-        _demoloading.render(_batch);
-    } else {
-        _gameplay.render(_batch);
+    switch (_scene) {
+        case LOAD:
+            _demoloading.render(_batch);
+            break;
+        case MAIN:
+            _mainMenu.render(_batch);
+            break;
+        case LEVEL:
+            _levelSelect.render(_batch);
+            break;
+        case END:
+            _endMenu.render(_batch);
+            break;
+        case GAME:
+            _gameplay.render(_batch);
+            break;
     }
 }
 
+void PivotApp::updateLoadingScene(float timestep){
+    if (_demoloading.isActive()) {
+        _demoloading.update(timestep);
+    } else {
+        _demoloading.dispose(); // Permanently disables the input listeners in this mode
+        _mainMenu.init(_assets);
+        //_levelSelect.init(_assets);
+        //_endMenu.init(_assets);
+        //_gameplay.init(_assets, getDisplaySize());
+        _mainMenu.setActive(true);
+        _scene = State::MAIN;
+        //_levelSelect.setActive(true);
+        //_scene = State::LEVEL;
+    }
+}
+
+void PivotApp::updateGameScene(float timestep){
+    if (_gameplay.atEnd == false) {
+        _gameplay.update(timestep);
+    } else {
+        _gameplay.setActive(false);
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        _mainMenu.dispose();
+        _levelSelect.dispose();
+        _gameplay.dispose();
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        _endMenu.init(_assets);
+        _endMenu.setActive(true);
+        _scene = State::END;
+    }
+}
+
+void PivotApp::updateMainScene(float timestep){
+    switch (_mainMenu.getChoice()) {
+        case MainMenu::Choice::NONE:
+            _mainMenu.update(timestep);
+            break;
+        case MainMenu::Choice::START:
+            _mainMenu.setActive(false);
+            _levelSelect.init(_assets);
+            _levelSelect.setActive(true);
+            _scene = State::LEVEL;
+            break;
+        case MainMenu::Choice::RESUME:
+            _mainMenu.setActive(false);
+            _levelSelect.setActive(true);
+            _levelSelect.updateLevel(5); //TODO: get from save file!
+            _scene = State::LEVEL;
+            break;
+    }
+}
+
+void PivotApp::updateLevelScene(float timestep){
+    switch (_levelSelect.getChoice()) {
+        case LevelSelect::Choice::NONE:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::Choice::level1:
+            _levelSelect.setActive(false);
+            _gameplay.init(_assets, getDisplaySize());
+            _gameplay.setActive(true);
+            _scene = State::GAME;
+            break;
+        //TODO: add cases for more levels -Sarah
+    }
+}
+
+void PivotApp::updateEndScene(float timestep){
+    switch(_endMenu.getChoice()) {
+        case EndMenu::Choice::NONE:
+            _endMenu.update(timestep);
+            break;
+        case EndMenu::Choice::MAP:
+            _endMenu.update(timestep);
+            break;
+        case EndMenu::Choice::REPLAY:
+            _endMenu.setActive(false);
+            _gameplay.setActive(true);
+            _gameplay.init(_assets, getDisplaySize());
+            _scene = State::GAME;
+            break;
+        case EndMenu::Choice::LEVEL:
+            _endMenu.setActive(false);
+            _levelSelect.setActive(true);
+            _scene = State::LEVEL;
+            break;
+        case EndMenu::Choice::NEXT:
+            _endMenu.setActive(false);
+            _levelSelect.setActive(true);
+            _scene = State::LEVEL;
+            break;
+    }
+    // TODO: add actual next level logic
+    // TODO: add the ability to show the 3D map
+}

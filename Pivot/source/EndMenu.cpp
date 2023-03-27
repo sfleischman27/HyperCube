@@ -65,6 +65,7 @@ bool EndMenu::init(const std::shared_ptr<cugl::AssetManager> &assets) {
     });
     
     addChild(layer);
+    setActive(false);
     return true;
 }
 
@@ -92,7 +93,9 @@ void EndMenu::dispose() {
  * @param value whether the scene is currently active
  */
 void EndMenu::setActive(bool value){
+    Scene2::setActive(value);
     if (value) {
+        _choice = NONE;
         _replay->activate();
         _level->activate();
         _next->activate();
@@ -102,6 +105,11 @@ void EndMenu::setActive(bool value){
         _level->deactivate();
         _next->deactivate();
         _replay->deactivate();
+        // If any were pressed, reset them
+        _replay->setDown(false);
+        _level->setDown(false);
+        _next->setDown(false);
+        _replay->setDown(false);
     }
 }
 

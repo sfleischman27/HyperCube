@@ -159,6 +159,8 @@ public:
     Choice getChoice() const { return _choice; }
   
 private:
+    int nameToNum(std::string name);
+    
     void setChoice(std::string name);
     
 };

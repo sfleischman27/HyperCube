@@ -16,6 +16,9 @@
 #include "DataController.h"
 #include "GameplayController.h"
 #include "RenderPipeline.h"
+#include "MainMenu.h"
+#include "LevelSelect.h"
+#include "EndMenu.h"
 
 // Demo mode
 #include "PFLoadingScene.h"
@@ -25,6 +28,19 @@
  */
 class PivotApp : public cugl::Application {
 protected:
+    enum State {
+        /** The loading scene */
+        LOAD,
+        /** The main menu scene */
+        MAIN,
+        /** The level select scene */
+        LEVEL,
+        /** The end of level scene */
+        END,
+        /** The scene to play the game */
+        GAME
+    };
+    
     /** The global sprite batch for drawing (only want one of these) */
     std::shared_ptr<cugl::SpriteBatch> _batch;
     /** The global asset manager */
@@ -39,12 +55,18 @@ protected:
     //SoundController _sound;
     /** The primary controller for the game world */
     GameplayController _gameplay;
+    /** The main menu view */
+    MainMenu _mainMenu;
+    /** The level select view */
+    LevelSelect _levelSelect;
+    /** The end of level view */
+    EndMenu _endMenu;
+    
     /** The controller for the loading screen */
     //LoadingScene _loading;
     
-    // TODO: change this to indicate what scene is currently active
-    /** Whether or not we have finished loading all assets */
-    bool _loaded;
+    /** The current active scene */
+    State _scene;
     
 public:
 #pragma mark Constructors
@@ -57,7 +79,7 @@ public:
      * of initialization from the constructor allows main.cpp to perform
      * advanced configuration of the application before it starts.
      */
-    PivotApp() : cugl::Application(), _loaded(false) {}
+    PivotApp() : cugl::Application(){ _scene = State::LOAD; }
     
     /**
      * Disposes of this application, releasing all resources.
@@ -146,6 +168,59 @@ public:
      * at all. The default implmentation does nothing.
      */
     virtual void draw() override;
+    
+#pragma mark Menu Updates
+private:
+    /**
+     * Inidividualized update method for the loading scene.
+     *
+     * This method keeps the primary {@link #update} from being a mess of switch
+     * statements. It also handles the transition logic from the loading scene.
+     *
+     * @param timestep  The amount of time (in seconds) since the last frame
+     */
+    void updateLoadingScene(float timestep);
+    
+    /**
+     * Inidividualized update method for the gameplay scene.
+     *
+     * This method keeps the primary {@link #update} from being a mess of switch
+     * statements. It also handles the transition logic from the loading scene.
+     *
+     * @param timestep  The amount of time (in seconds) since the last frame
+     */
+    void updateGameScene(float timestep);
+    
+    /**
+     * Inidividualized update method for the main menu scene.
+     *
+     * This method keeps the primary {@link #update} from being a mess of switch
+     * statements. It also handles the transition logic from the loading scene.
+     *
+     * @param timestep  The amount of time (in seconds) since the last frame
+     */
+    void updateMainScene(float timestep);
+    
+    /**
+     * Inidividualized update method for the level select scene.
+     *
+     * This method keeps the primary {@link #update} from being a mess of switch
+     * statements. It also handles the transition logic from the loading scene.
+     *
+     * @param timestep  The amount of time (in seconds) since the last frame
+     */
+    void updateLevelScene(float timestep);
+    
+    /**
+     * Inidividualized update method for the end of level menu scene.
+     *
+     * This method keeps the primary {@link #update} from being a mess of switch
+     * statements. It also handles the transition logic from the loading scene.
+     *
+     * @param timestep  The amount of time (in seconds) since the last frame
+     */
+    void updateEndScene(float timestep);
+    
 };
 
 #endif /* App_h */

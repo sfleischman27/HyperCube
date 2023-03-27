@@ -52,6 +52,7 @@ bool LevelSelect::init(const std::shared_ptr<cugl::AssetManager> &assets, int le
     }
     
     addChild(layer);
+    setActive(false);
     return true;
 }
 
@@ -65,15 +66,14 @@ void LevelSelect::dispose() {
 
 void LevelSelect::updateLevel(int level) {
     _maxLevel = level;
-    int num = 1;
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
         // TODO: figure out how to change the level state fo the widget from locked to unlocked
+        int num = nameToNum(it->first);
         if (num <= level){
             it->second->activate();
         } else{
             it->second->deactivate();
         }
-        num += 1;
     }
 }
 
@@ -87,15 +87,53 @@ void LevelSelect::updateLevel(int level) {
  * @param value whether the scene is currently active
  */
 void LevelSelect::setActive(bool value){
-    int num = 1;
+    Scene2::setActive(value);
+    if (value) { _choice = NONE; }
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
         // TODO: figure out how to change the level state fo the widget from locked to unlocked
+        int num = nameToNum(it->first);
         if (num <= _maxLevel and value){
             it->second->activate();
         } else{
             it->second->deactivate();
+            it->second->setDown(false);
         }
-        num += 1;
+    }
+}
+
+int LevelSelect::nameToNum(std::string name){
+    if (name == "level1"){
+        return 1;
+    } else if (name == "level2"){
+        return 2;
+    } else if (name == "level3"){
+        return 3;
+    } else if (name == "level4"){
+        return 4;
+    } else if (name == "level5"){
+        return 5;
+    } else if (name == "level6"){
+        return 6;
+    } else if (name == "level7"){
+        return 7;
+    } else if (name == "level8"){
+        return 8;
+    } else if (name == "level9"){
+        return 9;
+    } else if (name == "level10"){
+        return 10;
+    } else if (name == "level11"){
+        return 11;
+    } else if (name == "level12"){
+        return 12;
+    } else if (name == "level13"){
+        return 13;
+    } else if (name == "level14"){
+        return 14;
+    } else if (name == "level15"){
+        return 15;
+    } else {
+        return -1;
     }
 }
 
