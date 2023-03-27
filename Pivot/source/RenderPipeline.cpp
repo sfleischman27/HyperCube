@@ -79,7 +79,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     // Set up textures
     cobbleTex = assets->get<Texture>("cobble");
     backgrounds = {};
-    for (int i = 1; i <= 15; i++) {
+    for (int i = 1; i <= 14; i++) {
         backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
     }
 }
@@ -195,16 +195,22 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // --------------- Pass 0: Textures --------------- //
     // Calculate voronoi angle
-    const int numImages = 15;
-    const int repeatAngle = 45;
+    const int numImages = backgrounds.size();
+    const int repeat = 3;
+    const int repeatAngle = numImages * repeat;
     const float degToRad = 0.0174533;
     Vec3 vInit = Vec3(-1, 0, 0);
     float ang = model->getPlaneNorm().getAngle(vInit);
     if (ang < 0) ang += M_PI;
-    int index = int(fmod(ang, repeatAngle * degToRad) / (degToRad));
+
+    // Calculate correct index
+    int degreeAng = int(ang / degToRad);
+    int localAng = degreeAng % repeatAngle;
+    int index = localAng / repeat;
+    CULog("%i", index);
 
     // Get texture objects
-    earthTex = backgrounds[index / (repeatAngle / numImages)];
+    earthTex = backgrounds[index];
 
     // Set bind points
     cobbleTex->setBindPoint(insideTex);

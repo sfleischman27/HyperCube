@@ -65,7 +65,7 @@ void main(void) {
 		vec2 midTexCoord = outTexCoord + transOffset;
         
         transTexCoord.x = mod(midTexCoord.x * numTexX, 1.0);
-        transTexCoord.y = mod(midTexCoord.y * numTexY, 1.0);
+        transTexCoord.y = 1.0 - mod(midTexCoord.y * numTexY, 1.0);
 		// End temp
 
 		frag_color = texture(outsideTexture, transTexCoord);
