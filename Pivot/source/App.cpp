@@ -84,6 +84,7 @@ void PivotApp::onShutdown() {
     _mainMenu.dispose();
     _levelSelect.dispose();
     _endMenu.dispose();
+    _quitMenu.dispose();
     _assets = nullptr;
     _batch = nullptr;
     
@@ -156,6 +157,9 @@ void PivotApp::update(float timestep) {
         case END:
             updateEndScene(timestep);
             break;
+        case QUIT:
+            updateQuitScene(timestep);
+            break;
         case GAME:
             updateGameScene(timestep);
             break;
@@ -185,6 +189,9 @@ void PivotApp::draw() {
         case END:
             _endMenu.render(_batch);
             break;
+        case QUIT:
+            _quitMenu.render(_batch);
+            break;
         case GAME:
             _gameplay.render(_batch);
             break;
@@ -197,29 +204,30 @@ void PivotApp::updateLoadingScene(float timestep){
     } else {
         _demoloading.dispose(); // Permanently disables the input listeners in this mode
         _mainMenu.init(_assets);
-        //_levelSelect.init(_assets);
-        //_endMenu.init(_assets);
-        //_gameplay.init(_assets, getDisplaySize());
+        _levelSelect.init(_assets);
+        _endMenu.init(_assets);
+        _quitMenu.init(_assets);
+        _gameplay.init(_assets, getDisplaySize());
         _mainMenu.setActive(true);
         _scene = State::MAIN;
-        //_levelSelect.setActive(true);
-        //_scene = State::LEVEL;
     }
 }
 
 void PivotApp::updateGameScene(float timestep){
-    if (_gameplay.atEnd == false) {
-        _gameplay.update(timestep);
-    } else {
-        _gameplay.setActive(false);
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        _mainMenu.dispose();
-        _levelSelect.dispose();
-        _gameplay.dispose();
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-        _endMenu.init(_assets);
-        _endMenu.setActive(true);
-        _scene = State::END;
+    switch (_gameplay.getState()) {
+        case GameplayController::State::NONE:
+            _gameplay.update(timestep);
+            break;
+        case GameplayController::State::QUIT:
+            _gameplay.setActive(false);
+            _quitMenu.setActive(true);
+            _scene = State::QUIT;
+            break;
+        case GameplayController::State::END:
+            _gameplay.setActive(false);
+            _endMenu.setActive(true);
+            _scene = State::END;
+            break;
     }
 }
 
@@ -230,7 +238,6 @@ void PivotApp::updateMainScene(float timestep){
             break;
         case MainMenu::Choice::START:
             _mainMenu.setActive(false);
-            _levelSelect.init(_assets);
             _levelSelect.setActive(true);
             _scene = State::LEVEL;
             break;
@@ -250,11 +257,58 @@ void PivotApp::updateLevelScene(float timestep){
             break;
         case LevelSelect::Choice::level1:
             _levelSelect.setActive(false);
-            _gameplay.init(_assets, getDisplaySize());
+            _gameplay.load("levelTest");
             _gameplay.setActive(true);
             _scene = State::GAME;
             break;
-        //TODO: add cases for more levels -Sarah
+        case LevelSelect::level2:
+            _levelSelect.setActive(false);
+            _gameplay.load("First_Level_0000");
+            _gameplay.setActive(true);
+            _scene = State::GAME;
+            break;
+        case LevelSelect::level3:
+            _levelSelect.setActive(false);
+            _gameplay.load("debug_0000");
+            _gameplay.setActive(true);
+            _scene = State::GAME;
+            break;
+        case LevelSelect::level4:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level5:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level6:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level7:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level8:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level9:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level10:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level11:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level12:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level13:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level14:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::level15:
+            _levelSelect.update(timestep);
+            break;
     }
 }
 
@@ -269,7 +323,7 @@ void PivotApp::updateEndScene(float timestep){
         case EndMenu::Choice::REPLAY:
             _endMenu.setActive(false);
             _gameplay.setActive(true);
-            _gameplay.init(_assets, getDisplaySize());
+            _gameplay.reset();
             _scene = State::GAME;
             break;
         case EndMenu::Choice::LEVEL:
@@ -285,4 +339,22 @@ void PivotApp::updateEndScene(float timestep){
     }
     // TODO: add actual next level logic
     // TODO: add the ability to show the 3D map
+}
+
+void PivotApp::updateQuitScene(float timestep){
+    switch(_quitMenu.getChoice()) {
+        case QuitMenu::Choice::NONE:
+            _quitMenu.update(timestep);
+            break;
+        case QuitMenu::Choice::Y:
+            _quitMenu.setActive(false);
+            _gameplay.setActive(true);
+            _scene = State::GAME;
+            break;
+        case QuitMenu::Choice::N:
+            _quitMenu.setActive(false);
+            _levelSelect.setActive(true);
+            _scene = State::LEVEL;
+            break;
+    }
 }

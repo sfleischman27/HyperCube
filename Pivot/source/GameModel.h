@@ -24,6 +24,8 @@ class GameModel{
    
 #pragma mark Initialization
 private:
+    /** level id */
+    std::string _name;
     /** starting player location */
     Vec3 _startPlayerLoc;
     /** starting plane normal */
@@ -91,6 +93,22 @@ public:
     
 #pragma mark Getters and Setters
 public:
+    /**
+     *  Sets the level name
+     *
+     *  @param name   The level name
+     */
+    void setName(std::string name) {
+        _name = name;
+    }
+
+    /**
+     *  Gets the level name
+     */
+    std::string getName() {
+        return _name;
+    }
+    
     /**
      *  Sets the initial player location
      *

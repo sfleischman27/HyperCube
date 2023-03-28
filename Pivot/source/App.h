@@ -19,6 +19,7 @@
 #include "MainMenu.h"
 #include "LevelSelect.h"
 #include "EndMenu.h"
+#include "QuitMenu.h"
 
 // Demo mode
 #include "PFLoadingScene.h"
@@ -37,6 +38,8 @@ protected:
         LEVEL,
         /** The end of level scene */
         END,
+        /** The quit level scene */
+        QUIT,
         /** The scene to play the game */
         GAME
     };
@@ -61,6 +64,8 @@ protected:
     LevelSelect _levelSelect;
     /** The end of level view */
     EndMenu _endMenu;
+    /** The quit level view */
+    QuitMenu _quitMenu;
     
     /** The controller for the loading screen */
     //LoadingScene _loading;
@@ -220,6 +225,16 @@ private:
      * @param timestep  The amount of time (in seconds) since the last frame
      */
     void updateEndScene(float timestep);
+    
+    /**
+     * Inidividualized update method for the end of level menu scene.
+     *
+     * This method keeps the primary {@link #update} from being a mess of switch
+     * statements. It also handles the transition logic from the loading scene.
+     *
+     * @param timestep  The amount of time (in seconds) since the last frame
+     */
+    void updateQuitScene(float timestep);
     
 };
 

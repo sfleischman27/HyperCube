@@ -37,10 +37,9 @@ bool LevelSelect::init(const std::shared_ptr<cugl::AssetManager> &assets, int le
     layer->setContentSize(dimen);
     layer->doLayout();
     
-    _background = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("levelLab_levelselectScreen"));
-    _panel = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("levelLab_levelselectScreen_panelNode"));
+    auto panel = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("levelLab_levelselectScreen_panelNode"));
     
-    auto levels = _panel->getChildren()[0]->getChildren();
+    auto levels = panel->getChildren()[0]->getChildren();
     for(auto it = levels.begin(); it != levels.end(); ++it){
         std::shared_ptr<scene2::Button> butt = std::dynamic_pointer_cast<scene2::Button>(*it);
         _buttons[butt->getName()] = butt;
@@ -57,17 +56,15 @@ bool LevelSelect::init(const std::shared_ptr<cugl::AssetManager> &assets, int le
 }
 
 void LevelSelect::dispose() {
-    _background = nullptr;
-    _panel = nullptr;
+    Scene2::dispose();
     _buttons.clear();
     _assets = nullptr;
-    
 }
 
 void LevelSelect::updateLevel(int level) {
     _maxLevel = level;
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
-        // TODO: figure out how to change the level state fo the widget from locked to unlocked
+        // TODO: figure out how to change the level state of the widget from locked to unlocked
         int num = nameToNum(it->first);
         if (num <= level){
             it->second->activate();

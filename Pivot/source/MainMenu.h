@@ -24,8 +24,6 @@ protected:
     /** The asset manager for loading. */
     std::shared_ptr<cugl::AssetManager> _assets;
     
-    /** The background */
-    std::shared_ptr<cugl::scene2::SceneNode> _background;
     /** The "play" button */
     std::shared_ptr<cugl::scene2::Button>    _start;
     /** The "resume" button */

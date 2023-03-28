@@ -1,39 +1,33 @@
 //
-//  EndMenu.h
+//  QuitMenu.h
 //  Pivot
 //
-//  Created by Sarah Fleischman on 3/27/23.
+//  Created by Sarah Fleischman on 3/28/23.
 //
 
-#ifndef EndMenu_h
-#define EndMenu_h
+#ifndef QuitMenu_h
+#define QuitMenu_h
 #include <cugl/cugl.h>
 
-class EndMenu : public cugl::Scene2 {
+class QuitMenu : public cugl::Scene2 {
 public:
     enum Choice {
         /** User has not yet made a choice */
         NONE,
-        /** User wants to see the map */
-        MAP,
-        /** User wants to replay the level */
-        REPLAY,
-        /** User wants to go to the level select */
-        LEVEL,
-        /** User wants to go to the next level */
-        NEXT
+        /** User wants to quit */
+        Y,
+        /** User does not want to quit */
+        N
     };
     
 protected:
     /** The asset manager for loading. */
     std::shared_ptr<cugl::AssetManager> _assets;
     
-    /** The "replay" button */
-    std::shared_ptr<cugl::scene2::Button>    _replay;
-    /** The "level select" button */
-    std::shared_ptr<cugl::scene2::Button>    _level;
-    /** The "next level" button */
-    std::shared_ptr<cugl::scene2::Button>    _next;
+    /** The "yes" button */
+    std::shared_ptr<cugl::scene2::Button>    _yes;
+    /** The "no" button */
+    std::shared_ptr<cugl::scene2::Button>    _no;
     
     /** The player menu choice */
     Choice _choice;
@@ -55,7 +49,7 @@ public:
      * This constructor does not allocate any objects or start the game.
      * This allows us to use the object without a heap pointer.
      */
-    EndMenu() : Scene2() {}
+    QuitMenu() : Scene2() {}
     
     /**
      * Disposes of all (non-static) resources allocated to this mode.
@@ -63,7 +57,7 @@ public:
      * This method is different from dispose() in that it ALSO shuts off any
      * static resources, like the input controller.
      */
-    ~EndMenu() { dispose(); }
+    ~QuitMenu() { dispose(); }
     
     /**
      * Disposes of all (non-static) resources allocated to this mode.
@@ -116,4 +110,4 @@ public:
     
 };
 
-#endif /* EndMenu_h */
+#endif /* QuitMenu_h */

@@ -39,7 +39,6 @@ bool MainMenu::init(const std::shared_ptr<cugl::AssetManager>& assets) {
     layer->setContentSize(dimen);
     layer->doLayout();
     
-    _background = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("startLab_startScreen"));
     _start = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("startLab_startScreen_startB"));
     _start->addListener([this](const std::string& name, bool down) {
         if (down) {
@@ -64,7 +63,7 @@ bool MainMenu::init(const std::shared_ptr<cugl::AssetManager>& assets) {
  * Disposes of all (non-static) resources allocated to this mode.
  */
 void MainMenu::dispose() {
-    _background = nullptr;
+    Scene2::dispose();
     _start = nullptr;
     _resume = nullptr;
     _assets = nullptr;

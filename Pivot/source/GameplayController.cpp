@@ -94,6 +94,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 }
 
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect) {
+    // TODO: factor this function out into a this then a call to load. This should just initialize things then load should actually load in a level.
     
     _dimen = computeActiveSize();
     
@@ -106,14 +107,14 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     }
     
     _assets = assets;
+    
+    _state = NONE;
 
     //set up the game model
     _model = std::make_shared<GameModel>(GameModel());
-    DataController data = DataController();
-    data.init(_assets);
-    data.initGameModel("levelTest", _model);
-    
-    _model->setPlayer3DLoc(_model->getInitPlayerLoc());
+    _data = std::make_shared<DataController>(DataController());
+    _data->init(_assets);
+    _data->initGameModel("levelTest", _model);
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
@@ -161,12 +162,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     auto layer = _assets->get<cugl::scene2::SceneNode>("lab");
     layer->setContentSize(_dimen);
     layer->doLayout();
-    //I beleive adding the layer is what draws everything contained within lab
-    addChild(layer);
     
     //Lab has 1 child called gameScreenUI, and gameScreenUI has multiple children which represent all the UI elements
     auto kids = layer->getChildren()[0]->getChildren();
-    CULog("%lu", kids.size());
+    //CULog("%lu", kids.size());
     /**For some reason, trying to load the Compass bar and collectibles UI elements causes issues, so this for loop
     only loads the left, right, jump, and exit buttons**/
     for(int i = 0; i < 5; ++i) {
@@ -177,10 +176,16 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
         _buttons[butt->getName()] = butt;
     }
     
-    //Activate the buttons so they register inputs (they do not do anything yet though)
-    for(auto it = _buttons.begin(); it != _buttons.end(); ++it) {
-        it->second->activate();
-    }
+    _buttons["exitB"]->addListener([this](const std::string& name, bool down) {
+        if (down) {
+            _state = State::QUIT;
+        }
+    });
+    
+    //I beleive adding the layer is what draws everything contained within lab
+    addChild(layer);
+    setActive(false);
+    
     
     // Start up the input handler
     _input = std::make_shared<InputController>();
@@ -309,7 +314,7 @@ void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obsta
 
 
 /**
- * Resets the status of the game so that we can play again.
+ * Resets the current level
  *
  * This method disposes of the world and creates a new one.
  */
@@ -317,8 +322,56 @@ void GameplayController::reset() {
     _physics->clear();
     _worldnode->removeAllChildren();
     _debugnode->removeAllChildren();
-    atEnd = false;
-    //TODO: reset game model?
+    _state = NONE;
+    // TODO: should anything else be cleared?
+    load(_model->getName());
+    addChild(_worldnode);
+    addChild(_debugnode);
+}
+
+/**
+ * Loads a new level into the game model
+ *
+ * @param name    the name of the level to be loaded (key in assets file)
+ */
+void GameplayController::load(std::string name){
+    // update model
+    _data->initGameModel(name, _model);
+    // change plane for new model
+    _plane->init(_model);
+    _plane->calculateCut();
+    // update physics for new model
+    createCutObstacles();
+    _physics->getWorld()->addObstacle(_model->_player);
+    // TODO: add more things here if needed
+}
+
+/**
+ * Sets whether the scene is currently active
+ *
+ * This method should be used to toggle all the UI elements.  Buttons
+ * should be activated when it is made active and deactivated when
+ * it is not.
+ *
+ * @param value whether the scene is currently active
+ */
+void GameplayController::setActive(bool value){
+    Scene2::setActive(value);
+    if(value){
+        for(auto it = _buttons.begin(); it != _buttons.end(); ++it) {
+            it->second->activate();
+        }
+        // turn on the render pipeline stuff
+        glEnable(GL_DEPTH_TEST);
+        // reset the state to none (fixes pauses for quitting)
+        _state = State::NONE;
+    } else {
+        for(auto it = _buttons.begin(); it != _buttons.end(); ++it) {
+            it->second->deactivate();
+        }
+        // turn off the render pipeline stuff
+        glDisable(GL_DEPTH_TEST);
+    }
 }
 
 /**
@@ -398,7 +451,7 @@ void GameplayController::update(float dt) {
         // TODO: Game ends here by checking if the player collects all colletibles - Sarah
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;
-            atEnd = true;
+            _state = END;
         }
         else{
             // TODO: maybe saying find lost colletibles or something? - Sarah

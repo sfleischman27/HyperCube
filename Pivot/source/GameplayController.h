@@ -23,7 +23,14 @@
 
 class GameplayController : public cugl::Scene2 {
 public:
-    bool atEnd;
+    enum State {
+        /** Level is currently running */
+        NONE,
+        /** User pressed the quit button */
+        QUIT,
+        /** User finished the level */
+        END
+    };
     
 protected:
     /** The asset manager for this game mode. */
@@ -31,6 +38,8 @@ protected:
     
     /** set debug mode */
     bool _debug;
+    /** current state of the game */
+    State _state;
     
     /** is the axis being rotated? (only remake colliders when false) */
     bool _rotating = false;
@@ -63,6 +72,8 @@ private:
     cugl::Size _dimen;
     std::shared_ptr<RenderPipeline> _pipeline;
     std::shared_ptr<PlaneController> _plane;
+    std::shared_ptr<DataController> _data;
+
     
     /**
      * Removes all the nodes beloning to _polynodes from _worldnodes. In essence, this cleans up all the old collisions and SceneNodes pertaining to a previous cut to make room for the new cut's collisions.
@@ -71,8 +82,6 @@ private:
     
 protected:
     std::tuple<cugl::Vec2, float> tupleExit;
-//    /** The asset manager for this game mode. */
-//    std::shared_ptr<cugl::AssetManager> _assets;
 //    /** Reference to the left joystick image */
 //    std::shared_ptr<cugl::scene2::PolygonNode> _leftnode;
 //    /** Reference to the right joystick image */
@@ -153,6 +162,13 @@ public:
     void reset();
     
     /**
+     * Loads a new level into the game model
+     *
+     * @param name    the name of the level to be loaded (key in assets file)
+     */
+    void load(std::string name);
+    
+    /**
      * Draws all this scene to the given SpriteBatch.
      *
      * The default implementation of this method simply draws the scene graph
@@ -171,6 +187,17 @@ public:
      */
     cugl::Size computeActiveSize() const;
     
+    /**
+     * Sets whether the scene is currently active
+     *
+     * This method should be used to toggle all the UI elements.  Buttons
+     * should be activated when it is made active and deactivated when
+     * it is not.
+     *
+     * @param value whether the scene is currently active
+     */
+    void setActive(bool value);
+    
 #pragma mark State Access
 
     bool isDebug( ) const { return _debug; }
@@ -184,6 +211,15 @@ public:
     std::tuple<cugl::Vec2, float> ScreenCoordinatesFrom3DPoint(cugl::Vec3);
     
     void updatePlayer3DLoc(Vec2 displacement);
+    
+    /**
+     * Returns the user's menu choice.
+     *
+     * This will return NONE if the user had no yet made a choice.
+     *
+     * @return the user's menu choice.
+     */
+    State getState() const { return _state; }
     
 #pragma mark Cut and player Collision Handling
     /**

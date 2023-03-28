@@ -33,7 +33,7 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     std::cout<<"init z: " <<playerLoc.z<<std::endl;
     model->setInitPlayerLoc(playerLoc);
     
-    //model->_player->set3DLoc(playerLoc);
+    model->setPlayer3DLoc(playerLoc);
     
     Vec3 norm;
     norm.x = constants->get("norm")->get(0)->asFloat();
@@ -73,6 +73,9 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
         texs.push_back(tex);
     }
     model->setCollectibles(locs, texs);
+    
+    std::string level_id = constants->getString("level_id");
+    model->setName(level_id);
     
     return true;
 }

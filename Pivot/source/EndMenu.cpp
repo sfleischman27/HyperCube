@@ -30,18 +30,15 @@ bool EndMenu::init(const std::shared_ptr<cugl::AssetManager> &assets) {
     }
     
     _assets = assets;
-    _assets->loadDirectory("json/pivot_EndUI.json");
+    _assets->loadDirectory("json/pivot_endUI.json");
     auto layer = assets->get<scene2::SceneNode>("endLab");
     layer->setContentSize(dimen);
     layer->doLayout();
-    
-    _endScreen = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("endLab_endScreen"));
-    _board = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("endLab_endScreen_board"));
-    _map = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("endLab_endScreen_board_map"));
-    
+
     _replay = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("endLab_endScreen_board_replay"));
     _level = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("endLab_endScreen_board_level"));
     _next = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("endLab_endScreen_board_next"));
+    
     
     _replay->addListener([this](const std::string& name, bool down) {
         if (down) {
@@ -58,11 +55,6 @@ bool EndMenu::init(const std::shared_ptr<cugl::AssetManager> &assets) {
             _choice = Choice::NEXT;
         }
     });
-    _replay->addListener([this](const std::string& name, bool down) {
-        if (down) {
-            _choice = Choice::REPLAY;
-        }
-    });
     
     addChild(layer);
     setActive(false);
@@ -73,13 +65,10 @@ bool EndMenu::init(const std::shared_ptr<cugl::AssetManager> &assets) {
  * Disposes of all (non-static) resources allocated to this mode.
  */
 void EndMenu::dispose() {
-    _endScreen = nullptr;
-    _board = nullptr;
-    _map = nullptr;
+    Scene2::dispose();
     _replay = nullptr;
     _level = nullptr;
     _next = nullptr;
-    _replay = nullptr;
     _assets = nullptr;
 }
 
@@ -96,17 +85,14 @@ void EndMenu::setActive(bool value){
     Scene2::setActive(value);
     if (value) {
         _choice = NONE;
-        _replay->activate();
         _level->activate();
         _next->activate();
         _replay->activate();
     } else {
-        _replay->deactivate();
         _level->deactivate();
         _next->deactivate();
         _replay->deactivate();
         // If any were pressed, reset them
-        _replay->setDown(false);
         _level->setDown(false);
         _next->setDown(false);
         _replay->setDown(false);

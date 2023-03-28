@@ -51,10 +51,6 @@ protected:
     /** The asset manager for loading. */
     std::shared_ptr<cugl::AssetManager> _assets;
     
-    /** The background */
-    std::shared_ptr<cugl::scene2::SceneNode> _background;
-    /** The panel containing levels */
-    std::shared_ptr<cugl::scene2::SceneNode> _panel;
     /** The list of level buttons */
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
     
@@ -106,7 +102,8 @@ public:
      *
      * @return true if the controller is initialized properly, false otherwise.
      */
-    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 1); }
+    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 3); }
+    // TODO: change this back to 1
     
     /**
      * Initializes the controller contents, making it ready for loading
