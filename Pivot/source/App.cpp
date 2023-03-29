@@ -314,24 +314,24 @@ void PivotApp::updateLevelScene(float timestep){
 
 void PivotApp::updateEndScene(float timestep){
     switch(_endMenu.getChoice()) {
-        case EndMenu::Choice::NONE:
+        case EndLevelMenu::Choice::NONE:
             _endMenu.update(timestep);
             break;
-        case EndMenu::Choice::MAP:
+        case EndLevelMenu::Choice::MAP:
             _endMenu.update(timestep);
             break;
-        case EndMenu::Choice::REPLAY:
+        case EndLevelMenu::Choice::REPLAY:
             _endMenu.setActive(false);
             _gameplay.setActive(true);
             _gameplay.reset();
             _scene = State::GAME;
             break;
-        case EndMenu::Choice::LEVEL:
+        case EndLevelMenu::Choice::LEVEL:
             _endMenu.setActive(false);
             _levelSelect.setActive(true);
             _scene = State::LEVEL;
             break;
-        case EndMenu::Choice::NEXT:
+        case EndLevelMenu::Choice::NEXT:
             _endMenu.setActive(false);
             _levelSelect.setActive(true);
             _scene = State::LEVEL;

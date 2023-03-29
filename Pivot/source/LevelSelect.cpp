@@ -89,7 +89,7 @@ void LevelSelect::setActive(bool value){
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
         // TODO: figure out how to change the level state fo the widget from locked to unlocked
         int num = nameToNum(it->first);
-        if (num <= _maxLevel and value){
+        if (num <= _maxLevel && value){
             it->second->activate();
         } else{
             it->second->deactivate();

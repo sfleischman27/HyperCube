@@ -63,7 +63,7 @@ protected:
     /** The level select view */
     LevelSelect _levelSelect;
     /** The end of level view */
-    EndMenu _endMenu;
+    EndLevelMenu _endMenu;
     /** The quit level view */
     QuitMenu _quitMenu;
     

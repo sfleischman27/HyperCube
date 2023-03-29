@@ -12,7 +12,7 @@ using namespace cugl;
 /** This is the ideal size of the logo */
 #define SCENE_SIZE  1024
 
-bool EndMenu::init(const std::shared_ptr<cugl::AssetManager> &assets) {
+bool EndLevelMenu::init(const std::shared_ptr<cugl::AssetManager> &assets) {
     _choice = NONE;
     
     Size dimen = Application::get()->getDisplaySize();
@@ -64,7 +64,7 @@ bool EndMenu::init(const std::shared_ptr<cugl::AssetManager> &assets) {
 /**
  * Disposes of all (non-static) resources allocated to this mode.
  */
-void EndMenu::dispose() {
+void EndLevelMenu::dispose() {
     Scene2::dispose();
     _replay = nullptr;
     _level = nullptr;
@@ -81,7 +81,7 @@ void EndMenu::dispose() {
  *
  * @param value whether the scene is currently active
  */
-void EndMenu::setActive(bool value){
+void EndLevelMenu::setActive(bool value){
     Scene2::setActive(value);
     if (value) {
         _choice = NONE;

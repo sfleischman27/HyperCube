@@ -9,7 +9,7 @@
 #define EndMenu_h
 #include <cugl/cugl.h>
 
-class EndMenu : public cugl::Scene2 {
+class EndLevelMenu : public cugl::Scene2 {
 public:
     enum Choice {
         /** User has not yet made a choice */
@@ -55,7 +55,7 @@ public:
      * This constructor does not allocate any objects or start the game.
      * This allows us to use the object without a heap pointer.
      */
-    EndMenu() : Scene2() {}
+    EndLevelMenu() : Scene2() {}
     
     /**
      * Disposes of all (non-static) resources allocated to this mode.
@@ -63,7 +63,7 @@ public:
      * This method is different from dispose() in that it ALSO shuts off any
      * static resources, like the input controller.
      */
-    ~EndMenu() { dispose(); }
+    ~EndLevelMenu() { dispose(); }
     
     /**
      * Disposes of all (non-static) resources allocated to this mode.
