@@ -49,7 +49,6 @@ public:
 #include "shaders/fsq.frag"
 	;
 
-	int levelId;
 	const float epsilon = 0.001f;
 	const int insideTex = 0;
 	const int fsqTex = 1;
