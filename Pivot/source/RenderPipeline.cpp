@@ -17,9 +17,6 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     // Asset manager
     this->assets = assets;
 
-    // Setup current level id
-    levelId = 0;
-
     // For cut texture transform
     storePlayerPos = Vec2(0, 0);
     prevPlayerPos = Vec2(0, 0);
@@ -88,9 +85,6 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
 
 void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
 
-    // Hardcode level id
-    levelId = 1;
-
     // Get mesh
     _mesh = *model->getMesh();
 
@@ -148,12 +142,6 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 }
 
 void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
-
-    // --------------- Pass -1: Setup --------------- //
-    // If new level, reload vertex and index data
-    if (levelId == 0) {
-        sceneSetup(model); // sceneSetup should only be called through gameplayController; this should not be here
-    }
 
     // Update camera
     Vec3 n = model->getPlaneNorm();
