@@ -18,6 +18,7 @@
     "glowsticks": 4,
     "col": {},
     "deco": {},
-    "mesh": "meshes/pack_debugging/First_Level_0000_col_0000.obj",
+    "lights": [],
+    "mesh": "meshes/pack_debugging/First_Level_0000_col.obj",
     "deco_mesh": []
 }
