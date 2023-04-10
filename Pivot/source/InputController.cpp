@@ -35,11 +35,17 @@ using namespace cugl;
 #define LISTENER_KEY      1
 
 /** This defines the joystick "deadzone" (how far we must move) */
-#define JSTICK_DEADZONE  15
+#define JSTICK_DEADZONE  1
 /** This defines the joystick radial size (for reseting the anchor) */
 #define JSTICK_RADIUS    25
 /** How far to display the virtual joystick above the finger */
 #define JSTICK_OFFSET    80
+/** This defines the joystick "deadzone" (how far we must move) */
+#define CUT_JSTICK_DEADZONE  1
+/** This defines the joystick radial size (for reseting the anchor) */
+#define CUT_JSTICK_RADIUS    25
+/** How far to display the virtual joystick above the finger */
+#define CUT_JSTICK_OFFSET    80
 /** How far we must swipe up for a jump gesture */
 #define SWIPE_LENGTH    50
 /** How fast a double click must be in milliseconds */
@@ -405,16 +411,16 @@ void InputController::processCutJoystick(const cugl::Vec2 pos, TouchInstance loc
     Vec2 diff =  loc.position-pos;
 
     // Reset the anchor if we drifted too far
-    if (diff.lengthSquared() > JSTICK_RADIUS*JSTICK_RADIUS) {
+    if (diff.lengthSquared() > CUT_JSTICK_RADIUS*CUT_JSTICK_RADIUS) {
         diff.normalize();
-        diff *= (JSTICK_RADIUS+JSTICK_DEADZONE)/2;
+        diff *= (CUT_JSTICK_RADIUS+CUT_JSTICK_DEADZONE)/2;
         loc.position = pos+diff;
     }
     _mtouch.position.y = pos.y;
     _cutjoycenter = touch2Screen(_mtouch.position);
-    _cutjoycenter.y += JSTICK_OFFSET;
+    _cutjoycenter.y += CUT_JSTICK_OFFSET;
     
-    if (std::fabsf(diff.x) > JSTICK_DEADZONE) {
+    if (std::fabsf(diff.x) > CUT_JSTICK_DEADZONE) {
         _joystick = true;
         if (diff.x > 0) {
             _keyIncreaseCut = true;
@@ -487,14 +493,14 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
         case Zone::LEFT:
             // Only process if no touch in zone
             if (_ltouch.touchids.empty()) {
-//                // Left is the floating joystick
-//                _ltouch.position = event.position;
-//                _ltouch.timestamp.mark();
-//                _ltouch.touchids.insert(event.touch);
-//
-//                _joystick = true;
-//                _joycenter = touch2Screen(event.position);
-//                _joycenter.y += JSTICK_OFFSET;
+                // Left is the floating joystick
+                _ltouch.position = event.position;
+                _ltouch.timestamp.mark();
+                _ltouch.touchids.insert(event.touch);
+
+                _joystick = true;
+                _joycenter = touch2Screen(event.position);
+                _joycenter.y += JSTICK_OFFSET;
             }
             break;
         case Zone::RIGHT:
@@ -592,8 +598,8 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
     Vec2 pos = event.position;
     // Only check for swipes in the main zone if there is more than one finger.
     if (_ltouch.touchids.find(event.touch) != _ltouch.touchids.end()) {
-//        processJoystick(pos);
-        processCutJoystick(pos, _ltouch);
+        processJoystick(pos);
+//        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         processCutJoystick(pos, _rtouch);
 //        if (!_hasJumped) {
