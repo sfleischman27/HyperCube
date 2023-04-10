@@ -26,7 +26,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
 
     // FBO setup
     fbo.init(screenSize.width, screenSize.height);
-    fbo.setClearColor(Color4f::MAGENTA);
+    fbo.setClearColor(Color4f::WHITE);
 
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);

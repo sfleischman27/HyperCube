@@ -296,6 +296,10 @@ public:
         }
     }
     
+    void clearCollectibles() {
+        _collectibles = std::unordered_map<std::string, Collectible>();
+    }
+    
     void setExpectedCol(std::unordered_set<std::string> expectedCol) {
         _expectedCol = expectedCol;
     }

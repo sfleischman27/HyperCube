@@ -319,14 +319,7 @@ void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obsta
  * This method disposes of the world and creates a new one.
  */
 void GameplayController::reset() {
-    _physics->clear();
-    _worldnode->removeAllChildren();
-    _debugnode->removeAllChildren();
-    _state = NONE;
-    // TODO: should anything else be cleared?
     load(_model->getName());
-    addChild(_worldnode);
-    addChild(_debugnode);
 }
 
 /**
@@ -335,15 +328,23 @@ void GameplayController::reset() {
  * @param name    the name of the level to be loaded (key in assets file)
  */
 void GameplayController::load(std::string name){
+    _state = NONE;
+    // reset physics
+    _physics->clear();
     // update model
     _data->initGameModel(name, _model);
+    // add person object
+    _model->_player->setPosition(Vec2::ZERO);
+    prevPlay2DPos = Vec2::ZERO;
+    _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
     _plane->init(_model);
     _plane->calculateCut();
-    // update physics for new model
+    // update physics for new cut
     createCutObstacles();
-    _physics->getWorld()->addObstacle(_model->_player);
-    // TODO: add more things here if needed
+    _physics->update(0);
+    // setup graphics pipeline
+    _pipeline->sceneSetup(_model);
 }
 
 /**

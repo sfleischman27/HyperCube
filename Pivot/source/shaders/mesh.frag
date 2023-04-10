@@ -15,12 +15,12 @@ uniform sampler2D uTexture;
 uniform vec3 uDirection;
 
 void main(void) {
-	vec3 transNormal = normalize(outNormal.xyz * 2.0 - vec3(1.0, 1.0, 1.0));
-    float cullOutside = 0.0; // set to 0.0 for cuts, set to 999.0 for visualization
-	if (dot(uDirection, transNormal) >= cullOutside) {
+	vec3 transNormal = outNormal;//why undo this when u did in .vert//normalize(outNormal.xyz * 2.0 - vec3(1.0, 1.0, 1.0));
+    float cullOutside = 0.1; // set to 0.0 for cuts, set to 999.0 for visualization
+	if (dot(uDirection, transNormal) <= cullOutside) {
         frag_color = vec4(1.0, 0.0, 1.0, 1.0);
     } else {
-		frag_color = texture(uTexture, outTexCoord) * .5 + vec4(.5, .5, .5, 1.0) * .5;
+		frag_color = texture(uTexture, outTexCoord);//this desaturates color// * .5 + vec4(.5, .5, .5, 1.0) * .5;
 
 		// TODO added depth stuff here but should use a depth buffer in FSQ
 		float d = -(Mv * pos).z;

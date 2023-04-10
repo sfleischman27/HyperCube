@@ -15,6 +15,7 @@ uniform vec2 transOffset;
 uniform vec2 screenSize;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
+	return false;
 	// remove this function to remove denoising
 	vec4 cur = texture(fsqTexture, outTexCoord);
 	if (cur == vec4(1.0, 0.0, 0.0, 1.0)) {
