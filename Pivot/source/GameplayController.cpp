@@ -343,6 +343,8 @@ void GameplayController::load(std::string name){
     // update physics for new cut
     createCutObstacles();
     _physics->update(0);
+    // setup graphics pipeline
+    _pipeline->sceneSetup(_model);
 }
 
 /**
