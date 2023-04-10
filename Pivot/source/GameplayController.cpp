@@ -148,6 +148,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     _debugnode->setPosition(offset);
     
+    setDebug(_debug);
+    
 #pragma mark ADD WALL COLLIDERS FROM CUT
     
     //MUST be done before anything else is added to _worldnode
