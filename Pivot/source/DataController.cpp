@@ -75,6 +75,8 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     }
     model->setCollectibles(locs, texs);
     
+    model->clearGlowsticks();
+    
     std::string level_id = constants->getString("level_id");
     model->setName(level_id);
     

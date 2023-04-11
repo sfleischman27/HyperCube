@@ -300,6 +300,10 @@ public:
         _collectibles = std::unordered_map<std::string, Collectible>();
     }
     
+    void clearGlowsticks() {
+        _glowsticks = std::vector<Glowstick>();
+    }
+    
     void setExpectedCol(std::unordered_set<std::string> expectedCol) {
         _expectedCol = expectedCol;
     }
