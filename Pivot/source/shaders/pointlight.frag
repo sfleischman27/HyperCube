@@ -9,8 +9,11 @@ in vec2 outTexCoord;
 
 out vec4 frag_color;
 
+uniform sampler2D cutTexture;
+
 void main(void) {
-	frag_color = vec4(outTexCoord, 0.0, 1.0);
+	frag_color = texture(cutTexture, outTexCoord);
+	frag_color = vec4(0, 1, 0, 1);
 }
 
 /////////// SHADER END //////////)"

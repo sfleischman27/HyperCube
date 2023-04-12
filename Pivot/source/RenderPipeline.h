@@ -71,7 +71,7 @@ public:
 	const int insideTex = 0;
 	const int cutTex = 1;
 	const int outsideTex = 2;
-	const int depthTex = 3;
+	const int screenTex = 3;
 
 	// cugl utilized singletons
 	std::shared_ptr<AssetManager> assets;
@@ -94,6 +94,7 @@ public:
 	cugl::Mesh<PivotVertex3> _meshBill;
 	cugl::Mesh<PivotVertex3> _meshFsq;
 	cugl::RenderTarget fbo;
+	cugl::RenderTarget fbo2;
 
 	// textures
 	std::shared_ptr<Texture> cobbleTex;

@@ -24,6 +24,8 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     // FBO setup
     fbo.init(screenSize.width, screenSize.height);
     fbo.setClearColor(Color4f::WHITE);
+    fbo2.init(screenSize.width, screenSize.height);
+    fbo2.setClearColor(Color4f::RED);
 
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
@@ -213,6 +215,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     cobbleTex->setBindPoint(insideTex);
     fbo.getTexture()->setBindPoint(cutTex);
     earthTex->setBindPoint(outsideTex);
+    fbo2.getTexture()->setBindPoint(screenTex);
 
     // Outside texture translation
     if (model->_justFinishRotating) {
@@ -276,12 +279,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
         dro.tex->unbind();
     }
-    
+
     fbo.end();
     _vertbuffBill->unbind();
 
     // --------------- Pass 3: Cut --------------- //
     _vertbuffCut->bind();
+    fbo2.begin();
     fbo.getTexture()->bind();
     earthTex->bind();
 
@@ -297,4 +301,41 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     earthTex->unbind();
     fbo.getTexture()->unbind();
     _vertbuffCut->unbind();
+
+    // --------------- Pass 4: Pointlights --------------- //
+    _vertbuffPointlight->bind();
+    fbo.getTexture()->bind();
+
+    _shaderPointlight->setUniform1i("cutTexture", cutTex);
+    _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+
+    fbo.getTexture()->unbind();
+    _vertbuffPointlight->unbind();
+
+    // --------------- Pass 5: Fog --------------- //
+    _vertbuffFog->bind();
+    fbo.getTexture()->bind();
+
+    _shaderFog->setUniform1i("cutTexture", cutTex);
+    _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+
+    fbo.getTexture()->unbind();
+    fbo2.end();
+    _vertbuffFog->unbind();
+
+    // --------------- Pass 6: Screen --------------- //
+    _vertbuffScreen->bind();
+    fbo2.getTexture()->bind();
+
+    _shaderScreen->setUniform1i("screenTexture", screenTex);
+    _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffScreen->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+
+    fbo2.getTexture()->unbind();
+    _vertbuffScreen->unbind();
 }
