@@ -15,6 +15,7 @@
 
 class RenderPipeline {
 private:
+	// abstraction to draw billboards
 	struct DrawObject {
 		Vec3 pos;
 		Color4f col;
@@ -28,8 +29,6 @@ private:
 	};
 
 public:
-
-	const Size screenSize;
 	const std::string meshVert =
 #include "shaders/mesh.vert"
 	;
@@ -56,25 +55,28 @@ public:
 	;
 	const std::string fogVert =
 #include "shaders/fog.vert"
-		;
+	;
 	const std::string fogFrag =
 #include "shaders/fog.frag"
-		;
+	;
 	const std::string screenVert =
 #include "shaders/screen.vert"
-		;
+	;
 	const std::string screenFrag =
 #include "shaders/screen.frag"
-		;
+	;
 
+	// constants
 	const float epsilon = 0.001f;
 	const int insideTex = 0;
 	const int cutTex = 1;
 	const int outsideTex = 2;
-	const bool drawCut = false;
 
+	// cugl utilized singletons
 	std::shared_ptr<AssetManager> assets;
 	std::shared_ptr<cugl::OrthographicCamera> _camera;
+
+	// shaders, buffers, meshes, fbos
 	std::shared_ptr<cugl::Shader> _shader;
 	std::shared_ptr<cugl::Shader> _shaderBill;
 	std::shared_ptr<cugl::Shader> _shaderCut;
@@ -85,12 +87,17 @@ public:
 	cugl::Mesh<PivotVertex3> _meshBill;
 	cugl::Mesh<PivotVertex3> _meshCut;
 	cugl::RenderTarget fbo;
-	std::vector<std::shared_ptr<Texture>> backgrounds;
-	Vec2 prevPlayerPos;
-	Vec2 storePlayerPos;
+
+	// textures
 	std::shared_ptr<Texture> cobbleTex;
 	std::shared_ptr<Texture> earthTex;
 	std::vector<DrawObject> drawables;
+
+	// misc variables
+	const Size screenSize;
+	std::vector<std::shared_ptr<Texture>> backgrounds;
+	Vec2 prevPlayerPos;
+	Vec2 storePlayerPos;
 
 	/**
 	 * Construct the RenderPipeline
