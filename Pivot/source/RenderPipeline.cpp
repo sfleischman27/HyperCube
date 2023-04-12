@@ -57,15 +57,15 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
         offsetof(PivotVertex3, texcoord));
     _vertbuffBill->attach(_shaderBill);
 
-    // FSQ shader
-    _shaderFsq = Shader::alloc(SHADER(fsqVert), SHADER(fsqFrag));
+    // Cut shader
+    _shaderCut = Shader::alloc(SHADER(cutVert), SHADER(cutFrag));
 
-    _vertbuffFsq = VertexBuffer::alloc(sizeof(PivotVertex3));
-    _vertbuffFsq->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+    _vertbuffCut = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffCut->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, position));
-    _vertbuffFsq->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+    _vertbuffCut->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, texcoord));
-    _vertbuffFsq->attach(_shaderFsq);
+    _vertbuffCut->attach(_shaderCut);
 
     // Raw OpenGL commands
     glEnable(GL_BLEND);
@@ -88,23 +88,23 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     // Get mesh
     _mesh = *model->getMesh();
 
-    // Add all FSQ vertices
-    _meshFsq.clear();
+    // Add all FSQ-like vertices
+    _meshCut.clear();
     PivotVertex3 tempV;
     for (int n = 0; n < 2; n++) {
         for (int i = -1; i <= 1; i += 2) {
             for (int j = -1; j <= 1; j += 2) {
                 tempV.position = Vec3(i, j, 0.01);
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 1 : 0);
-                _meshFsq.vertices.push_back(tempV);
+                _meshCut.vertices.push_back(tempV);
             }
         }
     }
 
-    // Add all FSQ indices
+    // Add all FSQ-like indices
     for (int tri = 0; tri <= 1; tri++) {
         for (int i = 0; i < 3; i++) {
-            _meshFsq.indices.push_back(tri + i);
+            _meshCut.indices.push_back(tri + i);
         }
     }
 }
@@ -169,14 +169,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     int degreeAng = int(ang / degToRad);
     int localAng = degreeAng % repeatAngle;
     int index = localAng / repeat;
-    //CULog("%i", index);
 
     // Get texture objects
     earthTex = backgrounds[index];
 
     // Set bind points
     cobbleTex->setBindPoint(insideTex);
-    fbo.getTexture()->setBindPoint(fsqTex);
+    fbo.getTexture()->setBindPoint(cutTex);
     earthTex->setBindPoint(outsideTex);
 
     // Outside texture translation
@@ -245,21 +244,21 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo.end();
     _vertbuffBill->unbind();
 
-    // --------------- Pass 3: FSQ --------------- //
-    _vertbuffFsq->bind();
+    // --------------- Pass 3: Cut --------------- //
+    _vertbuffCut->bind();
     fbo.getTexture()->bind();
     earthTex->bind();
 
-    _shaderFsq->setUniformMat4("uPerspective", _camera->getCombined());
-    _shaderFsq->setUniform1i("fsqTexture", fsqTex);
-    _shaderFsq->setUniform1i("outsideTexture", outsideTex);
-    _shaderFsq->setUniformVec2("transOffset", transOffset);
-    _shaderFsq->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
-    _vertbuffFsq->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
-    _vertbuffFsq->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
-    _vertbuffFsq->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+    _shaderCut->setUniformMat4("uPerspective", _camera->getCombined());
+    _shaderCut->setUniform1i("cutTexture", cutTex);
+    _shaderCut->setUniform1i("outsideTexture", outsideTex);
+    _shaderCut->setUniformVec2("transOffset", transOffset);
+    _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
+    _vertbuffCut->loadVertexData(_meshCut.vertices.data(), (int)_meshCut.vertices.size());
+    _vertbuffCut->loadIndexData(_meshCut.indices.data(), (int)_meshCut.indices.size());
+    _vertbuffCut->draw(GL_TRIANGLES, (int)_meshCut.indices.size(), 0);
 
     earthTex->unbind();
     fbo.getTexture()->unbind();
-    _vertbuffFsq->unbind();
+    _vertbuffCut->unbind();
 }

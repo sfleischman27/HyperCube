@@ -42,16 +42,34 @@ public:
 	const std::string billboardFrag =
 #include "shaders/billboard.frag"
 	;
-	const std::string fsqVert =
-#include "shaders/fsq.vert"
+	const std::string cutVert =
+#include "shaders/cut.vert"
 	;
-	const std::string fsqFrag =
-#include "shaders/fsq.frag"
+	const std::string cutFrag =
+#include "shaders/cut.frag"
 	;
+	const std::string pointlightVert =
+#include "shaders/pointlight.vert"
+	;
+	const std::string pointlightFrag =
+#include "shaders/pointlight.frag"
+	;
+	const std::string fogVert =
+#include "shaders/fog.vert"
+		;
+	const std::string fogFrag =
+#include "shaders/fog.frag"
+		;
+	const std::string screenVert =
+#include "shaders/screen.vert"
+		;
+	const std::string screenFrag =
+#include "shaders/screen.frag"
+		;
 
 	const float epsilon = 0.001f;
 	const int insideTex = 0;
-	const int fsqTex = 1;
+	const int cutTex = 1;
 	const int outsideTex = 2;
 	const bool drawCut = false;
 
@@ -59,13 +77,13 @@ public:
 	std::shared_ptr<cugl::OrthographicCamera> _camera;
 	std::shared_ptr<cugl::Shader> _shader;
 	std::shared_ptr<cugl::Shader> _shaderBill;
-	std::shared_ptr<cugl::Shader> _shaderFsq;
+	std::shared_ptr<cugl::Shader> _shaderCut;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuff;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBill;
-	std::shared_ptr<cugl::VertexBuffer> _vertbuffFsq;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffCut;
 	cugl::Mesh<PivotVertex3> _mesh;
 	cugl::Mesh<PivotVertex3> _meshBill;
-	cugl::Mesh<PivotVertex3> _meshFsq;
+	cugl::Mesh<PivotVertex3> _meshCut;
 	cugl::RenderTarget fbo;
 	std::vector<std::shared_ptr<Texture>> backgrounds;
 	Vec2 prevPlayerPos;
