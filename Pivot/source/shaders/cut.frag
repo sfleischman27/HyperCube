@@ -31,6 +31,8 @@ void main(void) {
 		// End temp
 
 		frag_color = texture(outsideTexture, transTexCoord);
+	} else {
+		discard;
 	}
 	//frag_color.a = .5;
 }

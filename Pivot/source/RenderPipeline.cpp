@@ -25,7 +25,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     fbo.init(screenSize.width, screenSize.height);
     fbo.setClearColor(Color4f::WHITE);
     fbo2.init(screenSize.width, screenSize.height);
-    fbo2.setClearColor(Color4f::WHITE);
+    fbo2.setClearColor(Color4f::BLACK);
 
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
@@ -283,12 +283,40 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo.end();
     _vertbuffBill->unbind();
 
-    // --------------- Pass 3: Cut --------------- //
-    /*
-    _vertbuffCut->bind();
+    // --------------- Pass 3: Pointlights --------------- //
+    int numLights = 1;
+    glDisable(GL_DEPTH_TEST);
+    _vertbuffPointlight->bind();
     fbo2.begin();
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    fbo.getTexture()->bind();
+
+    _shaderPointlight->setUniform1i("numLights", numLights);
+    numLights++;
+    _shaderPointlight->setUniform1i("cutTexture", cutTex);
+    _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+
+    fbo.getTexture()->unbind();
+    _vertbuffPointlight->unbind();
+
+    // --------------- Pass 4: Fog --------------- //
+    _vertbuffFog->bind();
+    fbo.getTexture()->bind();
+
+    _shaderFog->setUniform1i("numLights", numLights);
+    numLights++;
+    _shaderFog->setUniform1i("cutTexture", cutTex);
+    _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+
+    fbo.getTexture()->unbind();
+    _vertbuffFog->unbind();
+
+    // --------------- Pass 5: Cut --------------- //
+    _vertbuffCut->bind();
+    glEnable(GL_DEPTH_TEST);
     fbo.getTexture()->bind();
     earthTex->bind();
 
@@ -303,35 +331,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     earthTex->unbind();
     fbo.getTexture()->unbind();
-    _vertbuffCut->unbind();*/
-
-    // --------------- Pass 4: Pointlights --------------- //
-    _vertbuffPointlight->bind();
-    fbo2.begin();
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    fbo.getTexture()->bind();
-
-    _shaderPointlight->setUniform1i("cutTexture", cutTex);
-    _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
-    _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
-    _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
-
-    fbo.getTexture()->unbind();
-    _vertbuffPointlight->unbind();
-
-    // --------------- Pass 5: Fog --------------- //
-    _vertbuffFog->bind();
-    fbo.getTexture()->bind();
-
-    _shaderFog->setUniform1i("cutTexture", cutTex);
-    _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
-    _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
-    _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
-
-    fbo.getTexture()->unbind();
     fbo2.end();
-    _vertbuffFog->unbind();
+    _vertbuffCut->unbind();
 
     // --------------- Pass 6: Screen --------------- //
     _vertbuffScreen->bind();
