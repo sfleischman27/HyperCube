@@ -25,7 +25,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     fbo.init(screenSize.width, screenSize.height);
     fbo.setClearColor(Color4f::WHITE);
     fbo2.init(screenSize.width, screenSize.height);
-    fbo2.setClearColor(Color4f::RED);
+    fbo2.setClearColor(Color4f::WHITE);
 
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
@@ -132,7 +132,7 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     for (int n = 0; n < 2; n++) {
         for (int i = -1; i <= 1; i += 2) {
             for (int j = -1; j <= 1; j += 2) {
-                tempV.position = Vec3(i, j, 0.01);
+                tempV.position = Vec3(i, j, 0);
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 1 : 0);
                 _meshFsq.vertices.push_back(tempV);
             }
@@ -284,8 +284,11 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBill->unbind();
 
     // --------------- Pass 3: Cut --------------- //
+    /*
     _vertbuffCut->bind();
     fbo2.begin();
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     fbo.getTexture()->bind();
     earthTex->bind();
 
@@ -300,10 +303,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     earthTex->unbind();
     fbo.getTexture()->unbind();
-    _vertbuffCut->unbind();
+    _vertbuffCut->unbind();*/
 
     // --------------- Pass 4: Pointlights --------------- //
     _vertbuffPointlight->bind();
+    fbo2.begin();
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     fbo.getTexture()->bind();
 
     _shaderPointlight->setUniform1i("cutTexture", cutTex);

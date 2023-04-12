@@ -13,7 +13,7 @@ uniform sampler2D cutTexture;
 
 void main(void) {
 	frag_color = texture(cutTexture, outTexCoord);
-	frag_color = vec4(0, 1, 0, 1);
+	//frag_color = vec4(0, 0, 1, .5);
 }
 
 /////////// SHADER END //////////)"

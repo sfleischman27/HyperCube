@@ -32,6 +32,7 @@ void main(void) {
 
 		frag_color = texture(outsideTexture, transTexCoord);
 	}
+	//frag_color.a = .5;
 }
 
 /////////// SHADER END //////////)"
