@@ -31,9 +31,30 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     _camera->setZoom(2);
     _camera->update();
 
+    // Shader setup
+    constructShaders();
+
+    // Raw OpenGL commands
+    glEnable(GL_BLEND);
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    //glEnable(GL_CULL_FACE);
+
+    // Set up textures
+    cobbleTex = assets->get<Texture>("cobble");
+    backgrounds = {};
+    for (int i = 1; i <= 14; i++) {
+        backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
+    }
+}
+
+void RenderPipeline::constructShaders() {
+
     // Mesh shader
-	_shader = Shader::alloc(SHADER(meshVert), SHADER(meshFrag));
-	_shader->setUniformMat4("uPerspective", _camera->getCombined());
+    _shader = Shader::alloc(SHADER(meshVert), SHADER(meshFrag));
+    _shader->setUniformMat4("uPerspective", _camera->getCombined());
 
     _vertbuff = VertexBuffer::alloc(sizeof(PivotVertex3));
     _vertbuff->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
@@ -42,12 +63,12 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
         offsetof(PivotVertex3, texcoord));
     _vertbuff->setupAttribute("aNormal", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, normal));
-	_vertbuff->attach(_shader);
+    _vertbuff->attach(_shader);
 
     // Billboard shader
     _shaderBill = Shader::alloc(SHADER(billboardVert), SHADER(billboardFrag));
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
-    
+
     _vertbuffBill = VertexBuffer::alloc(sizeof(PivotVertex3));
     _vertbuffBill->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, position));
@@ -67,20 +88,35 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
         offsetof(PivotVertex3, texcoord));
     _vertbuffCut->attach(_shaderCut);
 
-    // Raw OpenGL commands
-    glEnable(GL_BLEND);
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_DEPTH_TEST);
-    glDepthMask(GL_TRUE);
-    //glEnable(GL_CULL_FACE);
+    // Pointlight shader
+    _shaderPointlight = Shader::alloc(SHADER(pointlightVert), SHADER(pointlightFrag));
 
-    // Set up textures
-    cobbleTex = assets->get<Texture>("cobble");
-    backgrounds = {};
-    for (int i = 1; i <= 14; i++) {
-        backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
-    }
+    _vertbuffPointlight = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffPointlight->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffPointlight->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffPointlight->attach(_shaderPointlight);
+
+    // Fog shader
+    _shaderFog = Shader::alloc(SHADER(fogVert), SHADER(fogFrag));
+
+    _vertbuffFog = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffFog->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffFog->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffFog->attach(_shaderFog);
+
+    // Screen shader
+    _shaderScreen = Shader::alloc(SHADER(screenVert), SHADER(screenFrag));
+
+    _vertbuffScreen = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffScreen->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffScreen->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffScreen->attach(_shaderScreen);
 }
 
 void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
@@ -89,14 +125,14 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     _mesh = *model->getMesh();
 
     // Add all FSQ-like vertices
-    _meshCut.clear();
+    _meshFsq.clear();
     PivotVertex3 tempV;
     for (int n = 0; n < 2; n++) {
         for (int i = -1; i <= 1; i += 2) {
             for (int j = -1; j <= 1; j += 2) {
                 tempV.position = Vec3(i, j, 0.01);
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 1 : 0);
-                _meshCut.vertices.push_back(tempV);
+                _meshFsq.vertices.push_back(tempV);
             }
         }
     }
@@ -104,7 +140,7 @@ void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
     // Add all FSQ-like indices
     for (int tri = 0; tri <= 1; tri++) {
         for (int i = 0; i < 3; i++) {
-            _meshCut.indices.push_back(tri + i);
+            _meshFsq.indices.push_back(tri + i);
         }
     }
 }
@@ -254,9 +290,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniform1i("outsideTexture", outsideTex);
     _shaderCut->setUniformVec2("transOffset", transOffset);
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
-    _vertbuffCut->loadVertexData(_meshCut.vertices.data(), (int)_meshCut.vertices.size());
-    _vertbuffCut->loadIndexData(_meshCut.indices.data(), (int)_meshCut.indices.size());
-    _vertbuffCut->draw(GL_TRIANGLES, (int)_meshCut.indices.size(), 0);
+    _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
     earthTex->unbind();
     fbo.getTexture()->unbind();

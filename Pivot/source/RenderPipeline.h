@@ -71,6 +71,7 @@ public:
 	const int insideTex = 0;
 	const int cutTex = 1;
 	const int outsideTex = 2;
+	const int depthTex = 3;
 
 	// cugl utilized singletons
 	std::shared_ptr<AssetManager> assets;
@@ -80,12 +81,18 @@ public:
 	std::shared_ptr<cugl::Shader> _shader;
 	std::shared_ptr<cugl::Shader> _shaderBill;
 	std::shared_ptr<cugl::Shader> _shaderCut;
+	std::shared_ptr<cugl::Shader> _shaderPointlight;
+	std::shared_ptr<cugl::Shader> _shaderFog;
+	std::shared_ptr<cugl::Shader> _shaderScreen;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuff;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBill;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffCut;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffPointlight;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffFog;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffScreen;
 	cugl::Mesh<PivotVertex3> _mesh;
 	cugl::Mesh<PivotVertex3> _meshBill;
-	cugl::Mesh<PivotVertex3> _meshCut;
+	cugl::Mesh<PivotVertex3> _meshFsq;
 	cugl::RenderTarget fbo;
 
 	// textures
@@ -103,6 +110,11 @@ public:
 	 * Construct the RenderPipeline
 	 */
 	RenderPipeline(int screenWidth, const Size& displaySize, const std::shared_ptr<AssetManager>& assets);
+
+	/**
+	 * Initializes shaders and vertex buffers
+	 */
+	void constructShaders();
 
 	/**
 	 * Sets up the scene
