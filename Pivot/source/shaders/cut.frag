@@ -11,12 +11,12 @@ out vec4 frag_color;
 
 uniform sampler2D cutTexture;
 uniform sampler2D outsideTexture;
-uniform sampler2D depthTexture;
+uniform sampler2D dataTexture;
 uniform vec2 transOffset;
 uniform vec2 screenSize;
 
 void main(void) {
-	if (texture(depthTexture, outTexCoord).g == 1.0) {
+	if (texture(dataTexture, outTexCoord).g == 1.0) {
 
         // TEMP: layer tex coords
 		vec2 transTexCoord;

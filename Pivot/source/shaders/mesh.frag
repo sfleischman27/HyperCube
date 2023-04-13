@@ -21,7 +21,7 @@ void main(void) {
     float cullOutside = 0.0; // set to 0.0 for cuts, set to 999.0 for visualization
 	if (dot(uDirection, transNormal) <= cullOutside) {
         frag_color = vec4(1.0, 0.0, 1.0, 1.0);
-		frag_data = vec4(gl_FragCoord.z, 1.0, 0.0, 1.0);
+		frag_data = vec4(gl_FragCoord.z, 0.5, 0.0, 1.0);
     } else {
 		frag_color = texture(uTexture, outTexCoord);//this desaturates color// * .5 + vec4(.5, .5, .5, 1.0) * .5;
 

@@ -285,7 +285,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBill->unbind();
 
     // --------------- Pass 3: Pointlights --------------- //
-    int numLights = 1;
     glDisable(GL_DEPTH_TEST);
     glBlendFunc(GL_ONE, GL_ONE);
     _vertbuffPointlight->bind();
@@ -294,10 +293,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo.getTexture(1)->bind();
     fbo.getTexture(2)->bind();
 
-    _shaderPointlight->setUniform1i("numLights", numLights);
-    numLights++;
     _shaderPointlight->setUniform1i("cutTexture", fbo.getTexture(0)->getBindPoint());
-    _shaderPointlight->setUniform1i("depthTexture", fbo.getTexture(1)->getBindPoint());
+    _shaderPointlight->setUniform1i("dataTexture", fbo.getTexture(1)->getBindPoint());
     _shaderPointlight->setUniform1i("normalTexture", fbo.getTexture(2)->getBindPoint());
     _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
@@ -314,10 +311,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo.getTexture(1)->bind();
     fbo.getTexture(2)->bind();
 
-    _shaderFog->setUniform1i("numLights", numLights);
-    numLights++;
     _shaderFog->setUniform1i("cutTexture", fbo.getTexture(0)->getBindPoint());
-    _shaderFog->setUniform1i("depthTexture", fbo.getTexture(1)->getBindPoint());
+    _shaderFog->setUniform1i("dataTexture", fbo.getTexture(1)->getBindPoint());
     _shaderFog->setUniform1i("normalTexture", fbo.getTexture(2)->getBindPoint());
     _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
@@ -339,7 +334,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderCut->setUniform1i("cutTexture", fbo.getTexture(0)->getBindPoint());
     _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
-    _shaderCut->setUniform1i("depthTexture", fbo.getTexture(1)->getBindPoint());
+    _shaderCut->setUniform1i("dataTexture", fbo.getTexture(1)->getBindPoint());
     _shaderCut->setUniformVec2("transOffset", transOffset);
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());

@@ -9,7 +9,7 @@ in vec4 pos;
 in vec2 outTexCoord;
 
 layout (location = 0) out vec4 frag_color;
-layout (location = 1) out vec4 frag_data; // depth, tocut, N/A, N/
+layout (location = 1) out vec4 frag_data; // depth, tocut, N/A, 1.0
 layout (location = 2) out vec4 frag_normal;
 
 uniform mat4 Mv;
