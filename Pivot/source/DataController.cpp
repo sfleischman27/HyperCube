@@ -77,26 +77,6 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     
     model->clearGlowsticks();
     
-    model->clearLights();
-    std::shared_ptr<cugl::JsonValue> lights = constants->get("lights");
-    it = lights->size();
-    for (int i = 0; i < it; i ++){
-        Vec3 color;
-        color.x = lights->get(std::to_string(i))->get("color")->get(0)->asFloat();
-        color.y = lights->get(std::to_string(i))->get("color")->get(1)->asFloat();
-        color.z = lights->get(std::to_string(i))->get("color")->get(2)->asFloat();
-        
-        Vec3 loc;
-        loc.x = lights->get(std::to_string(i))->get("loc")->get(0)->asFloat();
-        loc.y = lights->get(std::to_string(i))->get("loc")->get(1)->asFloat();
-        loc.z = lights->get(std::to_string(i))->get("loc")->get(2)->asFloat();
-        
-        float intensity = lights->get(std::to_string(i))->get("intensity")->asFloat();
-        
-        GameModel::Light light = GameModel::Light(color, intensity, loc);
-        model->_lights.push_back(light);
-    }
-    
     std::string level_id = constants->getString("level_id");
     model->setName(level_id);
     

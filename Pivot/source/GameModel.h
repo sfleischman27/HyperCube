@@ -79,27 +79,10 @@ public:
     /** Vector of glowsticks */
     std::vector<Glowstick> _glowsticks;
     
-#pragma mark Meshs
+#pragma mark Mesh
 public:
     /** Level mesh object */
     std::shared_ptr<PivotMesh> _mesh;
-    
-#pragma mark Lights
-public:
-    // Light objects
-    struct Light {
-        Vec3 color;
-        float intensity;
-        Vec3 loc;
-
-        Light(Vec3 color, float intensity, Vec3 loc) {
-            this->color = color;
-            this->intensity = intensity;
-            this->loc = loc;
-        }
-    };
-    /** Vector of lights */
-    std::vector<Light> _lights;
     
 #pragma mark Main Functions
 public:
@@ -319,10 +302,6 @@ public:
     
     void clearGlowsticks() {
         _glowsticks = std::vector<Glowstick>();
-    }
-    
-    void clearLights() {
-        _lights = std::vector<Light>();
     }
     
     void setExpectedCol(std::unordered_set<std::string> expectedCol) {
