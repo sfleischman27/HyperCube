@@ -12,18 +12,43 @@
 using namespace cugl;
 
 /**
- * Initializes the game model contents
+ *  Loads a new level (loads new meshes)
  *
- * @param assets    The (loaded) assets for this game mode
- * @param level      The locaiton of the level json to be loaded
- * @param model      The game model to load the level data into
+ *  @param level    The location of the level json to be loaded
+ *  @param model    The game model to load the level data into
  *
- * @return true if the game model is initialized properly, false otherwise.
+ *  @return true if the controller is initialized properly, false otherwise.
  */
-bool DataController::initGameModel(std::string level, const std::shared_ptr<GameModel>& model) {
+bool DataController::loadGameModel(std::string level, const std::shared_ptr<GameModel>& model) {
     
+    // get the level json
     std::shared_ptr<cugl::JsonValue> constants = _assets->get<JsonValue>(level);
     
+    // load the new meshes
+    CULog("%s", Application::get()->getAssetDirectory().c_str());
+    std::string assetDirectoryPath = Application::get()->getAssetDirectory();
+    std::string meshPath = constants->getString("mesh");
+    assetDirectoryPath.append(meshPath);
+    model->_mesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
+    
+    // call reset game model
+    return resetGameModel(level, model);
+}
+
+/**
+ *  Resets current level (no new meshes)
+ *
+ *  @param level    The location of the level json to be loaded
+ *  @param model    The game model to load the level data into
+ *
+ *  @return true if the model is initialized properly, false otherwise.
+ */
+bool DataController::resetGameModel(std::string level, const std::shared_ptr<GameModel>& model){
+    
+    // get the level json
+    std::shared_ptr<cugl::JsonValue> constants = _assets->get<JsonValue>(level);
+    
+    // get and set player location
     Vec3 playerLoc;
     playerLoc.x = constants->get("player_loc")->get(0)->asFloat();
     playerLoc.y = constants->get("player_loc")->get(1)->asFloat();
@@ -35,14 +60,14 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     
     model->setPlayer3DLoc(playerLoc);
     
+    // get and set plane normal
     Vec3 norm;
     norm.x = constants->get("norm")->get(0)->asFloat();
     norm.y = constants->get("norm")->get(1)->asFloat();
     norm.z = constants->get("norm")->get(2)->asFloat();
     model->setInitPlaneNorm(norm);
     
-    //model->setPlaneNorm(norm);
-    
+    // get and set exit location and texture
     Vec3 exit;
     exit.x = constants->get("exit")->get(0)->asFloat();
     exit.y = constants->get("exit")->get(1)->asFloat();
@@ -51,13 +76,7 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     
     model->setExitTex(_assets->get<Texture>("exit"));
     
-    //CULog(std::filesystem::current_path().c_str());
-    CULog("%s", Application::get()->getAssetDirectory().c_str());
-    std::string assetDirectoryPath = Application::get()->getAssetDirectory();
-    std::string meshPath = constants->getString("mesh");
-    assetDirectoryPath.append(meshPath);
-    model->_mesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
-    
+    // get and set collectibles
     model->clearCollectibles();
     std::vector<Vec3> locs;
     std::vector<std::shared_ptr<cugl::Texture>> texs;
@@ -75,24 +94,36 @@ bool DataController::initGameModel(std::string level, const std::shared_ptr<Game
     }
     model->setCollectibles(locs, texs);
     
+    // clear glowsticks
     model->clearGlowsticks();
+
+    // get and set light sources
+    model->clearLights();
+    std::shared_ptr<cugl::JsonValue> lights = constants->get("lights");
+    it = lights->size();
+    for (int i = 0; i < it; i ++){
+        Vec3 color;
+        color.x = lights->get(std::to_string(i))->get("color")->get(0)->asFloat();
+        color.y = lights->get(std::to_string(i))->get("color")->get(1)->asFloat();
+        color.z = lights->get(std::to_string(i))->get("color")->get(2)->asFloat();
+        
+        Vec3 loc;
+        loc.x = lights->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+        loc.y = lights->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+        loc.z = lights->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+        
+        float intensity = lights->get(std::to_string(i))->get("intensity")->asFloat();
+        
+        GameModel::Light light = GameModel::Light(color, intensity, loc);
+        model->_lights.push_back(light);
+    }
     
+    // get and set level id
     std::string level_id = constants->getString("level_id");
     model->setName(level_id);
     
     return true;
 }
 
-/**
- * Initializes the gameUI
- *
- * @return true if the controller is initialized properly, false otherwise.
- */
-bool DataController::initGameUI() {
-    
-    _assets->loadDirectory("json/pivot_gameUI.json");
-    
-    auto layer = _assets->get<cugl::scene2::SceneNode>("lab");
-    
-    return true;
-}
+
+

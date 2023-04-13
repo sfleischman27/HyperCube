@@ -79,6 +79,23 @@ public:
     /** Vector of glowsticks */
     std::vector<Glowstick> _glowsticks;
     
+#pragma mark Lights
+public:
+    // Light objects
+    struct Light {
+        Vec3 color;
+        float intensity;
+        Vec3 loc;
+
+        Light(Vec3 color, float intensity, Vec3 loc) {
+            this->color = color;
+            this->intensity = intensity;
+            this->loc = loc;
+        }
+    };
+    /** Vector of lights */
+    std::vector<Light> _lights;
+    
 #pragma mark Mesh
 public:
     /** Level mesh object */
@@ -89,7 +106,11 @@ public:
     /**
      * Creates the model state.
      */
-    GameModel() {}
+    GameModel() {
+        _collectibles = std::unordered_map<std::string, Collectible>();
+        _glowsticks = std::vector<Glowstick>();
+        _lights = std::vector<Light>();
+    }
     
 #pragma mark Getters and Setters
 public:
@@ -297,13 +318,18 @@ public:
     }
     
     void clearCollectibles() {
-        _collectibles = std::unordered_map<std::string, Collectible>();
+        _collectibles.clear();
     }
     
     void clearGlowsticks() {
-        _glowsticks = std::vector<Glowstick>();
+        _glowsticks.clear();
     }
     
+
+    void clearLights() {
+        _lights.clear();
+    }
+
     void setExpectedCol(std::unordered_set<std::string> expectedCol) {
         _expectedCol = expectedCol;
     }

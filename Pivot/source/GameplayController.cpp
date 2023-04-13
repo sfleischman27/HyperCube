@@ -114,7 +114,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _model = std::make_shared<GameModel>(GameModel());
     _data = std::make_shared<DataController>(DataController());
     _data->init(_assets);
-    _data->initGameModel("levelTest", _model);
+    _data->loadGameModel("levelTest", _model);
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
@@ -317,11 +317,25 @@ void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obsta
 
 /**
  * Resets the current level
- *
- * This method disposes of the world and creates a new one.
  */
 void GameplayController::reset() {
-    load(_model->getName());
+    _state = NONE;
+    // reset physics
+    _physics->clear();
+    // reset model
+    _data->resetGameModel(_model->getName(), _model);
+    // add person object
+    _model->_player->setPosition(Vec2::ZERO);
+    prevPlay2DPos = Vec2::ZERO;
+    _physics->getWorld()->addObstacle(_model->_player);
+    // change plane for new model
+    _plane->init(_model);
+    _plane->calculateCut();
+    // update physics for new cut
+    createCutObstacles();
+    _physics->update(0);
+    // setup graphics pipeline
+    _pipeline->sceneSetup(_model);
 }
 
 /**
@@ -334,7 +348,7 @@ void GameplayController::load(std::string name){
     // reset physics
     _physics->clear();
     // update model
-    _data->initGameModel(name, _model);
+    _data->loadGameModel(name, _model);
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     prevPlay2DPos = Vec2::ZERO;

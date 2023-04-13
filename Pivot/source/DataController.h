@@ -60,21 +60,25 @@ public:
     };
     
     /**
-     * Initializes the game model contents
+     * Loads a new level
      *
-     * @param level      The locaiton of the level json to be loaded
-     * @param model      The game model to load the level data into
+     *  @param level    The location of the level json to be loaded
+     *  @param model    The game model to load the level data into
      *
-     * @return true if the controller is initialized properly, false otherwise.
+     *  @return true if the controller is initialized properly, false otherwise.
      */
-    bool initGameModel(std::string level, const std::shared_ptr<GameModel>& model);
+    bool loadGameModel(std::string level, const std::shared_ptr<GameModel>& model);
     
     /**
-     * Initializes the gameUI
+     * Resets current level
      *
-     * @return true if the controller is initialized properly, false otherwise.
+     *  @param level    The location of the level json to be loaded
+     *  @param model    The game model to load the level data into
+     *
+     *  @return true if the model is initialized properly, false otherwise.
      */
-    bool initGameUI();
+    bool resetGameModel(std::string level, const std::shared_ptr<GameModel>& model);
+    
     
 };
 
