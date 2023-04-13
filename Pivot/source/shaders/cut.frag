@@ -11,13 +11,14 @@ out vec4 frag_color;
 
 uniform sampler2D cutTexture;
 uniform sampler2D outsideTexture;
+uniform sampler2D depthTexture;
 uniform vec2 transOffset;
 uniform vec2 screenSize;
 
 void main(void) {
 	frag_color = texture(cutTexture, outTexCoord);
 	bool occlude = frag_color.x > .95 && frag_color.y < .05 && frag_color.z > .95;
-	if (occlude) {
+	if (texture(depthTexture, outTexCoord).g == 1.0) {
 
         // TEMP: layer tex coords
 		vec2 transTexCoord;
@@ -34,6 +35,7 @@ void main(void) {
 	} else {
 		discard;
 	}
+	frag_color.a = 1;
 	//frag_color.a = .5;
 }
 
