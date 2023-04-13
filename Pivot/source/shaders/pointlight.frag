@@ -14,7 +14,8 @@ uniform int numLights;
 
 void main(void) {
 	frag_color = texture(cutTexture, outTexCoord);
-	frag_color.a = 1.0 / numLights;
+	frag_color = vec4(0, 0, 0, 1);
+	//frag_color.a = 1.0 / numLights;
 }
 
 /////////// SHADER END //////////)"

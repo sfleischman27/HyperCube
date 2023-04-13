@@ -212,10 +212,11 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     earthTex = backgrounds[index];
 
     // Set bind points
-    cobbleTex->setBindPoint(insideTex);
-    fbo.getTexture()->setBindPoint(cutTex);
-    earthTex->setBindPoint(outsideTex);
-    fbo2.getTexture()->setBindPoint(screenTex);
+    cobbleTex->setBindPoint(0);
+    fbo.getTexture()->setBindPoint(1);
+    earthTex->setBindPoint(2);
+    fbo2.getTexture()->setBindPoint(3);
+    fbo.getDepthStencil()->setBindPoint(4);
 
     // Outside texture translation
     if (model->_justFinishRotating) {
@@ -234,7 +235,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
     _shader->setUniformVec3("uDirection", n);
     _shader->setUniformMat4("Mv", _camera->getView());
-    _shader->setUniform1i("uTexture", insideTex);
+    _shader->setUniform1i("uTexture", cobbleTex->getBindPoint());
     _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
     _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
     _vertbuff->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
@@ -286,13 +287,14 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // --------------- Pass 3: Pointlights --------------- //
     int numLights = 1;
     glDisable(GL_DEPTH_TEST);
+    glBlendFunc(GL_ONE, GL_ONE);
     _vertbuffPointlight->bind();
     fbo2.begin();
     fbo.getTexture()->bind();
 
     _shaderPointlight->setUniform1i("numLights", numLights);
     numLights++;
-    _shaderPointlight->setUniform1i("cutTexture", cutTex);
+    _shaderPointlight->setUniform1i("cutTexture", fbo.getTexture()->getBindPoint());
     _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
@@ -303,26 +305,30 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // --------------- Pass 4: Fog --------------- //
     _vertbuffFog->bind();
     fbo.getTexture()->bind();
+    fbo.getDepthStencil()->bind();
 
     _shaderFog->setUniform1i("numLights", numLights);
     numLights++;
-    _shaderFog->setUniform1i("cutTexture", cutTex);
+    _shaderFog->setUniform1i("cutTexture", fbo.getTexture()->getBindPoint());
+    _shaderFog->setUniform1i("depthTexture", fbo.getDepthStencil()->getBindPoint());
     _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
+    fbo.getDepthStencil()->unbind();
     fbo.getTexture()->unbind();
     _vertbuffFog->unbind();
 
     // --------------- Pass 5: Cut --------------- //
     _vertbuffCut->bind();
     glEnable(GL_DEPTH_TEST);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     fbo.getTexture()->bind();
     earthTex->bind();
 
     _shaderCut->setUniformMat4("uPerspective", _camera->getCombined());
-    _shaderCut->setUniform1i("cutTexture", cutTex);
-    _shaderCut->setUniform1i("outsideTexture", outsideTex);
+    _shaderCut->setUniform1i("cutTexture", fbo.getTexture()->getBindPoint());
+    _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
     _shaderCut->setUniformVec2("transOffset", transOffset);
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
@@ -338,7 +344,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffScreen->bind();
     fbo2.getTexture()->bind();
 
-    _shaderScreen->setUniform1i("screenTexture", screenTex);
+    _shaderScreen->setUniform1i("screenTexture", fbo2.getTexture()->getBindPoint());
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffScreen->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);

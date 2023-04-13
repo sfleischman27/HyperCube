@@ -68,10 +68,6 @@ public:
 
 	// constants
 	const float epsilon = 0.001f;
-	const int insideTex = 0;
-	const int cutTex = 1;
-	const int outsideTex = 2;
-	const int screenTex = 3;
 
 	// cugl utilized singletons
 	std::shared_ptr<AssetManager> assets;
