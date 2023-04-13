@@ -9,7 +9,8 @@ in vec4 pos;
 in vec2 outTexCoord;
 
 layout (location = 0) out vec4 frag_color;
-layout (location = 1) out vec4 frag_data; // depth, tocut, N/A, N/A
+layout (location = 1) out vec4 frag_data; // depth, tocut, N/A, N/
+layout (location = 2) out vec4 frag_normal;
 
 uniform mat4 Mv;
 uniform sampler2D billTex;
@@ -30,6 +31,7 @@ void main(void) {
 	}
 	frag_color.a = 1.0;
 	frag_data = vec4(gl_FragCoord.z, 0.0, 0.0, 1.0);
+	frag_normal = vec4(0.0, 0.0, 0.0, 1.0);
 }
 
 /////////// SHADER END //////////)"

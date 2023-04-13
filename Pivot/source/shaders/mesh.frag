@@ -10,6 +10,7 @@ in vec3 outNormal;
 
 layout (location = 0) out vec4 frag_color;
 layout (location = 1) out vec4 frag_data; // depth, tocut, N/A, 1.0
+layout (location = 2) out vec4 frag_normal;
 
 uniform mat4 Mv;
 uniform sampler2D uTexture;
@@ -33,6 +34,7 @@ void main(void) {
 		frag_color.a = 1.0;
 		frag_data = vec4(gl_FragCoord.z, 0.0, 0.0, 1.0);
 	}
+	frag_normal = vec4((outNormal + vec3(1.0, 1.0, 1.0)) / 2.0, 1.0);
 }
 
 /////////// SHADER END //////////)"

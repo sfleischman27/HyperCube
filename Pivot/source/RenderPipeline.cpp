@@ -22,7 +22,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     prevPlayerPos = Vec2(0, 0);
 
     // FBO setup
-    fbo.init(screenSize.width, screenSize.height, 2);
+    fbo.init(screenSize.width, screenSize.height, 3);
     fbo.setClearColor(Color4f::WHITE);
     fbo2.init(screenSize.width, screenSize.height);
     fbo2.setClearColor(Color4f::BLACK);
@@ -41,7 +41,6 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_STENCIL_TEST);
     glDepthMask(GL_TRUE);
     //glEnable(GL_CULL_FACE);
 
@@ -288,19 +287,24 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // --------------- Pass 3: Pointlights --------------- //
     int numLights = 1;
     glDisable(GL_DEPTH_TEST);
-    glDisable(GL_STENCIL_TEST);
     glBlendFunc(GL_ONE, GL_ONE);
     _vertbuffPointlight->bind();
     fbo2.begin();
     fbo.getTexture(0)->bind();
+    fbo.getTexture(1)->bind();
+    fbo.getTexture(2)->bind();
 
     _shaderPointlight->setUniform1i("numLights", numLights);
     numLights++;
     _shaderPointlight->setUniform1i("cutTexture", fbo.getTexture(0)->getBindPoint());
+    _shaderPointlight->setUniform1i("depthTexture", fbo.getTexture(1)->getBindPoint());
+    _shaderPointlight->setUniform1i("normalTexture", fbo.getTexture(2)->getBindPoint());
     _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
+    fbo.getTexture(2)->unbind();
+    fbo.getTexture(1)->unbind();
     fbo.getTexture(0)->unbind();
     _vertbuffPointlight->unbind();
 
@@ -308,15 +312,18 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffFog->bind();
     fbo.getTexture(0)->bind();
     fbo.getTexture(1)->bind();
+    fbo.getTexture(2)->bind();
 
     _shaderFog->setUniform1i("numLights", numLights);
     numLights++;
     _shaderFog->setUniform1i("cutTexture", fbo.getTexture(0)->getBindPoint());
     _shaderFog->setUniform1i("depthTexture", fbo.getTexture(1)->getBindPoint());
+    _shaderFog->setUniform1i("normalTexture", fbo.getTexture(2)->getBindPoint());
     _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
+    fbo.getTexture(2)->unbind();
     fbo.getTexture(1)->unbind();
     fbo.getTexture(0)->unbind();
     _vertbuffFog->unbind();
