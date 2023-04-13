@@ -24,6 +24,7 @@
             "tex": "bullet"
             }
         },
+    "lights": {},
     "mesh": "meshes/GameplayPrototype.obj"
 }
 
