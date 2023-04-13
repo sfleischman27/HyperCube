@@ -16,7 +16,7 @@ uniform vec2 transOffset;
 uniform vec2 screenSize;
 
 void main(void) {
-	if (texture(dataTexture, outTexCoord).g == 1.0) {
+	if (texture(dataTexture, outTexCoord).g == 0.0) {
 
         // TEMP: layer tex coords
 		vec2 transTexCoord;

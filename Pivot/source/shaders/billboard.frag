@@ -30,7 +30,7 @@ void main(void) {
 		discard;
 	}
 	frag_color.a = 1.0;
-	frag_data = vec4(gl_FragCoord.z, 0.0, 0.0, 1.0);
+	frag_data = vec4(gl_FragCoord.z, 1.0, 0.0, 1.0);
 	frag_normal = vec4(0.0, 0.0, 0.0, 1.0);
 }
 
