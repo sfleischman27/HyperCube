@@ -331,10 +331,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo.getTexture(1)->bind();
     earthTex->bind();
 
-    _shaderCut->setUniformMat4("uPerspective", _camera->getCombined());
     _shaderCut->setUniform1i("cutTexture", fbo.getTexture(0)->getBindPoint());
-    _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
     _shaderCut->setUniform1i("dataTexture", fbo.getTexture(1)->getBindPoint());
+    _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
     _shaderCut->setUniformVec2("transOffset", transOffset);
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());

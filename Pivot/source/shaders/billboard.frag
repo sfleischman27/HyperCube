@@ -20,17 +20,17 @@ void main(void) {
 	frag_color = texture(billTex, outTexCoord);
 
 	// TODO added depth stuff here but should use a depth buffer in FSQ
-	float d = -(Mv * pos).z;
-	float maxDepth = 35.0;
-	float ratio = d / maxDepth;
-	vec3 fadeColor = vec3(0.1, 0.1, 0.1);
-	frag_color.xyz = frag_color.xyz - fadeColor * ratio;
+	//float d = -(Mv * pos).z;
+	//float maxDepth = 35.0;
+	//float ratio = d / maxDepth;
+	//vec3 fadeColor = vec3(0.1, 0.1, 0.1);
+	//frag_color.xyz = frag_color.xyz - fadeColor * ratio;
 
-	if (frag_color.a < 0.8) {
+	if (frag_color.a < 0.5) {
 		discard;
 	}
 	frag_color.a = 1.0;
-	frag_data = vec4(gl_FragCoord.z, 1.0, 0.0, 1.0);
+	frag_data = vec4(gl_FragCoord.z * 50, 1.0, 0.0, 1.0);
 	frag_normal = vec4(0.0, 0.0, 0.0, 1.0);
 }
 
