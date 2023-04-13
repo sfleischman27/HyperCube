@@ -43,5 +43,6 @@
             "tex": "grass"
         }
     },
+    "lights": {},
     "mesh": "meshes/pack_debugging/debug_0000_dec_0000.obj"
 }
