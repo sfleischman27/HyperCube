@@ -338,7 +338,6 @@ void PivotApp::updateEndScene(float timestep){
             break;
     }
     // TODO: add actual next level logic
-    // TODO: add the ability to show the 3D map
 }
 
 void PivotApp::updateQuitScene(float timestep){

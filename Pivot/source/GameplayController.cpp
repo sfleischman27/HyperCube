@@ -94,8 +94,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 }
 
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect) {
-    // TODO: factor this function out into a this then a call to load. This should just initialize things then load should actually load in a level.
     
+    _state = NONE;
+    
+    // setup assets
     _dimen = computeActiveSize();
     
     Vec2 offset((_dimen.width-SCENE_WIDTH)/2.0f,(_dimen.height-SCENE_HEIGHT)/2.0f);
@@ -108,22 +110,13 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _assets = assets;
     
-    _state = NONE;
-
     //set up the game model
     _model = std::make_shared<GameModel>(GameModel());
     _data = std::make_shared<DataController>(DataController());
     _data->init(_assets);
-    _data->loadGameModel("levelTest", _model);
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
-    _plane->init(_model);
-    //_plane->setPlane(_model->getInitPlaneNorm());
-    //_plane->debugCut(100);
-    _plane->calculateCut();
-    
-    _sound->init(assets);
     
 #pragma mark SCENE GRAPH SETUP
     
@@ -131,7 +124,6 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _physics = std::make_shared<PhysicsController>();
     _physics->init(_dimen, rect, SCENE_WIDTH);
     _physics->getWorld()->onBeginContact= [this](b2Contact* contact) {
-        //CULog("contact");
       beginContact(contact);
     };
     _physics->getWorld()->onEndContact = [this](b2Contact* contact) {
@@ -142,39 +134,26 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _worldnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     _worldnode->setPosition(offset);
     
-    
     _debugnode = scene2::SceneNode::alloc();
     _debugnode->setScale(_physics->getScale()); // Debug node draws in PHYSICS coordinates
     _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     _debugnode->setPosition(offset);
     
     setDebug(_debug);
-    
-#pragma mark ADD WALL COLLIDERS FROM CUT
-    
-    //MUST be done before anything else is added to _worldnode
-    createCutObstacles();
-    
+
 #pragma mark ADD UI
     
-    //load the json with the assets for the UI and the scene graph structure (talk to Czar)
     _assets->loadDirectory("json/pivot_gameUI.json");
     
-    //All UI elements are contained in a node called lab in the json
     auto layer = _assets->get<cugl::scene2::SceneNode>("lab");
     layer->setContentSize(_dimen);
     layer->doLayout();
     
-    //Lab has 1 child called gameScreenUI, and gameScreenUI has multiple children which represent all the UI elements
     auto kids = layer->getChildren()[0]->getChildren();
-    //CULog("%lu", kids.size());
-    /**For some reason, trying to load the Compass bar and collectibles UI elements causes issues, so this for loop
-    only loads the left, right, jump, and exit buttons**/
+    
+    //initialize the game scene buttons
     for(int i = 0; i < 5; ++i) {
-        //We cast the nodes defined in the json to Buttons
         std::shared_ptr<scene2::Button> butt = std::dynamic_pointer_cast<scene2::Button>(kids[i]);
-//        CULog(butt->getName().c_str());
-        //Then store them in a vector
         _buttons[butt->getName()] = butt;
     }
     
@@ -184,12 +163,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
         }
     });
     
-    //I beleive adding the layer is what draws everything contained within lab
     addChild(layer);
     setActive(false);
     
-    
-    // Start up the input handler
+    //set up the input handler
     _input = std::make_shared<InputController>();
     _input->init(getBounds(),_buttons["jumpB"], _buttons["leftB"], _buttons["rightB"],_buttons["glowstickB"]);
 
@@ -208,14 +185,14 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
     
-    //dont actually need dynamically update nodes(sprite in this case) in worldnode because it's already been done somewhere else?
-    addObstacle(_model->_player/*, sprite*/, true);
+    addObstacle(_model->_player, true);
     
     addChild(_worldnode);
     addChild(_debugnode);
 
-#pragma mark start bg music
+#pragma mark SOUND SETUP
     
+    _sound->init(assets);
     _sound->playSound("music_test", 1.0, true);
     
     _active = true;
