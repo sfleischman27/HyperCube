@@ -23,6 +23,9 @@
         },
         "glowstick": {
             "file": "textures/game_glowstickbutton.png"
+        },
+        "screen" : {
+            "file": "textures/game_screen.png"
         }
 	},
 	"fonts": {

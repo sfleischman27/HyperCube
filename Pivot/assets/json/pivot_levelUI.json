@@ -17,7 +17,8 @@
     },
     "widgets" : {
         "levelselectUI": "widgets/levelselectUI.json",
-        "level": "widgets/level.json"
+        "level": "widgets/level.json",
+        "lockedLevel": "widgets/lockedLevel.json"
     },
     "scene2s" : {
         "levelLab": {
