@@ -47,7 +47,7 @@ std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path) {
                 //temp.normal = Vec3(N(i, 0), N(i, 1), N(i, 2));
                 // CULog("%f, %f, %f", temp.normal.x, temp.normal.y, temp.normal.z);
                 //temp.texcoord = Vec2(.45, .45);
-                temp.texcoord = Vec2(TC(FTC(fi,vi),0), TC(FTC(fi, vi), 1));
+                temp.texcoord = Vec2(TC(FTC(fi,vi),0), 1-TC(FTC(fi, vi), 1));
                 // Below 3 lines have been added by Matt to support texture tiling (for now)
                 //const int numTexOneSide = 14;
                 //temp.texcoord.x = fmod(temp.texcoord.x * numTexOneSide, 1.0);
