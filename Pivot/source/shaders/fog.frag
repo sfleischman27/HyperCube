@@ -12,7 +12,6 @@ out vec4 frag_color;
 uniform sampler2D cutTexture;
 uniform sampler2D dataTexture;
 uniform sampler2D normalTexture;
-uniform sampler2D posTexture;
 
 void main(void) {
 	//vec4 n = texture(normalTexture, outTexCoord);
