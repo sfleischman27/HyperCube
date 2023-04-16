@@ -49,7 +49,7 @@ bool LevelSelect::init(const std::shared_ptr<cugl::AssetManager> &assets, int le
             }
         });
     }
-    
+   
     addChild(layer);
     setActive(false);
     return true;
@@ -64,12 +64,15 @@ void LevelSelect::dispose() {
 void LevelSelect::updateLevel(int level) {
     _maxLevel = level;
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
-        // TODO: figure out how to change the level state of the widget from locked to unlocked
         int num = nameToNum(it->first);
-        if (num <= level){
+        if (num <= level && num != -1){ // unlocked and unlocked button
             it->second->activate();
-        } else{
+            _buttons[it->first + "Locked"]->setVisible(false);
+        } else if (num == -1){ // locked button
             it->second->deactivate();
+        } else{ // locked and unlocked button
+            it->second->deactivate();
+            _buttons[it->first + "Locked"]->setVisible(true);
         }
     }
 }
@@ -87,13 +90,18 @@ void LevelSelect::setActive(bool value){
     Scene2::setActive(value);
     if (value) { _choice = NONE; }
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
-        // TODO: figure out how to change the level state fo the widget from locked to unlocked
         int num = nameToNum(it->first);
-        if (num <= _maxLevel && value){
+        if (num <= _maxLevel && value && num != -1){
+            // unlocked and unlocked button
             it->second->activate();
-        } else{
+            _buttons[it->first + "Locked"]->setVisible(false);
+        } else if (num == -1){ // locked button
             it->second->deactivate();
             it->second->setDown(false);
+        } else { // locked and unlocked button
+            it->second->deactivate();
+            it->second->setDown(false);
+            _buttons[it->first + "Locked"]->setVisible(true);
         }
     }
 }
@@ -165,5 +173,7 @@ void LevelSelect::setChoice(std::string name){
         _choice = Choice::level14;
     } else if (name == "level15"){
         _choice = Choice::level15;
+    } else{
+        _choice = Choice::NONE;
     }
 }

@@ -33,7 +33,7 @@
                     "y_anchor": "middle"
                 },
                 "children": {
-                    "unlockedPanel": {
+                    "panel": {
                         "type": "Image",
                         "format": {
                             "type": "Anchored"
@@ -88,8 +88,7 @@
                                         "levelAnchor": [1,1],
                                         "levelStartX": "right",
                                         "levelPosX": -0.25,
-                                        "levelPosY": -0.0625,
-                                        "showLevel": false
+                                        "levelPosY": -0.0625
                                     }
                                 }
                             },
@@ -223,196 +222,193 @@
                                         "levelPosY": 0.0625
                                     }
                                 }
-                            }
-                        }
-                    },
-                    "lockedPanel": {
-                        "type": "Image",
-                        "format": {
-                            "type": "Anchored"
-                        },
-                        "data": {
-                            "size": [1600,800],
-                            "scale": 1,
-                            "texture": "panel",
-                            "anchor": [0.5,0.5]
-                        },
-                        "layout": {
-                            "y_anchor": "middle",
-                            "x_anchor": "center"
-                        },
-                        "children": {
-                            "lockedLevel1": {
+                            },
+                            "level1Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelPosX": 0.0625,
-                                        "levelPosY": -0.0625
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel2": {
+                            "level2Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelPosX": 0.25,
-                                        "levelPosY": -0.0625
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel3": {
+                            "level3Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [0.5,1],
                                         "levelStartX": "center",
-                                        "levelPosY": -0.0625
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel4": {
+                            "level4Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [1,1],
                                         "levelStartX": "right",
                                         "levelPosX": -0.25,
-                                        "levelPosY": -0.0625
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel5": {
+                            "level5Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [1,1],
                                         "levelStartX": "right",
                                         "levelPosX": -0.0625,
-                                        "levelPosY": -0.0625
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel6": {
+                            "level6Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [0,0.5],
                                         "levelStartY": "middle",
-                                        "levelPosX": 0.0625
+                                        "levelPosX": 0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel7": {
+                            "level7Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [0,0.5],
                                         "levelStartY": "middle",
-                                        "levelPosX": 0.25
+                                        "levelPosX": 0.25,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel8": {
+                            "level8Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [0.5,0.5],
                                         "levelStartY": "middle",
-                                        "levelStartX": "center"
+                                        "levelStartX": "center",
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel9": {
+                            "level9Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [1,0.5],
                                         "levelStartY": "middle",
                                         "levelStartX": "right",
-                                        "levelPosX": -0.25
+                                        "levelPosX": -0.25,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel10": {
+                            "level10Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [1,0.5],
                                         "levelStartY": "middle",
                                         "levelStartX": "right",
-                                        "levelPosX": -0.0625
+                                        "levelPosX": -0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel11": {
+                            "level11Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [0,0],
                                         "levelStartY": "bottom",
                                         "levelPosX": 0.0625,
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel12": {
+                            "level12Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [0,0],
                                         "levelStartY": "bottom",
                                         "levelPosX": 0.25,
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel13": {
+                            "level13Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [0.5,0],
                                         "levelStartY": "bottom",
                                         "levelStartX": "center",
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel14": {
+                            "level14Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [1,0],
                                         "levelStartY": "bottom",
                                         "levelStartX": "right",
                                         "levelPosX": -0.25,
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             },
-                            "lockedLevel15": {
+                            "level15Locked": {
                                 "type": "Widget",
                                 "data": {
-                                    "key": "lockedLevel",
+                                    "key": "level",
                                     "variables": {
                                         "levelAnchor": [1,0],
                                         "levelStartY": "bottom",
                                         "levelStartX": "right",
                                         "levelPosX": -0.0625,
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             }
