@@ -18,7 +18,7 @@ uniform float power;
 uniform vec3 vpos;
 
 void main(void) {
-	vec3 pos = texture(posTexture, outTexCoord).xyz * 1000.0;
+	vec3 pos = texture(posTexture, outTexCoord).xyz * 500.0;
 	vec3 norm = (texture(normalTexture, outTexCoord).xyz * 2.0) - vec3(1.0, 1.0, 1.0);
 	vec3 alb = texture(cutTexture, outTexCoord).xyz;
 
@@ -27,6 +27,9 @@ void main(void) {
 	float lightDist = distance(lpos, pos);
     vec3 diffuse = max(dot(norm, lightDir), 0.0) * alb * color * power * 10000 / (lightDist * lightDist);
 	frag_color = vec4(diffuse, 1.0);
+	if (norm == vec3(0.0, 0.0, 0.0)) {
+		frag_color = vec4(1.0, 0.0, 0.0, 1.0);
+	}
 }
 
 /////////// SHADER END //////////)"

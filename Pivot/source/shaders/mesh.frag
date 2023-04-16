@@ -37,7 +37,7 @@ void main(void) {
 		frag_data = vec4(gl_FragCoord.z * 50, 1.0, 0.0, 1.0);
 	}
 	frag_normal = vec4((outNormal + vec3(1.0, 1.0, 1.0)) / 2.0, 1.0);
-	frag_pos = pos / 1000;
+	frag_pos = pos / 500.0;
 	frag_pos.a = 1;
 }
 

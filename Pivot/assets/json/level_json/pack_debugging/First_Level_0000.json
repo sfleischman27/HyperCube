@@ -20,9 +20,19 @@
     "deco": {},
   "lights": {
     "0": {
-      "color": [0, 0, 1],
-      "loc": [-38, 15, 371],
+      "color": [ 0, 0, 1 ],
+      "loc": [ -38, 15, 371 ],
       "intensity": 1.5
+    },
+    "1": {
+      "color": [ 1, 0, 0 ],
+      "loc": [ -38, 15, 250 ],
+      "intensity": 1
+    },
+    "2": {
+      "color": [ 1, 1, 1 ],
+      "loc": [ 375, 5, 371 ],
+      "intensity": 1
     }
   },
     "mesh": "meshes/pack_debugging/First_Level_0000_col.obj",
