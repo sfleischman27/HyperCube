@@ -22,7 +22,7 @@ uniform vec3 uDirection;
 vec4 packFloat(const float value) {
     const vec3 bitSh = vec3(256.0 * 256.0, 256.0, 1.0);
     const vec3 bitMsk = vec3(0.0, 1.0 / 256.0, 1.0 / 256.0);
-    vec3 res = fract((value + 2500.0) / 5000.0 * bitSh);
+    vec3 res = fract((value + 2500.0) / 50000.0 * bitSh);
     res -= res.xxy * bitMsk;
     return vec4(res, 1.0);
 }
