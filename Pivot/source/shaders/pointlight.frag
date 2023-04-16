@@ -9,7 +9,7 @@ in vec2 outTexCoord;
 out vec4 frag_color;
 
 uniform sampler2D cutTexture;
-uniform sampler2D dataTexture; // can skip lighting calculation on "toCut" to save time
+uniform sampler2D replaceTexture; // can skip lighting calculation on "toCut" to save time
 uniform sampler2D normalTexture;
 uniform sampler2D posTextureX;
 uniform sampler2D posTextureY;
