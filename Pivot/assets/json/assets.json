@@ -154,8 +154,6 @@
         }
     },
     "jsons": {
-        "levelTest": "json/levelTest.json",
-        "debug_0000": "json/level_json/pack_debugging/debug_0000.json",
-        "First_Level_0000": "json/level_json/pack_debugging/First_Level_0000.json"
+        "debug_0000": "json/level_json/debug/debug_0000.json"
     }
 }
