@@ -12,6 +12,7 @@ out vec4 frag_color;
 uniform sampler2D cutTexture;
 uniform sampler2D dataTexture;
 uniform sampler2D normalTexture;
+uniform sampler2D posTexture;
 
 void main(void) {
 	//vec4 n = texture(normalTexture, outTexCoord);
@@ -22,6 +23,7 @@ void main(void) {
 	vec4 fadeColor = vec4(1.0, 1.0, 1.0, 1.0);
 	frag_color = diff - fadeColor * d;
 	frag_color.a = 1.0;
+	//frag_color = vec4(0, 0, 0, 1); //TEMP
 }
 
 /////////// SHADER END //////////)"

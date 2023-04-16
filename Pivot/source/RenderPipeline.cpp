@@ -22,7 +22,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     prevPlayerPos = Vec2(0, 0);
 
     // FBO setup
-    fbo.init(screenSize.width, screenSize.height, 3);
+    fbo.init(screenSize.width, screenSize.height, 4);
     fbo.setClearColor(Color4f::WHITE);
     fbo2.init(screenSize.width, screenSize.height);
     fbo2.setClearColor(Color4f::BLACK);
@@ -213,10 +213,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Set bind points
     cobbleTex->setBindPoint(0);
-    fbo.getTexture(0)->setBindPoint(1);
-    earthTex->setBindPoint(2);
-    fbo2.getTexture()->setBindPoint(3);
+    earthTex->setBindPoint(1);
+    fbo2.getTexture()->setBindPoint(2);
+    fbo.getTexture(0)->setBindPoint(3);
     fbo.getTexture(1)->setBindPoint(4);
+    fbo.getTexture(2)->setBindPoint(5);
+    fbo.getTexture(3)->setBindPoint(6);
 
     // Outside texture translation
     if (model->_justFinishRotating) {
@@ -292,14 +294,23 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo.getTexture(0)->bind();
     fbo.getTexture(1)->bind();
     fbo.getTexture(2)->bind();
+    fbo.getTexture(3)->bind();
 
     _shaderPointlight->setUniform1i("cutTexture", fbo.getTexture(0)->getBindPoint());
     _shaderPointlight->setUniform1i("dataTexture", fbo.getTexture(1)->getBindPoint());
     _shaderPointlight->setUniform1i("normalTexture", fbo.getTexture(2)->getBindPoint());
-    _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
-    _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
-    _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+    _shaderPointlight->setUniform1i("posTexture", fbo.getTexture(3)->getBindPoint());
+    _shaderPointlight->setUniform3f("vpos", _camera->getPosition().x, _camera->getPosition().y, _camera->getPosition().z);
+    for (GameModel::Light &l : model->_lights) {
+        _shaderPointlight->setUniform3f("color", l.color.x, l.color.y, l.color.z);
+        _shaderPointlight->setUniform3f("lpos", l.loc.x, l.loc.y, l.loc.z);
+        _shaderPointlight->setUniform1f("power", l.intensity);
+        _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+        _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+        _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+    }
 
+    fbo.getTexture(3)->unbind();
     fbo.getTexture(2)->unbind();
     fbo.getTexture(1)->unbind();
     fbo.getTexture(0)->unbind();
@@ -310,14 +321,17 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo.getTexture(0)->bind();
     fbo.getTexture(1)->bind();
     fbo.getTexture(2)->bind();
+    fbo.getTexture(3)->bind();
 
     _shaderFog->setUniform1i("cutTexture", fbo.getTexture(0)->getBindPoint());
     _shaderFog->setUniform1i("dataTexture", fbo.getTexture(1)->getBindPoint());
     _shaderFog->setUniform1i("normalTexture", fbo.getTexture(2)->getBindPoint());
+    _shaderFog->setUniform1i("posTexture", fbo.getTexture(3)->getBindPoint());
     _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
+    fbo.getTexture(3)->unbind();
     fbo.getTexture(2)->unbind();
     fbo.getTexture(1)->unbind();
     fbo.getTexture(0)->unbind();
