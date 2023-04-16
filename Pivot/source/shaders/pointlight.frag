@@ -21,7 +21,7 @@ uniform vec3 vpos;
 
 float unpackFloat(const vec4 value) {
     const vec3 bitSh = vec3(1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
-    return dot(value.xyz, bitSh) * 5000.0 - 2500.0 ;
+    return dot(value.xyz, bitSh) * 50000.0 - 2500.0;
 }
 
 void main(void) {
