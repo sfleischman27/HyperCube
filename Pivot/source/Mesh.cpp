@@ -37,28 +37,52 @@ std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path) {
         auto N = Eigen::MatrixXd();
         igl::per_vertex_normals(V, F, N);
 
-        // convert everything into cugl friendly types and assign it to the mesh
-        for (int i = 0; i < V.rows(); i++) {
-            PivotVertex3 temp;
-            temp.position = Vec3(V(i, 0), V(i, 1), V(i, 2));
-            temp.color = color.getPacked();
-            temp.normal = Vec3(N(i, 0), N(i, 1), N(i, 2));
-            // CULog("%f, %f, %f", temp.normal.x, temp.normal.y, temp.normal.z);
-            temp.texcoord = Vec2(TC(i, 0), TC(i, 1));
-            // Below 3 lines have been added by Matt to support texture tiling (for now)
-            //const int numTexOneSide = 14;
-            //temp.texcoord.x = fmod(temp.texcoord.x * numTexOneSide, 1.0);
-            //temp.texcoord.y = fmod(temp.texcoord.y * numTexOneSide, 1.0);
-            // End what Matt has added
-            mesh->vertices.push_back(temp);
+        for (int fi = 0; fi < F.rows(); fi++) {
+            for (int vi = 0; vi < F.cols(); vi++) {
+                PivotVertex3 temp;
+                auto i = F(fi, vi);
+                temp.position = Vec3(V(i, 0), V(i, 1), V(i, 2));
+                temp.color = color.getPacked();
+                temp.normal = Vec3(CN(FN(fi,vi),0), CN(FN(fi,vi),1), CN(FN(fi, vi),2));
+                //temp.normal = Vec3(N(i, 0), N(i, 1), N(i, 2));
+                // CULog("%f, %f, %f", temp.normal.x, temp.normal.y, temp.normal.z);
+                //temp.texcoord = Vec2(.45, .45);
+                temp.texcoord = Vec2(TC(FTC(fi,vi),0), 1-TC(FTC(fi, vi), 1));
+                // Below 3 lines have been added by Matt to support texture tiling (for now)
+                //const int numTexOneSide = 14;
+                //temp.texcoord.x = fmod(temp.texcoord.x * numTexOneSide, 1.0);
+                //temp.texcoord.y = fmod(temp.texcoord.y * numTexOneSide, 1.0);
+                // End what Matt has added
+                mesh->vertices.push_back(temp);
+            }
+
+            mesh->indices.push_back(fi*3);
+            mesh->indices.push_back(fi*3 + 1);
+            mesh->indices.push_back(fi*3 + 2);
         }
 
-        auto test = F.rows();
+        //// convert everything into cugl friendly types and assign it to the mesh
+        //for (int i = 0; i < V.rows(); i++) {
+        //    PivotVertex3 temp;
+        //    temp.position = Vec3(V(i, 0), V(i, 1), V(i, 2));
+        //    temp.color = color.getPacked();
+        //    temp.normal = Vec3(N(i, 0), N(i, 1), N(i, 2));
+        //    // CULog("%f, %f, %f", temp.normal.x, temp.normal.y, temp.normal.z);
+        //    temp.texcoord = Vec2(TC(i, 0), TC(i, 1));
+        //    // Below 3 lines have been added by Matt to support texture tiling (for now)
+        //    //const int numTexOneSide = 14;
+        //    //temp.texcoord.x = fmod(temp.texcoord.x * numTexOneSide, 1.0);
+        //    //temp.texcoord.y = fmod(temp.texcoord.y * numTexOneSide, 1.0);
+        //    // End what Matt has added
+        //    mesh->vertices.push_back(temp);
+        //}
+
+        /*auto test = F.rows();
         for (int i = 0; i < F.rows(); i ++) {
             mesh->indices.push_back(F(i,0));
             mesh->indices.push_back(F(i,1));
             mesh->indices.push_back(F(i,2));
-        }
+        }*/
 
 
         //Make the vertices list two longer to hold superverts for domain control
