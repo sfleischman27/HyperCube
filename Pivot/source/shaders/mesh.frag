@@ -21,11 +21,12 @@ uniform sampler2D uTexture;
 uniform vec3 uDirection;
 
 vec4 packFloat(const float value) {
-    const vec3 bitSh = vec3(256.0 * 256.0, 256.0, 1.0);
-    const vec3 bitMsk = vec3(0.0, 1.0 / 256.0, 1.0 / 256.0);
-    vec3 res = fract((value + 2500.0) / 50000.0 * bitSh);
-    res -= res.xxy * bitMsk;
-    return vec4(res, 1.0);
+	float transF = (value + 2500.0) / 50000.0;
+	const vec4 bit_shift = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);
+    const vec4 bit_mask  = vec4(0.0, 1.0/256.0, 1.0/256.0, 1.0/256.0);
+    vec4 res = fract(transF * bit_shift);
+    res -= res.xxyz * bit_mask;
+    return res;
 }
 
 void main(void) {

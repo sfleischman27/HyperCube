@@ -194,6 +194,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     billboardSetup(model);
 
     // --------------- Pass 0: Textures --------------- //
+    glBlendFunc(GL_ONE, GL_ZERO);
     // Calculate voronoi angle
     const int numImages = backgrounds.size();
     const int repeat = 3;
