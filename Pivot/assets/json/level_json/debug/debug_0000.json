@@ -29,7 +29,7 @@
                 1.0,
                 1.0
             ],
-            "intense": 11.0,
+            "intense": 10.0,
             "collectible": true
         },
         "1": {
@@ -88,7 +88,7 @@
                 1.0,
                 0.0
             ],
-            "intense": 10.0,
+            "intense": 0.25,
             "collectible": false
         },
         "6": {
@@ -114,7 +114,7 @@
                 1.0,
                 0.3634074628353119
             ],
-            "intense": 100000.0,
+            "intense": 0.25,
             "collectible": false
         },
         "8": {
@@ -129,7 +129,7 @@
                 1.0,
                 0.3634074628353119
             ],
-            "intense": 100000.0,
+            "intense": 0.25,
             "collectible": false
         },
         "9": {
@@ -144,7 +144,7 @@
                 1.0,
                 0.3634074628353119
             ],
-            "intense": 100000.0,
+            "intense": 0.25,
             "collectible": false
         },
         "10": {
@@ -159,7 +159,7 @@
                 1.0,
                 0.3634074628353119
             ],
-            "intense": 100000.0,
+            "intense": 0.25,
             "collectible": false
         },
         "11": {
@@ -174,7 +174,7 @@
                 1.0,
                 0.3634074628353119
             ],
-            "intense": 100000.0,
+            "intense": 0.25,
             "collectible": false
         },
         "12": {
@@ -189,7 +189,7 @@
                 1.0,
                 0.3634074628353119
             ],
-            "intense": 100000.0,
+            "intense": 0.25,
             "collectible": false
         },
         "13": {
@@ -204,7 +204,7 @@
                 0.0,
                 0.003012194065377116
             ],
-            "intense": 100000.0,
+            "intense": 0.25,
             "collectible": false
         }
     },
