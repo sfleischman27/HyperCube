@@ -1,5 +1,5 @@
 {
-    "level_id": "debug_0000",
+    "level_id": "debug_0001",
     "player_loc": [
         -88.0,
         -1.9999847412109375,
@@ -13,11 +13,22 @@
     "exit": [
         83.3863525390625,
         -1.9999847412109375,
-        -143.30316162109375
+        -152.0
     ],
     "glowsticks": 4,
     "sprites": {
         "0": {
+            "loc": [
+                -160.0,
+                -1.9999847412109375,
+                -67.99993896484375
+            ],
+            "tex": "orb",
+            "color": null,
+            "intense": null,
+            "collectible": true
+        },
+        "1": {
             "loc": [
                 -88.53839111328125,
                 39.800018310546875,
@@ -26,9 +37,9 @@
             "tex": "caution",
             "color": null,
             "intense": null,
-            "collectible": true
+            "collectible": false
         },
-        "1": {
+        "2": {
             "loc": [
                 38.0,
                 -1.9999847412109375,
@@ -37,9 +48,9 @@
             "tex": "lightning",
             "color": null,
             "intense": null,
-            "collectible": true
+            "collectible": false
         },
-        "2": {
+        "3": {
             "loc": [
                 38.0,
                 -1.5999755859375,
@@ -48,20 +59,20 @@
             "tex": "lightning_flip",
             "color": null,
             "intense": null,
-            "collectible": true
+            "collectible": false
         },
-        "3": {
+        "4": {
             "loc": [
                 -88.0,
-                -39.79998779296875,
+                -39.399986267089844,
                 -43.99994659423828
             ],
             "tex": "biohazrd",
             "color": null,
             "intense": null,
-            "collectible": true
+            "collectible": false
         },
-        "4": {
+        "5": {
             "loc": [
                 -88.0,
                 -1.9999847412109375,
@@ -70,9 +81,9 @@
             "tex": "alarm",
             "color": null,
             "intense": null,
-            "collectible": true
+            "collectible": false
         },
-        "5": {
+        "6": {
             "loc": [
                 -136.0,
                 102.0,
@@ -81,9 +92,9 @@
             "tex": "caution",
             "color": null,
             "intense": null,
-            "collectible": true
+            "collectible": false
         },
-        "6": {
+        "7": {
             "loc": [
                 -132.4000244140625,
                 26.00002098083496,
@@ -92,9 +103,20 @@
             "tex": "caution",
             "color": null,
             "intense": null,
-            "collectible": true
+            "collectible": false
         },
-        "7": {
+        "8": {
+            "loc": [
+                -132.40005493164062,
+                -1.9999847412109375,
+                -29.99994659423828
+            ],
+            "tex": "Warning-Sign-PNG-Clipart",
+            "color": null,
+            "intense": null,
+            "collectible": false
+        },
+        "9": {
             "loc": [
                 -48.0,
                 4.0000152587890625,
@@ -109,7 +131,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "8": {
+        "10": {
             "loc": [
                 124.0,
                 4.0000152587890625,
@@ -124,7 +146,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "9": {
+        "11": {
             "loc": [
                 108.0,
                 4.0000152587890625,
@@ -139,7 +161,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "10": {
+        "12": {
             "loc": [
                 -40.0,
                 4.0000152587890625,
@@ -154,7 +176,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "11": {
+        "13": {
             "loc": [
                 -176.0,
                 1.52587890625e-05,
@@ -169,7 +191,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "12": {
+        "14": {
             "loc": [
                 164.0,
                 1.52587890625e-05,
@@ -184,7 +206,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "13": {
+        "15": {
             "loc": [
                 248.0,
                 1.52587890625e-05,
@@ -199,7 +221,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "14": {
+        "16": {
             "loc": [
                 164.0,
                 100.0,
@@ -214,7 +236,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "15": {
+        "17": {
             "loc": [
                 -4.0,
                 100.0,
@@ -229,7 +251,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "16": {
+        "18": {
             "loc": [
                 -176.0,
                 176.0,
@@ -244,7 +266,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "17": {
+        "19": {
             "loc": [
                 -88.0,
                 1.52587890625e-05,
@@ -259,7 +281,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "18": {
+        "20": {
             "loc": [
                 -134.0,
                 108.0,
@@ -274,7 +296,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "19": {
+        "21": {
             "loc": [
                 -176.0,
                 72.0,
@@ -289,7 +311,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "20": {
+        "22": {
             "loc": [
                 -176.0,
                 176.0,
@@ -304,7 +326,7 @@
             "intense": 50000.0,
             "collectible": false
         },
-        "21": {
+        "23": {
             "loc": [
                 -176.0,
                 72.0,
@@ -320,6 +342,6 @@
             "collectible": false
         }
     },
-    "collision_mesh": "meshes/debug/debug_0000_col.obj",
-    "render_mesh": "meshes/debug/debug_0000_dec.obj"
+    "collision_mesh": "meshes/debug/debug_0001_col.obj",
+    "render_mesh": "meshes/debug/debug_0001_dec.obj"
 }

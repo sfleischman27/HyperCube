@@ -5,11 +5,13 @@ from os import path
 from mathutils import Vector
 
 
+
 class ExportJsonOperator(bpy.types.Operator):
     bl_idname = "pivot.json_operator"
     bl_label = "Pivot Json Operator"
     
     def execute(self, context):
+        scene_scale = bpy.context.scene.scene_scale
           
         for object in bpy.data.objects:
             object.select_set(False)        
@@ -43,9 +45,9 @@ class ExportJsonOperator(bpy.types.Operator):
         if start.type != 'EMPTY': raise Exception("the start should be an empty")
         else: 
             json_dict["player_loc"] = [
-                start.location.x,
-                start.location.y,
-                start.location.z
+                start.location.x * scene_scale,
+                start.location.y * scene_scale,
+                start.location.z * scene_scale
                 ]
             
             #extract normal from the z axis of the start location
@@ -59,9 +61,9 @@ class ExportJsonOperator(bpy.types.Operator):
             
         if exit.type != 'EMPTY': raise Exception("the exit should be an empty")
         else: json_dict["exit"] = [
-            exit.location.x,
-            exit.location.y,
-            exit.location.z
+            exit.location.x * scene_scale,
+            exit.location.y * scene_scale,
+            exit.location.z * scene_scale
             ]
         
         #get and set the glowstick count   
@@ -82,7 +84,7 @@ class ExportJsonOperator(bpy.types.Operator):
                     raise Exception(f"{sprite.active_material.name}.png was not found in the assets/textures/ directory. Please add it.")
                 
                 sprite_dict = dict()
-                sprite_dict["loc"] = [sprite.location.x,sprite.location.y,sprite.location.z]
+                sprite_dict["loc"] = [sprite.location.x * scene_scale,sprite.location.y * scene_scale,sprite.location.z * scene_scale]
                 sprite_dict["tex"] = sprite.active_material.name
                 sprite_dict["color"] = None
                 sprite_dict["intense"] = None
@@ -113,7 +115,7 @@ class ExportJsonOperator(bpy.types.Operator):
                     raise Exception(f"{sprite.active_material.name}.png was not found in the assets/textures/ directory. Please add it.")
                 
                 sprite_dict = dict()
-                sprite_dict["loc"] = [sprite.location.x,sprite.location.y,sprite.location.z]
+                sprite_dict["loc"] = [sprite.location.x * scene_scale,sprite.location.y * scene_scale,sprite.location.z * scene_scale]
                 sprite_dict["tex"] = sprite.active_material.name
                 sprite_dict["color"] = None
                 sprite_dict["intense"] = None
@@ -139,7 +141,7 @@ class ExportJsonOperator(bpy.types.Operator):
             if obj.data.type == 'POINT':
                 
                 sprite_dict = dict()
-                sprite_dict["loc"] = [obj.location.x, obj.location.y, obj.location.z]
+                sprite_dict["loc"] = [obj.location.x * scene_scale, obj.location.y * scene_scale, obj.location.z * scene_scale]
                 sprite_dict["tex"] = None
                 sprite_dict["color"] = [obj.data.color.r,obj.data.color.g,obj.data.color.b]
                 sprite_dict["intense"] = obj.data.energy
@@ -228,20 +230,21 @@ class ExportJsonOperator(bpy.types.Operator):
         
         # split that mesh into faces by edges
         
-        fake_context = bpy.context.copy()
-        area = [area for area in bpy.context.screen.areas if area.type == "VIEW_3D"][0]
-        fake_context['area'] = area
-        fake_context['active_object'] = bpy.context.selected_objects[0]
-        bpy.ops.object.mode_set(fake_context, mode='EDIT')
-        #bpy.ops.object.editmode_toggle()
+#        fake_context = bpy.context.copy()
+#        area = [area for area in bpy.context.screen.areas if area.type == "VIEW_3D"][0]
+#        fake_context['area'] = area
+#        fake_context['active_object'] = bpy.context.selected_objects[0]
+#        bpy.ops.object.mode_set(fake_context, mode='EDIT')
+        bpy.ops.object.editmode_toggle()
         bpy.ops.mesh.edge_split(type='EDGE')
-        #bpy.ops.object.editmode_toggle()
-        bpy.ops.object.mode_set(mode='OBJECT')
+        bpy.ops.object.editmode_toggle()
+#        bpy.ops.object.mode_set(mode='OBJECT')
         
         
         # export it
         bpy.ops.export_scene.obj(
                 filepath=fpath,
+                global_scale= bpy.context.scene.scene_scale,
                 use_selection=True,
                 use_mesh_modifiers=True,
                 use_normals=True,
@@ -319,7 +322,11 @@ class PivotPanel(bpy.types.Panel):
         #other settings
         col.label(text="OTHER SETTINGS")
         col.prop(context.scene, "glow_count")
+        row = col.row()
+        row.prop(context.scene, "scene_scale")
         col.separator(factor = 3)
+        
+        
         
         #make the operatory button
         col.operator("pivot.json_operator", text="Export Level JSON")
@@ -357,6 +364,7 @@ def register():
     
     #register other ui elements
     bpy.types.Scene.glow_count = bpy.props.IntProperty(name = "Glowstick Count", min = 0, max = 10)
+    bpy.types.Scene.scene_scale = bpy.props.IntProperty(name = "Scene Scale", min = 0, max = 10)
     
     #register the operators
     bpy.utils.register_class(ExportJsonOperator)
