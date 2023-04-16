@@ -27,7 +27,10 @@ bool DataController::loadGameModel(std::string level, const std::shared_ptr<Game
     // load the new meshes
     CULog("%s", Application::get()->getAssetDirectory().c_str());
     std::string assetDirectoryPath = Application::get()->getAssetDirectory();
-    std::string meshPath = constants->getString("mesh");
+    std::string meshPath = constants->getString("render_mesh");
+
+    std::string colmeshPath = constants->getString("collision_mesh");//not using this yet TODO
+
     assetDirectoryPath.append(meshPath);
     model->_mesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
     
@@ -76,47 +79,67 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     
     model->setExitTex(_assets->get<Texture>("exit"));
     
-    // get and set collectibles
+    // jack was here :)
+    // get the sprites
+    std::shared_ptr<cugl::JsonValue> sprites = constants->get("sprites");
+
+    // clear collectibles and init data vectors
     model->clearCollectibles();
-    std::vector<Vec3> locs;
-    std::vector<std::shared_ptr<cugl::Texture>> texs;
-    std::shared_ptr<cugl::JsonValue> collectibles = constants->get("col");
-    int it = collectibles->size();
-    for (int i = 0; i < it; i ++){
-        Vec3 loc;
-        loc.x = collectibles->get(std::to_string(i))->get("loc")->get(0)->asFloat();
-        loc.y = collectibles->get(std::to_string(i))->get("loc")->get(1)->asFloat();
-        loc.z = collectibles->get(std::to_string(i))->get("loc")->get(2)->asFloat();
-        std::string texKey = collectibles->get(std::to_string(i))->getString("tex");
-        std::shared_ptr<Texture> tex = _assets->get<Texture>(texKey);
-        locs.push_back(loc);
-        texs.push_back(tex);
+    std::vector<Vec3> col_locs;
+    std::vector<std::shared_ptr<cugl::Texture>> col_texs;
+
+    for (int i = 0; i < sprites->size(); i++) {
+        auto iscol = sprites->get(std::to_string(i))->get("collectible")->asBool();
+        auto tex = sprites->get(std::to_string(i))->getString("tex");
+        CULog(tex.c_str());
+        if (iscol && (tex != "")) {
+            // its a collectible
+            // get sprite location
+            Vec3 loc;
+            loc.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+            loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+            loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+            col_locs.push_back(loc);
+            
+            // get sprite texture
+            std::string texKey = tex;
+            std::shared_ptr<Texture> tex = _assets->get<Texture>(texKey);
+            col_texs.push_back(tex);
+
+            // does the sprite emit light?
+            // TODO make lights for those sprites here
+        }
+        else if (tex == "") {
+            // its ONLY a light with no texture
+            Vec3 color;
+            color.x = sprites->get(std::to_string(i))->get("color")->get(0)->asFloat();
+            color.y = sprites->get(std::to_string(i))->get("color")->get(1)->asFloat();
+            color.z = sprites->get(std::to_string(i))->get("color")->get(2)->asFloat();
+
+            Vec3 loc;
+            loc.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+            loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+            loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+
+            float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
+
+            GameModel::Light light = GameModel::Light(color, intensity, loc);
+            model->_lights.push_back(light);
+
+        }
+        
+        else {
+            CULog("A Decoration");
+            // its a Decoration
+        }
+        // otherwise its just a decoration
+        // TODO put decoration initialization here
     }
-    model->setCollectibles(locs, texs);
-    
+
+    model->setCollectibles(col_locs, col_texs);
+
     // clear glowsticks
     model->clearGlowsticks();
-
-    // get and set light sources
-    model->clearLights();
-    std::shared_ptr<cugl::JsonValue> lights = constants->get("lights");
-    it = lights->size();
-    for (int i = 0; i < it; i ++){
-        Vec3 color;
-        color.x = lights->get(std::to_string(i))->get("color")->get(0)->asFloat();
-        color.y = lights->get(std::to_string(i))->get("color")->get(1)->asFloat();
-        color.z = lights->get(std::to_string(i))->get("color")->get(2)->asFloat();
-        
-        Vec3 loc;
-        loc.x = lights->get(std::to_string(i))->get("loc")->get(0)->asFloat();
-        loc.y = lights->get(std::to_string(i))->get("loc")->get(1)->asFloat();
-        loc.z = lights->get(std::to_string(i))->get("loc")->get(2)->asFloat();
-        
-        float intensity = lights->get(std::to_string(i))->get("intensity")->asFloat();
-        
-        GameModel::Light light = GameModel::Light(color, intensity, loc);
-        model->_lights.push_back(light);
-    }
     
     // get and set level id
     std::string level_id = constants->getString("level_id");

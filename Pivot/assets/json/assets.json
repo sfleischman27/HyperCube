@@ -104,6 +104,24 @@
         },
         "grass": {
             "file": "textures/grass.png"
+        },
+        "caution": {
+            "file": "textures/caution.png"
+        },
+        "lightning": {
+            "file": "textures/lightning.png"
+        },
+        "biohazrd": {
+            "file": "textures/biohazrd.png"
+        },
+        "alarm": {
+            "file": "textures/alarm.png"
+        },
+        "lightning_flip": {
+            "file": "textures/lightning_flip.png"
+        },
+        "Warning-Sign-PNG-Clipart": {
+            "file": "textures/Warning-Sign-PNG-Clipart.png"
         }
     },
     "sounds": {
@@ -154,8 +172,7 @@
         }
     },
     "jsons": {
-        "levelTest": "json/levelTest.json",
-        "debug_0000": "json/level_json/pack_debugging/debug_0000.json",
-        "First_Level_0000": "json/level_json/pack_debugging/First_Level_0000.json"
+        "debug_0000": "json/level_json/debug/debug_0000.json",
+        "debug_0001": "json/level_json/debug/debug_0001.json"
     }
 }

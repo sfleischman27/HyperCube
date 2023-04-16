@@ -257,13 +257,13 @@ void PivotApp::updateLevelScene(float timestep){
             break;
         case LevelSelect::Choice::level1:
             _levelSelect.setActive(false);
-            _gameplay.load("levelTest");
+            _gameplay.load("debug_0000");
             _gameplay.setActive(true);
             _scene = State::GAME;
             break;
         case LevelSelect::level2:
             _levelSelect.setActive(false);
-            _gameplay.load("First_Level_0000");
+            _gameplay.load("debug_0001");
             _gameplay.setActive(true);
             _scene = State::GAME;
             break;

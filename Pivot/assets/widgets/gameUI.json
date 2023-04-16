@@ -3,19 +3,18 @@
         "showGameUI" : ["data","visible"]
     },
     "contents": {
-       "type" : "Image",
+       "type" : "Node",
        "format": {
            "type": "Anchored"
        },
        "data": {
-           "texture": "screen",
-           "scale": 1,
-           "anchor": [0.5,0.5],
+           "size": [1280,720],
+           "anchor": [0,1],
            "visible": true
        },
        "layout":{
-           "x_anchor": "fill",
-           "y_anchor": "fill"
+           "x_anchor": "left",
+           "y_anchor" : "top"
        },
        "children":{
            "exitB" : {
