@@ -85,6 +85,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
     // clear collectibles and init data vectors
     model->clearCollectibles();
+    model->clearLights();
+    
     std::vector<Vec3> col_locs;
     std::vector<std::shared_ptr<cugl::Texture>> col_texs;
 
