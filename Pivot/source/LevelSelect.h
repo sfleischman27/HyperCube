@@ -16,41 +16,41 @@ public:
         /** User has not yet made a choice */
         NONE = -1,
         /** User wants to start level 1 */
-        level1 = 0,
+        LEVEL1 = 0,
         /** User wants to start level 2 */
-        level2 = 1,
+        LEVEL2 = 1,
         /** User wants to start level 3 */
-        level3 = 2,
+        LEVEL3 = 2,
         /** User wants to start level 4 */
-        level4 = 3,
+        LEVEL4 = 3,
         /** User wants to start level 5 */
-        level5 = 4,
+        LEVEL5 = 4,
         /** User wants to start level 6 */
-        level6 = 5,
+        LEVEL6 = 5,
         /** User wants to start level 7 */
-        level7 = 6,
+        LEVEL7 = 6,
         /** User wants to start level 8 */
-        level8 = 7,
+        LEVEL8 = 7,
         /** User wants to start level 9 */
-        level9 = 8,
+        LEVEL9 = 8,
         /** User wants to start level 10 */
-        level10 = 9,
+        LEVEL10 = 9,
         /** User wants to start level 11 */
-        level11 = 10,
+        LEVEL11 = 10,
         /** User wants to start level 12 */
-        level12 = 11,
+        LEVEL12 = 11,
         /** User wants to start level 13 */
-        level13 = 12,
+        LEVEL13 = 12,
         /** User wants to start level 14 */
-        level14 = 13,
+        LEVEL14 = 13,
         /** User wants to start level 15 */
-        level15 = 14,
+        LEVEL15 = 14,
     };
     
     enum Pack {
         /** The pack of levels that the page is displaying */
-        debug = 0,
-        test = 1
+        ZERO = 0,
+        ONE = 1
     };
     
 protected:
