@@ -20,6 +20,7 @@
 #include "RenderPipeline.h"
 #include "PlayerModel.h"
 #include "Collectible.h"
+#include "GameItem.h"
 
 class GameplayController : public cugl::Scene2 {
 public:

@@ -71,13 +71,12 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     model->setInitPlaneNorm(norm);
     
     // get and set exit location and texture
-    Vec3 exit;
-    exit.x = constants->get("exit")->get(0)->asFloat();
-    exit.y = constants->get("exit")->get(1)->asFloat();
-    exit.z = constants->get("exit")->get(2)->asFloat();
-    model->setExitLoc(exit);
-    
-    model->setExitTex(_assets->get<Texture>("exit"));
+    Vec3 exitPos;
+    exitPos.x = constants->get("exit")->get(0)->asFloat();
+    exitPos.y = constants->get("exit")->get(1)->asFloat();
+    exitPos.z = constants->get("exit")->get(2)->asFloat();
+    std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("exit"));
+    model->setExit(exitPtr);
     
     // jack was here :)
     // get the sprites

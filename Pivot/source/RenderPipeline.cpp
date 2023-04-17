@@ -168,7 +168,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Player and exit
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"))); //TODO fix texture
-    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("bridge"))); //TODO fix texture
+    drawables.push_back(DrawObject(model->_exit->getPosition(), Color4f::BLUE, assets->get<Texture>("bridge"))); //TODO fix texture
 
     // Collectibles
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();

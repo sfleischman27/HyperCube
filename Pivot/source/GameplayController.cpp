@@ -451,7 +451,7 @@ void GameplayController::update(float dt) {
         }
     }
     
-    if(_model->getPlayer3DLoc().distance(_model->getExitLoc()) <= EXITING_DIST) {
+    if(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST) {
         // TODO: Game ends here by checking if the player collects all colletibles - Sarah
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;
