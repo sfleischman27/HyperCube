@@ -389,11 +389,14 @@ void GameplayController::update(float dt) {
         CULog("Debug mode is: %d, visibility: %d", isDebug(), _debugnode->isVisible());
         
     }
-    CULog("%f",_input->cutFactor);
-    
+
+    CULog("%f", save);
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
     //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
-
+    if (!_input->isRotating) {
+        save = 0.0;
+        _input->cutFactor = 0.0;
+    }
     if (_model->_player->isGrounded() && _input->isRotating) {
 //        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
@@ -429,7 +432,6 @@ void GameplayController::update(float dt) {
             _model->_justFinishRotating = true;
         }
         if (_model->_justFinishRotating) {
-            save = 0.0;
             _physics->getWorld()->addObstacle(_model->_player);
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
