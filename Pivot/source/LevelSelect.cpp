@@ -49,9 +49,6 @@ bool LevelSelect::init(const std::shared_ptr<cugl::AssetManager> &assets, int le
             }
         });
     }
-    
-//    auto test = _assets->get<JsonValue>("pivot_levelUI");
-//    test->get("scene2s")->get("levelLab")->get("type")->set("Widget");
    
     addChild(layer);
     setActive(false);
@@ -94,7 +91,8 @@ void LevelSelect::setActive(bool value){
     if (value) { _choice = NONE; }
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
         int num = nameToNum(it->first);
-        if (num <= _maxLevel && value && num != -1){ // unlocked and unlocked button
+        if (num <= _maxLevel && value && num != -1){
+            // unlocked and unlocked button
             it->second->activate();
             _buttons[it->first + "Locked"]->setVisible(false);
         } else if (num == -1){ // locked button
@@ -105,15 +103,6 @@ void LevelSelect::setActive(bool value){
             it->second->setDown(false);
             _buttons[it->first + "Locked"]->setVisible(true);
         }
-    }
-}
-
-std::string LevelSelect::getPackString(){
-    switch (_pack) {
-        case Pack::debug:
-            return "debug";
-        case Pack::test:
-            return "test";
     }
 }
 
@@ -154,10 +143,37 @@ int LevelSelect::nameToNum(std::string name){
 }
 
 void LevelSelect::setChoice(std::string name){
-    _choice = static_cast<Choice>(nameToNum(name));
+    if (name == "level1"){
+        _choice = Choice::level1;
+    } else if (name == "level2"){
+        _choice = Choice::level2;
+    } else if (name == "level3"){
+        _choice = Choice::level3;
+    } else if (name == "level4"){
+        _choice = Choice::level4;
+    } else if (name == "level5"){
+        _choice = Choice::level5;
+    } else if (name == "level6"){
+        _choice = Choice::level6;
+    } else if (name == "level7"){
+        _choice = Choice::level7;
+    } else if (name == "level8"){
+        _choice = Choice::level8;
+    } else if (name == "level9"){
+        _choice = Choice::level9;
+    } else if (name == "level10"){
+        _choice = Choice::level10;
+    } else if (name == "level11"){
+        _choice = Choice::level11;
+    } else if (name == "level12"){
+        _choice = Choice::level12;
+    } else if (name == "level13"){
+        _choice = Choice::level13;
+    } else if (name == "level14"){
+        _choice = Choice::level14;
+    } else if (name == "level15"){
+        _choice = Choice::level15;
+    } else{
+        _choice = Choice::NONE;
+    }
 }
-
-std::string LevelSelect::numToName(int num){
-    return "level" + toString(num);
-}
-
