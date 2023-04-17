@@ -411,7 +411,7 @@ void GameplayController::update(float dt) {
 //    }
     //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_model->_player->isGrounded() && _input->didKeepChangingCut()) {
-        _plane->rotateNorm(_input->getMoveNorm());
+        _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         //createCutObstacles();
         _rotating = true;
     }

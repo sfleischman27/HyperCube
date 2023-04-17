@@ -20,11 +20,13 @@ private:
 		Vec3 pos;
 		Color4f col;
 		std::shared_ptr<cugl::Texture> tex;
+		std::shared_ptr<cugl::Texture> normalMap;
 
-		DrawObject(Vec3 pos, Color4f col, std::shared_ptr<cugl::Texture> tex) {
+		DrawObject(Vec3 pos, Color4f col, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap) {
 			this->pos = pos;
 			this->col = col;
 			this->tex = tex;
+			this->normalMap = normalMap;
 		}
 	};
 

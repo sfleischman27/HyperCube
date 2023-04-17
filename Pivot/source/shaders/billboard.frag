@@ -15,6 +15,8 @@ layout (location = 3) out vec4 frag_depth; // stored in r
 
 uniform mat4 Mv;
 uniform sampler2D billTex;
+uniform sampler2D normTex;
+uniform int useNormTex;
 
 vec4 packFloat(const float value) {
 	float transF = (value + 2500.0) / 50000.0;
@@ -36,6 +38,9 @@ void main(void) {
 	//frag_replace = vec4(0.0, 0.0, 0.0, 1.0);
 	frag_depth = vec4(gl_FragCoord.z * 50.0, 0.0, 0.0, 1.0);
 	frag_normal = vec4(0.0, 0.0, 0.0, 1.0);
+	if (useNormTex == 1) {
+		frag_normal.xyz = (texture(normTex, outTexCoord).xyz + vec3(1.0)) / 2.0;
+	}
 }
 
 /////////// SHADER END //////////)"
