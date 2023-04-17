@@ -202,7 +202,8 @@ void PivotApp::updateLoadingScene(float timestep){
     if (_demoloading.isActive()) {
         _demoloading.update(timestep);
     } else {
-        _demoloading.dispose(); // Permanently disables the input listeners in this mode
+        // Permanently disables the input listeners in this mode
+        _demoloading.dispose();
         _mainMenu.init(_assets);
         _levelSelect.init(_assets);
         _endMenu.init(_assets);
@@ -252,10 +253,10 @@ void PivotApp::updateMainScene(float timestep){
 
 void PivotApp::updateLevelScene(float timestep){
     switch (_levelSelect.getChoice()) {
-        case LevelSelect::Choice::NONE:
+        case LevelSelect::NONE:
             _levelSelect.update(timestep);
             break;
-        case LevelSelect::Choice::level1:
+        case LevelSelect::level1:
             _levelSelect.setActive(false);
             _gameplay.load("debug_0000");
             _gameplay.setActive(true);
@@ -333,8 +334,9 @@ void PivotApp::updateEndScene(float timestep){
             break;
         case EndLevelMenu::Choice::NEXT:
             _endMenu.setActive(false);
-            _levelSelect.setActive(true);
-            _scene = State::LEVEL;
+            _gameplay.setActive(true);
+            _gameplay.load("debug_0000");
+            _scene = State::GAME;
             break;
     }
     // TODO: add actual next level logic

@@ -14,37 +14,43 @@ class LevelSelect : public cugl::Scene2 {
 public:
     enum Choice {
         /** User has not yet made a choice */
-        NONE,
+        NONE = -1,
         /** User wants to start level 1 */
-        level1,
+        level1 = 1,
         /** User wants to start level 2 */
-        level2,
+        level2 = 2,
         /** User wants to start level 3 */
-        level3,
+        level3 = 3,
         /** User wants to start level 4 */
-        level4,
+        level4 = 4,
         /** User wants to start level 5 */
-        level5,
+        level5 = 5,
         /** User wants to start level 6 */
-        level6,
+        level6 = 6,
         /** User wants to start level 7 */
-        level7,
+        level7 = 7,
         /** User wants to start level 8 */
-        level8,
+        level8 = 8,
         /** User wants to start level 9 */
-        level9,
+        level9 = 9,
         /** User wants to start level 10 */
-        level10,
+        level10 = 10,
         /** User wants to start level 11 */
-        level11,
+        level11 = 11,
         /** User wants to start level 12 */
-        level12,
+        level12 = 12,
         /** User wants to start level 13 */
-        level13,
+        level13 = 13,
         /** User wants to start level 14 */
-        level14,
+        level14 = 14,
         /** User wants to start level 15 */
-        level15,
+        level15 = 15,
+    };
+    
+    enum Pack {
+        /** The pack of levels that the page is displaying */
+        debug = 0,
+        test = 1
     };
     
 protected:
@@ -58,6 +64,8 @@ protected:
     int _maxLevel;
     /** The player menu choice */
     Choice _choice;
+    /** The current level pack */
+    Pack _pack;
     
     /**
      * Returns the active screen size of this scene.
@@ -149,16 +157,42 @@ public:
     /**
      * Returns the user's menu choice.
      *
-     * This will return NONE if the user had no yet made a choice.
+     * This will return NONE if the user has no yet made a choice.
      *
      * @return the user's menu choice.
      */
     Choice getChoice() const { return _choice; }
+    
+    /**
+     * Returns the current pack as a string.
+     *
+     * @return the string of the current pack
+     */
+    std::string getPackString();
   
 private:
+    /** Translates a level string to a number
+     *  Only use for levels 1-15  all others return -1
+     *
+     *  Example: "level12" --> 12
+     */
     int nameToNum(std::string name);
     
+    /** Uses the string version to set the level choice (1-15)*/
     void setChoice(std::string name);
+    
+    /** Translates a number to a level string
+     *  Only use for levels 1-15
+     *
+     *  Example: 12 --> "level12"
+     */
+    std::string numToName(int num);
+    
+    /** Gets the int value of the current pack
+     *
+     *  @return the int version of the current pack
+     */
+    int getPackNum() { return _pack; }
     
 };
 
