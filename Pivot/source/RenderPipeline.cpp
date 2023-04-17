@@ -167,21 +167,21 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     drawables.clear();
 
     // Player and exit
-    drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"), assets->get<Texture>("dude-normal"))); //TODO fix texture
-    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("bridge"), NULL)); //TODO fix texture
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"), assets->get<Texture>("dude-normal"), true)); //TODO fix texture
+    drawables.push_back(DrawObject(model->getExitLoc(), Color4f::BLUE, assets->get<Texture>("bridge"), NULL, false)); //TODO fix texture
 
     // Collectibles
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            drawables.push_back(DrawObject(c.second.getPosition(), Color4f::GREEN, c.second.getTexture(), NULL));
+            drawables.push_back(DrawObject(c.second.getPosition(), Color4f::GREEN, c.second.getTexture(), NULL, false));
         }
     }
 
     // Glowsticks
     std::vector<Glowstick> glows = model->_glowsticks;
     for (Glowstick g : glows) {
-        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("spinner"), NULL)); //TODO fix texture
+        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("spinner"), NULL, false)); //TODO fix texture
     }
     
     // Construct basis
@@ -201,6 +201,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Update camera
     Vec3 n = model->getPlaneNorm();
     const Vec3 charPos = model->getPlayer3DLoc();
+    CULog("%f, %f, %f", charPos.x, charPos.y, charPos.z);
     const Vec3 camPos = charPos + (epsilon * n);
     _camera->setPosition(camPos);
     _camera->setDirection(-n);
@@ -298,6 +299,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
         _shaderBill->setUniformMat4("Mv", _camera->getView());
         _shaderBill->setUniform1i("billTex", dro.tex->getBindPoint());
+        _shaderBill->setUniform1i("flipX", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         if (dro.normalMap != NULL) {
             _shaderBill->setUniform1i("normTex", dro.normalMap->getBindPoint());
             _shaderBill->setUniform1i("useNormTex", 1);
@@ -343,6 +345,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderPosition->setUniform1i("removeA", 1);
         _shaderPosition->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderPosition->setUniformMat4("uPerspective", _camera->getCombined());
+        _shaderPosition->setUniform1i("flipX", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _vertbuffPosition->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffPosition->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffPosition->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
