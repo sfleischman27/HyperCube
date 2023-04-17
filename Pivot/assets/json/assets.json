@@ -8,6 +8,9 @@
         "dude": {
             "file": "textures/dude.png"
         },
+        "dude-normal": {
+            "file": "textures/dude-normal.png"
+        },
         "cobble": {
             "file": "textures/cobblestone.png"
         },

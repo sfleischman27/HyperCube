@@ -25,7 +25,7 @@ float unpackFloat(const vec4 value) {
 
 void main(void) {
 	vec3 pos = texture(posTexture, outTexCoord).xyz;
-	vec3 norm = (texture(normalTexture, outTexCoord).xyz * 2.0) - vec3(1.0, 1.0, 1.0);
+	vec3 norm = (texture(normalTexture, outTexCoord).xyz * 2.0) - vec3(1.0);
 	vec3 alb = texture(cutTexture, outTexCoord).xyz;
 
     vec3 viewDir = normalize(vpos - pos);

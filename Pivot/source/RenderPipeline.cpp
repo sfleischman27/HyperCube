@@ -174,14 +174,14 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            drawables.push_back(DrawObject(c.second.getPosition(), Color4f::GREEN, c.second.getTexture()));
+            drawables.push_back(DrawObject(c.second.getPosition(), Color4f::GREEN, c.second.getTexture(), NULL));
         }
     }
 
     // Glowsticks
     std::vector<Glowstick> glows = model->_glowsticks;
     for (Glowstick g : glows) {
-        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("spinner"))); //TODO fix texture
+        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("spinner"), NULL)); //TODO fix texture
     }
     
     // Construct basis
@@ -189,8 +189,10 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);
 
     // Set bind points
+    const int bindStart = 20;
     for (int i = 0; i < drawables.size(); i++) {
-        drawables[i].tex->setBindPoint(20 + i);
+        drawables[i].tex->setBindPoint(bindStart + (2*i));
+        drawables[i].tex->setBindPoint(bindStart + (2*i) + 1);
     }
 }
 
@@ -292,12 +294,20 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
         // Draw
         dro.tex->bind();
+        if (dro.normalMap != NULL) dro.normalMap->bind();
         _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
         _shaderBill->setUniformMat4("Mv", _camera->getView());
         _shaderBill->setUniform1i("billTex", dro.tex->getBindPoint());
+        if (dro.normalMap != NULL) {
+            _shaderBill->setUniform1i("normTex", dro.normalMap->getBindPoint());
+            _shaderBill->setUniform1i("useNormTex", 1);
+        } else {
+            _shaderBill->setUniform1i("useNormTex", 0);
+        }
         _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffBill->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
+        if (dro.normalMap != NULL) dro.normalMap->unbind();
         dro.tex->unbind();
     }
 
