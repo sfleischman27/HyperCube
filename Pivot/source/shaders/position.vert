@@ -13,7 +13,7 @@ void main(void) {
     gl_Position = uPerspective * aPosition;
     pos = aPosition;
     outTexCoord = aTexCoord;
-    if (flipX == 1) {
+    if (flipX != 1) {
         outTexCoord.x = 1.0 - outTexCoord.x;
     }
 }

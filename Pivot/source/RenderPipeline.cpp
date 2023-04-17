@@ -290,8 +290,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         // Set up vertices
         _meshBill.vertices.clear();
         Size sz = dro.tex->getSize();
-        for (float i = -sz.width / 2; i <= sz.width / 2; i += sz.width) {
-            for (float j = -sz.height / 2; j <= sz.height / 2; j += sz.height) {
+        for (float i = -sz.width / 8; i <= sz.width / 8; i += sz.width / 4) {
+            for (float j = -sz.height / 8; j <= sz.height / 8; j += sz.height / 4) {
                 tempV.position = dro.pos + i * basisRight + j * basisUp;
                 tempV.color = dro.col.getPacked();
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
@@ -338,8 +338,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         // Set up vertices
         _meshBill.vertices.clear();
         Size sz = dro.tex->getSize();
-        for (float i = -sz.width / 2; i <= sz.width / 2; i += sz.width) {
-            for (float j = -sz.height / 2; j <= sz.height / 2; j += sz.height) {
+        for (float i = -sz.width / 8; i <= sz.width / 8; i += sz.width / 4) {
+            for (float j = -sz.height / 8; j <= sz.height / 8; j += sz.height / 4) {
                 tempV.position = dro.pos + i * basisRight + j * basisUp;
                 tempV.color = dro.col.getPacked();
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
