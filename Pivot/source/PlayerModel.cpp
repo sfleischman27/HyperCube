@@ -241,6 +241,8 @@ void PlayerModel::update(float dt) {
         _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
     }
     
+    
+    
     CapsuleObstacle::update(dt);
     
     if (_node != nullptr) {

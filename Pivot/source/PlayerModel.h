@@ -94,6 +94,12 @@ protected:
     cugl::Vec2 _vel;
     /** The location of the player in 3D*/
     cugl::Vec3 _3DLoc;
+    
+    /** the SpriteSheets for the various player animations*/
+    std::unordered_map<std::string, cugl::SpriteSheet> spriteSheets;
+    
+    /** the current SpriteSheet*/
+    cugl::SpriteSheet currentSpriteSheet;
 
     /**
     * Redraws the outline of the physics fixtures to the debug node
@@ -445,6 +451,8 @@ public:
      * @param loc  3D locaiton of the player
      */
     void set3DLoc(cugl::Vec3 loc) { _3DLoc = loc; }
+    
+    void setSpriteSheet(std::string state) { currentSpriteSheet = spriteSheets.find(state)->second; }
 
     
 #pragma mark -
