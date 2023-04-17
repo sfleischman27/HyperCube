@@ -15,7 +15,7 @@ using namespace cugl;
 bool LevelSelect::init(const std::shared_ptr<cugl::AssetManager> &assets, int level) {
     
     _choice = NONE;
-    _pack = debug;
+    _pack = ZERO;
     _maxLevel = level;
     
     Size dimen = Application::get()->getDisplaySize();
@@ -109,9 +109,9 @@ void LevelSelect::setActive(bool value){
 
 std::string LevelSelect::packToString(Pack pack){
     switch (pack) {
-        case Pack::debug:
+        case Pack::ZERO:
             return "debug";
-        case Pack::test:
+        case Pack::ONE:
             return "test";
     }
 }
@@ -153,36 +153,37 @@ int LevelSelect::nameToNum(std::string name){
 }
 
 void LevelSelect::setChoice(std::string name){
+    //TODO: integer.parsestring use char after 5
     if (name == "level1"){
-        _choice = Choice::level1;
+        _choice = Choice::LEVEL1;
     } else if (name == "level2"){
-        _choice = Choice::level2;
+        _choice = Choice::LEVEL2;
     } else if (name == "level3"){
-        _choice = Choice::level3;
+        _choice = Choice::LEVEL3;
     } else if (name == "level4"){
-        _choice = Choice::level4;
+        _choice = Choice::LEVEL4;
     } else if (name == "level5"){
-        _choice = Choice::level5;
+        _choice = Choice::LEVEL5;
     } else if (name == "level6"){
-        _choice = Choice::level6;
+        _choice = Choice::LEVEL6;
     } else if (name == "level7"){
-        _choice = Choice::level7;
+        _choice = Choice::LEVEL7;
     } else if (name == "level8"){
-        _choice = Choice::level8;
+        _choice = Choice::LEVEL8;
     } else if (name == "level9"){
-        _choice = Choice::level9;
+        _choice = Choice::LEVEL9;
     } else if (name == "level10"){
-        _choice = Choice::level10;
+        _choice = Choice::LEVEL10;
     } else if (name == "level11"){
-        _choice = Choice::level11;
+        _choice = Choice::LEVEL11;
     } else if (name == "level12"){
-        _choice = Choice::level12;
+        _choice = Choice::LEVEL12;
     } else if (name == "level13"){
-        _choice = Choice::level13;
+        _choice = Choice::LEVEL13;
     } else if (name == "level14"){
-        _choice = Choice::level14;
+        _choice = Choice::LEVEL14;
     } else if (name == "level15"){
-        _choice = Choice::level15;
+        _choice = Choice::LEVEL15;
     } else{
         _choice = Choice::NONE;
     }
