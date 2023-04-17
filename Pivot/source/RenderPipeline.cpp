@@ -12,7 +12,7 @@
 
 using namespace cugl;
 
-RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const std::shared_ptr<AssetManager>& assets) : screenSize(displaySize * (screenWidth / displaySize.width)) {
+RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const std::shared_ptr<AssetManager>& assets) : screenSize(displaySize* (screenWidth / displaySize.width)) {
 
     // Asset manager
     this->assets = assets;
@@ -29,7 +29,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     fbo->setClearColor(Color4f::WHITE);
     fbo2->init(screenSize.width, screenSize.height);
     fbo2->setClearColor(Color4f::BLACK);
-    fbopos->init(screenSize.width, screenSize.height, 3);
+    fbopos->init(screenSize.width, screenSize.height, {cugl::Texture::PixelFormat::RGBA16F});
     fbopos->setClearColor(Color4f::WHITE);
 
     // Camera setup
@@ -236,8 +236,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(2)->setBindPoint(5);
     fbo->getTexture(3)->setBindPoint(6);
     fbopos->getTexture(0)->setBindPoint(7);
-    fbopos->getTexture(1)->setBindPoint(8);
-    fbopos->getTexture(2)->setBindPoint(9);
 
     // Outside texture translation
     if (model->_justFinishRotating) {
@@ -354,16 +352,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(2)->bind();
     fbo->getTexture(3)->bind();
     fbopos->getTexture(0)->bind();
-    fbopos->getTexture(1)->bind();
-    fbopos->getTexture(2)->bind();
 
     _shaderPointlight->setUniform1i("cutTexture", fbo->getTexture(0)->getBindPoint());
     _shaderPointlight->setUniform1i("replaceTexture", fbo->getTexture(1)->getBindPoint());
     _shaderPointlight->setUniform1i("normalTexture", fbo->getTexture(2)->getBindPoint());
 
-    _shaderPointlight->setUniform1i("posTextureX", fbopos->getTexture(0)->getBindPoint());
-    _shaderPointlight->setUniform1i("posTextureY", fbopos->getTexture(1)->getBindPoint());
-    _shaderPointlight->setUniform1i("posTextureZ", fbopos->getTexture(2)->getBindPoint());
+    _shaderPointlight->setUniform1i("posTexture", fbopos->getTexture(0)->getBindPoint());
 
     _shaderPointlight->setUniform1i("depthTexture", fbo->getTexture(3)->getBindPoint());
     _shaderPointlight->setUniform3f("vpos", _camera->getPosition().x, _camera->getPosition().y, _camera->getPosition().z);
@@ -377,8 +371,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     fbopos->getTexture(0)->unbind();
-    fbopos->getTexture(1)->unbind();
-    fbopos->getTexture(2)->unbind();
     fbo->getTexture(3)->unbind();
     fbo->getTexture(2)->unbind();
     fbo->getTexture(1)->unbind();

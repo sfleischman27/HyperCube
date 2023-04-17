@@ -61,7 +61,7 @@ static unsigned char cu_2x2_white_image[] = {
  *
  * @return the internal format for the pixel format
  */
-static GLint internal_format(Texture::PixelFormat format) {
+GLint internal_format(Texture::PixelFormat format) {
     switch (format) {
         case Texture::PixelFormat::RGBA:
             return GL_RGBA8;
@@ -75,6 +75,10 @@ static GLint internal_format(Texture::PixelFormat format) {
         case Texture::PixelFormat::RED_GREEN:
             return GL_RG8;
             break;
+        case Texture::PixelFormat::RGBA32F:
+            return GL_RGBA32F;
+        case Texture::PixelFormat::RGBA16F:
+            return GL_RGBA16F;
         case Texture::PixelFormat::DEPTH:
             return GL_DEPTH_COMPONENT32F;
         case Texture::PixelFormat::DEPTH_STENCIL:
@@ -95,7 +99,7 @@ static GLint internal_format(Texture::PixelFormat format) {
  *
  * @return the data type for the pixel format
  */
-static GLenum format_type(Texture::PixelFormat format) {
+GLenum format_type(Texture::PixelFormat format) {
     switch (format) {
         case Texture::PixelFormat::RGBA:
             return GL_UNSIGNED_BYTE;
@@ -110,6 +114,10 @@ static GLenum format_type(Texture::PixelFormat format) {
             return GL_UNSIGNED_BYTE;
             break;
         case Texture::PixelFormat::DEPTH:
+            return GL_FLOAT;
+        case Texture::PixelFormat::RGBA32F:
+            return GL_FLOAT;
+        case Texture::PixelFormat::RGBA16F:
             return GL_FLOAT;
         case Texture::PixelFormat::DEPTH_STENCIL:
             return GL_UNSIGNED_INT_24_8;
@@ -137,7 +145,7 @@ static GLenum format_type(Texture::PixelFormat format) {
  *
  * @return a copy of buffer expanded to RGBA representation.
  */
-static unsigned char* expand2rgba(unsigned char* buffer, int width, int height, int bsize) {
+unsigned char* expand2rgba(unsigned char* buffer, int width, int height, int bsize) {
     unsigned char* result = (unsigned char*)malloc(4*width*height);
     for(int ii = 0; ii < height; ii++) {
         for(int jj = 0; jj < width; jj++) {
@@ -253,7 +261,12 @@ bool Texture::initWithData(const void *data, int width, int height, Texture::Pix
 
     GLint  internal = internal_format(format);
     GLenum datatype = format_type(format);
-    glTexImage2D(GL_TEXTURE_2D, 0, internal, width, height, 0, (GLenum)format, datatype, data);
+    if (_pixelFormat == PixelFormat::RGBA32F || _pixelFormat == PixelFormat::RGBA16F) {
+        glTexImage2D(GL_TEXTURE_2D, 0, internal, width, height, 0, (GLenum)PixelFormat::RGBA, datatype, data);
+    }
+    else {
+        glTexImage2D(GL_TEXTURE_2D, 0, internal, width, height, 0, (GLenum)format, datatype, data);
+    }
     
     error = glGetError();
     if (error) {
@@ -368,8 +381,15 @@ const Texture& Texture::set(const void *data) {
         return *this;
     }
 
-    glTexImage2D(GL_TEXTURE_2D, 0, (GLenum)_pixelFormat, _width, _height, 0,
-                 (GLenum)_pixelFormat, GL_UNSIGNED_BYTE, data);
+    if (_pixelFormat == PixelFormat::RGBA32F || _pixelFormat == PixelFormat::RGBA16F) {
+        glTexImage2D(GL_TEXTURE_2D, 0, internal_format(_pixelFormat), _width, _height, 0,
+            (GLenum)PixelFormat::RGBA, format_type(_pixelFormat), data);
+    }
+    else {
+        glTexImage2D(GL_TEXTURE_2D, 0, internal_format(_pixelFormat), _width, _height, 0,
+            (GLenum)_pixelFormat, format_type(_pixelFormat), data);
+    }
+
     return *this;
 }
 
@@ -397,6 +417,10 @@ unsigned int Texture::getByteSize() const {
             break;
         case Texture::PixelFormat::DEPTH:
             return 4;
+        case Texture::PixelFormat::RGBA16F:
+            return 8;
+        case Texture::PixelFormat::RGBA32F:
+            return 16;
         case Texture::PixelFormat::DEPTH_STENCIL:
             return 4;
     }
@@ -590,7 +614,7 @@ std::shared_ptr<Texture> Texture::getSubTexture(GLfloat minS, GLfloat maxS,
  * If this texture is bound, calling this method will unbind the texture
  * from its current slot before reassignment.
  *
- * @param point the texture location to associate with this texture.
+ * @param the texture location to associate with this texture.
  */
 void Texture::setBindPoint(GLuint point) {
     GLint orig;
@@ -810,7 +834,12 @@ bool Texture::save(const std::string file) {
     SDL_Surface* surface;
     unsigned int bsize = getByteSize();
     unsigned char* buffer = (unsigned char*)malloc(bsize*_width*_height);
-    glGetTexImage(GL_TEXTURE_2D,0,(GLenum)_pixelFormat,format_type(_pixelFormat),buffer);
+    if (_pixelFormat == PixelFormat::RGBA32F || _pixelFormat == PixelFormat::RGBA16F) {
+        glGetTexImage(GL_TEXTURE_2D, 0, (GLenum)PixelFormat::RGBA, format_type(_pixelFormat), buffer);
+    }
+    else {
+        glGetTexImage(GL_TEXTURE_2D, 0, (GLenum)_pixelFormat, format_type(_pixelFormat), buffer);
+    }
     GLenum error = glGetError();
     if (error) {
         CULogError("Could not write file %s. %s", file.c_str(), gl_error_name(error).c_str());
