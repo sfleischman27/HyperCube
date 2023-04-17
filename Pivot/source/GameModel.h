@@ -63,8 +63,13 @@ private:
     
 #pragma mark Collectibles State
 public:
-    /** Vector of collectibles */
+    /** map of collectibles */
     std::unordered_map<std::string, Collectible> _collectibles;
+
+#pragma mark Decorations State
+public:
+    /** Vector of decorations */
+    std::vector<std::shared_ptr<GameItem>> _decorations;
     
 #pragma mark Backpack State
 public:
@@ -277,6 +282,13 @@ public:
      */
     std::unordered_map<std::string, Collectible> getCollectibles() {
         return _collectibles;
+    }
+
+    /**
+     * Gets the vector of decorations
+     */
+    std::vector<std::shared_ptr<GameItem>> getDecorations() {
+        return _decorations;
     }
     
     /**

@@ -92,7 +92,6 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     for (int i = 0; i < sprites->size(); i++) {
         auto iscol = sprites->get(std::to_string(i))->get("collectible")->asBool();
         auto tex = sprites->get(std::to_string(i))->getString("tex");
-        CULog(tex.c_str());
         if (iscol && (tex != "")) {
             // its a collectible
             // get sprite location
@@ -130,8 +129,16 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
         }
         
         else {
-            CULog("A Decoration");
-            // its a Decoration
+            // its a decoration
+            Vec3 loc;
+            loc.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+            loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+            loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+            //get texture
+            auto texkey = sprites->get(std::to_string(i))->getString("tex");
+
+            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "exit", _assets->get<Texture>(texkey));
+            model->_decorations.push_back(decPtr);
         }
         // otherwise its just a decoration
         // TODO put decoration initialization here
