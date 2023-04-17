@@ -14,37 +14,43 @@ class LevelSelect : public cugl::Scene2 {
 public:
     enum Choice {
         /** User has not yet made a choice */
-        NONE,
+        NONE = -1,
         /** User wants to start level 1 */
-        level1,
+        level1 = 0,
         /** User wants to start level 2 */
-        level2,
+        level2 = 1,
         /** User wants to start level 3 */
-        level3,
+        level3 = 2,
         /** User wants to start level 4 */
-        level4,
+        level4 = 3,
         /** User wants to start level 5 */
-        level5,
+        level5 = 4,
         /** User wants to start level 6 */
-        level6,
+        level6 = 5,
         /** User wants to start level 7 */
-        level7,
+        level7 = 6,
         /** User wants to start level 8 */
-        level8,
+        level8 = 7,
         /** User wants to start level 9 */
-        level9,
+        level9 = 8,
         /** User wants to start level 10 */
-        level10,
+        level10 = 9,
         /** User wants to start level 11 */
-        level11,
+        level11 = 10,
         /** User wants to start level 12 */
-        level12,
+        level12 = 11,
         /** User wants to start level 13 */
-        level13,
+        level13 = 12,
         /** User wants to start level 14 */
-        level14,
+        level14 = 13,
         /** User wants to start level 15 */
-        level15,
+        level15 = 14,
+    };
+    
+    enum Pack {
+        /** The pack of levels that the page is displaying */
+        debug = 0,
+        test = 1
     };
     
 protected:
@@ -58,6 +64,8 @@ protected:
     int _maxLevel;
     /** The player menu choice */
     Choice _choice;
+    /** The current pack */
+    Pack _pack;
     
     /**
      * Returns the active screen size of this scene.
@@ -102,8 +110,8 @@ public:
      *
      * @return true if the controller is initialized properly, false otherwise.
      */
-    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 2); }
-    // TODO: change this back to 1
+    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 1); }
+    // TODO: change this back to 0
     
     /**
      * Initializes the controller contents, making it ready for loading
@@ -146,6 +154,24 @@ public:
      */
     virtual void setActive(bool value) override;
     
+#pragma mark State Transition Helpers
+public:
+    /**
+     * Returns a level name string using the current level menu states
+     *
+     * Relies on the choice and pack enums in levelSelect (which get reset when levelSelect is activated)
+     * Only use when a level has been selected! (otherwise this will break things)
+     */
+    std::string getLevelString();
+    
+    /**
+     * Returns a level name string using the current level menu states
+     *
+     * Relies on the choice and pack enums in levelSelect (which get reset when levelSelect is activated)
+     * Only use when a level has been selected! (otherwise this will break things)
+     */
+    std::string getNextLevelString();
+    
     /**
      * Returns the user's menu choice.
      *
@@ -154,8 +180,28 @@ public:
      * @return the user's menu choice.
      */
     Choice getChoice() const { return _choice; }
-  
+    
 private:
+    /**
+     * Returns a level name string using the given level states
+     *
+     * @param level  Level number (0-14)
+     * @param pack    Level pack string
+     */
+    std::string toLevelString(int level, std::string pack);
+    
+    /**
+     * Returns the current pack as a string.
+     *
+     * @return the string of the current pack
+     */
+    std::string packToString(Pack pack);
+  
+    /** Translates a level string to a number
+     *  Only use for levels 1-15  all others return -1
+     *
+     *  Example: "level12" --> 11
+     */
     int nameToNum(std::string name);
     
     void setChoice(std::string name);

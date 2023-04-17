@@ -15,6 +15,7 @@ using namespace cugl;
 bool LevelSelect::init(const std::shared_ptr<cugl::AssetManager> &assets, int level) {
     
     _choice = NONE;
+    _pack = debug;
     _maxLevel = level;
     
     Size dimen = Application::get()->getDisplaySize();
@@ -106,37 +107,46 @@ void LevelSelect::setActive(bool value){
     }
 }
 
+std::string LevelSelect::packToString(Pack pack){
+    switch (pack) {
+        case Pack::debug:
+            return "debug";
+        case Pack::test:
+            return "test";
+    }
+}
+
 int LevelSelect::nameToNum(std::string name){
     if (name == "level1"){
-        return 1;
+        return 0;
     } else if (name == "level2"){
-        return 2;
+        return 1;
     } else if (name == "level3"){
-        return 3;
+        return 2;
     } else if (name == "level4"){
-        return 4;
+        return 3;
     } else if (name == "level5"){
-        return 5;
+        return 4;
     } else if (name == "level6"){
-        return 6;
+        return 5;
     } else if (name == "level7"){
-        return 7;
+        return 6;
     } else if (name == "level8"){
-        return 8;
+        return 7;
     } else if (name == "level9"){
-        return 9;
+        return 8;
     } else if (name == "level10"){
-        return 10;
+        return 9;
     } else if (name == "level11"){
-        return 11;
+        return 10;
     } else if (name == "level12"){
-        return 12;
+        return 11;
     } else if (name == "level13"){
-        return 13;
+        return 12;
     } else if (name == "level14"){
-        return 14;
+        return 13;
     } else if (name == "level15"){
-        return 15;
+        return 14;
     } else {
         return -1;
     }
@@ -176,4 +186,29 @@ void LevelSelect::setChoice(std::string name){
     } else{
         _choice = Choice::NONE;
     }
+}
+
+std::string LevelSelect::toLevelString(int level, std::string pack){
+    if (level < 10){
+        return pack + "_000" + std::to_string(level);
+    } else{
+        return pack + "_00" + std::to_string(level);
+    }
+}
+
+std::string LevelSelect::getLevelString(){
+    return toLevelString(_choice, packToString(_pack));
+}
+
+std::string LevelSelect::getNextLevelString(){
+    int level = _choice;
+    LevelSelect::Pack pack = _pack;
+    
+    if (level == 14){
+        level = 0;
+        pack = static_cast<LevelSelect::Pack>(pack + 1);
+    } else{
+        level +=1;
+    }
+    return toLevelString(level, packToString(pack));
 }
