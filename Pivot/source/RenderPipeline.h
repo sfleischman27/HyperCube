@@ -65,6 +65,12 @@ public:
 	const std::string screenFrag =
 #include "shaders/screen.frag"
 	;
+	const std::string positionVert =
+#include "shaders/position.vert"
+	;
+	const std::string positionFrag =
+#include "shaders/position.frag"
+	;
 
 	// constants
 	const float epsilon = 0.001f;
@@ -80,17 +86,20 @@ public:
 	std::shared_ptr<cugl::Shader> _shaderPointlight;
 	std::shared_ptr<cugl::Shader> _shaderFog;
 	std::shared_ptr<cugl::Shader> _shaderScreen;
+	std::shared_ptr<cugl::Shader> _shaderPosition;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuff;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBill;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffCut;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffPointlight;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffFog;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffScreen;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffPosition;
 	cugl::Mesh<PivotVertex3> _mesh;
 	cugl::Mesh<PivotVertex3> _meshBill;
 	cugl::Mesh<PivotVertex3> _meshFsq;
-	cugl::RenderTarget fbo;
-	cugl::RenderTarget fbo2;
+	std::shared_ptr<cugl::RenderTarget> fbo;
+	std::shared_ptr<cugl::RenderTarget> fbo2;
+	std::shared_ptr<cugl::RenderTarget> fbopos;
 
 	// textures
 	std::shared_ptr<Texture> cobbleTex;

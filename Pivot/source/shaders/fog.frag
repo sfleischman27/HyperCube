@@ -23,7 +23,6 @@ void main(void) {
 	vec3 fadeColor = vec3(1.0, 1.0, 1.0);
 	frag_color.xyz = diff - fadeColor * d;
 	frag_color.a = 1.0;
-	//frag_color = vec4(0, 0, 0, 1); //TEMP
 }
 
 /////////// SHADER END //////////)"

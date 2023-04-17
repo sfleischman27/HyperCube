@@ -4,16 +4,14 @@ R"(////////// SHADER BEGIN /////////
 precision mediump float;
 #endif
 
-in vec4 outColor;
 in vec4 pos;
 in vec2 outTexCoord;
 
-layout (location = 0) out vec4 frag_color;
-//layout (location = 1) out vec4 frag_replace; // if r == 0, then cut, else if r == 1.0 keep same
-layout (location = 2) out vec4 frag_normal;
-layout (location = 3) out vec4 frag_depth; // stored in r
+layout (location = 0) out vec4 frag_pos_x;
+layout (location = 1) out vec4 frag_pos_y;
+layout (location = 2) out vec4 frag_pos_z;
 
-uniform mat4 Mv;
+uniform int removeA;
 uniform sampler2D billTex;
 
 vec4 packFloat(const float value) {
@@ -27,15 +25,17 @@ vec4 packFloat(const float value) {
 
 void main(void) {
 
-	frag_color = texture(billTex, outTexCoord);
+	vec4 frag_color = texture(billTex, outTexCoord);
 
-	if (frag_color.a < 0.5) {
-		discard;
+	if (removeA == 1) {
+		if (frag_color.a < 0.5) {
+			discard;
+		}
 	}
-	frag_color.a = 1.0;
-	//frag_replace = vec4(0.0, 0.0, 0.0, 1.0);
-	frag_depth = vec4(gl_FragCoord.z * 50.0, 0.0, 0.0, 1.0);
-	frag_normal = vec4(0.0, 0.0, 0.0, 1.0);
+
+	frag_pos_x = packFloat(pos.x);
+	frag_pos_y = packFloat(pos.y);
+	frag_pos_z = packFloat(pos.z);
 }
 
 /////////// SHADER END //////////)"
