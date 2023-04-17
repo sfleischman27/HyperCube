@@ -42,7 +42,7 @@ void main(void) {
 
 		frag_replace = vec4(1.0, 0.0, 0.0, 1.0);
 	}
-	frag_depth = vec4(gl_FragCoord.z * 50, 0.0, 0.0, 1.0);
+	frag_depth = vec4(gl_FragCoord.z * 50.0, 0.0, 0.0, 1.0);
 	frag_normal = vec4((outNormal + vec3(1.0, 1.0, 1.0)) / 2.0, 1.0);
 	frag_pos_x = packFloat(pos.x);
 	frag_pos_y = packFloat(pos.y);

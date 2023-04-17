@@ -30,7 +30,7 @@ void main(void) {
 		// End temp
 
 		frag_color = texture(outsideTexture, transTexCoord);
-		frag_color.a = 1;
+		frag_color.a = 1.0;
 	} else {
 		discard;
 	}

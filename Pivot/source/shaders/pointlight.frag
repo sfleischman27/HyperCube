@@ -36,7 +36,7 @@ void main(void) {
     vec3 viewDir = normalize(vpos - pos);
     vec3 lightDir = normalize(lpos - pos);
 	float lightDist = distance(lpos, pos);
-    vec3 diffuse = max(dot(norm, lightDir), 0.0) * alb * color * power * 10000 / (lightDist * lightDist);
+    vec3 diffuse = max(dot(norm, lightDir), 0.0) * alb * color * power * 10000.0 / (lightDist * lightDist);
 	frag_color = vec4(diffuse, 1.0);
 }
 
