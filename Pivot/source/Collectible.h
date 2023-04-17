@@ -1,6 +1,6 @@
 //
 //  Collectible.h
-//  Platformer
+//  Pivot
 //
 //  Created by Jolene Mei on 2/27/23.
 //
@@ -8,21 +8,15 @@
 #ifndef Collectible_h
 #define Collectible_h
 #include <cugl/cugl.h>
+#include "GameItem.h"
 
 using namespace cugl;
 
-class Collectible{
+class Collectible : public GameItem{
     
 protected:
-    /** Collectible name/identifier */
-    std::string _name;
-    /** Collectible position */
-    Vec3 _position;
     /** Collectible status */
     bool _collected;
-    /** The texture for the asteroid sprite sheet. */
-    std::shared_ptr<cugl::Texture> _texture;
-
     
 public:
     /**
@@ -31,30 +25,12 @@ public:
      * @param pos          The position of the collectible
      * @param name        The name/identifier of the collectible
      */
-    Collectible(const Vec3 pos, const std::string name) {
-        setName(name);
-        setPosition(pos);
+    Collectible(const Vec3 pos, const std::string name) : GameItem(pos, name) {
         setCollected(false);
     }
     
 #pragma mark Setters
 public:
-    /**
-     *  Sets the name of the collectible
-     *
-     *  @param n
-     */
-    void setName(std::string n) {
-        _name = n;
-    }
-    /**
-     *  Sets the position of the collectible
-     *
-     *  @param pos
-     */
-    void setPosition(Vec3 pos) {
-        _position = pos;
-    }
     /**
      *  Sets the collectible status
      *
@@ -67,21 +43,9 @@ public:
 #pragma mark Getters
 public:
     /**
-     *  Returns the name of the collectible
-     */
-    std::string getName() { return _name; }
-    /**
-     *  Returns the position of the collectible
-     */
-    Vec3 getPosition() { return _position; }
-    /**
      *  Returns the collectible status
      */
     bool getCollected() { return _collected; }
-    /**
-     *  Returns the texture
-     */
-    std::shared_ptr<Texture> getTexture() { return _texture; }
     
 #pragma mark Gameplay Methods
 public:
