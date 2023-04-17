@@ -378,6 +378,7 @@ void GameplayController::setActive(bool value){
  *
  * @param  delta    Number of seconds since last animation frame
  */
+float save = 0.0;
 void GameplayController::update(float dt) {
     _model->_justFinishRotating = false;
 #pragma mark INPUT
@@ -388,20 +389,26 @@ void GameplayController::update(float dt) {
         CULog("Debug mode is: %d, visibility: %d", isDebug(), _debugnode->isVisible());
         
     }
+    CULog("%f",_input->cutFactor);
     
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
-    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
-        _plane->rotateNorm(.01);
+    //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
+
+    if (_model->_player->isGrounded() && _input->isRotating) {
+//        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
+        _plane->rotateNorm((_input->cutFactor - save)/1000);
+        save = _input->cutFactor;
         _rotating = true;
     }
     
     //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
-        _plane->rotateNorm(-.01);
-        //createCutObstacles();
-        _rotating = true;
-    }
+
+//    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
+//        _plane->rotateNorm(_input->cutFactor/15000);
+//        //createCutObstacles();
+//        _rotating = true;
+//    }
     //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_model->_player->isGrounded() && _input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm());
@@ -422,6 +429,7 @@ void GameplayController::update(float dt) {
             _model->_justFinishRotating = true;
         }
         if (_model->_justFinishRotating) {
+            save = 0.0;
             _physics->getWorld()->addObstacle(_model->_player);
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
