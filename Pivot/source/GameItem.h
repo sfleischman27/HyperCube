@@ -25,17 +25,47 @@ public:
     /**
      * Creates the game item
      *
-     * @param pos          The position of the collectible
-     * @param name        The name/identifier of the collectible
+     * @param pos          The position of the item
+     * @param name        The name/identifier of the item
+     * @param text       The teture of the item
+     */
+    GameItem(const Vec3 pos, const std::string name, const std::shared_ptr<cugl::Texture>& text) {
+        setName(name);
+        setPosition(pos);
+        setTexture(text);
+    }
+    /**
+     * Creates the game item
+     *
+     * @param pos          The position of the item
+     * @param name        The name/identifier of the item
      */
     GameItem(const Vec3 pos, const std::string name) {
         setName(name);
         setPosition(pos);
     }
-    
+    /**
+     * Creates the game item
+     *
+     * @param pos          The position of the item
+     * @param text       The teture of the item
+     */
+    GameItem(const Vec3 pos, const std::shared_ptr<cugl::Texture>& text) {
+        setPosition(pos);
+        setTexture(text);
+    }
+    /**
+     * Creates the game item
+     *
+     * @param pos          The position of the item
+     */
     GameItem(const Vec3 pos) {
         setPosition(pos);
     }
+    /**
+     * default constructor with no parameter
+     */
+    GameItem(){}
     
 #pragma mark Setters
 public:
