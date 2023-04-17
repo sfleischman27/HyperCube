@@ -306,6 +306,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBill->setUniformMat4("Mv", _camera->getView());
         _shaderBill->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderBill->setUniform1i("flipX", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
+        _shaderBill->setUniform1i("flipXfrag", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         if (dro.normalMap != NULL) {
             _shaderBill->setUniform1i("normTex", dro.normalMap->getBindPoint());
             _shaderBill->setUniform1i("useNormTex", 1);
