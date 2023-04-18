@@ -256,7 +256,13 @@ void PlayerModel::update(float dt) {
     }
     currentSpriteSheet->setFrame(frame);
     
-    CULog("%i", currentSpriteSheet->getFrame());
+//    CULog("%i", currentSpriteSheet->getFrame()/currentSpriteSheet->getCols());
+
+//    CULog("%i", currentSpriteSheet->getFrame());
+    
+//    CULog("%i", currentSpriteSheet->getFrameCoords().first);
+    
+    currentSpriteSheet->getFrameCoords();
     
     CapsuleObstacle::update(dt);
     
