@@ -93,7 +93,7 @@ class ExportJsonOperator(bpy.types.Operator):
                 for ch in sprite.children:
                     if ch.data.type  == 'POINT':
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
-                        sprite_dict["intense"] = ch.data.energy
+                        sprite_dict["intense"] = ch.data.energy/100000
                 
                 col_dict[f"{sprite_count}"] = sprite_dict
                 sprite_count += 1
@@ -128,7 +128,7 @@ class ExportJsonOperator(bpy.types.Operator):
                 for ch in sprite.children:
                     if ch.data.type == 'POINT':
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
-                        sprite_dict["intense"] = ch.data.energy
+                        sprite_dict["intense"] = ch.data.energy/100000
                 
                 json_dict["sprites"][f"{sprite_count}"] = sprite_dict
                 sprite_count += 1
@@ -152,7 +152,7 @@ class ExportJsonOperator(bpy.types.Operator):
                 sprite_dict["loc"] = [obj.location.x * scene_scale, obj.location.y * scene_scale, obj.location.z * scene_scale]
                 sprite_dict["tex"] = None
                 sprite_dict["color"] = [obj.data.color.r,obj.data.color.g,obj.data.color.b]
-                sprite_dict["intense"] = obj.data.energy
+                sprite_dict["intense"] = obj.data.energy/100000
                 sprite_dict["collectible"] = False
                 
                 json_dict["sprites"][f"{sprite_count}"] = sprite_dict
