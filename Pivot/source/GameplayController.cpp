@@ -39,7 +39,9 @@ using namespace cugl;
 /** Glowstick pickup distance*/
 #define PICKING_DIST   10
 /** Scale from player image to capsule */
-#define CAP_SCALE   3.0f
+#define CAP_SCALE   1.1f
+/** Scale player capsule width */
+#define WIDTH_SCALE   2.00f
 /** Width of the player capsule */
 #define PLAYER_WIDTH   10.0f
 /** Height of the player capsule*/
@@ -175,10 +177,9 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     prevPlay2DPos = dudePos;
     
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
-
-    // Use the commented code if we want to manully define the player capsule size
-    //_model->setPlayer(PlayerModel::alloc(dudePos, Size(PLAYER_WIDTH, PLAYER_HEIGHT)));
-    _model->setPlayer(PlayerModel::alloc(dudePos, image->getSize()/CAP_SCALE));
+    float height = image->getSize().height/CAP_SCALE;
+    float width = height/WIDTH_SCALE;
+    _model->setPlayer(PlayerModel::alloc(dudePos, Size(width, height)));
     
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
