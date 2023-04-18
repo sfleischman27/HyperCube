@@ -57,7 +57,7 @@ using namespace cugl;
  * @return  true if the obstacle is initialized properly, false otherwise.
  */
 bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scale) {
-    Size nsize = size;
+    Size nsize = size / 4.0f;
 //    nsize.width  *= DUDE_HSHRINK;
 //    nsize.height *= DUDE_VSHRINK;
     _drawScale = scale;
