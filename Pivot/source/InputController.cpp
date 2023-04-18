@@ -450,6 +450,7 @@ void InputController::processCutJoystick(const cugl::Vec2 pos, TouchInstance loc
 int InputController::processSwipe(const Vec2 start, const Vec2 stop, Timestamp current) {
     // Look for swipes up that are "long enough"
     float xdiff = (stop.x-start.x);
+    cutFactor = xdiff;
     float thresh = SWIPE_LENGTH;
     if (xdiff > thresh) {
         return 1;
@@ -511,6 +512,9 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _rtouch.position = event.position;
                 _rtouch.timestamp.mark();
                 _rtouch.touchids.insert(event.touch);
+                if(!_keyJump){
+                    isRotating = true;
+                }
 //                _hasJumped = false;
             }
             break;
@@ -519,6 +523,7 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _mtouch.position = event.position;
                 _mtouch.timestamp.mark();
                 _mtouch.touchids.insert(event.touch);
+                isRotating = true;
 
 //                _joystick = true;
 //                _cutjoycenter = touch2Screen(event.position);
@@ -568,6 +573,7 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _joystick = false;
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         _hasJumped = false;
+        isRotating = false;
         _rtime = event.timestamp;
         _rtouch.touchids.clear();
     } else if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
@@ -578,6 +584,7 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _keyIncreaseCut = false;
         _keyDecreaseCut = false;
         _joystick = false;
+        isRotating = false;
     } else if (zone == Zone::MAIN) {
         if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
             _mtouch.touchids.erase(event.touch);
@@ -601,7 +608,8 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
         processJoystick(pos);
 //        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
-        processCutJoystick(pos, _rtouch);
+        //processCutJoystick(pos, _rtouch);
+        int swipe = processSwipe(_rtouch.position, event.position, event.timestamp);
 //        if (!_hasJumped) {
 //            if ((_rtouch.position.y-pos.y) > SWIPE_LENGTH) {
 //                _keyJump = true;
@@ -609,10 +617,11 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
 //            }
 //        }
     } else if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
-        processCutJoystick(pos, _mtouch);
+        int swipe = processSwipe(_mtouch.position, event.position, event.timestamp);
+        //processCutJoystick(pos, _mtouch);
     } else if (_mtouch.touchids.size() > 1) {
         // We only process multifinger swipes in main
-//        int swipe = processSwipe(_mtouch.position, event.position, event.timestamp);
+        //int swipe = processSwipe(_mtouch.position, event.position, event.timestamp);
 //        if (swipe == 1) {
 //            _keyReset = true;
 //        } else if (swipe == -1) {

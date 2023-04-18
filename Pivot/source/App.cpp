@@ -255,59 +255,11 @@ void PivotApp::updateLevelScene(float timestep){
         case LevelSelect::Choice::NONE:
             _levelSelect.update(timestep);
             break;
-        case LevelSelect::Choice::level1:
+        default:
             _levelSelect.setActive(false);
-            _gameplay.load("debug_0000");
+            _gameplay.load(_levelSelect.getLevelString());
             _gameplay.setActive(true);
             _scene = State::GAME;
-            break;
-        case LevelSelect::level2:
-            _levelSelect.setActive(false);
-            _gameplay.load("debug_0001");
-            _gameplay.setActive(true);
-            _scene = State::GAME;
-            break;
-        case LevelSelect::level3:
-            _levelSelect.setActive(false);
-            _gameplay.load("debug_0000");
-            _gameplay.setActive(true);
-            _scene = State::GAME;
-            break;
-        case LevelSelect::level4:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level5:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level6:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level7:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level8:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level9:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level10:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level11:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level12:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level13:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level14:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level15:
-            _levelSelect.update(timestep);
             break;
     }
 }
@@ -333,11 +285,12 @@ void PivotApp::updateEndScene(float timestep){
             break;
         case EndLevelMenu::Choice::NEXT:
             _endMenu.setActive(false);
-            _levelSelect.setActive(true);
-            _scene = State::LEVEL;
+            _gameplay.setActive(true);
+            _gameplay.load(_levelSelect.getNextLevelString());
+            _scene = State::GAME;
             break;
     }
-    // TODO: add actual next level logic
+    // TODO: add last level logic
 }
 
 void PivotApp::updateQuitScene(float timestep){

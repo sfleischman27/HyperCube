@@ -14,6 +14,7 @@
 #include "PlayerModel.h"
 #include "Mesh.h"
 #include "Glowstick.h"
+#include "GameItem.h"
 
 using namespace cugl;
 
@@ -30,10 +31,9 @@ private:
     Vec3 _startPlayerLoc;
     /** starting plane normal */
     Vec3 _startPlaneNorm;
-    /** exit location */
-    Vec3 _exit;
-    /** exit texture */
-    std::shared_ptr<cugl::Texture> _exitTex;
+public:
+    /** exit of the game*/
+    std::shared_ptr<GameItem> _exit;
     
 #pragma mark Player State
 public:
@@ -63,8 +63,13 @@ private:
     
 #pragma mark Collectibles State
 public:
-    /** Vector of collectibles */
+    /** map of collectibles */
     std::unordered_map<std::string, Collectible> _collectibles;
+
+#pragma mark Decorations State
+public:
+    /** Vector of decorations */
+    std::vector<std::shared_ptr<GameItem>> _decorations;
     
 #pragma mark Backpack State
 public:
@@ -163,35 +168,12 @@ public:
     }
     
     /**
-     *  Sets the exit location
+     *  sets the exit object
      *
-     *  @param loc   The exit location
+     *  @param exit
      */
-    void setExitLoc(Vec3 loc) {
-        _exit = loc;
-    }
-
-    /**
-     *  Gets the exit location
-     */
-    Vec3 getExitLoc() {
-        return _exit;
-    }
-    
-    /**
-     *  Sets the exit texture
-     *
-     *  @param tex   The exit texture
-     */
-    void setExitTex(std::shared_ptr<cugl::Texture> tex) {
-        _exitTex = tex;
-    }
-
-    /**
-     *  Gets the exit texture
-     */
-    std::shared_ptr<cugl::Texture> getExitTex() {
-        return _exitTex;
+    void setExit(std::shared_ptr<GameItem> exit) {
+        _exit = exit;
     }
     
     /**
@@ -300,6 +282,13 @@ public:
      */
     std::unordered_map<std::string, Collectible> getCollectibles() {
         return _collectibles;
+    }
+
+    /**
+     * Gets the vector of decorations
+     */
+    std::vector<std::shared_ptr<GameItem>> getDecorations() {
+        return _decorations;
     }
     
     /**

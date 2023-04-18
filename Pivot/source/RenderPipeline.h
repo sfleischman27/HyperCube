@@ -14,17 +14,21 @@
 #include "Mesh.h"
 
 class RenderPipeline {
-private:
+public:
 	// abstraction to draw billboards
 	struct DrawObject {
 		Vec3 pos;
 		Color4f col;
 		std::shared_ptr<cugl::Texture> tex;
+		std::shared_ptr<cugl::Texture> normalMap;
+		bool isPlayer;
 
-		DrawObject(Vec3 pos, Color4f col, std::shared_ptr<cugl::Texture> tex) {
+		DrawObject(Vec3 pos, Color4f col, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer) {
 			this->pos = pos;
 			this->col = col;
 			this->tex = tex;
+			this->normalMap = normalMap;
+			this->isPlayer = isPlayer;
 		}
 	};
 

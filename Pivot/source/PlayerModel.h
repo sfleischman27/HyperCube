@@ -43,7 +43,7 @@
 #pragma mark -
 #pragma mark Physics Constants
 /** The factor to multiply by the input */
-#define DUDE_FORCE      200.0f
+#define DUDE_FORCE      1000.0f
 /** The amount to slow the character down */
 #define DUDE_DAMPING    1.0f
 /** The maximum character speed */
@@ -60,6 +60,9 @@
 * on a platform.  The round shapes on the end caps lead to smoother movement.
 */
 class PlayerModel : public cugl::physics2::CapsuleObstacle {
+public:
+    std::shared_ptr<cugl::SpriteSheet> currentSpriteSheet;
+    
 private:
     /** This macro disables the copy constructor (not allowed on physics objects) */
     CU_DISALLOW_COPY_AND_ASSIGN(PlayerModel);
@@ -94,6 +97,9 @@ protected:
     cugl::Vec2 _vel;
     /** The location of the player in 3D*/
     cugl::Vec3 _3DLoc;
+    
+    /** the SpriteSheets for the various player animations*/
+    std::unordered_map<std::string, cugl::SpriteSheet> spriteSheets;
 
     /**
     * Redraws the outline of the physics fixtures to the debug node
@@ -445,6 +451,10 @@ public:
      * @param loc  3D locaiton of the player
      */
     void set3DLoc(cugl::Vec3 loc) { _3DLoc = loc; }
+    
+    void setSprite(const std::shared_ptr<cugl::SpriteSheet>& sprite) {
+        currentSpriteSheet = sprite;
+    }
 
     
 #pragma mark -

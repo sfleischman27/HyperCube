@@ -19,6 +19,10 @@
  */
 
 class InputController {
+public:
+    float cutFactor = 0;
+    bool isRotating = false;
+    
 private:
     /** Whether or not this input is active */
     bool _active;

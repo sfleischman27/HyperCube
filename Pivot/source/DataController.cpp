@@ -71,13 +71,12 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     model->setInitPlaneNorm(norm);
     
     // get and set exit location and texture
-    Vec3 exit;
-    exit.x = constants->get("exit")->get(0)->asFloat();
-    exit.y = constants->get("exit")->get(1)->asFloat();
-    exit.z = constants->get("exit")->get(2)->asFloat();
-    model->setExitLoc(exit);
-    
-    model->setExitTex(_assets->get<Texture>("exit"));
+    Vec3 exitPos;
+    exitPos.x = constants->get("exit")->get(0)->asFloat();
+    exitPos.y = constants->get("exit")->get(1)->asFloat();
+    exitPos.z = constants->get("exit")->get(2)->asFloat();
+    std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("exit"));
+    model->setExit(exitPtr);
     
     // jack was here :)
     // get the sprites
@@ -93,7 +92,6 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     for (int i = 0; i < sprites->size(); i++) {
         auto iscol = sprites->get(std::to_string(i))->get("collectible")->asBool();
         auto tex = sprites->get(std::to_string(i))->getString("tex");
-        CULog(tex.c_str());
         if (iscol && (tex != "")) {
             // its a collectible
             // get sprite location
@@ -131,8 +129,16 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
         }
         
         else {
-            CULog("A Decoration");
-            // its a Decoration
+            // its a decoration
+            Vec3 loc;
+            loc.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+            loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+            loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+            //get texture
+            auto texkey = sprites->get(std::to_string(i))->getString("tex");
+
+            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco"+std::to_string(i), _assets->get<Texture>(texkey));
+            model->_decorations.push_back(decPtr);
         }
         // otherwise its just a decoration
         // TODO put decoration initialization here

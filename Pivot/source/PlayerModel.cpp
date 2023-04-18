@@ -57,7 +57,7 @@ using namespace cugl;
  * @return  true if the obstacle is initialized properly, false otherwise.
  */
 bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scale) {
-    Size nsize = size;
+    Size nsize = size / 4.0f;
 //    nsize.width  *= DUDE_HSHRINK;
 //    nsize.height *= DUDE_VSHRINK;
     _drawScale = scale;
@@ -240,6 +240,23 @@ void PlayerModel::update(float dt) {
     } else {
         _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
     }
+    
+    /** Animation logic*/
+//    if(abs(getVelocity().x) > 0.1){
+//        setSpriteSheet("walk");
+//    }
+    
+//    if(!_isGrounded){
+//        setSpriteSheet("jump");
+//    }
+    
+    int frame = currentSpriteSheet->getFrame()+1;
+    if (frame >= currentSpriteSheet->getSize()) {
+        frame = 0;
+    }
+    currentSpriteSheet->setFrame(frame);
+    
+    CULog("%i", currentSpriteSheet->getFrame());
     
     CapsuleObstacle::update(dt);
     

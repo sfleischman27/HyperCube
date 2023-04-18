@@ -7,21 +7,10 @@ precision mediump float;
 in vec4 pos;
 in vec2 outTexCoord;
 
-layout (location = 0) out vec4 frag_pos_x;
-layout (location = 1) out vec4 frag_pos_y;
-layout (location = 2) out vec4 frag_pos_z;
+layout (location = 0) out vec4 frag_pos;
 
 uniform int removeA;
 uniform sampler2D billTex;
-
-vec4 packFloat(const float value) {
-	float transF = (value + 2500.0) / 50000.0;
-	const vec4 bit_shift = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);
-    const vec4 bit_mask  = vec4(0.0, 1.0/256.0, 1.0/256.0, 1.0/256.0);
-    vec4 res = fract(transF * bit_shift);
-    res -= res.xxyz * bit_mask;
-    return res;
-}
 
 void main(void) {
 
@@ -33,9 +22,8 @@ void main(void) {
 		}
 	}
 
-	frag_pos_x = packFloat(pos.x);
-	frag_pos_y = packFloat(pos.y);
-	frag_pos_z = packFloat(pos.z);
+	frag_pos = pos;
+	frag_pos.a = 1.0;
 }
 
 /////////// SHADER END //////////)"

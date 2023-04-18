@@ -39,7 +39,9 @@ using namespace cugl;
 /** Glowstick pickup distance*/
 #define PICKING_DIST   10
 /** Scale from player image to capsule */
-#define CAP_SCALE   3.0f
+#define CAP_SCALE   1.1f
+/** Scale player capsule width */
+#define WIDTH_SCALE   2.00f
 /** Width of the player capsule */
 #define PLAYER_WIDTH   10.0f
 /** Height of the player capsule*/
@@ -175,11 +177,17 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     prevPlay2DPos = dudePos;
     
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
-
-    // Use the commented code if we want to manully define the player capsule size
-    //_model->setPlayer(PlayerModel::alloc(dudePos, Size(PLAYER_WIDTH, PLAYER_HEIGHT)));
-    _model->setPlayer(PlayerModel::alloc(dudePos, image->getSize()/CAP_SCALE));
+    float height = image->getSize().height/CAP_SCALE;
+    float width = height/WIDTH_SCALE;
+    _model->setPlayer(PlayerModel::alloc(dudePos, Size(width, height)));
     
+    int _framesize = 16;
+    int _framecols = 4;
+    int rows = _framesize/_framecols;
+
+    auto sheet = assets->get<Texture>("walk");
+    
+    _model->_player->setSprite(SpriteSheet::alloc(sheet, rows, _framecols, _framesize));
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);
@@ -379,6 +387,7 @@ void GameplayController::setActive(bool value){
  *
  * @param  delta    Number of seconds since last animation frame
  */
+float save = 0.0;
 void GameplayController::update(float dt) {
     _model->_justFinishRotating = false;
 #pragma mark INPUT
@@ -389,23 +398,32 @@ void GameplayController::update(float dt) {
         CULog("Debug mode is: %d, visibility: %d", isDebug(), _debugnode->isVisible());
         
     }
-    
+
+    CULog("%f", save);
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
-    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
-        _plane->rotateNorm(.01);
+    //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
+    if (!_input->isRotating) {
+        save = 0.0;
+        _input->cutFactor = 0.0;
+    }
+    if (_model->_player->isGrounded() && _input->isRotating) {
+//        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
+        _plane->rotateNorm((_input->cutFactor - save)/1000);
+        save = _input->cutFactor;
         _rotating = true;
     }
     
     //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
-        _plane->rotateNorm(-.01);
-        //createCutObstacles();
-        _rotating = true;
-    }
+
+//    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
+//        _plane->rotateNorm(_input->cutFactor/15000);
+//        //createCutObstacles();
+//        _rotating = true;
+//    }
     //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_model->_player->isGrounded() && _input->didKeepChangingCut()) {
-        _plane->rotateNorm(_input->getMoveNorm());
+        _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         //createCutObstacles();
         _rotating = true;
     }
@@ -442,7 +460,7 @@ void GameplayController::update(float dt) {
         }
     }
     
-    if(_model->getPlayer3DLoc().distance(_model->getExitLoc()) <= EXITING_DIST) {
+    if(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST) {
         // TODO: Game ends here by checking if the player collects all colletibles - Sarah
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;
