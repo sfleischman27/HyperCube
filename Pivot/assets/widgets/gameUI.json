@@ -1,6 +1,7 @@
 {
     "variables": {
-        "showGameUI" : ["data","visible"]
+        "showGameUI" : ["data","visible"],
+        "screenSize": ["data", "size"]
     },
     "contents": {
        "type" : "Node",
@@ -8,13 +9,13 @@
            "type": "Anchored"
        },
        "data": {
-           "size": [1280,720],
-           "anchor": [0,1],
-           "visible": true
+           "anchor": [0.5,0.5],
+           "visible": true,
+           "scale": 1
        },
        "layout":{
-           "x_anchor": "left",
-           "y_anchor" : "top"
+           "x_anchor": "fill",
+           "y_anchor" : "fill"
        },
        "children":{
            "exitB" : {
@@ -23,7 +24,7 @@
                    "key": "exit",
                    "variables": {
                        "exitSize": [70,70],
-                       "exitScale": 0.75,
+                       "exitScale": 0.5,
                        "exitXPos": 0.015,
                        "exitYPos": -0.025
                    }
@@ -34,7 +35,7 @@
                "data":{
                    "key": "movement",
                    "variables":{
-                       "buttonScale": 0.75,
+                       "buttonScale": 0.5,
                        "buttonSize": [200,200],
                        "buttonDirection": "left",
                        "buttonAnchor": [0,0],
@@ -49,7 +50,7 @@
                "data":{
                    "key": "movement",
                    "variables":{
-                       "buttonScale": 0.75,
+                       "buttonScale": 0.5,
                        "buttonSize": [200,200],
                        "buttonDirection": "right",
                        "buttonAnchor": [0,0],
@@ -64,7 +65,7 @@
                "data":{
                    "key": "movement",
                    "variables":{
-                       "buttonScale": 0.75,
+                       "buttonScale": 0.5,
                        "buttonSize": [200,200],
                        "buttonDirection": "jump",
                        "buttonAnchor": [1,0],
@@ -80,7 +81,7 @@
                   "key": "glowstick",
                   "variables": {
                       "glowstickSize": [150, 150],
-                      "glowstickScale": 0.75,
+                      "glowstickScale": 0.5,
                       "glowstickXPos": -0.2,
                       "glowstickYPos": 0.04
                   }
@@ -93,7 +94,7 @@
                    "variables":{
                        "compassSize": [600,100],
                        "showCompass": true,
-                       "compassScale": 0.8,
+                       "compassScale": 0.5,
                        "compassYPos": -0.025
                    }
                }
@@ -104,7 +105,7 @@
                    "key": "inventory",
                    "variables": {
                        "inventorySize": [300,150],
-                       "inventoryScale": 0.8,
+                       "inventoryScale": 0.5,
                        "showInventory":  true,
                        "iventoryXPos": 0.09,
                        "showEmptyOne": true,
