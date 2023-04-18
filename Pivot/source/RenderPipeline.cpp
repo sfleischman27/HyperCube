@@ -423,10 +423,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     fbo->getTexture(0)->bind();
     fbo->getTexture(1)->bind();
+    fbo->getTexture(3)->bind();
     earthTex->bind();
 
     _shaderCut->setUniform1i("cutTexture", fbo->getTexture(0)->getBindPoint());
     _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(1)->getBindPoint());
+    _shaderCut->setUniform1i("depthTexture", fbo->getTexture(3)->getBindPoint());
     _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
     _shaderCut->setUniformVec2("transOffset", transOffset);
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
@@ -435,6 +437,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
     earthTex->unbind();
+    fbo->getTexture(3)->unbind();
     fbo->getTexture(1)->unbind();
     fbo->getTexture(0)->unbind();
     fbo2->end();
