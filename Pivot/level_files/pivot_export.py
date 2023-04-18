@@ -93,14 +93,18 @@ class ExportJsonOperator(bpy.types.Operator):
                 for ch in sprite.children:
                     if ch.data.type  == 'POINT':
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
-                        sprite_dict["intense"] = ch.data.energy
+                        sprite_dict["intense"] = ch.data.energy/100000
                 
                 col_dict[f"{sprite_count}"] = sprite_dict
                 sprite_count += 1
                 
                 #queue texture to be added to assets    
-                ass_up["textures"][f"{sprite.active_material.name}"] = {"file":f"textures/{sprite.active_material.name}.png"}
-            
+                ass_up["textures"][f"{sprite.active_material.name}"] = {
+                    "file":f"textures/{sprite.active_material.name}.png",
+                    "span": 1,
+                    "cols": 1
+                    }
+                    
         json_dict["sprites"].update(col_dict)
         
         
@@ -124,13 +128,17 @@ class ExportJsonOperator(bpy.types.Operator):
                 for ch in sprite.children:
                     if ch.data.type == 'POINT':
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
-                        sprite_dict["intense"] = ch.data.energy
+                        sprite_dict["intense"] = ch.data.energy/100000
                 
                 json_dict["sprites"][f"{sprite_count}"] = sprite_dict
                 sprite_count += 1
                 
                 #queue texture to be added to assets    
-                ass_up["textures"][f"{sprite.active_material.name}"] = {"file":f"textures/{sprite.active_material.name}.png"}
+                ass_up["textures"][f"{sprite.active_material.name}"] = {
+                    "file":f"textures/{sprite.active_material.name}.png",
+                    "span": 1,
+                    "cols": 1
+                    }
           
                     
         
@@ -144,7 +152,7 @@ class ExportJsonOperator(bpy.types.Operator):
                 sprite_dict["loc"] = [obj.location.x * scene_scale, obj.location.y * scene_scale, obj.location.z * scene_scale]
                 sprite_dict["tex"] = None
                 sprite_dict["color"] = [obj.data.color.r,obj.data.color.g,obj.data.color.b]
-                sprite_dict["intense"] = obj.data.energy
+                sprite_dict["intense"] = obj.data.energy/100000
                 sprite_dict["collectible"] = False
                 
                 json_dict["sprites"][f"{sprite_count}"] = sprite_dict
@@ -174,7 +182,11 @@ class ExportJsonOperator(bpy.types.Operator):
         with open(dir+"json/assets.json", 'r') as file:
             asset_dict = json.load(file)
             asset_dict["jsons"].update(ass_up["jsons"])
-            asset_dict["textures"].update(ass_up["textures"])
+            
+            # only update the texture if it does not already exist
+            for tex in list(ass_up["textures"]):
+                if tex not in asset_dict["textures"].keys():
+                    asset_dict["textures"][tex] =  ass_up["textures"][tex]
         
         # replace the old assets with updated assets
         #NOTE user is responsible for deleting assets for old levels
