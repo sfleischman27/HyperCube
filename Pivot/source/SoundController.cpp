@@ -10,6 +10,9 @@
 bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
     _sounds = std::unordered_map<std::string, std::shared_ptr<GameSound>>();
     _assets = assets;
+    
+    //3 audio nodes (main music, portal music, ending music)
+    _mixer->alloc(3, 2, 44100);
     return true;
 }
 
@@ -23,7 +26,7 @@ void SoundController::dispose(){
  * @param name the name of the sound in the json
  * @param streaming if the sound is streaming or not (is it music or SFX?)
  */
-void SoundController::createSound(std::string name){
+std::shared_ptr<GameSound> SoundController::createSound(std::string name){
     std::shared_ptr<cugl::Sound> source = _assets->get<cugl::Sound>(name);
     
     bool streaming = false;
@@ -36,7 +39,41 @@ void SoundController::createSound(std::string name){
 
     std::shared_ptr<GameSound> sound = std::make_shared<GameSound>(name, source, 0.0f, streaming);;
     _sounds[name] = sound;
+    
+    return sound;
+}
 
+
+/**
+ * attaches existent sound object to mixer. mixer channel is determined by:
+ *  _m: main level music
+ *  _p: portal menu music
+ *  _e: level ending music _
+ * @param name the name of the sound in the json.
+ */
+void SoundController::attachSound(std::string name){
+    std::shared_ptr<GameSound> sound = _sounds[name];
+    
+    int slot = 0;
+    switch(name.back()) {
+        case 'm': //main music
+            slot = 0;
+        break;
+        case 'b':
+            slot = 1;
+        break;
+        case 'e':
+            slot = 2;
+        default:
+            slot = 0;
+    }
+    
+    /*std::shared_ptr<cugl::audio::AudioPlayer> player;
+    player->init(sound->getSource());
+    
+    if(sound->isStreaming()){
+        _mixer->attach(slot, AudioPlayer);
+    }*/
 }
 
 /**

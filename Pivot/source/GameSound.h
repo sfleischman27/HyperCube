@@ -50,6 +50,10 @@ public:
         return _name;
     }
     
+    std::shared_ptr<cugl::Sound> getSource(){
+        return _source;
+    }
+    
     float getVolume(){
         return _volume;
     }

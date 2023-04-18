@@ -158,9 +158,15 @@
             "file": "sounds/plop.wav",
             "volume": 0.5
         },
-        "music_test": {
+        "cave_m": {
             "type": "sample",
-            "file": "sounds/music/pivot-test.ogg",
+            "file": "sounds/music/cave-m.ogg",
+            "stream": true,
+            "volume": 0.5
+        },
+        "cave_p": {
+            "type": "sample",
+            "file": "sounds/music/cave-p.ogg",
             "stream": true,
             "volume": 0.5
         }

@@ -23,6 +23,9 @@ protected:
     /** The asset manager for this game mode. */
     std::shared_ptr<cugl::AssetManager> _assets;
     
+    /** The audio mixer for vertical sound*/
+    std::shared_ptr<cugl::audio::AudioMixer> _mixer;
+    
     /** the hashmap that stores all the sounds that the soundcontroller plays*/
     std::unordered_map<std::string, std::shared_ptr<GameSound>> _sounds;
 
@@ -44,7 +47,16 @@ public:
      * @param name the name of the sound in the json
      * @param streaming if the sound is streaming or not (is it music or SFX?)
      */
-    void createSound(std::string name);
+    std::shared_ptr<GameSound> createSound(std::string name);
+    
+    /**
+     * attaches existent sound object to mixer. mixer channel is determined by:
+     *  _m: main level music
+     *  _p: portal menu music
+     *  _e: level ending music _
+     * @param name the name of the sound in the json.
+     */
+    void attachSound(std::string name);
     
 #pragma mark sound playback
     
