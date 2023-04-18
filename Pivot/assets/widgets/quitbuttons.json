@@ -3,6 +3,7 @@
         "showButton": ["data", "visible"],
         "buttonScale": ["data", "scale"],
         "buttonXPos": ["layout", "x_offset"],
+        "buttonAnchor": ["layout", "anchor"],
         "buttonXStart": ["layout", "x_anchor"],
         "buttonText": ["children", "label", "data", "text"],
         "buttonTextColor": ["children", "label", "data", "foreground"]

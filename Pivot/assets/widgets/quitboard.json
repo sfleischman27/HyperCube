@@ -45,8 +45,8 @@
                     "key": "quitbuttons",
                     "variables": {
                         "showButton": true,
-                        "buttonText": "No",
-                        "buttonScale": 1
+                        "buttonText": "Resume",
+                        "buttonScale": 0.67
                     }
                 }
             },
@@ -56,9 +56,21 @@
                     "key": "quitbuttons",
                     "variables": {
                         "showButton": true,
-                        "buttonXPos": 0.5,
-                        "buttonText": "Yes",
-                        "buttonScale": 1
+                        "buttonXPos": 0.335,
+                        "buttonText": "Quit",
+                        "buttonScale": 0.67
+                    }
+                }
+            },
+            "restart": {
+                "type": "Widget",
+                "data": {
+                    "key": "quitbuttons",
+                    "variables": {
+                        "showButton": true,
+                        "buttonXPos": 0.665,
+                        "buttonText": "Restart",
+                        "buttonScale": 0.67
                     }
                 }
             }
