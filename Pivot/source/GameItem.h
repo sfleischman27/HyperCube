@@ -20,6 +20,10 @@ protected:
     Vec3 _position;
     /** The texture for the item. */
     std::shared_ptr<cugl::Texture> _texture;
+    /** the color of the light of the item*/
+    Vec3 _color;
+    /** The intensity of the light of the item. */
+    float _intense;
     
 public:
     /**
@@ -97,6 +101,22 @@ public:
             _texture = nullptr;
         }
     }
+    /**
+     *  Sets the color of the light
+     *
+     *  @param color
+     */
+    void setColor(Vec3 color) {
+        _color = color;
+    }
+    /**
+     *  Sets the intensity of the light
+     *
+     *  @param intense
+     */
+    void setIntense(float intense) {
+        _intense = intense;
+    }
     
 #pragma mark Getters
 public:
@@ -112,6 +132,14 @@ public:
      *  Returns the texture
      */
     std::shared_ptr<Texture> getTexture() { return _texture; }
+    /**
+     *  Gets the color of the light
+     */
+    Vec3 getColor() { return _color; }
+    /**
+     *  Gets the intensity of the light
+     */
+    float getIntense() { return _intense; }
 };
 
 #endif /* GameItem_h */
