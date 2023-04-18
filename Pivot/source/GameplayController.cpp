@@ -192,7 +192,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
-    
+        
     addObstacle(_model->_player, true);
     
     addChild(_worldnode);
@@ -399,7 +399,6 @@ void GameplayController::update(float dt) {
         
     }
 
-    CULog("%f", save);
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
     //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
     if (!_input->isRotating) {
