@@ -37,6 +37,7 @@ bool QuitMenu::init(const std::shared_ptr<cugl::AssetManager> &assets) {
     
     _yes = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("quitLab_quitScreen_boardBase_board_yes"));
     _no = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("quitLab_quitScreen_boardBase_board_no"));
+    _restart = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("quitLab_quitScreen_boardBase_board_restart"));
     
     _yes->addListener([this](const std::string& name, bool down) {
         if (down) {
@@ -46,6 +47,11 @@ bool QuitMenu::init(const std::shared_ptr<cugl::AssetManager> &assets) {
     _no->addListener([this](const std::string& name, bool down) {
         if (down) {
             _choice = Choice::N;
+        }
+    });
+    _restart->addListener([this](const std::string& name, bool down) {
+        if (down) {
+            _choice = Choice::RESTART;
         }
     });
     
@@ -61,6 +67,7 @@ void QuitMenu::dispose() {
     Scene2::dispose();
     _yes = nullptr;
     _no = nullptr;
+    _restart = nullptr;
 }
 
 /**
@@ -78,11 +85,14 @@ void QuitMenu::setActive(bool value){
         _choice = NONE;
         _yes->activate();
         _no->activate();
+        _restart->activate();
     } else {
         _yes->deactivate();
         _no->deactivate();
+        _restart->deactivate();
         // If any were pressed, reset them
         _yes->setDown(false);
-        _no->setDown(true);
+        _no->setDown(false);
+        _restart->setDown(false);
     }
 }

@@ -308,5 +308,11 @@ void PivotApp::updateQuitScene(float timestep){
             _levelSelect.setActive(true);
             _scene = State::LEVEL;
             break;
+        case QuitMenu::Choice::RESTART:
+            _quitMenu.setActive(false);
+            _gameplay.setActive(true);
+            _gameplay.reset();
+            _scene = State::GAME;
+            break;
     }
 }
