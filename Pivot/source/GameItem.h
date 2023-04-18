@@ -24,6 +24,8 @@ protected:
     Vec3 _color;
     /** The intensity of the light of the item. */
     float _intense;
+    /** map of rotation textures of the item */
+    std::unordered_map<float, std::shared_ptr<cugl::Texture>> _rotateTextures;
     
 public:
     /**
@@ -117,6 +119,14 @@ public:
     void setIntense(float intense) {
         _intense = intense;
     }
+    /**
+     *  Sets the rotation texture map
+     *  @param map
+     */
+    void setRotateTextureMap(std::unordered_map<float, std::shared_ptr<cugl::Texture>> map) {
+        _rotateTextures = map;
+        // TODO: Jolene use helper function to implement the map after it parsed in data controller
+    }
     
 #pragma mark Getters
 public:
@@ -133,6 +143,19 @@ public:
      */
     std::shared_ptr<Texture> getTexture() { return _texture; }
     /**
+     *  Returns the rotation texture given the angle
+     *  @param angle
+     */
+    std::shared_ptr<Texture> getTexture(float angle) {
+        if (_rotateTextures.find(angle) != _rotateTextures.end()) {
+            return _rotateTextures[angle];
+        }
+        else{
+            std::cout << "Key not found in the _rotateTextures."<< std::endl;
+            return nullptr;
+        }
+    }
+    /**
      *  Gets the color of the light
      */
     Vec3 getColor() { return _color; }
@@ -140,6 +163,15 @@ public:
      *  Gets the intensity of the light
      */
     float getIntense() { return _intense; }
+    
+#pragma mark Helper Methods
+public:
+    /**
+     *  Format a map to store (angle, texture) mapping for the item
+     *  @param
+     */
+    void setRotateTextureMap();
+    
 };
 
 #endif /* GameItem_h */
