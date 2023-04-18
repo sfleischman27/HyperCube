@@ -241,7 +241,22 @@ void PlayerModel::update(float dt) {
         _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
     }
     
+    /** Animation logic*/
+//    if(abs(getVelocity().x) > 0.1){
+//        setSpriteSheet("walk");
+//    }
     
+//    if(!_isGrounded){
+//        setSpriteSheet("jump");
+//    }
+    
+    int frame = currentSpriteSheet->getFrame()+1;
+    if (frame >= currentSpriteSheet->getSize()) {
+        frame = 0;
+    }
+    currentSpriteSheet->setFrame(frame);
+    
+    CULog("%i", currentSpriteSheet->getFrame());
     
     CapsuleObstacle::update(dt);
     

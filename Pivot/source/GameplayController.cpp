@@ -181,6 +181,13 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     float width = height/WIDTH_SCALE;
     _model->setPlayer(PlayerModel::alloc(dudePos, Size(width, height)));
     
+    int _framesize = 16;
+    int _framecols = 4;
+    int rows = _framesize/_framecols;
+
+    auto sheet = assets->get<Texture>("walk");
+    
+    _model->_player->setSprite(SpriteSheet::alloc(sheet, rows, _framecols, _framesize));
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);

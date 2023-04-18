@@ -11,6 +11,9 @@
         "dude-normal": {
             "file": "textures/dude-normal.png"
         },
+        "walk": {
+                  "file": "textures/walk.png"
+                },
         "cobble": {
             "file": "textures/cobblestone.png"
         },

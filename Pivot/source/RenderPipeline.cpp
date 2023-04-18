@@ -180,9 +180,9 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Decorations
     auto decor = model->getDecorations();
-    for (auto d : decor) {
-        drawables.push_back(DrawObject(d->getPosition(), Color4f::GREEN, d->getTexture(), NULL, false));
-    }
+//    for (auto d : decor) {
+//        drawables.push_back(DrawObject(d->getPosition(), Color4f::GREEN, d->getTexture(), NULL, false));
+//    }
 
     // Glowsticks
     std::vector<Glowstick> glows = model->_glowsticks;

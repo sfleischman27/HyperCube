@@ -60,6 +60,9 @@
 * on a platform.  The round shapes on the end caps lead to smoother movement.
 */
 class PlayerModel : public cugl::physics2::CapsuleObstacle {
+public:
+    std::shared_ptr<cugl::SpriteSheet> currentSpriteSheet;
+    
 private:
     /** This macro disables the copy constructor (not allowed on physics objects) */
     CU_DISALLOW_COPY_AND_ASSIGN(PlayerModel);
@@ -97,9 +100,6 @@ protected:
     
     /** the SpriteSheets for the various player animations*/
     std::unordered_map<std::string, cugl::SpriteSheet> spriteSheets;
-    
-    /** the current SpriteSheet*/
-    cugl::SpriteSheet currentSpriteSheet;
 
     /**
     * Redraws the outline of the physics fixtures to the debug node
@@ -452,7 +452,9 @@ public:
      */
     void set3DLoc(cugl::Vec3 loc) { _3DLoc = loc; }
     
-    void setSpriteSheet(std::string state) { currentSpriteSheet = spriteSheets.find(state)->second; }
+    void setSprite(const std::shared_ptr<cugl::SpriteSheet>& sprite) {
+        currentSpriteSheet = sprite;
+    }
 
     
 #pragma mark -
