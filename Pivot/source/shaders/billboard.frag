@@ -18,6 +18,7 @@ uniform sampler2D billTex;
 uniform sampler2D normTex;
 uniform int useNormTex;
 uniform int flipXfrag;
+uniform vec3 uDirection;
 
 vec4 packFloat(const float value) {
 	float transF = (value + 2500.0) / 50000.0;
@@ -44,6 +45,8 @@ void main(void) {
 		if (flipXfrag == 1) {
 			frag_normal.x = 1.0 - frag_normal.x;
 		}
+		mat2 R = mat2(-uDirection.y, uDirection.x, -uDirection.x, -uDirection.y);
+		frag_normal.xy = frag_normal.xy * R;
 	}
 }
 
