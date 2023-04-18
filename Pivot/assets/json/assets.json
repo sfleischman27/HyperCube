@@ -102,12 +102,6 @@
                 ]
             }
         },
-        "orb": {
-            "file": "textures/orb.png"
-        },
-        "grass": {
-            "file": "textures/grass.png"
-        },
         "caution": {
             "file": "textures/caution.png"
         },
@@ -125,6 +119,16 @@
         },
         "Warning-Sign-PNG-Clipart": {
             "file": "textures/Warning-Sign-PNG-Clipart.png"
+        },
+        "orb": {
+            "file": "textures/orb.png",
+            "span": 1,
+            "cols": 1
+        },
+        "grass": {
+            "file": "textures/grass.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
