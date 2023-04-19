@@ -292,7 +292,7 @@ void PlayerModel::update(float dt) {
             //WALKING
             //frames where foot is down: 5, 13
             case 1:
-                if(frame == 1 || frame == 5 ||  frame == 9 || frame == 13){
+                if(frame == 5 || frame == 13){
                     _walkCue = true;
                     CULog("Walk %i", frame);
                 }

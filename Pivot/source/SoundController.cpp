@@ -19,7 +19,7 @@ bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
     
     //3 audio nodes (main music, portal music, ending music, menu music)
     //_mixer = std::make_shared<cugl::audio::AudioMixer>();
-    _mixer = _mixer->alloc(4, 2, 44100);
+    _mixer = _mixer->alloc(4, 2, 48000);
     return true;
 }
 
