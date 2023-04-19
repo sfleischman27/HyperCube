@@ -241,7 +241,7 @@ void PlayerModel::update(float dt) {
         _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
     }
     
-    /** Animation logic*/
+    /** Animation AND SOUND logic!!! IM HIJACKING AGAIN :) - Gordi*/
     if(getVY() > 0.1 && !isGrounded()){
         if(animState != 2){
             animState = 2;
@@ -256,6 +256,7 @@ void PlayerModel::update(float dt) {
             setSpriteSheet("walk");
         } else{
             animState = 1;
+            _walkCue = false;
         }
     }
     else {
@@ -285,9 +286,26 @@ void PlayerModel::update(float dt) {
         CULog("%i",frame);
         currentSpriteSheet->setFrame(frame);
         currentNormalSpriteSheet->setFrame(frame);
+        
+        //sound cue logic
+        switch(animState){
+            //WALKING
+            //frames where foot is down: 5, 13
+            case 1:
+                if(frame == 1 || frame == 5 ||  frame == 9 || frame == 13){
+                    _walkCue = true;
+                    CULog("Walk %i", frame);
+                }
+                break;
+            default:
+                break;
+        }
     } else{
         animFrameCounter++;
     }
+    
+    int frame = currentSpriteSheet->getFrame();
+
     
 //    CULog("%i", currentSpriteSheet->getFrame()/currentSpriteSheet->getCols());
 
