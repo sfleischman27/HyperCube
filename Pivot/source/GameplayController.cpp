@@ -576,14 +576,17 @@ void GameplayController::update(float dt) {
     if(_model->_player->_walkCue){
         float walkNumber = rand();
         
-        if(walkNumber < 0.3){
+        if(walkNumber < 0.25){
             _sound->playSound("walk_1", 1, false);
         } else {
-            if(walkNumber < 0.6) {
+            if(walkNumber < 0.5) {
                 _sound->playSound("walk_2", 1, false);
             } else {
-                _sound->playSound("walk_3", 1, false);
-            }
+                if(walkNumber < 0.75) {
+                    _sound->playSound("walk_3", 1, false);
+                } else {
+                    _sound->playSound("walk_4", 1, false);
+                }            }
         }
         _model->_player->_walkCue = false;
     }

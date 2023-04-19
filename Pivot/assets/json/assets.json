@@ -198,6 +198,11 @@
             "file": "sounds/walk3.wav",
             "volume": 0.5
         },
+        "walk_4": {
+            "type": "sample",
+            "file": "sounds/walk3.wav",
+            "volume": 0.5
+        },
         "jump_land": {
             "type": "sample",
             "file": "sounds/jump-land.wav",
