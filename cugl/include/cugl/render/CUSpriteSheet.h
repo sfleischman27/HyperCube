@@ -52,6 +52,7 @@
 #include <cugl/math/CURect.h>
 #include <cugl/math/CUPoly2.h>
 #include <cugl/math/CUColor4.h>
+#include <math.h>
 
 
 namespace cugl {
@@ -79,10 +80,12 @@ class SpriteBatch;
  */
 class SpriteSheet {
 protected:
-	/** The underlying sprite sheet texture */
+    /** The underlying sprite sheet texture */
     std::shared_ptr<cugl::Texture> _texture;
     /** The number of columns in this sprite sheet */
     int _cols;
+    
+    int _rows;
     /** The number of frames in this sprite sheet */
     int _size;
     /** The active animation frame */
@@ -93,7 +96,7 @@ protected:
     Rect _bounds;
     /** The display region for animation */
     Poly2 _region;
-
+    
 public:
     /**
      * Creates a degenerate sprite sheet with no frames.
@@ -106,7 +109,7 @@ public:
      * Deletes the sprite sheet, disposing all resources
      */
     ~SpriteSheet() { dispose(); }
-
+    
     /**
      * Deletes the sprite sheet and resets all attributes.
      *
@@ -165,7 +168,7 @@ public:
         std::shared_ptr<SpriteSheet> sheet = std::make_shared<SpriteSheet>();
         return (sheet->init(texture,rows,cols) ? sheet : nullptr);
     }
-        
+    
     /**
      * Returns a newly allocated filmstrip node from the given texture.
      *
@@ -198,6 +201,18 @@ public:
      * @return the number of frames in this sprite sheet.
      */
     int getSize() const { return _size; }
+    
+    int getCols() const {return _cols; }
+    
+    std::pair<int, int> getDimen() const {return std::make_pair(_size/_cols, _cols);}
+    
+    std::pair<int, int> getFrameCoords() {
+        int remainder = _frame % _cols;
+        
+        int numRows = static_cast<int>(ceil(static_cast<float>(_frame + 1) / static_cast<float>(_cols)));
+        
+        return std::make_pair(numRows , _cols-remainder);
+    }
     
     /**
      * Returns the current active frame.

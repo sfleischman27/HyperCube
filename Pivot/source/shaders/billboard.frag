@@ -18,6 +18,7 @@ uniform sampler2D billTex;
 uniform sampler2D normTex;
 uniform int useNormTex;
 uniform int flipXfrag;
+uniform vec3 uDirection;
 
 vec4 packFloat(const float value) {
 	float transF = (value + 2500.0) / 50000.0;
@@ -40,10 +41,12 @@ void main(void) {
 	frag_depth = vec4(gl_FragCoord.z * 50.0, 0.0, 0.0, 1.0);
 	frag_normal = vec4(0.0, 0.0, 0.0, 1.0);
 	if (useNormTex == 1) {
-		frag_normal.xyz = texture(normTex, outTexCoord).xyz;
+		frag_normal.xyz = texture(normTex, outTexCoord).xzy; //normal now is x right, y up, z forward
 		if (flipXfrag == 1) {
 			frag_normal.x = 1.0 - frag_normal.x;
 		}
+		mat2 R = mat2(uDirection.y, uDirection.x, -uDirection.x, uDirection.y);
+		frag_normal.xy = frag_normal.xy * R;
 	}
 }
 

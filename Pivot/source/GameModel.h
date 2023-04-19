@@ -97,9 +97,14 @@ public:
             this->intensity = intensity;
             this->loc = loc;
         }
+        Light(){}
     };
     /** Vector of lights */
     std::vector<Light> _lights;
+    /** A map of active lights of the GameItem
+     *  The key is the string representing the light's location
+     */
+    std::unordered_map<std::string, Light> _lightsFromItems;
     
 #pragma mark Mesh
 public:

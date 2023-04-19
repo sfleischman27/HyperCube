@@ -31,9 +31,9 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the collecting distance */
-#define COLLECTING_DIST   12
+#define COLLECTING_DIST   16
 /** Threshold of the reaching exit distance */
-#define EXITING_DIST   12
+#define EXITING_DIST   17
 /** Number of glowsticks allowed to put */
 #define NUM_GLOWSTICKS 4
 /** Glowstick pickup distance*/
@@ -189,14 +189,32 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     int _framecols = 4;
     int rows = _framesize/_framecols;
 
-    auto sheet = assets->get<Texture>("walk");
+    auto sheet = SpriteSheet::alloc(assets->get<Texture>("player-walk"), _framecols, _framecols);
+    auto normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-walk-normal"), _framecols, _framecols);
     
-    _model->_player->setSprite(SpriteSheet::alloc(sheet, rows, _framecols, _framesize));
+//    _model->_player->setSprite(SpriteSheet::alloc(sheet, rows, _framecols, _framesize));
+//    _model->_player->setNormalSprite(SpriteSheet::alloc(normalSheet, rows, _framecols, _framesize));
+    
+    _model->_player->spriteSheets.emplace("walk", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump"), _framecols, _framecols);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-normal"), _framecols, _framecols);
+    
+    _model->_player->spriteSheets.emplace("jump", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-idle"), 1, 1);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-idle-normal"), 1, 1);
+    
+    _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
+    
+    _model->_player->setSprite(sheet);
+    _model->_player->setNormalSprite(normalSheet);
+    
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
-    
+        
     addObstacle(_model->_player, true);
     
     addChild(_worldnode);
@@ -403,7 +421,6 @@ void GameplayController::update(float dt) {
         
     }
 
-    CULog("%f", save);
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
     //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
     if (!_input->isRotating) {
@@ -477,20 +494,23 @@ void GameplayController::update(float dt) {
     
 #pragma mark Glowsticks
     if (_input->didGlowstick()) {
-        
-            Vec3 player3DPos = _model->getPlayer3DLoc();
-            for(auto g =_model->_glowsticks.begin(); g!=_model->_glowsticks.end();){
-                if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
-                    g = _model->_glowsticks.erase(g);
-                    _pickupGlowstick = true;
-                }
-                else{
-                    ++g;
-                }
+        Vec3 player3DPos = _model->getPlayer3DLoc();
+        for(auto g =_model->_glowsticks.begin(); g!=_model->_glowsticks.end();){
+            if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
+                _model->_lightsFromItems.erase(std::string(g->getPosition()));
+                g = _model->_glowsticks.erase(g);
+                _pickupGlowstick = true;
             }
-            if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
-                _model->_glowsticks.push_back(Glowstick(player3DPos-_model->getPlaneNorm()*0.5));
+            else{
+                ++g;
             }
+        }
+        if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
+            auto g = Glowstick(player3DPos-_model->getPlaneNorm()*0.5);
+            // std::cout << "here name:" <<std::string(g.getPosition()) <<std::endl;
+            _model->_glowsticks.push_back(g);
+            _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition());
+        }
         
         _pickupGlowstick = false;
     }

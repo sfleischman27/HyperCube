@@ -63,6 +63,11 @@ class PlayerModel : public cugl::physics2::CapsuleObstacle {
 public:
     std::shared_ptr<cugl::SpriteSheet> currentSpriteSheet;
     
+    std::shared_ptr<cugl::SpriteSheet> currentNormalSpriteSheet;
+    
+    /** the SpriteSheets for the various player animations*/
+    std::unordered_map<std::string, std::pair<std::shared_ptr<cugl::SpriteSheet>, std::shared_ptr<cugl::SpriteSheet>>> spriteSheets;
+    
 private:
     /** This macro disables the copy constructor (not allowed on physics objects) */
     CU_DISALLOW_COPY_AND_ASSIGN(PlayerModel);
@@ -93,13 +98,14 @@ protected:
     std::shared_ptr<cugl::scene2::SceneNode> _node;
     /** The scale between the physics world and the screen (MUST BE UNIFORM) */
     float _drawScale;
+    
+    int animFrameCounter = 0;
+    
+    int animState = 0;
     /** The current velocity of the player in 2D*/
     cugl::Vec2 _vel;
     /** The location of the player in 3D*/
     cugl::Vec3 _3DLoc;
-    
-    /** the SpriteSheets for the various player animations*/
-    std::unordered_map<std::string, cugl::SpriteSheet> spriteSheets;
 
     /**
     * Redraws the outline of the physics fixtures to the debug node
@@ -320,6 +326,12 @@ public:
         _node = node;
         _node->setPosition(getPosition() * _drawScale);
     }
+    
+    void setSpriteSheet(std::string animationName){
+        //CULog(animationName.c_str());
+        currentSpriteSheet = spriteSheets.find(animationName)->second.first;
+        currentNormalSpriteSheet = spriteSheets.find(animationName)->second.second;
+    }
 
     
 #pragma mark -
@@ -455,6 +467,10 @@ public:
     
     void setSprite(const std::shared_ptr<cugl::SpriteSheet>& sprite) {
         currentSpriteSheet = sprite;
+    }
+    
+    void setNormalSprite(const std::shared_ptr<cugl::SpriteSheet>& normalsprite) {
+        currentNormalSpriteSheet = normalsprite;
     }
 
     

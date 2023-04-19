@@ -241,26 +241,53 @@ void PlayerModel::update(float dt) {
         _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
     }
     
-    /** Animation logic + SOUND (im hijacking this -- gordi)*/
-//    if(abs(getVelocity().x) > 0.1){
-//        //setSpriteSheet("walk");
-//
-//    } else {
-//
-//    }
-
+    /** Animation logic*/
+    if(getVY() > 0.1 && !isGrounded()){
+        if(animState != 2){
+            animState = 2;
+            setSpriteSheet("jump");
+        } else{
+            animState = 2;
+        }
+    }
+    else if(abs(getVX()) > 2){
+        if(animState != 1){
+            animState = 1;
+            setSpriteSheet("walk");
+        } else{
+            animState = 1;
+        }
+    }
+    else {
+        setSpriteSheet("idle");
+        animState = 0;
+    }
     
 //    if(!_isGrounded){
 //        setSpriteSheet("jump");
 //    }
     
-    int frame = currentSpriteSheet->getFrame()+1;
-    if (frame >= currentSpriteSheet->getSize()) {
-        frame = 0;
-    }
-    currentSpriteSheet->setFrame(frame);
     
-    CULog("%i", currentSpriteSheet->getFrame());
+    if(animFrameCounter >= 7){
+        animFrameCounter = 0;
+        int frame = currentSpriteSheet->getFrame()+1;
+        if (frame >= currentSpriteSheet->getSize()) {
+            frame = 0;
+        }
+        currentSpriteSheet->setFrame(frame);
+        currentNormalSpriteSheet->setFrame(frame);
+    } else{
+        animFrameCounter++;
+    }
+    
+//    CULog("%i", currentSpriteSheet->getFrame()/currentSpriteSheet->getCols());
+
+//    CULog("%i", currentSpriteSheet->getFrame());
+    
+//    CULog("%i",currentSpriteSheet->getFrameCoords().first);
+//    CULog("%i",currentSpriteSheet->getFrameCoords().second);
+
+    currentSpriteSheet->getFrameCoords();
     
     CapsuleObstacle::update(dt);
     
