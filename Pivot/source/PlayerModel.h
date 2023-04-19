@@ -111,8 +111,9 @@ protected:
     virtual void resetDebug() override;
 
 public:
-#pragma mark Sound Cues
+#pragma mark Sound + Sound Cues
     bool _jumpCue;
+    
     
 #pragma mark Hidden Constructors
     /**

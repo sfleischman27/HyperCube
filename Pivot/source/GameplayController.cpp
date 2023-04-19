@@ -47,6 +47,10 @@ using namespace cugl;
 /** Height of the player capsule*/
 #define PLAYER_HEIGHT  10.0f
 
+#pragma mark Sound Constants
+/** Cooldown (in animation frames) for playing the walking sfx */
+#define WALK_COOLDOWN   5
+
 /**
  * Creates a new game world with the default values.
  *
@@ -495,6 +499,7 @@ void GameplayController::update(float dt) {
 #pragma mark PLAYER
     
     _model->_player->setMovement(_input->getHorizontal() * _model->_player->getForce());
+    
     _model->_player->setJumping(_input->didJump());
     
     _model->_player->applyForce();
@@ -521,8 +526,35 @@ void GameplayController::update(float dt) {
 #pragma mark SOUND CUES
     
     if(_model->_player->_jumpCue){
-        _sound->playSound("jump", 0.5, false);
+        //_sound->playSound("jump", 0.5, false);
+        /*if(_model->_player->isGrounded()){
+            _sound->playSound("jump_land", 0.5, false);
+        }*/
         _model->_player->_jumpCue = false;
+    }
+    if(abs(_input->getHorizontal()) && _model->_player->isGrounded() && abs(_model->_player->getVelocity().x) > 0.1){
+        if(_walkCooldown == 0){
+            float walkNumber = rand();
+            
+            if(walkNumber < 0.3){
+                _sound->playSound("walk_1", 1, false);
+            } else {
+                if(walkNumber < 0.6) {
+                    _sound->playSound("walk_2", 1, false);
+                } else {
+                    _sound->playSound("walk_3", 1, false);
+                }
+            }
+            /*if(_model->_player->isGrounded()){
+             _sound->playSound("jump_land", 0.5, false);
+             }*/
+            _walkCooldown = WALK_COOLDOWN;
+        } else {
+            _walkCooldown = _walkCooldown > 0 ? _walkCooldown -= 1 : _walkCooldown = 0;
+        }
+    } else {
+        CULog("player getVelocity() %f", _model->_player->getVelocity().x);
+        _walkCooldown = 0;
     }
     
 }

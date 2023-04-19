@@ -241,10 +241,14 @@ void PlayerModel::update(float dt) {
         _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
     }
     
-    /** Animation logic*/
+    /** Animation logic + SOUND (im hijacking this -- gordi)*/
 //    if(abs(getVelocity().x) > 0.1){
-//        setSpriteSheet("walk");
+//        //setSpriteSheet("walk");
+//
+//    } else {
+//
 //    }
+
     
 //    if(!_isGrounded){
 //        setSpriteSheet("jump");

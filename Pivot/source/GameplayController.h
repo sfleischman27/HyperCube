@@ -74,6 +74,9 @@ private:
     std::shared_ptr<RenderPipeline> _pipeline;
     std::shared_ptr<PlaneController> _plane;
     std::shared_ptr<DataController> _data;
+    
+    int  _walkCooldown = 0;
+
 
     
     /**
