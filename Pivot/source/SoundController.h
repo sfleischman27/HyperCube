@@ -67,6 +67,8 @@ public:
     */
     void setVolume(std::string name, float volume);
     
+    void stopSound(std::string name);
+    
     /**
      * Plays sound without looping
      *  @param name the name of the sound in the json

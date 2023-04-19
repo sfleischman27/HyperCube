@@ -130,7 +130,8 @@ public:
     
     void stop(){
         if(_streaming){
-            cugl::AudioEngine::get()->getMusicQueue()->clear();
+            float crossfade = 0.5;
+            cugl::AudioEngine::get()->getMusicQueue()->advance(0, crossfade);
         } else {
             cugl::AudioEngine::get()->clear(_name);
         }

@@ -209,7 +209,7 @@
             "stream": true,
             "volume": 0.5
         },
-        "loopingtest_m": {
+        "end": {
             "type": "sample",
             "file": "sounds/music/loopingtest-m.wav",
             "stream": true,

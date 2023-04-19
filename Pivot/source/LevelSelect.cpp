@@ -89,7 +89,10 @@ void LevelSelect::updateLevel(int level) {
  */
 void LevelSelect::setActive(bool value){
     Scene2::setActive(value);
-    if (value) { _choice = NONE; }
+    if (value) {
+        _playMusic = true;
+        _choice = NONE;
+    }
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
         int num = nameToNum(it->first);
         if (num <= _maxLevel && value && num != -1){

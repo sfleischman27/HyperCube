@@ -82,6 +82,10 @@ void SoundController::playSound(std::string name, float volume){
     playSound(name, volume, false);
 }
 
+void SoundController::stopSound(std::string name){
+    _sounds[name]->stop();
+}
+
 /**
  * Plays a sound that has been queued into the sound hashmap under name.
  * If there is no such sound, create the sound object and add it to the hashmap before playing.
@@ -100,10 +104,9 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     
     std::shared_ptr<GameSound> sound = _sounds[name];
     
-    if(_sounds[name]->isPlaying()){
-        _sounds[name]->stop();
-    }
-    
+    /*if(_sounds[name]->isPlaying()){
+        stopSound(name);
+    }*/
     
     if(sound->isStreaming()){
         streamNode(sound->getNode(), volume, loop);
@@ -145,8 +148,9 @@ void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, f
     
     if(queue->getState() == cugl::AudioEngine::State::INACTIVE || queue->current() != node->getName()){
         queue->setLoop(loop);
+        queue->clear(CROSS_FADE);
         queue->enqueue(node, loop, volume, CROSS_FADE);
-        queue->advance(0, CROSS_FADE);
+
     }
 }
 

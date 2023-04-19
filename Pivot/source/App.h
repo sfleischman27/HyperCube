@@ -236,6 +236,19 @@ private:
      */
     void updateQuitScene(float timestep);
     
+#pragma mark Sound Functions
+    
+    void enqueueOnce(std::string name, float volume, bool loop){
+        if (cugl::AudioEngine::get()->getMusicQueue()->getState() == cugl::AudioEngine::State::INACTIVE ||
+            cugl::AudioEngine::get()->getMusicQueue()->current() != name){
+            _sound->playSound(name, volume, loop);
+        }
+    }
+    
+    void advanceQueue(){
+        cugl::AudioEngine::get()->getMusicQueue()->advance(0, 0.5);
+    }
+    
 };
 
 #endif /* App_h */

@@ -169,6 +169,12 @@ void PivotApp::update(float timestep) {
             updateGameScene(timestep);
             break;
     }
+    
+    //level sound cues
+    if(_levelSelect._playMusic){
+        enqueueOnce("menu", 0.5, true);
+        _levelSelect._playMusic = false;
+    }
 }
 
 /**
@@ -215,8 +221,6 @@ void PivotApp::updateLoadingScene(float timestep){
         _gameplay.init(_assets, getDisplaySize(), _sound);
         _mainMenu.setActive(true);
         _scene = State::MAIN;
-        
-        _sound->playSound("menu", 0.5, true);
     }
 }
 
@@ -234,6 +238,7 @@ void PivotApp::updateGameScene(float timestep){
             _gameplay.setActive(false);
             _endMenu.setActive(true);
             _scene = State::END;
+            _sound->playSound("end", 0.5, false);
             break;
     }
 }
@@ -266,7 +271,7 @@ void PivotApp::updateLevelScene(float timestep){
             _levelSelect.setActive(false);
             _gameplay.load(_levelSelect.getLevelString());
             _gameplay.setActive(true);
-            _scene = State::GAME;
+            _scene = State::GAME;            
             break;
     }
 }

@@ -385,7 +385,8 @@ void GameplayController::load(std::string name){
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     
-    _sound->streamSounds({ "cave_m", "cave_p" }, 1.0, true);
+    _sound->streamSounds({ "cave_m" }, 1.0, true);
+    //_sound->streamSounds({ "end" }, 1.0, true);
 }
 
 /**
@@ -428,6 +429,8 @@ void GameplayController::setActive(bool value){
  */
 float save = 0.0;
 void GameplayController::update(float dt) {
+    CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
+    
     _model->_justFinishRotating = false;
 #pragma mark INPUT
     _input->update(dt);
