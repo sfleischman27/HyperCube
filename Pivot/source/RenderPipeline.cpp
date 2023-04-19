@@ -302,8 +302,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
                 tempV.color = dro.col.getPacked();
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
                 if (dro.isPlayer) {
-                    tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first;
-                    tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second;
+                    tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
+                    tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
                     //CULog("Frame coords: %f, %f", model->_player->currentSpriteSheet->getFrameCoords().first, model->_player->currentSpriteSheet->getFrameCoords().second);
                     tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
                     tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
@@ -364,9 +364,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
                 tempV.color = dro.col.getPacked();
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
                 if (dro.isPlayer) {
-                    tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first;
-                    tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second;
-                    //CULog("Frame coords: %f, %f", model->_player->currentSpriteSheet->getFrameCoords().first, model->_player->currentSpriteSheet->getFrameCoords().second);
+                    tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
+                    tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
+                    CULog("Frame coords: %i, %i", model->_player->currentSpriteSheet->getFrameCoords().first, model->_player->currentSpriteSheet->getFrameCoords().second);
                     tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
                     tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
                 }
