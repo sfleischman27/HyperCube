@@ -1,0 +1,501 @@
+{
+    "level_id": "debug_0003",
+    "player_loc": [
+        -40.0,
+        160.0,
+        104.0
+    ],
+    "norm": [
+        -1.0,
+        0.0,
+        0.0
+    ],
+    "exit": [
+        -4.0,
+        -212.0,
+        104.0
+    ],
+    "glowsticks": 4,
+    "sprites": {
+        "0": {
+            "loc": [
+                0.0,
+                -60.0,
+                104.0
+            ],
+            "tex": "orb",
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": true
+        },
+        "1": {
+            "loc": [
+                -88.53839111328125,
+                39.800018310546875,
+                -36.70800018310547
+            ],
+            "tex": "caution",
+            "color": null,
+            "intense": null,
+            "collectible": false
+        },
+        "2": {
+            "loc": [
+                38.0,
+                -1.9999847412109375,
+                -63.99993896484375
+            ],
+            "tex": "lightning",
+            "color": null,
+            "intense": null,
+            "collectible": false
+        },
+        "3": {
+            "loc": [
+                38.0,
+                -1.5999755859375,
+                -119.99993896484375
+            ],
+            "tex": "lightning_flip",
+            "color": null,
+            "intense": null,
+            "collectible": false
+        },
+        "4": {
+            "loc": [
+                -88.0,
+                -39.399986267089844,
+                -43.99994659423828
+            ],
+            "tex": "biohazrd",
+            "color": null,
+            "intense": null,
+            "collectible": false
+        },
+        "5": {
+            "loc": [
+                -88.0,
+                -1.9999847412109375,
+                -19.999954223632812
+            ],
+            "tex": "alarm",
+            "color": null,
+            "intense": null,
+            "collectible": false
+        },
+        "6": {
+            "loc": [
+                -136.0,
+                102.0,
+                -115.99993896484375
+            ],
+            "tex": "caution",
+            "color": null,
+            "intense": null,
+            "collectible": false
+        },
+        "7": {
+            "loc": [
+                -132.4000244140625,
+                26.00002098083496,
+                -59.99995422363281
+            ],
+            "tex": "caution",
+            "color": null,
+            "intense": null,
+            "collectible": false
+        },
+        "8": {
+            "loc": [
+                -132.40005493164062,
+                -1.9999847412109375,
+                -29.99994659423828
+            ],
+            "tex": "Warning-Sign-PNG-Clipart",
+            "color": null,
+            "intense": null,
+            "collectible": false
+        },
+        "9": {
+            "loc": [
+                -48.0,
+                4.0000152587890625,
+                44.00006103515625
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "10": {
+            "loc": [
+                124.0,
+                4.0000152587890625,
+                48.00006103515625
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "11": {
+            "loc": [
+                108.0,
+                4.0000152587890625,
+                148.0
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "12": {
+            "loc": [
+                -40.0,
+                4.0000152587890625,
+                128.0
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "13": {
+            "loc": [
+                -176.0,
+                1.52587890625e-05,
+                -19.999954223632812
+            ],
+            "tex": null,
+            "color": [
+                0.8674519062042236,
+                1.0,
+                0.07272271811962128
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "14": {
+            "loc": [
+                164.0,
+                1.52587890625e-05,
+                -103.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "15": {
+            "loc": [
+                248.0,
+                1.52587890625e-05,
+                -103.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "16": {
+            "loc": [
+                164.0,
+                100.0,
+                -103.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "17": {
+            "loc": [
+                -4.0,
+                100.0,
+                -103.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "18": {
+            "loc": [
+                -176.0,
+                176.0,
+                -47.99994659423828
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "19": {
+            "loc": [
+                -88.0,
+                1.52587890625e-05,
+                -23.999954223632812
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.001415748498402536,
+                0.0
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "20": {
+            "loc": [
+                -134.0,
+                108.0,
+                -131.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "21": {
+            "loc": [
+                -176.0,
+                72.0,
+                -7.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "22": {
+            "loc": [
+                -176.0,
+                176.0,
+                -139.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "23": {
+            "loc": [
+                -176.0,
+                72.0,
+                -95.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "24": {
+            "loc": [
+                36.0,
+                0.0,
+                -92.0
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.06971566379070282,
+                0.0
+            ],
+            "intense": 2.0,
+            "collectible": false
+        },
+        "25": {
+            "loc": [
+                232.0,
+                76.0,
+                8.0
+            ],
+            "tex": null,
+            "color": [
+                0.8674519062042236,
+                1.0,
+                0.07272271811962128
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "26": {
+            "loc": [
+                248.0,
+                176.0,
+                -47.99994659423828
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "27": {
+            "loc": [
+                248.0,
+                72.0,
+                -7.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "28": {
+            "loc": [
+                248.0,
+                176.0,
+                -139.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "29": {
+            "loc": [
+                248.0,
+                72.0,
+                -95.99993896484375
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "30": {
+            "loc": [
+                120.0,
+                200.0,
+                136.0
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "31": {
+            "loc": [
+                -76.0,
+                180.0,
+                120.0
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
+            "collectible": false
+        },
+        "32": {
+            "loc": [
+                0.0,
+                -120.0,
+                88.0
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.1,
+            "collectible": false
+        },
+        "33": {
+            "loc": [
+                0.0,
+                -196.0,
+                168.0
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.05,
+            "collectible": false
+        }
+    },
+    "collision_mesh": "meshes/debug/debug_0003_col.obj",
+    "render_mesh": "meshes/debug/debug_0003_dec.obj"
+}

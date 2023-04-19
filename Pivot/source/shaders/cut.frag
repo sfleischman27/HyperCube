@@ -33,7 +33,7 @@ void main(void) {
 		frag_color = texture(outsideTexture, transTexCoord);
 		frag_color.a = 1.0;
 	} else if (texture(depthTexture, outTexCoord).xyz == vec3(1.0)) {
-		frag_color = vec4(135.0, 206.0, 235.0, 255.0) / 255.0;
+		frag_color = vec4(35.0, 46.0, 82.0, 255.0) / 255.0;
 	} else {
 		discard;
 	}
