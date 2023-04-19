@@ -472,20 +472,23 @@ void GameplayController::update(float dt) {
     
 #pragma mark Glowsticks
     if (_input->didGlowstick()) {
-        
-            Vec3 player3DPos = _model->getPlayer3DLoc();
-            for(auto g =_model->_glowsticks.begin(); g!=_model->_glowsticks.end();){
-                if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
-                    g = _model->_glowsticks.erase(g);
-                    _pickupGlowstick = true;
-                }
-                else{
-                    ++g;
-                }
+        Vec3 player3DPos = _model->getPlayer3DLoc();
+        for(auto g =_model->_glowsticks.begin(); g!=_model->_glowsticks.end();){
+            if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
+                _model->_lightsFromItems.erase(std::string(g->getPosition()));
+                g = _model->_glowsticks.erase(g);
+                _pickupGlowstick = true;
             }
-            if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
-                _model->_glowsticks.push_back(Glowstick(player3DPos-_model->getPlaneNorm()*0.5));
+            else{
+                ++g;
             }
+        }
+        if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
+            auto g = Glowstick(player3DPos-_model->getPlaneNorm()*0.5);
+            // std::cout << "here name:" <<std::string(g.getPosition()) <<std::endl;
+            _model->_glowsticks.push_back(g);
+            _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition());
+        }
         
         _pickupGlowstick = false;
     }

@@ -97,9 +97,11 @@ public:
             this->intensity = intensity;
             this->loc = loc;
         }
+        Light(){}
     };
     /** Vector of lights */
     std::vector<Light> _lights;
+    std::unordered_map<std::string, Light> _lightsFromItems;
     
 #pragma mark Mesh
 public:

@@ -415,6 +415,17 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
         _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
     }
+    
+    //TODO: (For Matt) the following code is me playing around with glowstick light. So model->_lightsFromItems gives a map of active lights e.g glowstick lights AKA the lights not always there
+    for (auto p : model->_lightsFromItems) {
+        GameModel::Light &l = p.second;
+        _shaderPointlight->setUniform3f("color", l.color.x, l.color.y, l.color.z);
+        _shaderPointlight->setUniform3f("lpos", l.loc.x, l.loc.y, l.loc.z);
+        _shaderPointlight->setUniform1f("power", l.intensity);
+        _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+        _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+        _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+    }
 
     fbopos->getTexture(0)->unbind();
     fbo->getTexture(3)->unbind();
