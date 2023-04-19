@@ -304,8 +304,6 @@ void PlayerModel::update(float dt) {
         animFrameCounter++;
     }
     
-    int frame = currentSpriteSheet->getFrame();
-
     
 //    CULog("%i", currentSpriteSheet->getFrame()/currentSpriteSheet->getCols());
 
