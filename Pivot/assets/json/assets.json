@@ -168,6 +168,26 @@
             "file": "sounds/plop.wav",
             "volume": 0.5
         },
+        "walk_1": {
+            "type": "sample",
+            "file": "sounds/walk1.wav",
+            "volume": 0.5
+        },
+        "walk_2": {
+            "type": "sample",
+            "file": "sounds/walk2.wav",
+            "volume": 0.5
+        },
+        "walk_3": {
+            "type": "sample",
+            "file": "sounds/walk3.wav",
+            "volume": 0.5
+        },
+        "jump_land": {
+            "type": "sample",
+            "file": "sounds/jump-land.wav",
+            "volume": 0.5
+        },
         "cave_m": {
             "type": "sample",
             "file": "sounds/music/cave-m.ogg",
