@@ -526,7 +526,7 @@ void GameplayController::update(float dt) {
             }
         }
         if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
-            auto g = Glowstick(player3DPos-_model->getPlaneNorm()*0.5);
+            auto g = Glowstick(player3DPos-(_model->getPlaneNorm()*10));
             // std::cout << "here name:" <<std::string(g.getPosition()) <<std::endl;
             _model->_glowsticks.push_back(g);
             _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition());
