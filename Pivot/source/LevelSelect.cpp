@@ -206,13 +206,14 @@ std::string LevelSelect::getLevelString(){
 
 std::string LevelSelect::getNextLevelString(){
     int level = _choice;
-    LevelSelect::Pack pack = _pack;
     
     if (level == 14){
         level = 0;
-        pack = static_cast<LevelSelect::Pack>(pack + 1);
+        _choice = Choice::LEVEL1;
+        _pack = static_cast<LevelSelect::Pack>(_pack + 1);
     } else{
         level +=1;
+        _choice = static_cast<LevelSelect::Choice>(_choice + 1);
     }
-    return toLevelString(level, packToString(pack));
+    return toLevelString(level, packToString(_pack));
 }
