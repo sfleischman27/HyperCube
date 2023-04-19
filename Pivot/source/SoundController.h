@@ -89,6 +89,14 @@ public:
      *  @param volume the volume of the sound, from 0.0-1.0
      */
     void streamSounds(std::vector<std::string> names, float volume, bool loop);
+    
+    /**
+     * Streams a AudioNode. With crossfade and all that.
+     *  @param name the name of the sound in the json
+     *  @param loop should the sound be looping
+     *  @param volume the volume of the sound, from 0.0-1.0
+     */
+    void streamNode(std::shared_ptr<cugl::audio::AudioNode> node, float volume, bool loop);
 };
 
 #endif /* SoundController_h */

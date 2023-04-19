@@ -70,6 +70,7 @@ public:
         _volume = volume;
         _streaming = streaming;
         _node = _source->createNode();
+        _node->setName(_name);
         /*
         if (cugl::AudioSample* sample = dynamic_cast<cugl::AudioSample*>(source.get()))
         {

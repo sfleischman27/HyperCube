@@ -215,6 +215,8 @@ void PivotApp::updateLoadingScene(float timestep){
         _gameplay.init(_assets, getDisplaySize(), _sound);
         _mainMenu.setActive(true);
         _scene = State::MAIN;
+        
+        _sound->playSound("menu", 0.5, true);
     }
 }
 

@@ -10,9 +10,10 @@
 /** The initial fade-in on scene activation */
 #define INITIAL_FADE  8.0
 /** The crossfade duration */
-#define CROSS_FADE    1.0
+#define CROSS_FADE    0.5
 
 bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
+    cugl::AudioEngine::get()->getMusicQueue()->setOverlap(CROSS_FADE);
     _sounds = std::unordered_map<std::string, std::shared_ptr<GameSound>>();
     _assets = assets;
     
@@ -105,8 +106,7 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     
     
     if(sound->isStreaming()){
-        sound->attachSound(_mixer);
-        cugl::AudioEngine::get()->getMusicQueue()->enqueue(_mixer);
+        streamNode(sound->getNode(), volume, loop);
     } else {
         cugl::AudioEngine::get()->play(name,sound->getSource(),loop);
     }
@@ -118,15 +118,35 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     _sounds[name]->play(loop);*/
 }
 
+std::string stringifyVector(std::vector<std::string> v){
+    std::string s;
+    for (const auto &piece : v) s += piece;
+    return s;
+}
+
 void SoundController::streamSounds(std::vector<std::string> names, float volume, bool loop){
     for(std::string name : names){
         if(_sounds.find(name) == _sounds.end()){
             createSound(name);
         }
+        
+        _mixer->setName(stringifyVector(names));
+        
         if(_sounds[name]->isStreaming()){
             _sounds[name]->attachSound(_mixer);
-            cugl::AudioEngine::get()->getMusicQueue()->setLoop(loop);
-            cugl::AudioEngine::get()->getMusicQueue()->enqueue(_mixer, true, volume, CROSS_FADE);
+            streamNode(_mixer, volume, loop);
         }
     }
 }
+
+void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, float volume, bool loop){
+    std::shared_ptr<cugl::AudioQueue> queue = cugl::AudioEngine::get()->getMusicQueue();
+    //if the queue is inactive, OR the current song playing isn't the same as the one that we want to play...play the song.
+    
+    if(queue->getState() == cugl::AudioEngine::State::INACTIVE || queue->current() != node->getName()){
+        queue->setLoop(loop);
+        queue->enqueue(node, loop, volume, CROSS_FADE);
+        queue->advance(0, CROSS_FADE);
+    }
+}
+
