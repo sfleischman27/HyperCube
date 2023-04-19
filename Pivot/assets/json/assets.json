@@ -139,7 +139,7 @@
             "file": "textures/Warning-Sign-PNG-Clipart.png"
         },
         "orb": {
-            "file": "textures/orb.png",
+            "file": "textures/orb_big.png",
             "span": 1,
             "cols": 1
         },
