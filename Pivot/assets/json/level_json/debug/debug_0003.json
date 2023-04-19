@@ -1,31 +1,35 @@
 {
-    "level_id": "debug_0001",
+    "level_id": "debug_0003",
     "player_loc": [
-        -88.0,
-        -1.9999847412109375,
-        -65.79129028320312
+        -40.0,
+        160.0,
+        104.0
     ],
     "norm": [
-        0.0,
         -1.0,
+        0.0,
         0.0
     ],
     "exit": [
-        83.3863525390625,
-        -1.9999847412109375,
-        -148.0
+        -4.0,
+        -212.0,
+        104.0
     ],
     "glowsticks": 4,
     "sprites": {
         "0": {
             "loc": [
-                -160.0,
-                -1.9999847412109375,
-                -67.99993896484375
+                0.0,
+                -60.0,
+                104.0
             ],
             "tex": "orb",
-            "color": null,
-            "intense": null,
+            "color": [
+                1.0,
+                0.0,
+                0.0037951183039695024
+            ],
+            "intense": 0.2,
             "collectible": true
         },
         "1": {
@@ -490,8 +494,23 @@
             ],
             "intense": 0.05,
             "collectible": false
+        },
+        "34": {
+            "loc": [
+                -4.0,
+                -184.0,
+                108.0
+            ],
+            "tex": null,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.05,
+            "collectible": false
         }
     },
-    "collision_mesh": "meshes/debug/debug_0001_col.obj",
-    "render_mesh": "meshes/debug/debug_0001_dec.obj"
+    "collision_mesh": "meshes/debug/debug_0003_col.obj",
+    "render_mesh": "meshes/debug/debug_0003_dec.obj"
 }
