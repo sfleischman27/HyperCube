@@ -185,9 +185,27 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     int _framecols = 4;
     int rows = _framesize/_framecols;
 
-    auto sheet = assets->get<Texture>("walk");
+    auto sheet = SpriteSheet::alloc(assets->get<Texture>("player-walk"), _framecols, _framecols);
+    auto normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-walk-normal"), _framecols, _framecols);
     
-    _model->_player->setSprite(SpriteSheet::alloc(sheet, rows, _framecols, _framesize));
+//    _model->_player->setSprite(SpriteSheet::alloc(sheet, rows, _framecols, _framesize));
+//    _model->_player->setNormalSprite(SpriteSheet::alloc(normalSheet, rows, _framecols, _framesize));
+    
+    _model->_player->spriteSheets.emplace("walk", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump"), _framecols, _framecols);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-normal"), _framecols, _framecols);
+    
+    _model->_player->spriteSheets.emplace("jump", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-idle"), 1, 1);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-idle-normal"), 1, 1);
+    
+    _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
+    
+    _model->_player->setSprite(sheet);
+    _model->_player->setNormalSprite(normalSheet);
+    
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);

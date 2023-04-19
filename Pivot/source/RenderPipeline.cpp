@@ -366,7 +366,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
                 if (dro.isPlayer) {
                     tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
                     tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
-                    CULog("Frame coords: %i, %i", model->_player->currentSpriteSheet->getFrameCoords().first, model->_player->currentSpriteSheet->getFrameCoords().second);
+//                    CULog("Frame coords: %i, %i", model->_player->currentSpriteSheet->getFrameCoords().first, model->_player->currentSpriteSheet->getFrameCoords().second);
                     tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
                     tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
                 }

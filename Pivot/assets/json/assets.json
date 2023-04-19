@@ -11,8 +11,23 @@
         "dude-normal": {
             "file": "textures/dude-normal.png"
         },
-        "walk": {
+        "player-walk": {
                   "file": "textures/walk.png"
+                },
+        "player-walk-normal": {
+                  "file": "textures/walk_normal.png"
+                },
+        "player-jump": {
+                  "file": "textures/jump.png"
+                },
+        "player-jump-normal": {
+                  "file": "textures/jump_normal.png"
+                },
+        "player-idle": {
+                  "file": "textures/idle.png"
+                },
+        "player-idle-normal": {
+                  "file": "textures/idle_normal.png"
                 },
         "cobble": {
             "file": "textures/cobblestone.png"

@@ -209,10 +209,6 @@ public:
     std::pair<int, int> getFrameCoords() {
         int remainder = _frame % _cols;
         
-        if(_frame == 0){
-            CULog("frame is zero!!!!");
-        }
-        
         int numRows = static_cast<int>(ceil(static_cast<float>(_frame + 1) / static_cast<float>(_cols)));
         
         return std::make_pair(numRows , _cols-remainder);
