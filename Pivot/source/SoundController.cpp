@@ -11,8 +11,9 @@ bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
     _sounds = std::unordered_map<std::string, std::shared_ptr<GameSound>>();
     _assets = assets;
     
-    //3 audio nodes (main music, portal music, ending music)
-    _mixer->alloc(3, 2, 44100);
+    //3 audio nodes (main music, portal music, ending music, menu music)
+    //_mixer = std::make_shared<cugl::audio::AudioMixer>();
+    _mixer = _mixer->alloc(4, 2, 44100);
     return true;
 }
 
@@ -54,26 +55,7 @@ std::shared_ptr<GameSound> SoundController::createSound(std::string name){
 void SoundController::attachSound(std::string name){
     std::shared_ptr<GameSound> sound = _sounds[name];
     
-    int slot = 0;
-    switch(name.back()) {
-        case 'm': //main music
-            slot = 0;
-        break;
-        case 'b':
-            slot = 1;
-        break;
-        case 'e':
-            slot = 2;
-        default:
-            slot = 0;
-    }
-    
-    /*std::shared_ptr<cugl::audio::AudioPlayer> player;
-    player->init(sound->getSource());
-    
-    if(sound->isStreaming()){
-        _mixer->attach(slot, AudioPlayer);
-    }*/
+    sound->attachSound(_mixer);
 }
 
 /**
@@ -103,14 +85,42 @@ void SoundController::playSound(std::string name, float volume){
  */
 void SoundController::playSound(std::string name, float volume, bool loop){
     //sound->play(loop);
+    
+    
     if(_sounds.find(name) == _sounds.end()){
         createSound(name);
     }
     setVolume(name, volume);
     
+    std::shared_ptr<GameSound> sound = _sounds[name];
     
     if(_sounds[name]->isPlaying()){
         _sounds[name]->stop();
     }
-    _sounds[name]->play(loop);
+    
+    
+    if(sound->isStreaming()){
+        sound->attachSound(_mixer);
+        cugl::AudioEngine::get()->getMusicQueue()->enqueue(_mixer);
+    } else {
+        cugl::AudioEngine::get()->play(name,sound->getSource(),loop);
+    }
+    
+    
+    /*if(_sounds[name]->isPlaying()){
+        _sounds[name]->stop();
+    }
+    _sounds[name]->play(loop);*/
+}
+
+void SoundController::streamSounds(std::vector<std::string> names, float volume, bool loop){
+    for(std::string name : names){
+        if(_sounds.find(name) == _sounds.end()){
+            createSound(name);
+        }
+        if(_sounds[name]->isStreaming()){
+            _sounds[name]->attachSound(_mixer);
+            cugl::AudioEngine::get()->getMusicQueue()->enqueue(_mixer);
+        }
+    }
 }

@@ -81,6 +81,14 @@ public:
      *  @param volume the volume of the sound, from 0.0-1.0
      */
     void playSound(std::string name, float volume, bool loop);
+    
+    /**
+     * Streams multiple sounds that has been queued into the sound hashmap. Puts them all on the mixer and plays at the same time
+     *  @param names the names of the sounds in the json, as a vector
+     *  @param loop should the sound be looping
+     *  @param volume the volume of the sound, from 0.0-1.0
+     */
+    void streamSounds(std::vector<std::string> names, float volume, bool loop);
 };
 
 #endif /* SoundController_h */

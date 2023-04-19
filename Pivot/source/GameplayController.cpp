@@ -223,8 +223,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 #pragma mark SOUND SETUP
     
     _sound->init(assets);
-    //_sound->playSound("cave_m", 1.0, true);
-    //_sound->playSound("cave_p", 1.0, true);
+    std::vector<std::string> sounds{ "cave_m", "cave_p" };
+    _sound->streamSounds(sounds, 1.0, true);
     
     _active = true;
     

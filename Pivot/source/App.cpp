@@ -38,6 +38,9 @@ void PivotApp::onStartup() {
     _assets = AssetManager::alloc();
     _batch  = SpriteBatch::alloc();
     
+    //start audio engine singleton
+    AudioEngine::start();
+    
     // Start-up basic input
 #ifdef CU_TOUCH_SCREEN
     Input::activate<Touchscreen>();
