@@ -112,7 +112,7 @@ public:
      *
      * @return true if the controller is initialized properly, false otherwise.
      */
-    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 1); }
+    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 2); }
     // TODO: change this back to 0
     
     /**

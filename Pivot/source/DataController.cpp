@@ -27,12 +27,16 @@ bool DataController::loadGameModel(std::string level, const std::shared_ptr<Game
     // load the new meshes
     CULog("%s", Application::get()->getAssetDirectory().c_str());
     std::string assetDirectoryPath = Application::get()->getAssetDirectory();
-    std::string meshPath = constants->getString("render_mesh");
+    std::string rendmeshPath = constants->getString("render_mesh");
 
-    std::string colmeshPath = constants->getString("collision_mesh");//not using this yet TODO
-
-    assetDirectoryPath.append(meshPath);
-    model->_mesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
+    assetDirectoryPath.append(rendmeshPath);
+    model->_renderMesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
+    
+    assetDirectoryPath = Application::get()->getAssetDirectory();
+    std::string colmeshPath = constants->getString("collision_mesh");
+    
+    assetDirectoryPath.append(colmeshPath);
+    model->_colMesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
     
     // call reset game model
     return resetGameModel(level, model);
@@ -85,6 +89,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     // clear collectibles and init data vectors
     model->clearCollectibles();
     model->clearLights();
+    model->clearDecorations();
     
     std::vector<Vec3> col_locs;
     std::vector<std::shared_ptr<cugl::Texture>> col_texs;
@@ -140,8 +145,6 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco"+std::to_string(i), _assets->get<Texture>(texkey));
             model->_decorations.push_back(decPtr);
         }
-        // otherwise its just a decoration
-        // TODO put decoration initialization here
     }
 
     model->setCollectibles(col_locs, col_texs);
