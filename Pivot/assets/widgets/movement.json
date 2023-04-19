@@ -3,6 +3,7 @@
         "buttonSize": ["data", "size"],
         "buttonScale": ["data", "scale"],
         "buttonDirection": ["children", "up", "data", "texture"],
+        "buttonDirectionActive": ["children", "down", "data", "texture"],
         "buttonAnchor": ["data", "anchor"],
         "buttonHorizontal": ["layout", "x_anchor"],
         "buttonXPos": ["layout", "x_offset"],

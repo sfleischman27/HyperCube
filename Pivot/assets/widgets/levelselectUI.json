@@ -14,7 +14,7 @@
             "visible": true
         },
         "layout": {
-            "x_anchor": "center",
+            "x_anchor": "fill",
             "y_anchor": "fill"
         },
         "children": {

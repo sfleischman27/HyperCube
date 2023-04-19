@@ -6,6 +6,9 @@
         "left": {
             "file": "textures/game_leftbutton.png"
         },
+        "leftdown": {
+            "file": "textures/game_leftbuttondown.png"
+        },
         "right": {
             "file": "textures/game_rightbutton.png"
         },

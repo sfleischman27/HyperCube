@@ -15,16 +15,30 @@
         },
         "layout": {
             "x_anchor": "center",
-            "y_anchor": "fill"
+            "y_anchor": "middle"
         },
         "children": {
+            "logo": {
+                "type": "Image",
+                "data": {
+                    "texture": "pivotlogo",
+                    "size": [1000,462],
+                    "scale": 1,
+                    "anchor": [0.5,0.5],
+                    "visible": false
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "middle"
+                }
+            },
             "startB": {
                 "type": "Widget",
                 "data": {
                     "key": "startbuttons",
                     "variables": {
                         "buttonScale": 0.75,
-                        "buttonYPos": 0.15
+                        "buttonYPos": 0.275
                     }
                 }
             },

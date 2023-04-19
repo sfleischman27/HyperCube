@@ -1,13 +1,16 @@
 {
     "textures": {
         "background": {
-            "file": "textures/start_background.png"
+            "file": "textures/start_backgroundv2.png"
         },
         "start": {
             "file": "textures/start_startbutton.png"
         },
         "resume": {
             "file": "textures/start_resumebutton.png"
+        },
+        "pivotlogo": {
+            "file": "textures/start_pivotlogo.png"
         }
     },
     "fonts": {
