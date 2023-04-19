@@ -203,6 +203,12 @@
             "file": "sounds/jump-land.wav",
             "volume": 0.5
         },
+        "loopingtest_m": {
+            "type": "sample",
+            "file": "sounds/music/loopingtest-m.wav",
+            "stream": true,
+            "volume": 0.5
+        },
         "cave_m": {
             "type": "sample",
             "file": "sounds/music/cave-m.ogg",

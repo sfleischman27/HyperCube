@@ -7,6 +7,11 @@
 
 #include "SoundController.h"
 
+/** The initial fade-in on scene activation */
+#define INITIAL_FADE  8.0
+/** The crossfade duration */
+#define CROSS_FADE    1.0
+
 bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
     _sounds = std::unordered_map<std::string, std::shared_ptr<GameSound>>();
     _assets = assets;
@@ -120,7 +125,8 @@ void SoundController::streamSounds(std::vector<std::string> names, float volume,
         }
         if(_sounds[name]->isStreaming()){
             _sounds[name]->attachSound(_mixer);
-            cugl::AudioEngine::get()->getMusicQueue()->enqueue(_mixer);
+            cugl::AudioEngine::get()->getMusicQueue()->setLoop(loop);
+            cugl::AudioEngine::get()->getMusicQueue()->enqueue(_mixer, true, volume, CROSS_FADE);
         }
     }
 }

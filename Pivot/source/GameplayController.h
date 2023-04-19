@@ -66,7 +66,7 @@ protected:
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
     
 private:
-    std::shared_ptr<SoundController> _sound = std::make_shared<SoundController>();
+    std::shared_ptr<SoundController> _sound;// = 
     std::shared_ptr<GameModel> _model;
     std::shared_ptr<PhysicsController> _physics;
     std::shared_ptr<InputController> _input;
@@ -128,9 +128,13 @@ public:
     * @return true if the controller is initialized properly, false otherwise.
     */
     
-    bool init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize);
+    //bool init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize);
     
-    bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
+    bool init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize, std::shared_ptr<SoundController> sound);
+    
+    //bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
+    
+    bool init(const std::shared_ptr<AssetManager>& assets, const Rect& rect, std::shared_ptr<SoundController> sound);
     
     /**
     * Generates obstacle instances from the given cut, specified by the list of Poly2s given by the GameModel _model.

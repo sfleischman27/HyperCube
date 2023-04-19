@@ -55,7 +55,7 @@ protected:
     /** The controller for the demo loading screen */
     LoadingScene _demoloading;
     /** The  controller for all sound functions */
-    //SoundController _sound;
+    std::shared_ptr<SoundController> _sound;
     /** The primary controller for the game world */
     GameplayController _gameplay;
     /** The main menu view */

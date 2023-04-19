@@ -38,9 +38,6 @@ void PivotApp::onStartup() {
     _assets = AssetManager::alloc();
     _batch  = SpriteBatch::alloc();
     
-    //start audio engine singleton
-    AudioEngine::start();
-    
     // Start-up basic input
 #ifdef CU_TOUCH_SCREEN
     Input::activate<Touchscreen>();
@@ -60,8 +57,12 @@ void PivotApp::onStartup() {
     _demoloading.init(_assets);
     
     // Queue up the other assets
-    AudioEngine::start();
     _assets->loadDirectoryAsync(jsonPath, nullptr);
+    
+    //init audio engine singleton and sound controller
+    AudioEngine::start();
+    _sound = std::make_shared<SoundController>();
+    _sound->init(_assets);
 
     // set clear color for entire canvas
     setClearColor(Color4(255, 255, 255, 255));
@@ -99,6 +100,7 @@ void PivotApp::onShutdown() {
 #endif
     
     AudioEngine::stop();
+    
     Application::onShutdown();  // YOU MUST END with call to parent
 }
 
@@ -210,7 +212,7 @@ void PivotApp::updateLoadingScene(float timestep){
         _levelSelect.init(_assets);
         _endMenu.init(_assets);
         _quitMenu.init(_assets);
-        _gameplay.init(_assets, getDisplaySize());
+        _gameplay.init(_assets, getDisplaySize(), _sound);
         _mainMenu.setActive(true);
         _scene = State::MAIN;
     }

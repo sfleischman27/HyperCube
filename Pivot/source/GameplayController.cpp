@@ -93,13 +93,28 @@ void GameplayController::dispose() {
  *
  * @return true if the controller is initialized properly, false otherwise.
  */
+
+/*
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize) {
+    std::shared_ptr<SoundController> sound = std::make_shared<SoundController>();
+    sound->init(assets);
+    return init(assets, displaySize, sound);
+}*/
+
+bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize, std::shared_ptr<SoundController> sound) {
     _pipeline = std::make_shared<RenderPipeline>(SCENE_WIDTH, displaySize, assets);
-	
-    return init(assets,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT));
+    
+    return init(assets,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT), sound);
 }
 
+/*
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect) {
+    std::shared_ptr<SoundController> sound = std::make_shared<SoundController>();
+    sound->init(assets);
+    return init(assets, rect, sound);
+}*/
+
+bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect, std::shared_ptr<SoundController> sound) {
     
     _state = NONE;
     
@@ -221,10 +236,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     addChild(_debugnode);
 
 #pragma mark SOUND SETUP
-    
-    _sound->init(assets);
-    std::vector<std::string> sounds{ "cave_m", "cave_p" };
-    _sound->streamSounds(sounds, 1.0, true);
+    _sound = sound;
+    //_sound->init(assets);
+    //_sound->streamSounds({ "loopingtest_m", "cave_p"}, 1.0, true);
+
     
     _active = true;
     
@@ -369,6 +384,8 @@ void GameplayController::load(std::string name){
     _physics->update(0);
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
+    
+    _sound->streamSounds({ "cave_m", "cave_p" }, 1.0, true);
 }
 
 /**
