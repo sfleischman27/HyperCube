@@ -12,23 +12,23 @@
             "file": "textures/dude-normal.png"
         },
         "player-walk": {
-                  "file": "textures/walk.png"
-                },
+            "file": "textures/walk.png"
+        },
         "player-walk-normal": {
-                  "file": "textures/walk_normal.png"
-                },
+            "file": "textures/walk_normal.png"
+        },
         "player-jump": {
-                  "file": "textures/jump.png"
-                },
+            "file": "textures/jump.png"
+        },
         "player-jump-normal": {
-                  "file": "textures/jump_normal.png"
-                },
+            "file": "textures/jump_normal.png"
+        },
         "player-idle": {
-                  "file": "textures/idle.png"
-                },
+            "file": "textures/idle.png"
+        },
         "player-idle-normal": {
-                  "file": "textures/idle_normal.png"
-                },
+            "file": "textures/idle_normal.png"
+        },
         "cobble": {
             "file": "textures/cobblestone.png"
         },
@@ -241,6 +241,7 @@
     },
     "jsons": {
         "debug_0000": "json/level_json/debug/debug_0000.json",
-        "debug_0001": "json/level_json/debug/debug_0001.json"
+        "debug_0001": "json/level_json/debug/debug_0001.json",
+        "debug_0002": "json/level_json/debug/debug_0002.json"
     }
 }

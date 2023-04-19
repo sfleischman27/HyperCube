@@ -106,10 +106,12 @@ public:
      */
     std::unordered_map<std::string, Light> _lightsFromItems;
     
-#pragma mark Mesh
+#pragma mark Meshes
 public:
-    /** Level mesh object */
-    std::shared_ptr<PivotMesh> _mesh;
+    /** Level rendering mesh object */
+    std::shared_ptr<PivotMesh> _renderMesh;
+    /** Level collision mesh object */
+    std::shared_ptr<PivotMesh> _colMesh;
     
 #pragma mark Main Functions
 public:
@@ -120,6 +122,7 @@ public:
         _collectibles = std::unordered_map<std::string, Collectible>();
         _glowsticks = std::vector<Glowstick>();
         _lights = std::vector<Light>();
+        _decorations = std::vector<std::shared_ptr<GameItem>>();
     }
     
 #pragma mark Getters and Setters
@@ -261,17 +264,17 @@ public:
     }
     
     /**
-     * Sets the mesh
+     * Gets the collision mesh
      */
-    void setMesh(std::shared_ptr<PivotMesh> mesh){
-        _mesh = mesh;
+    std::shared_ptr<PivotMesh> getColMesh() {
+        return _colMesh;
     }
     
     /**
-     * Gets the mesh
+     * Gets the render mesh
      */
-    std::shared_ptr<PivotMesh> getMesh() {
-        return _mesh;
+    std::shared_ptr<PivotMesh> getRenderMesh() {
+        return _renderMesh;
     }
     
     // this should not be here -Jolene
@@ -319,9 +322,12 @@ public:
         _glowsticks.clear();
     }
     
-
     void clearLights() {
         _lights.clear();
+    }
+    
+    void clearDecorations() {
+        _decorations.clear();
     }
 
     void setExpectedCol(std::unordered_set<std::string> expectedCol) {

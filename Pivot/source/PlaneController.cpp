@@ -57,7 +57,7 @@ void PlaneController::calculateCut() {
 	std::vector<Poly2> cut;
 
 	//do the cut
-	auto cutdata = _model->getMesh()->intersectPlane(origin, normal);
+	auto cutdata = _model->getColMesh()->intersectPlane(origin, normal);
 	auto Vcut = std::get<0>(cutdata);
 	auto Ecut = std::get<1>(cutdata);
 

@@ -139,7 +139,7 @@ void RenderPipeline::constructShaders() {
 void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
 
     // Get mesh
-    _mesh = *model->getMesh();
+    _mesh = *model->getRenderMesh();
 
     // Add all FSQ-like vertices
     _meshFsq.clear();
