@@ -86,6 +86,10 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     // get the sprites
     std::shared_ptr<cugl::JsonValue> sprites = constants->get("sprites");
 
+    
+    // clear glowsticks
+    model->clearGlowsticks();
+    
     // clear collectibles and init data vectors
     model->clearCollectibles();
     model->clearLights();
@@ -148,9 +152,6 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     }
 
     model->setCollectibles(col_locs, col_texs);
-
-    // clear glowsticks
-    model->clearGlowsticks();
     
     // get and set level id
     std::string level_id = constants->getString("level_id");
