@@ -35,7 +35,7 @@ using namespace cugl;
 #define LISTENER_KEY      1
 
 /** This defines the joystick "deadzone" (how far we must move) */
-#define JSTICK_DEADZONE  1
+#define JSTICK_DEADZONE  15
 /** This defines the joystick radial size (for reseting the anchor) */
 #define JSTICK_RADIUS    25
 /** How far to display the virtual joystick above the finger */
