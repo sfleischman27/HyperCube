@@ -211,7 +211,7 @@ public:
         
         int numRows = static_cast<int>(ceil(static_cast<float>(_frame + 1) / static_cast<float>(_cols)));
         
-        return std::make_pair(numRows , _cols-remainder);
+        return std::make_pair(_cols-remainder, numRows);
     }
     
     /**

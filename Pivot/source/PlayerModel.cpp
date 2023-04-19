@@ -268,12 +268,21 @@ void PlayerModel::update(float dt) {
 //    }
     
     
-    if(animFrameCounter >= 7){
+    if(animFrameCounter >= 2){
         animFrameCounter = 0;
-        int frame = currentSpriteSheet->getFrame()+1;
+        int frame = currentSpriteSheet->getFrame();
+        if(isFacingRight()){
+            frame++;
+        }else{
+            frame--;
+        }
         if (frame >= currentSpriteSheet->getSize()) {
             frame = 0;
         }
+        if(frame < 0){
+            frame = currentSpriteSheet->getSize() - 1;
+        }
+        CULog("%i",frame);
         currentSpriteSheet->setFrame(frame);
         currentNormalSpriteSheet->setFrame(frame);
     } else{
