@@ -170,7 +170,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     //drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"), assets->get<Texture>("dude-normal"), true)); //TODO fix texture
     // Grab correct texture
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
-    drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, charSheet, NULL, true));
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true));
     drawables.push_back(DrawObject(model->_exit->getPosition(), Color4f::BLUE, assets->get<Texture>("bridge"), NULL, false)); //TODO fix texture
 
     // Collectibles
