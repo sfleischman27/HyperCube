@@ -47,6 +47,7 @@ void main(void) {
 		}
 		mat2 R = mat2(-uDirection.y, uDirection.x, -uDirection.x, -uDirection.y);
 		frag_normal.xy = frag_normal.xy * R;
+		frag_normal.z = -frag_normal.z;
 	}
 }
 
