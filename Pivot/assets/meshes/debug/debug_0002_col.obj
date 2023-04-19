@@ -1,7 +1,7 @@
 # Blender v3.5.0 OBJ File: 'Starting Facility.blend'
 # www.blender.org
-mtllib debug_0001_col.mtl
-o COLLIDE.023_Cube.064
+mtllib debug_0002_col.mtl
+o COLLIDE.005_Cube.052
 v -131.975983 -43.999996 168.000107
 v -12.000001 300.686768 0.000061
 v -131.975983 40.000023 168.000107
