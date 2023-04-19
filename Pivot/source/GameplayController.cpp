@@ -31,9 +31,9 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the collecting distance */
-#define COLLECTING_DIST   12
+#define COLLECTING_DIST   16
 /** Threshold of the reaching exit distance */
-#define EXITING_DIST   12
+#define EXITING_DIST   17
 /** Number of glowsticks allowed to put */
 #define NUM_GLOWSTICKS 4
 /** Glowstick pickup distance*/
