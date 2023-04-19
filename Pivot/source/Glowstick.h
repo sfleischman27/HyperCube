@@ -22,7 +22,7 @@ public:
      */
     Glowstick(const Vec3 pos) : GameItem(pos) {
         setColor(Vec3(1.0, 1.0, 0.0));
-        setIntense(0.5);
+        setIntense(0.15);
     }
 };
 
