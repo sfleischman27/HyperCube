@@ -167,7 +167,10 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     drawables.clear();
 
     // Player and exit
-    drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"), assets->get<Texture>("dude-normal"), true)); //TODO fix texture
+    //drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"), assets->get<Texture>("dude-normal"), true)); //TODO fix texture
+    // Grab correct texture
+    std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, charSheet, NULL, true));
     drawables.push_back(DrawObject(model->_exit->getPosition(), Color4f::BLUE, assets->get<Texture>("bridge"), NULL, false)); //TODO fix texture
 
     // Collectibles
@@ -189,10 +192,6 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     for (Glowstick g : glows) {
         drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("spinner"), NULL, false)); //TODO fix texture
     }
-    
-    // Construct basis
-    const Vec3 basisUp = _camera->getUp();
-    const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);
 
     // Set bind points
     const int bindStart = 9;
@@ -209,7 +208,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Update camera
     Vec3 n = model->getPlaneNorm();
     const Vec3 charPos = model->getPlayer3DLoc();
-    CULog("%f, %f, %f", charPos.x, charPos.y, charPos.z);
+    //CULog("%f, %f, %f", charPos.x, charPos.y, charPos.z);
     const Vec3 camPos = charPos + (epsilon * n);
     _camera->setPosition(camPos);
     _camera->setDirection(-n);
@@ -292,11 +291,23 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         // Set up vertices
         _meshBill.vertices.clear();
         Size sz = dro.tex->getSize();
-        for (float i = -sz.width / 8; i <= sz.width / 8; i += sz.width / 4) {
-            for (float j = -sz.height / 8; j <= sz.height / 8; j += sz.height / 4) {
-                tempV.position = dro.pos + i * basisRight + j * basisUp;
+        int div = 4;
+        for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
+            for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
+                Vec3 addOn = i * basisRight + j * basisUp;
+                if (dro.isPlayer) {
+                    addOn /= model->_player->currentSpriteSheet->getDimen().first; // assuming square dimensions for now
+                }
+                tempV.position = dro.pos + addOn;
                 tempV.color = dro.col.getPacked();
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
+                if (dro.isPlayer) {
+                    tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first;
+                    tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second;
+                    //CULog("Frame coords: %f, %f", model->_player->currentSpriteSheet->getFrameCoords().first, model->_player->currentSpriteSheet->getFrameCoords().second);
+                    tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
+                    tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
+                }
                 _meshBill.vertices.push_back(tempV);
             }
         }
@@ -342,11 +353,23 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         // Set up vertices
         _meshBill.vertices.clear();
         Size sz = dro.tex->getSize();
-        for (float i = -sz.width / 8; i <= sz.width / 8; i += sz.width / 4) {
-            for (float j = -sz.height / 8; j <= sz.height / 8; j += sz.height / 4) {
-                tempV.position = dro.pos + i * basisRight + j * basisUp;
+        int div = 4;
+        for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
+            for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
+                Vec3 addOn = i * basisRight + j * basisUp;
+                if (dro.isPlayer) {
+                    addOn /= model->_player->currentSpriteSheet->getDimen().first; // assuming square dimensions for now
+                }
+                tempV.position = dro.pos + addOn;
                 tempV.color = dro.col.getPacked();
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
+                if (dro.isPlayer) {
+                    tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first;
+                    tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second;
+                    //CULog("Frame coords: %f, %f", model->_player->currentSpriteSheet->getFrameCoords().first, model->_player->currentSpriteSheet->getFrameCoords().second);
+                    tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
+                    tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
+                }
                 _meshBill.vertices.push_back(tempV);
             }
         }
