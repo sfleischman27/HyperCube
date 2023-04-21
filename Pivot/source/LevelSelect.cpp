@@ -207,7 +207,7 @@ std::string LevelSelect::getLevelString(){
 std::string LevelSelect::getNextLevelString(){
     int level = _choice;
     // TEMPORARY CODE!
-    if(level == 2){
+    if(level == 3){ // loop from last level to first (3 -> 0)
         level = 0;
         _choice = Choice::LEVEL1;
     } else
