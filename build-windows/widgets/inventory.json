@@ -1,0 +1,149 @@
+{
+    "variables": {
+        "inventorySize": ["data", "size"],
+        "inventoryScale": ["data", "scale"],
+        "showInventory": ["data", "visible"],
+        "inventoryXPos": ["layout", "x_offset"],
+        "inventoryYPos": ["layout", "y_offset"],
+        "showEmptyOne": ["children","empty-one", "data", "visible"],
+        "showEmptyTwo": ["children","empty-two", "data", "visible"],
+        "showEmptyThree": ["children","empty-three", "data", "visible"],
+        "showEmptyFour": ["children","empty-four", "data", "visible"],
+        "showKeyOne": ["children","key-one", "data", "visible"],
+        "showKeyTwo": ["children","key-two", "data", "visible"],
+        "showKeyThree": ["children","key-three", "data", "visible"],
+        "showKeyFour": ["children","key-four", "data", "visible"]
+    },
+    "contents": {
+        "type": "Node",
+        "format": {
+            "type": "Anchored"
+        },
+        "data": {
+            "size": [800, 150],
+            "scale": 1,
+            "anchor": [0.5,0],
+            "visible": true
+        },
+        "layout":{
+            "x_anchor": "center",
+            "y_anchor": "bottom",
+            "x_offset": 0,
+            "y_offset": 0.05
+        },
+        "children": {
+            "empty-one": {
+                "type": "Image",
+                "data": {
+                    "texture": "uncollectedkey",
+                    "size": [100,100],
+                    "anchor": [0.5,0],
+                    "visible": true
+                    },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "bottom",
+                    "x_offset": -0.75
+                }
+            },
+            "empty-two": {
+                "type": "Image",
+                "data": {
+                    "texture": "uncollectedkey",
+                    "size": [100,100],
+                    "anchor": [0.5,0],
+                    "visible": true
+                    },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "bottom",
+                    "x_offset": -0.25
+                }
+            },
+            "empty-three": {
+                "type": "Image",
+                "data": {
+                    "texture": "uncollectedkey",
+                    "size": [100,100],
+                    "anchor": [0.5,0],
+                    "visible": true
+                    },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "bottom",
+                    "x_offset": 0.25
+                }
+            },
+            "empty-four": {
+                "type": "Image",
+                "data": {
+                    "texture": "uncollectedkey",
+                    "size": [100,100],
+                    "anchor": [0.5,0],
+                    "visible": true
+                    },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "bottom",
+                    "x_offset": 0.75
+                }
+            },
+            "key-one": {
+                "type": "Image",
+                "data": {
+                    "texture": "collectedkey",
+                    "size": [100,100],
+                    "anchor": [0.5,0],
+                    "visible": true
+                    },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "bottom",
+                    "x_offset": -0.75
+                }
+            },
+            "key-two": {
+                "type": "Image",
+                "data": {
+                    "texture": "collectedkey",
+                    "size": [100,100],
+                    "anchor": [0.5,0],
+                    "visible": true
+                    },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "bottom",
+                    "x_offset": -0.25
+                }
+            },
+            "key-three": {
+                "type": "Image",
+                "data": {
+                    "texture": "collectedkey",
+                    "size": [100,100],
+                    "anchor": [0.5,0],
+                    "visible": true
+                    },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "bottom",
+                    "x_offset": 0.25
+                }
+            },
+            "key-four": {
+                "type": "Image",
+                "data": {
+                    "texture": "collectedkey",
+                    "size": [100,100],
+                    "anchor": [0.5,0],
+                    "visible": true
+                    },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "bottom",
+                    "x_offset": 0.75
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "textures": {
+        "levelselect": {
+            "file": "textures/level_background.png"
+        },
+        "panel":{
+            "file": "textures/level_board.png"
+        },
+        "locked" : {
+            "file": "textures/level_locked.png"
+        },
+        "unlocked" : {
+            "file": "textures/level_unlocked.png"
+        }
+    },
+    "fonts": {
+    },
+    "widgets" : {
+        "levelselectUI": "widgets/levelselectUI.json",
+        "level": "widgets/level.json",
+        "lockedLevel": "widgets/lockedLevel.json"
+    },
+    "scene2s" : {
+        "levelLab": {
+            "type"      : "Node",
+            "comment"   : "This is the root node of the scene for the lab",
+            "format"    : {
+                "type" : "Anchored"
+            },
+            "children" : {
+                "levelselectScreen": {
+                    "type": "Widget",
+                    "data": {
+                        "key": "levelselectUI",
+                        "variables": {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+

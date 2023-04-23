@@ -1,0 +1,31 @@
+{
+    "variables": {
+        "exitSize": ["data", "size"],
+        "exitScale": ["data", "scale"],
+        "exitXPos": ["layout", "x_offset"],
+        "exitYPos": ["layout", "y_offset"]
+    },
+    "contents": {
+        "type": "Button",
+        "data": {
+           "upnode": "up",
+           "size": [70,70],
+           "anchor": [0,1],
+           "scale": 1
+        },
+        "children": {
+            "up":{
+                "type": "Image",
+                "data": {
+                    "texture": "exit"
+                }
+            }
+        },
+        "layout": {
+            "x_anchor": "left",
+            "y_anchor" : "top",
+            "x_offset" : 0.05,
+            "y_offset" : -0.05
+        }
+    }
+}
