@@ -429,7 +429,7 @@ void GameplayController::setActive(bool value){
  */
 float save = 0.0;
 void GameplayController::update(float dt) {
-    CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
+    //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
     
     _model->_justFinishRotating = false;
 #pragma mark INPUT
