@@ -25,7 +25,7 @@
                    "variables": {
                        "exitSize": [70,70],
                        "exitScale": 0.5,
-                       "exitXPos": 0.015,
+                       "exitXPos": 0.03,
                        "exitYPos": -0.025
                    }
                }
