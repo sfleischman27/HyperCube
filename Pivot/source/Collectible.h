@@ -51,15 +51,17 @@ public:
 public:
     /**
      *  Determines if the collectibles can be seen in current cut
-     *  if the plane norm is within +/- 10 degrees of the
-     *  perpendicular norm of the collectible position
-     *  TODO: How to decide if the plane go through the collectibe
      *
+     *  @param playerPos    The current player 3D position
      *  @param planeNorm    The current plane norm vector
      */
-    bool canBeSeen(Vec3 playerPos, Vec3 planeNorm);
-    
-    void setTexture(const std::shared_ptr<cugl::Texture>& value);
+    bool canBeSeen(Vec3 playerPos, Vec3 planeNorm) override {
+        float dist = (getPosition()-playerPos).dot(planeNorm);
+        if (!getCollected() && dist <= VISIBLE_DIST) {
+            return true;
+        }
+        return false;
+    }
 };
 
 #endif /* Collectible_h */
