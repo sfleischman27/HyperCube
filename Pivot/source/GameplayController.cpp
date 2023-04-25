@@ -31,7 +31,7 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the collecting distance */
-#define COLLECTING_DIST   16
+#define COLLECTING_DIST   15
 /** Threshold of the reaching exit distance */
 #define EXITING_DIST   17
 /** Number of glowsticks allowed to put */
@@ -501,7 +501,8 @@ void GameplayController::update(float dt) {
         }
     }
     
-    if(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST) {
+    if((_model->_exit->canBeSeen(_model->getPlayer3DLoc(),_model->getPlaneNorm()))
+       &&(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST)) {
         // TODO: Game ends here by checking if the player collects all colletibles - Sarah
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;

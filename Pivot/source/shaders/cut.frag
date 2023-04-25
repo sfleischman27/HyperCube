@@ -16,6 +16,34 @@ uniform sampler2D depthTexture;
 uniform vec2 transOffset;
 uniform vec2 screenSize;
 
+bool checkNeighboring(sampler2D tx, vec2 oTex) {
+	float bound = 2.0;
+	float offX = bound/screenSize.x;
+	float offY = bound/screenSize.y;
+
+	vec2 temp = oTex;
+	temp.x = temp.x - offX;
+	if (texture(tx, temp).r != 0.0) {
+		return true;
+	}
+	temp = oTex;
+	temp.x = temp.x + offX;
+	if (texture(tx, temp).r != 0.0) {
+		return true;
+	}
+	temp = oTex;
+	temp.y = temp.y - offY;
+	if (texture(tx, temp).r != 0.0) {
+		return true;
+	}
+	temp = oTex;
+	temp.y = temp.y + offY;
+	if (texture(tx, temp).r != 0.0) {
+		return true;
+	}
+	return false;
+}
+
 void main(void) {
 	if (texture(replaceTexture, outTexCoord).r == 0.0) {
 
@@ -32,6 +60,10 @@ void main(void) {
 
 		frag_color = texture(outsideTexture, transTexCoord);
 		frag_color.a = 1.0;
+		// Check neighboring and set to green
+		if (checkNeighboring(replaceTexture, outTexCoord)) {
+			frag_color = vec4(0.0, 1.0, 0.0, 1.0);
+		}
 	} else if (texture(depthTexture, outTexCoord).xyz == vec3(1.0)) {
 		frag_color = vec4(31.0, 34.0, 69.0, 255.0) / 255.0;
 	} else {

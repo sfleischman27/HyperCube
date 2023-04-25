@@ -14,8 +14,8 @@
             "visible": true
         },
         "layout": {
-            "x_anchor": "fill",
-            "y_anchor": "fill"
+            "x_anchor": "center",
+            "y_anchor": "center"
         },
         "children": {
             "panelNode": {

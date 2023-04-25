@@ -478,6 +478,7 @@
 				SDKROOT = "";
 				SDL_INCLUDES = "\"$(SRCROOT)/../../include\"";
 				SKIP_INSTALL = YES;
+				STRIP_STYLE = debugging;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
 				SUPPORTS_MACCATALYST = YES;
 				TVOS_DEPLOYMENT_TARGET = 12.1;
@@ -557,6 +558,7 @@
 				SDKROOT = "";
 				SDL_INCLUDES = "\"$(SRCROOT)/../../include\"";
 				SKIP_INSTALL = YES;
+				STRIP_STYLE = debugging;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
 				SUPPORTS_MACCATALYST = YES;
 				TVOS_DEPLOYMENT_TARGET = 12.1;
@@ -598,7 +600,7 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				STRIP_STYLE = all;
+				STRIP_STYLE = debugging;
 			};
 			name = Debug;
 		};
@@ -635,7 +637,7 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				STRIP_STYLE = all;
+				STRIP_STYLE = debugging;
 			};
 			name = Release;
 		};
