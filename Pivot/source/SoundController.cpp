@@ -107,11 +107,11 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     /*if(_sounds[name]->isPlaying()){
         stopSound(name);
     }*/
-    
+    sound->getNode()->reset();
     if(sound->isStreaming()){
         streamNode(sound->getNode(), volume, loop);
     } else {
-        cugl::AudioEngine::get()->play(name,sound->getSource(),loop);
+        cugl::AudioEngine::get()->play(name,sound->getNode(),loop, 1.0f, true);
     }
     
     

@@ -429,7 +429,7 @@ void GameplayController::setActive(bool value){
  */
 float save = 0.0;
 void GameplayController::update(float dt) {
-    CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
+    //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
     
     _model->_justFinishRotating = false;
 #pragma mark INPUT
@@ -574,17 +574,22 @@ void GameplayController::update(float dt) {
     }
     
     if(_model->_player->_walkCue){
-        float walkNumber = rand();
+        float walkNumber = rand() % 12;
+        //CULog("walkNumber = %f", walkNumber);
         
-        if(walkNumber < 0.25){
+        if(walkNumber < 3){
+            CULog("walk 1");
             _sound->playSound("walk_1", 1, false);
         } else {
-            if(walkNumber < 0.5) {
+            if(walkNumber < 6) {
+                CULog("walk 2");
                 _sound->playSound("walk_2", 1, false);
             } else {
-                if(walkNumber < 0.75) {
+                if(walkNumber < 9) {
+                    CULog("walk 3");
                     _sound->playSound("walk_3", 1, false);
                 } else {
+                    CULog("walk 4");
                     _sound->playSound("walk_4", 1, false);
                 }            }
         }
