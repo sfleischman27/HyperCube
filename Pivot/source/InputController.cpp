@@ -92,6 +92,8 @@ _keyDebug(false),
 _keyExit(false),
 _keyLeft(false),
 _keyRight(false),
+_keyRunLeft(false),
+_keyRunRight(false),
 _horizontal(0.0f),
 _moveNorm(0.00),
 _joystick(false),
@@ -182,9 +184,6 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         if (down) {
             _keyLeft = true;
             _keyRight = false;
-        } else {
-            _keyLeft = false;
-            _keyRight = false;
         }
     });
     
@@ -192,11 +191,10 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         if (down) {
             _keyLeft = false;
             _keyRight = true;
-        } else {
-            _keyLeft = false;
-            _keyRight = false;
         }
     });
+    
+    _buttonCenterPoint = ((_buttonRight->getPosition().x + _buttonLeft->getPosition().x)/2) + _buttonLeft->getBoundingBox().size.width;
     
     _buttonGlowstick->addListener([this](const std::string& name, bool down) {
         if (down) {
@@ -259,6 +257,12 @@ void InputController::update(float dt) {
     }
     if (_keyLeft) {
         _horizontal -= 1.0f;
+    }
+    if (_keyRunRight) {
+        _horizontal *= 1.5f;
+    }
+    if (_keyRunLeft) {
+        _horizontal *= 1.5f;
     }
     
     _moveNorm = 0.00;
@@ -372,30 +376,55 @@ Vec2 InputController::touch2Screen(const Vec2 pos) const {
 void InputController::processJoystick(const cugl::Vec2 pos) {
     Vec2 diff =  _ltouch.position-pos;
     
-    // Reset the anchor if we drifted too far
-    if (diff.lengthSquared() > JSTICK_RADIUS*JSTICK_RADIUS) {
-        diff.normalize();
-        diff *= (JSTICK_RADIUS+JSTICK_DEADZONE)/2;
-        _ltouch.position = pos+diff;
+    if(_buttonRight->isDown() && _ltouch.position.x + 200 < pos.x){
+//        CULog("running right");
+        _keyRunRight = true;
+    }else{
+        _keyRunRight = false;
     }
-    _ltouch.position.y = pos.y;
-    _joycenter = touch2Screen(_ltouch.position);
-    _joycenter.y += JSTICK_OFFSET;
+    if(_buttonLeft->isDown() && _ltouch.position.x - 200 > pos.x){
+//        CULog("running left");
+        _keyRunLeft= true;
+    }else{
+        _keyRunLeft = false;
+    }
     
-    if (std::fabsf(diff.x) > JSTICK_DEADZONE) {
-        _joystick = true;
-        if (diff.x > 0) {
-            _keyLeft = true;
-            _keyRight = false;
-        } else {
-            _keyLeft = false;
-            _keyRight = true;
-        }
-    } else {
-        _joystick = false;
-        _keyLeft = false;
-        _keyRight = false;
+    if(_buttonRight->isDown() && _ltouch.position.x > pos.x + 40){
+        _buttonLeft->setDown(true);
+        _buttonRight->setDown(false);
+        CULog("right to left");
     }
+    if(_buttonLeft->isDown() && _ltouch.position.x < pos.x - 40){
+        _buttonRight->setDown(true);
+        _buttonLeft->setDown(false);
+        CULog("left to right");
+    }
+    
+    // Reset the anchor if we drifted too far
+//    if (diff.lengthSquared() > JSTICK_RADIUS*JSTICK_RADIUS) {
+//        diff.normalize();
+//        diff *= (JSTICK_RADIUS+JSTICK_DEADZONE)/2;
+//        _ltouch.position = pos+diff;
+//    }
+    
+//    _ltouch.position.y = pos.y;
+//    _joycenter = touch2Screen(_ltouch.position);
+//    _joycenter.y += JSTICK_OFFSET;
+//
+//    if (std::fabsf(diff.x) > JSTICK_DEADZONE) {
+//        _joystick = true;
+//        if (diff.x > 0) {
+//            _keyLeft = true;
+//            _keyRight = false;
+//        } else {
+//            _keyLeft = false;
+//            _keyRight = true;
+//        }
+//    } else {
+//        _joystick = false;
+//        _keyLeft = false;
+//        _keyRight = false;
+//    }
 }
 
 /**
@@ -568,6 +597,8 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _ltouch.touchids.clear();
         _keyLeft = false;
         _keyRight = false;
+        _keyRunLeft = false;
+        _keyRunRight = false;
         _keyIncreaseCut = false;
         _keyDecreaseCut = false;
         _joystick = false;

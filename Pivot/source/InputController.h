@@ -43,6 +43,10 @@ private:
     bool  _keyLeft;
     /** Whether the right arrow key is down */
     bool  _keyRight;
+    /** Whether the left arrow key is down */
+    bool  _keyRunLeft;
+    /** Whether the right arrow key is down */
+    bool  _keyRunRight;
     /** Whether the increase cut key is pressed */
     bool  _keyIncreaseCut;
     /** Whether the decrease cut key is pressed */
@@ -143,6 +147,8 @@ protected:
     bool _joystick;
     /** The position of the virtual joystick */
     cugl::Vec2 _joycenter;
+    
+    float _buttonCenterPoint;
     /** The position of the virtual joystick that controls the cut */
     cugl::Vec2 _cutjoycenter;
     /** Whether or not we have processed a jump for this swipe yet */
@@ -339,12 +345,20 @@ public:
      * @return if the increase/decrease  button was down.
      */
     float didKeepChangingCut() const { return _keepChangingCut; }
+    
     /**
      * Returns if the jump button was pressed.
      *
      * @return if the jump button was pressed.
      */
     float didJump() const { return _jumpPressed; }
+    
+    /**
+     * Returns if running is happening.
+     *
+     * @return if running
+     */
+    float isRun() const { return _keyRunRight || _keyRunLeft; }
     
     /**
      * Returns if the glowstick button was pressed.
