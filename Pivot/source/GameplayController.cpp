@@ -170,11 +170,17 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     layer->setContentSize(_dimen);
     layer->doLayout();
     
-    auto kids = layer->getChildren()[0]->getChildren();
+    auto kids = layer->getChildren()[0];
+    std::vector<std::string> butts = std::vector<std::string>();
+    butts.push_back("jumpB");
+    butts.push_back("leftB");
+    butts.push_back("rightB");
+    butts.push_back("glowstickB");
+    butts.push_back("exitB");
     
     //initialize the game scene buttons
-    for(int i = 0; i < 5; ++i) {
-        std::shared_ptr<scene2::Button> butt = std::dynamic_pointer_cast<scene2::Button>(kids[i]);
+    for(int i = 0; i < butts.size(); ++i) {
+        std::shared_ptr<scene2::Button> butt = std::dynamic_pointer_cast<scene2::Button>(kids->getChildByName(butts[i]));
         _buttons[butt->getName()] = butt;
     }
     
@@ -184,8 +190,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
         }
     });
     
-    //TODO: fix to use names not index -Sarah
-    _glowstickCounter = std::dynamic_pointer_cast<scene2::Label>(kids[8]);
+    _glowstickCounter = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("glowstickCounter"));
     
     addChild(layer);
     setActive(false);
