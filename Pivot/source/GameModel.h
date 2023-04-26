@@ -18,6 +18,9 @@
 
 using namespace cugl;
 
+/** Number of glowsticks allowed to put */
+#define NUM_GLOWSTICKS 4
+
 /**
  * A class representing an active level and its starting data
  */
@@ -83,6 +86,8 @@ private:
 public:
     /** Vector of glowsticks */
     std::vector<Glowstick> _glowsticks;
+    
+    std::shared_ptr<cugl::scene2::Label> _glowstickCounter;
     
 #pragma mark Lights
 public:
@@ -320,6 +325,7 @@ public:
     
     void clearGlowsticks() {
         _glowsticks.clear();
+        updateGlowstickCount();
     }
     
     void clearLights() {
@@ -349,6 +355,10 @@ public:
      */
     bool checkBackpack() {
         return _expectedCol == _backpack;
+    }
+    
+    void updateGlowstickCount() {
+        _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _glowsticks.size()));
     }
     
 };

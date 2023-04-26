@@ -190,7 +190,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
         }
     });
     
-    _glowstickCounter = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("glowstickCounter"));
+    _model->_glowstickCounter = std::dynamic_pointer_cast<scene2::Label>( _buttons["glowstickB"]->getChildByName("label"));
     
     addChild(layer);
     setActive(false);
@@ -528,7 +528,7 @@ void GameplayController::update(float dt) {
             if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
                 _model->_lightsFromItems.erase(std::string(g->getPosition()));
                 g = _model->_glowsticks.erase(g);
-                _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _model->_glowsticks.size()) + "/" + std::to_string(NUM_GLOWSTICKS));
+                _model->updateGlowstickCount();
                 _pickupGlowstick = true;
             }
             else{
@@ -539,7 +539,7 @@ void GameplayController::update(float dt) {
             auto g = Glowstick(player3DPos-(_model->getPlaneNorm()*10));
             // std::cout << "here name:" <<std::string(g.getPosition()) <<std::endl;
             _model->_glowsticks.push_back(g);
-            _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _model->_glowsticks.size()) + "/" + std::to_string(NUM_GLOWSTICKS));
+            _model->updateGlowstickCount();
             _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition());
         }
         

@@ -151,20 +151,6 @@
                        "emptyThreePosition": 0.5
                    }
                }
-           },
-           "glowstickCounter": {
-              "type": "Widget",
-              "data": {
-                  "font": "gyparody",
-                  "text": "4/4",
-                  "key": "glowstickCounter",
-                  "variables": {
-                      "glowstickCounterSize": [150, 150],
-                      "glowstickCounterScale": 0.5,
-                      "glowstickCounterXPos": -0.1,
-                      "glowstickCounterYPos": -0.18
-                  }
-              }
            }
         }
     }

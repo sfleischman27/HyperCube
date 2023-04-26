@@ -64,8 +64,7 @@ protected:
     std::unordered_set<b2Fixture*> _sensorFixtures;
     
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
-    
-    std::shared_ptr<cugl::scene2::Label> _glowstickCounter;
+
     
 private:
     std::shared_ptr<SoundController> _sound;// = 
