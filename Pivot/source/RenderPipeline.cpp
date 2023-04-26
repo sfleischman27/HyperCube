@@ -270,7 +270,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     if (first == 0) {
         _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
         _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
-        first++;
     }
     _vertbuff->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
 
@@ -350,8 +349,11 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderPosition->setUniform1i("removeA", 0);
     //_shaderPosition->setUniform1i("billTex", drawables[0].tex->getBindPoint());
     _shaderPosition->setUniformMat4("uPerspective", _camera->getCombined());
-    _vertbuffPosition->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
-    _vertbuffPosition->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
+    if (first == 0) {
+        _vertbuffPosition->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
+        _vertbuffPosition->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
+        first++;
+    }
     _vertbuffPosition->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
 
     for (DrawObject dro : drawables) {
