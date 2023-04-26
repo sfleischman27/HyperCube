@@ -173,7 +173,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Grab correct texture
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), Color4f::BLUE, assets->get<Texture>("bridge"), NULL, false)); //TODO fix texture
+    drawables.push_back(DrawObject(model->_exit->getPosition(), Color4f::BLUE, model->_exit->getTexture(), NULL, false)); //TODO fix texture
 
     // Collectibles
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
@@ -192,7 +192,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Glowsticks
     std::vector<Glowstick> glows = model->_glowsticks;
     for (Glowstick g : glows) {
-        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, assets->get<Texture>("spinner"), NULL, false)); //TODO fix texture
+        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, model->_glowsticks[0].getTexture(), NULL, false)); //TODO fix texture
     }
 
     // Set bind points

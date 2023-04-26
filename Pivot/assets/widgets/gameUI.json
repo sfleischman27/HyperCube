@@ -35,12 +35,12 @@
                "data":{
                    "key": "movement",
                    "variables":{
-                       "buttonScale": 0.5,
+                       "buttonScale": 0.45,
                        "buttonSize": [200,200],
                        "buttonDirection": "left",
                        "buttonAnchor": [0,0],
                        "buttonHorizontal": "left",
-                       "buttonXPos": 0.025,
+                       "buttonXPos": 0.075,
                        "buttonYPos": 0.015
                    }
                }
@@ -50,13 +50,18 @@
                "data":{
                    "key": "movement",
                    "variables":{
-                       "buttonScale": 0.5,
+                       "buttonScale": 0.45,
                        "buttonSize": [200,200],
                        "buttonDirection": "right",
                        "buttonAnchor": [0,0],
                        "buttonHorizontal": "left",
-                       "buttonXPos": 0.15,
-                       "buttonYPos": 0.015
+                       "buttonXPos": 0.2,
+                       "buttonYPos": 0.015,
+                       "dashAppearance": "rightdash",
+                       "dashAnchor": [0,0.5],
+                       "dashHorizontal": "right",
+                       "dashXPosition": -0.1,
+                       "buttonPushed": "rightactive"
                    }
                }
            },
@@ -65,13 +70,15 @@
                "data":{
                    "key": "movement",
                    "variables":{
-                       "buttonScale": 0.5,
+                       "buttonScale": 0.45,
                        "buttonSize": [200,200],
                        "buttonDirection": "jump",
                        "buttonAnchor": [1,0],
                        "buttonHorizontal": "right",
                        "buttonXPos": -0.05,
-                       "buttonYPos": 0.015
+                       "buttonYPos": 0.015,
+                       "dash": false,
+                       "buttonPushed": "jumpactive"
                    }
                }
            },
@@ -106,7 +113,7 @@
                    "variables": {
                        "inventorySize": [300,150],
                        "inventoryScale": 0.5,
-                       "showInventory":  true,
+                       "showInventory":  false,
                        "iventoryXPos": 0.09,
                        "showEmptyOne": true,
                        "showEmptyTwo": true,
@@ -115,13 +122,39 @@
                        "showKeyOne": true,
                        "showKeyTwo": true,
                        "showKeyThree": true,
-                       "showKeyFour": false
+                       "showKeyFour": true
+                   }
+               }
+           },
+           "inventory-odd": {
+               "type": "Widget",
+               "data":{
+                   "key": "inventory",
+                   "variables": {
+                       "inventorySize": [300,150],
+                       "inventoryScale": 0.5,
+                       "showInventory":  true,
+                       "iventoryXPos": 0.09,
+                       "showEmptyOne": true,
+                       "showEmptyTwo": true,
+                       "showEmptyThree": true,
+                       "showEmptyFour": false,
+                       "showKeyOne": true,
+                       "showKeyTwo": true,
+                       "showKeyThree": true,
+                       "showKeyFour": false,
+                       "keyOnePosition": -0.5,
+                       "keyTwoPosition": 0,
+                       "keyThreePosition": 0.5,
+                       "emptyOnePosition": -0.5,
+                       "emptyTwoPosition": 0,
+                       "emptyThreePosition": 0.5
                    }
                }
            },
            "glowstickCounter": {
               "type": "Widget",
-              "data":{
+              "data": {
                   "font": "gyparody",
                   "text": "4/4",
                   "key": "glowstickCounter",

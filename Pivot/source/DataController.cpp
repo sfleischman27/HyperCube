@@ -30,12 +30,14 @@ bool DataController::loadGameModel(std::string level, const std::shared_ptr<Game
     std::string rendmeshPath = constants->getString("render_mesh");
 
     assetDirectoryPath.append(rendmeshPath);
+    assetDirectoryPath = filetool::normalize_path(assetDirectoryPath);
     model->_renderMesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
     
     assetDirectoryPath = Application::get()->getAssetDirectory();
     std::string colmeshPath = constants->getString("collision_mesh");
     
     assetDirectoryPath.append(colmeshPath);
+    assetDirectoryPath = filetool::normalize_path(assetDirectoryPath);
     model->_colMesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
     
     // call reset game model

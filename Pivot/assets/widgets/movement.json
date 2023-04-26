@@ -3,16 +3,25 @@
         "buttonSize": ["data", "size"],
         "buttonScale": ["data", "scale"],
         "buttonDirection": ["children", "up", "data", "texture"],
-        "buttonDirectionActive": ["children", "down", "data", "texture"],
+        "buttonPushed": ["children", "down", "data", "texture"],
         "buttonAnchor": ["data", "anchor"],
         "buttonHorizontal": ["layout", "x_anchor"],
         "buttonXPos": ["layout", "x_offset"],
-        "buttonYPos": ["layout", "y_offset"]
+        "buttonYPos": ["layout", "y_offset"],
+        "dash": ["children", "dash", "data", "visible"],
+        "dashAppearance": ["children", "dash", "data", "texture"],
+        "dashAnchor": ["children", "dash", "data", "anchor"],
+        "dashHorizontal": ["children", "dash", "layout", "x_anchor"],
+        "dashXPosition": ["children", "dash", "layout", "x_offset"]
     },
     "contents": {
         "type": "Button",
+        "format": {
+            "type": "Anchored"
+        },
         "data": {
            "upnode": "up",
+           "downnode": "down",
            "size": [200,200],
            "anchor": [0,0],
            "scale": 1
@@ -22,6 +31,26 @@
                 "type": "Image",
                 "data": {
                     "texture": "left"
+                }
+            },
+            "down":{
+                "type": "Image",
+                "data": {
+                    "texture": "leftactive"
+                }
+            },
+            "dash": {
+                "type": "Image",
+                "data": {
+                    "texture": "leftdash",
+                    "visible": true,
+                    "size": [95,110],
+                    "anchor": [1,0.5]
+                },
+                "layout": {
+                    "x_anchor": "left",
+                    "y_anchor": "middle",
+                    "x_offset": 0.1
                 }
             }
         },
