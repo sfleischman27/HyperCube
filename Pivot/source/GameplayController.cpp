@@ -184,7 +184,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
         }
     });
     
-    _glowstickCounter = std::dynamic_pointer_cast<scene2::Label>(kids[7]);
+    //TODO: fix to use names not index -Sarah
+    _glowstickCounter = std::dynamic_pointer_cast<scene2::Label>(kids[8]);
     
     addChild(layer);
     setActive(false);
