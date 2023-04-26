@@ -324,10 +324,15 @@ public:
     
     void clearLights() {
         _lights.clear();
+        _lightsFromItems.clear();
     }
     
     void clearDecorations() {
         _decorations.clear();
+    }
+    
+    void clearBackpack(){
+        _backpack.clear();
     }
 
     void setExpectedCol(std::unordered_set<std::string> expectedCol) {

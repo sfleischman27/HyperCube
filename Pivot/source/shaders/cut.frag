@@ -17,7 +17,7 @@ uniform vec2 transOffset;
 uniform vec2 screenSize;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
-	float bound = 2.0;
+	float bound = 1.0;
 	float offX = bound/screenSize.x;
 	float offY = bound/screenSize.y;
 

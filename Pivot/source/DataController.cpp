@@ -30,12 +30,14 @@ bool DataController::loadGameModel(std::string level, const std::shared_ptr<Game
     std::string rendmeshPath = constants->getString("render_mesh");
 
     assetDirectoryPath.append(rendmeshPath);
+    assetDirectoryPath = filetool::normalize_path(assetDirectoryPath);
     model->_renderMesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
     
     assetDirectoryPath = Application::get()->getAssetDirectory();
     std::string colmeshPath = constants->getString("collision_mesh");
     
     assetDirectoryPath.append(colmeshPath);
+    assetDirectoryPath = filetool::normalize_path(assetDirectoryPath);
     model->_colMesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
     
     // call reset game model
@@ -89,6 +91,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     
     // clear glowsticks
     model->clearGlowsticks();
+    
+    // clear backpack
+    model->clearBackpack();
     
     // clear collectibles and init data vectors
     model->clearCollectibles();
@@ -161,4 +166,69 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 }
 
 
+void DataController::setupSave(std::string dir, bool exists){
+    if(exists){ // save file already exists
+        // make a reader
+        std::shared_ptr<JsonReader> read = JsonReader::alloc(dir);
+        // get the save json
+        _save = std::make_shared<JsonValue>(JsonValue());
+        _save->initWithJson(read->readJsonString());
+    } else{ // no save file
+        // make a save file
+        filetool::file_create(dir);
+        // make an empty json
+        _save = std::make_shared<JsonValue>(JsonValue());
+    }
+    // make a writer
+    _write = JsonWriter::alloc(dir);
+}
 
+// Note: dir includes "save.json"
+void DataController::createSaveFile(std::string dir){
+    // make an empty json
+    _save = std::make_shared<JsonValue>(JsonValue());
+    // make a save file
+    filetool::file_create(dir);
+    // make a json writer for the save file
+    _write = JsonWriter::alloc(dir);
+    // make curr_level = "debug_0000"
+    _save->appendValue("curr_level", "debug_0000");
+    // write the json value to the file
+    _write->writeJson(_save);
+}
+
+//TODO: make init of save file a part of init of the gameplay controller
+void DataController::updateSaveFile(const std::shared_ptr<GameModel>& model){
+    // update curr_level
+    _save->get("curr_level")->set(model->getName());
+    
+    // TODO: Implement if we want to enable resuming your current level
+    // update player_loc
+    // update norm
+    // update collectibles
+    // update glowsticks
+    // update unlocked_levels
+}
+
+/**
+ {
+     "player_loc": [10,0,0],
+     "norm": [0,0,0],
+     "curr_level": "level2",
+     "collectibles": [2, 3],
+     "glowsticks": {
+       "0": {
+         "loc": [1,0,0]
+       },
+   "1": {
+         "loc": [4,0,0]
+       }
+     },
+     "past_levels": {
+         "level1": {
+            "collectibles": [0, 2],
+         }
+     },
+     "volume": 0.4
+ }
+ */
