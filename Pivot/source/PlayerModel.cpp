@@ -96,7 +96,14 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
  * @param value left/right movement of this character.
  */
 void PlayerModel::setMovement(float value) {
+    // our current x velocity doesn't match the input direction we want to go
+    // set x velocity to 0 so we can turn on a dime and not moonwalk
+    if((getVX() > 0 && value < 0) || (getVX() < 0 && value > 0)){
+        setVX(0.0);
+    }
+    
     _movement = value;
+    movementValue = value;
     bool face = _movement > 0;
     if (_movement == 0 || _faceRight == face) {
         return;
@@ -201,9 +208,15 @@ void PlayerModel::applyForce() {
     }
     
     // Velocity too high, clamp it
-    if (fabs(getVX()) >= getMaxSpeed()) {
-        setVX(SIGNUM(getVX())*getMaxSpeed());
-    } else {
+    if (fabs(getVX()) >= getMaxWalkSpeed() && !_isRunning) {
+        setVX(SIGNUM(getVX())*getMaxWalkSpeed());
+        CULog("Walking");
+    }
+    else if (fabs(getVX()) >= getMaxRunSpeed() && _isRunning){
+        setVX(SIGNUM(getVX())*getMaxRunSpeed());
+        CULog("Running");
+    }
+    else {
         b2Vec2 force(getMovement(),0);
         _body->ApplyForce(force,_body->GetPosition(),true);
     }
@@ -294,7 +307,7 @@ void PlayerModel::update(float dt) {
             case 1:
                 if(frame == 5 || frame == 13){
                     _walkCue = true;
-                    CULog("Walk %i", frame);
+                    //CULog("Walk %i", frame);
                 }
                 break;
             default:

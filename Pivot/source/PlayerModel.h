@@ -47,7 +47,9 @@
 /** The amount to slow the character down */
 #define DUDE_DAMPING    1.0f
 /** The maximum character speed */
-#define DUDE_MAXSPEED   60.0f
+#define DUDE_MAXWALKSPEED   60.0f
+/** The maximum character speed */
+#define DUDE_MAXRUNSPEED   240.0f
 
 
 #pragma mark -
@@ -68,6 +70,8 @@ public:
     /** the SpriteSheets for the various player animations*/
     std::unordered_map<std::string, std::pair<std::shared_ptr<cugl::SpriteSheet>, std::shared_ptr<cugl::SpriteSheet>>> spriteSheets;
     
+    float movementValue;
+    
 private:
     /** This macro disables the copy constructor (not allowed on physics objects) */
     CU_DISALLOW_COPY_AND_ASSIGN(PlayerModel);
@@ -81,6 +85,8 @@ protected:
     int  _jumpCooldown;
     /** Whether we are actively jumping */
     bool _isJumping;
+    /** Whether we are actively jumping */
+    bool _isRunning;
     /** How long until we can shoot again */
     int  _shootCooldown;
     /** Whether our feet are on the ground */
@@ -384,6 +390,13 @@ public:
     void setJumping(bool value) { _isJumping = value; }
     
     /**
+     * Sets whether the dude is actively running.
+     *
+     * @param value whether the dude is actively running.
+     */
+    void setRunning(bool value) { _isRunning = value; }
+    
+    /**
      * Returns true if the dude is on the ground.
      *
      * @return true if the dude is on the ground.
@@ -420,7 +433,9 @@ public:
      *
      * @return the upper limit on dude left-right movement.
      */
-    float getMaxSpeed() const { return DUDE_MAXSPEED; }
+    float getMaxWalkSpeed() const { return DUDE_MAXWALKSPEED; }
+    
+    float getMaxRunSpeed() const { return DUDE_MAXRUNSPEED; }
     
     /**
      * Returns the name of the ground sensor
