@@ -64,6 +64,7 @@
       "compass": "widgets/compass.json",
       "inventory": "widgets/inventory.json",
       "glowstick": "widgets/glowstick.json",
+      "glowstickCounter": "widgets/glowstickCounter.json",
       "gameUI": "widgets/gameUI.json"
     },
     "scene2s" : {
