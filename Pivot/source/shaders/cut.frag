@@ -42,6 +42,7 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	if (texture(tx, temp).r != 0.0) {
 		return true;
 	}
+
 	// corners
 	temp = oTex;
 	temp.x = temp.x - offX;

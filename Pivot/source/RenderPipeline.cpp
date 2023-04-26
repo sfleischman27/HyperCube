@@ -55,6 +55,8 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     for (int i = 1; i <= 14; i++) {
         backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
     }
+
+    first = 0;
 }
 
 void RenderPipeline::constructShaders() {
@@ -265,8 +267,11 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shader->setUniformVec3("uDirection", n);
     _shader->setUniformMat4("Mv", _camera->getView());
     _shader->setUniform1i("uTexture", cobbleTex->getBindPoint());
-    _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
-    _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
+    if (first == 0) {
+        _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
+        _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
+        first++;
+    }
     _vertbuff->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
 
     cobbleTex->unbind();

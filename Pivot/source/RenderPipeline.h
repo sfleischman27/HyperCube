@@ -115,6 +115,7 @@ public:
 	std::vector<std::shared_ptr<Texture>> backgrounds;
 	Vec2 prevPlayerPos;
 	Vec2 storePlayerPos;
+	int first;
 
 	/**
 	 * Construct the RenderPipeline
