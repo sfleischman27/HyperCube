@@ -21,6 +21,7 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	float offX = bound/screenSize.x;
 	float offY = bound/screenSize.y;
 
+	// sides
 	vec2 temp = oTex;
 	temp.x = temp.x - offX;
 	if (texture(tx, temp).r != 0.0) {
@@ -38,6 +39,31 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	}
 	temp = oTex;
 	temp.y = temp.y + offY;
+	if (texture(tx, temp).r != 0.0) {
+		return true;
+	}
+	// corners
+	temp = oTex;
+	temp.x = temp.x - offX;
+	temp.y = temp.y - offY;
+	if (texture(tx, temp).r != 0.0) {
+		return true;
+	}
+	temp = oTex;
+	temp.y = temp.y - offY;
+	temp.x = temp.x + offX;
+	if (texture(tx, temp).r != 0.0) {
+		return true;
+	}
+	temp = oTex;
+	temp.y = temp.y + offY;
+	temp.x = temp.x - offX;
+	if (texture(tx, temp).r != 0.0) {
+		return true;
+	}
+	temp = oTex;
+	temp.y = temp.y + offY;
+	temp.x = temp.x + offX;
 	if (texture(tx, temp).r != 0.0) {
 		return true;
 	}
