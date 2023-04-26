@@ -65,6 +65,8 @@ protected:
     
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
     
+    std::shared_ptr<cugl::scene2::Label> _glowstickCounter;
+    
 private:
     std::shared_ptr<SoundController> _sound;// = 
     std::shared_ptr<GameModel> _model;

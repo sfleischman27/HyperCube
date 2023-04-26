@@ -31,13 +31,13 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the collecting distance */
-#define COLLECTING_DIST   16
+#define COLLECTING_DIST   15
 /** Threshold of the reaching exit distance */
 #define EXITING_DIST   17
 /** Number of glowsticks allowed to put */
 #define NUM_GLOWSTICKS 4
 /** Glowstick pickup distance*/
-#define PICKING_DIST   10
+#define PICKING_DIST   15
 /** Scale from player image to capsule */
 #define CAP_SCALE   1.1f
 /** Scale player capsule width */
@@ -183,6 +183,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
             _state = State::QUIT;
         }
     });
+    
+    _glowstickCounter = std::dynamic_pointer_cast<scene2::Label>(kids[7]);
     
     addChild(layer);
     setActive(false);
@@ -501,7 +503,8 @@ void GameplayController::update(float dt) {
         }
     }
     
-    if(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST) {
+    if((_model->_exit->canBeSeen(_model->getPlayer3DLoc(),_model->getPlaneNorm()))
+       &&(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST)) {
         // TODO: Game ends here by checking if the player collects all colletibles - Sarah
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;
@@ -519,6 +522,7 @@ void GameplayController::update(float dt) {
             if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
                 _model->_lightsFromItems.erase(std::string(g->getPosition()));
                 g = _model->_glowsticks.erase(g);
+                _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _model->_glowsticks.size()) + "/" + std::to_string(NUM_GLOWSTICKS));
                 _pickupGlowstick = true;
             }
             else{
@@ -529,6 +533,7 @@ void GameplayController::update(float dt) {
             auto g = Glowstick(player3DPos-(_model->getPlaneNorm()*10));
             // std::cout << "here name:" <<std::string(g.getPosition()) <<std::endl;
             _model->_glowsticks.push_back(g);
+            _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _model->_glowsticks.size()) + "/" + std::to_string(NUM_GLOWSTICKS));
             _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition());
         }
         
@@ -574,17 +579,22 @@ void GameplayController::update(float dt) {
     }
     
     if(_model->_player->_walkCue){
-        float walkNumber = rand();
+        float walkNumber = rand() % 12;
+        //CULog("walkNumber = %f", walkNumber);
         
-        if(walkNumber < 0.25){
+        if(walkNumber < 3){
+            CULog("walk 1");
             _sound->playSound("walk_1", 1, false);
         } else {
-            if(walkNumber < 0.5) {
+            if(walkNumber < 6) {
+                CULog("walk 2");
                 _sound->playSound("walk_2", 1, false);
             } else {
-                if(walkNumber < 0.75) {
+                if(walkNumber < 9) {
+                    CULog("walk 3");
                     _sound->playSound("walk_3", 1, false);
                 } else {
+                    CULog("walk 4");
                     _sound->playSound("walk_4", 1, false);
                 }            }
         }

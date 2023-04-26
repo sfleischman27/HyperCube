@@ -11,6 +11,9 @@
 
 using namespace cugl;
 
+/** Threshold of the visible distance */
+#define VISIBLE_DIST  1
+
 class GameItem{
     
 protected:
@@ -171,7 +174,19 @@ public:
      *  @param
      */
     void setRotateTextureMap();
-    
+    /**
+     *  Determines if the GameItem can be seen in player's current position and current cut
+     *
+     *  @param playerPos    The current player 3D position
+     *  @param planeNorm    The current plane norm vector
+     */
+    virtual bool canBeSeen(Vec3 playerPos, Vec3 planeNorm) {
+        float dist = (_position - playerPos).dot(planeNorm);
+        if (dist <= VISIBLE_DIST) {
+            return true;
+        }
+        return false;
+    }
 };
 
 #endif /* GameItem_h */
