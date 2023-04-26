@@ -275,6 +275,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // --------------- Pass 2: Billboard --------------- //
     // Set up mesh indices
+    _meshBill.indices.clear();
     for (int tri = 0; tri <= 1; tri++) {
         for (int i = 0; i < 3; i++) {
             _meshBill.indices.push_back(tri + i);
