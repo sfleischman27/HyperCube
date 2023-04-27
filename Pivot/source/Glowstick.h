@@ -21,6 +21,8 @@ public:
      * @param pos          The position of the glowstick
      */
     Glowstick(const Vec3 pos) : GameItem(pos) {
+        std::shared_ptr<cugl::Texture> tex =Texture::allocWithFile("textures/barrier.png");
+        setTexture(tex);
         setColor(Vec3(1.0, 1.0, 0.0));
         setIntense(0.15);
     }
