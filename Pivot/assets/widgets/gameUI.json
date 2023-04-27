@@ -151,6 +151,20 @@
                        "emptyThreePosition": 0.5
                    }
                }
+           },
+           "compassNum":{
+               "type": "Widget",
+               "data": {
+                   "key": "compassNum",
+                   "font": "gyparody",
+                   "text": "0",
+                   "variables":{
+                       "compassNumSize": [150,150],
+                       "compassNumScale": 0.5,
+                       "compassNumXPos": 0.06,
+                       "compassNumYPos": -0.19
+                   }
+               }
            }
         }
     }

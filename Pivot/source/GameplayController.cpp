@@ -192,6 +192,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_glowstickCounter = std::dynamic_pointer_cast<scene2::Label>( _buttons["glowstickB"]->getChildByName("label"));
     
+    _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum"));
+    
     addChild(layer);
     setActive(false);
     
@@ -367,6 +369,7 @@ void GameplayController::reset() {
     _physics->update(0);
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
+    _model->updateCompassNum();
 }
 
 /**
@@ -395,6 +398,7 @@ void GameplayController::load(std::string name){
     
     _sound->streamSounds({ "cave_m" }, 1.0, true);
     //_sound->streamSounds({ "end" }, 1.0, true);
+    _model->updateCompassNum();
 }
 
 /**
@@ -459,6 +463,7 @@ void GameplayController::update(float dt) {
 //        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
         _plane->rotateNorm((_input->cutFactor - save)/1000);
+        _model->updateCompassNum();
         save = _input->cutFactor;
         _rotating = true;
     }
@@ -473,6 +478,8 @@ void GameplayController::update(float dt) {
     //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_model->_player->isGrounded() && _input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
+        _model->updateCompassNum();
+        std::cout<<"here:"<<_input->getMoveNorm()<<std::endl;
         //createCutObstacles();
         _rotating = true;
     }
@@ -558,23 +565,12 @@ void GameplayController::update(float dt) {
     _model->_player->applyForce();
     
     currPlay2DPos = _model->_player->getPosition();
-    //CULog("currPos: %f , %f", currPlay2DPos.x, currPlay2DPos.y);
-    //CULog("prevPos: %f , %f", prevPlay2DPos.x, prevPlay2DPos.y);
     Vec2 displacement = currPlay2DPos - prevPlay2DPos;
-    //CULog("speed: %f , %f", displacement.x/dt, displacement.y/dt);
     updatePlayer3DLoc(displacement);
     prevPlay2DPos = currPlay2DPos;
     
+#pragma mark PLANE
     
-    //Jacks trying another way
-    //[it worked the same as above... if we get drifting from floating point error try this one instead]
-    /*currPlay2DPos = _model->_player->getPosition();
-     Vec3 temp = currPlay2DPos.x * _plane->getBasisRight();
-     Vec3 displacementIn3D = Vec3(temp.x, temp.y, currPlay2DPos.y);
-     _model->setPlayer3DLoc(_model->getPlaneOrigin() + displacementIn3D);*/
-    
-    //CULog("PLayer 3d Coords: %f, %f, %f", _model->getPlayer3DLoc().x, _model->getPlayer3DLoc().y, _model->getPlayer3DLoc().z);
-    //CULog("NORMAL: %f _ %f _ %f", _model->getPlaneNorm().x, _model->getPlaneNorm().y, _model->getPlaneNorm().z);
     
 #pragma mark SOUND CUES
     

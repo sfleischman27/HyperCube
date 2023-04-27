@@ -68,6 +68,6 @@ public:
 
 	/**Get the global rotation of the plane relative to world space vector (1,0,0) in degrees
 	*/
-	float getGlobalAngleDeg();
+//	float getGlobalAngleDeg();
 };
 #endif /* PlaneController_h */
