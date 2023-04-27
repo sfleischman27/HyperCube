@@ -141,5 +141,6 @@ float PlaneController::getGlobalAngleDeg() {
 	auto basis = Vec3(1, 0, 0);
 	auto dot = normal.dot(basis);     // Dot product between[x1, y1] and [x2, y2]
 	auto det = normal.x * basis.y - normal.y * basis.x;      // Determinant
-	return atan2(det, dot);
+	auto rad = atan2(det, dot);
+	return rad * 180 / 3.141592;
 }
