@@ -30,7 +30,11 @@
 /** The density of the character */
 #define DUDE_DENSITY    0.01f
 /** The impulse for the character jump */
-#define DUDE_JUMP       500.0f
+#define DUDE_JUMP       1600.0f
+
+#define FALL_FORCE 100.0f
+
+#define FALL_ACCELERATION 1.1f
 /** Debug color for the sensor */
 #define DEBUG_COLOR     Color4::RED
 
@@ -226,6 +230,13 @@ void PlayerModel::applyForce() {
         _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
         _jumpCue = true;
     }
+    
+    if(((!isGrounded() && !isJumping()) || (getVY() < 0 && !isGrounded()))){
+        b2Vec2 force(0, -FALL_FORCE * fallAccelerationAcc);
+        fallAccelerationAcc *= FALL_ACCELERATION;
+        _body->ApplyForce(force,_body->GetPosition(),true);
+    }
+    
 //    if (isJumping()) {
 //        b2Vec2 force(0, DUDE_JUMP);
 //        _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
@@ -311,11 +322,6 @@ void PlayerModel::update(float dt) {
         if(isFacingRight()){
             frame++;
         }else{
-            int xdim = currentSpriteSheet->getCols();
-            if (frame % xdim == 0) {
-                frame += 2 * xdim;
-                if (frame > xdim * xdim) frame -= xdim * xdim;
-            }
             frame--;
         }
         if (frame > currentSpriteSheet->getSize() - 1) {
@@ -358,8 +364,6 @@ void PlayerModel::update(float dt) {
     
 //    CULog("%i",currentSpriteSheet->getFrameCoords().first);
 //    CULog("%i",currentSpriteSheet->getFrameCoords().second);
-
-    currentSpriteSheet->getFrameCoords();
     
     CapsuleObstacle::update(dt);
     
