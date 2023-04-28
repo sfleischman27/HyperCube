@@ -18,10 +18,9 @@ uniform sampler2D uTexture;
 uniform vec3 uDirection;
 
 vec4 packFloat(const float value) {
-	float transF = (value + 2500.0) / 50000.0;
 	const vec4 bit_shift = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);
     const vec4 bit_mask  = vec4(0.0, 1.0/256.0, 1.0/256.0, 1.0/256.0);
-    vec4 res = fract(transF * bit_shift);
+    vec4 res = fract(value * bit_shift);
     res -= res.xxyz * bit_mask;
     return res;
 }
@@ -39,7 +38,8 @@ void main(void) {
 
 		frag_replace = vec4(1.0, 0.0, 0.0, 1.0);
 	}
-	frag_depth = vec4(gl_FragCoord.z * 50.0, 0.0, 0.0, 1.0);
+	frag_depth = vec4(gl_FragCoord.z / 10000.0, 0.0, 0.0, 1.0);
+	//frag_depth = packFloat(gl_FragCoord.z / 10000.0);
 	frag_normal = vec4((outNormal + vec3(1.0)) / 2.0, 1.0);
 }
 
