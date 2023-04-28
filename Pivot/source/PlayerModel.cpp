@@ -322,6 +322,11 @@ void PlayerModel::update(float dt) {
         if(isFacingRight()){
             frame++;
         }else{
+            int xdim = currentSpriteSheet->getCols();
+            if (frame % xdim == 0) {
+                frame += 2 * xdim;
+                if (frame > xdim * xdim) frame -= xdim * xdim;
+            }
             frame--;
         }
         if (frame > currentSpriteSheet->getSize() - 1) {
