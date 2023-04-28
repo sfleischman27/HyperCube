@@ -35,7 +35,13 @@ void main(void) {
     // Diffuse
     vec3 lightDir = normalize(lpos - pos);
 	float lightDist = distance(lpos, pos);
-    vec3 diffuse = max(dot(norm, lightDir), 0.0) * alb * color * power * 10000.0 / (lightDist * lightDist);
+    float powerMult = 10000.0;
+    float constAtten = 0.0;
+    float linearAtten = 0.0;
+    float sqAtten = 1.0;
+    vec3 numerator = max(dot(norm, lightDir), 0.0) * alb * color * power * powerMult;
+    float denominator = constAtten + (linearAtten * lightDist) + (sqAtten * lightDist * lightDist);
+    vec3 diffuse = numerator / denominator;
 
     // Specular attempt
     //float specularStrength = 0.1;
