@@ -17,11 +17,17 @@
         "player-walk-normal": {
             "file": "textures/walk_normal.png"
         },
+        "player-run": {
+            "file": "textures/run.png"
+        },
+        "player-run-normal": {
+            "file": "textures/run_normal.png"
+        },
         "player-jump": {
-            "file": "textures/jump.png"
+            "file": "textures/jump_hold.png"
         },
         "player-jump-normal": {
-            "file": "textures/jump_normal.png"
+            "file": "textures/jump_hold_normal.png"
         },
         "player-idle": {
             "file": "textures/idle.png"
