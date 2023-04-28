@@ -30,7 +30,7 @@
             "file": "textures/idle_normal.png"
         },
         "cobble": {
-            "file": "textures/cobblestone.png"
+            "file": "textures/color_picker.png"
         },
         "spinner": {
             "file": "textures/barrier.png"
