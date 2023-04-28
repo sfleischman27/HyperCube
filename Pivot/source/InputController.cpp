@@ -64,8 +64,6 @@ using namespace cugl;
 
 /** The portion of the screen used for the left zone */
 #define LEFT_ZONE       0.35f
-/** the portion of the top left side of the screen NOT used for movement. Can be thought of as the portion of the top left side of the screen that controls the cut*/
-#define LEFT_CUT_ZONE 0.75
 /** The portion of the screen used for the right zone */
 #define RIGHT_ZONE      0.35f
 
@@ -193,9 +191,6 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         if (down) {
             _keyLeft = false;
             _keyRight = true;
-            if(_keyRunRight){
-                //_buttonRight->getChildByName("label")->
-            }
         }
     });
     
@@ -532,15 +527,10 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _ltouch.position = event.position;
                 _ltouch.timestamp.mark();
                 _ltouch.touchids.insert(event.touch);
-                
-                if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
-                    isRotating = true;
-                } else{
-                    _joystick = true;
-                    _joycenter = touch2Screen(event.position);
-                    _joycenter.y += JSTICK_OFFSET;
-                }
 
+                _joystick = true;
+                _joycenter = touch2Screen(event.position);
+                _joycenter.y += JSTICK_OFFSET;
             }
             break;
         case Zone::RIGHT:
@@ -612,7 +602,6 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _keyIncreaseCut = false;
         _keyDecreaseCut = false;
         _joystick = false;
-        isRotating = false;
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         _hasJumped = false;
         isRotating = false;
@@ -647,13 +636,7 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
     Vec2 pos = event.position;
     // Only check for swipes in the main zone if there is more than one finger.
     if (_ltouch.touchids.find(event.touch) != _ltouch.touchids.end()) {
-        if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
-            int swipe = processSwipe(_ltouch.position, event.position, event.timestamp);
-            //CULog("rotate");
-        } else{
-            processJoystick(pos);
-            //CULog("joystick");
-        }
+        processJoystick(pos);
 //        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         //processCutJoystick(pos, _rtouch);

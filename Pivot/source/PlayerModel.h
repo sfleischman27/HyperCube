@@ -85,9 +85,6 @@ protected:
     int  _jumpCooldown;
     /** Whether we are actively jumping */
     bool _isJumping;
-    
-    float fallAccelerationAcc;
-    
     /** Whether we are actively jumping */
     bool _isRunning;
     /** How long until we can shoot again */
@@ -420,7 +417,7 @@ public:
      *
      * @param value whether the dude is on the ground.
      */
-    void setGrounded(bool value) { _isGrounded = value; fallAccelerationAcc = 1.1f;}
+    void setGrounded(bool value) { _isGrounded = value; }
     
     /**
      * Returns how much force to apply to get the dude moving
