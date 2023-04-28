@@ -397,12 +397,12 @@ void InputController::processJoystick(const cugl::Vec2 pos) {
     if(_buttonRight->isDown() && _ltouch.position.x > pos.x + 40){
         _buttonLeft->setDown(true);
         _buttonRight->setDown(false);
-        //CULog("right to left");
+        CULog("right to left");
     }
     if(_buttonLeft->isDown() && _ltouch.position.x < pos.x - 40){
         _buttonRight->setDown(true);
         _buttonLeft->setDown(false);
-        //CULog("left to right");
+        CULog("left to right");
     }
     
     // Reset the anchor if we drifted too far
@@ -649,10 +649,10 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
     if (_ltouch.touchids.find(event.touch) != _ltouch.touchids.end()) {
         if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
             int swipe = processSwipe(_ltouch.position, event.position, event.timestamp);
-            //CULog("rotate");
+            CULog("rotate");
         } else{
             processJoystick(pos);
-            //CULog("joystick");
+            CULog("joystick");
         }
 //        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {

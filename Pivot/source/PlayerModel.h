@@ -342,15 +342,6 @@ public:
         currentSpriteSheet = spriteSheets.find(animationName)->second.first;
         currentNormalSpriteSheet = spriteSheets.find(animationName)->second.second;
     }
-    
-    void resetOtherSpritesheets(std::string animationName) {
-        for(auto it = spriteSheets.begin(); it != spriteSheets.end(); it++){
-            if(it->first != animationName){
-                it->second.first->setFrame(0);
-                it->second.second->setFrame(0);
-            }
-        }
-    }
 
     
 #pragma mark -
