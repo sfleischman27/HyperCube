@@ -1,0 +1,26 @@
+{
+    "variables": {
+        "compassNumSize": ["data", "size"],
+        "compassNumScale": ["data", "scale"],
+        "compassNumXPos": ["layout", "x_offset"],
+        "compassNumYPos": ["layout", "y_offset"]
+    },
+    "contents": {
+        "type": "Label",
+        "data": {
+           "size": [150,150],
+           "anchor": [1,0],
+           "scale": 1,
+           "font": "gyparody",
+           "text": "0",
+           "foreground": [255,255,255,255],
+           "background": [0,0,0,0]
+        },
+        "layout": {
+            "x_anchor": "center",
+            "y_anchor" : "top",
+            "x_offset" : 0.00,
+            "y_offset" : 0.00
+        }
+    }
+}

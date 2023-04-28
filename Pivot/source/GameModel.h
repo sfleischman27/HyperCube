@@ -88,6 +88,10 @@ public:
     std::vector<Glowstick> _glowsticks;
     
     std::shared_ptr<cugl::scene2::Label> _glowstickCounter;
+
+#pragma mark Compass State
+public:
+    std::shared_ptr<cugl::scene2::Label> _compassNum;
     
 #pragma mark Lights
 public:
@@ -361,6 +365,17 @@ public:
         _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _glowsticks.size()));
     }
     
+    /**Get the global rotation of the plane relative to world space vector (1,0,0) in degrees*/
+    float getGlobalAngleDeg() {
+        auto basis = Vec3(1, 0, 0);
+        auto dot = _norm.dot(basis);     // Dot product between[x1, y1] and [x2, y2]
+        auto det = _norm.x * basis.y - _norm.y * basis.x;      // Determinant
+        return atan2(det, dot) * 180 / M_PI;
+    }
+    
+    void updateCompassNum() {
+        _compassNum->setText(std::to_string(static_cast<int>(getGlobalAngleDeg())));
+    }
 };
 
 #endif /* GameModel_h */
