@@ -222,13 +222,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_player->spriteSheets.emplace("walk", std::make_pair(sheet, normalSheet));
     
-    sheet = SpriteSheet::alloc(assets->get<Texture>("player-run"), _framecols, _framecols);
-    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-run-normal"), _framecols, _framecols);
-    
-    _model->_player->spriteSheets.emplace("run", std::make_pair(sheet, normalSheet));
-
-    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump"), 4, 3);
-    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-normal"), 4, 3);
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump"), _framecols, _framecols);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-normal"), _framecols, _framecols);
     
     _model->_player->spriteSheets.emplace("jump", std::make_pair(sheet, normalSheet));
     
@@ -592,18 +587,18 @@ void GameplayController::update(float dt) {
         //CULog("walkNumber = %f", walkNumber);
         
         if(walkNumber < 3){
-            //CULog("walk 1");
+            CULog("walk 1");
             _sound->playSound("walk_1", 1, false);
         } else {
             if(walkNumber < 6) {
-                //CULog("walk 2");
+                CULog("walk 2");
                 _sound->playSound("walk_2", 1, false);
             } else {
                 if(walkNumber < 9) {
-                    //CULog("walk 3");
+                    CULog("walk 3");
                     _sound->playSound("walk_3", 1, false);
                 } else {
-                    //CULog("walk 4");
+                    CULog("walk 4");
                     _sound->playSound("walk_4", 1, false);
                 }            }
         }

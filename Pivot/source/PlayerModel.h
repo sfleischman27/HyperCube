@@ -85,9 +85,6 @@ protected:
     int  _jumpCooldown;
     /** Whether we are actively jumping */
     bool _isJumping;
-    
-    float fallAccelerationAcc;
-    
     /** Whether we are actively jumping */
     bool _isRunning;
     /** How long until we can shoot again */
@@ -342,15 +339,6 @@ public:
         currentSpriteSheet = spriteSheets.find(animationName)->second.first;
         currentNormalSpriteSheet = spriteSheets.find(animationName)->second.second;
     }
-    
-    void resetOtherSpritesheets(std::string animationName) {
-        for(auto it = spriteSheets.begin(); it != spriteSheets.end(); it++){
-            if(it->first != animationName){
-                it->second.first->setFrame(0);
-                it->second.second->setFrame(0);
-            }
-        }
-    }
 
     
 #pragma mark -
@@ -420,7 +408,7 @@ public:
      *
      * @param value whether the dude is on the ground.
      */
-    void setGrounded(bool value) { _isGrounded = value; fallAccelerationAcc = 1.1f;}
+    void setGrounded(bool value) { _isGrounded = value; }
     
     /**
      * Returns how much force to apply to get the dude moving
