@@ -12,8 +12,9 @@
 
 class LevelSelect : public cugl::Scene2 {
 public:
-    //whether to play this levels background music
+    // whether to play this levels background music
     bool _playMusic = false;
+    
     enum Choice {
         /** User has not yet made a choice */
         NONE = -1,
@@ -69,6 +70,9 @@ protected:
     /** The current pack */
     Pack _pack;
     
+    /** The total number of levels we have in the game */
+    const int LEVELS_IMPLEMENTED = 4;
+    
     /**
      * Returns the active screen size of this scene.
      *
@@ -112,7 +116,7 @@ public:
      *
      * @return true if the controller is initialized properly, false otherwise.
      */
-    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 3); }
+    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, LEVELS_IMPLEMENTED - 1); }
     // TODO: change this back to 0
     
     /**
@@ -175,6 +179,16 @@ public:
     std::string getNextLevelString();
     
     /**
+     * Updates the choice and pack to the next level
+     */
+    void nextLevel();
+    
+    /**
+     * Returns the level name string of the max level unlocked
+     */
+    int getMaxLevel() { return _maxLevel; }
+    
+    /**
      * Returns the user's menu choice.
      *
      * This will return NONE if the user had no yet made a choice.
@@ -182,6 +196,16 @@ public:
      * @return the user's menu choice.
      */
     Choice getChoice() const { return _choice; }
+    
+    /**
+     * Returns true if the current level is the last level
+     */
+    bool isLast();
+    
+    /**
+     * Unlocks the next level if it is not yet unlocked
+     */
+    void unlockNextLevel();
     
 private:
     /**
@@ -199,12 +223,31 @@ private:
      */
     std::string packToString(Pack pack);
   
-    /** Translates a level string to a number
+    /** Translates a button level string to a number
      *  Only use for levels 1-15  all others return -1
      *
      *  Example: "level12" --> 11
      */
-    int nameToNum(std::string name);
+    int buttNameToNum(std::string name);
+    
+    /**
+     * Translate a number to a level string
+     *
+     *  Example: 16 --> "test_0001"
+     */
+    std::string numToName(int level);
+    
+    /**
+     * Returns the integer version of the current level and pack
+     *
+     * (pack * 15) + choice
+     */
+    int levelNum();
+    
+    /**
+     * Updated max level if level is greater than the current max
+     */
+    void updateMax(int level);
     
     void setChoice(std::string name);
     
