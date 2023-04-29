@@ -7,21 +7,22 @@ precision mediump float;
 in vec4 pos;
 in vec2 outTexCoord;
 
-layout (location = 0) out vec4 frag_pos;
+out vec4 frag_pos;
 
-uniform int removeA;
+uniform int isBillboard;
 uniform sampler2D billTex;
 
 void main(void) {
 
+	// Removing alpha for billboards only
 	vec4 frag_color = texture(billTex, outTexCoord);
-
-	if (removeA == 1) {
+	if (isBillboard == 1) {
 		if (frag_color.a < 0.5) {
 			discard;
 		}
 	}
 
+	// Store position
 	frag_pos = pos;
 	frag_pos.a = 1.0;
 }

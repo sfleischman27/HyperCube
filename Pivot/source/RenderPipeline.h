@@ -78,6 +78,11 @@ public:
 
 	// constants
 	const float epsilon = 0.001f;
+	const int farPlaneDist = 10000;
+	const int fboAlbedo = 0;
+	const int fboReplace = 1;
+	const int fboNormal = 2;
+	const int fboDepth = 3;
 
 	// cugl utilized singletons
 	std::shared_ptr<AssetManager> assets;

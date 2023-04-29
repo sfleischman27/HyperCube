@@ -178,6 +178,19 @@ public:
     void load(std::string name);
     
     /**
+     * Saves the max level that is unlocked
+     *
+     * @param maxLevel  The integer version of the max level unlocked
+     *  = level + (pack *15)
+     */
+    void save(int maxLevel);
+    
+    /**
+     * Returns the saved max level string
+     */
+    int getMaxLevel();
+    
+    /**
      * Draws all this scene to the given SpriteBatch.
      *
      * The default implementation of this method simply draws the scene graph

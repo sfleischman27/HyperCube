@@ -135,6 +135,12 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _model = std::make_shared<GameModel>(GameModel());
     _data = std::make_shared<DataController>(DataController());
     _data->init(_assets);
+    
+    //set up save file
+    std::string savePath = Application::get()->getSaveDirectory();
+    savePath.append("save.json");
+    savePath = filetool::normalize_path(savePath);
+    _data->setupSave(savePath, filetool::file_exists(savePath));
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
@@ -439,7 +445,7 @@ void GameplayController::setActive(bool value){
  *
  * @param  delta    Number of seconds since last animation frame
  */
-float save = 0.0;
+float saveFloat = 0.0;
 void GameplayController::update(float dt) {
     //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
     
@@ -456,15 +462,15 @@ void GameplayController::update(float dt) {
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
     //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
     if (!_input->isRotating) {
-        save = 0.0;
+        saveFloat = 0.0;
         _input->cutFactor = 0.0;
     }
     if (_model->_player->isGrounded() && _input->isRotating) {
 //        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
-        _plane->rotateNorm((_input->cutFactor - save)/1000);
+        _plane->rotateNorm((_input->cutFactor - saveFloat)/1000);
         _model->updateCompassNum();
-        save = _input->cutFactor;
+        saveFloat = _input->cutFactor;
         _rotating = true;
     }
     
@@ -723,4 +729,12 @@ void GameplayController::endContact(b2Contact* contact) {
             _model->_player->setGrounded(false);
         }
     }
+}
+
+void GameplayController::save(int maxLevel) {
+    _data->save(maxLevel);
+}
+
+int GameplayController::getMaxLevel() {
+    return _data->getMaxLevel();
 }

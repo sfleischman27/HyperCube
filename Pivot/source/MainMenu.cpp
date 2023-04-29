@@ -14,8 +14,14 @@ using namespace cugl;
 
 bool MainMenu::init(const std::shared_ptr<cugl::AssetManager>& assets) {
     // check if there is a save file
-    // TODO: -Sarah
-    _canResume = false;
+    std::string savePath = Application::get()->getSaveDirectory();
+    savePath.append("save.json");
+    savePath = filetool::normalize_path(savePath);
+    
+    // deletes save file for testing purposes
+    filetool::file_delete(savePath);
+    // true if there is a save file
+    _canResume = filetool::file_exists(savePath);
     
     _choice = NONE;
     

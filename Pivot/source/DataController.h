@@ -25,6 +25,8 @@ protected:
     std::shared_ptr<cugl::JsonWriter> _write;
     /** The save file JsonValue */
     std::shared_ptr<cugl::JsonValue> _save;
+    /** The save file directory path */
+    std::string _saveDir;
   
 #pragma mark Constructors
 public:
@@ -83,16 +85,20 @@ public:
     bool resetGameModel(std::string level, const std::shared_ptr<GameModel>& model);
     
     /**
-     * Sets up the save file writer and json value
+     * Sets up the save file writer, json value, and path
      *
      * @param dir         The path to the save file (save.json)
      * @param exists  True if there is already a save file
      */
     void setupSave(std::string dir, bool exists);
     
-    void createSaveFile(std::string dir);
+    void createSaveFile();
     
-    void updateSaveFile(const std::shared_ptr<GameModel>& model);
+    void save(int maxLevel);
+    
+    void updateSaveJson(long maxLevel);
+    
+    int getMaxLevel();
 };
 
 #endif /* DataController_h */
