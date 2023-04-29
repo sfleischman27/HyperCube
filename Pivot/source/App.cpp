@@ -82,6 +82,8 @@ void PivotApp::onStartup() {
  * causing the application to be deleted.
  */
 void PivotApp::onShutdown() {
+    // save the level data
+    _gameplay.save(_levelSelect.getMaxLevel());
     // TODO: dispose of other modes here (ex: level select) when they are implemented
     _demoloading.dispose();
     _gameplay.dispose();
@@ -116,7 +118,10 @@ void PivotApp::onShutdown() {
  * the background.
  */
 void PivotApp::onSuspend() {
+    // pause the music
     AudioEngine::get()->pause();
+    // save the level data
+    _gameplay.save(_levelSelect.getMaxLevel());
 }
 
 /**
@@ -131,6 +136,7 @@ void PivotApp::onSuspend() {
  */
 void PivotApp::onResume() {
     AudioEngine::get()->resume();
+    // TODO: figure out how this works
 }
 
 
@@ -231,12 +237,17 @@ void PivotApp::updateGameScene(float timestep){
             break;
         case GameplayController::State::QUIT:
             _gameplay.setActive(false);
+            _gameplay.save(_levelSelect.getMaxLevel());
             _quitMenu.setActive(true);
             _scene = State::QUIT;
             break;
         case GameplayController::State::END:
             _gameplay.setActive(false);
             _endMenu.setActive(true);
+            // unlock next level (if not yet unlocked)
+            _levelSelect.unlockNextLevel();
+            // save
+            _gameplay.save(_levelSelect.getMaxLevel());
             _scene = State::END;
             _sound->playSound("end", 0.5, false);
             break;
@@ -256,7 +267,8 @@ void PivotApp::updateMainScene(float timestep){
         case MainMenu::Choice::RESUME:
             _mainMenu.setActive(false);
             _levelSelect.setActive(true);
-            _levelSelect.updateLevel(5); //TODO: get from save file!
+            // unlock levels specified in save file
+            _levelSelect.updateLevel(_gameplay.getMaxLevel());
             _scene = State::LEVEL;
             break;
     }
@@ -297,12 +309,16 @@ void PivotApp::updateEndScene(float timestep){
             break;
         case EndLevelMenu::Choice::NEXT:
             _endMenu.setActive(false);
-            _gameplay.setActive(true);
-            _gameplay.load(_levelSelect.getNextLevelString());
-            _scene = State::GAME;
+            if(_levelSelect.isLast()){
+                _levelSelect.setActive(true);
+                _scene = State::LEVEL;
+            } else {
+                _gameplay.setActive(true);
+                _gameplay.load(_levelSelect.getNextLevelString());
+                _scene = State::GAME;
+            }
             break;
     }
-    // TODO: add last level logic
 }
 
 void PivotApp::updateQuitScene(float timestep){
