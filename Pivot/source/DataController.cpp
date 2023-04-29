@@ -81,7 +81,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     exitPos.x = constants->get("exit")->get(0)->asFloat();
     exitPos.y = constants->get("exit")->get(1)->asFloat();
     exitPos.z = constants->get("exit")->get(2)->asFloat();
-    std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("exit"));
+    std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("goal"));
     model->setExit(exitPtr);
     
     // jack was here :)
