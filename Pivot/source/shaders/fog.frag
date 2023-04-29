@@ -4,25 +4,24 @@ R"(////////// SHADER BEGIN /////////
 precision mediump float;
 #endif
 
-in vec4 pos;
 in vec2 outTexCoord;
 
 out vec4 frag_color;
 
-uniform sampler2D cutTexture;
+uniform int farPlaneDist;
 uniform sampler2D depthTexture;
-uniform sampler2D replaceTexture; // can skip lighting calculation on "toCut" to save time
-uniform sampler2D normalTexture;
+uniform sampler2D replaceTexture;
+
+// Editable parameter for depth falloff. Higher = fades out sooner
+const float severity = 50.0;
 
 void main(void) {
+    // Do not calculate if this area is cut
     if (texture(replaceTexture, outTexCoord).r == 0.0) {
         discard;
     }
-	float d = texture(depthTexture, outTexCoord).r * 10000.0;
-	d *= 50.0; // higher multiplier here = depth fades out sooner
-	vec3 fadeColor = vec3(1.0, 1.0, 1.0);
-	frag_color.xyz = fadeColor * d;
-	//frag_color.xyz *= .25;
+	float d = texture(depthTexture, outTexCoord).r * farPlaneDist * severity;
+	frag_color.xyz = vec3(1.0) * d;
 	frag_color.a = 1.0;
 }
 
