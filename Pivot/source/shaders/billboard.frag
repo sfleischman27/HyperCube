@@ -4,43 +4,32 @@ R"(////////// SHADER BEGIN /////////
 precision mediump float;
 #endif
 
-in vec4 outColor;
-in vec4 pos;
 in vec2 outTexCoord;
 
 layout (location = 0) out vec4 frag_color;
-//layout (location = 1) out vec4 frag_replace; // if r == 0, then cut, else if r == 1.0 keep same
 layout (location = 2) out vec4 frag_normal;
 layout (location = 3) out vec4 frag_depth; // stored in r
 
-uniform mat4 Mv;
 uniform sampler2D billTex;
 uniform sampler2D normTex;
 uniform int useNormTex;
 uniform int flipXfrag;
 uniform vec3 uDirection;
-
-vec4 packFloat(const float value) {
-	const vec4 bit_shift = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);
-    const vec4 bit_mask  = vec4(0.0, 1.0/256.0, 1.0/256.0, 1.0/256.0);
-    vec4 res = fract(value * bit_shift);
-    res -= res.xxyz * bit_mask;
-    return res;
-}
+uniform int farPlaneDist;
 
 void main(void) {
 
 	frag_color = texture(billTex, outTexCoord);
-
 	if (frag_color.a < 0.5) {
 		discard;
 	}
 	frag_color.a = 1.0;
-	frag_depth = vec4(gl_FragCoord.z / 10000.0, 0.0, 0.0, 1.0);
-	//frag_depth = packFloat(gl_FragCoord.z / 10000.0);
+	frag_depth = vec4(gl_FragCoord.z / farPlaneDist, 0.0, 0.0, 1.0);
+	// Set normal, if it exists
 	frag_normal = vec4(0.0, 0.0, 0.0, 1.0);
 	if (useNormTex == 1) {
-		frag_normal.xyz = texture(normTex, outTexCoord).xzy; //normal now is x right, y up, z forward
+		frag_normal.xyz = texture(normTex, outTexCoord).xzy; // normal now is x right, y up, z forward
+		// Need to transform normal accordingly
 		if (flipXfrag == 1) {
 			frag_normal.x = 1.0 - frag_normal.x;
 		}

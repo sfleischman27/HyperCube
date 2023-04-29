@@ -587,18 +587,18 @@ void GameplayController::update(float dt) {
         //CULog("walkNumber = %f", walkNumber);
         
         if(walkNumber < 3){
-            CULog("walk 1");
+            //CULog("walk 1");
             _sound->playSound("walk_1", 1, false);
         } else {
             if(walkNumber < 6) {
-                CULog("walk 2");
+                //CULog("walk 2");
                 _sound->playSound("walk_2", 1, false);
             } else {
                 if(walkNumber < 9) {
-                    CULog("walk 3");
+                    //CULog("walk 3");
                     _sound->playSound("walk_3", 1, false);
                 } else {
-                    CULog("walk 4");
+                    //CULog("walk 4");
                     _sound->playSound("walk_4", 1, false);
                 }            }
         }

@@ -210,11 +210,11 @@ void PlayerModel::applyForce() {
     // Velocity too high, clamp it
     if (fabs(getVX()) >= getMaxWalkSpeed() && !_isRunning) {
         setVX(SIGNUM(getVX())*getMaxWalkSpeed());
-        CULog("Walking");
+        //CULog("Walking");
     }
     else if (fabs(getVX()) >= getMaxRunSpeed() && _isRunning){
         setVX(SIGNUM(getVX())*getMaxRunSpeed());
-        CULog("Running");
+        //CULog("Running");
     }
     else {
         b2Vec2 force(getMovement(),0);

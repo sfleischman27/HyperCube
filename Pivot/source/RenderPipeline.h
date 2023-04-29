@@ -15,17 +15,15 @@
 
 class RenderPipeline {
 public:
-	// abstraction to draw billboards
+	// An abstraction to draw billboards
 	struct DrawObject {
 		Vec3 pos;
-		Color4f col;
 		std::shared_ptr<cugl::Texture> tex;
 		std::shared_ptr<cugl::Texture> normalMap;
 		bool isPlayer;
 
-		DrawObject(Vec3 pos, Color4f col, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer) {
+		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer) {
 			this->pos = pos;
-			this->col = col;
 			this->tex = tex;
 			this->normalMap = normalMap;
 			this->isPlayer = isPlayer;
@@ -76,19 +74,19 @@ public:
 #include "shaders/position.frag"
 	;
 
-	// constants
+	// Constants
 	const float epsilon = 0.001f;
 	const int farPlaneDist = 10000;
 	const int fboAlbedo = 0;
 	const int fboReplace = 1;
 	const int fboNormal = 2;
 	const int fboDepth = 3;
+	const Size screenSize;
 
-	// cugl utilized singletons
-	std::shared_ptr<AssetManager> assets;
+	// Camera
 	std::shared_ptr<cugl::OrthographicCamera> _camera;
 
-	// shaders, buffers, meshes, fbos
+	// Shaders
 	std::shared_ptr<cugl::Shader> _shader;
 	std::shared_ptr<cugl::Shader> _shaderBill;
 	std::shared_ptr<cugl::Shader> _shaderCut;
@@ -96,6 +94,8 @@ public:
 	std::shared_ptr<cugl::Shader> _shaderFog;
 	std::shared_ptr<cugl::Shader> _shaderScreen;
 	std::shared_ptr<cugl::Shader> _shaderPosition;
+
+	// Buffers
 	std::shared_ptr<cugl::VertexBuffer> _vertbuff;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBill;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffCut;
@@ -103,21 +103,24 @@ public:
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffFog;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffScreen;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffPosition;
+
+	// Meshes
 	cugl::Mesh<PivotVertex3> _mesh;
 	cugl::Mesh<PivotVertex3> _meshBill;
 	cugl::Mesh<PivotVertex3> _meshFsq;
+
+	// FBOs
 	std::shared_ptr<cugl::RenderTarget> fbo;
-	std::shared_ptr<cugl::RenderTarget> fbo2;
+	std::shared_ptr<cugl::RenderTarget> fbofinal;
 	std::shared_ptr<cugl::RenderTarget> fbopos;
 
-	// textures
+	// Textures
 	std::shared_ptr<Texture> cobbleTex;
 	std::shared_ptr<Texture> earthTex;
 	std::vector<DrawObject> drawables;
-
-	// misc variables
-	const Size screenSize;
 	std::vector<std::shared_ptr<Texture>> backgrounds;
+
+	// Reolace texture translation variables
 	Vec2 prevPlayerPos;
 	Vec2 storePlayerPos;
 

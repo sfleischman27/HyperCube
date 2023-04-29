@@ -14,21 +14,18 @@ using namespace cugl;
 
 RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const std::shared_ptr<AssetManager>& assets) : screenSize(displaySize* (screenWidth / displaySize.width)) {
 
-    // Asset manager
-    this->assets = assets;
-
     // For cut texture transform
     storePlayerPos = Vec2(0, 0);
     prevPlayerPos = Vec2(0, 0);
 
     // FBO setup
     fbo = std::make_shared<RenderTarget>();
-    fbo2 = std::make_shared<RenderTarget>();
+    fbofinal = std::make_shared<RenderTarget>();
     fbopos = std::make_shared<RenderTarget>();
     fbo->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA32F});
     fbo->setClearColor(Color4f::WHITE);
-    fbo2->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA16F });
-    fbo2->setClearColor(Color4f::BLACK);
+    fbofinal->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA16F });
+    fbofinal->setClearColor(Color4f::BLACK);
     fbopos->init(screenSize.width, screenSize.height, {cugl::Texture::PixelFormat::RGBA16F});
     fbopos->setClearColor(Color4f::WHITE);
 
@@ -48,7 +45,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
 
-    // Set up textures
+    // Set up voronoi texture
     cobbleTex = assets->get<Texture>("cobble");
     backgrounds = {};
     for (int i = 1; i <= 14; i++) {
@@ -61,7 +58,6 @@ void RenderPipeline::constructShaders() {
     // Mesh shader
     _shader = Shader::alloc(SHADER(meshVert), SHADER(meshFrag));
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
-
     _vertbuff = VertexBuffer::alloc(sizeof(PivotVertex3));
     _vertbuff->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, position));
@@ -74,19 +70,24 @@ void RenderPipeline::constructShaders() {
     // Billboard shader
     _shaderBill = Shader::alloc(SHADER(billboardVert), SHADER(billboardFrag));
     _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
-
     _vertbuffBill = VertexBuffer::alloc(sizeof(PivotVertex3));
     _vertbuffBill->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, position));
-    _vertbuffBill->setupAttribute("aColor", 4, GL_UNSIGNED_BYTE, GL_TRUE,
-        offsetof(PivotVertex3, color));
     _vertbuffBill->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, texcoord));
     _vertbuffBill->attach(_shaderBill);
 
+    // Position shader
+    _shaderPosition = Shader::alloc(SHADER(positionVert), SHADER(positionFrag));
+    _vertbuffPosition = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffPosition->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffPosition->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffPosition->attach(_shaderPosition);
+
     // Cut shader
     _shaderCut = Shader::alloc(SHADER(cutVert), SHADER(cutFrag));
-
     _vertbuffCut = VertexBuffer::alloc(sizeof(PivotVertex3));
     _vertbuffCut->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, position));
@@ -96,7 +97,6 @@ void RenderPipeline::constructShaders() {
 
     // Pointlight shader
     _shaderPointlight = Shader::alloc(SHADER(pointlightVert), SHADER(pointlightFrag));
-
     _vertbuffPointlight = VertexBuffer::alloc(sizeof(PivotVertex3));
     _vertbuffPointlight->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, position));
@@ -106,7 +106,6 @@ void RenderPipeline::constructShaders() {
 
     // Fog shader
     _shaderFog = Shader::alloc(SHADER(fogVert), SHADER(fogFrag));
-
     _vertbuffFog = VertexBuffer::alloc(sizeof(PivotVertex3));
     _vertbuffFog->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, position));
@@ -116,23 +115,12 @@ void RenderPipeline::constructShaders() {
 
     // Screen shader
     _shaderScreen = Shader::alloc(SHADER(screenVert), SHADER(screenFrag));
-
     _vertbuffScreen = VertexBuffer::alloc(sizeof(PivotVertex3));
     _vertbuffScreen->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, position));
     _vertbuffScreen->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, texcoord));
     _vertbuffScreen->attach(_shaderScreen);
-
-    // Position shader
-    _shaderPosition = Shader::alloc(SHADER(positionVert), SHADER(positionFrag));
-
-    _vertbuffPosition = VertexBuffer::alloc(sizeof(PivotVertex3));
-    _vertbuffPosition->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, position));
-    _vertbuffPosition->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, texcoord));
-    _vertbuffPosition->attach(_shaderPosition);
 }
 
 void RenderPipeline::sceneSetup(const std::shared_ptr<GameModel>& model) {
@@ -166,38 +154,43 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     drawables.clear();
 
     // Player and exit
-    //drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, assets->get<Texture>("dude"), assets->get<Texture>("dude-normal"), true)); //TODO fix texture
-    // Grab correct texture
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
-    drawables.push_back(DrawObject(model->getPlayer3DLoc(), Color4f::RED, charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), Color4f::BLUE, model->_exit->getTexture(), NULL, false)); //TODO fix texture
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->getTexture(), NULL, false));
 
     // Collectibles
     std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            drawables.push_back(DrawObject(c.second.getPosition(), Color4f::GREEN, c.second.getTexture(), NULL, false));
+            drawables.push_back(DrawObject(c.second.getPosition(), c.second.getTexture(), NULL, false));
         }
     }
 
-    // Decorations
-    auto decor = model->getDecorations();
-//    for (auto d : decor) {
-//        drawables.push_back(DrawObject(d->getPosition(), Color4f::GREEN, d->getTexture(), NULL, false));
-//    }
-
     // Glowsticks
-    std::vector<Glowstick> glows = model->_glowsticks;
-    for (Glowstick g : glows) {
-        drawables.push_back(DrawObject(g.getPosition(), Color4f::YELLOW, model->_glowsticks[0].getTexture(), NULL, false)); //TODO fix texture
+    for (Glowstick g : model->_glowsticks) {
+        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), NULL, false));
     }
 
+    // Decorations
+    //auto decor = model->getDecorations();
+    //  for (auto d : decor) {
+    //      drawables.push_back(DrawObject(d->getPosition(), \d->getTexture(), NULL, false));
+    //  }
+
     // Set bind points
-    const int bindStart = 9;
+    const int bindStart = 8;
     for (int i = 0; i < drawables.size(); i++) {
         drawables[i].tex->setBindPoint(bindStart + (2*i));
         if (drawables[i].normalMap != NULL) {
             drawables[i].normalMap->setBindPoint(bindStart + (2*i) + 1);
+        }
+    }
+
+    // Set up mesh indices
+    _meshBill.indices.clear();
+    for (int tri = 0; tri <= 1; tri++) {
+        for (int i = 0; i < 3; i++) {
+            _meshBill.indices.push_back(tri + i);
         }
     }
 }
@@ -212,6 +205,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _camera->setDirection(-n);
     _camera->setUp(Vec3(0, 0, 1));
     _camera->update();
+    const Vec3 basisUp = _camera->getUp();
+    const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);
 
     // Setup billboards
     billboardSetup(model);
@@ -226,25 +221,23 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     float ang = model->getPlaneNorm().getAngle(vInit);
     if (ang < 0) ang += M_PI;
 
-    // Calculate correct index
+    // Get cut texture frame
     int degreeAng = int(ang / degToRad);
     int localAng = degreeAng % repeatAngle;
     int index = localAng / repeat;
-
-    // Get texture objects
     earthTex = backgrounds[index];
 
     // Set bind points
     cobbleTex->setBindPoint(0);
     earthTex->setBindPoint(1);
-    fbo2->getTexture()->setBindPoint(2);
-    fbo->getTexture(0)->setBindPoint(3);
-    fbo->getTexture(1)->setBindPoint(4);
-    fbo->getTexture(2)->setBindPoint(5);
-    fbo->getTexture(3)->setBindPoint(6);
+    fbo->getTexture(fboAlbedo)->setBindPoint(2);
+    fbo->getTexture(fboReplace)->setBindPoint(3);
+    fbo->getTexture(fboNormal)->setBindPoint(4);
+    fbo->getTexture(fboDepth)->setBindPoint(5);
+    fbofinal->getTexture()->setBindPoint(6);
     fbopos->getTexture(0)->setBindPoint(7);
 
-    // Outside texture translation
+    // Cut texture translation
     if (model->_justFinishRotating) {
         storePlayerPos += prevPlayerPos;
     }
@@ -254,77 +247,67 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     transOffset.y /= (screenSize.height / 2);
 
     // --------------- Pass 1: Mesh --------------- //
+    // OpenGL Blending
     glBlendFunc(GL_ONE, GL_ZERO);
 
+    // Binding
     _vertbuff->bind();
     fbo->begin();
     cobbleTex->bind();
 
+    // Set uniforms and draw
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
-    _shader->setUniformVec3("uDirection", n);
-    _shader->setUniformMat4("Mv", _camera->getView());
     _shader->setUniform1i("uTexture", cobbleTex->getBindPoint());
+    _shader->setUniformVec3("uDirection", n);
+    _shader->setUniform1i("farPlaneDist", farPlaneDist);
     _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
     _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
     _vertbuff->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
 
+    // Unbinding
     cobbleTex->unbind();
-    //fbo->end();
     _vertbuff->unbind();
 
     // --------------- Pass 2: Billboard --------------- //
-    // Set up mesh indices
-    _meshBill.indices.clear();
-    for (int tri = 0; tri <= 1; tri++) {
-        for (int i = 0; i < 3; i++) {
-            _meshBill.indices.push_back(tri + i);
-        }
-    }
-
-    // Bind buffer and iterate
+    // Binding
     _vertbuffBill->bind();
-    //fbo->begin();
+
     PivotVertex3 tempV;
-    const Vec3 basisUp = _camera->getUp();
-    const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);
     for (DrawObject dro : drawables) {
-        // Set up vertices
+        // Construct vertices to be placed in the mesh
         _meshBill.vertices.clear();
         Size sz = dro.tex->getSize();
         int div = 4;
         for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
             for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
                 Vec3 addOn = i * basisRight + j * basisUp;
-                if (dro.isPlayer) {
-                    addOn /= model->_player->currentSpriteSheet->getDimen().first; // assuming square dimensions for now
-                }
-                tempV.position = dro.pos + addOn;
-                tempV.color = dro.col.getPacked();
                 tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
                 if (dro.isPlayer) {
+                    // assuming the spritesheet has square dimensions
+                    addOn /= model->_player->currentSpriteSheet->getDimen().first;
                     tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
                     tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
                     tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
                     tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
                 }
+                tempV.position = dro.pos + addOn;
                 _meshBill.vertices.push_back(tempV);
             }
         }
 
-        // Draw
+        // Set uniforms and draw individual billboard
         dro.tex->bind();
         if (dro.normalMap != NULL) dro.normalMap->bind();
         _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
-        _shaderBill->setUniformMat4("Mv", _camera->getView());
+        _shaderBill->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
+        _shaderBill->setUniform1i("farPlaneDist", farPlaneDist);
         _shaderBill->setUniform1i("billTex", dro.tex->getBindPoint());
-        _shaderBill->setUniform1i("flipX", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _shaderBill->setUniform1i("flipXfrag", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _shaderBill->setUniformVec3("uDirection", n);
+        _shaderBill->setUniform1i("useNormTex", 0);
         if (dro.normalMap != NULL) {
             _shaderBill->setUniform1i("normTex", dro.normalMap->getBindPoint());
             _shaderBill->setUniform1i("useNormTex", 1);
-        } else {
-            _shaderBill->setUniform1i("useNormTex", 0);
         }
         _vertbuffBill->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBill->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
@@ -333,10 +316,11 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         dro.tex->unbind();
     }
 
+    // Unbinding
     fbo->end();
     _vertbuffBill->unbind();
 
-    // --------------- Pass 2.5: Position --------------- //
+    // --------------- Pass 3: Position --------------- //
     // Binding
     _vertbuffPosition->bind();
     fbopos->begin();
@@ -344,7 +328,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Set uniforms and draw mesh
     _shaderPosition->setUniform1i("isBillboard", 0);
     _shaderPosition->setUniformMat4("uPerspective", _camera->getCombined());
-    _shaderPosition->setUniform1i("flipX", 0);
+    _shaderPosition->setUniform1i("flipXvert", 0);
     _vertbuffPosition->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
     _vertbuffPosition->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
     _vertbuffPosition->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
@@ -367,7 +351,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
                     tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
                 }
                 tempV.position = dro.pos + addOn;
-                tempV.color = dro.col.getPacked();
                 _meshBill.vertices.push_back(tempV);
             }
         }
@@ -377,7 +360,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderPosition->setUniform1i("isBillboard", 1);
         _shaderPosition->setUniformMat4("uPerspective", _camera->getCombined());
         _shaderPosition->setUniform1i("billTex", dro.tex->getBindPoint());
-        _shaderPosition->setUniform1i("flipX", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
+        _shaderPosition->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _vertbuffPosition->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffPosition->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffPosition->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
@@ -388,13 +371,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbopos->end();
     _vertbuffPosition->unbind();
 
-    // --------------- Pass 3: Pointlights --------------- //
+    // --------------- Pass 4: Pointlights --------------- //
     // OpenGL Blending
     glDisable(GL_DEPTH_TEST);
     glBlendFunc(GL_ONE, GL_ONE);
 
     // Binding
-    fbo2->begin();
+    fbofinal->begin();
     _vertbuffPointlight->bind();
     fbo->getTexture(fboAlbedo)->bind();
     fbo->getTexture(fboReplace)->bind();
@@ -433,7 +416,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboNormal)->unbind();
     _vertbuffPointlight->unbind();
 
-    // --------------- Pass 4: Fog --------------- //
+    // --------------- Pass 5: Fog --------------- //
     // OpenGL Blending
     glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
 
@@ -455,7 +438,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffFog->unbind();
 
-    // --------------- Pass 5: Cut --------------- //
+    // --------------- Pass 6: Cut --------------- //
     // OpenGL Blending
     glBlendEquation(GL_FUNC_ADD);
     glEnable(GL_DEPTH_TEST);
@@ -485,20 +468,20 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->unbind();
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffCut->unbind();
-    fbo2->end();
+    fbofinal->end();
 
-    // --------------- Pass 6: Screen --------------- //
+    // --------------- Pass 7: Screen --------------- //
     // OpenGL Blending
     _vertbuffScreen->bind();
-    fbo2->getTexture()->bind();
+    fbofinal->getTexture()->bind();
 
     // Set uniforms and draw
-    _shaderScreen->setUniform1i("screenTexture", fbo2->getTexture()->getBindPoint());
+    _shaderScreen->setUniform1i("screenTexture", fbofinal->getTexture()->getBindPoint());
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffScreen->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
     // Unbinding
-    fbo2->getTexture()->unbind();
+    fbofinal->getTexture()->unbind();
     _vertbuffScreen->unbind();
 }
