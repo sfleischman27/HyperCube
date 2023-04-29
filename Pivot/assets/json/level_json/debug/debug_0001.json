@@ -462,24 +462,24 @@
             "collectible": false
         }
     },
-    "collision_mesh": "C:\\Users\\LabUser\\Documents\\Luke Kratsios\\HyperCube\\Pivot\\assets\\meshes/debug/debug_0001_col.obj",
-    "render_mesh": "C:\\Users\\LabUser\\Documents\\Luke Kratsios\\HyperCube\\Pivot\\assets\\meshes/debug/debug_0001_dec.obj",
+    "collision_mesh": "meshes/debug/debug_0001_col.obj",
+    "render_mesh": "meshes/debug/debug_0001_dec.obj",
     "triggers": {
         "0": {
             "type": "DEATH",
-            "mesh": "C:\\Users\\LabUser\\Documents\\Luke Kratsios\\HyperCube\\Pivot\\assets\\meshes/debug/debug_0001_death_0000.obj"
+            "mesh": "meshes/debug/debug_0001_death_0000.obj"
         },
         "1": {
             "type": "DEATH",
-            "mesh": "C:\\Users\\LabUser\\Documents\\Luke Kratsios\\HyperCube\\Pivot\\assets\\meshes/debug/debug_0001_death_0001.obj"
+            "mesh": "meshes/debug/debug_0001_death_0001.obj"
         },
         "2": {
             "type": "POPUP",
-            "mesh": "C:\\Users\\LabUser\\Documents\\Luke Kratsios\\HyperCube\\Pivot\\assets\\meshes/debug/debug_0001_popup_0002.obj"
+            "mesh": "meshes/debug/debug_0001_popup_0000.obj"
         },
         "3": {
             "type": "POPUP",
-            "mesh": "C:\\Users\\LabUser\\Documents\\Luke Kratsios\\HyperCube\\Pivot\\assets\\meshes/debug/debug_0001_popup_0003.obj"
+            "mesh": "meshes/debug/debug_0001_popup_0001.obj"
         }
     }
 }
