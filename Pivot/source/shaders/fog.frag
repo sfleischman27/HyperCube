@@ -18,7 +18,6 @@ void main(void) {
     if (texture(replaceTexture, outTexCoord).r == 0.0) {
         discard;
     }
-	vec3 diff = texture(cutTexture, outTexCoord).xyz;
 	float d = texture(depthTexture, outTexCoord).r * 10000.0;
 	d *= 50.0; // higher multiplier here = depth fades out sooner
 	vec3 fadeColor = vec3(1.0, 1.0, 1.0);
