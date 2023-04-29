@@ -167,7 +167,7 @@ class ExportJsonOperator(bpy.types.Operator):
         #export the decorative meshes as an obj
         fpath = dir+ f"meshes/{pack}/{name}_dec.obj"
         collection = bpy.context.scene.decorative_meshes
-        self.export_collection_for_pivot(collection, f)
+        self.export_collection_for_pivot(collection, fpath)
         json_dict["render_mesh"] = fpath
         
         
@@ -177,23 +177,24 @@ class ExportJsonOperator(bpy.types.Operator):
         fpath_base = dir+ f"meshes/{pack}/{name}_death_"
         collection = bpy.context.scene.death_meshes
         for i in range(len(collection.objects)):
-            if collection.object[i].type == 'MESH':
+            if collection.objects[i].type == 'MESH':
                 fpath = fpath_base + str(i).zfill(4) + ".obj"
-                self.export_mesh_for_pivot(mesh, fpath)
+                self.export_mesh_for_pivot(collection.objects[i], fpath)
                 d_trig[str(i)] = dict()
                 d_trig[str(i)]["type"] = "DEATH"
                 d_trig[str(i)]["mesh"] = fpath
             
+        trig_count = len(d_trig.keys())
         #popup meshes
         fpath_base = dir+ f"meshes/{pack}/{name}_popup_"
         collection = bpy.context.scene.popup_meshes
         for i in range(len(collection.objects)):
-            if collection.object[i].type == 'MESH':
-                fpath = fpath_base + str(i).zfill(4) + ".obj"
-                self.export_mesh_for_pivot(mesh, fpath)
-                d_trig[str(i)] = dict()
-                d_trig[str(i)]["type"] = "POPUP"
-                d_trig[str(i)]["mesh"] = fpath
+            if collection.objects[i].type == 'MESH':
+                fpath = fpath_base + str(i + trig_count).zfill(4) + ".obj"
+                self.export_mesh_for_pivot(collection.objects[i], fpath)
+                d_trig[str(i + trig_count)] = dict()
+                d_trig[str(i + trig_count)]["type"] = "POPUP"
+                d_trig[str(i + trig_count)]["mesh"] = fpath
         
         
         json_dict["triggers"] = d_trig
@@ -319,6 +320,7 @@ class ExportJsonOperator(bpy.types.Operator):
             bpy.context.scene.collection.objects.link(new_obj)
             obj.select_set(False)
             new_obj.select_set(True)
+            bpy.context.view_layer.objects.active = new_obj
         
         # split that mesh into faces by edges
         
@@ -350,6 +352,8 @@ class ExportJsonOperator(bpy.types.Operator):
         # remove these new objects
         for new_obj in bpy.context.selected_objects:
             bpy.context.scene.collection.objects.unlink(new_obj)
+        
+        
             
 class PivotPanel(bpy.types.Panel):
     bl_label = "Pivot Level Exporter"
