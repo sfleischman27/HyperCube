@@ -162,13 +162,13 @@ class ExportJsonOperator(bpy.types.Operator):
         fpath = dir+ f"meshes/{pack}/{name}_col.obj"
         collection = bpy.context.scene.collision_meshes
         self.export_collection_for_pivot(collection, fpath)
-        json_dict["collision_mesh"] = fpath
+        json_dict["collision_mesh"] = f"meshes/{pack}/{name}_col.obj"
         
         #export the decorative meshes as an obj
         fpath = dir+ f"meshes/{pack}/{name}_dec.obj"
         collection = bpy.context.scene.decorative_meshes
         self.export_collection_for_pivot(collection, fpath)
-        json_dict["render_mesh"] = fpath
+        json_dict["render_mesh"] = f"meshes/{pack}/{name}_dec.obj"
         
         
         d_trig = dict()
@@ -182,7 +182,7 @@ class ExportJsonOperator(bpy.types.Operator):
                 self.export_mesh_for_pivot(collection.objects[i], fpath)
                 d_trig[str(i)] = dict()
                 d_trig[str(i)]["type"] = "DEATH"
-                d_trig[str(i)]["mesh"] = fpath
+                d_trig[str(i)]["mesh"] = f"meshes/{pack}/{name}_death_" + str(i).zfill(4) + ".obj"
             
         trig_count = len(d_trig.keys())
         #popup meshes
@@ -194,7 +194,7 @@ class ExportJsonOperator(bpy.types.Operator):
                 self.export_mesh_for_pivot(collection.objects[i], fpath)
                 d_trig[str(i + trig_count)] = dict()
                 d_trig[str(i + trig_count)]["type"] = "POPUP"
-                d_trig[str(i + trig_count)]["mesh"] = fpath
+                d_trig[str(i + trig_count)]["mesh"] = f"meshes/{pack}/{name}_popup_" + str(i).zfill(4) + ".obj"
         
         
         json_dict["triggers"] = d_trig
