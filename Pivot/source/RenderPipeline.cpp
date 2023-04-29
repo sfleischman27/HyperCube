@@ -25,9 +25,9 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     fbo = std::make_shared<RenderTarget>();
     fbo2 = std::make_shared<RenderTarget>();
     fbopos = std::make_shared<RenderTarget>();
-    fbo->init(screenSize.width, screenSize.height, 4);
+    fbo->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA32F});
     fbo->setClearColor(Color4f::WHITE);
-    fbo2->init(screenSize.width, screenSize.height);
+    fbo2->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA16F });
     fbo2->setClearColor(Color4f::BLACK);
     fbopos->init(screenSize.width, screenSize.height, {cugl::Texture::PixelFormat::RGBA16F});
     fbopos->setClearColor(Color4f::WHITE);
@@ -305,7 +305,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
                 if (dro.isPlayer) {
                     tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
                     tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
-                    //CULog("Frame coords: %f, %f", model->_player->currentSpriteSheet->getFrameCoords().first, model->_player->currentSpriteSheet->getFrameCoords().second);
                     tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
                     tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
                 }
@@ -367,7 +366,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
                 if (dro.isPlayer) {
                     tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
                     tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
-//                    CULog("Frame coords: %i, %i", model->_player->currentSpriteSheet->getFrameCoords().first, model->_player->currentSpriteSheet->getFrameCoords().second);
                     tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
                     tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
                 }
@@ -417,7 +415,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
     }
     
-    //TODO: (For Matt) the following code is me playing around with glowstick light. So model->_lightsFromItems gives a map of active lights e.g glowstick lights AKA the lights not always there
     for (auto p : model->_lightsFromItems) {
         GameModel::Light &l = p.second;
         _shaderPointlight->setUniform3f("color", l.color.x, l.color.y, l.color.z);
@@ -436,6 +433,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffPointlight->unbind();
 
     // --------------- Pass 4: Fog --------------- //
+    glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
     _vertbuffFog->bind();
     fbo->getTexture(0)->bind();
     fbo->getTexture(1)->bind();
@@ -456,6 +454,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // --------------- Pass 5: Cut --------------- //
     _vertbuffCut->bind();
+    glBlendEquation(GL_FUNC_ADD);
     glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     fbo->getTexture(0)->bind();
