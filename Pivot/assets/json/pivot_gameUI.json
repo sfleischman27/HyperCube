@@ -50,7 +50,14 @@
         },
         "screen" : {
             "file": "textures/game_screen.png"
+        },
+        "navigator_arrow" : {
+            "file": "textures/game_navigator_arrow.png"
+        },
+        "navigator_dot" : {
+            "file": "textures/game_navigator_dot.png"
         }
+        
 	},
 	"fonts": {
         "gyparody": {
@@ -65,7 +72,8 @@
       "inventory": "widgets/inventory.json",
       "glowstick": "widgets/glowstick.json",
       "compassNum": "widgets/compassNum.json",
-      "gameUI": "widgets/gameUI.json"
+      "gameUI": "widgets/gameUI.json",
+      "navigator": "widgets/navigator.json"
     },
     "scene2s" : {
         "lab": {

@@ -199,6 +199,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _model->_glowstickCounter = std::dynamic_pointer_cast<scene2::Label>( _buttons["glowstickB"]->getChildByName("label"));
     
     _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum"));
+
+    _model->_navigator = std::dynamic_pointer_cast<scene2::Button>(kids->getChildByName("navigator"));
     
     addChild(layer);
     setActive(false);
@@ -379,6 +381,7 @@ void GameplayController::reset() {
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     _model->updateCompassNum();
+    
 
     lastStablePlay2DPos = _model->_player->getPosition();
 }
@@ -410,6 +413,7 @@ void GameplayController::load(std::string name){
     _sound->streamSounds({ "cave_m" }, 1.0, true);
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();
+    
 }
 
 /**
@@ -481,6 +485,7 @@ void GameplayController::update(float dt) {
         //createCutObstacles();
         _plane->rotateNorm((_input->cutFactor - saveFloat)/1000);
         _model->updateCompassNum();
+        
         saveFloat = _input->cutFactor;
         _rotating = true;
     }
@@ -496,6 +501,7 @@ void GameplayController::update(float dt) {
     else if (_model->_player->isGrounded() && _input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         _model->updateCompassNum();
+        
         std::cout<<"here:"<<_input->getMoveNorm()<<std::endl;
         //createCutObstacles();
         _rotating = true;
@@ -591,6 +597,9 @@ void GameplayController::update(float dt) {
     for each (auto trig in _model->_triggers) {
         trig->update(_model->getPlayer3DLoc());
     }
+
+    //update navigator
+    _model->updateNavigator();
     
 #pragma mark PLANE
     

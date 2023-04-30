@@ -98,6 +98,10 @@ public:
 #pragma mark Compass State
 public:
     std::shared_ptr<cugl::scene2::Label> _compassNum;
+
+
+#pragma mark navigator State
+    std::shared_ptr<cugl::scene2::Button> _navigator;
     
 #pragma mark Lights
 public:
@@ -382,9 +386,43 @@ public:
         auto det = _norm.x * basis.y - _norm.y * basis.x;      // Determinant
         return atan2(det, dot) * 180 / M_PI;
     }
+
+    /**Get the 2d position and angle in radians which the navigator should rotate to point towards the exit*/
+    std::pair<Vec2, float> getNavigatorTransforms() {
+        //get basis right
+        auto z = Vec3(0, 0, 1);
+        z.cross(_norm);
+        z.normalize();
+        //get 2d screen coordinate
+        auto location = _exit->getPosition() - getPlayer3DLoc();
+        auto norm = _norm;
+        
+        //dot the point onto the plane normal to get the distance from the cut plane
+        auto dist = location.dot(norm);
+        // get the point projected onto the plane basis vectors (unit_z is always y-axis and x-axis is to the right)
+        auto xcoord = location.dot(cugl::Vec3(0, 0, 1).cross(norm.negate()).normalize());
+        auto ycoord = location.dot(cugl::Vec3(0, 0, 1));
+        auto projected = cugl::Vec2(xcoord, ycoord);
+
+        auto basis = Vec2(0,1);
+        auto dot = projected.dot(basis);     // Dot product between[x1, y1] and [x2, y2]
+        auto det = projected.x * basis.y - projected.y * basis.x;      // Determinant
+        auto angle =  atan2(det, dot);
+
+        return std::pair<Vec2, float>(projected, angle);
+    }
     
     void updateCompassNum() {
         _compassNum->setText(std::to_string(static_cast<int>(getGlobalAngleDeg())));
+    }
+
+    void updateNavigator() {
+        auto stuff = getNavigatorTransforms();
+        _navigator->setAngle(stuff.second);
+        auto off = stuff.first;
+        //if (off.length() > 20) { off = off/ off.length() * 2; }
+        //_navigator->setPosition(off);
+
     }
 };
 

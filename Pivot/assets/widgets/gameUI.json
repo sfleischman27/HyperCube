@@ -165,7 +165,19 @@
                        "compassNumYPos": -0.19
                    }
                }
-           }
+           },
+           "navigator":{
+                "type": "Widget",
+                "data": {
+                    "key": "navigator",
+                    "variables":{
+                        "navigatorSize": [80,80],
+                        "navigatorScale": 0.5,
+                        "navigatorXPos": -0.50,
+                        "navigatorYPos": 0.50
+                    }
+                }
+            }
         }
     }
 }
