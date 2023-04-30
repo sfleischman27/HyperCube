@@ -594,7 +594,7 @@ void GameplayController::update(float dt) {
     prevPlay2DPos = currPlay2DPos;
 
     // update triggers
-    for each (auto trig in _model->_triggers) {
+    for (auto trig : _model->_triggers) {
         trig->update(_model->getPlayer3DLoc());
     }
 

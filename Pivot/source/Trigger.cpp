@@ -40,7 +40,7 @@ bool Trigger::update(cugl::Vec3 location){
 
 //** print a string to terminal, useful for checking if callbacks are working*/
 void Trigger::speak(TriggerArgs args) {
-    for each (auto arg in args.strings) {
+    for(auto arg : args.strings) {
         CULog(arg.c_str());
     }
 };
