@@ -190,8 +190,9 @@ class ExportJsonOperator(bpy.types.Operator):
         collection = bpy.context.scene.popup_meshes
         for i in range(len(collection.objects)):
             if collection.objects[i].type == 'MESH':
-                fpath = fpath_base + str(i + trig_count).zfill(4) + ".obj"
-                self.export_mesh_for_pivot(collection.objects[i], fpath)
+                fpath = fpath_base + str(i).zfill(4) + ".obj"
+                self.export_mesh_for_pivot(collection.objects[i], fpath)                   
+                
                 d_trig[str(i + trig_count)] = dict()
                 d_trig[str(i + trig_count)]["type"] = "POPUP"
                 d_trig[str(i + trig_count)]["mesh"] = f"meshes/{pack}/{name}_popup_" + str(i).zfill(4) + ".obj"
@@ -302,56 +303,21 @@ class ExportJsonOperator(bpy.types.Operator):
             bpy.context.scene.collection.objects.unlink(new_obj)
             
     def export_mesh_for_pivot(self, obj, fpath):
-            
-        #deslect everything in the scene
-        for obj in bpy.context.scene.objects:
-            obj.select_set(False)
-                
-        #select object
-        if obj.type == 'MESH':
-            obj.select_set(True)
-        else:
-            return
-                      
-        #duplicate selected objects
-        for obj in bpy.context.selected_objects:
-            new_obj = obj.copy()
-            new_obj.data = obj.data.copy()
-            bpy.context.scene.collection.objects.link(new_obj)
-            obj.select_set(False)
-            new_obj.select_set(True)
-            bpy.context.view_layer.objects.active = new_obj
         
-        # split that mesh into faces by edges
-        
-#        fake_context = bpy.context.copy()
-#        area = [area for area in bpy.context.screen.areas if area.type == "VIEW_3D"][0]
-#        fake_context['area'] = area
-#        fake_context['active_object'] = bpy.context.selected_objects[0]
-#        bpy.ops.object.mode_set(fake_context, mode='EDIT')
-        bpy.ops.object.editmode_toggle()
-        bpy.ops.mesh.edge_split(type='EDGE')
-        bpy.ops.object.editmode_toggle()
-#        bpy.ops.object.mode_set(mode='OBJECT')
-        
-        
-        # export it
+        obj.select_set(True)
         bpy.ops.export_scene.obj(
-                filepath=fpath,
-                global_scale= bpy.context.scene.scene_scale,
-                use_selection=True,
-                use_mesh_modifiers=True,
-                use_normals=True,
-                use_materials=True,
-                use_triangles=True,
-                use_uvs=True,  # Export UV coordinates
-                axis_forward='Y',
-                axis_up='Z'
-            )
-        
-        # remove these new objects
-        for new_obj in bpy.context.selected_objects:
-            bpy.context.scene.collection.objects.unlink(new_obj)
+            filepath=fpath,
+            global_scale= bpy.context.scene.scene_scale,
+            use_selection=True,
+            use_mesh_modifiers=True,
+            use_normals=True,
+            use_materials=True,
+            use_triangles=True,
+            use_uvs=True,  # Export UV coordinates
+            axis_forward='Y',
+            axis_up='Z'
+        )
+        obj.select_set(False)
         
         
             
