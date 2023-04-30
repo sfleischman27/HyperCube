@@ -120,9 +120,13 @@ public:
 	std::vector<DrawObject> drawables;
 	std::vector<std::shared_ptr<Texture>> backgrounds;
 
-	// Reolace texture translation variables
+	// Replace texture translation variables
 	Vec2 prevPlayerPos;
 	Vec2 storePlayerPos;
+
+	// Basis for current coordinate system
+	Vec3 basisUp;
+	Vec3 basisRight;
 
 	/**
 	 * Construct the RenderPipeline
@@ -143,6 +147,11 @@ public:
 	 * Sets up the billboards
 	 */
 	void billboardSetup(const std::shared_ptr<GameModel>& model);
+
+	/**
+	 * Sets up the mesh to draw one drawable
+	 */
+	void constructBillMesh(const std::shared_ptr<GameModel>& model, const DrawObject& dro);
 	
 	/**
 	 * Renders a given gamemodel

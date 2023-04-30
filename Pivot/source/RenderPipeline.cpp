@@ -195,6 +195,30 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     }
 }
 
+void RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, const RenderPipeline::DrawObject& dro) {
+
+    _meshBill.vertices.clear();
+    Size sz = dro.tex->getSize();
+    int div = 4;
+    PivotVertex3 tempV;
+    for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
+        for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
+            Vec3 addOn = i * basisRight + j * basisUp;
+            tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
+            if (dro.isPlayer) {
+                // assuming the spritesheet has square dimensions
+                addOn /= model->_player->currentSpriteSheet->getDimen().first;
+                tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
+                tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
+                tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
+                tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
+            }
+            tempV.position = dro.pos + addOn;
+            _meshBill.vertices.push_back(tempV);
+        }
+    }
+}
+
 void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Update camera
@@ -205,8 +229,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _camera->setDirection(-n);
     _camera->setUp(Vec3(0, 0, 1));
     _camera->update();
-    const Vec3 basisUp = _camera->getUp();
-    const Vec3 basisRight = model->getPlaneNorm().cross(basisUp);
+    basisUp = _camera->getUp();
+    basisRight = model->getPlaneNorm().cross(basisUp);
 
     // Setup billboards
     billboardSetup(model);
@@ -272,28 +296,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Binding
     _vertbuffBill->bind();
 
-    PivotVertex3 tempV;
     for (DrawObject dro : drawables) {
         // Construct vertices to be placed in the mesh
-        _meshBill.vertices.clear();
-        Size sz = dro.tex->getSize();
-        int div = 4;
-        for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
-            for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
-                Vec3 addOn = i * basisRight + j * basisUp;
-                tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
-                if (dro.isPlayer) {
-                    // assuming the spritesheet has square dimensions
-                    addOn /= model->_player->currentSpriteSheet->getDimen().first;
-                    tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
-                    tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
-                    tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
-                    tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
-                }
-                tempV.position = dro.pos + addOn;
-                _meshBill.vertices.push_back(tempV);
-            }
-        }
+        constructBillMesh(model, dro);
 
         // Set uniforms and draw individual billboard
         dro.tex->bind();
@@ -335,25 +340,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     for (DrawObject dro : drawables) {
         // Construct vertices to be placed in the mesh
-        _meshBill.vertices.clear();
-        Size sz = dro.tex->getSize();
-        int div = 4;
-        for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
-            for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
-                Vec3 addOn = i * basisRight + j * basisUp;
-                tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
-                if (dro.isPlayer) {
-                    // assuming the spritesheet has square dimensions
-                    addOn /= model->_player->currentSpriteSheet->getDimen().first;
-                    tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
-                    tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
-                    tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
-                    tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
-                }
-                tempV.position = dro.pos + addOn;
-                _meshBill.vertices.push_back(tempV);
-            }
-        }
+        constructBillMesh(model, dro);
 
         // Set uniforms and draw individual billboard
         dro.tex->bind();
@@ -470,8 +457,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffCut->unbind();
     fbofinal->end();
 
-    // --------------- Pass 7: Screen --------------- //
-    // OpenGL Blending
+    // --------------- Pass 7: Stripped Billboards --------------- //
+    //TODO calcluate which billboards are stripped, then draw with transparency
+    // after this is implemented, feed these into the pointlight shader before this ambient pass
+
+
+    // --------------- Pass 8: Screen --------------- //
+    // Binding
     _vertbuffScreen->bind();
     fbofinal->getTexture()->bind();
 
