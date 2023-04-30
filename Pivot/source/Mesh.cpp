@@ -11,6 +11,7 @@
 #include <cugl/cugl.h>
 #include <igl/per_vertex_normals.h>
 #include <igl/isolines.h>
+#include <igl/ray_mesh_intersect.h>
 
 /**Static Method To create a pivot mesh object from an .obj file path*/
 std::shared_ptr<PivotMesh> PivotMesh::MeshFromOBJ(std::string path) {
@@ -149,4 +150,28 @@ std::tuple<Eigen::MatrixXd, Eigen::MatrixXi> PivotMesh::intersectPlane(Vec3 orig
 
     // Debug square
     //return std::vector<Path2>{Path2(std::vector<Vec2>{Vec2(-1.5, -1.5), Vec2(1.5, -1.5), Vec2(1.5, 1.5), Vec2(-1.5, 1.5)})};
+}
+
+/**Check if a point is in the mesh
+    *
+    * @param point
+    * */
+
+bool PivotMesh::containsPoint(Vec3 point) {
+
+    auto source = Eigen::Vector3d();
+    source(0) = point.x;
+    source(1) = point.y;
+    source(2) = point.z;
+    auto xray = Eigen::Vector3d();
+    xray(0) = 0;
+    xray(1) = 0;
+    xray(2) = 1;
+
+    std::vector<igl::Hit> xhits;
+
+    igl::ray_mesh_intersect(source, xray, Everts, Einds, xhits);
+
+    if (xhits.size() % 2 == 0) { return false; }
+    else { return true; }
 }

@@ -140,7 +140,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     std::string savePath = Application::get()->getSaveDirectory();
     savePath.append("save.json");
     savePath = filetool::normalize_path(savePath);
-    _data->setupSave(savePath, filetool::file_exists(savePath));
+    //_data->setupSave(savePath, filetool::file_exists(savePath));
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
@@ -211,6 +211,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     Vec2 dudePos = Vec2::ZERO;
     prevPlay2DPos = dudePos;
     
+    
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
     float height = image->getSize().height/CAP_SCALE;
     float width = height/WIDTH_SCALE;
@@ -245,6 +246,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
+
+    lastStablePlay2DPos = dudePos;
         
     addObstacle(_model->_player, true);
     
@@ -376,6 +379,8 @@ void GameplayController::reset() {
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     _model->updateCompassNum();
+
+    lastStablePlay2DPos = _model->_player->getPosition();
 }
 
 /**
@@ -459,6 +464,12 @@ void GameplayController::update(float dt) {
         
     }
 
+    //kill the player if marked dead
+    if (_model->_player->isDead()) {
+        _model->_player->setPosition(lastStablePlay2DPos);
+        _model->_player->setDead(false);
+    }
+
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
     //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
     if (!_input->isRotating) {
@@ -508,6 +519,7 @@ void GameplayController::update(float dt) {
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
+            lastStablePlay2DPos = _model->_player->getPosition();
         }
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
@@ -574,6 +586,11 @@ void GameplayController::update(float dt) {
     Vec2 displacement = currPlay2DPos - prevPlay2DPos;
     updatePlayer3DLoc(displacement);
     prevPlay2DPos = currPlay2DPos;
+
+    // update triggers
+    for each (auto trig in _model->_triggers) {
+        trig->update(_model->getPlayer3DLoc());
+    }
     
 #pragma mark PLANE
     
@@ -736,5 +753,6 @@ void GameplayController::save(int maxLevel) {
 }
 
 int GameplayController::getMaxLevel() {
-    return _data->getMaxLevel();
+    return 4; //jacko did this TODO SARAH
+    //return _data->getMaxLevel();
 }

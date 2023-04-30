@@ -69,6 +69,7 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
         
         // Gameplay attributes
         _isGrounded = false;
+        _isDead = false;
         _isShooting = false;
         _isJumping  = false;
         _faceRight  = true;

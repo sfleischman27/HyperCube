@@ -59,6 +59,8 @@ protected:
     cugl::Vec2 prevPlay2DPos;
     
     cugl::Vec2 currPlay2DPos;
+
+    cugl::Vec2 lastStablePlay2DPos;
     
     /** Mark set to handle more sophisticated collision callbacks */
     std::unordered_set<b2Fixture*> _sensorFixtures;

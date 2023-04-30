@@ -15,6 +15,7 @@
 #include "Mesh.h"
 #include "Glowstick.h"
 #include "GameItem.h"
+#include "Trigger.h"
 
 using namespace cugl;
 
@@ -73,6 +74,11 @@ public:
 public:
     /** Vector of decorations */
     std::vector<std::shared_ptr<GameItem>> _decorations;
+
+#pragma mark Triggers
+public:
+    /** Vector of triggers */
+    std::vector<std::shared_ptr<Trigger>> _triggers;
     
 #pragma mark Backpack State
 public:
@@ -343,6 +349,10 @@ public:
     
     void clearBackpack(){
         _backpack.clear();
+    }
+
+    void clearTriggers() {
+        _triggers.clear();
     }
 
     void setExpectedCol(std::unordered_set<std::string> expectedCol) {

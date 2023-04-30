@@ -91,6 +91,8 @@ protected:
     int  _shootCooldown;
     /** Whether our feet are on the ground */
     bool _isGrounded;
+    /** is the player dead? */
+    bool _isDead;
     /** Whether we are actively shooting */
     bool _isShooting;
     /** Ground sensor to represent our feet */
@@ -402,6 +404,13 @@ public:
      * @return true if the dude is on the ground.
      */
     bool isGrounded() const { return _isGrounded; }
+
+    /**
+     * Returns true if the player is dead.
+     *
+     * @return true if the player is dead.
+     */
+    bool isDead() const { return _isDead; }
     
     /**
      * Sets whether the dude is on the ground.
@@ -409,6 +418,13 @@ public:
      * @param value whether the dude is on the ground.
      */
     void setGrounded(bool value) { _isGrounded = value; }
+
+    /**
+     * Sets whether the player is dead.
+     *
+     * @param value whether the player is dead.
+     */
+    void setDead(bool value) { _isDead = value; }
     
     /**
      * Returns how much force to apply to get the dude moving

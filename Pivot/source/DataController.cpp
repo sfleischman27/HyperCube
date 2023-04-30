@@ -39,7 +39,8 @@ bool DataController::loadGameModel(std::string level, const std::shared_ptr<Game
     assetDirectoryPath.append(colmeshPath);
     assetDirectoryPath = filetool::normalize_path(assetDirectoryPath);
     model->_colMesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
-    
+
+
     // call reset game model
     return resetGameModel(level, model);
 }
@@ -84,11 +85,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("goal"));
     model->setExit(exitPtr);
     
-    // jack was here :)
     // get the sprites
     std::shared_ptr<cugl::JsonValue> sprites = constants->get("sprites");
 
-    
     // clear glowsticks
     model->clearGlowsticks();
     
@@ -99,6 +98,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     model->clearCollectibles();
     model->clearLights();
     model->clearDecorations();
+
+    // clear the triggers
+    model->clearTriggers();
     
     std::vector<Vec3> col_locs;
     std::vector<std::shared_ptr<cugl::Texture>> col_texs;
@@ -157,6 +159,39 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     }
 
     model->setCollectibles(col_locs, col_texs);
+
+    // get and set triggers
+    std::shared_ptr<cugl::JsonValue> triggers = constants->get("triggers");
+
+    if (triggers != nullptr) {
+        for (int i = 0; i < triggers->size(); i++) {
+            std::string region_path = triggers->get(std::to_string(i))->getString("mesh");
+            std::string assetDirectoryPath = Application::get()->getAssetDirectory();
+            assetDirectoryPath.append(region_path);
+            assetDirectoryPath = filetool::normalize_path(assetDirectoryPath);
+            auto region = PivotMesh::MeshFromOBJ(assetDirectoryPath);
+            auto trig = std::make_shared<Trigger>(region);
+
+            std::string trig_type = triggers->get(std::to_string(i))->getString("type");
+            if (trig_type == "DEATH") {
+                auto args = TriggerArgs();
+                args.player = model->_player;
+                trig->registerEnterCallback(Trigger::killPlayer, args);
+            }
+            else if (trig_type == "POPUP"){
+                std::vector<std::string>strings{ "message" };
+                auto args = TriggerArgs();
+                args.strings = strings;
+                trig->registerEnterCallback(Trigger::speak, args);
+            }
+            
+            
+
+            model->_triggers.push_back(trig);
+        }
+    }
+
+    
     
     // get and set level id
     std::string level_id = constants->getString("level_id");
@@ -203,7 +238,7 @@ void DataController::save(int maxLevel){
 
 void DataController::updateSaveJson(long maxLevel){
     // update curr_level
-    _save->get("max_level")->set(maxLevel);
+    //_save->get("max_level")->set(maxLevel);
     
     // TODO: Implement if we want to enable resuming your current level
     // update player_loc
