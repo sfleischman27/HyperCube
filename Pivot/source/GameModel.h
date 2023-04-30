@@ -367,6 +367,14 @@ public:
         return _expectedCol;
     }
     
+    int getColNum() {
+        return _collectibles.size();
+    }
+    
+    int getCurrColNum() {
+        return _backpack.size();
+    }
+    
     /**
      * check if player has collected all required collectibles
      * expectedCol right now is just all existing collectibles

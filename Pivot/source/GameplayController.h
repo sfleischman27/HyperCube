@@ -222,6 +222,21 @@ public:
      */
     void setActive(bool value);
     
+    /**
+     * Sets collectible UI to only show the correct number of collectibles for the level
+     *
+     * @param col  The number of collectibles in the level (1 to 4)
+     */
+    void resetCollectibleUI(int col);
+    
+    /**
+     * Changes the collecttible UI to reflect the number of collectibles collected
+     *
+     * @param col  The number of collectibles in the level (1 to 4)
+     * @param got  The number of collectibles collected 
+     */
+    void collectUI(int col, int got);
+    
 #pragma mark State Access
 
     bool isDebug( ) const { return _debug; }

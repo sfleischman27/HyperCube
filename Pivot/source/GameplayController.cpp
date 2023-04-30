@@ -368,6 +368,8 @@ void GameplayController::reset() {
     _physics->clear();
     // reset model
     _data->resetGameModel(_model->getName(), _model);
+    // reset collectibles
+    resetCollectibleUI(_model->getColNum());
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     prevPlay2DPos = Vec2::ZERO;
@@ -397,6 +399,8 @@ void GameplayController::load(std::string name){
     _physics->clear();
     // update model
     _data->loadGameModel(name, _model);
+    // reset collectibles
+    resetCollectibleUI(_model->getColNum());
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     prevPlay2DPos = Vec2::ZERO;
@@ -441,6 +445,120 @@ void GameplayController::setActive(bool value){
         }
         // turn off the render pipeline stuff
         glDisable(GL_DEPTH_TEST);
+    }
+}
+
+/**
+ * Sets collectible UI to only show the correct number of empty collectibles for the level
+ */
+void GameplayController::resetCollectibleUI(int col){
+    if(col == 1 | col == 3){ // odd
+        // turn off the even inventory and turn on the odd
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd")->setVisible(true);
+        
+        // turn off full items
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-one")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-two")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-three")->setVisible(false);
+    } else { // even
+        // turn on the even inventory and turn off the odd
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd")->setVisible(false);
+        
+        // turn off full items
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-one")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-two")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-three")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-four")->setVisible(false);
+    }
+    
+    if(col == 1){
+        // turn off items 1 and 3
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-one")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-three")->setVisible(false);
+        
+        // turn on item 2
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-two")->setVisible(true);
+        
+    } else if (col == 2){
+        // turn off items 1 and 4
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-one")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-four")->setVisible(false);
+        
+        // turn on items 2 and 3
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(true);
+
+    } else if (col == 3){
+        // turn on items 1, 2 and 3
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-one")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-two")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-three")->setVisible(true);
+        
+    } else { // 4 collectibles
+        // turn on items 1, 2, 3, and 4
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-one")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-four")->setVisible(true);
+    }
+}
+
+void GameplayController::collectUI(int col, int got){
+    switch(col) {
+        case 1:
+            if(got >= 1){
+                // collect center of odd inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-two")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-two")->setVisible(true);
+            }
+            break;
+        case 2:
+            if(got >= 1){
+                // collect center left of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-two")->setVisible(true);
+            } else if(got >= 2){
+                // collect center right of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-three")->setVisible(true);
+            }
+            break;
+        case 3:
+            if(got >= 1){
+                // collect left of odd inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-one")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-one")->setVisible(true);
+            } else if(got >= 2){
+                // collect center of odd inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-two")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-two")->setVisible(true);
+            } else if(got >= 3){
+                // collect right of odd inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-three")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-three")->setVisible(true);
+            }
+            break;
+        case 4:
+            if(got >= 1){
+                // collect left of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-one")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-one")->setVisible(true);
+            } else if(got >= 2){
+                // collect center left of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-two")->setVisible(true);
+            } else if(got >= 3){
+                // collect center right of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-three")->setVisible(true);
+            } else if(got >= 4){
+                // collect right of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-four")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-four")->setVisible(true);
+            }
+            break;
     }
 }
 
@@ -540,9 +658,11 @@ void GameplayController::update(float dt) {
         }
     }
     
+    // update collectible UI
+    collectUI(_model->getColNum(), _model->getCurrColNum());
+    
     if((_model->_exit->canBeSeen(_model->getPlayer3DLoc(),_model->getPlaneNorm()))
        &&(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST)) {
-        // TODO: Game ends here by checking if the player collects all colletibles - Sarah
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;
             _state = END;
