@@ -56,6 +56,9 @@
         },
         "navigator_dot" : {
             "file": "textures/game_navigator_dot.png"
+        },
+        "rotate_tutorial" : {
+            "file": "textures/rotate_tutorial.png"
         }
         
 	},
@@ -73,7 +76,8 @@
       "glowstick": "widgets/glowstick.json",
       "compassNum": "widgets/compassNum.json",
       "gameUI": "widgets/gameUI.json",
-      "navigator": "widgets/navigator.json"
+      "navigator": "widgets/navigator.json",
+      "tutorial":  "widgets/tutorial.json"
     },
     "scene2s" : {
         "lab": {
