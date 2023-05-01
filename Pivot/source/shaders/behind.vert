@@ -5,9 +5,15 @@ in vec2 aTexCoord;
 
 out vec2 outTexCoord;
 
+uniform mat4 uPerspective;
+uniform int flipXvert;
+
 void main(void) {
-    gl_Position = aPosition;
+    gl_Position = uPerspective * aPosition;
     outTexCoord = aTexCoord;
+    if (flipXvert != 1) {
+        outTexCoord.x = 1.0 - outTexCoord.x;
+    }
 }
 
 /////////// SHADER END //////////)"

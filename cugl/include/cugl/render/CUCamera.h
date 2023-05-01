@@ -176,7 +176,7 @@ public:
      * @param value The near clipping plane distance (has to be positive)
      */
     void setNear(float value) {
-        CUAssertLog(value >= 0, "Value is not positive");
+        //CUAssertLog(value >= 0, "Value is not positive");
         _near = value;
     }
     

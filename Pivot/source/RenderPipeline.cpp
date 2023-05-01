@@ -86,15 +86,6 @@ void RenderPipeline::constructShaders() {
         offsetof(PivotVertex3, texcoord));
     _vertbuffPosition->attach(_shaderPosition);
 
-    // Cut shader
-    _shaderCut = Shader::alloc(SHADER(cutVert), SHADER(cutFrag));
-    _vertbuffCut = VertexBuffer::alloc(sizeof(PivotVertex3));
-    _vertbuffCut->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, position));
-    _vertbuffCut->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, texcoord));
-    _vertbuffCut->attach(_shaderCut);
-
     // Pointlight shader
     _shaderPointlight = Shader::alloc(SHADER(pointlightVert), SHADER(pointlightFrag));
     _vertbuffPointlight = VertexBuffer::alloc(sizeof(PivotVertex3));
@@ -112,6 +103,24 @@ void RenderPipeline::constructShaders() {
     _vertbuffFog->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, texcoord));
     _vertbuffFog->attach(_shaderFog);
+
+    // Cut shader
+    _shaderCut = Shader::alloc(SHADER(cutVert), SHADER(cutFrag));
+    _vertbuffCut = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffCut->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffCut->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffCut->attach(_shaderCut);
+
+    // Behind shader
+    _shaderBehind = Shader::alloc(SHADER(behindVert), SHADER(behindFrag));
+    _vertbuffBehind = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffBehind->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffBehind->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffBehind->attach(_shaderBehind);
 
     // Screen shader
     _shaderScreen = Shader::alloc(SHADER(screenVert), SHADER(screenFrag));
@@ -455,14 +464,62 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->unbind();
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffCut->unbind();
-    fbofinal->end();
 
     // --------------- Pass 7: Stripped Billboards --------------- //
     //TODO calcluate which billboards are stripped, then draw with transparency
     // after this is implemented, feed these into the pointlight shader before this ambient pass
 
+    // OpenGL Blending
+    glDisable(GL_DEPTH_TEST);
+
+    // Binding
+    _vertbuffBehind->bind();
+    fbo->getTexture(fboReplace)->bind();
+    CULog("new:");
+    for (DrawObject dro : drawables) {
+        if (dro.isPlayer) continue;
+        // Calculate distance from plane
+        float distance = -n.dot(dro.pos - charPos);
+
+        // If 0 < distance <= -c, then we will want to draw
+        if (distance >= 0 || distance <= cutoff) continue;
+        float alpha = 1.0 - (distance / cutoff);
+        //CULog("%f", distance);
+
+        // Change the drawObject position to be reflected along the plane
+        Vec3 oldPos = dro.pos;
+        dro.pos = dro.pos + (2 * distance * n);
+        //CULog("%f, %f, %f", oldPos.x, oldPos.y, oldPos.z);
+        //CULog("%f, %f, %f", dro.pos.x, dro.pos.y, dro.pos.z);
+        //float d2 = -n.dot(dro.pos - charPos);
+        //CULog("%f", d2); // should be the same as the first, but positive
+
+        // Construct vertices to be placed in the mesh
+        constructBillMesh(model, dro);
+        dro.pos = oldPos;
+
+        // Set uniforms and draw individual billboard
+        dro.tex->bind();
+        _shaderBehind->setUniformMat4("uPerspective", _camera->getCombined());
+        _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
+        _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
+        _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
+        _shaderBehind->setUniform1f("alpha", alpha);
+        _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
+        _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
+        _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
+        dro.tex->unbind();
+    }
+
+    // Unbinding
+    fbo->getTexture(fboReplace)->unbind();
+    _vertbuffBehind->unbind();
+    fbofinal->end();
 
     // --------------- Pass 8: Screen --------------- //
+    // OpenGL Blending
+    glEnable(GL_DEPTH_TEST);
+
     // Binding
     _vertbuffScreen->bind();
     fbofinal->getTexture()->bind();

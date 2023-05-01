@@ -43,11 +43,11 @@ public:
 	const std::string billboardFrag =
 #include "shaders/billboard.frag"
 	;
-	const std::string cutVert =
-#include "shaders/cut.vert"
+	const std::string positionVert =
+#include "shaders/position.vert"
 	;
-	const std::string cutFrag =
-#include "shaders/cut.frag"
+	const std::string positionFrag =
+#include "shaders/position.frag"
 	;
 	const std::string pointlightVert =
 #include "shaders/pointlight.vert"
@@ -61,17 +61,23 @@ public:
 	const std::string fogFrag =
 #include "shaders/fog.frag"
 	;
+	const std::string cutVert =
+#include "shaders/cut.vert"
+	;
+	const std::string cutFrag =
+#include "shaders/cut.frag"
+	;
+	const std::string behindVert =
+#include "shaders/behind.vert"
+		;
+	const std::string behindFrag =
+#include "shaders/behind.frag"
+		;
 	const std::string screenVert =
 #include "shaders/screen.vert"
 	;
 	const std::string screenFrag =
 #include "shaders/screen.frag"
-	;
-	const std::string positionVert =
-#include "shaders/position.vert"
-	;
-	const std::string positionFrag =
-#include "shaders/position.frag"
 	;
 
 	// Constants
@@ -82,6 +88,7 @@ public:
 	const int fboNormal = 2;
 	const int fboDepth = 3;
 	const Size screenSize;
+	const float cutoff = -30.0; // negative number, more negative = further behind can be shown
 
 	// Camera
 	std::shared_ptr<cugl::OrthographicCamera> _camera;
@@ -89,20 +96,22 @@ public:
 	// Shaders
 	std::shared_ptr<cugl::Shader> _shader;
 	std::shared_ptr<cugl::Shader> _shaderBill;
-	std::shared_ptr<cugl::Shader> _shaderCut;
+	std::shared_ptr<cugl::Shader> _shaderPosition;
 	std::shared_ptr<cugl::Shader> _shaderPointlight;
 	std::shared_ptr<cugl::Shader> _shaderFog;
+	std::shared_ptr<cugl::Shader> _shaderCut;
+	std::shared_ptr<cugl::Shader> _shaderBehind;
 	std::shared_ptr<cugl::Shader> _shaderScreen;
-	std::shared_ptr<cugl::Shader> _shaderPosition;
 
 	// Buffers
 	std::shared_ptr<cugl::VertexBuffer> _vertbuff;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBill;
-	std::shared_ptr<cugl::VertexBuffer> _vertbuffCut;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffPosition;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffPointlight;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffFog;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffCut;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffBehind;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffScreen;
-	std::shared_ptr<cugl::VertexBuffer> _vertbuffPosition;
 
 	// Meshes
 	cugl::Mesh<PivotVertex3> _mesh;

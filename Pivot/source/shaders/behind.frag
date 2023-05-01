@@ -8,11 +8,17 @@ in vec2 outTexCoord;
 
 out vec4 frag_color;
 
-uniform sampler2D screenTexture;
+uniform sampler2D billTex;
+uniform sampler2D replaceTexture;
+uniform float alpha;
 
 void main(void) {
-	frag_color = texture(screenTexture, outTexCoord);
-	frag_color.a = 1.0;
+	// Draw
+	frag_color = texture(billTex, outTexCoord);
+	if (frag_color.a < 0.5) {
+		discard;
+	}
+	frag_color.a = alpha;
 }
 
 /////////// SHADER END //////////)"
