@@ -18,6 +18,7 @@ void main(void) {
 	if (frag_color.a < 0.5) {
 		discard;
 	}
+	frag_color.xyz = frag_color.xyz - vec3(.2); //TEMPORARY: artificial darkening
 	frag_color.a = alpha;
 }
 
