@@ -435,8 +435,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffFog->unbind();
 
     // --------------- Pass 6: Stripped Billboards --------------- //
-    //TODO calcluate which billboards are stripped, then draw with transparency
-    // after this is implemented, feed these into the pointlight shader before this ambient pass
 
     // OpenGL Blending
     glBlendEquation(GL_FUNC_ADD);
@@ -458,7 +456,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
         // Change the drawObject position to be reflected along the plane
         Vec3 oldPos = dro.pos;
-        dro.pos = dro.pos + (2 * distance * n);\
+        dro.pos = dro.pos + (2 * distance * n);
 
         // Construct vertices to be placed in the mesh
         constructBillMesh(model, dro);

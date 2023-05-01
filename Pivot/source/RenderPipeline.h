@@ -88,7 +88,7 @@ public:
 	const int fboNormal = 2;
 	const int fboDepth = 3;
 	const Size screenSize;
-	const float cutoff = -300.0; // negative number, more negative = further behind can be shown
+	const float cutoff = -30.0; // negative number, more negative = further behind can be shown
 
 	// Camera
 	std::shared_ptr<cugl::OrthographicCamera> _camera;
