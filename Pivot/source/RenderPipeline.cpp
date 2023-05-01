@@ -496,7 +496,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
-        _shaderBehind->setUniform1f("alphaf=", alpha);
+        _shaderBehind->setUniform1f("alpha", alpha);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
