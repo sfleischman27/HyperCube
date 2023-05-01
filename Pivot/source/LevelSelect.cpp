@@ -245,7 +245,7 @@ int LevelSelect::levelNum(){
 }
 
 void LevelSelect::updateMax(int level){
-    if(level > _maxLevel && level <= LEVELS_IMPLEMENTED){
+    if(level > _maxLevel && level <= (LEVELS_IMPLEMENTED - 1)){
         _maxLevel = level;
     }
 }
@@ -256,5 +256,5 @@ void LevelSelect::unlockNextLevel(){
 }
 
 bool LevelSelect::isLast(){
-    return levelNum() == _maxLevel;
+    return levelNum() == LEVELS_IMPLEMENTED - 1;
 }
