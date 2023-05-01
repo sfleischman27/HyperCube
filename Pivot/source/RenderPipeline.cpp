@@ -24,7 +24,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     fbopos = std::make_shared<RenderTarget>();
     fbo->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA});
     fbo->setClearColor(Color4f::WHITE);
-    fbofinal->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA16F });
+    fbofinal->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA });
     fbofinal->setClearColor(Color4f::BLACK);
     fbopos->init(screenSize.width, screenSize.height, {cugl::Texture::PixelFormat::RGBA16F});
     fbopos->setClearColor(Color4f::WHITE);

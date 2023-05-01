@@ -31,7 +31,7 @@ void main(void) {
 		discard;
 	}
 	frag_color.a = 1.0;
-	frag_depth = EncodeFloatRGBA(gl_FragCoord.z / farPlaneDist);
+	frag_depth = EncodeFloatRGBA(gl_FragCoord.z);
 	// Set normal, if it exists
 	frag_normal = vec4(0.0, 0.0, 0.0, 1.0);
 	if (useNormTex == 1) {

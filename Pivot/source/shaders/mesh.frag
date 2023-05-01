@@ -38,7 +38,7 @@ void main(void) {
 		frag_replace = vec4(1.0, 0.0, 0.0, 1.0);
 	}
 	// always want to encode depth and normal as-is
-	frag_depth = EncodeFloatRGBA(gl_FragCoord.z / farPlaneDist);
+	frag_depth = EncodeFloatRGBA(gl_FragCoord.z);
 	frag_normal = vec4((outNormal + vec3(1.0)) / 2.0, 1.0);
 }
 

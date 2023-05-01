@@ -24,7 +24,7 @@ void main(void) {
     if (texture(replaceTexture, outTexCoord).r == 0.0) {
         discard;
     }
-	float d = DecodeFloatRGBA(texture(depthTexture, outTexCoord)) * farPlaneDist * severity;
+	float d = DecodeFloatRGBA(texture(depthTexture, outTexCoord)) * severity;
 	frag_color.xyz = vec3(1.0) * d;
 	frag_color.a = 1.0;
 }
