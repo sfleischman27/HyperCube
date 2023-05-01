@@ -27,7 +27,9 @@
             "label": {
                 "type": "Label",
                 "data": {
-                    "font": "gyparody",
+                    "font": "gyparody-smaller",
+                    "size": [450,300],
+                    "anchor": [0.075,0.35],
                     "text": "Are you sure you want to quit?",
                     "foreground": [255,255,255,255],
                     "background": [0,0,0,0],
@@ -35,8 +37,8 @@
                     "valign": "middle"
                 },
                 "layout":{
-                    "x_anchor": "fill",
-                    "y_anchor": "fill"
+                    "x_anchor": "center",
+                    "y_anchor": "middle"
                 }
             },
             "yes": {

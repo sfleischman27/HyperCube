@@ -20,6 +20,10 @@
         "gyparody": {
             "file":     "fonts/gyparody-hv.ttf",
             "size":     48
+        },
+        "gyparody-smaller": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     30
         }
     },
     "widgets" : {
