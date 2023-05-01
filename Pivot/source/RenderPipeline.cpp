@@ -27,7 +27,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     fbofinal->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA16F });
     fbofinal->setClearColor(Color4f::BLACK);
     fbopos->init(screenSize.width, screenSize.height, {cugl::Texture::PixelFormat::RGBA16F});
-    fbopos->setClearColor(Color4f::WHITE);
+    fbopos->setClearColor(Color4f::BLACK);
 
     // Camera setup
 	_camera = OrthographicCamera::alloc(screenSize);
@@ -373,7 +373,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     glBlendFunc(GL_ONE, GL_ONE);
 
     // Binding
-    fbofinal->begin();
+    //fbofinal->begin();
     _vertbuffPointlight->bind();
     fbo->getTexture(fboAlbedo)->bind();
     fbo->getTexture(fboReplace)->bind();
@@ -508,9 +508,11 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBehind->unbind();
 
 
-    fbofinal->end();
+    //fbofinal->end();
+    glEnable(GL_DEPTH_TEST);
 
     // --------------- Pass 8: Screen --------------- //
+    /*
     // OpenGL Blending
     glEnable(GL_DEPTH_TEST);
 
@@ -526,5 +528,5 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Unbinding
     fbofinal->getTexture()->unbind();
-    _vertbuffScreen->unbind();
+    _vertbuffScreen->unbind();*/
 }
