@@ -8,7 +8,7 @@ in vec2 outTexCoord;
 
 out vec4 frag_color;
 
-uniform int farPlaneDist;
+uniform float farPlaneDist;
 uniform sampler2D depthTexture;
 uniform sampler2D replaceTexture;
 
