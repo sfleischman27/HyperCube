@@ -60,6 +60,7 @@ void main(void) {
 		frag_color = texture(albedoTexture, outTexCoord);
 		frag_color.a = ambient;
 	}
+    frag_color = vec4(0.0);
 }
 
 /////////// SHADER END //////////)"

@@ -51,6 +51,7 @@ void main(void) {
     //vec3 specular = specularStrength * spec * color; 
 
 	frag_color = vec4(diffuse, 1.0);
+    frag_color = vec4(1.0);
 }
 
 /////////// SHADER END //////////)"
