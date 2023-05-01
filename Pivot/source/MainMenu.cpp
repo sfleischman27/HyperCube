@@ -21,7 +21,8 @@ bool MainMenu::init(const std::shared_ptr<cugl::AssetManager>& assets) {
     // deletes save file for testing purposes
     filetool::file_delete(savePath);
     // true if there is a save file
-    _canResume = filetool::file_exists(savePath);
+    // _canResume = filetool::file_exists(savePath);
+    _canResume = false;
     
     _choice = NONE;
     
