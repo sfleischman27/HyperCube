@@ -6,7 +6,9 @@ precision mediump float;
 
 in vec2 outTexCoord;
 
-out vec4 frag_color;
+layout (location = 0) out vec4 frag_color_r;
+layout (location = 1) out vec4 frag_color_g;
+layout (location = 2) out vec4 frag_color_b;
 
 uniform sampler2D albedoTexture;
 uniform sampler2D replaceTexture;
@@ -19,6 +21,13 @@ uniform vec2 screenSize;
 const float thickness = 1.0;
 // Editable parameter for strength of ambient lighting. 0 = no ambient light, 1 = all ambient light
 const float ambient = .4;
+
+vec4 EncodeFloatRGBA(float v) {
+    vec4 enc = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;
+    enc = fract(enc);
+    enc -= enc.yzww * vec4(1.0/255.0, 1.0/255.0, 1.0/255.0, 0.0);
+    return enc;
+}
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	float offX = thickness/screenSize.x;
@@ -36,6 +45,7 @@ bool checkNeighboring(sampler2D tx, vec2 oTex) {
 
 void main(void) {
     // Only overwrite if this area is cut
+	vec4 frag_color;
 	if (texture(replaceTexture, outTexCoord).r == 0.0) {
 
         // Cut texture translation coordinates
@@ -60,6 +70,9 @@ void main(void) {
 		frag_color = texture(albedoTexture, outTexCoord);
 		frag_color.a = ambient;
 	}
+    frag_color_r = EncodeFloatRGBA(frag_color.r);
+    frag_color_g = EncodeFloatRGBA(frag_color.g);
+    frag_color_b = EncodeFloatRGBA(frag_color.b);
 }
 
 /////////// SHADER END //////////)"

@@ -24,7 +24,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     fbopos = std::make_shared<RenderTarget>();
     fbo->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA});
     fbo->setClearColor(Color4f::WHITE);
-    fbofinal->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA16F });
+    fbofinal->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA });
     fbofinal->setClearColor(Color4f::BLACK);
     fbopos->init(screenSize.width, screenSize.height, {cugl::Texture::PixelFormat::RGBA16F});
     fbopos->setClearColor(Color4f::WHITE);
@@ -187,7 +187,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     //  }
 
     // Set bind points
-    const int bindStart = 8;
+    const int bindStart = 10;
     for (int i = 0; i < drawables.size(); i++) {
         drawables[i].tex->setBindPoint(bindStart + (2*i));
         if (drawables[i].normalMap != NULL) {
@@ -267,8 +267,10 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->setBindPoint(3);
     fbo->getTexture(fboNormal)->setBindPoint(4);
     fbo->getTexture(fboDepth)->setBindPoint(5);
-    fbofinal->getTexture()->setBindPoint(6);
-    fbopos->getTexture(0)->setBindPoint(7);
+    fbofinal->getTexture(0)->setBindPoint(6);
+    fbofinal->getTexture(1)->setBindPoint(7);
+    fbofinal->getTexture(2)->setBindPoint(8);
+    fbopos->getTexture(0)->setBindPoint(9);
 
     // Cut texture translation
     if (model->_justFinishRotating) {
@@ -516,15 +518,21 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Binding
     _vertbuffScreen->bind();
-    fbofinal->getTexture()->bind();
+    fbofinal->getTexture(0)->bind();
+    fbofinal->getTexture(1)->bind();
+    fbofinal->getTexture(2)->bind();
 
     // Set uniforms and draw
-    _shaderScreen->setUniform1i("screenTexture", fbofinal->getTexture()->getBindPoint());
+    _shaderScreen->setUniform1i("redTexture", fbofinal->getTexture(0)->getBindPoint());
+    _shaderScreen->setUniform1i("greenTexture", fbofinal->getTexture(1)->getBindPoint());
+    _shaderScreen->setUniform1i("blueTexture", fbofinal->getTexture(2)->getBindPoint());
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffScreen->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
     // Unbinding
-    fbofinal->getTexture()->unbind();
+    fbofinal->getTexture(0)->bind();
+    fbofinal->getTexture(1)->bind();
+    fbofinal->getTexture(2)->bind();
     _vertbuffScreen->unbind();
 }

@@ -6,7 +6,9 @@ precision mediump float;
 
 in vec2 outTexCoord;
 
-out vec4 frag_color;
+layout (location = 0) out vec4 frag_color_r;
+layout (location = 1) out vec4 frag_color_g;
+layout (location = 2) out vec4 frag_color_b;
 
 uniform sampler2D albedoTexture;
 uniform sampler2D replaceTexture;
@@ -23,6 +25,13 @@ const float powerMult = 10000.0;
 const float constAtten = 0.0;
 const float linearAtten = 0.0;
 const float sqAtten = 1.0;
+
+vec4 EncodeFloatRGBA(float v) {
+    vec4 enc = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;
+    enc = fract(enc);
+    enc -= enc.yzww * vec4(1.0/255.0, 1.0/255.0, 1.0/255.0, 0.0);
+    return enc;
+}
 
 void main(void) {
     // Do not calculate if this area is cut
@@ -50,7 +59,10 @@ void main(void) {
     //float spec = pow(max(dot(viewDir, reflectDir), 0.0), 4);
     //vec3 specular = specularStrength * spec * color; 
 
-	frag_color = vec4(diffuse, 1.0);
+	vec4 frag_color = vec4(diffuse, 1.0);
+    frag_color_r = EncodeFloatRGBA(frag_color.r);
+    frag_color_g = EncodeFloatRGBA(frag_color.g);
+    frag_color_b = EncodeFloatRGBA(frag_color.b);
 }
 
 /////////// SHADER END //////////)"
