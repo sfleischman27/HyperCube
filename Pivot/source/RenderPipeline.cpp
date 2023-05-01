@@ -444,7 +444,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Binding
     _vertbuffBehind->bind();
     fbo->getTexture(fboReplace)->bind();
-    CULog("new:");
     for (DrawObject dro : drawables) {
         if (dro.isPlayer) continue;
         // Calculate distance from plane
