@@ -14,7 +14,7 @@ layout (location = 3) out vec4 frag_depth; // stored in r
 
 uniform sampler2D uTexture;
 uniform vec3 uDirection;
-uniform int farPlaneDist;
+uniform float farPlaneDist;
 
 // Editable parameter to determine cutting. Set to 0.0 for cuts, set to 999.0 for visualization
 const float cullOutside = 0.0;

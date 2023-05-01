@@ -15,7 +15,7 @@ uniform sampler2D normTex;
 uniform int useNormTex;
 uniform int flipXfrag;
 uniform vec3 uDirection;
-uniform int farPlaneDist;
+uniform float farPlaneDist;
 
 void main(void) {
 

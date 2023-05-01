@@ -22,7 +22,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     fbo = std::make_shared<RenderTarget>();
     fbofinal = std::make_shared<RenderTarget>();
     fbopos = std::make_shared<RenderTarget>();
-    fbo->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA32F});
+    fbo->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA, cugl::Texture::PixelFormat::RGBA16F});
     fbo->setClearColor(Color4f::WHITE);
     fbofinal->init(screenSize.width, screenSize.height, { cugl::Texture::PixelFormat::RGBA16F });
     fbofinal->setClearColor(Color4f::BLACK);
@@ -292,7 +292,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shader->setUniformMat4("uPerspective", _camera->getCombined());
     _shader->setUniform1i("uTexture", cobbleTex->getBindPoint());
     _shader->setUniformVec3("uDirection", n);
-    _shader->setUniform1i("farPlaneDist", farPlaneDist);
+    _shader->setUniform1f("farPlaneDist", farPlaneDist);
     _vertbuff->loadVertexData(_mesh.vertices.data(), (int)_mesh.vertices.size());
     _vertbuff->loadIndexData(_mesh.indices.data(), (int)_mesh.indices.size());
     _vertbuff->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
@@ -314,7 +314,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         if (dro.normalMap != NULL) dro.normalMap->bind();
         _shaderBill->setUniformMat4("uPerspective", _camera->getCombined());
         _shaderBill->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
-        _shaderBill->setUniform1i("farPlaneDist", farPlaneDist);
+        _shaderBill->setUniform1f("farPlaneDist", farPlaneDist);
         _shaderBill->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderBill->setUniform1i("flipXfrag", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _shaderBill->setUniformVec3("uDirection", n);
@@ -422,7 +422,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboDepth)->bind();
 
     // Set uniforms and draw
-    _shaderFog->setUniform1i("farPlaneDist", farPlaneDist);
+    _shaderFog->setUniform1f("farPlaneDist", farPlaneDist);
     _shaderFog->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderFog->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
     _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
@@ -496,7 +496,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
-        _shaderBehind->setUniform1f("alpha", alpha);
+        _shaderBehind->setUniform1f("alphaf=", alpha);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
