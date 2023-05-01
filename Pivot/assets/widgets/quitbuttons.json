@@ -6,7 +6,9 @@
         "buttonAnchor": ["layout", "anchor"],
         "buttonXStart": ["layout", "x_anchor"],
         "buttonText": ["children", "label", "data", "text"],
-        "buttonTextColor": ["children", "label", "data", "foreground"]
+        "buttonTextColor": ["children", "label", "data", "foreground"],
+        "buttonType": ["children", "up", "data", "texture"]
+        
     },
     "contents": {
         "type": "Button",

@@ -46,7 +46,8 @@
                     "variables": {
                         "showButton": true,
                         "buttonText": "Resume",
-                        "buttonScale": 0.67
+                        "buttonScale": 0.67,
+                        "buttonType": "continue"
                     }
                 }
             },
@@ -58,7 +59,8 @@
                         "showButton": true,
                         "buttonXPos": 0.335,
                         "buttonText": "Quit",
-                        "buttonScale": 0.67
+                        "buttonScale": 0.67,
+                        "buttonType": "quit"
                     }
                 }
             },
@@ -70,7 +72,8 @@
                         "showButton": true,
                         "buttonXPos": 0.665,
                         "buttonText": "Restart",
-                        "buttonScale": 0.67
+                        "buttonScale": 0.67,
+                        "buttonType": "restart"
                     }
                 }
             }
