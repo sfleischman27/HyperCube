@@ -338,7 +338,7 @@ void PlayerModel::update(float dt) {
             frame = 0;
         }
         //CULog("%i",frame);
-        CULog("%i", frame);
+        //CULog("%i", frame);
         currentSpriteSheet->setFrame(frame);
         currentNormalSpriteSheet->setFrame(frame);
         
