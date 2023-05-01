@@ -231,8 +231,13 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_player->spriteSheets.emplace("walk", std::make_pair(sheet, normalSheet));
     
-    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump"), _framecols, _framecols);
-    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-normal"), _framecols, _framecols);
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-run"), _framecols, _framecols);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-run-normal"), _framecols, _framecols);
+    
+    _model->_player->spriteSheets.emplace("run", std::make_pair(sheet, normalSheet));
+
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump"), 4, 3);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-normal"), 4, 3);
     
     _model->_player->spriteSheets.emplace("jump", std::make_pair(sheet, normalSheet));
     

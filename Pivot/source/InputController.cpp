@@ -64,6 +64,8 @@ using namespace cugl;
 
 /** The portion of the screen used for the left zone */
 #define LEFT_ZONE       0.35f
+/** the portion of the top left side of the screen NOT used for movement. Can be thought of as the portion of the top left side of the screen that controls the cut*/
+#define LEFT_CUT_ZONE 0.75
 /** The portion of the screen used for the right zone */
 #define RIGHT_ZONE      0.35f
 
@@ -392,12 +394,12 @@ void InputController::processJoystick(const cugl::Vec2 pos) {
     if(_buttonRight->isDown() && _ltouch.position.x > pos.x + 40){
         _buttonLeft->setDown(true);
         _buttonRight->setDown(false);
-        CULog("right to left");
+        //CULog("right to left");
     }
     if(_buttonLeft->isDown() && _ltouch.position.x < pos.x - 40){
         _buttonRight->setDown(true);
         _buttonLeft->setDown(false);
-        CULog("left to right");
+        //CULog("left to right");
     }
     
     // Reset the anchor if we drifted too far
@@ -636,7 +638,13 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
     Vec2 pos = event.position;
     // Only check for swipes in the main zone if there is more than one finger.
     if (_ltouch.touchids.find(event.touch) != _ltouch.touchids.end()) {
-        processJoystick(pos);
+        if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
+            int swipe = processSwipe(_ltouch.position, event.position, event.timestamp);
+            //CULog("rotate");
+        } else{
+            processJoystick(pos);
+            //CULog("joystick");
+        }
 //        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         //processCutJoystick(pos, _rtouch);

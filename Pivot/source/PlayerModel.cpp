@@ -256,18 +256,39 @@ void PlayerModel::update(float dt) {
     }
     
     /** Animation AND SOUND logic!!! IM HIJACKING AGAIN :) - Gordi*/
-    if(getVY() > 0.1 && !isGrounded()){
+    if(getVY() < 0.0 && !isGrounded()){
         if(animState != 2){
             animState = 2;
             setSpriteSheet("jump");
+            resetOtherSpritesheets("jump");
         } else{
             animState = 2;
+        }
+    }
+    else if(getVY() > 0.1 && !isGrounded()){
+        if(animState != 2){
+            animState = 2;
+            setSpriteSheet("jump");
+            resetOtherSpritesheets("jump");
+        } else{
+            animState = 2;
+        }
+    }
+    else if(abs(getVX()) > 100){
+        if(animState != 4){
+            animState = 4;
+            setSpriteSheet("run");
+            resetOtherSpritesheets("run");
+        } else{
+            animState = 4;
+            _walkCue = false;
         }
     }
     else if(abs(getVX()) > 2){
         if(animState != 1){
             animState = 1;
             setSpriteSheet("walk");
+            resetOtherSpritesheets("walk");
         } else{
             animState = 1;
             _walkCue = false;
@@ -275,6 +296,8 @@ void PlayerModel::update(float dt) {
     }
     else {
         setSpriteSheet("idle");
+        //spriteSheets.find("jump")->second.first->setFrame(0);
+        //spriteSheets.find("jump")->second.second->setFrame(0);
         animState = 0;
     }
     
@@ -296,13 +319,19 @@ void PlayerModel::update(float dt) {
             }
             frame--;
         }
-        if (frame >= currentSpriteSheet->getSize()) {
+        if (frame > currentSpriteSheet->getSize() - 1) {
             frame = 0;
         }
         if(frame < 0){
             frame = currentSpriteSheet->getSize() - 1;
         }
+        //VERY BAD HACKY SOLUTION BELOW
+        //Don't know why these darn spritesheets do not increment in any logcial way
+        if(animState == 2 && frame > 8){
+            frame = 0;
+        }
         //CULog("%i",frame);
+        CULog("%i", frame);
         currentSpriteSheet->setFrame(frame);
         currentNormalSpriteSheet->setFrame(frame);
         
