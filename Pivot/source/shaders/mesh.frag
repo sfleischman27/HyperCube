@@ -19,19 +19,11 @@ uniform float farPlaneDist;
 // Editable parameter to determine cutting. Set to 0.0 for cuts, set to 999.0 for visualization
 const float cullOutside = 0.0;
 
-// Packing and unpacking stored here for now
-vec4 packFloat(const float value) {
-	const vec4 bit_shift = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);
-    const vec4 bit_mask  = vec4(0.0, 1.0/256.0, 1.0/256.0, 1.0/256.0);
-    vec4 res = fract(value * bit_shift);
-    res -= res.xxyz * bit_mask;
-    return res;
-}
-
-float unpackFloat(const vec4 value) {
-    const vec4 bit_shift = vec4(1.0/(256.0*256.0*256.0), 1.0/(256.0*256.0), 1.0/256.0, 1.0);
-    float transF = dot(value, bit_shift);
-    return transF * 50000.0 - 2500.0;
+vec4 EncodeFloatRGBA(float v) {
+  vec4 enc = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;
+  enc = fract(enc);
+  enc -= enc.yzww * vec4(1.0/255.0,1.0/255.0,1.0/255.0,0.0);
+  return enc;
 }
 
 void main(void) {
@@ -46,7 +38,7 @@ void main(void) {
 		frag_replace = vec4(1.0, 0.0, 0.0, 1.0);
 	}
 	// always want to encode depth and normal as-is
-	frag_depth = vec4(gl_FragCoord.z / farPlaneDist, 0.0, 0.0, 1.0);
+	frag_depth = EncodeFloatRGBA(gl_FragCoord.z / farPlaneDist);
 	frag_normal = vec4((outNormal + vec3(1.0)) / 2.0, 1.0);
 }
 

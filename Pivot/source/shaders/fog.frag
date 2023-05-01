@@ -15,12 +15,16 @@ uniform sampler2D replaceTexture;
 // Editable parameter for depth falloff. Higher = fades out sooner
 const float severity = 50.0;
 
+float DecodeFloatRGBA(vec4 rgba) {
+  return dot( rgba, vec4(1.0, 1/255.0, 1/65025.0, 1/16581375.0) );
+}
+
 void main(void) {
     // Do not calculate if this area is cut
     if (texture(replaceTexture, outTexCoord).r == 0.0) {
         discard;
     }
-	float d = texture(depthTexture, outTexCoord).r * farPlaneDist * severity;
+	float d = DecodeFloatRGBA(texture(depthTexture, outTexCoord)) * farPlaneDist * severity;
 	frag_color.xyz = vec3(1.0) * d;
 	frag_color.a = 1.0;
 }
