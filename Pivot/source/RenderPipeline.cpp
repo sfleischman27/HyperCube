@@ -434,11 +434,56 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffFog->unbind();
 
-    // --------------- Pass 6: Cut --------------- //
+    // --------------- Pass 6: Stripped Billboards --------------- //
+    //TODO calcluate which billboards are stripped, then draw with transparency
+    // after this is implemented, feed these into the pointlight shader before this ambient pass
+
     // OpenGL Blending
     glBlendEquation(GL_FUNC_ADD);
-    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Binding
+    _vertbuffBehind->bind();
+    fbo->getTexture(fboReplace)->bind();
+    CULog("new:");
+    for (DrawObject dro : drawables) {
+        if (dro.isPlayer) continue;
+        // Calculate distance from plane
+        float distance = -n.dot(dro.pos - charPos);
+
+        // If 0 < distance <= -c, then we will want to draw
+        if (distance >= 0 || distance <= cutoff) continue;
+        float alpha = 1.0 - (distance / cutoff);
+
+        // Change the drawObject position to be reflected along the plane
+        Vec3 oldPos = dro.pos;
+        dro.pos = dro.pos + (2 * distance * n);\
+
+        // Construct vertices to be placed in the mesh
+        constructBillMesh(model, dro);
+        dro.pos = oldPos;
+
+        // Set uniforms and draw individual billboard
+        dro.tex->bind();
+        _shaderBehind->setUniformMat4("uPerspective", _camera->getCombined());
+        _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
+        _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
+        _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
+        _shaderBehind->setUniform1f("alpha", alpha);
+        _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
+        _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
+        _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
+        dro.tex->unbind();
+    }
+
+    // Unbinding
+    fbo->getTexture(fboReplace)->unbind();
+    _vertbuffBehind->unbind();
+
+    // --------------- Pass 7: Cut --------------- //
+    // OpenGL Blending
+    glEnable(GL_DEPTH_TEST);
 
     // Binding
     _vertbuffCut->bind();
@@ -464,56 +509,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->unbind();
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffCut->unbind();
-
-    // --------------- Pass 7: Stripped Billboards --------------- //
-    //TODO calcluate which billboards are stripped, then draw with transparency
-    // after this is implemented, feed these into the pointlight shader before this ambient pass
-
-    // OpenGL Blending
-    glDisable(GL_DEPTH_TEST);
-
-    // Binding
-    _vertbuffBehind->bind();
-    fbo->getTexture(fboReplace)->bind();
-    CULog("new:");
-    for (DrawObject dro : drawables) {
-        if (dro.isPlayer) continue;
-        // Calculate distance from plane
-        float distance = -n.dot(dro.pos - charPos);
-
-        // If 0 < distance <= -c, then we will want to draw
-        if (distance >= 0 || distance <= cutoff) continue;
-        float alpha = 1.0 - (distance / cutoff);
-        //CULog("%f", distance);
-
-        // Change the drawObject position to be reflected along the plane
-        Vec3 oldPos = dro.pos;
-        dro.pos = dro.pos + (2 * distance * n);
-        //CULog("%f, %f, %f", oldPos.x, oldPos.y, oldPos.z);
-        //CULog("%f, %f, %f", dro.pos.x, dro.pos.y, dro.pos.z);
-        //float d2 = -n.dot(dro.pos - charPos);
-        //CULog("%f", d2); // should be the same as the first, but positive
-
-        // Construct vertices to be placed in the mesh
-        constructBillMesh(model, dro);
-        dro.pos = oldPos;
-
-        // Set uniforms and draw individual billboard
-        dro.tex->bind();
-        _shaderBehind->setUniformMat4("uPerspective", _camera->getCombined());
-        _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
-        _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
-        _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
-        _shaderBehind->setUniform1f("alpha", alpha);
-        _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
-        _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
-        _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
-        dro.tex->unbind();
-    }
-
-    // Unbinding
-    fbo->getTexture(fboReplace)->unbind();
-    _vertbuffBehind->unbind();
     fbofinal->end();
 
     // --------------- Pass 8: Screen --------------- //
