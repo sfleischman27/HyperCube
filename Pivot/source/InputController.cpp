@@ -193,6 +193,9 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         if (down) {
             _keyLeft = false;
             _keyRight = true;
+            if(_keyRunRight){
+                //_buttonRight->getChildByName("label")->
+            }
         }
     });
     
@@ -529,10 +532,15 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _ltouch.position = event.position;
                 _ltouch.timestamp.mark();
                 _ltouch.touchids.insert(event.touch);
+                
+                if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
+                    isRotating = true;
+                } else{
+                    _joystick = true;
+                    _joycenter = touch2Screen(event.position);
+                    _joycenter.y += JSTICK_OFFSET;
+                }
 
-                _joystick = true;
-                _joycenter = touch2Screen(event.position);
-                _joycenter.y += JSTICK_OFFSET;
             }
             break;
         case Zone::RIGHT:
@@ -604,6 +612,7 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _keyIncreaseCut = false;
         _keyDecreaseCut = false;
         _joystick = false;
+        isRotating = false;
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         _hasJumped = false;
         isRotating = false;
@@ -644,6 +653,7 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
         } else{
             processJoystick(pos);
             //CULog("joystick");
+            CULog("rotate");
         }
 //        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
