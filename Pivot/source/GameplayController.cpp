@@ -603,7 +603,7 @@ void GameplayController::update(float dt) {
         saveFloat = 0.0;
         _input->cutFactor = 0.0;
     }
-    if (_model->_player->isGrounded() && _input->isRotating) {
+    if (_input->isRotating) {
 //        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
         _plane->rotateNorm((_input->cutFactor - saveFloat)/1000);
@@ -621,7 +621,7 @@ void GameplayController::update(float dt) {
 //        _rotating = true;
 //    }
     //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-    else if (_model->_player->isGrounded() && _input->didKeepChangingCut()) {
+    else if (_input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         _model->updateCompassNum();
         
