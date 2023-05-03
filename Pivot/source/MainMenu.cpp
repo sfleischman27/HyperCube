@@ -19,10 +19,10 @@ bool MainMenu::init(const std::shared_ptr<cugl::AssetManager>& assets) {
     savePath = filetool::normalize_path(savePath);
     
     // deletes save file for testing purposes
-    filetool::file_delete(savePath);
+    //filetool::file_delete(savePath);
     // true if there is a save file
-    // _canResume = filetool::file_exists(savePath);
-    _canResume = false;
+    _canResume = filetool::file_exists(savePath);
+    //_canResume = false;
     
     _choice = NONE;
     
@@ -89,10 +89,17 @@ void MainMenu::setActive(bool value) {
     Scene2::setActive(value);
     if (value) {
         _choice = NONE;
-        _start->activate();
         if (_canResume){
             _resume->activate();
+            _resume->setVisible(true);
+            
+            _start->setVisible(false);
+            _start->deactivate();
+            _start->setDown(false);
         } else {
+            _start->activate();
+            _start->setVisible(true);
+            
             _resume->setVisible(false);
             _resume->deactivate();
             _resume->setDown(false);
