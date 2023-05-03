@@ -457,6 +457,13 @@ void GameplayController::setActive(bool value){
  * Sets collectible UI to only show the correct number of empty collectibles for the level
  */
 void GameplayController::resetCollectibleUI(int col){
+    if(col == 0){
+        // turn off the even and odd inventories
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd")->setVisible(false);
+        return;
+    }
+    
     if(col == 1 | col == 3){ // odd
         // turn off the even inventory and turn on the odd
         _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory")->setVisible(false);

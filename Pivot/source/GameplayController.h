@@ -225,7 +225,7 @@ public:
     /**
      * Sets collectible UI to only show the correct number of collectibles for the level
      *
-     * @param col  The number of collectibles in the level (1 to 4)
+     * @param col  The number of collectibles in the level (0 to 4)
      */
     void resetCollectibleUI(int col);
     
