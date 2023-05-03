@@ -49,7 +49,11 @@ protected:
     /** The global asset manager */
     std::shared_ptr<cugl::AssetManager> _assets;
     
-    // TODO: change this to be our loading and game scenes
+    // TODO: remove this before final version
+    /** When this is set to true all levels will be unlocked (for testing) */
+    bool _testing = false;
+    
+    // TODO: change this to be our loading scenes
     // TODO: add more scenes as they are created
     // Player modes
     /** The controller for the demo loading screen */

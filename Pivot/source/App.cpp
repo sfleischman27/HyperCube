@@ -221,7 +221,11 @@ void PivotApp::updateLoadingScene(float timestep){
     } else {
         _demoloading.dispose(); // Permanently disables the input listeners in this mode
         _mainMenu.init(_assets);
-        _levelSelect.init(_assets);
+        if(_testing){
+            _levelSelect.initMax(_assets);
+        }else{
+            _levelSelect.init(_assets);
+        }
         _endMenu.init(_assets);
         _quitMenu.init(_assets);
         _gameplay.init(_assets, getDisplaySize(), _sound);

@@ -106,7 +106,7 @@ public:
     void dispose();
     
     /**
-     * Initializes the controller contents, making it ready for loading
+     * Initializes the controller contents, making it ready for loading with only the first level unlocked
      *
      * The constructor does not allocate any objects or memory.  This allows
      * us to have a non-pointer reference to this controller, reducing our
@@ -117,7 +117,19 @@ public:
      * @return true if the controller is initialized properly, false otherwise.
      */
     bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 0); }
-    // TODO: change this back to 0
+    
+    /**
+     * Initializes the controller contents, making it ready for loading with all levels unlocked
+     *
+     * The constructor does not allocate any objects or memory.  This allows
+     * us to have a non-pointer reference to this controller, reducing our
+     * memory allocation.  Instead, allocation happens in this method.
+     *
+     * @param assets    The (loaded) assets for this game mode
+     *
+     * @return true if the controller is initialized properly, false otherwise.
+     */
+    bool initMax(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, LEVELS_IMPLEMENTED - 1); }
     
     /**
      * Initializes the controller contents, making it ready for loading
