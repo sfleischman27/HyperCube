@@ -83,7 +83,7 @@ void PivotApp::onStartup() {
  */
 void PivotApp::onShutdown() {
     // save the level data
-    //_gameplay.save(_levelSelect.getMaxLevel());
+    _gameplay.save(_levelSelect.getMaxLevel());
     // TODO: dispose of other modes here (ex: level select) when they are implemented
     _demoloading.dispose();
     _gameplay.dispose();
@@ -237,7 +237,7 @@ void PivotApp::updateGameScene(float timestep){
             break;
         case GameplayController::State::QUIT:
             _gameplay.setActive(false);
-            //_gameplay.save(_levelSelect.getMaxLevel());
+            _gameplay.save(_levelSelect.getMaxLevel());
             _quitMenu.setActive(true);
             _scene = State::QUIT;
             break;
@@ -247,7 +247,7 @@ void PivotApp::updateGameScene(float timestep){
             // unlock next level (if not yet unlocked)
             _levelSelect.unlockNextLevel();
             // save
-            //_gameplay.save(_levelSelect.getMaxLevel());
+            _gameplay.save(_levelSelect.getMaxLevel());
             _scene = State::END;
             _sound->playSound("end", 0.5, false);
             break;

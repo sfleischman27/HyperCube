@@ -209,8 +209,6 @@ void DataController::setupSave(std::string dir, bool exists){
         // get the save json
         _save = JsonValue::allocObject();
         _save->initWithJson(read->readJsonString());
-        // make a writer
-        _write = JsonWriter::alloc(_saveDir);
     } else{ // no save file
         createSaveFile();
     }
@@ -222,23 +220,23 @@ void DataController::createSaveFile(){
     _save = JsonValue::allocObject();
     // make a save file
     filetool::file_create(_saveDir);
-    // make a json writer for the save file
-    _write = JsonWriter::alloc(_saveDir);
     // make max_level = 0
     long l = 0;
     _save->appendValue("max_level", l);
 }
 
 void DataController::save(int maxLevel){
+    auto write = JsonWriter::alloc(_saveDir);
     // update the json value
     updateSaveJson(maxLevel);
     // write the json value to the file
-    _write->writeJson(_save);
+    write->writeJson(_save);
+    write->close();
 }
 
 void DataController::updateSaveJson(long maxLevel){
     // update curr_level
-    //_save->get("max_level")->set(maxLevel);
+    _save->get("max_level")->set(maxLevel);
     
     // TODO: Implement if we want to enable resuming your current level
     // update player_loc

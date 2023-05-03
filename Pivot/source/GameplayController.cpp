@@ -140,7 +140,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     std::string savePath = Application::get()->getSaveDirectory();
     savePath.append("save.json");
     savePath = filetool::normalize_path(savePath);
-    //_data->setupSave(savePath, filetool::file_exists(savePath));
+    _data->setupSave(savePath, filetool::file_exists(savePath));
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
@@ -887,6 +887,5 @@ void GameplayController::save(int maxLevel) {
 }
 
 int GameplayController::getMaxLevel() {
-    return 4; //jacko did this TODO SARAH
-    //return _data->getMaxLevel();
+    return _data->getMaxLevel();
 }

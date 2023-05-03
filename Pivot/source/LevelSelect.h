@@ -116,7 +116,7 @@ public:
      *
      * @return true if the controller is initialized properly, false otherwise.
      */
-    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, LEVELS_IMPLEMENTED - 1); }
+    bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 0); }
     // TODO: change this back to 0
     
     /**
@@ -184,7 +184,7 @@ public:
     void nextLevel();
     
     /**
-     * Returns the level name string of the max level unlocked
+     * Returns the level number  of the max level unlocked
      */
     int getMaxLevel() { return _maxLevel; }
     

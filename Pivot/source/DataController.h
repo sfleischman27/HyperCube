@@ -21,8 +21,6 @@ class DataController {
 protected:
     /** The asset manager for this game mode. */
     std::shared_ptr<cugl::AssetManager> _assets;
-    /** The save file JsonWriter */
-    std::shared_ptr<cugl::JsonWriter> _write;
     /** The save file JsonValue */
     std::shared_ptr<cugl::JsonValue> _save;
     /** The save file directory path */
