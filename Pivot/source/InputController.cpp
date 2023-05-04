@@ -379,7 +379,7 @@ Vec2 InputController::touch2Screen(const Vec2 pos) const {
  * @param  pos  the current joystick position
  */
 void InputController::processJoystick(const cugl::Vec2 pos) {
-    Vec2 diff =  _ltouch.position-pos;
+    //Vec2 diff =  _ltouch.position-pos;
     
     if(_buttonRight->isDown() && _ltouch.position.x + 200 < pos.x){
 //        CULog("running right");
@@ -533,14 +533,27 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _ltouch.timestamp.mark();
                 _ltouch.touchids.insert(event.touch);
                 
-                if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
-                    isRotating = true;
-                } else{
-                    _joystick = true;
-                    _joycenter = touch2Screen(event.position);
-                    _joycenter.y += JSTICK_OFFSET;
+//                if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
+//                    isRotating = true;
+//                } else{
+                
+                _buttonRight->setVisible(true);
+                _buttonLeft->setVisible(true);
+                //set the y pos of the movement buttons to be the y pos of our touch location
+                _buttonRight->setPosition(_buttonRight->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+                _buttonLeft->setPosition(_buttonLeft->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+                
+                //set the correct movement button to be down based on which side of the left zone we touched
+                if(pos.x > _lzone.size.width/2){
+                    _buttonRight->setDown(true);
+                }else{
+                    _buttonLeft->setDown(true);
                 }
-
+                
+                _joystick = true;
+                _joycenter = touch2Screen(event.position);
+                _joycenter.y += JSTICK_OFFSET;
+                //}
             }
             break;
         case Zone::RIGHT:
@@ -613,6 +626,8 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _keyDecreaseCut = false;
         _joystick = false;
         isRotating = false;
+        _buttonRight->setVisible(false);
+        _buttonLeft->setVisible(false);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         _hasJumped = false;
         isRotating = false;
@@ -647,18 +662,20 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
     Vec2 pos = event.position;
     // Only check for swipes in the main zone if there is more than one finger.
     if (_ltouch.touchids.find(event.touch) != _ltouch.touchids.end()) {
-        if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
-            int swipe = processSwipe(_ltouch.position, event.position, event.timestamp);
+        //if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
+//            int swipe = processSwipe(_ltouch.position, event.position, event.timestamp);
             //CULog("rotate");
-        } else{
+        //} else{
+        //have the y pos of the movement buttons follow the y pos of our finger
+        _buttonRight->setPosition(_buttonRight->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+        _buttonLeft->setPosition(_buttonLeft->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
             processJoystick(pos);
             //CULog("joystick");
-            CULog("rotate");
-        }
+        //}
 //        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         //processCutJoystick(pos, _rtouch);
-        int swipe = processSwipe(_rtouch.position, event.position, event.timestamp);
+        processSwipe(_rtouch.position, event.position, event.timestamp);
 //        if (!_hasJumped) {
 //            if ((_rtouch.position.y-pos.y) > SWIPE_LENGTH) {
 //                _keyJump = true;
@@ -666,7 +683,7 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
 //            }
 //        }
     } else if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
-        int swipe = processSwipe(_mtouch.position, event.position, event.timestamp);
+        processSwipe(_mtouch.position, event.position, event.timestamp);
         //processCutJoystick(pos, _mtouch);
     } else if (_mtouch.touchids.size() > 1) {
         // We only process multifinger swipes in main
