@@ -9,7 +9,7 @@
         "type": "Label",
         "data": {
            "size": [150,150],
-           "anchor": [1,0],
+           "anchor": [0,0],
            "scale": 1,
            "font": "gyparody",
            "text": "0",

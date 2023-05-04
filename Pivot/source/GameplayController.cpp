@@ -173,8 +173,6 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _assets->loadDirectory("json/pivot_gameUI.json");
     
     auto layer = _assets->get<cugl::scene2::SceneNode>("lab");
-    layer->setContentSize(_dimen);
-    layer->doLayout();
     
     auto kids = layer->getChildren()[0];
     std::vector<std::string> butts = std::vector<std::string>();
@@ -202,6 +200,11 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 
     _model->_navigator = std::dynamic_pointer_cast<scene2::Button>(kids->getChildByName("navigator"));
     
+    _model->_compassSpin = std::dynamic_pointer_cast<scene2::SpriteNode>(kids->getChildByName("compassBar"));
+    
+    layer->setContentSize(_dimen);
+    layer->doLayout();
+
     addChild(layer);
     setActive(false);
     
@@ -587,7 +590,6 @@ void GameplayController::collectUI(int col, int got){
 float saveFloat = 0.0;
 void GameplayController::update(float dt) {
     //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
-    
     _model->_justFinishRotating = false;
 #pragma mark INPUT
     _input->update(dt);
@@ -631,8 +633,6 @@ void GameplayController::update(float dt) {
     else if (_input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         _model->updateCompassNum();
-        
-        std::cout<<"here:"<<_input->getMoveNorm()<<std::endl;
         //createCutObstacles();
         _rotating = true;
     }

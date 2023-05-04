@@ -103,6 +103,9 @@ public:
 #pragma mark navigator State
     std::shared_ptr<cugl::scene2::Button> _navigator;
     
+    /** the SpriteNode for the compass animations*/
+    std::shared_ptr<cugl::scene2::SpriteNode> _compassSpin;
+    
 #pragma mark Lights
 public:
     // Light objects
@@ -386,7 +389,8 @@ public:
     void updateGlowstickCount() {
         _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _glowsticks.size()));
     }
-    
+
+#pragma mark Compass Methods
     /**Get the global rotation of the plane relative to world space vector (1,0,0) in degrees*/
     float getGlobalAngleDeg() {
         auto basis = Vec3(1, 0, 0);
@@ -420,10 +424,6 @@ public:
         return std::pair<Vec2, float>(projected, angle);
     }
     
-    void updateCompassNum() {
-        _compassNum->setText(std::to_string(static_cast<int>(getGlobalAngleDeg())));
-    }
-
     void updateNavigator() {
         auto stuff = getNavigatorTransforms();
         _navigator->setAngle(stuff.second);
@@ -432,6 +432,13 @@ public:
         //_navigator->setPosition(off);
 
     }
+    
+    void updateCompassNum() {
+        int angle = static_cast<int>(getGlobalAngleDeg());
+        _compassNum->setText(std::to_string(angle));
+        int frame = abs(angle) % 10;
+        _compassSpin->setFrame(frame);
+    }    
 };
 
 #endif /* GameModel_h */

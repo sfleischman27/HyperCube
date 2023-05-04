@@ -36,6 +36,12 @@
         "tick": {
             "file": "textures/game_tickmark.png"
         },
+        "compass-spin": {
+            "file": "textures/compass_spin.png"
+        },
+        "compass-collapse": {
+            "file": "textures/compass_collapse.png"
+        },
         "collectedkey":{
             "file": "textures/game_collectedkey.png"
         },

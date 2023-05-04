@@ -94,18 +94,6 @@
                   }
               }
            },
-           "compassBar":{
-               "type": "Widget",
-               "data": {
-                   "key": "compass",
-                   "variables":{
-                       "compassSize": [600,100],
-                       "showCompass": true,
-                       "compassScale": 0.5,
-                       "compassYPos": -0.025
-                   }
-               }
-           },
            "inventory": {
                "type": "Widget",
                "data":{
@@ -159,10 +147,22 @@
                    "font": "gyparody",
                    "text": "0",
                    "variables":{
-                       "compassNumSize": [150,150],
-                       "compassNumScale": 0.5,
-                       "compassNumXPos": 0.06,
-                       "compassNumYPos": -0.19
+                       "compassNumSize": [100,100],
+                       "compassNumScale": 0.4,
+                       "compassNumXPos": -0.015,
+                       "compassNumYPos": -0.15
+                   }
+               }
+           },
+           "compassBar":{
+               "type": "Widget",
+               "data": {
+                   "key": "compass",
+                   "variables":{
+                       "compassSize": [1000, 200],
+                       "showCompass": true,
+                       "compassScale": 0.35,
+                       "compassYPos": 0.02
                    }
                }
            },
