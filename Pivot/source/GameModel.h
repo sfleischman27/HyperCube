@@ -438,6 +438,7 @@ public:
         _compassNum->setText(std::to_string(angle));
         int frame = abs(angle) % 10;
         _compassSpin->setFrame(frame);
+        _compassSpin->setVisible(true);
     }    
 };
 

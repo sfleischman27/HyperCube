@@ -425,6 +425,7 @@ void GameplayController::load(std::string name){
     _sound->streamSounds({ "cave_m" }, 1.0, true);
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();
+    _model->_compassSpin->setVisible(false);
     
 }
 
@@ -656,6 +657,7 @@ void GameplayController::update(float dt) {
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
             lastStablePlay2DPos = _model->_player->getPosition();
+            _model->_compassSpin->setVisible(false);
         }
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
