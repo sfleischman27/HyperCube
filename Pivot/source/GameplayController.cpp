@@ -605,7 +605,9 @@ void GameplayController::update(float dt) {
     if (_model->_player->isDead()) {
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_player->setDead(false);
+        _model->_deathTime->mark();
     }
+    _model->_currentTime->mark();
 
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
     //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {

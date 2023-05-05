@@ -520,6 +520,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Set uniforms and draw
     _shaderScreen->setUniform1i("screenTexture", fbofinal->getTexture()->getBindPoint());
+    float blackFrac = (model->timeToNormalSinceDeath - model->_currentTime->ellapsedMillis(*model->_deathTime)) / model->timeToNormalSinceDeath;
+    blackFrac = std::max(0.0f, blackFrac);
+    _shaderScreen->setUniform1f("blackFrac", blackFrac);
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffScreen->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);

@@ -51,6 +51,10 @@ public:
     bool _justFinishRotating = false;
     
     bool _endOfGame = false;
+
+    std::shared_ptr<Timestamp> _deathTime;
+    std::shared_ptr<Timestamp> _currentTime;
+    const float timeToNormalSinceDeath = 500; // in milliseconds
     
 #pragma mark Plane State
 private:
@@ -145,6 +149,8 @@ public:
         _glowsticks = std::vector<Glowstick>();
         _lights = std::vector<Light>();
         _decorations = std::vector<std::shared_ptr<GameItem>>();
+        _deathTime = std::make_shared<Timestamp>();
+        _currentTime = std::make_shared<Timestamp>();
     }
     
 #pragma mark Getters and Setters
