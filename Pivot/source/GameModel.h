@@ -436,7 +436,7 @@ public:
     void updateCompassNum() {
         int angle = static_cast<int>(getGlobalAngleDeg());
         _compassNum->setText(std::to_string(angle));
-        int frame = abs(angle) % 10;
+        int frame = (angle + 360) % 10;
         _compassSpin->setFrame(frame);
         _compassSpin->setVisible(true);
     }    
