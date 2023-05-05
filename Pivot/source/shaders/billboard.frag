@@ -4,30 +4,45 @@ R"(////////// SHADER BEGIN /////////
 precision mediump float;
 #endif
 
-in vec4 outColor;
-in vec4 pos;
 in vec2 outTexCoord;
 
-out vec4 frag_color;
+layout (location = 0) out vec4 frag_color;
+layout (location = 2) out vec4 frag_normal;
+layout (location = 3) out vec4 frag_depth; // stored in r
 
-uniform mat4 Mv;
 uniform sampler2D billTex;
+uniform sampler2D normTex;
+uniform int useNormTex;
+uniform int flipXfrag;
+uniform vec3 uDirection;
+uniform float farPlaneDist;
+
+vec4 EncodeFloatRGBA(float v) {
+  vec4 enc = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;
+  enc = fract(enc);
+  enc -= enc.yzww * vec4(1.0/255.0, 1.0/255.0, 1.0/255.0, 0.0);
+  return enc;
+}
 
 void main(void) {
 
 	frag_color = texture(billTex, outTexCoord);
-
-	// TODO added depth stuff here but should use a depth buffer in FSQ
-	float d = -(Mv * pos).z;
-	float maxDepth = 35.0;
-	float ratio = d / maxDepth;
-	vec3 fadeColor = vec3(0.1, 0.1, 0.1);
-	frag_color.xyz = frag_color.xyz - fadeColor * ratio;
-
-	if (frag_color.a < 0.8) {
+	if (frag_color.a < 0.5) {
 		discard;
 	}
 	frag_color.a = 1.0;
+	frag_depth = EncodeFloatRGBA(gl_FragCoord.z);
+	// Set normal, if it exists
+	frag_normal = vec4(0.0, 0.0, 0.0, 1.0);
+	if (useNormTex == 1) {
+		frag_normal.xyz = texture(normTex, outTexCoord).xzy; // normal now is x right, y up, z forward
+		// Need to transform normal accordingly
+		if (flipXfrag == 1) {
+			frag_normal.x = 1.0 - frag_normal.x;
+		}
+		mat2 R = mat2(uDirection.y, uDirection.x, -uDirection.x, uDirection.y);
+		frag_normal.xy = frag_normal.xy * R;
+	}
 }
 
 /////////// SHADER END //////////)"

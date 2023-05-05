@@ -8,17 +8,11 @@
 #ifndef Glowstick_h
 #define Glowstick_h
 #include <cugl/cugl.h>
+#include "GameItem.h"
 
 using namespace cugl;
 
-class Glowstick{
-    
-protected:
-    /** glowstick position */
-    Vec3 _position;
-    /** The texture for the glowstick. */
-    std::shared_ptr<cugl::Texture> _texture;
-    
+class Glowstick : public GameItem{
     
 public:
     /**
@@ -26,28 +20,12 @@ public:
      *
      * @param pos          The position of the glowstick
      */
-    Glowstick(const Vec3 pos) {
-        setPosition(pos);
+    Glowstick(const Vec3 pos) : GameItem(pos) {
+        std::shared_ptr<cugl::Texture> tex =Texture::allocWithFile("textures/barrier.png");
+        setTexture(tex);
+        setColor(Vec3(1.0, 1.0, 0.0));
+        setIntense(0.15);
     }
-    
-#pragma mark Setters
-public:
-    /**
-     *  Sets the position of the glowstick
-     *
-     *  @param pos
-     */
-    void setPosition(Vec3 pos) {
-        _position = pos;
-    }
-    
-#pragma mark Getters
-public:
-    /**
-     *  Returns the position of the glowstick
-     */
-    Vec3 getPosition() { return _position; }
-    
 };
 
 #endif /* Glowstick_h */

@@ -4,32 +4,42 @@ R"(////////// SHADER BEGIN /////////
 precision mediump float;
 #endif
 
-in vec4 pos;
 in vec2 outTexCoord;
 in vec3 outNormal;
 
-out vec4 frag_color;
+layout (location = 0) out vec4 frag_color;
+layout (location = 1) out vec4 frag_replace; // if r == 0, then replace, else if r == 1.0 keep same
+layout (location = 2) out vec4 frag_normal;
+layout (location = 3) out vec4 frag_depth; // stored in r
 
-uniform mat4 Mv;
 uniform sampler2D uTexture;
 uniform vec3 uDirection;
+uniform float farPlaneDist;
+
+// Editable parameter to determine cutting. Set to 0.0 for cuts, set to 999.0 for visualization
+const float cullOutside = 0.0;
+
+vec4 EncodeFloatRGBA(float v) {
+  vec4 enc = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;
+  enc = fract(enc);
+  enc -= enc.yzww * vec4(1.0/255.0, 1.0/255.0, 1.0/255.0, 0.0);
+  return enc;
+}
 
 void main(void) {
-	vec3 transNormal = outNormal;//why undo this when u did in .vert//normalize(outNormal.xyz * 2.0 - vec3(1.0, 1.0, 1.0));
-    float cullOutside = 0.1; // set to 0.0 for cuts, set to 999.0 for visualization
-	if (dot(uDirection, transNormal) <= cullOutside) {
-        frag_color = vec4(1.0, 0.0, 1.0, 1.0);
-    } else {
-		frag_color = texture(uTexture, outTexCoord);//this desaturates color// * .5 + vec4(.5, .5, .5, 1.0) * .5;
 
-		// TODO added depth stuff here but should use a depth buffer in FSQ
-		float d = -(Mv * pos).z;
-		float maxDepth = 35.0;
-		float ratio = d / maxDepth;
-		vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1.0);
-		frag_color = frag_color - fadeColor * ratio;
+	// encode color and replace based on culling
+	if (dot(uDirection, outNormal) <= cullOutside) {
+        frag_color = vec4(1.0, 0.0, 1.0, 1.0); // this should never be seen
+		frag_replace = vec4(0.0, 0.0, 0.0, 1.0);
+    } else {
+		frag_color = texture(uTexture, outTexCoord);
 		frag_color.a = 1.0;
+		frag_replace = vec4(1.0, 0.0, 0.0, 1.0);
 	}
+	// always want to encode depth and normal as-is
+	frag_depth = EncodeFloatRGBA(gl_FragCoord.z);
+	frag_normal = vec4((outNormal + vec3(1.0)) / 2.0, 1.0);
 }
 
 /////////// SHADER END //////////)"

@@ -31,19 +31,25 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the collecting distance */
-#define COLLECTING_DIST   12
+#define COLLECTING_DIST   25
 /** Threshold of the reaching exit distance */
-#define EXITING_DIST   12
+#define EXITING_DIST   25
 /** Number of glowsticks allowed to put */
 #define NUM_GLOWSTICKS 4
 /** Glowstick pickup distance*/
-#define PICKING_DIST   10
+#define PICKING_DIST   15
 /** Scale from player image to capsule */
-#define CAP_SCALE   3.0f
+#define CAP_SCALE   1.1f
+/** Scale player capsule width */
+#define WIDTH_SCALE   2.00f
 /** Width of the player capsule */
 #define PLAYER_WIDTH   10.0f
 /** Height of the player capsule*/
 #define PLAYER_HEIGHT  10.0f
+
+#pragma mark Sound Constants
+/** Cooldown (in animation frames) for playing the walking sfx */
+#define WALK_COOLDOWN   5
 
 /**
  * Creates a new game world with the default values.
@@ -87,15 +93,32 @@ void GameplayController::dispose() {
  *
  * @return true if the controller is initialized properly, false otherwise.
  */
+
+/*
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize) {
+    std::shared_ptr<SoundController> sound = std::make_shared<SoundController>();
+    sound->init(assets);
+    return init(assets, displaySize, sound);
+}*/
+
+bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize, std::shared_ptr<SoundController> sound) {
     _pipeline = std::make_shared<RenderPipeline>(SCENE_WIDTH, displaySize, assets);
-	
-    return init(assets,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT));
+    
+    return init(assets,Rect(0,0,DEFAULT_WIDTH,DEFAULT_HEIGHT), sound);
 }
 
+/*
 bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect) {
-    // TODO: factor this function out into a this then a call to load. This should just initialize things then load should actually load in a level.
+    std::shared_ptr<SoundController> sound = std::make_shared<SoundController>();
+    sound->init(assets);
+    return init(assets, rect, sound);
+}*/
+
+bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const Rect& rect, std::shared_ptr<SoundController> sound) {
     
+    _state = NONE;
+    
+    // setup assets
     _dimen = computeActiveSize();
     
     Vec2 offset((_dimen.width-SCENE_WIDTH)/2.0f,(_dimen.height-SCENE_HEIGHT)/2.0f);
@@ -108,22 +131,19 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _assets = assets;
     
-    _state = NONE;
-
     //set up the game model
     _model = std::make_shared<GameModel>(GameModel());
     _data = std::make_shared<DataController>(DataController());
     _data->init(_assets);
-    _data->initGameModel("levelTest", _model);
+    
+    //set up save file
+    std::string savePath = Application::get()->getSaveDirectory();
+    savePath.append("save.json");
+    savePath = filetool::normalize_path(savePath);
+    _data->setupSave(savePath, filetool::file_exists(savePath));
 
     //set up the plane controller
     _plane = std::make_shared<PlaneController>();
-    _plane->init(_model);
-    //_plane->setPlane(_model->getInitPlaneNorm());
-    //_plane->debugCut(100);
-    _plane->calculateCut();
-    
-    _sound->init(assets);
     
 #pragma mark SCENE GRAPH SETUP
     
@@ -131,7 +151,6 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _physics = std::make_shared<PhysicsController>();
     _physics->init(_dimen, rect, SCENE_WIDTH);
     _physics->getWorld()->onBeginContact= [this](b2Contact* contact) {
-        //CULog("contact");
       beginContact(contact);
     };
     _physics->getWorld()->onEndContact = [this](b2Contact* contact) {
@@ -142,37 +161,30 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _worldnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     _worldnode->setPosition(offset);
     
-    
     _debugnode = scene2::SceneNode::alloc();
     _debugnode->setScale(_physics->getScale()); // Debug node draws in PHYSICS coordinates
     _debugnode->setAnchor(Vec2::ANCHOR_BOTTOM_LEFT);
     _debugnode->setPosition(offset);
     
-#pragma mark ADD WALL COLLIDERS FROM CUT
-    
-    //MUST be done before anything else is added to _worldnode
-    createCutObstacles();
-    
+    setDebug(_debug);
+
 #pragma mark ADD UI
     
-    //load the json with the assets for the UI and the scene graph structure (talk to Czar)
     _assets->loadDirectory("json/pivot_gameUI.json");
     
-    //All UI elements are contained in a node called lab in the json
     auto layer = _assets->get<cugl::scene2::SceneNode>("lab");
-    layer->setContentSize(_dimen);
-    layer->doLayout();
     
-    //Lab has 1 child called gameScreenUI, and gameScreenUI has multiple children which represent all the UI elements
-    auto kids = layer->getChildren()[0]->getChildren();
-    //CULog("%lu", kids.size());
-    /**For some reason, trying to load the Compass bar and collectibles UI elements causes issues, so this for loop
-    only loads the left, right, jump, and exit buttons**/
-    for(int i = 0; i < 5; ++i) {
-        //We cast the nodes defined in the json to Buttons
-        std::shared_ptr<scene2::Button> butt = std::dynamic_pointer_cast<scene2::Button>(kids[i]);
-//        CULog(butt->getName().c_str());
-        //Then store them in a vector
+    auto kids = layer->getChildren()[0];
+    std::vector<std::string> butts = std::vector<std::string>();
+    butts.push_back("jumpB");
+    butts.push_back("leftB");
+    butts.push_back("rightB");
+    butts.push_back("glowstickB");
+    butts.push_back("exitB");
+    
+    //initialize the game scene buttons
+    for(int i = 0; i < butts.size(); ++i) {
+        std::shared_ptr<scene2::Button> butt = std::dynamic_pointer_cast<scene2::Button>(kids->getChildByName(butts[i]));
         _buttons[butt->getName()] = butt;
     }
     
@@ -182,12 +194,21 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
         }
     });
     
-    //I beleive adding the layer is what draws everything contained within lab
+    _model->_glowstickCounter = std::dynamic_pointer_cast<scene2::Label>( _buttons["glowstickB"]->getChildByName("label"));
+    
+    _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum"));
+
+    _model->_navigator = std::dynamic_pointer_cast<scene2::Button>(kids->getChildByName("navigator"));
+    
+    _model->_compassSpin = std::dynamic_pointer_cast<scene2::SpriteNode>(kids->getChildByName("compassBar"));
+    
+    layer->setContentSize(_dimen);
+    layer->doLayout();
+
     addChild(layer);
     setActive(false);
     
-    
-    // Start up the input handler
+    //set up the input handler
     _input = std::make_shared<InputController>();
     _input->init(getBounds(),_buttons["jumpB"], _buttons["leftB"], _buttons["rightB"],_buttons["glowstickB"]);
 
@@ -195,26 +216,59 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     Vec2 dudePos = Vec2::ZERO;
     prevPlay2DPos = dudePos;
     
+    
     std::shared_ptr<Texture> image = assets->get<Texture>(DUDE_TEXTURE);
+    float height = image->getSize().height/CAP_SCALE;
+    float width = height/WIDTH_SCALE;
+    _model->setPlayer(PlayerModel::alloc(dudePos, Size(width, height)));
+    
+    int _framesize = 16;
+    int _framecols = 4;
+    int rows = _framesize/_framecols;
 
-    // Use the commented code if we want to manully define the player capsule size
-    //_model->setPlayer(PlayerModel::alloc(dudePos, Size(PLAYER_WIDTH, PLAYER_HEIGHT)));
-    _model->setPlayer(PlayerModel::alloc(dudePos, image->getSize()/CAP_SCALE));
+    auto sheet = SpriteSheet::alloc(assets->get<Texture>("player-walk"), _framecols, _framecols);
+    auto normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-walk-normal"), _framecols, _framecols);
+    
+//    _model->_player->setSprite(SpriteSheet::alloc(sheet, rows, _framecols, _framesize));
+//    _model->_player->setNormalSprite(SpriteSheet::alloc(normalSheet, rows, _framecols, _framesize));
+    
+    _model->_player->spriteSheets.emplace("walk", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-run"), _framecols, _framecols);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-run-normal"), _framecols, _framecols);
+    
+    _model->_player->spriteSheets.emplace("run", std::make_pair(sheet, normalSheet));
+
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump"), 4, 3);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-normal"), 4, 3);
+    
+    _model->_player->spriteSheets.emplace("jump", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-idle"), 1, 1);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-idle-normal"), 1, 1);
+    
+    _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
+    
+    _model->_player->setSprite(sheet);
+    _model->_player->setNormalSprite(normalSheet);
     
 
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
-    
-    //dont actually need dynamically update nodes(sprite in this case) in worldnode because it's already been done somewhere else?
-    addObstacle(_model->_player/*, sprite*/, true);
+
+    lastStablePlay2DPos = dudePos;
+        
+    addObstacle(_model->_player, true);
     
     addChild(_worldnode);
     addChild(_debugnode);
 
-#pragma mark start bg music
-    
-    _sound->playSound("music_test", 1.0, true);
+#pragma mark SOUND SETUP
+    _sound = sound;
+    //_sound->init(assets);
+    //_sound->streamSounds({ "loopingtest_m", "cave_p"}, 1.0, true);
+
     
     _active = true;
     
@@ -315,24 +369,15 @@ void GameplayController::addObstacle(const std::shared_ptr<cugl::physics2::Obsta
 
 /**
  * Resets the current level
- *
- * This method disposes of the world and creates a new one.
  */
 void GameplayController::reset() {
-    load(_model->getName());
-}
-
-/**
- * Loads a new level into the game model
- *
- * @param name    the name of the level to be loaded (key in assets file)
- */
-void GameplayController::load(std::string name){
     _state = NONE;
     // reset physics
     _physics->clear();
-    // update model
-    _data->initGameModel(name, _model);
+    // reset model
+    _data->resetGameModel(_model->getName(), _model);
+    // reset collectibles
+    resetCollectibleUI(_model->getColNum());
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     prevPlay2DPos = Vec2::ZERO;
@@ -345,6 +390,43 @@ void GameplayController::load(std::string name){
     _physics->update(0);
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
+    _model->updateCompassNum();
+    
+
+    lastStablePlay2DPos = _model->_player->getPosition();
+}
+
+/**
+ * Loads a new level into the game model
+ *
+ * @param name    the name of the level to be loaded (key in assets file)
+ */
+void GameplayController::load(std::string name){
+    _state = NONE;
+    // reset physics
+    _physics->clear();
+    // update model
+    _data->loadGameModel(name, _model);
+    // reset collectibles
+    resetCollectibleUI(_model->getColNum());
+    // add person object
+    _model->_player->setPosition(Vec2::ZERO);
+    prevPlay2DPos = Vec2::ZERO;
+    _physics->getWorld()->addObstacle(_model->_player);
+    // change plane for new model
+    _plane->init(_model);
+    _plane->calculateCut();
+    // update physics for new cut
+    createCutObstacles();
+    _physics->update(0);
+    // setup graphics pipeline
+    _pipeline->sceneSetup(_model);
+    
+    _sound->streamSounds({ "cave_m" }, 1.0, true);
+    //_sound->streamSounds({ "end" }, 1.0, true);
+    _model->updateCompassNum();
+    _model->_compassSpin->setVisible(false);
+    
 }
 
 /**
@@ -376,6 +458,127 @@ void GameplayController::setActive(bool value){
 }
 
 /**
+ * Sets collectible UI to only show the correct number of empty collectibles for the level
+ */
+void GameplayController::resetCollectibleUI(int col){
+    if(col == 0){
+        // turn off the even and odd inventories
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd")->setVisible(false);
+        return;
+    }
+    
+    if(col == 1 | col == 3){ // odd
+        // turn off the even inventory and turn on the odd
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd")->setVisible(true);
+        
+        // turn off full items
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-one")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-two")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-three")->setVisible(false);
+    } else { // even
+        // turn on the even inventory and turn off the odd
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd")->setVisible(false);
+        
+        // turn off full items
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-one")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-two")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-three")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-four")->setVisible(false);
+    }
+    
+    if(col == 1){
+        // turn off items 1 and 3
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-one")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-three")->setVisible(false);
+        
+        // turn on item 2
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-two")->setVisible(true);
+        
+    } else if (col == 2){
+        // turn off items 1 and 4
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-one")->setVisible(false);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-four")->setVisible(false);
+        
+        // turn on items 2 and 3
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(true);
+
+    } else if (col == 3){
+        // turn on items 1, 2 and 3
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-one")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-two")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-three")->setVisible(true);
+        
+    } else { // 4 collectibles
+        // turn on items 1, 2, 3, and 4
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-one")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(true);
+        _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-four")->setVisible(true);
+    }
+}
+
+void GameplayController::collectUI(int col, int got){
+    switch(col) {
+        case 1:
+            if(got >= 1){
+                // collect center of odd inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-two")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-two")->setVisible(true);
+            }
+            break;
+        case 2:
+            if(got >= 1){
+                // collect center left of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-two")->setVisible(true);
+            } else if(got >= 2){
+                // collect center right of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-three")->setVisible(true);
+            }
+            break;
+        case 3:
+            if(got >= 1){
+                // collect left of odd inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-one")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-one")->setVisible(true);
+            } else if(got >= 2){
+                // collect center of odd inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-two")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-two")->setVisible(true);
+            } else if(got >= 3){
+                // collect right of odd inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-three")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-three")->setVisible(true);
+            }
+            break;
+        case 4:
+            if(got >= 1){
+                // collect left of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-one")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-one")->setVisible(true);
+            } else if(got >= 2){
+                // collect center left of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-two")->setVisible(true);
+            } else if(got >= 3){
+                // collect center right of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-three")->setVisible(true);
+            } else if(got >= 4){
+                // collect right of inventory
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-four")->setVisible(false);
+                _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-four")->setVisible(true);
+            }
+            break;
+    }
+}
+
+/**
  * Executes the core gameplay loop of this world.
  *
  * This method contains the specific update code for this mini-game. It does
@@ -385,7 +588,9 @@ void GameplayController::setActive(bool value){
  *
  * @param  delta    Number of seconds since last animation frame
  */
+float saveFloat = 0.0;
 void GameplayController::update(float dt) {
+    //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
     _model->_justFinishRotating = false;
 #pragma mark INPUT
     _input->update(dt);
@@ -395,23 +600,42 @@ void GameplayController::update(float dt) {
         CULog("Debug mode is: %d, visibility: %d", isDebug(), _debugnode->isVisible());
         
     }
-    
+
+    //kill the player if marked dead
+    if (_model->_player->isDead()) {
+        _model->_player->setPosition(lastStablePlay2DPos);
+        _model->_player->setDead(false);
+        _model->_deathTime->mark();
+    }
+    _model->_currentTime->mark();
+
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
-    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
-        _plane->rotateNorm(.01);
+    //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
+    if (!_input->isRotating) {
+        saveFloat = 0.0;
+        _input->cutFactor = 0.0;
+    }
+    if (_input->isRotating) {
+//        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
+        _plane->rotateNorm((_input->cutFactor - saveFloat)/1000);
+        _model->updateCompassNum();
+        
+        saveFloat = _input->cutFactor;
         _rotating = true;
     }
     
     //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
-        _plane->rotateNorm(-.01);
-        //createCutObstacles();
-        _rotating = true;
-    }
+
+//    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
+//        _plane->rotateNorm(_input->cutFactor/15000);
+//        //createCutObstacles();
+//        _rotating = true;
+//    }
     //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-    else if (_model->_player->isGrounded() && _input->didKeepChangingCut()) {
-        _plane->rotateNorm(_input->getMoveNorm());
+    else if (_input->didKeepChangingCut()) {
+        _plane->rotateNorm(_input->getMoveNorm() * 1.75);
+        _model->updateCompassNum();
         //createCutObstacles();
         _rotating = true;
     }
@@ -434,6 +658,8 @@ void GameplayController::update(float dt) {
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
+            lastStablePlay2DPos = _model->_player->getPosition();
+            _model->_compassSpin->setVisible(false);
         }
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
@@ -441,15 +667,16 @@ void GameplayController::update(float dt) {
     
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
-        if (itr->second.canBeSeen(_model->getPlayer3DLoc(), _model->getPlaneNorm()) &&
-            _model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
+        if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
             itr->second.setCollected(true);
             _model->_backpack.insert(itr->first);
         }
     }
     
-    if(_model->getPlayer3DLoc().distance(_model->getExitLoc()) <= EXITING_DIST) {
-        // TODO: Game ends here by checking if the player collects all colletibles - Sarah
+    // update collectible UI
+    collectUI(_model->getColNum(), _model->getCurrColNum());
+    
+    if(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST) {
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;
             _state = END;
@@ -461,20 +688,25 @@ void GameplayController::update(float dt) {
     
 #pragma mark Glowsticks
     if (_input->didGlowstick()) {
-        
-            Vec3 player3DPos = _model->getPlayer3DLoc();
-            for(auto g =_model->_glowsticks.begin(); g!=_model->_glowsticks.end();){
-                if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
-                    g = _model->_glowsticks.erase(g);
-                    _pickupGlowstick = true;
-                }
-                else{
-                    ++g;
-                }
+        Vec3 player3DPos = _model->getPlayer3DLoc();
+        for(auto g =_model->_glowsticks.begin(); g!=_model->_glowsticks.end();){
+            if (g->getPosition().distance(player3DPos) <= PICKING_DIST) {
+                _model->_lightsFromItems.erase(std::string(g->getPosition()));
+                g = _model->_glowsticks.erase(g);
+                _model->updateGlowstickCount();
+                _pickupGlowstick = true;
             }
-            if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
-                _model->_glowsticks.push_back(Glowstick(player3DPos-_model->getPlaneNorm()*0.5));
+            else{
+                ++g;
             }
+        }
+        if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
+            auto g = Glowstick(player3DPos-(_model->getPlaneNorm()*10));
+            // std::cout << "here name:" <<std::string(g.getPosition()) <<std::endl;
+            _model->_glowsticks.push_back(g);
+            _model->updateGlowstickCount();
+            _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition());
+        }
         
         _pickupGlowstick = false;
     }
@@ -483,34 +715,60 @@ void GameplayController::update(float dt) {
 #pragma mark PLAYER
     
     _model->_player->setMovement(_input->getHorizontal() * _model->_player->getForce());
+    
     _model->_player->setJumping(_input->didJump());
+    
+    _model->_player->setRunning(_input->isRun());
     
     _model->_player->applyForce();
     
     currPlay2DPos = _model->_player->getPosition();
-    //CULog("currPos: %f , %f", currPlay2DPos.x, currPlay2DPos.y);
-    //CULog("prevPos: %f , %f", prevPlay2DPos.x, prevPlay2DPos.y);
     Vec2 displacement = currPlay2DPos - prevPlay2DPos;
-    //CULog("speed: %f , %f", displacement.x/dt, displacement.y/dt);
     updatePlayer3DLoc(displacement);
     prevPlay2DPos = currPlay2DPos;
+
+    // update triggers
+    for (auto trig : _model->_triggers) {
+        trig->update(_model->getPlayer3DLoc());
+    }
+
+    //update navigator
+    _model->updateNavigator();
     
+#pragma mark PLANE
     
-    //Jacks trying another way
-    //[it worked the same as above... if we get drifting from floating point error try this one instead]
-    /*currPlay2DPos = _model->_player->getPosition();
-     Vec3 temp = currPlay2DPos.x * _plane->getBasisRight();
-     Vec3 displacementIn3D = Vec3(temp.x, temp.y, currPlay2DPos.y);
-     _model->setPlayer3DLoc(_model->getPlaneOrigin() + displacementIn3D);*/
-    
-    //CULog("PLayer 3d Coords: %f, %f, %f", _model->getPlayer3DLoc().x, _model->getPlayer3DLoc().y, _model->getPlayer3DLoc().z);
-    //CULog("NORMAL: %f _ %f _ %f", _model->getPlaneNorm().x, _model->getPlaneNorm().y, _model->getPlaneNorm().z);
     
 #pragma mark SOUND CUES
     
     if(_model->_player->_jumpCue){
-        _sound->playSound("jump", 0.5, false);
+        //_sound->playSound("jump", 0.5, false);
+        /*if(_model->_player->isGrounded()){
+            _sound->playSound("jump_land", 0.5, false);
+        }*/
         _model->_player->_jumpCue = false;
+    }
+    
+    if(_model->_player->_walkCue){
+        float walkNumber = rand() % 12;
+        //CULog("walkNumber = %f", walkNumber);
+        
+        if(walkNumber < 3){
+            //CULog("walk 1");
+            _sound->playSound("walk_1", 1, false);
+        } else {
+            if(walkNumber < 6) {
+                //CULog("walk 2");
+                _sound->playSound("walk_2", 1, false);
+            } else {
+                if(walkNumber < 9) {
+                    //CULog("walk 3");
+                    _sound->playSound("walk_3", 1, false);
+                } else {
+                    //CULog("walk 4");
+                    _sound->playSound("walk_4", 1, false);
+                }            }
+        }
+        _model->_player->_walkCue = false;
     }
     
 }
@@ -631,4 +889,12 @@ void GameplayController::endContact(b2Contact* contact) {
             _model->_player->setGrounded(false);
         }
     }
+}
+
+void GameplayController::save(int maxLevel) {
+    _data->save(maxLevel);
+}
+
+int GameplayController::getMaxLevel() {
+    return _data->getMaxLevel();
 }

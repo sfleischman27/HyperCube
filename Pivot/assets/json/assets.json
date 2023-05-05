@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "textures": {
         "earth": {
@@ -160,3 +161,259 @@
         "testLevel_0000": "json/level_json/pack_debugging/testLevel_0000.json"
     }
 }
+=======
+{
+    "textures": {
+        "earth": {
+            "file": "textures/earthtile.png",
+            "wrapS": "repeat",
+            "wrapT": "repeat"
+        },
+        "dude": {
+            "file": "textures/dude.png"
+        },
+        "dude-normal": {
+            "file": "textures/dude-normal.png"
+        },
+        "player-walk": {
+            "file": "textures/walk.png"
+        },
+        "player-walk-normal": {
+            "file": "textures/walk_normal.png"
+        },
+        "player-run": {
+            "file": "textures/run.png"
+        },
+        "player-run-normal": {
+            "file": "textures/run_normal.png"
+        },
+        "player-jump": {
+            "file": "textures/jump_hold.png"
+        },
+        "player-jump-normal": {
+            "file": "textures/jump_hold_normal.png"
+        },
+        "player-idle": {
+            "file": "textures/idle.png"
+        },
+        "player-idle-normal": {
+            "file": "textures/idle_normal.png"
+        },
+        "cobble": {
+            "file": "textures/color_picker.png"
+        },
+        "spinner": {
+            "file": "textures/barrier.png"
+        },
+        "bridge": {
+            "file": "textures/ropebridge.png"
+        },
+        "bullet": {
+            "file": "textures/bullet.png"
+        },
+        "section_cut (1)": {
+            "file": "textures/section_cut (1).png"
+        },
+        "section_cut (2)": {
+            "file": "textures/section_cut (2).png"
+        },
+        "section_cut (3)": {
+            "file": "textures/section_cut (3).png"
+        },
+        "section_cut (4)": {
+            "file": "textures/section_cut (4).png"
+        },
+        "section_cut (5)": {
+            "file": "textures/section_cut (5).png"
+        },
+        "section_cut (6)": {
+            "file": "textures/section_cut (6).png"
+        },
+        "section_cut (7)": {
+            "file": "textures/section_cut (7).png"
+        },
+        "section_cut (8)": {
+            "file": "textures/section_cut (8).png"
+        },
+        "section_cut (9)": {
+            "file": "textures/section_cut (9).png"
+        },
+        "section_cut (10)": {
+            "file": "textures/section_cut (10).png"
+        },
+        "section_cut (11)": {
+            "file": "textures/section_cut (11).png"
+        },
+        "section_cut (12)": {
+            "file": "textures/section_cut (12).png"
+        },
+        "section_cut (13)": {
+            "file": "textures/section_cut (13).png"
+        },
+        "section_cut (14)": {
+            "file": "textures/section_cut (14).png"
+        },
+        "section_cut (15)": {
+            "file": "textures/section_cut (15).png"
+        },
+        "goal": {
+            "file": "textures/goaldoor.png"
+        },
+        "dpad": {
+            "file": "textures/dpad.png",
+            "wrapS": "clamp",
+            "wrapT": "clamp",
+            "atlas": {
+                "up": [
+                    0,
+                    0,
+                    127,
+                    127
+                ],
+                "down": [
+                    128,
+                    0,
+                    255,
+                    127
+                ],
+                "left": [
+                    0,
+                    128,
+                    127,
+                    255
+                ],
+                "right": [
+                    128,
+                    128,
+                    255,
+                    255
+                ]
+            }
+        },
+        "caution": {
+            "file": "textures/caution.png"
+        },
+        "lightning": {
+            "file": "textures/lightning.png"
+        },
+        "biohazrd": {
+            "file": "textures/biohazrd.png"
+        },
+        "alarm": {
+            "file": "textures/alarm.png"
+        },
+        "lightning_flip": {
+            "file": "textures/lightning_flip.png"
+        },
+        "Warning-Sign-PNG-Clipart": {
+            "file": "textures/Warning-Sign-PNG-Clipart.png"
+        },
+        "orb": {
+            "file": "textures/orb_big.png",
+            "span": 1,
+            "cols": 1
+        },
+        "grass": {
+            "file": "textures/grass.png",
+            "span": 1,
+            "cols": 1
+        }
+    },
+    "sounds": {
+        "game": {
+            "type": "sample",
+            "file": "sounds/DD_Main.ogg",
+            "stream": true,
+            "volume": 0.5
+        },
+        "win": {
+            "type": "sample",
+            "file": "sounds/DD_Victory.ogg",
+            "stream": true,
+            "volume": 0.5
+        },
+        "lose": {
+            "type": "sample",
+            "file": "sounds/DD_Failure.ogg",
+            "stream": true,
+            "volume": 0.5
+        },
+        "jump": {
+            "type": "sample",
+            "file": "sounds/jump.wav",
+            "volume": 0.5
+        },
+        "pew": {
+            "type": "sample",
+            "file": "sounds/pew.wav",
+            "volume": 0.5
+        },
+        "pop": {
+            "type": "sample",
+            "file": "sounds/plop.wav",
+            "volume": 0.5
+        },
+        "walk_1": {
+            "type": "sample",
+            "file": "sounds/walk1.wav",
+            "volume": 0.5
+        },
+        "walk_2": {
+            "type": "sample",
+            "file": "sounds/walk2.wav",
+            "volume": 0.5
+        },
+        "walk_3": {
+            "type": "sample",
+            "file": "sounds/walk3.wav",
+            "volume": 0.5
+        },
+        "walk_4": {
+            "type": "sample",
+            "file": "sounds/walk3.wav",
+            "volume": 0.5
+        },
+        "jump_land": {
+            "type": "sample",
+            "file": "sounds/jump-land.wav",
+            "volume": 0.5
+        },
+        "menu": {
+            "type": "sample",
+            "file": "sounds/music/pivot_menu.ogg",
+            "stream": true,
+            "volume": 0.5
+        },
+        "end": {
+            "type": "sample",
+            "file": "sounds/music/loopingtest-m.wav",
+            "stream": true,
+            "volume": 0.5
+        },
+        "cave_m": {
+            "type": "sample",
+            "file": "sounds/music/cave-m.ogg",
+            "stream": true,
+            "volume": 0.5
+        },
+        "cave_p": {
+            "type": "sample",
+            "file": "sounds/music/cave-p.ogg",
+            "stream": true,
+            "volume": 0.5
+        }
+    },
+    "fonts": {
+        "retro": {
+            "file": "fonts/RetroGame.ttf",
+            "size": 64
+        }
+    },
+    "jsons": {
+        "debug_0000": "json/level_json/debug/debug_0000.json",
+        "debug_0001": "json/level_json/debug/debug_0001.json",
+        "debug_0002": "json/level_json/debug/debug_0002.json",
+        "debug_0003": "json/level_json/debug/debug_0003.json"
+    }
+}
+>>>>>>> main

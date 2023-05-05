@@ -43,11 +43,13 @@
 #pragma mark -
 #pragma mark Physics Constants
 /** The factor to multiply by the input */
-#define DUDE_FORCE      200.0f
+#define DUDE_FORCE      1000.0f
 /** The amount to slow the character down */
-#define DUDE_DAMPING    5.0f
+#define DUDE_DAMPING    1.0f
 /** The maximum character speed */
-#define DUDE_MAXSPEED   60.0f
+#define DUDE_MAXWALKSPEED   60.0f
+/** The maximum character speed */
+#define DUDE_MAXRUNSPEED   240.0f
 
 
 #pragma mark -
@@ -60,6 +62,16 @@
 * on a platform.  The round shapes on the end caps lead to smoother movement.
 */
 class PlayerModel : public cugl::physics2::CapsuleObstacle {
+public:
+    std::shared_ptr<cugl::SpriteSheet> currentSpriteSheet;
+    
+    std::shared_ptr<cugl::SpriteSheet> currentNormalSpriteSheet;
+    
+    /** the SpriteSheets for the various player animations*/
+    std::unordered_map<std::string, std::pair<std::shared_ptr<cugl::SpriteSheet>, std::shared_ptr<cugl::SpriteSheet>>> spriteSheets;
+    
+    float movementValue;
+    
 private:
     /** This macro disables the copy constructor (not allowed on physics objects) */
     CU_DISALLOW_COPY_AND_ASSIGN(PlayerModel);
@@ -73,10 +85,17 @@ protected:
     int  _jumpCooldown;
     /** Whether we are actively jumping */
     bool _isJumping;
+    
+    float fallAccelerationAcc;
+    
+    /** Whether we are actively jumping */
+    bool _isRunning;
     /** How long until we can shoot again */
     int  _shootCooldown;
     /** Whether our feet are on the ground */
     bool _isGrounded;
+    /** is the player dead? */
+    bool _isDead;
     /** Whether we are actively shooting */
     bool _isShooting;
     /** Ground sensor to represent our feet */
@@ -90,6 +109,10 @@ protected:
     std::shared_ptr<cugl::scene2::SceneNode> _node;
     /** The scale between the physics world and the screen (MUST BE UNIFORM) */
     float _drawScale;
+    
+    int animFrameCounter = 0;
+    
+    int animState = 0;
     /** The current velocity of the player in 2D*/
     cugl::Vec2 _vel;
     /** The location of the player in 3D*/
@@ -105,8 +128,10 @@ protected:
     virtual void resetDebug() override;
 
 public:
-#pragma mark Sound Cues
+#pragma mark Sound + Sound Cues
     bool _jumpCue;
+    bool _walkCue;
+    
     
 #pragma mark Hidden Constructors
     /**
@@ -313,6 +338,21 @@ public:
         _node = node;
         _node->setPosition(getPosition() * _drawScale);
     }
+    
+    void setSpriteSheet(std::string animationName){
+        //CULog(animationName.c_str());
+        currentSpriteSheet = spriteSheets.find(animationName)->second.first;
+        currentNormalSpriteSheet = spriteSheets.find(animationName)->second.second;
+    }
+    
+    void resetOtherSpritesheets(std::string animationName) {
+        for(auto it = spriteSheets.begin(); it != spriteSheets.end(); it++){
+            if(it->first != animationName){
+                it->second.first->setFrame(0);
+                it->second.second->setFrame(0);
+            }
+        }
+    }
 
     
 #pragma mark -
@@ -364,18 +404,39 @@ public:
     void setJumping(bool value) { _isJumping = value; }
     
     /**
+     * Sets whether the dude is actively running.
+     *
+     * @param value whether the dude is actively running.
+     */
+    void setRunning(bool value) { _isRunning = value; }
+    
+    /**
      * Returns true if the dude is on the ground.
      *
      * @return true if the dude is on the ground.
      */
     bool isGrounded() const { return _isGrounded; }
+
+    /**
+     * Returns true if the player is dead.
+     *
+     * @return true if the player is dead.
+     */
+    bool isDead() const { return _isDead; }
     
     /**
      * Sets whether the dude is on the ground.
      *
      * @param value whether the dude is on the ground.
      */
-    void setGrounded(bool value) { _isGrounded = value; }
+    void setGrounded(bool value) { _isGrounded = value; fallAccelerationAcc = 1.1f;}
+
+    /**
+     * Sets whether the player is dead.
+     *
+     * @param value whether the player is dead.
+     */
+    void setDead(bool value) { _isDead = value; }
     
     /**
      * Returns how much force to apply to get the dude moving
@@ -400,7 +461,9 @@ public:
      *
      * @return the upper limit on dude left-right movement.
      */
-    float getMaxSpeed() const { return DUDE_MAXSPEED; }
+    float getMaxWalkSpeed() const { return DUDE_MAXWALKSPEED; }
+    
+    float getMaxRunSpeed() const { return DUDE_MAXRUNSPEED; }
     
     /**
      * Returns the name of the ground sensor
@@ -445,6 +508,14 @@ public:
      * @param loc  3D locaiton of the player
      */
     void set3DLoc(cugl::Vec3 loc) { _3DLoc = loc; }
+    
+    void setSprite(const std::shared_ptr<cugl::SpriteSheet>& sprite) {
+        currentSpriteSheet = sprite;
+    }
+    
+    void setNormalSprite(const std::shared_ptr<cugl::SpriteSheet>& normalsprite) {
+        currentNormalSpriteSheet = normalsprite;
+    }
 
     
 #pragma mark -

@@ -3,8 +3,14 @@
         "end": {
             "file": "textures/end_background.png"
         },
-        "option": {
-            "file": "textures/end_buttons.png"
+        "option1": {
+            "file": "textures/end_buttonsv1.png"
+        },
+        "option2": {
+            "file": "textures/end_buttonsv2.png"
+        },
+        "option3": {
+            "file": "textures/end_buttonsv3.png"
         },
         "map": {
             "file": "textures/end_map.png"

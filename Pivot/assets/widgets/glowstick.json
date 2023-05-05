@@ -3,21 +3,49 @@
         "glowstickSize": ["data", "size"],
         "glowstickScale": ["data", "scale"],
         "glowstickXPos": ["layout", "x_offset"],
-        "glowstickYPos": ["layout", "y_offset"]
+        "glowstickYPos": ["layout", "y_offset"],
+        "glowstickCounter": ["children", "label", "data", "text"]
     },
     "contents": {
         "type": "Button",
         "data": {
            "upnode": "up",
+           "downnode": "down",
            "size": [150,150],
            "anchor": [1,0],
            "scale": 1
         },
+        "format":{
+          "type": "Anchored"
+        },
         "children": {
+            "label": {
+                "type": "Label",
+                "data": {
+                    "font": "gyparody",
+                    "text": "4",
+                    "foreground": [255,255,255,255],
+                    "background": [0,0,0,0],
+                    "anchor": [0,0],
+                    "visible": true
+                },
+                "layout":{
+                    "x_anchor": "left",
+                    "y_anchor" : "middle",
+                    "x_offset" : 0,
+                    "y_offset" : 0
+                }
+            },
             "up":{
                 "type": "Image",
                 "data": {
                     "texture": "glowstick"
+                }
+            },
+            "down":{
+                "type": "Image",
+                "data": {
+                    "texture": "glowstickactive"
                 }
             }
         },

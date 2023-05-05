@@ -23,6 +23,9 @@ protected:
     /** The asset manager for this game mode. */
     std::shared_ptr<cugl::AssetManager> _assets;
     
+    /** The audio mixer for vertical sound*/
+    std::shared_ptr<cugl::audio::AudioMixer> _mixer;
+    
     /** the hashmap that stores all the sounds that the soundcontroller plays*/
     std::unordered_map<std::string, std::shared_ptr<GameSound>> _sounds;
 
@@ -44,7 +47,16 @@ public:
      * @param name the name of the sound in the json
      * @param streaming if the sound is streaming or not (is it music or SFX?)
      */
-    void createSound(std::string name);
+    std::shared_ptr<GameSound> createSound(std::string name);
+    
+    /**
+     * attaches existent sound object to mixer. mixer channel is determined by:
+     *  _m: main level music
+     *  _p: portal menu music
+     *  _e: level ending music _
+     * @param name the name of the sound in the json.
+     */
+    void attachSound(std::string name);
     
 #pragma mark sound playback
     
@@ -54,6 +66,8 @@ public:
      *  @param volume the volume to switch the sound to
     */
     void setVolume(std::string name, float volume);
+    
+    void stopSound(std::string name);
     
     /**
      * Plays sound without looping
@@ -69,6 +83,22 @@ public:
      *  @param volume the volume of the sound, from 0.0-1.0
      */
     void playSound(std::string name, float volume, bool loop);
+    
+    /**
+     * Streams multiple sounds that has been queued into the sound hashmap. Puts them all on the mixer and plays at the same time
+     *  @param names the names of the sounds in the json, as a vector
+     *  @param loop should the sound be looping
+     *  @param volume the volume of the sound, from 0.0-1.0
+     */
+    void streamSounds(std::vector<std::string> names, float volume, bool loop);
+    
+    /**
+     * Streams a AudioNode. With crossfade and all that.
+     *  @param name the name of the sound in the json
+     *  @param loop should the sound be looping
+     *  @param volume the volume of the sound, from 0.0-1.0
+     */
+    void streamNode(std::shared_ptr<cugl::audio::AudioNode> node, float volume, bool loop);
 };
 
 #endif /* SoundController_h */

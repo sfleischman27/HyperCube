@@ -1,6 +1,6 @@
 //
 //  Collectible.h
-//  Platformer
+//  Pivot
 //
 //  Created by Jolene Mei on 2/27/23.
 //
@@ -8,21 +8,15 @@
 #ifndef Collectible_h
 #define Collectible_h
 #include <cugl/cugl.h>
+#include "GameItem.h"
 
 using namespace cugl;
 
-class Collectible{
+class Collectible : public GameItem{
     
 protected:
-    /** Collectible name/identifier */
-    std::string _name;
-    /** Collectible position */
-    Vec3 _position;
     /** Collectible status */
     bool _collected;
-    /** The texture for the asteroid sprite sheet. */
-    std::shared_ptr<cugl::Texture> _texture;
-
     
 public:
     /**
@@ -31,30 +25,12 @@ public:
      * @param pos          The position of the collectible
      * @param name        The name/identifier of the collectible
      */
-    Collectible(const Vec3 pos, const std::string name) {
-        setName(name);
-        setPosition(pos);
+    Collectible(const Vec3 pos, const std::string name) : GameItem(pos, name) {
         setCollected(false);
     }
     
 #pragma mark Setters
 public:
-    /**
-     *  Sets the name of the collectible
-     *
-     *  @param n
-     */
-    void setName(std::string n) {
-        _name = n;
-    }
-    /**
-     *  Sets the position of the collectible
-     *
-     *  @param pos
-     */
-    void setPosition(Vec3 pos) {
-        _position = pos;
-    }
     /**
      *  Sets the collectible status
      *
@@ -67,35 +43,25 @@ public:
 #pragma mark Getters
 public:
     /**
-     *  Returns the name of the collectible
-     */
-    std::string getName() { return _name; }
-    /**
-     *  Returns the position of the collectible
-     */
-    Vec3 getPosition() { return _position; }
-    /**
      *  Returns the collectible status
      */
     bool getCollected() { return _collected; }
-    /**
-     *  Returns the texture
-     */
-    std::shared_ptr<Texture> getTexture() { return _texture; }
     
 #pragma mark Gameplay Methods
 public:
     /**
      *  Determines if the collectibles can be seen in current cut
-     *  if the plane norm is within +/- 10 degrees of the
-     *  perpendicular norm of the collectible position
-     *  TODO: How to decide if the plane go through the collectibe
      *
+     *  @param playerPos    The current player 3D position
      *  @param planeNorm    The current plane norm vector
      */
-    bool canBeSeen(Vec3 playerPos, Vec3 planeNorm);
-    
-    void setTexture(const std::shared_ptr<cugl::Texture>& value);
+    bool canBeSeen(Vec3 playerPos, Vec3 planeNorm) override {
+        float dist = (getPosition()-playerPos).dot(planeNorm);
+        if (!getCollected() && dist <= VISIBLE_DIST) {
+            return true;
+        }
+        return false;
+    }
 };
 
 #endif /* Collectible_h */

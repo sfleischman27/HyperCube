@@ -9,7 +9,8 @@
         "buttonTextColor": ["children", "label", "data", "foreground"],
         "buttonAnchor": ["data", "anchor"],
         "button": ["children", "up", "data", "texture"],
-        "buttonSize" : ["data", "size"]
+        "buttonSize" : ["data", "size"],
+        "buttonType": ["children", "up", "data", "texture"]
     },
     "contents": {
         "type": "Button",
@@ -32,7 +33,7 @@
             "up":{
                 "type": "Image",
                 "data": {
-                    "texture": "option"
+                    "texture": "option1"
                 }
             },
             "label": {

@@ -1,0 +1,43 @@
+{
+    "variables": {
+      "tutorialSize": [ "data", "size" ],
+      "tutorialScale": [ "data", "scale" ],
+      "tutorialXPos": [ "layout", "x_offset" ],
+      "tutorialYPos": [ "layout", "y_offset" ]
+    },
+    "contents": {
+        "type": "Button",
+        "data": {
+           "upnode": "rotate",
+           "downnode": "dot",
+           "size": [80,80],
+           "anchor": [0.5,0.5],
+           "scale": 1
+        },
+        "format":{
+          "type": "Anchored"
+        },
+        "children": {
+
+            "rotate":{
+                "type": "Image",
+                "data": {
+                    "texture": "rotate_tutorial"
+                }
+            },
+            "dot":{
+                "type": "Image",
+                "data": {
+                    "texture": "navigator_dot"
+                }
+            }
+        },
+        "layout": {
+            "x_anchor": "right",
+            "y_anchor" : "bottom",
+            "x_offset" : 0.0,
+            "y_offset" : 0.0
+        }
+    }
+}
+

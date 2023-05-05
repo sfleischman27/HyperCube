@@ -57,7 +57,7 @@ void PlaneController::calculateCut() {
 	std::vector<Poly2> cut;
 
 	//do the cut
-	auto cutdata = _model->getMesh()->intersectPlane(origin, normal);
+	auto cutdata = _model->getColMesh()->intersectPlane(origin, normal);
 	auto Vcut = std::get<0>(cutdata);
 	auto Ecut = std::get<1>(cutdata);
 
@@ -134,3 +134,13 @@ Vec3 PlaneController::getBasisRight(){
 
 	return z;
 }
+
+/**Get the global rotation of the plane relative to world space vector (1,0,0) in degrees*/
+// Note for JACK: these code has been moved into GameModel -Jolene
+//float PlaneController::getGlobalAngleDeg() {
+//	auto normal = _model->getPlaneNorm();
+//	auto basis = Vec3(1, 0, 0);
+//	auto dot = normal.dot(basis);     // Dot product between[x1, y1] and [x2, y2]
+//	auto det = normal.x * basis.y - normal.y * basis.x;      // Determinant
+//	return atan2(det, dot) * 180 / M_PI;
+//}

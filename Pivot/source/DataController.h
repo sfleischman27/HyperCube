@@ -19,7 +19,12 @@
  */
 class DataController {
 protected:
+    /** The asset manager for this game mode. */
     std::shared_ptr<cugl::AssetManager> _assets;
+    /** The save file JsonValue */
+    std::shared_ptr<cugl::JsonValue> _save;
+    /** The save file directory path */
+    std::string _saveDir;
   
 #pragma mark Constructors
 public:
@@ -53,29 +58,45 @@ public:
      * @return true if the controller is initialized properly, false otherwise.
      */
     bool init(const std::shared_ptr<cugl::AssetManager>& assets) {
-
         _assets = assets;
         return true;
-
     };
     
     /**
-     * Initializes the game model contents
+     * Loads a new level
      *
-     * @param level      The locaiton of the level json to be loaded
-     * @param model      The game model to load the level data into
+     *  @param level    The location of the level json to be loaded
+     *  @param model    The game model to load the level data into
      *
-     * @return true if the controller is initialized properly, false otherwise.
+     *  @return true if the controller is initialized properly, false otherwise.
      */
-    bool initGameModel(std::string level, const std::shared_ptr<GameModel>& model);
+    bool loadGameModel(std::string level, const std::shared_ptr<GameModel>& model);
     
     /**
-     * Initializes the gameUI
+     * Resets current level
      *
-     * @return true if the controller is initialized properly, false otherwise.
+     *  @param level    The location of the level json to be loaded
+     *  @param model    The game model to load the level data into
+     *
+     *  @return true if the model is initialized properly, false otherwise.
      */
-    bool initGameUI();
+    bool resetGameModel(std::string level, const std::shared_ptr<GameModel>& model);
     
+    /**
+     * Sets up the save file writer, json value, and path
+     *
+     * @param dir         The path to the save file (save.json)
+     * @param exists  True if there is already a save file
+     */
+    void setupSave(std::string dir, bool exists);
+    
+    void createSaveFile();
+    
+    void save(int maxLevel);
+    
+    void updateSaveJson(long maxLevel);
+    
+    int getMaxLevel();
 };
 
 #endif /* DataController_h */

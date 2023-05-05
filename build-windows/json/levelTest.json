@@ -1,0 +1,30 @@
+{
+    "level_id": "test",
+    "player_loc": [-4.55713, 5.70794, -169.109],
+    "norm": [-1, 0, 0],
+    "exit": [89.7733, -81.1569, -104.641],
+    "glowsitcks": 4,
+    "col": {
+        "0": {
+            "loc": [-240, 0, -174],
+            "tex": "bullet"
+            }
+        },
+    "deco": {
+        "0": {
+            "loc": [0,0,0],
+            "tex": "bullet"
+            },
+        "1": {
+            "loc": [0,0,0],
+            "tex": "bullet"
+            },
+        "2": {
+            "loc": [0,0,0],
+            "tex": "bullet"
+            }
+        },
+    "lights": {},
+    "mesh": "meshes/GameplayPrototype.obj"
+}
+

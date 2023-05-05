@@ -54,7 +54,8 @@
                             "key": "endbutton",
                             "variables": {
                                 "buttonAnchor": [0,0],
-                                "buttonText": "Replay"
+                                "buttonText": "Replay",
+                                "buttonType": "option3"
                             }
                         }
                     },
@@ -65,7 +66,8 @@
                             "variables": {
                                 "buttonAnchor": [0.5,0],
                                 "buttonXStart": "center",
-                                "buttonText": "Level Select"
+                                "buttonText": "Level Select",
+                                "buttonType": "option2"
                             }
                         }
                     },
@@ -76,7 +78,8 @@
                             "variables": {
                                 "buttonAnchor": [1,0],
                                 "buttonXStart": "right",
-                                "buttonText": "Next Level"
+                                "buttonText": "Next Level",
+                                "buttonType": "option1"
                             }
                         }
                     }

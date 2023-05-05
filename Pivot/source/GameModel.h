@@ -14,8 +14,13 @@
 #include "PlayerModel.h"
 #include "Mesh.h"
 #include "Glowstick.h"
+#include "GameItem.h"
+#include "Trigger.h"
 
 using namespace cugl;
+
+/** Number of glowsticks allowed to put */
+#define NUM_GLOWSTICKS 4
 
 /**
  * A class representing an active level and its starting data
@@ -30,10 +35,9 @@ private:
     Vec3 _startPlayerLoc;
     /** starting plane normal */
     Vec3 _startPlaneNorm;
-    /** exit location */
-    Vec3 _exit;
-    /** exit texture */
-    std::shared_ptr<cugl::Texture> _exitTex;
+public:
+    /** exit of the game*/
+    std::shared_ptr<GameItem> _exit;
     
 #pragma mark Player State
 public:
@@ -47,6 +51,10 @@ public:
     bool _justFinishRotating = false;
     
     bool _endOfGame = false;
+
+    std::shared_ptr<Timestamp> _deathTime;
+    std::shared_ptr<Timestamp> _currentTime;
+    const float timeToNormalSinceDeath = 500; // in milliseconds
     
 #pragma mark Plane State
 private:
@@ -63,8 +71,18 @@ private:
     
 #pragma mark Collectibles State
 public:
-    /** Vector of collectibles */
+    /** map of collectibles */
     std::unordered_map<std::string, Collectible> _collectibles;
+
+#pragma mark Decorations State
+public:
+    /** Vector of decorations */
+    std::vector<std::shared_ptr<GameItem>> _decorations;
+
+#pragma mark Triggers
+public:
+    /** Vector of triggers */
+    std::vector<std::shared_ptr<Trigger>> _triggers;
     
 #pragma mark Backpack State
 public:
@@ -79,17 +97,61 @@ public:
     /** Vector of glowsticks */
     std::vector<Glowstick> _glowsticks;
     
-#pragma mark Mesh
+    std::shared_ptr<cugl::scene2::Label> _glowstickCounter;
+
+#pragma mark Compass State
 public:
-    /** Level mesh object */
-    std::shared_ptr<PivotMesh> _mesh;
+    std::shared_ptr<cugl::scene2::Label> _compassNum;
+
+
+#pragma mark navigator State
+    std::shared_ptr<cugl::scene2::Button> _navigator;
+    
+    /** the SpriteNode for the compass animations*/
+    std::shared_ptr<cugl::scene2::SpriteNode> _compassSpin;
+    
+#pragma mark Lights
+public:
+    // Light objects
+    struct Light {
+        Vec3 color;
+        float intensity;
+        Vec3 loc;
+
+        Light(Vec3 color, float intensity, Vec3 loc) {
+            this->color = color;
+            this->intensity = intensity;
+            this->loc = loc;
+        }
+        Light(){}
+    };
+    /** Vector of lights */
+    std::vector<Light> _lights;
+    /** A map of active lights of the GameItem
+     *  The key is the string representing the light's location
+     */
+    std::unordered_map<std::string, Light> _lightsFromItems;
+    
+#pragma mark Meshes
+public:
+    /** Level rendering mesh object */
+    std::shared_ptr<PivotMesh> _renderMesh;
+    /** Level collision mesh object */
+    std::shared_ptr<PivotMesh> _colMesh;
     
 #pragma mark Main Functions
 public:
     /**
      * Creates the model state.
      */
-    GameModel() {}
+    GameModel() {
+        _collectibles = std::unordered_map<std::string, Collectible>();
+        _glowsticks = std::vector<Glowstick>();
+        _lights = std::vector<Light>();
+        _decorations = std::vector<std::shared_ptr<GameItem>>();
+        _deathTime = std::make_shared<Timestamp>();
+        _currentTime = std::make_shared<Timestamp>();
+    }
     
 #pragma mark Getters and Setters
 public:
@@ -142,35 +204,12 @@ public:
     }
     
     /**
-     *  Sets the exit location
+     *  sets the exit object
      *
-     *  @param loc   The exit location
+     *  @param exit
      */
-    void setExitLoc(Vec3 loc) {
-        _exit = loc;
-    }
-
-    /**
-     *  Gets the exit location
-     */
-    Vec3 getExitLoc() {
-        return _exit;
-    }
-    
-    /**
-     *  Sets the exit texture
-     *
-     *  @param tex   The exit texture
-     */
-    void setExitTex(std::shared_ptr<cugl::Texture> tex) {
-        _exitTex = tex;
-    }
-
-    /**
-     *  Gets the exit texture
-     */
-    std::shared_ptr<cugl::Texture> getExitTex() {
-        return _exitTex;
+    void setExit(std::shared_ptr<GameItem> exit) {
+        _exit = exit;
     }
     
     /**
@@ -253,17 +292,17 @@ public:
     }
     
     /**
-     * Sets the mesh
+     * Gets the collision mesh
      */
-    void setMesh(std::shared_ptr<PivotMesh> mesh){
-        _mesh = mesh;
+    std::shared_ptr<PivotMesh> getColMesh() {
+        return _colMesh;
     }
     
     /**
-     * Gets the mesh
+     * Gets the render mesh
      */
-    std::shared_ptr<PivotMesh> getMesh() {
-        return _mesh;
+    std::shared_ptr<PivotMesh> getRenderMesh() {
+        return _renderMesh;
     }
     
     // this should not be here -Jolene
@@ -279,6 +318,13 @@ public:
      */
     std::unordered_map<std::string, Collectible> getCollectibles() {
         return _collectibles;
+    }
+
+    /**
+     * Gets the vector of decorations
+     */
+    std::vector<std::shared_ptr<GameItem>> getDecorations() {
+        return _decorations;
     }
     
     /**
@@ -297,15 +343,45 @@ public:
     }
     
     void clearCollectibles() {
-        _collectibles = std::unordered_map<std::string, Collectible>();
+        _collectibles.clear();
     }
     
+    void clearGlowsticks() {
+        _glowsticks.clear();
+        updateGlowstickCount();
+    }
+    
+    void clearLights() {
+        _lights.clear();
+        _lightsFromItems.clear();
+    }
+    
+    void clearDecorations() {
+        _decorations.clear();
+    }
+    
+    void clearBackpack(){
+        _backpack.clear();
+    }
+
+    void clearTriggers() {
+        _triggers.clear();
+    }
+
     void setExpectedCol(std::unordered_set<std::string> expectedCol) {
         _expectedCol = expectedCol;
     }
 
     std::unordered_set<std::string> getExpectedCol() {
         return _expectedCol;
+    }
+    
+    int getColNum() {
+        return _collectibles.size();
+    }
+    
+    int getCurrColNum() {
+        return _backpack.size();
     }
     
     /**
@@ -316,6 +392,60 @@ public:
         return _expectedCol == _backpack;
     }
     
+    void updateGlowstickCount() {
+        _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _glowsticks.size()));
+    }
+
+#pragma mark Compass Methods
+    /**Get the global rotation of the plane relative to world space vector (1,0,0) in degrees*/
+    float getGlobalAngleDeg() {
+        auto basis = Vec3(1, 0, 0);
+        auto dot = _norm.dot(basis);     // Dot product between[x1, y1] and [x2, y2]
+        auto det = _norm.x * basis.y - _norm.y * basis.x;      // Determinant
+        return atan2(det, dot) * 180 / M_PI;
+    }
+
+    /**Get the 2d position and angle in radians which the navigator should rotate to point towards the exit*/
+    std::pair<Vec2, float> getNavigatorTransforms() {
+        //get basis right
+        auto z = Vec3(0, 0, 1);
+        z.cross(_norm);
+        z.normalize();
+        //get 2d screen coordinate
+        auto location = _exit->getPosition() - getPlayer3DLoc();
+        auto norm = _norm;
+        
+        //dot the point onto the plane normal to get the distance from the cut plane
+        auto dist = location.dot(norm);
+        // get the point projected onto the plane basis vectors (unit_z is always y-axis and x-axis is to the right)
+        auto xcoord = location.dot(cugl::Vec3(0, 0, 1).cross(norm.negate()).normalize());
+        auto ycoord = location.dot(cugl::Vec3(0, 0, 1));
+        auto projected = cugl::Vec2(xcoord, ycoord);
+
+        auto basis = Vec2(0,1);
+        auto dot = projected.dot(basis);     // Dot product between[x1, y1] and [x2, y2]
+        auto det = projected.x * basis.y - projected.y * basis.x;      // Determinant
+        auto angle =  atan2(det, dot);
+
+        return std::pair<Vec2, float>(projected, angle);
+    }
+    
+    void updateNavigator() {
+        auto stuff = getNavigatorTransforms();
+        _navigator->setAngle(stuff.second);
+        auto off = stuff.first;
+        //if (off.length() > 20) { off = off/ off.length() * 2; }
+        //_navigator->setPosition(off);
+
+    }
+    
+    void updateCompassNum() {
+        int angle = static_cast<int>(getGlobalAngleDeg());
+        _compassNum->setText(std::to_string(angle));
+        int frame = (angle + 360) % 10;
+        _compassSpin->setFrame(frame);
+        _compassSpin->setVisible(true);
+    }    
 };
 
 #endif /* GameModel_h */

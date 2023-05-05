@@ -12,7 +12,16 @@
         "showKeyOne": ["children","key-one", "data", "visible"],
         "showKeyTwo": ["children","key-two", "data", "visible"],
         "showKeyThree": ["children","key-three", "data", "visible"],
-        "showKeyFour": ["children","key-four", "data", "visible"]
+        "showKeyFour": ["children","key-four", "data", "visible"],
+        "keyOnePosition": ["children","key-one", "layout", "x_offset"],
+        "keyTwoPosition": ["children","key-two", "layout", "x_offset"],
+        "keyThreePosition": ["children","key-three", "layout", "x_offset"],
+        "keyFourPosition": ["children","key-four", "layout", "x_offset"],
+        "emptyOnePosition": ["children","empty-one", "layout", "x_offset"],
+        "emptyTwoPosition": ["children","empty-two", "layout", "x_offset"],
+        "emptyThreePosition": ["children","empty-three", "layout", "x_offset"],
+        "emptyFourPosition": ["children","empty-four", "layout", "x_offset"]
+        
     },
     "contents": {
         "type": "Node",

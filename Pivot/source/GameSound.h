@@ -31,6 +31,32 @@ protected:
     /** is the sound streamed? (is it music) */
     bool _streaming;
     
+    std::shared_ptr<cugl::audio::AudioNode> _node;
+    
+private:
+    /** returns which slot should be used in the mixer given the string's name. mixer channel is determined by:
+     *  _m: main level music
+     *  _p: portal menu music
+     *  _e: level ending music _
+     * @param name the name of the sound in the json.
+     */
+    int findMixerSlot(std::string name){
+        int slot = 0;
+        switch(name.back()) {
+            case 'm': //main music
+                slot = 0;
+            break;
+            case 'b':
+                slot = 1;
+            break;
+            case 'e':
+                slot = 2;
+            default:
+                slot = 3;
+        }
+        return slot;
+    };
+    
 public:
     /** inits Sound with...
      * @param name the name of the sound file (to use as a key when playing as an SFX)
@@ -43,11 +69,38 @@ public:
         _source = source;
         _volume = volume;
         _streaming = streaming;
+        _node = _source->createNode();
+        _node->setName(_name);
+        /*
+        if (cugl::AudioSample* sample = dynamic_cast<cugl::AudioSample*>(source.get()))
+        {
+            _player = std::make_shared<cugl::audio::AudioPlayer>();
+            _player->init(*sample);
+        } else {
+            CUAssertLog(false, "Audio is not a sample!!!");
+        }*/
+    }
+    
+    void attachSound(std::shared_ptr<cugl::audio::AudioMixer> mixer){
+        //cugl::AudioEngine::get()->getMusicQueue()->enqueue(sound->getSource());
+        int slot = findMixerSlot(_name);
+
+        if(_streaming){
+            mixer->attach(slot, _node);
+        }
     }
     
     /** returns the name of the Sound */
     std::string getName(){
         return _name;
+    }
+    
+    std::shared_ptr<cugl::Sound> getSource(){
+        return _source;
+    }
+    
+    std::shared_ptr<cugl::audio::AudioNode> getNode(){
+        return _node;
     }
     
     float getVolume(){
@@ -69,15 +122,16 @@ public:
 
     void play(bool loop){
         if(_streaming){
-            cugl::AudioEngine::get()->getMusicQueue()->play(_source, loop, _volume);
+            cugl::AudioEngine::get()->getMusicQueue()->play(_node, loop, _volume);
         } else {
-            cugl::AudioEngine::get()->play(_name, _source, loop, _volume);
+            cugl::AudioEngine::get()->play(_name, _node, loop, _volume);
         }
     }
     
     void stop(){
         if(_streaming){
-            cugl::AudioEngine::get()->getMusicQueue()->clear();
+            float crossfade = 0.5;
+            cugl::AudioEngine::get()->getMusicQueue()->advance(0, crossfade);
         } else {
             cugl::AudioEngine::get()->clear(_name);
         }

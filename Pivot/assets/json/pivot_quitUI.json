@@ -7,13 +7,23 @@
             "file": "textures/quit_promptboard.png"
         },
         "quit": {
-            "file": "textures/quit_buttons.png"
+            "file": "textures/quit_buttons_quit.png"
+        },
+        "continue": {
+            "file": "textures/quit_buttons_resume.png"
+        },
+        "restart": {
+            "file": "textures/quit_buttons_restart.png"
         }
     },
     "fonts": {
         "gyparody": {
             "file":     "fonts/gyparody-hv.ttf",
             "size":     48
+        },
+        "gyparody-smaller": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     30
         }
     },
     "widgets" : {

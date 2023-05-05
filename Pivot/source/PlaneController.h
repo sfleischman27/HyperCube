@@ -65,5 +65,9 @@ public:
 	*this is useful for moving the players 3d coordinates based on some motion in the 2d world
 	*/
 	Vec3 getBasisRight();
+
+	/**Get the global rotation of the plane relative to world space vector (1,0,0) in degrees
+	*/
+//	float getGlobalAngleDeg();
 };
 #endif /* PlaneController_h */

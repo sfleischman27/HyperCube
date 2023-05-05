@@ -59,6 +59,14 @@ public:
     * @note the plane will be oriented such that the y-axis is coplanar with the up-vector*/
 
     std::tuple<Eigen::MatrixXd, Eigen::MatrixXi> intersectPlane(Vec3 origin, Vec3 normal);
+
+
+    /**Check if a point is in the mesh
+    *
+    * @param point
+    * */
+
+    bool containsPoint(Vec3 point);
 };
 
 

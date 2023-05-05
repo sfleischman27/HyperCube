@@ -6,14 +6,41 @@
         "left": {
             "file": "textures/game_leftbutton.png"
         },
+        "leftactive": {
+            "file": "textures/game_leftbutton_on.png"
+        },
+        "leftdash": {
+            "file": "textures/game_leftdash.png"
+        },
+        "leftdashactive": {
+            "file": "textures/game_leftdash_on.png"
+        },
         "right": {
             "file": "textures/game_rightbutton.png"
+        },
+        "rightactive": {
+            "file": "textures/game_rightbutton_on.png"
+        },
+        "rightdash": {
+            "file": "textures/game_rightdash.png"
+        },
+        "rightdashactive": {
+            "file": "textures/game_rightdash_on.png"
         },
         "jump": {
             "file": "textures/game_jumpbutton.png"
         },
+        "jumpactive": {
+            "file": "textures/game_jumpbutton_on.png"
+        },
         "tick": {
             "file": "textures/game_tickmark.png"
+        },
+        "compass-spin": {
+            "file": "textures/compass_spin.png"
+        },
+        "compass-collapse": {
+            "file": "textures/compass_collapse.png"
         },
         "collectedkey":{
             "file": "textures/game_collectedkey.png"
@@ -23,9 +50,29 @@
         },
         "glowstick": {
             "file": "textures/game_glowstickbutton.png"
+        },
+        "glowstickactive": {
+            "file": "textures/game_glowstickbutton_on.png"
+        },
+        "screen" : {
+            "file": "textures/game_screen.png"
+        },
+        "navigator_arrow" : {
+            "file": "textures/game_navigator_arrow.png"
+        },
+        "navigator_dot" : {
+            "file": "textures/game_navigator_dot.png"
+        },
+        "rotate_tutorial" : {
+            "file": "textures/rotate_tutorial.png"
         }
+        
 	},
 	"fonts": {
+        "gyparody": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     48
+        }
 	},
     "widgets" : {
       "exit": "widgets/exit.json",
@@ -33,7 +80,10 @@
       "compass": "widgets/compass.json",
       "inventory": "widgets/inventory.json",
       "glowstick": "widgets/glowstick.json",
-      "gameUI": "widgets/gameUI.json"
+      "compassNum": "widgets/compassNum.json",
+      "gameUI": "widgets/gameUI.json",
+      "navigator": "widgets/navigator.json",
+      "tutorial":  "widgets/tutorial.json"
     },
     "scene2s" : {
         "lab": {

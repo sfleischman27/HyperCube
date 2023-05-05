@@ -57,8 +57,12 @@ void PivotApp::onStartup() {
     _demoloading.init(_assets);
     
     // Queue up the other assets
-    AudioEngine::start();
     _assets->loadDirectoryAsync(jsonPath, nullptr);
+    
+    //init audio engine singleton and sound controller
+    AudioEngine::start();
+    _sound = std::make_shared<SoundController>();
+    _sound->init(_assets);
 
     // set clear color for entire canvas
     setClearColor(Color4(255, 255, 255, 255));
@@ -78,6 +82,8 @@ void PivotApp::onStartup() {
  * causing the application to be deleted.
  */
 void PivotApp::onShutdown() {
+    // save the level data
+    _gameplay.save(_levelSelect.getMaxLevel());
     // TODO: dispose of other modes here (ex: level select) when they are implemented
     _demoloading.dispose();
     _gameplay.dispose();
@@ -96,6 +102,7 @@ void PivotApp::onShutdown() {
 #endif
     
     AudioEngine::stop();
+    
     Application::onShutdown();  // YOU MUST END with call to parent
 }
 
@@ -111,7 +118,10 @@ void PivotApp::onShutdown() {
  * the background.
  */
 void PivotApp::onSuspend() {
+    // pause the music
     AudioEngine::get()->pause();
+    // save the level data
+    _gameplay.save(_levelSelect.getMaxLevel());
 }
 
 /**
@@ -126,6 +136,7 @@ void PivotApp::onSuspend() {
  */
 void PivotApp::onResume() {
     AudioEngine::get()->resume();
+    // TODO: figure out how this works
 }
 
 
@@ -163,6 +174,12 @@ void PivotApp::update(float timestep) {
         case GAME:
             updateGameScene(timestep);
             break;
+    }
+    
+    //level sound cues
+    if(_levelSelect._playMusic){
+        enqueueOnce("menu", 0.5, true);
+        _levelSelect._playMusic = false;
     }
 }
 
@@ -204,10 +221,14 @@ void PivotApp::updateLoadingScene(float timestep){
     } else {
         _demoloading.dispose(); // Permanently disables the input listeners in this mode
         _mainMenu.init(_assets);
-        _levelSelect.init(_assets);
+        if(_testing){
+            _levelSelect.initMax(_assets);
+        }else{
+            _levelSelect.init(_assets);
+        }
         _endMenu.init(_assets);
         _quitMenu.init(_assets);
-        _gameplay.init(_assets, getDisplaySize());
+        _gameplay.init(_assets, getDisplaySize(), _sound);
         _mainMenu.setActive(true);
         _scene = State::MAIN;
     }
@@ -220,13 +241,19 @@ void PivotApp::updateGameScene(float timestep){
             break;
         case GameplayController::State::QUIT:
             _gameplay.setActive(false);
+            _gameplay.save(_levelSelect.getMaxLevel());
             _quitMenu.setActive(true);
             _scene = State::QUIT;
             break;
         case GameplayController::State::END:
             _gameplay.setActive(false);
             _endMenu.setActive(true);
+            // unlock next level (if not yet unlocked)
+            _levelSelect.unlockNextLevel();
+            // save
+            _gameplay.save(_levelSelect.getMaxLevel());
             _scene = State::END;
+            _sound->playSound("end", 0.5, false);
             break;
     }
 }
@@ -244,7 +271,8 @@ void PivotApp::updateMainScene(float timestep){
         case MainMenu::Choice::RESUME:
             _mainMenu.setActive(false);
             _levelSelect.setActive(true);
-            _levelSelect.updateLevel(5); //TODO: get from save file!
+            // unlock levels specified in save file
+            _levelSelect.updateLevel(_gameplay.getMaxLevel());
             _scene = State::LEVEL;
             break;
     }
@@ -255,59 +283,11 @@ void PivotApp::updateLevelScene(float timestep){
         case LevelSelect::Choice::NONE:
             _levelSelect.update(timestep);
             break;
-        case LevelSelect::Choice::level1:
+        default:
             _levelSelect.setActive(false);
-            _gameplay.load("levelTest");
+            _gameplay.load(_levelSelect.getLevelString());
             _gameplay.setActive(true);
-            _scene = State::GAME;
-            break;
-        case LevelSelect::level2:
-            _levelSelect.setActive(false);
-            _gameplay.load("First_Level_0000");
-            _gameplay.setActive(true);
-            _scene = State::GAME;
-            break;
-        case LevelSelect::level3:
-            _levelSelect.setActive(false);
-            _gameplay.load("debug_0000");
-            _gameplay.setActive(true);
-            _scene = State::GAME;
-            break;
-        case LevelSelect::level4:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level5:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level6:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level7:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level8:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level9:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level10:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level11:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level12:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level13:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level14:
-            _levelSelect.update(timestep);
-            break;
-        case LevelSelect::level15:
-            _levelSelect.update(timestep);
+            _scene = State::GAME;            
             break;
     }
 }
@@ -333,12 +313,16 @@ void PivotApp::updateEndScene(float timestep){
             break;
         case EndLevelMenu::Choice::NEXT:
             _endMenu.setActive(false);
-            _levelSelect.setActive(true);
-            _scene = State::LEVEL;
+            if(_levelSelect.isLast()){
+                _levelSelect.setActive(true);
+                _scene = State::LEVEL;
+            } else {
+                _gameplay.setActive(true);
+                _gameplay.load(_levelSelect.getNextLevelString());
+                _scene = State::GAME;
+            }
             break;
     }
-    // TODO: add actual next level logic
-    // TODO: add the ability to show the 3D map
 }
 
 void PivotApp::updateQuitScene(float timestep){
@@ -355,6 +339,12 @@ void PivotApp::updateQuitScene(float timestep){
             _quitMenu.setActive(false);
             _levelSelect.setActive(true);
             _scene = State::LEVEL;
+            break;
+        case QuitMenu::Choice::RESTART:
+            _quitMenu.setActive(false);
+            _gameplay.setActive(true);
+            _gameplay.reset();
+            _scene = State::GAME;
             break;
     }
 }

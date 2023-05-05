@@ -15,6 +15,7 @@ using namespace cugl;
 bool LevelSelect::init(const std::shared_ptr<cugl::AssetManager> &assets, int level) {
     
     _choice = NONE;
+    _pack = ZERO;
     _maxLevel = level;
     
     Size dimen = Application::get()->getDisplaySize();
@@ -49,7 +50,7 @@ bool LevelSelect::init(const std::shared_ptr<cugl::AssetManager> &assets, int le
             }
         });
     }
-    
+   
     addChild(layer);
     setActive(false);
     return true;
@@ -62,14 +63,22 @@ void LevelSelect::dispose() {
 }
 
 void LevelSelect::updateLevel(int level) {
+    if(level <= _maxLevel){
+        // no update needed
+        return;
+    }
     _maxLevel = level;
+    
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
-        // TODO: figure out how to change the level state of the widget from locked to unlocked
-        int num = nameToNum(it->first);
-        if (num <= level){
+        int num = buttNameToNum(it->first);
+        if (num <= _maxLevel && num != -1){ // unlocked and unlocked button
             it->second->activate();
-        } else{
+            _buttons[it->first + "Locked"]->setVisible(false);
+        } else if (num == -1){ // locked button
             it->second->deactivate();
+        } else{ // locked and unlocked button
+            it->second->deactivate();
+            _buttons[it->first + "Locked"]->setVisible(true);
         }
     }
 }
@@ -85,85 +94,167 @@ void LevelSelect::updateLevel(int level) {
  */
 void LevelSelect::setActive(bool value){
     Scene2::setActive(value);
-    if (value) { _choice = NONE; }
+    if (value) {
+        _playMusic = true;
+        _choice = NONE;
+    }
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
-        // TODO: figure out how to change the level state fo the widget from locked to unlocked
-        int num = nameToNum(it->first);
-        if (num <= _maxLevel && value){
+        int num = buttNameToNum(it->first);
+        if (num <= _maxLevel && value && num != -1){
+            // unlocked and unlocked button
             it->second->activate();
-        } else{
+            _buttons[it->first + "Locked"]->setVisible(false);
+        } else if (num == -1){ // locked button
             it->second->deactivate();
             it->second->setDown(false);
+        } else { // locked and unlocked button
+            it->second->deactivate();
+            it->second->setDown(false);
+            _buttons[it->first + "Locked"]->setVisible(true);
         }
     }
 }
+//TODO: change this and update to take pack into account
 
-int LevelSelect::nameToNum(std::string name){
+std::string LevelSelect::packToString(Pack pack){
+    switch (pack) {
+        case Pack::ZERO:
+            return "debug";
+        case Pack::ONE:
+            return "test";
+    }
+}
+
+int LevelSelect::buttNameToNum(std::string name){
     if (name == "level1"){
-        return 1;
+        return 0;
     } else if (name == "level2"){
-        return 2;
+        return 1;
     } else if (name == "level3"){
-        return 3;
+        return 2;
     } else if (name == "level4"){
-        return 4;
+        return 3;
     } else if (name == "level5"){
-        return 5;
+        return 4;
     } else if (name == "level6"){
-        return 6;
+        return 5;
     } else if (name == "level7"){
-        return 7;
+        return 6;
     } else if (name == "level8"){
-        return 8;
+        return 7;
     } else if (name == "level9"){
-        return 9;
+        return 8;
     } else if (name == "level10"){
-        return 10;
+        return 9;
     } else if (name == "level11"){
-        return 11;
+        return 10;
     } else if (name == "level12"){
-        return 12;
+        return 11;
     } else if (name == "level13"){
-        return 13;
+        return 12;
     } else if (name == "level14"){
-        return 14;
+        return 13;
     } else if (name == "level15"){
-        return 15;
+        return 14;
     } else {
         return -1;
     }
 }
 
-void LevelSelect::setChoice(std::string name){
-    if (name == "level1"){
-        _choice = Choice::level1;
-    } else if (name == "level2"){
-        _choice = Choice::level2;
-    } else if (name == "level3"){
-        _choice = Choice::level3;
-    } else if (name == "level4"){
-        _choice = Choice::level4;
-    } else if (name == "level5"){
-        _choice = Choice::level5;
-    } else if (name == "level6"){
-        _choice = Choice::level6;
-    } else if (name == "level7"){
-        _choice = Choice::level7;
-    } else if (name == "level8"){
-        _choice = Choice::level8;
-    } else if (name == "level9"){
-        _choice = Choice::level9;
-    } else if (name == "level10"){
-        _choice = Choice::level10;
-    } else if (name == "level11"){
-        _choice = Choice::level11;
-    } else if (name == "level12"){
-        _choice = Choice::level12;
-    } else if (name == "level13"){
-        _choice = Choice::level13;
-    } else if (name == "level14"){
-        _choice = Choice::level14;
-    } else if (name == "level15"){
-        _choice = Choice::level15;
+std::string LevelSelect::numToName(int level){
+    int pack = 0;
+    while (level >= 15){
+        level -= 15;
+        pack += 1;
     }
+    std::string packStr = packToString(static_cast<Pack>(pack));
+    return toLevelString(level, packStr);
+}
+
+void LevelSelect::setChoice(std::string name){
+    //TODO: integer.parsestring use char after 5
+    if (name == "level1"){
+        _choice = Choice::LEVEL1;
+    } else if (name == "level2"){
+        _choice = Choice::LEVEL2;
+    } else if (name == "level3"){
+        _choice = Choice::LEVEL3;
+    } else if (name == "level4"){
+        _choice = Choice::LEVEL4;
+    } else if (name == "level5"){
+        _choice = Choice::LEVEL5;
+    } else if (name == "level6"){
+        _choice = Choice::LEVEL6;
+    } else if (name == "level7"){
+        _choice = Choice::LEVEL7;
+    } else if (name == "level8"){
+        _choice = Choice::LEVEL8;
+    } else if (name == "level9"){
+        _choice = Choice::LEVEL9;
+    } else if (name == "level10"){
+        _choice = Choice::LEVEL10;
+    } else if (name == "level11"){
+        _choice = Choice::LEVEL11;
+    } else if (name == "level12"){
+        _choice = Choice::LEVEL12;
+    } else if (name == "level13"){
+        _choice = Choice::LEVEL13;
+    } else if (name == "level14"){
+        _choice = Choice::LEVEL14;
+    } else if (name == "level15"){
+        _choice = Choice::LEVEL15;
+    } else{
+        _choice = Choice::NONE;
+    }
+}
+
+std::string LevelSelect::toLevelString(int level, std::string pack){
+    if (level < 10){
+        return pack + "_000" + std::to_string(level);
+    } else{
+        return pack + "_00" + std::to_string(level);
+    }
+}
+
+std::string LevelSelect::getLevelString(){
+    return toLevelString(_choice, packToString(_pack));
+}
+
+std::string LevelSelect::getNextLevelString(){
+    nextLevel();
+    return toLevelString(_choice, packToString(_pack));
+}
+
+void LevelSelect::nextLevel(){
+    int level = _choice;
+   
+    if (level == 14){
+        level = 0;
+        _choice = Choice::LEVEL1;
+        _pack = static_cast<LevelSelect::Pack>(_pack + 1);
+    } else{
+        level +=1;
+        _choice = static_cast<LevelSelect::Choice>(_choice + 1);
+    }
+    // update maxLevel if needed
+    updateMax(levelNum());
+}
+
+int LevelSelect::levelNum(){
+    return (_pack * 15) + _choice;
+}
+
+void LevelSelect::updateMax(int level){
+    if(level > _maxLevel && level <= (LEVELS_IMPLEMENTED - 1)){
+        _maxLevel = level;
+    }
+}
+
+void LevelSelect::unlockNextLevel(){
+    int level = levelNum() + 1;
+    updateMax(level);
+}
+
+bool LevelSelect::isLast(){
+    return levelNum() == LEVELS_IMPLEMENTED - 1;
 }

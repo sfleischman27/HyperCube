@@ -1,0 +1,51 @@
+{
+    "variables": {
+        "showButton": ["data", "visible"],
+        "buttonScale": ["data", "scale"],
+        "buttonFunction": ["children", "up", "data", "texture"],
+        "buttonYPos": ["layout", "y_offset"],
+        "buttonText": ["children", "label", "data", "text"],
+        "buttonTextColor": ["children", "label", "data", "foreground"]
+    },
+    "contents": {
+        "type": "Button",
+        "format": {
+            "type": "Anchored"
+        },
+        "data": {
+            "upnode": "up",
+            "size": [500, 120],
+            "anchor": [0.5,0.5],
+            "scale": 1,
+            "visible": true
+        },
+        "layout": {
+            "x_anchor": "center",
+            "y_anchor": "bottom",
+            "y_offset": 0.25
+        },
+        "children": {
+            "up":{
+                "type": "Image",
+                "data": {
+                    "texture": "start"
+                }
+            },
+            "label": {
+                "type": "Label",
+                "data": {
+                    "font": "gyparody",
+                    "text": "Start",
+                    "foreground": [0,0,0,255],
+                    "background": [0,0,0,0],
+                    "halign": "center",
+                    "valign": "middle"
+                },
+                "layout":{
+                    "x_anchor": "fill",
+                    "y_anchor": "fill"
+                }
+            }
+        }
+    }
+}

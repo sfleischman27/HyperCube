@@ -49,13 +49,17 @@ protected:
     /** The global asset manager */
     std::shared_ptr<cugl::AssetManager> _assets;
     
-    // TODO: change this to be our loading and game scenes
+    // TODO: remove this before final version
+    /** When this is set to true all levels will be unlocked (for testing) */
+    bool _testing = false;
+    
+    // TODO: change this to be our loading scenes
     // TODO: add more scenes as they are created
     // Player modes
     /** The controller for the demo loading screen */
     LoadingScene _demoloading;
     /** The  controller for all sound functions */
-    //SoundController _sound;
+    std::shared_ptr<SoundController> _sound;
     /** The primary controller for the game world */
     GameplayController _gameplay;
     /** The main menu view */
@@ -235,6 +239,19 @@ private:
      * @param timestep  The amount of time (in seconds) since the last frame
      */
     void updateQuitScene(float timestep);
+    
+#pragma mark Sound Functions
+    
+    void enqueueOnce(std::string name, float volume, bool loop){
+        if (cugl::AudioEngine::get()->getMusicQueue()->getState() == cugl::AudioEngine::State::INACTIVE ||
+            cugl::AudioEngine::get()->getMusicQueue()->current() != name){
+            _sound->playSound(name, volume, loop);
+        }
+    }
+    
+    void advanceQueue(){
+        cugl::AudioEngine::get()->getMusicQueue()->advance(0, 0.5);
+    }
     
 };
 

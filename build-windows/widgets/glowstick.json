@@ -1,0 +1,32 @@
+{
+    "variables": {
+        "glowstickSize": ["data", "size"],
+        "glowstickScale": ["data", "scale"],
+        "glowstickXPos": ["layout", "x_offset"],
+        "glowstickYPos": ["layout", "y_offset"]
+    },
+    "contents": {
+        "type": "Button",
+        "data": {
+           "upnode": "up",
+           "size": [150,150],
+           "anchor": [1,0],
+           "scale": 1
+        },
+        "children": {
+            "up":{
+                "type": "Image",
+                "data": {
+                    "texture": "glowstick"
+                }
+            }
+        },
+        "layout": {
+            "x_anchor": "right",
+            "y_anchor" : "bottom",
+            "x_offset" : 0.05,
+            "y_offset" : -0.1
+        }
+    }
+}
+

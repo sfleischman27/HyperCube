@@ -10,11 +10,12 @@
         "data": {
             "texture": "levelselect",
             "scale": 1,
-            "anchor": [0.5,0.5]
+            "anchor": [0.5,0.5],
+            "visible": true
         },
         "layout": {
             "x_anchor": "center",
-            "y_anchor": "fill"
+            "y_anchor": "center"
         },
         "children": {
             "panelNode": {
@@ -63,7 +64,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelPosX": 0.25,
                                         "levelPosY": -0.0625
                                     }
@@ -74,7 +74,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [0.5,1],
                                         "levelStartX": "center",
                                         "levelPosY": -0.0625
@@ -86,7 +85,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [1,1],
                                         "levelStartX": "right",
                                         "levelPosX": -0.25,
@@ -99,7 +97,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [1,1],
                                         "levelStartX": "right",
                                         "levelPosX": -0.0625,
@@ -112,7 +109,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [0,0.5],
                                         "levelStartY": "middle",
                                         "levelPosX": 0.0625
@@ -124,7 +120,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [0,0.5],
                                         "levelStartY": "middle",
                                         "levelPosX": 0.25
@@ -136,7 +131,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [0.5,0.5],
                                         "levelStartY": "middle",
                                         "levelStartX": "center"
@@ -148,7 +142,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [1,0.5],
                                         "levelStartY": "middle",
                                         "levelStartX": "right",
@@ -161,7 +154,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [1,0.5],
                                         "levelStartY": "middle",
                                         "levelStartX": "right",
@@ -174,7 +166,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [0,0],
                                         "levelStartY": "bottom",
                                         "levelPosX": 0.0625,
@@ -187,7 +178,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [0,0],
                                         "levelStartY": "bottom",
                                         "levelPosX": 0.25,
@@ -200,7 +190,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [0.5,0],
                                         "levelStartY": "bottom",
                                         "levelStartX": "center",
@@ -213,7 +202,6 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [1,0],
                                         "levelStartY": "bottom",
                                         "levelStartX": "right",
@@ -227,12 +215,200 @@
                                 "data": {
                                     "key": "level",
                                     "variables": {
-                                        "levelState": "locked",
                                         "levelAnchor": [1,0],
                                         "levelStartY": "bottom",
                                         "levelStartX": "right",
                                         "levelPosX": -0.0625,
                                         "levelPosY": 0.0625
+                                    }
+                                }
+                            },
+                            "level1Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelPosX": 0.0625,
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level2Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelPosX": 0.25,
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level3Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [0.5,1],
+                                        "levelStartX": "center",
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level4Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [1,1],
+                                        "levelStartX": "right",
+                                        "levelPosX": -0.25,
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level5Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [1,1],
+                                        "levelStartX": "right",
+                                        "levelPosX": -0.0625,
+                                        "levelPosY": -0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level6Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [0,0.5],
+                                        "levelStartY": "middle",
+                                        "levelPosX": 0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level7Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [0,0.5],
+                                        "levelStartY": "middle",
+                                        "levelPosX": 0.25,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level8Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [0.5,0.5],
+                                        "levelStartY": "middle",
+                                        "levelStartX": "center",
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level9Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [1,0.5],
+                                        "levelStartY": "middle",
+                                        "levelStartX": "right",
+                                        "levelPosX": -0.25,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level10Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [1,0.5],
+                                        "levelStartY": "middle",
+                                        "levelStartX": "right",
+                                        "levelPosX": -0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level11Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [0,0],
+                                        "levelStartY": "bottom",
+                                        "levelPosX": 0.0625,
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level12Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [0,0],
+                                        "levelStartY": "bottom",
+                                        "levelPosX": 0.25,
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level13Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [0.5,0],
+                                        "levelStartY": "bottom",
+                                        "levelStartX": "center",
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level14Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [1,0],
+                                        "levelStartY": "bottom",
+                                        "levelStartX": "right",
+                                        "levelPosX": -0.25,
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
+                                    }
+                                }
+                            },
+                            "level15Locked": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "level",
+                                    "variables": {
+                                        "levelAnchor": [1,0],
+                                        "levelStartY": "bottom",
+                                        "levelStartX": "right",
+                                        "levelPosX": -0.0625,
+                                        "levelPosY": 0.0625,
+                                        "levelState": "locked"
                                     }
                                 }
                             }

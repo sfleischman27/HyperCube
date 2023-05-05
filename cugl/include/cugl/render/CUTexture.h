@@ -142,7 +142,16 @@ public:
          * data type is GL_UNSIGNED_INT_24_8, giving 24 bytes to depth and
          * 8 bits to the stencil. 
          */
-        DEPTH_STENCIL = GL_DEPTH_STENCIL
+        DEPTH_STENCIL = GL_DEPTH_STENCIL,
+        /*
+        * A texture used to store a half floating point color
+        */
+        RGBA16F = GL_RGBA16F,
+        /*
+        * A texture used to store a full floating point color
+        * 
+        */
+        RGBA32F = GL_RGBA32F
     };
     
 private:
@@ -428,7 +437,7 @@ public:
      *
      * @return the name of this texture.
      */
-    const std::string getName() const { return _name; }
+    const std::string& getName() const { return _name; }
     
     /**
      * Returns true if this texture has been loaded into memory.

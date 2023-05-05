@@ -30,7 +30,11 @@
 /** The density of the character */
 #define DUDE_DENSITY    0.01f
 /** The impulse for the character jump */
-#define DUDE_JUMP       500.0f
+#define DUDE_JUMP       1600.0f
+
+#define FALL_FORCE 100.0f
+
+#define FALL_ACCELERATION 1.1f
 /** Debug color for the sensor */
 #define DEBUG_COLOR     Color4::RED
 
@@ -57,7 +61,7 @@ using namespace cugl;
  * @return  true if the obstacle is initialized properly, false otherwise.
  */
 bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scale) {
-    Size nsize = size;
+    Size nsize = size / 4.0f;
 //    nsize.width  *= DUDE_HSHRINK;
 //    nsize.height *= DUDE_VSHRINK;
     _drawScale = scale;
@@ -69,6 +73,7 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
         
         // Gameplay attributes
         _isGrounded = false;
+        _isDead = false;
         _isShooting = false;
         _isJumping  = false;
         _faceRight  = true;
@@ -96,7 +101,14 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
  * @param value left/right movement of this character.
  */
 void PlayerModel::setMovement(float value) {
+    // our current x velocity doesn't match the input direction we want to go
+    // set x velocity to 0 so we can turn on a dime and not moonwalk
+    if((getVX() > 0 && value < 0) || (getVX() < 0 && value > 0)){
+        setVX(0.0);
+    }
+    
     _movement = value;
+    movementValue = value;
     bool face = _movement > 0;
     if (_movement == 0 || _faceRight == face) {
         return;
@@ -201,9 +213,15 @@ void PlayerModel::applyForce() {
     }
     
     // Velocity too high, clamp it
-    if (fabs(getVX()) >= getMaxSpeed()) {
-        setVX(SIGNUM(getVX())*getMaxSpeed());
-    } else {
+    if (fabs(getVX()) >= getMaxWalkSpeed() && !_isRunning) {
+        setVX(SIGNUM(getVX())*getMaxWalkSpeed());
+        //CULog("Walking");
+    }
+    else if (fabs(getVX()) >= getMaxRunSpeed() && _isRunning){
+        setVX(SIGNUM(getVX())*getMaxRunSpeed());
+        //CULog("Running");
+    }
+    else {
         b2Vec2 force(getMovement(),0);
         _body->ApplyForce(force,_body->GetPosition(),true);
     }
@@ -213,9 +231,12 @@ void PlayerModel::applyForce() {
         _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
         _jumpCue = true;
     }
-//    if (isJumping()) {
-//        b2Vec2 force(0, DUDE_JUMP);
-//        _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
+    
+//-------- Fall acceleration code, uncomment when PC fix is found ------------
+//    if(((!isGrounded() && !isJumping()) || (getVY() < 0 && !isGrounded()))){
+//        b2Vec2 force(0, -FALL_FORCE * fallAccelerationAcc);
+//        fallAccelerationAcc *= FALL_ACCELERATION;
+//        _body->ApplyForce(force,_body->GetPosition(),true);
 //    }
 }
 
@@ -240,6 +261,111 @@ void PlayerModel::update(float dt) {
     } else {
         _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
     }
+    
+    /** Animation AND SOUND logic!!! IM HIJACKING AGAIN :) - Gordi*/
+    if(getVY() < 0.0 && !isGrounded()){
+        if(animState != 2){
+            animState = 2;
+            setSpriteSheet("jump");
+            resetOtherSpritesheets("jump");
+        } else{
+            animState = 2;
+        }
+    }
+    else if(getVY() > 0.1 && !isGrounded()){
+        if(animState != 2){
+            animState = 2;
+            setSpriteSheet("jump");
+            resetOtherSpritesheets("jump");
+        } else{
+            animState = 2;
+        }
+    }
+    else if(abs(getVX()) > 100){
+        if(animState != 4){
+            animState = 4;
+            setSpriteSheet("run");
+            resetOtherSpritesheets("run");
+        } else{
+            animState = 4;
+            _walkCue = false;
+        }
+    }
+    else if(abs(getVX()) > 2){
+        if(animState != 1){
+            animState = 1;
+            setSpriteSheet("walk");
+            resetOtherSpritesheets("walk");
+        } else{
+            animState = 1;
+            _walkCue = false;
+        }
+    }
+    else {
+        setSpriteSheet("idle");
+        //spriteSheets.find("jump")->second.first->setFrame(0);
+        //spriteSheets.find("jump")->second.second->setFrame(0);
+        animState = 0;
+    }
+    
+//    if(!_isGrounded){
+//        setSpriteSheet("jump");
+//    }
+    
+    
+    if(animFrameCounter >= 2){
+        animFrameCounter = 0;
+        int frame = currentSpriteSheet->getFrame();
+        if(isFacingRight()){
+            frame++;
+        }else{
+            int xdim = currentSpriteSheet->getCols();
+            if (frame % xdim == 0) {
+                frame += 2 * xdim;
+                if (frame > xdim * xdim) frame -= xdim * xdim;
+            }
+            frame--;
+        }
+        if (frame > currentSpriteSheet->getSize() - 1) {
+            frame = 0;
+        }
+        if(frame < 0){
+            frame = currentSpriteSheet->getSize() - 1;
+        }
+        //VERY BAD HACKY SOLUTION BELOW
+        //Don't know why these darn spritesheets do not increment in any logcial way
+        if(animState == 2 && frame > 8){
+            frame = 0;
+        }
+        //CULog("%i",frame);
+        //CULog("%i", frame);
+        currentSpriteSheet->setFrame(frame);
+        currentNormalSpriteSheet->setFrame(frame);
+        
+        //sound cue logic
+        switch(animState){
+            //WALKING
+            //frames where foot is down: 5, 13
+            case 1:
+                if(frame == 5 || frame == 13){
+                    _walkCue = true;
+                    //CULog("Walk %i", frame);
+                }
+                break;
+            default:
+                break;
+        }
+    } else{
+        animFrameCounter++;
+    }
+    
+    
+//    CULog("%i", currentSpriteSheet->getFrame()/currentSpriteSheet->getCols());
+
+//    CULog("%i", currentSpriteSheet->getFrame());
+    
+//    CULog("%i",currentSpriteSheet->getFrameCoords().first);
+//    CULog("%i",currentSpriteSheet->getFrameCoords().second);
     
     CapsuleObstacle::update(dt);
     

@@ -40,6 +40,12 @@ using namespace cugl;
 #define JSTICK_RADIUS    25
 /** How far to display the virtual joystick above the finger */
 #define JSTICK_OFFSET    80
+/** This defines the joystick "deadzone" (how far we must move) */
+#define CUT_JSTICK_DEADZONE  1
+/** This defines the joystick radial size (for reseting the anchor) */
+#define CUT_JSTICK_RADIUS    25
+/** How far to display the virtual joystick above the finger */
+#define CUT_JSTICK_OFFSET    80
 /** How far we must swipe up for a jump gesture */
 #define SWIPE_LENGTH    50
 /** How fast a double click must be in milliseconds */
@@ -58,6 +64,8 @@ using namespace cugl;
 
 /** The portion of the screen used for the left zone */
 #define LEFT_ZONE       0.35f
+/** the portion of the top left side of the screen NOT used for movement. Can be thought of as the portion of the top left side of the screen that controls the cut*/
+#define LEFT_CUT_ZONE 0.75
 /** The portion of the screen used for the right zone */
 #define RIGHT_ZONE      0.35f
 
@@ -86,6 +94,8 @@ _keyDebug(false),
 _keyExit(false),
 _keyLeft(false),
 _keyRight(false),
+_keyRunLeft(false),
+_keyRunRight(false),
 _horizontal(0.0f),
 _moveNorm(0.00),
 _joystick(false),
@@ -176,9 +186,6 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         if (down) {
             _keyLeft = true;
             _keyRight = false;
-        } else {
-            _keyLeft = false;
-            _keyRight = false;
         }
     });
     
@@ -186,11 +193,13 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         if (down) {
             _keyLeft = false;
             _keyRight = true;
-        } else {
-            _keyLeft = false;
-            _keyRight = false;
+            if(_keyRunRight){
+                //_buttonRight->getChildByName("label")->
+            }
         }
     });
+    
+    _buttonCenterPoint = ((_buttonRight->getPosition().x + _buttonLeft->getPosition().x)/2) + _buttonLeft->getBoundingBox().size.width;
     
     _buttonGlowstick->addListener([this](const std::string& name, bool down) {
         if (down) {
@@ -253,6 +262,12 @@ void InputController::update(float dt) {
     }
     if (_keyLeft) {
         _horizontal -= 1.0f;
+    }
+    if (_keyRunRight) {
+        _horizontal *= 1.5f;
+    }
+    if (_keyRunLeft) {
+        _horizontal *= 1.5f;
     }
     
     _moveNorm = 0.00;
@@ -364,32 +379,57 @@ Vec2 InputController::touch2Screen(const Vec2 pos) const {
  * @param  pos  the current joystick position
  */
 void InputController::processJoystick(const cugl::Vec2 pos) {
-    Vec2 diff =  _ltouch.position-pos;
+    //Vec2 diff =  _ltouch.position-pos;
+    
+    if(_buttonRight->isDown() && _ltouch.position.x + 200 < pos.x){
+//        CULog("running right");
+        _keyRunRight = true;
+    }else{
+        _keyRunRight = false;
+    }
+    if(_buttonLeft->isDown() && _ltouch.position.x - 200 > pos.x){
+//        CULog("running left");
+        _keyRunLeft= true;
+    }else{
+        _keyRunLeft = false;
+    }
+    
+    if(_buttonRight->isDown() && _ltouch.position.x > pos.x + 40){
+        _buttonLeft->setDown(true);
+        _buttonRight->setDown(false);
+        //CULog("right to left");
+    }
+    if(_buttonLeft->isDown() && _ltouch.position.x < pos.x - 40){
+        _buttonRight->setDown(true);
+        _buttonLeft->setDown(false);
+        //CULog("left to right");
+    }
     
     // Reset the anchor if we drifted too far
-    if (diff.lengthSquared() > JSTICK_RADIUS*JSTICK_RADIUS) {
-        diff.normalize();
-        diff *= (JSTICK_RADIUS+JSTICK_DEADZONE)/2;
-        _ltouch.position = pos+diff;
-    }
-    _ltouch.position.y = pos.y;
-    _joycenter = touch2Screen(_ltouch.position);
-    _joycenter.y += JSTICK_OFFSET;
+//    if (diff.lengthSquared() > JSTICK_RADIUS*JSTICK_RADIUS) {
+//        diff.normalize();
+//        diff *= (JSTICK_RADIUS+JSTICK_DEADZONE)/2;
+//        _ltouch.position = pos+diff;
+//    }
     
-    if (std::fabsf(diff.x) > JSTICK_DEADZONE) {
-        _joystick = true;
-        if (diff.x > 0) {
-            _keyLeft = true;
-            _keyRight = false;
-        } else {
-            _keyLeft = false;
-            _keyRight = true;
-        }
-    } else {
-        _joystick = false;
-        _keyLeft = false;
-        _keyRight = false;
-    }
+//    _ltouch.position.y = pos.y;
+//    _joycenter = touch2Screen(_ltouch.position);
+//    _joycenter.y += JSTICK_OFFSET;
+//
+//    if (std::fabsf(diff.x) > JSTICK_DEADZONE) {
+//        _joystick = true;
+//        if (diff.x > 0) {
+//            _keyLeft = true;
+//            _keyRight = false;
+//        } else {
+//            _keyLeft = false;
+//            _keyRight = true;
+//        }
+//    } else {
+//        _joystick = false;
+//        _keyLeft = false;
+//        _keyRight = false;
+//    }
 }
 
 /**
@@ -405,16 +445,16 @@ void InputController::processCutJoystick(const cugl::Vec2 pos, TouchInstance loc
     Vec2 diff =  loc.position-pos;
 
     // Reset the anchor if we drifted too far
-    if (diff.lengthSquared() > JSTICK_RADIUS*JSTICK_RADIUS) {
+    if (diff.lengthSquared() > CUT_JSTICK_RADIUS*CUT_JSTICK_RADIUS) {
         diff.normalize();
-        diff *= (JSTICK_RADIUS+JSTICK_DEADZONE)/2;
+        diff *= (CUT_JSTICK_RADIUS+CUT_JSTICK_DEADZONE)/2;
         loc.position = pos+diff;
     }
     _mtouch.position.y = pos.y;
     _cutjoycenter = touch2Screen(_mtouch.position);
-    _cutjoycenter.y += JSTICK_OFFSET;
+    _cutjoycenter.y += CUT_JSTICK_OFFSET;
     
-    if (std::fabsf(diff.x) > JSTICK_DEADZONE) {
+    if (std::fabsf(diff.x) > CUT_JSTICK_DEADZONE) {
         _joystick = true;
         if (diff.x > 0) {
             _keyIncreaseCut = true;
@@ -444,6 +484,7 @@ void InputController::processCutJoystick(const cugl::Vec2 pos, TouchInstance loc
 int InputController::processSwipe(const Vec2 start, const Vec2 stop, Timestamp current) {
     // Look for swipes up that are "long enough"
     float xdiff = (stop.x-start.x);
+    cutFactor = xdiff;
     float thresh = SWIPE_LENGTH;
     if (xdiff > thresh) {
         return 1;
@@ -487,14 +528,32 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
         case Zone::LEFT:
             // Only process if no touch in zone
             if (_ltouch.touchids.empty()) {
-//                // Left is the floating joystick
-//                _ltouch.position = event.position;
-//                _ltouch.timestamp.mark();
-//                _ltouch.touchids.insert(event.touch);
-//
-//                _joystick = true;
-//                _joycenter = touch2Screen(event.position);
-//                _joycenter.y += JSTICK_OFFSET;
+                // Left is the floating joystick
+                _ltouch.position = event.position;
+                _ltouch.timestamp.mark();
+                _ltouch.touchids.insert(event.touch);
+                
+//                if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
+//                    isRotating = true;
+//                } else{
+                
+                _buttonRight->setVisible(true);
+                _buttonLeft->setVisible(true);
+                //set the y pos of the movement buttons to be the y pos of our touch location
+                _buttonRight->setPosition(_buttonRight->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+                _buttonLeft->setPosition(_buttonLeft->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+                
+                //set the correct movement button to be down based on which side of the left zone we touched
+                if(pos.x > _lzone.size.width/2){
+                    _buttonRight->setDown(true);
+                }else{
+                    _buttonLeft->setDown(true);
+                }
+                
+                _joystick = true;
+                _joycenter = touch2Screen(event.position);
+                _joycenter.y += JSTICK_OFFSET;
+                //}
             }
             break;
         case Zone::RIGHT:
@@ -505,6 +564,9 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _rtouch.position = event.position;
                 _rtouch.timestamp.mark();
                 _rtouch.touchids.insert(event.touch);
+                if(!_keyJump){
+                    isRotating = true;
+                }
 //                _hasJumped = false;
             }
             break;
@@ -513,6 +575,7 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _mtouch.position = event.position;
                 _mtouch.timestamp.mark();
                 _mtouch.touchids.insert(event.touch);
+                isRotating = true;
 
 //                _joystick = true;
 //                _cutjoycenter = touch2Screen(event.position);
@@ -557,11 +620,17 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _ltouch.touchids.clear();
         _keyLeft = false;
         _keyRight = false;
+        _keyRunLeft = false;
+        _keyRunRight = false;
         _keyIncreaseCut = false;
         _keyDecreaseCut = false;
         _joystick = false;
+        isRotating = false;
+        _buttonRight->setVisible(false);
+        _buttonLeft->setVisible(false);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         _hasJumped = false;
+        isRotating = false;
         _rtime = event.timestamp;
         _rtouch.touchids.clear();
     } else if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
@@ -572,6 +641,7 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _keyIncreaseCut = false;
         _keyDecreaseCut = false;
         _joystick = false;
+        isRotating = false;
     } else if (zone == Zone::MAIN) {
         if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
             _mtouch.touchids.erase(event.touch);
@@ -592,10 +662,20 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
     Vec2 pos = event.position;
     // Only check for swipes in the main zone if there is more than one finger.
     if (_ltouch.touchids.find(event.touch) != _ltouch.touchids.end()) {
-//        processJoystick(pos);
-        processCutJoystick(pos, _ltouch);
+        //if(_ltouch.position.y < _lzone.size.height * LEFT_CUT_ZONE){
+//            int swipe = processSwipe(_ltouch.position, event.position, event.timestamp);
+            //CULog("rotate");
+        //} else{
+        //have the y pos of the movement buttons follow the y pos of our finger
+        _buttonRight->setPosition(_buttonRight->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+        _buttonLeft->setPosition(_buttonLeft->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+            processJoystick(pos);
+            //CULog("joystick");
+        //}
+//        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
-        processCutJoystick(pos, _rtouch);
+        //processCutJoystick(pos, _rtouch);
+        processSwipe(_rtouch.position, event.position, event.timestamp);
 //        if (!_hasJumped) {
 //            if ((_rtouch.position.y-pos.y) > SWIPE_LENGTH) {
 //                _keyJump = true;
@@ -603,10 +683,11 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
 //            }
 //        }
     } else if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
-        processCutJoystick(pos, _mtouch);
+        processSwipe(_mtouch.position, event.position, event.timestamp);
+        //processCutJoystick(pos, _mtouch);
     } else if (_mtouch.touchids.size() > 1) {
         // We only process multifinger swipes in main
-//        int swipe = processSwipe(_mtouch.position, event.position, event.timestamp);
+        //int swipe = processSwipe(_mtouch.position, event.position, event.timestamp);
 //        if (swipe == 1) {
 //            _keyReset = true;
 //        } else if (swipe == -1) {

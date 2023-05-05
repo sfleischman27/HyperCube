@@ -20,6 +20,7 @@
 #include "RenderPipeline.h"
 #include "PlayerModel.h"
 #include "Collectible.h"
+#include "GameItem.h"
 
 class GameplayController : public cugl::Scene2 {
 public:
@@ -58,14 +59,17 @@ protected:
     cugl::Vec2 prevPlay2DPos;
     
     cugl::Vec2 currPlay2DPos;
+
+    cugl::Vec2 lastStablePlay2DPos;
     
     /** Mark set to handle more sophisticated collision callbacks */
     std::unordered_set<b2Fixture*> _sensorFixtures;
     
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
+
     
 private:
-    std::shared_ptr<SoundController> _sound = std::make_shared<SoundController>();
+    std::shared_ptr<SoundController> _sound;// = 
     std::shared_ptr<GameModel> _model;
     std::shared_ptr<PhysicsController> _physics;
     std::shared_ptr<InputController> _input;
@@ -73,6 +77,9 @@ private:
     std::shared_ptr<RenderPipeline> _pipeline;
     std::shared_ptr<PlaneController> _plane;
     std::shared_ptr<DataController> _data;
+    
+    int  _walkCooldown = 0;
+
 
     
     /**
@@ -124,9 +131,13 @@ public:
     * @return true if the controller is initialized properly, false otherwise.
     */
     
-    bool init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize);
+    //bool init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize);
     
-    bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
+    bool init(const std::shared_ptr<AssetManager>& assets, const Size& displaySize, std::shared_ptr<SoundController> sound);
+    
+    //bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
+    
+    bool init(const std::shared_ptr<AssetManager>& assets, const Rect& rect, std::shared_ptr<SoundController> sound);
     
     /**
     * Generates obstacle instances from the given cut, specified by the list of Poly2s given by the GameModel _model.
@@ -169,6 +180,19 @@ public:
     void load(std::string name);
     
     /**
+     * Saves the max level that is unlocked
+     *
+     * @param maxLevel  The integer version of the max level unlocked
+     *  = level + (pack *15)
+     */
+    void save(int maxLevel);
+    
+    /**
+     * Returns the saved max level string
+     */
+    int getMaxLevel();
+    
+    /**
      * Draws all this scene to the given SpriteBatch.
      *
      * The default implementation of this method simply draws the scene graph
@@ -197,6 +221,21 @@ public:
      * @param value whether the scene is currently active
      */
     void setActive(bool value);
+    
+    /**
+     * Sets collectible UI to only show the correct number of collectibles for the level
+     *
+     * @param col  The number of collectibles in the level (0 to 4)
+     */
+    void resetCollectibleUI(int col);
+    
+    /**
+     * Changes the collecttible UI to reflect the number of collectibles collected
+     *
+     * @param col  The number of collectibles in the level (1 to 4)
+     * @param got  The number of collectibles collected 
+     */
+    void collectUI(int col, int got);
     
 #pragma mark State Access
 

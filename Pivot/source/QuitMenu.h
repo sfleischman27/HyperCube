@@ -17,17 +17,21 @@ public:
         /** User wants to quit */
         Y,
         /** User does not want to quit */
-        N
+        N,
+        /** User wants to restart level */
+        RESTART
     };
     
 protected:
     /** The asset manager for loading. */
     std::shared_ptr<cugl::AssetManager> _assets;
     
-    /** The "yes" button */
+    /** The "quit" button */
     std::shared_ptr<cugl::scene2::Button>    _yes;
-    /** The "no" button */
+    /** The "resume" button */
     std::shared_ptr<cugl::scene2::Button>    _no;
+    /** The "restart" button */
+    std::shared_ptr<cugl::scene2::Button>    _restart;
     
     /** The player menu choice */
     Choice _choice;

@@ -486,6 +486,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LIB_INCLUDES = "$(PROJECT_DIR)/../../include/";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
 				SUPPORTS_MACCATALYST = YES;
 				TVOS_DEPLOYMENT_TARGET = 12.1;
@@ -565,6 +566,7 @@
 				LIB_INCLUDES = "$(PROJECT_DIR)/../../include/";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = NO;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
 				SUPPORTS_MACCATALYST = YES;
 				TVOS_DEPLOYMENT_TARGET = 12.1;
@@ -701,6 +703,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LIB_INCLUDES = "$(PROJECT_DIR)/../../include/";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
 				SUPPORTS_MACCATALYST = YES;
 				TVOS_DEPLOYMENT_TARGET = 12.1;
@@ -748,6 +751,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LIB_INCLUDES = "$(PROJECT_DIR)/../../include/";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos driverkit appletvsimulator appletvos";
 				SUPPORTS_MACCATALYST = YES;
 				TVOS_DEPLOYMENT_TARGET = 12.1;
