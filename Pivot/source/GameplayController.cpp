@@ -31,9 +31,9 @@ using namespace cugl;
 /** Opacity of the physics outlines */
 #define DEBUG_OPACITY   192
 /** Threshold of the collecting distance */
-#define COLLECTING_DIST   15
+#define COLLECTING_DIST   25
 /** Threshold of the reaching exit distance */
-#define EXITING_DIST   17
+#define EXITING_DIST   25
 /** Number of glowsticks allowed to put */
 #define NUM_GLOWSTICKS 4
 /** Glowstick pickup distance*/
@@ -665,8 +665,7 @@ void GameplayController::update(float dt) {
     
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
-        if (itr->second.canBeSeen(_model->getPlayer3DLoc(), _model->getPlaneNorm()) &&
-            _model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
+        if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
             itr->second.setCollected(true);
             _model->_backpack.insert(itr->first);
         }
@@ -675,8 +674,7 @@ void GameplayController::update(float dt) {
     // update collectible UI
     collectUI(_model->getColNum(), _model->getCurrColNum());
     
-    if((_model->_exit->canBeSeen(_model->getPlayer3DLoc(),_model->getPlaneNorm()))
-       &&(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST)) {
+    if(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST) {
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;
             _state = END;
