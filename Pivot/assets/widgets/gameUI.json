@@ -166,6 +166,15 @@
                    }
                }
            },
+           "rotateTutorial":{
+               "type": "Widget",
+               "data": {
+                   "key": "popup",
+                   "variables":{
+                       "popupImage": "rotate_tutorial"
+                   }
+               }
+           },
            "navigator":{
                 "type": "Widget",
                 "data": {
@@ -177,16 +186,7 @@
                         "navigatorYPos": 0.50
                     }
                 }
-            },
-           "rotateTutorial":{
-               "type": "Widget",
-               "data": {
-                   "key": "popup",
-                   "variables":{
-                       "popupImage": "rotate_tutorial"
-                   }
-               }
-           }
+            }
         }
     }
 }

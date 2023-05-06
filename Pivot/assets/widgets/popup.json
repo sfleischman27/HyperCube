@@ -7,12 +7,14 @@
         "data": {
             "texture": "rotate_tutorial",
             "size": [1000, 200],
-            "anchor": [0.5,1],
+            "anchor": [0.5,0.75],
+            "scale": 0.25,
             "visible": true
         },
         "layout": {
-            "x_anchor": "center",
-            "y_anchor": "bottom"
+            "x_anchor": "fill",
+            "y_anchor": "fill",
+            "y-offset": 0.5
         }
     }
 }
