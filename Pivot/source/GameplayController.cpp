@@ -271,7 +271,6 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _model->_player->rotateNormalSpriteSheet = normalSheet;
     
     _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
-    _model->_player->updateRotationalFramesMapping();
     _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
     
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
@@ -432,6 +431,8 @@ void GameplayController::load(std::string name){
     resetCollectibleUI(_model->getColNum());
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
+    _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+    _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -650,15 +651,6 @@ void GameplayController::update(float dt) {
         }
     }
 
-/**
- only update the player to face the side when they move.
- looks cool but doesn't work right now.
- */
-//    if(fabs(_input->getHorizontal()) > 0.0f){
-//        _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
-//        _model->_player->updateRotationalFramesMapping();
-//    }
-    
     if (!_input->isRotating) {
         saveFloat = 0.0;
         _input->cutFactor = 0.0;
@@ -709,8 +701,6 @@ void GameplayController::update(float dt) {
         }
         if (_model->_justFinishRotating) {
             _physics->getWorld()->addObstacle(_model->_player);
-//            _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
-            _model->_player->updateRotationalFramesMapping();
             _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating

@@ -525,17 +525,6 @@ public:
         currentSpriteSheet = sprite;
     }
     
-    void updateRotationalFramesMapping(){
-        for (int i = 0; i < 16; i++) {
-            int angle = (i * 22.5) - 180; // angle for this sprite
-            int spriteIndex = static_cast<int>((static_cast<int>(angle - lastRotateAngle + 180) % 360) / 22.5f); // map angle to sprite index
-            if (spriteIndex < 0) {
-                spriteIndex += 16;
-            }
-            rotateFrames[i] = spriteIndex;
-        }
-    }
-    
     void setRotationalSprite(float currentAngle){
         float repeat = 22.5f;
         int neg = 1;
@@ -545,11 +534,11 @@ public:
         localAng *= neg;
         localAng = localAng < 0 ? localAng + 360 : localAng;
         int index = (int) localAng / repeat;
-        CULog("cur %i", index);
         if(!isFacingRight()){
             index = rightRotateMap[index];
         }
         rotateSpriteSheet->setFrame(index);
+        rotateNormalSpriteSheet->setFrame(index);
     }
     
     void setNormalSprite(const std::shared_ptr<cugl::SpriteSheet>& normalsprite) {

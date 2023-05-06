@@ -323,6 +323,7 @@ void PlayerModel::update(float dt) {
         //spriteSheets.find("jump")->second.first->setFrame(0);
         //spriteSheets.find("jump")->second.second->setFrame(0);
         currentSpriteSheet = rotateSpriteSheet;
+        currentNormalSpriteSheet = rotateNormalSpriteSheet;
         animState = 0;
     }
     
