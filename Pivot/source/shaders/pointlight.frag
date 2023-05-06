@@ -20,7 +20,7 @@ uniform float power;
 
 // Editable parameters for diffuse calculation
 const float powerMult = 10000.0;
-const float constAtten = 0.0;
+const float constAtten = 2000.0;
 const float linearAtten = 0.0;
 const float sqAtten = 1.0;
 
