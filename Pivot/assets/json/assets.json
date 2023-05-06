@@ -253,6 +253,7 @@
         "debug_0010": "json/level_json/debug/debug_0010.json",
         "debug_0004": "json/level_json/debug/debug_0004.json",
         "debug_0005": "json/level_json/debug/debug_0005.json",
-        "debug_0006": "json/level_json/debug/debug_0006.json"
+        "debug_0006": "json/level_json/debug/debug_0006.json",
+        "tutorial_0000": "json/level_json/tutorial/tutorial_0000.json"
     }
 }
