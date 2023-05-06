@@ -230,7 +230,11 @@ std::string LevelSelect::getNextLevelString(){
 void LevelSelect::nextLevel(){
     int level = _choice;
    
-    if (level == 14){
+    if (level == 2 && _pack == 0){ // end of tutorial pack
+        level = 0;
+        _choice = Choice::LEVEL1;
+        _pack = static_cast<LevelSelect::Pack>(_pack + 1);
+    } else if (level == 14){ // end of normal packs
         level = 0;
         _choice = Choice::LEVEL1;
         _pack = static_cast<LevelSelect::Pack>(_pack + 1);
@@ -243,7 +247,7 @@ void LevelSelect::nextLevel(){
 }
 
 int LevelSelect::levelNum(){
-    return (_pack * 15) + _choice;
+    return ((_pack - 1) * 12) + (_pack * 3) + _choice;
 }
 
 void LevelSelect::updateMax(int level){
