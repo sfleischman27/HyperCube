@@ -119,8 +119,10 @@ void LevelSelect::setActive(bool value){
 std::string LevelSelect::packToString(Pack pack){
     switch (pack) {
         case Pack::ZERO:
-            return "debug";
+            return "tutorial";
         case Pack::ONE:
+            return "debug";
+        case Pack::TWO:
             return "test";
     }
 }
