@@ -480,7 +480,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
         // If 0 < distance <= -c, then we will want to draw
         if (distance >= 0 || distance <= cutoff) continue;
-        float alpha = 1.0 - (distance / cutoff);
+        float alpha = (1.0 - (distance / cutoff)) * .5;
 
         // Change the drawObject position to be reflected along the plane
         Vec3 oldPos = dro.pos;
