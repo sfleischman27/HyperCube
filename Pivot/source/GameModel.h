@@ -84,6 +84,8 @@ public:
     /** Vector of triggers */
     std::vector<std::shared_ptr<Trigger>> _triggers;
     
+    std::shared_ptr<Popups> _popup;
+    
 #pragma mark Backpack State
 public:
     /** Vector of collectibles in player backpack */
@@ -151,6 +153,7 @@ public:
         _decorations = std::vector<std::shared_ptr<GameItem>>();
         _deathTime = std::make_shared<Timestamp>();
         _currentTime = std::make_shared<Timestamp>();
+        _popup = std::make_shared<Popups>(Popups());
     }
     
 #pragma mark Getters and Setters
@@ -340,6 +343,10 @@ public:
             _collectibles.insert({std::to_string(i), item});
             _expectedCol.insert(std::to_string(i));
         }
+    }
+    
+    void clearPopups() {
+        _popup->clear();
     }
     
     void clearCollectibles() {

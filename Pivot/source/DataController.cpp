@@ -88,6 +88,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     // get the sprites
     std::shared_ptr<cugl::JsonValue> sprites = constants->get("sprites");
 
+    // remove any active popups
+    model->clearPopups();
+    
     // clear glowsticks
     model->clearGlowsticks();
     
@@ -179,10 +182,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 trig->registerEnterCallback(Trigger::killPlayer, args);
             }
             else if (trig_type == "POPUP"){
-                std::vector<std::string>strings{ "message" };
                 auto args = TriggerArgs();
-                args.strings = strings;
-                trig->registerEnterCallback(Trigger::speak, args);
+                args.popup = model->_popup;
+                trig->registerEnterCallback(Trigger::showRotate, args);
             }
             
             

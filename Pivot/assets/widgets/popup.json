@@ -1,0 +1,19 @@
+{
+    "variables":{
+        "popupImage": ["data", "texture"]
+    },
+    "contents":{
+        "type": "Image",
+        "data": {
+            "texture": "rotate_tutorial",
+            "size": [1000, 200],
+            "anchor": [0.5,1],
+            "visible": true
+        },
+        "layout": {
+            "x_anchor": "center",
+            "y_anchor": "bottom"
+        }
+    }
+}
+

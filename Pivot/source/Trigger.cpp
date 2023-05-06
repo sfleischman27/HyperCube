@@ -50,7 +50,7 @@ void Trigger::killPlayer(TriggerArgs args) {
     args.player->setDead(true);
 };
 
-//** trigger the given element to become visible*/
-void Trigger::showElement(TriggerArgs args) {
-    // TODO: make a set of bools for visibility to trigger UI toggles
+//** trigger the rotate tutorial to turn on */
+void Trigger::showRotate(TriggerArgs args) {
+    args.popup->setState("rotate");
 };

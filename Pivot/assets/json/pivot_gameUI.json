@@ -83,7 +83,7 @@
       "compassNum": "widgets/compassNum.json",
       "gameUI": "widgets/gameUI.json",
       "navigator": "widgets/navigator.json",
-      "tutorial":  "widgets/tutorial.json"
+      "popup": "widgets/popup.json"
     },
     "scene2s" : {
         "lab": {
