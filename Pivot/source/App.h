@@ -51,7 +51,7 @@ protected:
     
     // TODO: remove this before final version
     /** When this is set to true all levels will be unlocked (for testing) */
-    bool _testing = false;
+    bool _testing = true;
     
     // TODO: change this to be our loading scenes
     // TODO: add more scenes as they are created
