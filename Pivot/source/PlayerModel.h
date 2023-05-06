@@ -67,6 +67,18 @@ public:
     
     std::shared_ptr<cugl::SpriteSheet> currentNormalSpriteSheet;
     
+    std::shared_ptr<cugl::SpriteSheet> rotateSpriteSheet;
+    
+    std::shared_ptr<cugl::SpriteSheet> rotateNormalSpriteSheet;
+    
+    float lastRotateAngle;
+    
+    float currentRotateAngle;
+        
+    float rotateFrames[16];
+    
+    std::unordered_map<int, int> rightRotateMap;
+    
     /** the SpriteSheets for the various player animations*/
     std::unordered_map<std::string, std::pair<std::shared_ptr<cugl::SpriteSheet>, std::shared_ptr<cugl::SpriteSheet>>> spriteSheets;
     
@@ -511,6 +523,33 @@ public:
     
     void setSprite(const std::shared_ptr<cugl::SpriteSheet>& sprite) {
         currentSpriteSheet = sprite;
+    }
+    
+    void updateRotationalFramesMapping(){
+        for (int i = 0; i < 16; i++) {
+            int angle = (i * 22.5) - 180; // angle for this sprite
+            int spriteIndex = static_cast<int>((static_cast<int>(angle - lastRotateAngle + 180) % 360) / 22.5f); // map angle to sprite index
+            if (spriteIndex < 0) {
+                spriteIndex += 16;
+            }
+            rotateFrames[i] = spriteIndex;
+        }
+    }
+    
+    void setRotationalSprite(float currentAngle){
+        float repeat = 22.5f;
+        int neg = 1;
+        if (!isFacingRight()) neg = -1;
+        int localAng = currentAngle - lastRotateAngle;
+        localAng = localAng % 360;
+        localAng *= neg;
+        localAng = localAng < 0 ? localAng + 360 : localAng;
+        int index = (int) localAng / repeat;
+        CULog("cur %i", index);
+        if(!isFacingRight()){
+            index = rightRotateMap[index];
+        }
+        rotateSpriteSheet->setFrame(index);
     }
     
     void setNormalSprite(const std::shared_ptr<cugl::SpriteSheet>& normalsprite) {

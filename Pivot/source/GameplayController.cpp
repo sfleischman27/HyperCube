@@ -259,12 +259,21 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     sheet = SpriteSheet::alloc(assets->get<Texture>("player-idle"), 1, 1);
     normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-idle-normal"), 1, 1);
     
-    _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
-    
     _model->_player->setSprite(sheet);
     _model->_player->setNormalSprite(normalSheet);
     
-
+    _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate"), 4, 4);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate-normal"), 4, 4);
+    
+    _model->_player->rotateSpriteSheet = sheet;
+    _model->_player->rotateNormalSpriteSheet = normalSheet;
+    
+    _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+    _model->_player->updateRotationalFramesMapping();
+    _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+    
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
@@ -641,33 +650,39 @@ void GameplayController::update(float dt) {
         }
     }
 
-    //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
-    //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
+/**
+ only update the player to face the side when they move.
+ looks cool but doesn't work right now.
+ */
+//    if(fabs(_input->getHorizontal()) > 0.0f){
+//        _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+//        _model->_player->updateRotationalFramesMapping();
+//    }
+    
     if (!_input->isRotating) {
         saveFloat = 0.0;
         _input->cutFactor = 0.0;
     }
+    
+    if(_input->getHorizontal() != 0.0f){
+        _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+    }
+    
     if (_input->isRotating) {
 //        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
         _plane->rotateNorm((_input->cutFactor - saveFloat)/1000);
         _model->updateCompassNum();
-        
+        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
         saveFloat = _input->cutFactor;
         _rotating = true;
     }
     
-    //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-
-//    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
-//        _plane->rotateNorm(_input->cutFactor/15000);
-//        //createCutObstacles();
-//        _rotating = true;
-//    }
-    //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         _model->updateCompassNum();
+        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
         //createCutObstacles();
         _rotating = true;
     }
@@ -694,6 +709,9 @@ void GameplayController::update(float dt) {
         }
         if (_model->_justFinishRotating) {
             _physics->getWorld()->addObstacle(_model->_player);
+//            _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+            _model->_player->updateRotationalFramesMapping();
+            _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging

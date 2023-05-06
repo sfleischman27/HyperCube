@@ -11,6 +11,12 @@
         "dude-normal": {
             "file": "textures/dude-normal.png"
         },
+        "player-rotate": {
+            "file": "textures/rotate.png"
+        },
+        "player-rotate-normal": {
+            "file": "textures/rotate_normal.png"
+        },
         "player-walk": {
             "file": "textures/walk.png"
         },

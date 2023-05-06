@@ -84,6 +84,23 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
         // Sound Cues
         _jumpCue = false;
         
+        rightRotateMap[0] = 3;
+        rightRotateMap[3] = 0;
+        rightRotateMap[1] = 2;
+        rightRotateMap[2] = 1;
+        rightRotateMap[4] = 7;
+        rightRotateMap[7] = 4;
+        rightRotateMap[5] = 6;
+        rightRotateMap[6] = 5;
+        rightRotateMap[8] = 11;
+        rightRotateMap[11] = 8;
+        rightRotateMap[9] = 10;
+        rightRotateMap[10] = 9;
+        rightRotateMap[12] = 15;
+        rightRotateMap[15] = 12;
+        rightRotateMap[13] = 14;
+        rightRotateMap[14] = 13;
+        
         return true;
     }
     return false;
@@ -302,9 +319,10 @@ void PlayerModel::update(float dt) {
         }
     }
     else {
-        setSpriteSheet("idle");
+        //setSpriteSheet("idle");
         //spriteSheets.find("jump")->second.first->setFrame(0);
         //spriteSheets.find("jump")->second.second->setFrame(0);
+        currentSpriteSheet = rotateSpriteSheet;
         animState = 0;
     }
     
@@ -313,7 +331,7 @@ void PlayerModel::update(float dt) {
 //    }
     
     
-    if(animFrameCounter >= 2){
+    if(animFrameCounter >= 2 && animState != 0){
         animFrameCounter = 0;
         int frame = currentSpriteSheet->getFrame();
         if(isFacingRight()){
