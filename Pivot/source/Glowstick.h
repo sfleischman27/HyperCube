@@ -23,7 +23,7 @@ public:
     Glowstick(const Vec3 pos) : GameItem(pos) {
         std::shared_ptr<cugl::Texture> tex =Texture::allocWithFile("textures/barrier.png");
         setTexture(tex);
-        setColor(Vec3(1.0, 1.0, 0.0));
+        setColor(Vec3(0.0, 1.0, 0.2));
         setIntense(0.15);
     }
 };
