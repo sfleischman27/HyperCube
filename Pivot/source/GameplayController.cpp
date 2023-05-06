@@ -14,6 +14,7 @@
 #include <box2d/b2_collision.h>
 
 using namespace cugl;
+using namespace cugl::scene2;
 
 /** This is adjusted by screen aspect ratio to get the height */
 // TODO: fix dimentions to be choosen from device -Sarah
@@ -46,6 +47,8 @@ using namespace cugl;
 #define PLAYER_WIDTH   10.0f
 /** Height of the player capsule*/
 #define PLAYER_HEIGHT  10.0f
+
+#define COMPASS_KEY  "compass"
 
 #pragma mark Sound Constants
 /** Cooldown (in animation frames) for playing the walking sfx */
@@ -130,6 +133,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     }
     
     _assets = assets;
+    _actions = ActionManager::alloc();
     
     //set up the game model
     _model = std::make_shared<GameModel>(GameModel());
@@ -391,6 +395,7 @@ void GameplayController::reset() {
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     _model->updateCompassNum();
+    _model->_compassSpin->setVisible(false);
     
 
     lastStablePlay2DPos = _model->_player->getPosition();
@@ -657,9 +662,11 @@ void GameplayController::update(float dt) {
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
             lastStablePlay2DPos = _model->_player->getPosition();
-            _model->_compassSpin->setVisible(false);
+//            _model->_compassSpin->setVisible(false);
+            fadeoutUI(COMPASS_KEY);
         }
         _physics->update(dt);
+        _actions->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
     
@@ -895,4 +902,11 @@ void GameplayController::save(int maxLevel) {
 
 int GameplayController::getMaxLevel() {
     return _data->getMaxLevel();
+}
+
+void GameplayController::fadeoutUI(std::string key) {
+    _actions->activate(key, _model->fadeoutAction, _model->_compassSpin);
+}
+void GameplayController::fadeinUI(std::string key) {
+    _actions->activate(key, _model->fadeinAction, _model->_compassSpin);
 }

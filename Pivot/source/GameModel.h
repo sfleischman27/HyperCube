@@ -106,6 +106,10 @@ public:
     /** the SpriteNode for the compass animations*/
     std::shared_ptr<cugl::scene2::SpriteNode> _compassSpin;
     
+    std::shared_ptr<cugl::scene2::FadeOut> fadeoutAction = cugl::scene2::FadeOut::alloc(1.0);
+    
+    std::shared_ptr<cugl::scene2::FadeIn> fadeinAction = cugl::scene2::FadeIn::alloc(0.2);
+    
 #pragma mark Lights
 public:
     // Light objects

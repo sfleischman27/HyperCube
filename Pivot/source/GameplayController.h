@@ -36,6 +36,8 @@ public:
 protected:
     /** The asset manager for this game mode. */
     std::shared_ptr<cugl::AssetManager> _assets;
+    /** The action manager for this game mode. */
+    std::shared_ptr<cugl::scene2::ActionManager> _actions;
     
     /** set debug mode */
     bool _debug;
@@ -236,6 +238,20 @@ public:
      * @param got  The number of collectibles collected 
      */
     void collectUI(int col, int got);
+    
+    /**
+     * Performs a fade out action
+     *
+     * @param key
+     */
+    void fadeoutUI(std::string key);
+    /**
+     * Performs a fade out action
+     *
+     * @param key
+     */
+    void fadeinUI(std::string key);
+
     
 #pragma mark State Access
 
