@@ -49,3 +49,8 @@ void Trigger::speak(TriggerArgs args) {
 void Trigger::killPlayer(TriggerArgs args) {
     args.player->setDead(true);
 };
+
+//** trigger the given element to become visible*/
+void Trigger::showElement(TriggerArgs args) {
+    // TODO: make a set of bools for visibility to trigger UI toggles
+};

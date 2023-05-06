@@ -202,6 +202,11 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_compassSpin = std::dynamic_pointer_cast<scene2::SpriteNode>(kids->getChildByName("compassBar"));
     
+    // set compass alpha to 0.0 so it can fade in
+    auto color = _model->_compassSpin->getColor();
+    auto newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_compassSpin->setColor(newColor);
+    
     layer->setContentSize(_dimen);
     layer->doLayout();
 
@@ -652,6 +657,14 @@ void GameplayController::update(float dt) {
             _rotating = false;
             _model->_justFinishRotating = true;
         }
+        else if(_model->_compassSpin->isVisible()) {
+            auto color = _model->_compassSpin->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+            _model->_compassSpin->setColor(newColor);
+            if(_model->_compassSpin->getColor().a <= 0) {
+                _model->_compassSpin->setVisible(false);
+            }
+        }
         if (_model->_justFinishRotating) {
             _physics->getWorld()->addObstacle(_model->_player);
             _plane->movePlaneToPlayer();
@@ -659,7 +672,6 @@ void GameplayController::update(float dt) {
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
             lastStablePlay2DPos = _model->_player->getPosition();
-            _model->_compassSpin->setVisible(false);
         }
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;

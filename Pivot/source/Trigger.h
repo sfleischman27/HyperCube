@@ -89,12 +89,11 @@ public:
     //** print a string to terminal, useful for checking if callbacks are working*/
     static void speak(TriggerArgs args);
 
-
     //** trigger the player to die when they enter this zone*/
-
     static void killPlayer(TriggerArgs args);
 
-
+    //** trigger the given element to become the given visiblity*/
+    static void showElement(TriggerArgs args);
 
 };
 

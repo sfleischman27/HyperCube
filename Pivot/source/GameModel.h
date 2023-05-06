@@ -444,6 +444,11 @@ public:
         _compassNum->setText(std::to_string(angle));
         int frame = (angle + 360) % 10;
         _compassSpin->setFrame(frame);
+        // fade in
+        auto color = _compassSpin->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+        _compassSpin->setColor(newColor);
+        // set visible
         _compassSpin->setVisible(true);
     }    
 };
