@@ -38,6 +38,8 @@ struct Popups {
         }
     }
     
+    State getState() { return _state; }
+    
     void clear() { _state = NONE; }
 };
 
@@ -122,6 +124,8 @@ public:
     //** trigger the rotate tutorial to turn on */
     static void showRotate(TriggerArgs args);
 
+    //** trigger to turn off popups */
+    static void stopPopups(TriggerArgs args);
 };
 
 

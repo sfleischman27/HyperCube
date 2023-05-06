@@ -185,6 +185,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 auto args = TriggerArgs();
                 args.popup = model->_popup;
                 trig->registerEnterCallback(Trigger::showRotate, args);
+                trig->registerExitCallback(Trigger::stopPopups, args);
             }
             
             

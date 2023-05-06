@@ -202,10 +202,17 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_compassSpin = std::dynamic_pointer_cast<scene2::SpriteNode>(kids->getChildByName("compassBar"));
     
+    _model->_rotatePopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("rotateTutorial"));
+    
     // set compass alpha to 0.0 so it can fade in
     auto color = _model->_compassSpin->getColor();
     auto newColor = Color4(color.r, color.g, color.b, 0.0);
     _model->_compassSpin->setColor(newColor);
+    
+    // set rotate popup alpha to 0.0 so it can fade in
+    color = _model->_rotatePopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_rotatePopup->setColor(newColor);
     
     layer->setContentSize(_dimen);
     layer->doLayout();
@@ -615,13 +622,24 @@ void GameplayController::update(float dt) {
     _model->_currentTime->mark();
     
     // update popups
-    
-    // check the status
-    // if a popup is active, turn it on (fade in)
-    
-    // if no popup is active, turn any on popups off (fade out)
-    
-    
+    if (_model->_popup->getState() == Popups::ROTATE){
+        // turn on the rotate popup
+        _model->_rotatePopup->setVisible(true);
+        auto color = _model->_rotatePopup->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+        _model->_rotatePopup->setColor(newColor);
+    } else {
+        // turn off any active popups
+        if (_model->_rotatePopup->isVisible()){
+            auto color = _model->_rotatePopup->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+            _model->_rotatePopup->setColor(newColor);
+            // if it is completely faded out, turn it off
+            if (_model->_rotatePopup->getColor().a <= 0) {
+                _model->_rotatePopup->setVisible(false);
+            }
+        }
+    }
 
     //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
     //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {

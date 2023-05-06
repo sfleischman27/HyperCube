@@ -79,12 +79,14 @@ public:
     /** Vector of decorations */
     std::vector<std::shared_ptr<GameItem>> _decorations;
 
-#pragma mark Triggers
+#pragma mark Triggers and Popups
 public:
     /** Vector of triggers */
     std::vector<std::shared_ptr<Trigger>> _triggers;
     
     std::shared_ptr<Popups> _popup;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _rotatePopup;
     
 #pragma mark Backpack State
 public:

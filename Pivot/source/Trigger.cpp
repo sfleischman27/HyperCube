@@ -54,3 +54,8 @@ void Trigger::killPlayer(TriggerArgs args) {
 void Trigger::showRotate(TriggerArgs args) {
     args.popup->setState("rotate");
 };
+
+//** trigger to turn off popups */
+void Trigger::stopPopups(TriggerArgs args) {
+    args.popup->setState("none");
+}
