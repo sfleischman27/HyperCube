@@ -39,11 +39,11 @@
                             "key": "endbutton",
                             "variables": {
                                 "buttonSize": [1500,600],
-                                "buttonAnchor": [0,1],
+                      3          "buttonAnchor": [0,1],
                                 "buttonXStart": "left",
                                 "buttonYStart": "top",
                                 "button": "map",
-                                "buttonText": "Show Map",
+                                "buttonText": "",
                                 "buttonTextColor": [0,0,0,255]
                             }
                         }
