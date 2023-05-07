@@ -39,7 +39,7 @@
                             "key": "endbutton",
                             "variables": {
                                 "buttonSize": [1500,600],
-                      3          "buttonAnchor": [0,1],
+                                "buttonAnchor": [0,1],
                                 "buttonXStart": "left",
                                 "buttonYStart": "top",
                                 "button": "map",
