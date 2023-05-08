@@ -25,7 +25,7 @@
                    "variables": {
                        "exitSize": [70,70],
                        "exitScale": 0.5,
-                       "exitXPos": 0.03,
+                       "exitXPos": 0.05,
                        "exitYPos": -0.025
                    }
                }
@@ -82,7 +82,8 @@
                        "buttonXPos": -0.05,
                        "buttonYPos": 0.015,
                        "dash": false,
-                       "buttonPushed": "jumpactive"
+                       "buttonPushed": "jumpactive",
+                       "dashActive": false
                    }
                }
            },

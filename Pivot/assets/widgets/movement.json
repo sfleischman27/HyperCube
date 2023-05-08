@@ -44,10 +44,10 @@
                     "texture": "leftactive"
                 }
             },
-            "dash": {
+            "dashactive": {
                 "type": "Image",
                 "data": {
-                    "texture": "leftdash",
+                    "texture": "leftdashactive",
                     "visible": true,
                     "size": [95,110],
                     "anchor": [1,0.5]
@@ -58,11 +58,11 @@
                     "x_offset": 0.1
                 }
             },
-            "dashactive": {
+            "dash": {
                 "type": "Image",
                 "data": {
-                    "texture": "leftdashactive",
-                    "visible": false,
+                    "texture": "leftdash",
+                    "visible": true,
                     "size": [95,110],
                     "anchor": [1,0.5]
                 },
