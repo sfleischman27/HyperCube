@@ -74,11 +74,13 @@ void LevelSelect::updateLevel(int level) {
         if (num <= _maxLevel && num != -1){ // unlocked and unlocked button
             it->second->activate();
             _buttons[it->first + "Locked"]->setVisible(false);
+            _buttons[it->first]->setVisible(true);
         } else if (num == -1){ // locked button
             it->second->deactivate();
         } else{ // locked and unlocked button
             it->second->deactivate();
             _buttons[it->first + "Locked"]->setVisible(true);
+            _buttons[it->first]->setVisible(false);
         }
     }
 }
@@ -104,6 +106,7 @@ void LevelSelect::setActive(bool value){
             // unlocked and unlocked button
             it->second->activate();
             _buttons[it->first + "Locked"]->setVisible(false);
+            _buttons[it->first]->setVisible(true);
         } else if (num == -1){ // locked button
             it->second->deactivate();
             it->second->setDown(false);
@@ -111,6 +114,7 @@ void LevelSelect::setActive(bool value){
             it->second->deactivate();
             it->second->setDown(false);
             _buttons[it->first + "Locked"]->setVisible(true);
+            _buttons[it->first]->setVisible(false);
         }
     }
 }

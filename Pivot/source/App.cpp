@@ -82,8 +82,11 @@ void PivotApp::onStartup() {
  * causing the application to be deleted.
  */
 void PivotApp::onShutdown() {
-    // save the level data
-    _gameplay.save(_levelSelect.getMaxLevel());
+    // save the level data (after loading is done)
+    if (_scene != LOAD){
+        _gameplay.save(_levelSelect.getMaxLevel());
+    }
+    
     // TODO: dispose of other modes here (ex: level select) when they are implemented
     _demoloading.dispose();
     _gameplay.dispose();
@@ -120,8 +123,10 @@ void PivotApp::onShutdown() {
 void PivotApp::onSuspend() {
     // pause the music
     AudioEngine::get()->pause();
-    // save the level data
-    _gameplay.save(_levelSelect.getMaxLevel());
+    // save the level data (after loading is done)
+    if (_scene != LOAD){
+        _gameplay.save(_levelSelect.getMaxLevel());
+    }
 }
 
 /**
