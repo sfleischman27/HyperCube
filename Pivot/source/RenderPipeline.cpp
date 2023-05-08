@@ -177,7 +177,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Glowsticks
     for (Glowstick g : model->_glowsticks) {
-        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), model->_glowsticks[0].getNorm(), false));
+        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), model->_glowsticks[0].getNorm(), false, 1));
     }
 
     // Decorations
@@ -319,6 +319,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBill->setUniform1i("flipXfrag", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _shaderBill->setUniformVec3("uDirection", n);
         _shaderBill->setUniform1i("useNormTex", 0);
+        _shaderBill->setUniform1i("id", dro.id);
         if (dro.normalMap != NULL) {
             _shaderBill->setUniform1i("normTex", dro.normalMap->getBindPoint());
             _shaderBill->setUniform1i("useNormTex", 1);
