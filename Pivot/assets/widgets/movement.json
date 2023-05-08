@@ -12,7 +12,12 @@
         "dashAppearance": ["children", "dash", "data", "texture"],
         "dashAnchor": ["children", "dash", "data", "anchor"],
         "dashHorizontal": ["children", "dash", "layout", "x_anchor"],
-        "dashXPosition": ["children", "dash", "layout", "x_offset"]
+        "dashXPosition": ["children", "dash", "layout", "x_offset"],
+        "dashActive": ["children", "dashactive", "data", "visible"],
+        "dashActiveAppearance": ["children", "dashactive", "data", "texture"],
+        "dashActiveAnchor": ["children", "dashactive", "data", "anchor"],
+        "dashActiveHorizontal": ["children", "dashactive", "layout", "x_anchor"],
+        "dashActiveXPosition": ["children", "dashactive", "layout", "x_offset"]
     },
     "contents": {
         "type": "Button",
@@ -44,6 +49,20 @@
                 "data": {
                     "texture": "leftdash",
                     "visible": true,
+                    "size": [95,110],
+                    "anchor": [1,0.5]
+                },
+                "layout": {
+                    "x_anchor": "left",
+                    "y_anchor": "middle",
+                    "x_offset": 0.1
+                }
+            },
+            "dashactive": {
+                "type": "Image",
+                "data": {
+                    "texture": "leftdashactive",
+                    "visible": false,
                     "size": [95,110],
                     "anchor": [1,0.5]
                 },

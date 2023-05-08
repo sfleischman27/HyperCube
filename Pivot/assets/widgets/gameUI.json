@@ -61,7 +61,11 @@
                        "dashAnchor": [0,0.5],
                        "dashHorizontal": "right",
                        "dashXPosition": -0.1,
-                       "buttonPushed": "rightactive"
+                       "buttonPushed": "rightactive",
+                       "dashActiveAppearance": "rightdashactive",
+                       "dashActiveAnchor": [0,0.5],
+                       "dashActiveHorizontal": "right",
+                       "dashActiveXPosition": -0.1
                    }
                }
            },
