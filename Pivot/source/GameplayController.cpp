@@ -431,13 +431,13 @@ void GameplayController::load(std::string name){
     resetCollectibleUI(_model->getColNum());
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
-    _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
-    _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
     _plane->init(_model);
     _plane->calculateCut();
+    _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+    _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
     // update physics for new cut
     createCutObstacles();
     _physics->update(0);
@@ -667,6 +667,7 @@ void GameplayController::update(float dt) {
         _plane->rotateNorm((_input->cutFactor - saveFloat)/1000);
         _model->updateCompassNum();
         _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        _model->_player->isRotating = true;
         saveFloat = _input->cutFactor;
         _rotating = true;
     }
@@ -675,6 +676,7 @@ void GameplayController::update(float dt) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         _model->updateCompassNum();
         _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        _model->_player->isRotating = true;
         //createCutObstacles();
         _rotating = true;
     }
@@ -702,6 +704,7 @@ void GameplayController::update(float dt) {
         if (_model->_justFinishRotating) {
             _physics->getWorld()->addObstacle(_model->_player);
             _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+            _model->_player->isRotating = false;
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
@@ -711,6 +714,7 @@ void GameplayController::update(float dt) {
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
+    _model->_player->animate();
     
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
