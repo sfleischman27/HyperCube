@@ -73,6 +73,10 @@ public:
     
     float lastRotateAngle;
     
+    bool isRotating;
+    
+    int animState = 0;
+    
     float currentRotateAngle;
         
     float rotateFrames[16];
@@ -124,7 +128,6 @@ protected:
     
     int animFrameCounter = 0;
     
-    int animState = 0;
     /** The current velocity of the player in 2D*/
     cugl::Vec2 _vel;
     /** The location of the player in 3D*/
@@ -565,6 +568,8 @@ public:
      * This is the primary method to override for custom physics objects.
      */
     void releaseFixtures() override;
+    
+    void animate();
     
     /**
      * Updates the object's physics state (NOT GAME LOGIC).

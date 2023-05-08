@@ -257,28 +257,7 @@ void PlayerModel::applyForce() {
 //    }
 }
 
-/**
- * Updates the object's physics state (NOT GAME LOGIC).
- *
- * We use this method to reset cooldowns.
- *
- * @param delta Number of seconds since last animation frame
- */
-void PlayerModel::update(float dt) {
-    // Apply cooldowns
-    if (isJumping()) {
-        _jumpCooldown = JUMP_COOLDOWN;
-    } else {
-        // Only cooldown while grounded
-        _jumpCooldown = (_jumpCooldown > 0 ? _jumpCooldown-1 : 0);
-    }
-    
-    if (isShooting()) {
-        _shootCooldown = SHOOT_COOLDOWN;
-    } else {
-        _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
-    }
-    
+void PlayerModel::animate() {
     /** Animation AND SOUND logic!!! IM HIJACKING AGAIN :) - Gordi*/
     if(getVY() < 0.0 && !isGrounded()){
         if(animState != 2){
@@ -298,7 +277,7 @@ void PlayerModel::update(float dt) {
             animState = 2;
         }
     }
-    else if(abs(getVX()) > 100){
+    else if(abs(getVX()) > 100 && !isRotating){
         if(animState != 4){
             animState = 4;
             setSpriteSheet("run");
@@ -308,7 +287,7 @@ void PlayerModel::update(float dt) {
             _walkCue = false;
         }
     }
-    else if(abs(getVX()) > 2){
+    else if(abs(getVX()) > 2 && !isRotating){
         if(animState != 1){
             animState = 1;
             setSpriteSheet("walk");
@@ -378,6 +357,29 @@ void PlayerModel::update(float dt) {
         animFrameCounter++;
     }
     
+}
+
+/**
+ * Updates the object's physics state (NOT GAME LOGIC).
+ *
+ * We use this method to reset cooldowns.
+ *
+ * @param delta Number of seconds since last animation frame
+ */
+void PlayerModel::update(float dt) {
+    // Apply cooldowns
+    if (isJumping()) {
+        _jumpCooldown = JUMP_COOLDOWN;
+    } else {
+        // Only cooldown while grounded
+        _jumpCooldown = (_jumpCooldown > 0 ? _jumpCooldown-1 : 0);
+    }
+    
+    if (isShooting()) {
+        _shootCooldown = SHOOT_COOLDOWN;
+    } else {
+        _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
+    }
     
 //    CULog("%i", currentSpriteSheet->getFrame()/currentSpriteSheet->getCols());
 
