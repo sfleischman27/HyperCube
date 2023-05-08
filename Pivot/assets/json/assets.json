@@ -47,6 +47,9 @@
         "spinner": {
             "file": "textures/barrier.png"
         },
+        "spinner-normal": {
+            "file": "textures/glowstick-normal.png"
+        },
         "bridge": {
             "file": "textures/ropebridge.png"
         },
