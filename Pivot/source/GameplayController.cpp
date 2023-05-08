@@ -194,6 +194,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
         }
     });
     
+    // store UI elements for later usage
     _model->_glowstickCounter = std::dynamic_pointer_cast<scene2::Label>( _buttons["glowstickB"]->getChildByName("label"));
     
     _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum"));
@@ -219,6 +220,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 
     addChild(layer);
     setActive(false);
+    
+    // get run image scene2s so they can be modified in input
+    auto leftRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScene_leftB_dashactive"));
+    auto rightRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScene_rightB_dashactive"));
     
     //set up the input handler
     _input = std::make_shared<InputController>();
