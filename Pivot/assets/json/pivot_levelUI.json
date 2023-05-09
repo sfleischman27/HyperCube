@@ -6,14 +6,30 @@
         "panel":{
             "file": "textures/level_board.png"
         },
-        "locked" : {
-            "file": "textures/level_locked.png"
+        "lockedone" : {
+            "file": "textures/level_locked1.png"
+        },
+        "lockedtwo" : {
+            "file": "textures/level_locked2.png"
+        },
+        "lockedthree" : {
+            "file": "textures/level_locked3.png"
         },
         "unlocked" : {
             "file": "textures/level_unlocked.png"
+        },
+        "levelnext" : {
+            "file": "textures/level_next.png"
+        },
+        "levelprevious" : {
+            "file": "textures/level_previous.png"
         }
     },
     "fonts": {
+        "gyparody": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     48
+        }
     },
     "widgets" : {
         "levelselectUI": "widgets/levelselectUI.json",

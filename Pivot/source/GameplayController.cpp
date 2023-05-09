@@ -194,6 +194,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
         }
     });
     
+    // store UI elements for later usage
     _model->_glowstickCounter = std::dynamic_pointer_cast<scene2::Label>( _buttons["glowstickB"]->getChildByName("label"));
     
     _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum"));
@@ -219,6 +220,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
 
     addChild(layer);
     setActive(false);
+    
+    // get run image scene2s so they can be modified in input
+    auto leftRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScene_leftB_dashactive"));
+    auto rightRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScene_rightB_dashactive"));
     
     //set up the input handler
     _input = std::make_shared<InputController>();
@@ -259,12 +264,20 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     sheet = SpriteSheet::alloc(assets->get<Texture>("player-idle"), 1, 1);
     normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-idle-normal"), 1, 1);
     
-    _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
-    
     _model->_player->setSprite(sheet);
     _model->_player->setNormalSprite(normalSheet);
     
-
+    _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate"), 4, 4);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate-normal"), 4, 4);
+    
+    _model->_player->rotateSpriteSheet = sheet;
+    _model->_player->rotateNormalSpriteSheet = normalSheet;
+    
+    _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+    _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+    
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
@@ -428,6 +441,8 @@ void GameplayController::load(std::string name){
     // change plane for new model
     _plane->init(_model);
     _plane->calculateCut();
+    _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+    _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
     // update physics for new cut
     createCutObstacles();
     _physics->update(0);
@@ -642,33 +657,32 @@ void GameplayController::update(float dt) {
         }
     }
 
-    //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
-    //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
     if (!_input->isRotating) {
         saveFloat = 0.0;
         _input->cutFactor = 0.0;
     }
+    
+    if(_input->getHorizontal() != 0.0f){
+        _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+    }
+    
     if (_input->isRotating) {
 //        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
         _plane->rotateNorm((_input->cutFactor - saveFloat)/1000);
         _model->updateCompassNum();
-        
+        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        _model->_player->isRotating = true;
         saveFloat = _input->cutFactor;
         _rotating = true;
     }
     
-    //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-
-//    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
-//        _plane->rotateNorm(_input->cutFactor/15000);
-//        //createCutObstacles();
-//        _rotating = true;
-//    }
-    //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         _model->updateCompassNum();
+        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        _model->_player->isRotating = true;
         //createCutObstacles();
         _rotating = true;
     }
@@ -695,6 +709,8 @@ void GameplayController::update(float dt) {
         }
         if (_model->_justFinishRotating) {
             _physics->getWorld()->addObstacle(_model->_player);
+            _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+            _model->_player->isRotating = false;
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
@@ -704,6 +720,7 @@ void GameplayController::update(float dt) {
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
+    _model->_player->animate();
     
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {

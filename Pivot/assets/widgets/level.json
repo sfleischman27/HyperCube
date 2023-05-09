@@ -6,7 +6,8 @@
         "levelStartY" : ["layout", "y_anchor"],
         "levelPosX" : ["layout", "x_offset"],
         "levelPosY" : ["layout", "y_offset"],
-        "levelState": ["children", "up", "data", "texture"]
+        "levelState": ["children", "up", "data", "texture"],
+        "levelNumber": ["children", "label", "data", "text"]
     },
     "contents": {
         "type": "Button",
@@ -31,6 +32,21 @@
                 "type": "Image",
                 "data": {
                     "texture": "unlocked"
+                }
+            },
+            "label": {
+                "type": "Label",
+                "data": {
+                    "font": "gyparody",
+                    "text": "1",
+                    "foreground": [255,255,255,255],
+                    "background": [0,0,0,0],
+                    "halign": "center",
+                    "valign": "middle"
+                },
+                "layout":{
+                    "x_anchor": "fill",
+                    "y_anchor": "fill"
                 }
             }
         }
