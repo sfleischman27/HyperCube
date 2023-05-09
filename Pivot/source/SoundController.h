@@ -104,10 +104,11 @@ public:
      * Streams multiple sounds that has been queued into the sound hashmap. Puts them all on the mixer and plays at the same time
      *  @param names the names of the sounds in the json, as a vector
      *  @param loop should the sound be looping
-     *  @param volume the volume of the sound, from 0.0-1.0
+     *  @param volumes the volume of each sound in the order described in the vector, from 0.0-1.0
      */
-    void streamSounds(std::vector<std::string> names, float volume, bool loop);
     
+    void streamSounds(std::vector<std::string> names, std::vector<float> volumes, bool loop);
+
     /**
      * Sets the volume of a certain amount of streamed audio tracks
      * @param names the names of the sounds in the json, as a vector

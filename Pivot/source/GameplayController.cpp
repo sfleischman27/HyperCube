@@ -449,7 +449,10 @@ void GameplayController::load(std::string name){
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     
-    _sound->streamSounds({ "cave_m", "cave_p" }, 1.0, true);
+    _sound->streamSounds({ "cave_m", "cave_p" }, { 1.0, 0.0 }, true);
+    CULog("cavem volume %f",_sound->getSound("cave_m")->getVolume());
+    CULog("cavep volume %f",_sound->getSound("cave_p")->getVolume());
+
     
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();

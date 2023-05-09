@@ -135,19 +135,23 @@ std::string stringifyVector(std::vector<std::string> v){
     return s;
 }
 
-void SoundController::streamSounds(std::vector<std::string> names, float volume, bool loop){
-    for(std::string name : names){
+void SoundController::streamSounds(std::vector<std::string> names, std::vector<float> volumes, bool loop){
+    for(int i = 0; i < names.size(); i++){
+        std::string name = names[i];
+        
         if(_sounds.find(name) == _sounds.end()){
             createSound(name);
         }
         
         _mixer->setName(stringifyVector(names));
         
+        getSound(name)->setVolume(volumes[i]);
+        
         if(getSound(name)->isStreaming()){
             attachSound(name);
-            streamNode(_mixer, volume, loop);
         }
     }
+    streamNode(_mixer, 1.0, loop);     //mixer streams at 1.0 -- acts as a scale for the tracks inside the mixer
 }
 
 void SoundController::setTrackVolume(std::vector<std::string> names, float volume){
