@@ -28,6 +28,9 @@ protected:
     
     /** the hashmap that stores all the sounds that the soundcontroller plays*/
     std::unordered_map<std::string, std::shared_ptr<GameSound>> _sounds;
+    
+    /** vector that stores the nodes inside the audiomixer */
+    std::vector<std::shared_ptr<cugl::audio::AudioNode>> _mixerwrapper;
 
 #pragma mark constructor
 public:
@@ -50,6 +53,12 @@ public:
     std::shared_ptr<GameSound> createSound(std::string name);
     
     /**
+     * returns the GameSound stored under a certain name
+     * @param name the name of the sound in the json
+     */
+    std::shared_ptr<GameSound> getSound(std::string name);
+    
+    /**
      * attaches existent sound object to mixer. mixer channel is determined by:
      *  _m: main level music
      *  _p: portal menu music
@@ -57,6 +66,13 @@ public:
      * @param name the name of the sound in the json.
      */
     void attachSound(std::string name);
+    
+    /**
+     * returns AudioNode at mixer slot
+     * @param slot the slot the node is in
+     */
+    std::shared_ptr<cugl::audio::AudioNode> getMixerSlot(int slot);
+
     
 #pragma mark sound playback
     
@@ -91,6 +107,13 @@ public:
      *  @param volume the volume of the sound, from 0.0-1.0
      */
     void streamSounds(std::vector<std::string> names, float volume, bool loop);
+    
+    /**
+     * Sets the volume of a certain amount of streamed audio tracks
+     * @param names the names of the sounds in the json, as a vector
+     * @param volume the volume to set the sound to, from 0.0-1.0
+     */
+    void setTrackVolume(std::vector<std::string> names, float volume);
     
     /**
      * Streams a AudioNode. With crossfade and all that.

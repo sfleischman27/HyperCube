@@ -17,15 +17,24 @@ bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
     _sounds = std::unordered_map<std::string, std::shared_ptr<GameSound>>();
     _assets = assets;
     
-    //3 audio nodes (main music, portal music, ending music, menu music)
+    //4 audio nodes (main music, portal music, ending music, menu music)
     //_mixer = std::make_shared<cugl::audio::AudioMixer>();
     _mixer = _mixer->alloc(4, 2, 48000);
+    _mixerwrapper = std::vector<std::shared_ptr<cugl::audio::AudioNode>>(_mixer->getWidth());
     return true;
 }
 
 /** removes the sound hashmap */
 void SoundController::dispose(){
     _sounds.clear(); //TODO: make sure there are no leaks here!
+}
+
+/**
+ * returns the GameSound stored under a certain name
+ * @param name the name of the sound in the json
+ */
+std::shared_ptr<GameSound> SoundController::getSound(std::string name){
+    return _sounds[name];
 }
 
 /**
@@ -50,7 +59,6 @@ std::shared_ptr<GameSound> SoundController::createSound(std::string name){
     return sound;
 }
 
-
 /**
  * attaches existent sound object to mixer. mixer channel is determined by:
  *  _m: main level music
@@ -59,9 +67,15 @@ std::shared_ptr<GameSound> SoundController::createSound(std::string name){
  * @param name the name of the sound in the json.
  */
 void SoundController::attachSound(std::string name){
-    std::shared_ptr<GameSound> sound = _sounds[name];
-    
-    sound->attachSound(_mixer);
+    _mixerwrapper[getSound(name)->attachSound(_mixer)] = getSound(name)->getNode();
+}
+
+/**
+ * returns AudioNode at mixer slot
+ * @param slot the slot the node is in
+ */
+std::shared_ptr<cugl::audio::AudioNode> SoundController::getMixerSlot(int slot){
+    return _mixerwrapper[slot];
 }
 
 /**
@@ -70,7 +84,7 @@ void SoundController::attachSound(std::string name){
  *  @param volume the volume to switch the sound to
 */
 void SoundController::setVolume(std::string name, float volume){
-    _sounds[name]->setVolume(volume);
+    getSound(name)->setVolume(volume);
 }
 
 /**
@@ -83,7 +97,7 @@ void SoundController::playSound(std::string name, float volume){
 }
 
 void SoundController::stopSound(std::string name){
-    _sounds[name]->stop();
+    getSound(name)->stop();
 }
 
 /**
@@ -102,9 +116,9 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     }
     setVolume(name, volume);
     
-    std::shared_ptr<GameSound> sound = _sounds[name];
+    std::shared_ptr<GameSound> sound = getSound(name);
     
-    /*if(_sounds[name]->isPlaying()){
+    /*if(getSound(name)->isPlaying()){
         stopSound(name);
     }*/
     sound->getNode()->reset();
@@ -113,12 +127,6 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     } else {
         cugl::AudioEngine::get()->play(name,sound->getNode(),loop, 1.0f, true);
     }
-    
-    
-    /*if(_sounds[name]->isPlaying()){
-        _sounds[name]->stop();
-    }
-    _sounds[name]->play(loop);*/
 }
 
 std::string stringifyVector(std::vector<std::string> v){
@@ -135,10 +143,21 @@ void SoundController::streamSounds(std::vector<std::string> names, float volume,
         
         _mixer->setName(stringifyVector(names));
         
-        if(_sounds[name]->isStreaming()){
-            _sounds[name]->attachSound(_mixer);
+        if(getSound(name)->isStreaming()){
+            attachSound(name);
             streamNode(_mixer, volume, loop);
         }
+    }
+}
+
+void SoundController::setTrackVolume(std::vector<std::string> names, float volume){
+    for(std::string name : names){
+        int slot = GameSound::findMixerSlot(name);
+        std::shared_ptr<cugl::audio::AudioNode> n = _mixerwrapper[slot];
+        if(n == nullptr){
+            CULogError("setTrackVolume node is null, name: %s", name.c_str());
+        }
+        n->setGain(volume);
     }
 }
 

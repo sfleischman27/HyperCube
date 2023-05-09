@@ -33,30 +33,6 @@ protected:
     
     std::shared_ptr<cugl::audio::AudioNode> _node;
     
-private:
-    /** returns which slot should be used in the mixer given the string's name. mixer channel is determined by:
-     *  _m: main level music
-     *  _p: portal menu music
-     *  _e: level ending music _
-     * @param name the name of the sound in the json.
-     */
-    int findMixerSlot(std::string name){
-        int slot = 0;
-        switch(name.back()) {
-            case 'm': //main music
-                slot = 0;
-            break;
-            case 'b':
-                slot = 1;
-            break;
-            case 'e':
-                slot = 2;
-            default:
-                slot = 3;
-        }
-        return slot;
-    };
-    
 public:
     /** inits Sound with...
      * @param name the name of the sound file (to use as a key when playing as an SFX)
@@ -81,13 +57,18 @@ public:
         }*/
     }
     
-    void attachSound(std::shared_ptr<cugl::audio::AudioMixer> mixer){
+    /** attaches sound to a mixer. returns the slot number that it fits into.
+     * @param mixer the mixer you're attaching to
+     */
+    int attachSound(std::shared_ptr<cugl::audio::AudioMixer> mixer){
         //cugl::AudioEngine::get()->getMusicQueue()->enqueue(sound->getSource());
         int slot = findMixerSlot(_name);
 
         if(_streaming){
             mixer->attach(slot, _node);
         }
+        
+        return slot;
     }
     
     /** returns the name of the Sound */
@@ -141,6 +122,29 @@ public:
         return cugl::AudioEngine::get()->isActive(_name);
     }
 
+    /** returns which slot should be used in the mixer given the string's name. mixer channel is determined by:
+     *  _m: main level music
+     *  _p: portal menu music
+     *  _e: level ending music _
+     * @param name the name of the sound in the json.
+     */
+    static int findMixerSlot(std::string name){
+        int slot = 0;
+        switch(name.back()) {
+            case 'm': //main music
+                slot = 0;
+            break;
+            case 'p':
+                slot = 1;
+            break;
+            case 'e':
+                slot = 2;
+            default:
+                slot = 3;
+        }
+        return slot;
+    };
+    
     
 };
 
