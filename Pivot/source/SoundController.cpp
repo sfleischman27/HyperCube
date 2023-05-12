@@ -162,7 +162,7 @@ void SoundController::setTrackVolumes(std::vector<std::string> names, float volu
 }
 
 /**
- * Sets the volume of a certain amount of streamed audio tracks
+ * Sets the volume of a mixer slot
  * @param slot the slot of the song in the mixer m = 0, p = 1, e = 2, else = 3
  * @param volume the volume to set the sound to, from 0.0-1.0
  */
