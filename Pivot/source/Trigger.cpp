@@ -49,3 +49,13 @@ void Trigger::speak(TriggerArgs args) {
 void Trigger::killPlayer(TriggerArgs args) {
     args.player->setDead(true);
 };
+
+//** trigger the rotate tutorial to turn on */
+void Trigger::showRotate(TriggerArgs args) {
+    args.popup->setState("rotate");
+};
+
+//** trigger to turn off popups */
+void Trigger::stopPopups(TriggerArgs args) {
+    args.popup->setState("none");
+}

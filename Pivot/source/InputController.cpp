@@ -667,8 +667,8 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
             //CULog("rotate");
         //} else{
         //have the y pos of the movement buttons follow the y pos of our finger
-        _buttonRight->setPosition(_buttonRight->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
-        _buttonLeft->setPosition(_buttonLeft->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+//        _buttonRight->setPosition(_buttonRight->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+//        _buttonLeft->setPosition(_buttonLeft->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
             processJoystick(pos);
             //CULog("joystick");
         //}

@@ -21,12 +21,14 @@ public:
 		std::shared_ptr<cugl::Texture> tex;
 		std::shared_ptr<cugl::Texture> normalMap;
 		bool isPlayer;
+		int id;
 
-		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer) {
+		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, int id = 0) {
 			this->pos = pos;
 			this->tex = tex;
 			this->normalMap = normalMap;
 			this->isPlayer = isPlayer;
+			this->id = id;
 		}
 	};
 

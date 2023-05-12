@@ -67,6 +67,22 @@ public:
     
     std::shared_ptr<cugl::SpriteSheet> currentNormalSpriteSheet;
     
+    std::shared_ptr<cugl::SpriteSheet> rotateSpriteSheet;
+    
+    std::shared_ptr<cugl::SpriteSheet> rotateNormalSpriteSheet;
+    
+    float lastRotateAngle;
+    
+    bool isRotating;
+    
+    int animState = 0;
+    
+    float currentRotateAngle;
+        
+    float rotateFrames[16];
+    
+    std::unordered_map<int, int> rightRotateMap;
+    
     /** the SpriteSheets for the various player animations*/
     std::unordered_map<std::string, std::pair<std::shared_ptr<cugl::SpriteSheet>, std::shared_ptr<cugl::SpriteSheet>>> spriteSheets;
     
@@ -112,7 +128,6 @@ protected:
     
     int animFrameCounter = 0;
     
-    int animState = 0;
     /** The current velocity of the player in 2D*/
     cugl::Vec2 _vel;
     /** The location of the player in 3D*/
@@ -513,6 +528,22 @@ public:
         currentSpriteSheet = sprite;
     }
     
+    void setRotationalSprite(float currentAngle){
+        float repeat = 22.5f;
+        int neg = 1;
+        if (!isFacingRight()) neg = -1;
+        int localAng = currentAngle - lastRotateAngle;
+        localAng = localAng % 360;
+        localAng *= neg;
+        localAng = localAng < 0 ? localAng + 360 : localAng;
+        int index = (int) localAng / repeat;
+        if(!isFacingRight()){
+            index = rightRotateMap[index];
+        }
+        rotateSpriteSheet->setFrame(index);
+        rotateNormalSpriteSheet->setFrame(index);
+    }
+    
     void setNormalSprite(const std::shared_ptr<cugl::SpriteSheet>& normalsprite) {
         currentNormalSpriteSheet = normalsprite;
     }
@@ -537,6 +568,8 @@ public:
      * This is the primary method to override for custom physics objects.
      */
     void releaseFixtures() override;
+    
+    void animate();
     
     /**
      * Updates the object's physics state (NOT GAME LOGIC).

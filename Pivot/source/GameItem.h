@@ -23,6 +23,8 @@ protected:
     Vec3 _position;
     /** The texture for the item. */
     std::shared_ptr<cugl::Texture> _texture;
+    /** The norm for the item. */
+    std::shared_ptr<cugl::Texture> _norm;
     /** the color of the light of the item*/
     Vec3 _color;
     /** The intensity of the light of the item. */
@@ -107,6 +109,18 @@ public:
         }
     }
     /**
+     *  Sets the norm of the item
+     *
+     *  @param value
+     */
+    void setNorm(const std::shared_ptr<cugl::Texture>& value) {
+        if (value) {
+            _norm = value;
+        } else {
+            _norm = nullptr;
+        }
+    }
+    /**
      *  Sets the color of the light
      *
      *  @param color
@@ -145,6 +159,10 @@ public:
      *  Returns the texture
      */
     std::shared_ptr<Texture> getTexture() { return _texture; }
+    /**
+     *  Returns the norm
+     */
+    std::shared_ptr<Texture> getNorm() { return _norm; }
     /**
      *  Returns the rotation texture given the angle
      *  @param angle

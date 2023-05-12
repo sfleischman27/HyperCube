@@ -74,11 +74,13 @@ void LevelSelect::updateLevel(int level) {
         if (num <= _maxLevel && num != -1){ // unlocked and unlocked button
             it->second->activate();
             _buttons[it->first + "Locked"]->setVisible(false);
+            _buttons[it->first]->setVisible(true);
         } else if (num == -1){ // locked button
             it->second->deactivate();
         } else{ // locked and unlocked button
             it->second->deactivate();
             _buttons[it->first + "Locked"]->setVisible(true);
+            _buttons[it->first]->setVisible(false);
         }
     }
 }
@@ -104,6 +106,7 @@ void LevelSelect::setActive(bool value){
             // unlocked and unlocked button
             it->second->activate();
             _buttons[it->first + "Locked"]->setVisible(false);
+            _buttons[it->first]->setVisible(true);
         } else if (num == -1){ // locked button
             it->second->deactivate();
             it->second->setDown(false);
@@ -111,6 +114,7 @@ void LevelSelect::setActive(bool value){
             it->second->deactivate();
             it->second->setDown(false);
             _buttons[it->first + "Locked"]->setVisible(true);
+            _buttons[it->first]->setVisible(false);
         }
     }
 }
@@ -122,8 +126,6 @@ std::string LevelSelect::packToString(Pack pack){
             return "tutorial";
         case Pack::ONE:
             return "debug";
-        case Pack::TWO:
-            return "test";
     }
 }
 
@@ -219,7 +221,17 @@ std::string LevelSelect::toLevelString(int level, std::string pack){
 }
 
 std::string LevelSelect::getLevelString(){
-    return toLevelString(_choice, packToString(_pack));
+    // TODO: fix once things are renamed
+    if(_choice < 3){ // intro levels
+        _pack = static_cast<LevelSelect::Pack>(0);
+        return toLevelString(_choice, packToString(_pack));
+    } else { // debug levels
+        _choice = static_cast<LevelSelect::Choice>(_choice - 3);
+        _pack = static_cast<LevelSelect::Pack>(1);
+        return toLevelString(_choice, packToString(_pack));
+    }
+    
+    //return toLevelString(_choice, packToString(_pack));
 }
 
 std::string LevelSelect::getNextLevelString(){
@@ -228,13 +240,19 @@ std::string LevelSelect::getNextLevelString(){
 }
 
 void LevelSelect::nextLevel(){
-    int level = _choice;
-   
-    if (level == 2 && _pack == 0){ // end of tutorial pack
-        level = 0;
+    // TODO: fix once things are renamed
+    if(_pack == 0 && _choice == 2){ // end of tutorial
         _choice = Choice::LEVEL1;
         _pack = static_cast<LevelSelect::Pack>(_pack + 1);
-    } else if (level == 14){ // end of normal packs
+    } else { // in debug pack
+        _choice = static_cast<LevelSelect::Choice>(_choice + 1);
+    }
+    updateMax(levelNum());
+    
+    /*
+    int level = _choice;
+   
+    if (level == 14){
         level = 0;
         _choice = Choice::LEVEL1;
         _pack = static_cast<LevelSelect::Pack>(_pack + 1);
@@ -244,10 +262,17 @@ void LevelSelect::nextLevel(){
     }
     // update maxLevel if needed
     updateMax(levelNum());
+     */
 }
 
 int LevelSelect::levelNum(){
-    return ((_pack - 1) * 12) + (_pack * 3) + _choice;
+    // TODO: fix once things are renamed
+    if( _pack == 0){
+        return _choice;
+    } else {
+        return _choice + 3;
+    }
+    //return (_pack * 15) + _choice;
 }
 
 void LevelSelect::updateMax(int level){

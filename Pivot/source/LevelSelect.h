@@ -53,8 +53,7 @@ public:
     enum Pack {
         /** The pack of levels that the page is displaying */
         ZERO = 0,
-        ONE = 1,
-        TWO = 2
+        ONE = 1
     };
     
 protected:
@@ -72,7 +71,7 @@ protected:
     Pack _pack;
     
     /** The total number of levels we have in the game */
-    const int LEVELS_IMPLEMENTED = 8;
+    const int LEVELS_IMPLEMENTED = 7;
     
     /**
      * Returns the active screen size of this scene.

@@ -14,10 +14,39 @@
 # include "PlayerModel.h"
 
 
+struct Popups {
+    enum State {
+        /** No popup is currently active */
+        NONE,
+        /** Rotate graphic is currently active */
+        ROTATE,
+        /** Running graphic is currently active */
+        RUN
+    };
+    
+    State _state;
+    
+    Popups(){ _state = NONE; }
+    
+    void setState(std::string state) {
+        if(state == "none"){
+            _state = NONE;
+        } else if(state == "rotate"){
+            _state = ROTATE;
+        } else if(state == "run"){
+            _state = RUN;
+        }
+    }
+    
+    State getState() { return _state; }
+    
+    void clear() { _state = NONE; }
+};
 
 struct TriggerArgs {
     std::vector<std::string> strings;
     std::shared_ptr<PlayerModel> player;
+    std::shared_ptr<Popups> popup;
 };
 
 class Trigger {
@@ -89,13 +118,14 @@ public:
     //** print a string to terminal, useful for checking if callbacks are working*/
     static void speak(TriggerArgs args);
 
-
     //** trigger the player to die when they enter this zone*/
-
     static void killPlayer(TriggerArgs args);
 
+    //** trigger the rotate tutorial to turn on */
+    static void showRotate(TriggerArgs args);
 
-
+    //** trigger to turn off popups */
+    static void stopPopups(TriggerArgs args);
 };
 
 

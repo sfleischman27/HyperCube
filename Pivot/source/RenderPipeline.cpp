@@ -177,7 +177,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Glowsticks
     for (Glowstick g : model->_glowsticks) {
-        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), NULL, false));
+        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), model->_glowsticks[0].getNorm(), false, 1));
     }
 
     // Decorations
@@ -319,6 +319,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBill->setUniform1i("flipXfrag", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _shaderBill->setUniformVec3("uDirection", n);
         _shaderBill->setUniform1i("useNormTex", 0);
+        _shaderBill->setUniform1i("id", dro.id);
         if (dro.normalMap != NULL) {
             _shaderBill->setUniform1i("normTex", dro.normalMap->getBindPoint());
             _shaderBill->setUniform1i("useNormTex", 1);
@@ -480,7 +481,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
         // If 0 < distance <= -c, then we will want to draw
         if (distance >= 0 || distance <= cutoff) continue;
-        float alpha = 1.0 - (distance / cutoff);
+        float alpha = (1.0 - (distance / cutoff)) * .5;
 
         // Change the drawObject position to be reflected along the plane
         Vec3 oldPos = dro.pos;

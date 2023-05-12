@@ -17,15 +17,56 @@ bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
     _sounds = std::unordered_map<std::string, std::shared_ptr<GameSound>>();
     _assets = assets;
     
-    //3 audio nodes (main music, portal music, ending music, menu music)
+    //4 audio nodes (main music, portal music, ending music, menu music)
     //_mixer = std::make_shared<cugl::audio::AudioMixer>();
     _mixer = _mixer->alloc(4, 2, 48000);
+    _mixerwrapper = std::vector<std::shared_ptr<cugl::audio::AudioNode>>(_mixer->getWidth());
     return true;
 }
 
 /** removes the sound hashmap */
 void SoundController::dispose(){
     _sounds.clear(); //TODO: make sure there are no leaks here!
+}
+
+/**
+ * returns the GameSound stored under a certain name
+ * @param name the name of the sound in the json
+ */
+std::shared_ptr<GameSound> SoundController::getSound(std::string name){
+    return _sounds[name];
+}
+
+/**
+ * sets master volume
+ * @param volume the volume (0 - 1.0)
+ */
+void SoundController::setMasterVolume(float volume){
+    _masterVolume = volume;
+    setAllNodeGains();
+}
+
+/**
+ * returns the master volume (range 0 - 1.0)
+ */
+float SoundController::getMasterVolume(){
+    return _masterVolume;
+}
+
+void SoundController::enableSound(bool sound){
+    _volumeToggle = sound ? 1.0 : 0.0;
+    setAllNodeGains();
+}
+
+bool SoundController::isMuted(){
+    return _volumeToggle == 0.0;
+}
+
+void SoundController::setAllNodeGains(){
+    for (auto const& it : _sounds){
+        std::shared_ptr<GameSound> sound = it.second;
+        sound->getNode()->setGain(sound->getVolume() * _masterVolume * _volumeToggle);
+    }
 }
 
 /**
@@ -50,7 +91,6 @@ std::shared_ptr<GameSound> SoundController::createSound(std::string name){
     return sound;
 }
 
-
 /**
  * attaches existent sound object to mixer. mixer channel is determined by:
  *  _m: main level music
@@ -59,9 +99,15 @@ std::shared_ptr<GameSound> SoundController::createSound(std::string name){
  * @param name the name of the sound in the json.
  */
 void SoundController::attachSound(std::string name){
-    std::shared_ptr<GameSound> sound = _sounds[name];
-    
-    sound->attachSound(_mixer);
+    _mixerwrapper[getSound(name)->attachSound(_mixer)] = getSound(name)->getNode();
+}
+
+/**
+ * returns AudioNode at mixer slot
+ * @param slot the slot the node is in
+ */
+std::shared_ptr<cugl::audio::AudioNode> SoundController::getMixerSlot(int slot){
+    return _mixerwrapper[slot];
 }
 
 /**
@@ -70,7 +116,7 @@ void SoundController::attachSound(std::string name){
  *  @param volume the volume to switch the sound to
 */
 void SoundController::setVolume(std::string name, float volume){
-    _sounds[name]->setVolume(volume);
+    getSound(name)->setVolume(volume);
 }
 
 /**
@@ -83,7 +129,7 @@ void SoundController::playSound(std::string name, float volume){
 }
 
 void SoundController::stopSound(std::string name){
-    _sounds[name]->stop();
+    getSound(name)->stop();
 }
 
 /**
@@ -102,23 +148,17 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     }
     setVolume(name, volume);
     
-    std::shared_ptr<GameSound> sound = _sounds[name];
+    std::shared_ptr<GameSound> sound = getSound(name);
     
-    /*if(_sounds[name]->isPlaying()){
+    /*if(getSound(name)->isPlaying()){
         stopSound(name);
     }*/
     sound->getNode()->reset();
     if(sound->isStreaming()){
         streamNode(sound->getNode(), volume, loop);
     } else {
-        cugl::AudioEngine::get()->play(name,sound->getNode(),loop, 1.0f, true);
+        cugl::AudioEngine::get()->play(name,sound->getNode(), loop, volume * _volumeToggle * _masterVolume, true);
     }
-    
-    
-    /*if(_sounds[name]->isPlaying()){
-        _sounds[name]->stop();
-    }
-    _sounds[name]->play(loop);*/
 }
 
 std::string stringifyVector(std::vector<std::string> v){
@@ -127,19 +167,43 @@ std::string stringifyVector(std::vector<std::string> v){
     return s;
 }
 
-void SoundController::streamSounds(std::vector<std::string> names, float volume, bool loop){
-    for(std::string name : names){
+void SoundController::streamSounds(std::vector<std::string> names, std::vector<float> volumes, bool loop){
+    for(int i = 0; i < names.size(); i++){
+        std::string name = names[i];
+        
         if(_sounds.find(name) == _sounds.end()){
             createSound(name);
         }
         
         _mixer->setName(stringifyVector(names));
         
-        if(_sounds[name]->isStreaming()){
-            _sounds[name]->attachSound(_mixer);
-            streamNode(_mixer, volume, loop);
+        getSound(name)->setVolume(volumes[i]);
+        
+        if(getSound(name)->isStreaming()){
+            attachSound(name);
         }
     }
+    streamNode(_mixer, 1.0, loop);     //mixer streams at 1.0 -- acts as a scale for the tracks inside the mixer
+}
+
+void SoundController::setTrackVolumes(std::vector<std::string> names, float volume){
+    for(std::string name : names){
+        int slot = GameSound::findMixerSlot(name);
+        setTrackVolume(slot, volume);
+    }
+}
+
+/**
+ * Sets the volume of a mixer slot
+ * @param slot the slot of the song in the mixer m = 0, p = 1, e = 2, else = 3
+ * @param volume the volume to set the sound to, from 0.0-1.0
+ */
+void SoundController::setTrackVolume(int slot, float volume){
+    std::shared_ptr<cugl::audio::AudioNode> n = _mixerwrapper[slot];
+    if(n == nullptr){
+        CULogError("setTrackVolume node is null, name: %s, slot: %i", n->getName().c_str(), slot);
+    }
+    n->setGain(volume * _volumeToggle * _masterVolume);
 }
 
 void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, float volume, bool loop){
@@ -149,7 +213,7 @@ void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, f
     if(queue->getState() == cugl::AudioEngine::State::INACTIVE || queue->current() != node->getName()){
         queue->setLoop(loop);
         queue->clear(CROSS_FADE);
-        queue->enqueue(node, loop, volume, CROSS_FADE);
+        queue->enqueue(node, loop, volume * _volumeToggle * _masterVolume, CROSS_FADE);
 
     }
 }

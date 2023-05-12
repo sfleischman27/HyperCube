@@ -78,6 +78,7 @@ private:
     std::shared_ptr<PlaneController> _plane;
     std::shared_ptr<DataController> _data;
     
+    float _portalDistance = 100.0;
     int  _walkCooldown = 0;
 
 

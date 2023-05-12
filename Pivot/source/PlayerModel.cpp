@@ -84,6 +84,23 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
         // Sound Cues
         _jumpCue = false;
         
+        rightRotateMap[0] = 3;
+        rightRotateMap[3] = 0;
+        rightRotateMap[1] = 2;
+        rightRotateMap[2] = 1;
+        rightRotateMap[4] = 7;
+        rightRotateMap[7] = 4;
+        rightRotateMap[5] = 6;
+        rightRotateMap[6] = 5;
+        rightRotateMap[8] = 11;
+        rightRotateMap[11] = 8;
+        rightRotateMap[9] = 10;
+        rightRotateMap[10] = 9;
+        rightRotateMap[12] = 15;
+        rightRotateMap[15] = 12;
+        rightRotateMap[13] = 14;
+        rightRotateMap[14] = 13;
+        
         return true;
     }
     return false;
@@ -240,28 +257,7 @@ void PlayerModel::applyForce() {
 //    }
 }
 
-/**
- * Updates the object's physics state (NOT GAME LOGIC).
- *
- * We use this method to reset cooldowns.
- *
- * @param delta Number of seconds since last animation frame
- */
-void PlayerModel::update(float dt) {
-    // Apply cooldowns
-    if (isJumping()) {
-        _jumpCooldown = JUMP_COOLDOWN;
-    } else {
-        // Only cooldown while grounded
-        _jumpCooldown = (_jumpCooldown > 0 ? _jumpCooldown-1 : 0);
-    }
-    
-    if (isShooting()) {
-        _shootCooldown = SHOOT_COOLDOWN;
-    } else {
-        _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
-    }
-    
+void PlayerModel::animate() {
     /** Animation AND SOUND logic!!! IM HIJACKING AGAIN :) - Gordi*/
     if(getVY() < 0.0 && !isGrounded()){
         if(animState != 2){
@@ -281,7 +277,7 @@ void PlayerModel::update(float dt) {
             animState = 2;
         }
     }
-    else if(abs(getVX()) > 100){
+    else if(abs(getVX()) > 100 && !isRotating){
         if(animState != 4){
             animState = 4;
             setSpriteSheet("run");
@@ -291,7 +287,7 @@ void PlayerModel::update(float dt) {
             _walkCue = false;
         }
     }
-    else if(abs(getVX()) > 2){
+    else if(abs(getVX()) > 2 && !isRotating){
         if(animState != 1){
             animState = 1;
             setSpriteSheet("walk");
@@ -302,9 +298,11 @@ void PlayerModel::update(float dt) {
         }
     }
     else {
-        setSpriteSheet("idle");
+        //setSpriteSheet("idle");
         //spriteSheets.find("jump")->second.first->setFrame(0);
         //spriteSheets.find("jump")->second.second->setFrame(0);
+        currentSpriteSheet = rotateSpriteSheet;
+        currentNormalSpriteSheet = rotateNormalSpriteSheet;
         animState = 0;
     }
     
@@ -313,7 +311,7 @@ void PlayerModel::update(float dt) {
 //    }
     
     
-    if(animFrameCounter >= 2){
+    if(animFrameCounter >= 2 && animState != 0){
         animFrameCounter = 0;
         int frame = currentSpriteSheet->getFrame();
         if(isFacingRight()){
@@ -359,6 +357,29 @@ void PlayerModel::update(float dt) {
         animFrameCounter++;
     }
     
+}
+
+/**
+ * Updates the object's physics state (NOT GAME LOGIC).
+ *
+ * We use this method to reset cooldowns.
+ *
+ * @param delta Number of seconds since last animation frame
+ */
+void PlayerModel::update(float dt) {
+    // Apply cooldowns
+    if (isJumping()) {
+        _jumpCooldown = JUMP_COOLDOWN;
+    } else {
+        // Only cooldown while grounded
+        _jumpCooldown = (_jumpCooldown > 0 ? _jumpCooldown-1 : 0);
+    }
+    
+    if (isShooting()) {
+        _shootCooldown = SHOOT_COOLDOWN;
+    } else {
+        _shootCooldown = (_shootCooldown > 0 ? _shootCooldown-1 : 0);
+    }
     
 //    CULog("%i", currentSpriteSheet->getFrame()/currentSpriteSheet->getCols());
 

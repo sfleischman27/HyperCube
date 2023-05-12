@@ -65,7 +65,8 @@
                                     "key": "level",
                                     "variables": {
                                         "levelPosX": 0.25,
-                                        "levelPosY": -0.0625
+                                        "levelPosY": -0.0625,
+                                        "levelNumber": 2
                                     }
                                 }
                             },
@@ -76,7 +77,8 @@
                                     "variables": {
                                         "levelAnchor": [0.5,1],
                                         "levelStartX": "center",
-                                        "levelPosY": -0.0625
+                                        "levelPosY": -0.0625,
+                                        "levelNumber": 3
                                     }
                                 }
                             },
@@ -88,7 +90,8 @@
                                         "levelAnchor": [1,1],
                                         "levelStartX": "right",
                                         "levelPosX": -0.25,
-                                        "levelPosY": -0.0625
+                                        "levelPosY": -0.0625,
+                                        "levelNumber": 4
                                     }
                                 }
                             },
@@ -100,7 +103,8 @@
                                         "levelAnchor": [1,1],
                                         "levelStartX": "right",
                                         "levelPosX": -0.0625,
-                                        "levelPosY": -0.0625
+                                        "levelPosY": -0.0625,
+                                        "levelNumber": 5
                                     }
                                 }
                             },
@@ -111,7 +115,8 @@
                                     "variables": {
                                         "levelAnchor": [0,0.5],
                                         "levelStartY": "middle",
-                                        "levelPosX": 0.0625
+                                        "levelPosX": 0.0625,
+                                        "levelNumber": 6
                                     }
                                 }
                             },
@@ -122,7 +127,8 @@
                                     "variables": {
                                         "levelAnchor": [0,0.5],
                                         "levelStartY": "middle",
-                                        "levelPosX": 0.25
+                                        "levelPosX": 0.25,
+                                        "levelNumber": 7
                                     }
                                 }
                             },
@@ -133,7 +139,8 @@
                                     "variables": {
                                         "levelAnchor": [0.5,0.5],
                                         "levelStartY": "middle",
-                                        "levelStartX": "center"
+                                        "levelStartX": "center",
+                                        "levelNumber": 8
                                     }
                                 }
                             },
@@ -145,7 +152,8 @@
                                         "levelAnchor": [1,0.5],
                                         "levelStartY": "middle",
                                         "levelStartX": "right",
-                                        "levelPosX": -0.25
+                                        "levelPosX": -0.25,
+                                        "levelNumber": 9
                                     }
                                 }
                             },
@@ -157,7 +165,8 @@
                                         "levelAnchor": [1,0.5],
                                         "levelStartY": "middle",
                                         "levelStartX": "right",
-                                        "levelPosX": -0.0625
+                                        "levelPosX": -0.0625,
+                                        "levelNumber": 10
                                     }
                                 }
                             },
@@ -169,7 +178,8 @@
                                         "levelAnchor": [0,0],
                                         "levelStartY": "bottom",
                                         "levelPosX": 0.0625,
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelNumber": 11
                                     }
                                 }
                             },
@@ -181,7 +191,8 @@
                                         "levelAnchor": [0,0],
                                         "levelStartY": "bottom",
                                         "levelPosX": 0.25,
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelNumber": 12
                                     }
                                 }
                             },
@@ -193,7 +204,8 @@
                                         "levelAnchor": [0.5,0],
                                         "levelStartY": "bottom",
                                         "levelStartX": "center",
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelNumber": 13
                                     }
                                 }
                             },
@@ -206,7 +218,8 @@
                                         "levelStartY": "bottom",
                                         "levelStartX": "right",
                                         "levelPosX": -0.25,
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelNumber": 14
                                     }
                                 }
                             },
@@ -219,7 +232,8 @@
                                         "levelStartY": "bottom",
                                         "levelStartX": "right",
                                         "levelPosX": -0.0625,
-                                        "levelPosY": 0.0625
+                                        "levelPosY": 0.0625,
+                                        "levelNumber": 15
                                     }
                                 }
                             },
@@ -230,7 +244,8 @@
                                     "variables": {
                                         "levelPosX": 0.0625,
                                         "levelPosY": -0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedone",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -241,7 +256,8 @@
                                     "variables": {
                                         "levelPosX": 0.25,
                                         "levelPosY": -0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedtwo",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -253,7 +269,8 @@
                                         "levelAnchor": [0.5,1],
                                         "levelStartX": "center",
                                         "levelPosY": -0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedthree",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -266,7 +283,8 @@
                                         "levelStartX": "right",
                                         "levelPosX": -0.25,
                                         "levelPosY": -0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedone",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -279,7 +297,8 @@
                                         "levelStartX": "right",
                                         "levelPosX": -0.0625,
                                         "levelPosY": -0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedtwo",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -291,7 +310,8 @@
                                         "levelAnchor": [0,0.5],
                                         "levelStartY": "middle",
                                         "levelPosX": 0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedthree",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -303,7 +323,8 @@
                                         "levelAnchor": [0,0.5],
                                         "levelStartY": "middle",
                                         "levelPosX": 0.25,
-                                        "levelState": "locked"
+                                        "levelState": "lockedone",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -315,7 +336,8 @@
                                         "levelAnchor": [0.5,0.5],
                                         "levelStartY": "middle",
                                         "levelStartX": "center",
-                                        "levelState": "locked"
+                                        "levelState": "lockedtwo",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -328,7 +350,8 @@
                                         "levelStartY": "middle",
                                         "levelStartX": "right",
                                         "levelPosX": -0.25,
-                                        "levelState": "locked"
+                                        "levelState": "lockedthree",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -341,7 +364,8 @@
                                         "levelStartY": "middle",
                                         "levelStartX": "right",
                                         "levelPosX": -0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedone",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -354,7 +378,8 @@
                                         "levelStartY": "bottom",
                                         "levelPosX": 0.0625,
                                         "levelPosY": 0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedtwo",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -367,7 +392,8 @@
                                         "levelStartY": "bottom",
                                         "levelPosX": 0.25,
                                         "levelPosY": 0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedthree",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -380,7 +406,8 @@
                                         "levelStartY": "bottom",
                                         "levelStartX": "center",
                                         "levelPosY": 0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedone",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -394,7 +421,8 @@
                                         "levelStartX": "right",
                                         "levelPosX": -0.25,
                                         "levelPosY": 0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedtwo",
+                                        "levelNumber": ""
                                     }
                                 }
                             },
@@ -408,7 +436,62 @@
                                         "levelStartX": "right",
                                         "levelPosX": -0.0625,
                                         "levelPosY": 0.0625,
-                                        "levelState": "locked"
+                                        "levelState": "lockedthree",
+                                        "levelNumber": ""
+                                    }
+                                }
+                            },
+                            "levelnext": {
+                                "type": "Button",
+                                "format": {
+                                    "type": "Anchored"
+                                },
+                                "data": {
+                                    "upnode": "up",
+                                    "size": [800,200],
+                                    "anchor": [0, 1],
+                                    "scale": 0.97,
+                                    "visible": true
+                                },
+                                "layout":{
+                                    "x_anchor": "left",
+                                    "y_anchor": "top",
+                                    "x_offset": -0.285,
+                                    "y_offset": -0.37
+                                },
+                                "children": {
+                                    "up":{
+                                        "type": "Image",
+                                        "data": {
+                                            "texture": "levelprevious"
+                                        }
+                                    }
+                                }
+                            },
+                            "levelprevious": {
+                                "type": "Button",
+                                "format": {
+                                    "type": "Anchored"
+                                },
+                                "data": {
+                                    "upnode": "up",
+                                    "size": [800,200],
+                                    "anchor": [1, 1],
+                                    "scale": 0.97,
+                                    "visible": true
+                                },
+                                "layout":{
+                                    "x_anchor": "right",
+                                    "y_anchor": "top",
+                                    "x_offset": 0.282,
+                                    "y_offset": -0.37
+                                },
+                                "children": {
+                                    "up":{
+                                        "type": "Image",
+                                        "data": {
+                                            "texture": "levelnext"
+                                        }
                                     }
                                 }
                             }

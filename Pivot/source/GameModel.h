@@ -79,10 +79,14 @@ public:
     /** Vector of decorations */
     std::vector<std::shared_ptr<GameItem>> _decorations;
 
-#pragma mark Triggers
+#pragma mark Triggers and Popups
 public:
     /** Vector of triggers */
     std::vector<std::shared_ptr<Trigger>> _triggers;
+    
+    std::shared_ptr<Popups> _popup;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _rotatePopup;
     
 #pragma mark Backpack State
 public:
@@ -151,6 +155,7 @@ public:
         _decorations = std::vector<std::shared_ptr<GameItem>>();
         _deathTime = std::make_shared<Timestamp>();
         _currentTime = std::make_shared<Timestamp>();
+        _popup = std::make_shared<Popups>(Popups());
     }
     
 #pragma mark Getters and Setters
@@ -342,6 +347,10 @@ public:
         }
     }
     
+    void clearPopups() {
+        _popup->clear();
+    }
+    
     void clearCollectibles() {
         _collectibles.clear();
     }
@@ -444,6 +453,11 @@ public:
         _compassNum->setText(std::to_string(angle));
         int frame = (angle + 360) % 10;
         _compassSpin->setFrame(frame);
+        // fade in
+        auto color = _compassSpin->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+        _compassSpin->setColor(newColor);
+        // set visible
         _compassSpin->setVisible(true);
     }    
 };

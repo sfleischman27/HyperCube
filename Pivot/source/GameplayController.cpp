@@ -50,6 +50,8 @@ using namespace cugl;
 #pragma mark Sound Constants
 /** Cooldown (in animation frames) for playing the walking sfx */
 #define WALK_COOLDOWN   5
+/** Maximum portal distance where it will still play noise */
+#define MAX_PORTAL_DIST 250.0
 
 /**
  * Creates a new game world with the default values.
@@ -194,6 +196,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
         }
     });
     
+    // store UI elements for later usage
     _model->_glowstickCounter = std::dynamic_pointer_cast<scene2::Label>( _buttons["glowstickB"]->getChildByName("label"));
     
     _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum"));
@@ -202,11 +205,27 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_compassSpin = std::dynamic_pointer_cast<scene2::SpriteNode>(kids->getChildByName("compassBar"));
     
+    _model->_rotatePopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("rotateTutorial"));
+    
+    // set compass alpha to 0.0 so it can fade in
+    auto color = _model->_compassSpin->getColor();
+    auto newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_compassSpin->setColor(newColor);
+    
+    // set rotate popup alpha to 0.0 so it can fade in
+    color = _model->_rotatePopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_rotatePopup->setColor(newColor);
+    
     layer->setContentSize(_dimen);
     layer->doLayout();
 
     addChild(layer);
     setActive(false);
+    
+    // get run image scene2s so they can be modified in input
+    auto leftRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScene_leftB_dashactive"));
+    auto rightRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScene_rightB_dashactive"));
     
     //set up the input handler
     _input = std::make_shared<InputController>();
@@ -247,12 +266,20 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     sheet = SpriteSheet::alloc(assets->get<Texture>("player-idle"), 1, 1);
     normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-idle-normal"), 1, 1);
     
-    _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
-    
     _model->_player->setSprite(sheet);
     _model->_player->setNormalSprite(normalSheet);
     
-
+    _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate"), 4, 4);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate-normal"), 4, 4);
+    
+    _model->_player->rotateSpriteSheet = sheet;
+    _model->_player->rotateNormalSpriteSheet = normalSheet;
+    
+    _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+    _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+    
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
@@ -416,13 +443,16 @@ void GameplayController::load(std::string name){
     // change plane for new model
     _plane->init(_model);
     _plane->calculateCut();
+    _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+    _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
     // update physics for new cut
     createCutObstacles();
     _physics->update(0);
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     
-    _sound->streamSounds({ "cave_m" }, 1.0, true);
+    _sound->streamSounds({ "cave_m", "cave_p" }, { 1.0, 0.0 }, true);
+    
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();
     _model->_compassSpin->setVisible(false);
@@ -601,41 +631,60 @@ void GameplayController::update(float dt) {
         
     }
 
-    //kill the player if marked dead
+    // kill the player if marked dead
     if (_model->_player->isDead()) {
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_player->setDead(false);
         _model->_deathTime->mark();
     }
     _model->_currentTime->mark();
+    
+    // update popups
+    if (_model->_popup->getState() == Popups::ROTATE){
+        // turn on the rotate popup
+        _model->_rotatePopup->setVisible(true);
+        auto color = _model->_rotatePopup->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+        _model->_rotatePopup->setColor(newColor);
+    } else {
+        // turn off any active popups
+        if (_model->_rotatePopup->isVisible()){
+            auto color = _model->_rotatePopup->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+            _model->_rotatePopup->setColor(newColor);
+            // if it is completely faded out, turn it off
+            if (_model->_rotatePopup->getColor().a <= 0) {
+                _model->_rotatePopup->setVisible(false);
+            }
+        }
+    }
 
-    //if (_input->didIncreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)){
-    //    if (_model->_player->isGrounded() && _input->didIncreaseCut()) {
     if (!_input->isRotating) {
         saveFloat = 0.0;
         _input->cutFactor = 0.0;
     }
+    
+    if(_input->getHorizontal() != 0.0f){
+        _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
+        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+    }
+    
     if (_input->isRotating) {
 //        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
         _plane->rotateNorm((_input->cutFactor - saveFloat)/1000);
         _model->updateCompassNum();
-        
+        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        _model->_player->isRotating = true;
         saveFloat = _input->cutFactor;
         _rotating = true;
     }
     
-    //else if (_input->didDecreaseCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
-
-//    else if (_model->_player->isGrounded() && _input->didDecreaseCut()) {
-//        _plane->rotateNorm(_input->cutFactor/15000);
-//        //createCutObstacles();
-//        _rotating = true;
-//    }
-    //else if (_input->didKeepChangingCut() && (_model->_player->getX() > DEFAULT_WIDTH/2 - 1) && (_model->_player->getX() < DEFAULT_WIDTH/2 + 1)) {
     else if (_input->didKeepChangingCut()) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         _model->updateCompassNum();
+        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        _model->_player->isRotating = true;
         //createCutObstacles();
         _rotating = true;
     }
@@ -652,18 +701,28 @@ void GameplayController::update(float dt) {
             _rotating = false;
             _model->_justFinishRotating = true;
         }
+        else if(_model->_compassSpin->isVisible()) {
+            auto color = _model->_compassSpin->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+            _model->_compassSpin->setColor(newColor);
+            if(_model->_compassSpin->getColor().a <= 0) {
+                _model->_compassSpin->setVisible(false);
+            }
+        }
         if (_model->_justFinishRotating) {
             _physics->getWorld()->addObstacle(_model->_player);
+            _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+            _model->_player->isRotating = false;
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
             lastStablePlay2DPos = _model->_player->getPosition();
-            _model->_compassSpin->setVisible(false);
         }
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
+    _model->_player->animate();
     
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
@@ -749,6 +808,7 @@ void GameplayController::update(float dt) {
     }
     
     if(_model->_player->_walkCue){
+        
         float walkNumber = rand() % 12;
         //CULog("walkNumber = %f", walkNumber);
         
@@ -771,6 +831,12 @@ void GameplayController::update(float dt) {
         _model->_player->_walkCue = false;
     }
     
+    //change portal sfx the closer you get to the portal
+    Vec3 distance = _model->_exit->getPosition() - _model->getPlayer3DLoc();
+
+    _portalDistance = distance.length();   //_model->getNavigatorTransforms().first.length();
+    //CULog("portal distance: %f",_portalDistance);
+    _sound->setTrackVolume(1, std::clamp(1-_portalDistance/MAX_PORTAL_DIST, 0.0, 1.0)); //slot 1 = cave_p
 }
 
 /**
