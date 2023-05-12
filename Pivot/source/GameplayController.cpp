@@ -50,6 +50,8 @@ using namespace cugl;
 #pragma mark Sound Constants
 /** Cooldown (in animation frames) for playing the walking sfx */
 #define WALK_COOLDOWN   5
+/** Maximum portal distance where it will still play noise */
+#define MAX_PORTAL_DIST 250.0
 
 /**
  * Creates a new game world with the default values.
@@ -450,9 +452,6 @@ void GameplayController::load(std::string name){
     _pipeline->sceneSetup(_model);
     
     _sound->streamSounds({ "cave_m", "cave_p" }, { 1.0, 0.0 }, true);
-    CULog("cavem volume %f",_sound->getSound("cave_m")->getVolume());
-    CULog("cavep volume %f",_sound->getSound("cave_p")->getVolume());
-
     
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();
@@ -831,6 +830,15 @@ void GameplayController::update(float dt) {
         _model->_player->_walkCue = false;
     }
     
+    //change portal sfx the closer you get to the portal
+    Vec3 distance = _model->_exit->getPosition() - _model->getPlayer3DLoc();
+    /*CULog("exit pos: %f %f %f",_model->_exit->getPosition().x, _model->_exit->getPosition().y, _model->_exit->getPosition().z);
+    CULog("player pos: %f %f %f",_model->_player->getPosition().x, _model->_player->getPosition().y, _model->_player->getPosition().z);*/
+
+
+    _portalDistance = distance.length();   //_model->getNavigatorTransforms().first.length();
+    CULog("portal distance: %f",_portalDistance);
+    _sound->setTrackVolume(1, std::clamp(1-_portalDistance/MAX_PORTAL_DIST, 0.0, 1.0)); //slot 1 = cave_p
 }
 
 /**

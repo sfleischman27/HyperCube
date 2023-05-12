@@ -114,8 +114,15 @@ public:
      * @param names the names of the sounds in the json, as a vector
      * @param volume the volume to set the sound to, from 0.0-1.0
      */
-    void setTrackVolume(std::vector<std::string> names, float volume);
+    void setTrackVolumes(std::vector<std::string> names, float volume);
     
+    /**
+     * Sets the volume of a certain amount of streamed audio tracks
+     * @param slot the slot of the song in the mixer m = 0, p = 1, e = 2, else = 3
+     * @param volume the volume to set the sound to, from 0.0-1.0
+     */
+    void setTrackVolume(int slot, float volume);
+
     /**
      * Streams a AudioNode. With crossfade and all that.
      *  @param name the name of the sound in the json

@@ -154,15 +154,24 @@ void SoundController::streamSounds(std::vector<std::string> names, std::vector<f
     streamNode(_mixer, 1.0, loop);     //mixer streams at 1.0 -- acts as a scale for the tracks inside the mixer
 }
 
-void SoundController::setTrackVolume(std::vector<std::string> names, float volume){
+void SoundController::setTrackVolumes(std::vector<std::string> names, float volume){
     for(std::string name : names){
         int slot = GameSound::findMixerSlot(name);
-        std::shared_ptr<cugl::audio::AudioNode> n = _mixerwrapper[slot];
-        if(n == nullptr){
-            CULogError("setTrackVolume node is null, name: %s", name.c_str());
-        }
-        n->setGain(volume);
+        setTrackVolume(slot, volume);
     }
+}
+
+/**
+ * Sets the volume of a certain amount of streamed audio tracks
+ * @param slot the slot of the song in the mixer m = 0, p = 1, e = 2, else = 3
+ * @param volume the volume to set the sound to, from 0.0-1.0
+ */
+void SoundController::setTrackVolume(int slot, float volume){
+    std::shared_ptr<cugl::audio::AudioNode> n = _mixerwrapper[slot];
+    if(n == nullptr){
+        CULogError("setTrackVolume node is null, name: %s, slot: %i", n->getName().c_str(), slot);
+    }
+    n->setGain(volume);
 }
 
 void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, float volume, bool loop){
