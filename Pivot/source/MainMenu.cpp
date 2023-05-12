@@ -60,6 +60,7 @@ bool MainMenu::init(const std::shared_ptr<cugl::AssetManager>& assets) {
             _choice = Choice::RESUME;
         }
     });
+    _resume->setVisible(false);
     
     addChild(layer);
     setActive(false);
@@ -91,16 +92,14 @@ void MainMenu::setActive(bool value) {
         _choice = NONE;
         if (_canResume){
             _resume->activate();
-            _resume->setVisible(true);
             
-            _start->setVisible(false);
+            _start->setVisible(true);
             _start->deactivate();
             _start->setDown(false);
         } else {
             _start->activate();
             _start->setVisible(true);
             
-            _resume->setVisible(false);
             _resume->deactivate();
             _resume->setDown(false);
         }
