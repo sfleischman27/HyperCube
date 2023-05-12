@@ -38,6 +38,38 @@ std::shared_ptr<GameSound> SoundController::getSound(std::string name){
 }
 
 /**
+ * sets master volume
+ * @param volume the volume (0 - 1.0)
+ */
+void SoundController::setMasterVolume(float volume){
+    _masterVolume = volume;
+    setAllNodeGains();
+}
+
+/**
+ * returns the master volume (range 0 - 1.0)
+ */
+float SoundController::getMasterVolume(){
+    return _masterVolume;
+}
+
+void SoundController::enableSound(bool sound){
+    _volumeToggle = sound ? 1.0 : 0.0;
+    setAllNodeGains();
+}
+
+bool SoundController::isMuted(){
+    return _volumeToggle == 0.0;
+}
+
+void SoundController::setAllNodeGains(){
+    for (auto const& it : _sounds){
+        std::shared_ptr<GameSound> sound = it.second;
+        sound->getNode()->setGain(sound->getVolume() * _masterVolume * _volumeToggle);
+    }
+}
+
+/**
  * creates a new sound object and adds it to the sounds hashmap
  * @param name the name of the sound in the json
  * @param streaming if the sound is streaming or not (is it music or SFX?)
@@ -125,7 +157,7 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     if(sound->isStreaming()){
         streamNode(sound->getNode(), volume, loop);
     } else {
-        cugl::AudioEngine::get()->play(name,sound->getNode(),loop, 1.0f, true);
+        cugl::AudioEngine::get()->play(name,sound->getNode(), loop, volume * _volumeToggle * _masterVolume, true);
     }
 }
 
@@ -171,7 +203,7 @@ void SoundController::setTrackVolume(int slot, float volume){
     if(n == nullptr){
         CULogError("setTrackVolume node is null, name: %s, slot: %i", n->getName().c_str(), slot);
     }
-    n->setGain(volume);
+    n->setGain(volume * _volumeToggle * _masterVolume);
 }
 
 void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, float volume, bool loop){
@@ -181,7 +213,7 @@ void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, f
     if(queue->getState() == cugl::AudioEngine::State::INACTIVE || queue->current() != node->getName()){
         queue->setLoop(loop);
         queue->clear(CROSS_FADE);
-        queue->enqueue(node, loop, volume, CROSS_FADE);
+        queue->enqueue(node, loop, volume * _volumeToggle * _masterVolume, CROSS_FADE);
 
     }
 }

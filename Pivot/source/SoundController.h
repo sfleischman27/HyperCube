@@ -31,6 +31,12 @@ protected:
     
     /** vector that stores the nodes inside the audiomixer */
     std::vector<std::shared_ptr<cugl::audio::AudioNode>> _mixerwrapper;
+    
+    /** master volume, range 0 - 1.0 */
+    float _masterVolume = 1.0f;
+    
+    /** toggle volume, either 0 or 1 */
+    float _volumeToggle = 1.0f;
 
 #pragma mark constructor
 public:
@@ -44,7 +50,6 @@ public:
     void dispose();
     
 #pragma mark sound creation
-    
     /**
      * creates a new sound object and adds it to the sounds hashmap
      * @param name the name of the sound in the json
@@ -74,6 +79,33 @@ public:
     std::shared_ptr<cugl::audio::AudioNode> getMixerSlot(int slot);
 
     
+#pragma mark master sound controls
+    /**
+     * sets master volume
+     * @param volume the volume (0 - 1.0)
+     */
+    void setMasterVolume(float volume);
+    
+    /**
+     * returns the master volume (range 0 - 1.0)
+     */
+    float getMasterVolume();
+    
+    /**
+     * enables sound
+     * @param sound whether to enable/disable sound
+     */
+    void enableSound(bool sound);
+    
+    /**
+     * if sound is muted
+     */
+    bool isMuted();
+    
+    /**
+     * sets the gain of all nodes to master volume
+     */
+    void setAllNodeGains();
 #pragma mark sound playback
     
     /**

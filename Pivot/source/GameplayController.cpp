@@ -808,6 +808,7 @@ void GameplayController::update(float dt) {
     }
     
     if(_model->_player->_walkCue){
+        
         float walkNumber = rand() % 12;
         //CULog("walkNumber = %f", walkNumber);
         
@@ -832,12 +833,9 @@ void GameplayController::update(float dt) {
     
     //change portal sfx the closer you get to the portal
     Vec3 distance = _model->_exit->getPosition() - _model->getPlayer3DLoc();
-    /*CULog("exit pos: %f %f %f",_model->_exit->getPosition().x, _model->_exit->getPosition().y, _model->_exit->getPosition().z);
-    CULog("player pos: %f %f %f",_model->_player->getPosition().x, _model->_player->getPosition().y, _model->_player->getPosition().z);*/
-
 
     _portalDistance = distance.length();   //_model->getNavigatorTransforms().first.length();
-    CULog("portal distance: %f",_portalDistance);
+    //CULog("portal distance: %f",_portalDistance);
     _sound->setTrackVolume(1, std::clamp(1-_portalDistance/MAX_PORTAL_DIST, 0.0, 1.0)); //slot 1 = cave_p
 }
 
