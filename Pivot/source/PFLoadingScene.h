@@ -30,6 +30,14 @@
  * this button will inform the application root to switch to the gameplay mode.
  */
 class LoadingScene : public cugl::Scene2 {
+public:
+    enum State {
+        /** Loading is not complete */
+        NONE,
+        /** Loading is complete  */
+        NEXT
+    };
+    
 protected:
     /** The asset manager for loading. */
     std::shared_ptr<cugl::AssetManager> _assets;
@@ -41,14 +49,13 @@ protected:
     std::shared_ptr<cugl::scene2::ProgressBar>  _bar;
     /** The engine name */
     std::shared_ptr<cugl::scene2::SceneNode>  _brand;
-    /** The "play" button */
-    std::shared_ptr<cugl::scene2::Button>    _button;
 
     // MODEL
     /** The progress displayed on the screen */
     float _progress;
-    /** Whether or not the player has pressed play to continue */
-    bool  _completed;
+    
+    /** The loading screen status */
+    State _state;
 
     /**
      * Returns the active screen size of this scene.
@@ -108,11 +115,11 @@ public:
     void update(float timestep);
     
     /**
-     * Returns true if loading is complete, but the player has not pressed play
+     * Returns loading screen status.
      *
-     * @return true if loading is complete, but the player has not pressed play
+     * @return the loading status.
      */
-    bool isPending( ) const;
+    State getState() const { return _state; }
 };
 
 #endif /* __PF_LOADING_SCENE_H__ */

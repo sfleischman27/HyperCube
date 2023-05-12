@@ -52,7 +52,6 @@ void PivotApp::onStartup() {
     _assets->attach<JsonValue>(JsonLoader::alloc()->getHook());
     _assets->attach<WidgetValue>(WidgetLoader::alloc()->getHook());
     
-    // TODO: make our own loading screen
     // Create a "loading" screen
     _demoloading.init(_assets);
     
@@ -221,21 +220,24 @@ void PivotApp::draw() {
 }
 
 void PivotApp::updateLoadingScene(float timestep){
-    if (_demoloading.isActive()) {
-        _demoloading.update(timestep);
-    } else {
-        _demoloading.dispose(); // Permanently disables the input listeners in this mode
-        _mainMenu.init(_assets);
-        if(_testing){
-            _levelSelect.initMax(_assets);
-        }else{
-            _levelSelect.init(_assets);
-        }
-        _endMenu.init(_assets);
-        _quitMenu.init(_assets);
-        _gameplay.init(_assets, getDisplaySize(), _sound);
-        _mainMenu.setActive(true);
-        _scene = State::MAIN;
+    switch (_demoloading.getState()) {
+        case LoadingScene::State::NONE:
+            _demoloading.update(timestep);
+            break;
+        case LoadingScene::State::NEXT:
+            _demoloading.dispose(); // Permanently disables the input listeners in this mode
+            _mainMenu.init(_assets);
+            if(_testing){
+                _levelSelect.initMax(_assets);
+            }else{
+                _levelSelect.init(_assets);
+            }
+            _endMenu.init(_assets);
+            _quitMenu.init(_assets);
+            _gameplay.init(_assets, getDisplaySize(), _sound);
+            _mainMenu.setActive(true);
+            _scene = State::MAIN;
+            break;
     }
 }
 
