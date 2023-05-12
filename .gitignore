@@ -2746,3 +2746,5 @@ libigl-main/tutorial/720_BlueNoise/main.cpp
 libigl-main/tutorial/721_VectorFieldSmoothing/main.cpp
 libigl-main/tutorial/722_VectorParallelTransport/main.cpp
 libigl-main/tutorial/CMakeLists.txt
+Pivot/level_files/hallway.blend1
+Pivot/level_files/hallway.blend
