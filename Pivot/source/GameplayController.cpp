@@ -565,7 +565,8 @@ void GameplayController::collectUI(int col, int got){
                 // collect center left of inventory
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(false);
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-two")->setVisible(true);
-            } else if(got >= 2){
+            }
+            if(got >= 2){
                 // collect center right of inventory
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(false);
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-three")->setVisible(true);
@@ -576,11 +577,13 @@ void GameplayController::collectUI(int col, int got){
                 // collect left of odd inventory
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-one")->setVisible(false);
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-one")->setVisible(true);
-            } else if(got >= 2){
+            }
+            if(got >= 2){
                 // collect center of odd inventory
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-two")->setVisible(false);
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-two")->setVisible(true);
-            } else if(got >= 3){
+            }
+            if(got >= 3){
                 // collect right of odd inventory
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_empty-three")->setVisible(false);
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd_key-three")->setVisible(true);
@@ -591,15 +594,18 @@ void GameplayController::collectUI(int col, int got){
                 // collect left of inventory
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-one")->setVisible(false);
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-one")->setVisible(true);
-            } else if(got >= 2){
+            }
+            if(got >= 2){
                 // collect center left of inventory
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-two")->setVisible(false);
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-two")->setVisible(true);
-            } else if(got >= 3){
+            }
+            if(got >= 3){
                 // collect center right of inventory
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-three")->setVisible(false);
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-three")->setVisible(true);
-            } else if(got >= 4){
+            }
+            if(got >= 4){
                 // collect right of inventory
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_empty-four")->setVisible(false);
                 _assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory_key-four")->setVisible(true);
