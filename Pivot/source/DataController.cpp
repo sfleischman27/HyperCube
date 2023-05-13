@@ -213,42 +213,18 @@ void DataController::setupSave(std::string dir, bool exists){
         _save = JsonValue::allocObject();
         _save->initWithJson(read->readJsonString());
     } else{ // no save file
-        createSaveFile();
+        // make a save file
+        filetool::file_create(_saveDir);
+        // get default save json
+        _save = _assets->get<JsonValue>("default_save");
     }
 }
 
-// TODO: make a default save file and pull that instead of making the jsonvalue (only needed if we make a more complex save file)
-void DataController::createSaveFile(){
-    // make an empty json
-    _save = JsonValue::allocObject();
-    // make a save file
-    filetool::file_create(_saveDir);
-    // make max_level = 0
-    long l = 0;
-    _save->appendValue("max_level", l);
-}
-
-void DataController::save(int maxLevel){
+void DataController::save(){
+    // make a writer
     auto write = JsonWriter::alloc(_saveDir);
-    // update the json value
-    updateSaveJson(maxLevel);
     // write the json value to the file
     write->writeJson(_save);
+    // close the writer
     write->close();
-}
-
-void DataController::updateSaveJson(long maxLevel){
-    // update curr_level
-    _save->get("max_level")->set(maxLevel);
-    
-    // TODO: Implement if we want to enable resuming your current level
-    // update player_loc
-    // update norm
-    // update collectibles
-    // update glowsticks
-    // update unlocked_levels
-}
-
-int DataController::getMaxLevel(){
-    return _save->getLong("max_level");
 }

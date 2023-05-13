@@ -956,11 +956,3 @@ void GameplayController::endContact(b2Contact* contact) {
         }
     }
 }
-
-void GameplayController::save(int maxLevel) {
-    _data->save(maxLevel);
-}
-
-int GameplayController::getMaxLevel() {
-    return _data->getMaxLevel();
-}
