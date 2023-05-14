@@ -1,0 +1,101 @@
+{
+    "variables": {
+        "showToggle": ["data", "visible"],
+        "toggleScale": ["data", "scale"],
+        "toggleYOffset": ["layout", "y_offset"],
+        "toggleXPos": ["children", "toggle", "layout", "x_offset"],
+        "valueXPos": ["children", "value", "layout", "x_offset"],
+        "category": ["children", "category", "data", "text"],
+        "value": ["children", "value", "data", "text"]
+    },
+    "contents": {
+        "type": "Node",
+        "format": {
+            "type": "Anchored"
+        },
+        "data": {
+            "size": [1800,100],
+            "scale": 1,
+            "anchor": [0,1],
+            "visible": true
+        },
+        "layout": {
+            "x_anchor": "left",
+            "y_anchor": "middle",
+            "x_offset": 0,
+            "y_offset": 0
+        },
+        "children": {
+            "category": {
+                "type": "Label",
+                "data": {
+                    "font": "gyparody",
+                    "text": "Category",
+                    "foreground": [255,255,255,255],
+                    "background": [0,0,0,0],
+                    "halign": "center",
+                    "valign": "middle"
+                },
+                "layout":{
+                    "x_anchor": "left",
+                    "y_anchor": "fill",
+                    "x_offset": 0.1
+                }
+            },
+            "toggle": {
+                "type": "Button",
+                "format": {
+                    "type": "Anchored"
+                },
+                "data": {
+                    "upnode": "up",
+                    "downnode": "down",
+                    "size": [300, 100],
+                    "anchor": [0.5,0.5],
+                    "scale": 1,
+                    "visible": true
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "middle",
+                    "x_offset": 0
+                },
+                "children": {
+                    "up":{
+                        "type": "Image",
+                        "data": {
+                            "texture": "toggleon"
+                        }
+                    },
+                    "down":{
+                        "type": "Image",
+                        "data": {
+                            "texture": "toggleoff"
+                        }
+                    }
+                }
+            },
+            "value": {
+                "type": "Label",
+                "data": {
+                    "font": "gyparody",
+                    "text": "0",
+                    "foreground": [255,255,255,255],
+                    "background": [0,0,0,0],
+                    "halign": "center",
+                    "valign": "middle",
+                    "anchor": [1,0],
+                    "visible": true
+                },
+                "layout":{
+                    "x_anchor": "right",
+                    "y_anchor": "fill",
+                    "x_offset": 0
+                }
+            }
+        }
+    }
+}
+
+
+

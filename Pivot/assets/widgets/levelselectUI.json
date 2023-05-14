@@ -494,6 +494,33 @@
                                         }
                                     }
                                 }
+                            },
+                            "settings": {
+                                "type": "Button",
+                                "format": {
+                                    "type": "Anchored"
+                                },
+                                "data": {
+                                    "upnode": "up",
+                                    "size": [120,100],
+                                    "anchor": [0, 0],
+                                    "scale": 1,
+                                    "visible": true
+                                },
+                                "layout":{
+                                    "x_anchor": "left",
+                                    "y_anchor": "top",
+                                    "x_offset": 0.01,
+                                    "y_offset": -0.01
+                                },
+                                "children": {
+                                    "up":{
+                                        "type": "Image",
+                                        "data": {
+                                            "texture": "settingsbutton"
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

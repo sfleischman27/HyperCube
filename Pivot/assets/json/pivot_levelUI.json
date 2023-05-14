@@ -23,6 +23,9 @@
         },
         "levelprevious" : {
             "file": "textures/level_previous.png"
+        },
+        "settingsbutton": {
+            "file": "textures/level_settingsbutton.png"
         }
     },
     "fonts": {

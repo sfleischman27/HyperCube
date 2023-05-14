@@ -1,0 +1,69 @@
+{
+    "textures": {
+        "settings": {
+            "file": "textures/settings_background.png"
+        },
+        "base": {
+            "file": "textures/settings_board.png"
+        },
+        "back": {
+            "file": "textures/settings_back.png"
+        },
+        "toggleon": {
+            "file": "textures/settings_toggleon.png"
+        },
+        "toggleoff": {
+            "file": "textures/settings_toggleoff.png"
+        },
+        "slider": {
+            "file": "textures/settings_slider.png"
+        },
+        "clear": {
+            "file": "textures/settings_clear.png"
+        },
+        "overlay": {
+            "file": "textures/settings_overlay.png"
+        },
+        "overlaybutton": {
+            "file": "textures/settings_overlaybutton.png"
+        }
+    },
+    "fonts": {
+        "gyparody": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     48
+        },
+        "gyparody-smaller": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     30
+        }
+    },
+    "widgets" : {
+        "settingsUI": "widgets/settingsUI.json",
+        "settingstoggle": "widgets/settingstoggle.json",
+        "settingsslider": "widgets/settingsslider.json"
+    },
+    "scene2s" : {
+        "quitLab": {
+            "type"      : "Node",
+            "comment"   : "This is the root node of the scene for the lab",
+            "format"    : {
+                "type" : "Anchored"
+            },
+            "children" : {
+                "settingsScreen": {
+                    "type": "Widget",
+                    "data": {
+                        "key": "settingsUI",
+                        "variables": {
+                            "showOverlay": false
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
