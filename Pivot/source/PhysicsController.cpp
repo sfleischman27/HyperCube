@@ -12,7 +12,7 @@
 //#define PHYSICS_SCALE 50
 
 /** The ratio between the physics world and the screen. */
-#define GRAVITY 180.0
+#define GRAVITY 300.0
 
 #define MAX_H_SPEED 300.0
 
@@ -47,7 +47,9 @@ bool PhysicsController::init(Size dimen, const Rect& rect, float scene_width){
     // Shift to center if a bad fit
     _scale = dimen.width == scene_width ? dimen.width/rect.size.width : dimen.height/rect.size.height;
 
-    
+    _world->setLockStep(true);
+    _world->setStepsize(0.015);
+
     return true;
 }
  
@@ -78,11 +80,11 @@ float getSignFloat(float f){
 
 void PhysicsController::fall(GameModel g){
     //acceleration, with a max accel speed
-    if(abs(g._player->getVelocity().y) <= MAX_V_SPEED){
+    /*if(abs(g._player->getVelocity().y) <= MAX_V_SPEED){
         move2D(g, Vec3(0, g._player->getVelocity().y - GRAVITY));
     } else {
         move2D(g, Vec3(0, getSignFloat( g._player->getVelocity().y) * MAX_V_SPEED));
-    }
+    }*/
 }
 
 #pragma mark Cut to obstacles

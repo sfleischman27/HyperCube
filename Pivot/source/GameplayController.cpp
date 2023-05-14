@@ -842,7 +842,7 @@ void GameplayController::update(float dt) {
 
     _portalDistance = distance.length();   //_model->getNavigatorTransforms().first.length();
     //CULog("portal distance: %f",_portalDistance);
-    _sound->setTrackVolume(1, std::clamp(1-_portalDistance/MAX_PORTAL_DIST, 0.0, 1.0)); //slot 1 = cave_p
+    _sound->setTrackVolume(1, clampf(1-_portalDistance/MAX_PORTAL_DIST, 0.0, 1.0)); //slot 1 = cave_p
 }
 
 /**

@@ -32,6 +32,8 @@
 /** The impulse for the character jump */
 #define DUDE_JUMP       1600.0f
 
+#define DUDE_JUMP_V     1000000000.0f
+
 #define FALL_FORCE 100.0f
 
 #define FALL_ACCELERATION 1.1f
@@ -244,8 +246,9 @@ void PlayerModel::applyForce() {
     }
 
     if (isJumping() && isGrounded()) {
-        b2Vec2 force(0, DUDE_JUMP);
-        _body->ApplyLinearImpulse(force,_body->GetPosition(),true);
+        //b2Vec2 force(0, DUDE_JUMP);
+        //_body->ApplyLinearImpulse(force,_body->GetPosition(),true);
+        _body->SetLinearVelocity(_body->GetLinearVelocity() + b2Vec2(0,DUDE_JUMP_V));
         _jumpCue = true;
     }
     
