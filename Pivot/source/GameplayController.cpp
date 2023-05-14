@@ -407,6 +407,7 @@ void GameplayController::reset() {
     resetCollectibleUI(_model->getColNum());
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
+    _model->_player->setVelocity(Vec2::ZERO);
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -438,6 +439,7 @@ void GameplayController::load(std::string name){
     resetCollectibleUI(_model->getColNum());
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
+    _model->_player->setVelocity(Vec2::ZERO);
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
