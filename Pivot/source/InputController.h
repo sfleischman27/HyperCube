@@ -90,6 +90,9 @@ protected:
     std::shared_ptr<cugl::scene2::Button> _buttonLeft;
     std::shared_ptr<cugl::scene2::Button> _buttonRight;
     std::shared_ptr<cugl::scene2::Button> _buttonGlowstick;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _runLeft;
+    std::shared_ptr<cugl::scene2::SceneNode> _runRight;
 
 
 #pragma mark Internal Touch Management
@@ -262,7 +265,7 @@ public:
      *
      * @return true if the controller was initialized successfully
      */
-    bool init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2::Button> jump, std::shared_ptr<cugl::scene2::Button> left, std::shared_ptr<cugl::scene2::Button> right, std::shared_ptr<cugl::scene2::Button> glowstick);
+    bool init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2::Button> jump, std::shared_ptr<cugl::scene2::Button> left, std::shared_ptr<cugl::scene2::SceneNode> leftRun, std::shared_ptr<cugl::scene2::Button> right, std::shared_ptr<cugl::scene2::SceneNode> rightRun, std::shared_ptr<cugl::scene2::Button> glowstick);
     
 #pragma mark
 #pragma mark Input Detection

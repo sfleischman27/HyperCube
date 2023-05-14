@@ -62,7 +62,7 @@
                 "type": "Image",
                 "data": {
                     "texture": "leftdash",
-                    "visible": true,
+                    "visible": false,
                     "size": [95,110],
                     "anchor": [1,0.5]
                 },

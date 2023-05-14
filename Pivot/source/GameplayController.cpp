@@ -224,12 +224,12 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     setActive(false);
     
     // get run image scene2s so they can be modified in input
-    auto leftRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScene_leftB_dashactive"));
-    auto rightRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScene_rightB_dashactive"));
+    auto leftRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScreen_leftB_dashactive"));
+    auto rightRun = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScreen_rightB_dashactive"));
     
     //set up the input handler
     _input = std::make_shared<InputController>();
-    _input->init(getBounds(),_buttons["jumpB"], _buttons["leftB"], _buttons["rightB"],_buttons["glowstickB"]);
+    _input->init(getBounds(),_buttons["jumpB"], _buttons["leftB"], leftRun, _buttons["rightB"], rightRun, _buttons["glowstickB"]);
 
 #pragma mark ADD PLAYER
     Vec2 dudePos = Vec2::ZERO;

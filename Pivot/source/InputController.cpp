@@ -138,7 +138,7 @@ void InputController::dispose() {
  *
  * @return true if the controller was initialized successfully
  */
-bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2::Button> jump, std::shared_ptr<cugl::scene2::Button> left, std::shared_ptr<cugl::scene2::Button> right, std::shared_ptr<cugl::scene2::Button> glowstick) {
+bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2::Button> jump, std::shared_ptr<cugl::scene2::Button> left, std::shared_ptr<cugl::scene2::SceneNode> leftRun, std::shared_ptr<cugl::scene2::Button> right, std::shared_ptr<cugl::scene2::SceneNode> rightRun, std::shared_ptr<cugl::scene2::Button> glowstick) {
     bool success = true;
     _sbounds = bounds;
     _tbounds = Application::get()->getDisplayBounds();
@@ -160,6 +160,14 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
       this->mouseReleasedCB(event, clicks, focus);
     });
 #else
+    _buttonJump = jump;
+    _buttonLeft = left;
+    _buttonRight = right;
+    _buttonGlowstick = glowstick;
+    
+    _runRight = leftRun;
+    _runLeft = rightRun;
+    
     Touchscreen* touch = Input::get<Touchscreen>();
     touch->addBeginListener(LISTENER_KEY,[=](const TouchEvent& event, bool focus) {
         this->touchBeganCB(event,focus);
@@ -170,11 +178,6 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
     touch->addMotionListener(LISTENER_KEY,[=](const TouchEvent& event, const Vec2& previous, bool focus) {
         this->touchesMovedCB(event, previous, focus);
     });
-    
-    _buttonJump = jump;
-    _buttonLeft = left;
-    _buttonRight = right;
-    _buttonGlowstick = glowstick;
     
     _buttonJump->addListener([this](const std::string& name, bool down) {
         if (down) {
@@ -193,9 +196,6 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         if (down) {
             _keyLeft = false;
             _keyRight = true;
-            if(_keyRunRight){
-                //_buttonRight->getChildByName("label")->
-            }
         }
     });
     
@@ -384,14 +384,20 @@ void InputController::processJoystick(const cugl::Vec2 pos) {
     if(_buttonRight->isDown() && _ltouch.position.x + 200 < pos.x){
 //        CULog("running right");
         _keyRunRight = true;
+        _runRight->setVisible(false);
+        _runLeft->setVisible(true);
     }else{
         _keyRunRight = false;
+        _runLeft->setVisible(false);
     }
     if(_buttonLeft->isDown() && _ltouch.position.x - 200 > pos.x){
 //        CULog("running left");
         _keyRunLeft= true;
+        _runLeft->setVisible(false);
+        _runRight->setVisible(true);
     }else{
         _keyRunLeft = false;
+        _runRight->setVisible(false);
     }
     
     if(_buttonRight->isDown() && _ltouch.position.x > pos.x + 40){
@@ -628,6 +634,8 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         isRotating = false;
         _buttonRight->setVisible(false);
         _buttonLeft->setVisible(false);
+        _runRight->setVisible(false);
+        _runLeft->setVisible(false);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         _hasJumped = false;
         isRotating = false;
