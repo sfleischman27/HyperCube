@@ -250,11 +250,11 @@ void PlayerModel::applyForce() {
     }
     
 //-------- Fall acceleration code, uncomment when PC fix is found ------------
-//    if(((!isGrounded() && !isJumping()) || (getVY() < 0 && !isGrounded()))){
-//        b2Vec2 force(0, -FALL_FORCE * fallAccelerationAcc);
-//        fallAccelerationAcc *= FALL_ACCELERATION;
-//        _body->ApplyForce(force,_body->GetPosition(),true);
-//    }
+    if(((!isGrounded() && !isJumping()) || (getVY() < 0 && !isGrounded()))){
+        b2Vec2 force(0, -FALL_FORCE * fallAccelerationAcc);
+        fallAccelerationAcc *= FALL_ACCELERATION;
+        _body->ApplyForce(force,_body->GetPosition(),true);
+    }
 }
 
 void PlayerModel::animate() {

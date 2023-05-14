@@ -67,6 +67,9 @@ void PivotApp::onStartup() {
     // set clear color for entire canvas
     setClearColor(Color4(255, 255, 255, 255));
     
+    Application::setVSync(false);
+    Application::setFPS(60);
+    
     Application::onStartup(); // YOU MUST END with call to parent
 }
 
