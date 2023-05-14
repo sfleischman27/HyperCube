@@ -84,7 +84,7 @@ void PivotApp::onStartup() {
 void PivotApp::onShutdown() {
     // save the level data (after loading is done)
     if (_scene != LOAD){
-        _gameplay.save(_levelSelect.getMaxLevel());
+        _gameplay.save();
     }
     
     // TODO: dispose of other modes here (ex: level select) when they are implemented
@@ -125,7 +125,7 @@ void PivotApp::onSuspend() {
     AudioEngine::get()->pause();
     // save the level data (after loading is done)
     if (_scene != LOAD){
-        _gameplay.save(_levelSelect.getMaxLevel());
+        _gameplay.save();
     }
 }
 
@@ -246,7 +246,6 @@ void PivotApp::updateGameScene(float timestep){
             break;
         case GameplayController::State::QUIT:
             _gameplay.setActive(false);
-            _gameplay.save(_levelSelect.getMaxLevel());
             _quitMenu.setActive(true);
             _scene = State::QUIT;
             break;
@@ -255,8 +254,9 @@ void PivotApp::updateGameScene(float timestep){
             _endMenu.setActive(true);
             // unlock next level (if not yet unlocked)
             _levelSelect.unlockNextLevel();
+            _gameplay.setMaxLevel(_levelSelect.getMaxLevel());
             // save
-            _gameplay.save(_levelSelect.getMaxLevel());
+            _gameplay.save();
             _scene = State::END;
             _sound->playSound("end", 0.5, false);
             break;

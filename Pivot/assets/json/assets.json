@@ -255,6 +255,7 @@
         }
     },
     "jsons": {
+        "default_save": "json/save.json",
         "debug_0000": "json/level_json/debug/debug_0000.json",
         "debug_0001": "json/level_json/debug/debug_0001.json",
         "debug_0002": "json/level_json/debug/debug_0002.json",

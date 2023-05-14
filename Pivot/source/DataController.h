@@ -90,13 +90,76 @@ public:
      */
     void setupSave(std::string dir, bool exists);
     
-    void createSaveFile();
+    /**
+     * Writes the content of the save json to the save file
+     */
+    void save();
     
-    void save(int maxLevel);
+    /**
+     * Updates the max level in the save json
+     */
+    void setMaxLevel(long maxLevel) { _save->get("max_level")->set(maxLevel); }
     
-    void updateSaveJson(long maxLevel);
+    /**
+     * Returns the max level unlocked that is stored in the save file
+     */
+    int getMaxLevel() { return _save->getLong("max_level"); }
     
-    int getMaxLevel();
+    /**
+     * Updates the buttons or joystick choice
+     *
+     * true = buttons, false = joystick
+     */
+    void setControls(bool buttons) { _save->get("buttons")->set(buttons); }
+    
+    /**
+     * Returns the button choice stored in the save file
+     */
+    bool getControls() { return _save->getBool("buttons"); }
+    
+    /**
+     * Updates the volume in the save json
+     */
+    void setVolume(float volume) { _save->get("volume")->set(volume); }
+    
+    /**
+     * Returns the volume that is stored in the save file
+     */
+    float getVolume() { return _save->getFloat("volume"); }
+    
+    /**
+     * Updates the music choice in the save json
+     *
+     * true = on, false = off
+     */
+    void setMusic(bool music) { _save->get("music")->set(music); }
+    
+    /**
+     * Returns the music choice that is stored in the save file
+     */
+    bool getMusic() { return _save->getBool("music"); }
+    
+    /**
+     * Updates the compass increment selection in the save json
+     *
+     * true = 180, false = 360
+     */
+    void setCompass(bool compass) { _save->get("compass_180")->set(compass); }
+    
+    /**
+     * Returns the compass selction that is stored in the save file
+     */
+    bool getCompass() { return _save->getBool("compass_180"); }
+    
+    /**
+     * Updates the rotate selction in the save json
+     */
+    void setRotate(bool rotate) { _save->get("rotate")->set(rotate); }
+    
+    /**
+     * Returns the rotate selction that is stored in the save file
+     */
+    bool getRotate() { return _save->getBool("rotate"); }
 };
 
 #endif /* DataController_h */

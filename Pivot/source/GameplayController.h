@@ -181,19 +181,6 @@ public:
     void load(std::string name);
     
     /**
-     * Saves the max level that is unlocked
-     *
-     * @param maxLevel  The integer version of the max level unlocked
-     *  = level + (pack *15)
-     */
-    void save(int maxLevel);
-    
-    /**
-     * Returns the saved max level string
-     */
-    int getMaxLevel();
-    
-    /**
      * Draws all this scene to the given SpriteBatch.
      *
      * The default implementation of this method simply draws the scene graph
@@ -281,6 +268,80 @@ public:
     * @param  contact  The two bodies that collided
     */
     void endContact(b2Contact* contact);
+    
+#pragma mark Save File Functions
+
+    /**
+     * Saves the game
+     */
+    void save() { _data->save(); }
+    
+    /**
+     * Updates the max level
+     */
+    void setMaxLevel(long maxLevel) { _data->setMaxLevel(maxLevel); }
+    
+    /**
+     * Returns the max level unlocked that is stored in the save file
+     */
+    int getMaxLevel() { return _data->getMaxLevel(); }
+    
+    /**
+     * Updates the buttons or joystick choice
+     *
+     * true = buttons, false = joystick
+     */
+    void setControls(bool buttons) { _data->setControls(buttons); }
+    
+    /**
+     * Returns the button choice stored in the save file
+     */
+    bool getControls() { return _data->getControls(); }
+    
+    /**
+     * Updates the volume in the save json
+     */
+    void setVolume(float volume) { _data->setVolume(volume); }
+    
+    /**
+     * Returns the volume that is stored in the save file
+     */
+    float getVolume() { return _data->getVolume(); }
+    
+    /**
+     * Updates the music choice in the save json
+     *
+     * true = on, false = off
+     */
+    void setMusic(bool music) { _data->setMusic(music); }
+    
+    /**
+     * Returns the music choice that is stored in the save file
+     */
+    bool getMusic() { return _data->getMusic(); }
+    
+    /**
+     * Updates the compass increment selection in the save json
+     *
+     * true = 180, false = 360
+     */
+    void setCompass(bool compass) { _data->setCompass(compass); }
+    
+    /**
+     * Returns the compass selction that is stored in the save file
+     */
+    bool getCompass() { return _data->getCompass(); }
+    
+    /**
+     * Updates the rotate selction in the save json
+     */
+    void setRotate(bool rotate) { _data->setRotate(rotate); }
+    
+    /**
+     * Returns the rotate selction that is stored in the save file
+     */
+    bool getRotate() { return _data->getRotate(); }
+    
 };
 
 #endif /* GameplayController_h */
