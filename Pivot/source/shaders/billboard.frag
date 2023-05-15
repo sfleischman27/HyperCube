@@ -17,6 +17,7 @@ uniform int flipXfrag;
 uniform int id;
 uniform vec3 uDirection;
 uniform float farPlaneDist;
+uniform vec3 campos;
 
 vec4 EncodeFloatRGBA(float v) {
   vec4 enc = vec4(1.0, 255.0, 65025.0, 16581375.0) * v;
@@ -38,13 +39,14 @@ void main(void) {
 	if (id == 1) { // if glowstick
 		frag_normal.xyz = texture(normTex, outTexCoord).xyz;
 	} else if (useNormTex == 1) {
-		frag_normal.xyz = texture(normTex, outTexCoord).xzy; // normal now is x right, y up, z forward
-		// Need to transform normal accordingly
-		if (flipXfrag == 1) {
-			frag_normal.x = 1.0 - frag_normal.x;
+		vec3 pre_norm = texture(normTex, outTexCoord).xzy;
+		if (flipXfrag != 1) {
+			pre_norm.x = 1.0 - pre_norm.x;
 		}
+		vec3 unencoded_normal = (pre_norm * 2.0) - 1.0;
 		mat2 R = mat2(uDirection.y, uDirection.x, -uDirection.x, uDirection.y);
-		frag_normal.xy = frag_normal.xy * R;
+		unencoded_normal.xy = unencoded_normal.xy * R;
+		frag_normal.xyz = (unencoded_normal + 1.0) / 2.0;
 	}
 }
 
