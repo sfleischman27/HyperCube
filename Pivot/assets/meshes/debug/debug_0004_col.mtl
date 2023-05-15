@@ -1,7 +1,7 @@
-# Blender MTL File: 'map test_alpha1.blend'
+# Blender MTL File: 'hallway.blend'
 # Material Count: 1
 
-newmtl Material.005
+newmtl Material.015
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.533706 0.408800 0.350055
