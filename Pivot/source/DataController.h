@@ -91,6 +91,11 @@ public:
     void setupSave(std::string dir, bool exists);
     
     /**
+     * Resets the save json to the default
+     */
+    void resetSave();
+    
+    /**
      * Writes the content of the save json to the save file
      */
     void save();

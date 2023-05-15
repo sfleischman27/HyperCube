@@ -44,7 +44,7 @@
         "settingsslider": "widgets/settingsslider.json"
     },
     "scene2s" : {
-        "quitLab": {
+        "settingsLab": {
             "type"      : "Node",
             "comment"   : "This is the root node of the scene for the lab",
             "format"    : {
