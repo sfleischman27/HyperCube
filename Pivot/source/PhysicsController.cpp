@@ -12,7 +12,7 @@
 //#define PHYSICS_SCALE 50
 
 /** The ratio between the physics world and the screen. */
-#define GRAVITY 300.0
+#define GRAVITY 400.0
 
 #define MAX_H_SPEED 300.0
 
@@ -48,7 +48,8 @@ bool PhysicsController::init(Size dimen, const Rect& rect, float scene_width){
     _scale = dimen.width == scene_width ? dimen.width/rect.size.width : dimen.height/rect.size.height;
 
     _world->setLockStep(true);
-    _world->setStepsize(0.015);
+    _world->setStepsize(0.012);
+
 
     return true;
 }

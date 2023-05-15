@@ -68,7 +68,7 @@ void PivotApp::onStartup() {
     setClearColor(Color4(255, 255, 255, 255));
     
     Application::setVSync(false);
-    Application::setFPS(60);
+    Application::setFPS(80);
     
     Application::onStartup(); // YOU MUST END with call to parent
 }
