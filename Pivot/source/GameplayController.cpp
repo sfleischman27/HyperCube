@@ -723,7 +723,7 @@ void GameplayController::update(float dt) {
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
-            lastStablePlay2DPos = _model->_player->getPosition();
+            //lastStablePlay2DPos = _model->_player->getPosition();
         }
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
