@@ -71,7 +71,7 @@ protected:
     Pack _pack;
     
     /** The total number of levels we have in the game */
-    const int LEVELS_IMPLEMENTED = 7;
+    const int LEVELS_IMPLEMENTED = 8;
     
     /**
      * Returns the active screen size of this scene.
