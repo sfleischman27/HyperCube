@@ -392,7 +392,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderPointlight->setUniform3f("vpos", _camera->getPosition().x, _camera->getPosition().y, _camera->getPosition().z); // for specular only
     _shaderPointlight->setUniformMat4("Mv", _camera->getView()); // for specular only
     for (GameModel::Light &l : model->_lights) {
-        break;
         _shaderPointlight->setUniform3f("color", l.color.x, l.color.y, l.color.z);
         _shaderPointlight->setUniform3f("lpos", l.loc.x, l.loc.y, l.loc.z);
         _shaderPointlight->setUniform1f("power", l.intensity);
