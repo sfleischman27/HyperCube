@@ -147,7 +147,7 @@ public:
      *
      * true = buttons, false = joystick
      */
-    void setControls(bool buttons) { _movement->setDown(not buttons); }
+    void setControls(bool buttons) { _movement->setDown(!buttons); }
     
     /**
      * Updates the volume in the save json
@@ -159,19 +159,19 @@ public:
      *
      * true = on, false = off
      */
-    void setMusic(bool music) { _music->setDown(not music); }
+    void setMusic(bool music) { _music->setDown(!music); }
     
     /**
      * Updates the compass increment selection in the save json
      *
      * true = 180, false = 360
      */
-    void setCompass(bool compass) { _compass->setDown(not compass); }
+    void setCompass(bool compass) { _compass->setDown(!compass); }
     
     /**
      * Updates the rotate selction in the save json
      */
-    void setRotate(bool rotate) { _rotation->setDown(not rotate); }
+    void setRotate(bool rotate) { _rotation->setDown(!rotate); }
     
 };
 
