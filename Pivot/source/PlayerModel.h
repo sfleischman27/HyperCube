@@ -529,7 +529,7 @@ public:
     }
     
     void setRotationalSprite(float currentAngle){
-        float repeat = 22.5f;
+        float repeat = 7.40f;
         int neg = 1;
         if (!isFacingRight()) neg = -1;
         int localAng = currentAngle - lastRotateAngle;

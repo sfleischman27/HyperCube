@@ -123,6 +123,9 @@
         "caution": {
             "file": "textures/caution.png"
         },
+        "acid": {
+            "file": "textures/acid.png"
+        },
         "lightning": {
             "file": "textures/lightning.png"
         },

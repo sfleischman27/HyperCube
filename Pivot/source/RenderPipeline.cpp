@@ -181,10 +181,10 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     }
 
     // Decorations
-    //auto decor = model->getDecorations();
-    //  for (auto d : decor) {
-    //      drawables.push_back(DrawObject(d->getPosition(), \d->getTexture(), NULL, false));
-    //  }
+    auto decor = model->getDecorations();
+     for (auto d : decor) {
+         drawables.push_back(DrawObject(d->getPosition(), d->getTexture(), NULL, false));
+     }
 
     // Set bind points
     const int bindStart = 8;
