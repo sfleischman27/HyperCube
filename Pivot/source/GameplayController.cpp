@@ -271,8 +271,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_player->spriteSheets.emplace("idle", std::make_pair(sheet, normalSheet));
     
-    sheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate"), 4, 4);
-    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate-normal"), 4, 4);
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate"), 7, 7);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-rotate-normal"), 7, 7);
     
     _model->_player->rotateSpriteSheet = sheet;
     _model->_player->rotateNormalSpriteSheet = normalSheet;

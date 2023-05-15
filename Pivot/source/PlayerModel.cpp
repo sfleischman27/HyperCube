@@ -86,55 +86,10 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
         // Sound Cues
         _jumpCue = false;
         
-        rightRotateMap[0] = 6;
-        rightRotateMap[6] = 0;
-        rightRotateMap[1] = 5;
-        rightRotateMap[5] = 1;
-        rightRotateMap[2] = 4;
-        rightRotateMap[4] = 2;
-        rightRotateMap[3] = 3;
-        rightRotateMap[7] = 13;
-        rightRotateMap[13] = 7;
-        rightRotateMap[8] = 12;
-        rightRotateMap[12] = 8;
-        rightRotateMap[9] = 11;
-        rightRotateMap[11] = 9;
-        rightRotateMap[10] = 10;
-        rightRotateMap[14] = 20;
-        rightRotateMap[20] = 14;
-        rightRotateMap[15] = 19;
-        rightRotateMap[19] = 15;
-        rightRotateMap[16] = 18;
-        rightRotateMap[18] = 16;
-        rightRotateMap[17] = 17;
-        rightRotateMap[21] = 27;
-        rightRotateMap[27] = 21;
-        rightRotateMap[22] = 26;
-        rightRotateMap[26] = 22;
-        rightRotateMap[23] = 25;
-        rightRotateMap[25] = 23;
-        rightRotateMap[24] = 24;
-        rightRotateMap[28] = 34;
-        rightRotateMap[34] = 28;
-        rightRotateMap[29] = 33;
-        rightRotateMap[33] = 29;
-        rightRotateMap[30] = 32;
-        rightRotateMap[32] = 30;
-        rightRotateMap[31] = 31;
-        rightRotateMap[35] = 41;
-        rightRotateMap[41] = 35;
-        rightRotateMap[36] = 40;
-        rightRotateMap[40] = 36;
-        rightRotateMap[37] = 39;
-        rightRotateMap[39] = 37;
-        rightRotateMap[38] = 38;
-        rightRotateMap[42] = 48;
-        rightRotateMap[48] = 42;
-        rightRotateMap[43] = 47;
-        rightRotateMap[47] = 43;
-        rightRotateMap[44] = 46;
-        rightRotateMap[46] = 44;
-        rightRotateMap[45] = 45;
+        int c = 7;
+        for(int i = 0; i < c*c; i++){
+            rightRotateMap[i] = (std::floor(i / c) + 1) * c - (i % c + 1);
+        }
         
         return true;
     }
