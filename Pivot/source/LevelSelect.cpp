@@ -71,7 +71,10 @@ void LevelSelect::updateLevel(int level) {
     
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
         int num = buttNameToNum(it->first);
-        if (num <= _maxLevel && num != -1){ // unlocked and unlocked button
+        if (it->first == "levelprevious" | it->first == "levelnext" | it->first == "settings"){ // non level butts
+            it->second->activate();
+        } else if (num <= _maxLevel && num != -1){
+            // unlocked and unlocked button
             it->second->activate();
             _buttons[it->first + "Locked"]->setVisible(false);
             _buttons[it->first]->setVisible(true);
@@ -102,7 +105,15 @@ void LevelSelect::setActive(bool value){
     }
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
         int num = buttNameToNum(it->first);
-        if (num <= _maxLevel && value && num != -1){
+        if (it->first == "levelprevious" | it->first == "levelnext" | it->first == "settings"){ // non level butts
+            if (value) {
+                it->second->activate();
+            } else {
+                it->second->deactivate();
+                // reset if pressed
+                it->second->setDown(false);
+            }
+        } else if (num <= _maxLevel && value && num != -1){
             // unlocked and unlocked button
             it->second->activate();
             _buttons[it->first + "Locked"]->setVisible(false);
@@ -207,6 +218,16 @@ void LevelSelect::setChoice(std::string name){
         _choice = Choice::LEVEL14;
     } else if (name == "level15"){
         _choice = Choice::LEVEL15;
+    } else if (name == "levelnext"){
+        //TODO: REMOVE THIS TEMP CODEEEEE
+        _choice = Choice::LEVEL10;
+        //_choice = Choice::NEXT;
+    } else if (name == "levelprevious"){
+        //TODO: REMOVE THIS TEMP CODEEEEE
+        _choice = Choice::LEVEL6;
+        //_choice = Choice::PREV;
+    } else if (name == "settings"){
+        _choice = Choice::SETTINGS;
     } else{
         _choice = Choice::NONE;
     }

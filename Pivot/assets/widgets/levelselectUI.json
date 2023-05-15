@@ -441,7 +441,7 @@
                                     }
                                 }
                             },
-                            "levelnext": {
+                            "levelprevious": {
                                 "type": "Button",
                                 "format": {
                                     "type": "Anchored"
@@ -468,7 +468,7 @@
                                     }
                                 }
                             },
-                            "levelprevious": {
+                            "levelnext": {
                                 "type": "Button",
                                 "format": {
                                     "type": "Anchored"

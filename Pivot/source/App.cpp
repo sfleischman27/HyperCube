@@ -97,6 +97,7 @@ void PivotApp::onShutdown() {
     _levelSelect.dispose();
     _endMenu.dispose();
     _quitMenu.dispose();
+    _settings.dispose();
     _assets = nullptr;
     _batch = nullptr;
     
@@ -182,6 +183,9 @@ void PivotApp::update(float timestep) {
         case GAME:
             updateGameScene(timestep);
             break;
+        case SETTINGS:
+            updateSettingsScene(timestep);
+            break;
     }
     
     //level sound cues
@@ -220,6 +224,9 @@ void PivotApp::draw() {
         case GAME:
             _gameplay.render(_batch);
             break;
+        case SETTINGS:
+            _settings.render(_batch);
+            break;
     }
 }
 
@@ -237,6 +244,7 @@ void PivotApp::updateLoadingScene(float timestep){
         _endMenu.init(_assets);
         _quitMenu.init(_assets);
         _gameplay.init(_assets, getDisplaySize(), _sound);
+        _settings.init(_assets, _gameplay.getDataController());
         _mainMenu.setActive(true);
         _scene = State::MAIN;
     }
@@ -272,12 +280,12 @@ void PivotApp::updateMainScene(float timestep){
             _mainMenu.update(timestep);
             break;
         case MainMenu::Choice::START:
-            _mainMenu.setActive(false);
+            _mainMenu.dispose();
             _levelSelect.setActive(true);
             _scene = State::LEVEL;
             break;
         case MainMenu::Choice::RESUME:
-            _mainMenu.setActive(false);
+            _mainMenu.dispose();
             _levelSelect.setActive(true);
             // unlock levels specified in save file
             _levelSelect.updateLevel(_gameplay.getMaxLevel());
@@ -290,6 +298,17 @@ void PivotApp::updateLevelScene(float timestep){
     switch (_levelSelect.getChoice()) {
         case LevelSelect::Choice::NONE:
             _levelSelect.update(timestep);
+            break;
+        case LevelSelect::Choice::NEXT:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::Choice::PREV:
+            _levelSelect.update(timestep);
+            break;
+        case LevelSelect::Choice::SETTINGS:
+            _levelSelect.setActive(false);
+            _settings.setActive(true);
+            _scene = State::SETTINGS;
             break;
         default:
             _levelSelect.setActive(false);
@@ -355,4 +374,26 @@ void PivotApp::updateQuitScene(float timestep){
             _scene = State::GAME;
             break;
     }
+}
+
+void PivotApp::updateSettingsScene(float timestep){
+    switch(_settings.getChoice()) {
+        case SettingsMenu::Choice::NONE:
+            _settings.update(timestep);
+            break;
+        case SettingsMenu::Choice::EXIT:
+            _settings.setActive(false);
+            _levelSelect.setActive(true);
+            _scene = State::LEVEL;
+            break;
+        case SettingsMenu::OVERLAY:
+            _settings.setOverlayActive(true);
+            _settings.update(timestep);
+            break;
+        case SettingsMenu::OVEROFF:
+            _settings.setOverlayActive(false);
+            _settings.update(timestep);
+            break;
+    }
+    
 }

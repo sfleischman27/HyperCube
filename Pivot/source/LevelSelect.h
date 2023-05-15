@@ -48,6 +48,12 @@ public:
         LEVEL14 = 13,
         /** User wants to start level 15 */
         LEVEL15 = 14,
+        /** User wants to go to the next page of levels */
+        NEXT = 20,
+        /** User wants to go the the previous page of levels */
+        PREV = 21,
+        /** User wants to go to the settings menu */
+        SETTINGS = 22
     };
     
     enum Pack {

@@ -248,6 +248,11 @@ public:
      */
     State getState() const { return _state; }
     
+    /**
+     * Returns the data controller object
+     */
+    std::shared_ptr<DataController> getDataController() { return _data; }
+    
 #pragma mark Cut and player Collision Handling
     /**
     * Processes the start of a collision

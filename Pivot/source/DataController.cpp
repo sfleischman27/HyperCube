@@ -220,6 +220,12 @@ void DataController::setupSave(std::string dir, bool exists){
     }
 }
 
+void DataController::resetSave(){
+    // get default save json
+    _save = _assets->get<JsonValue>("default_save");
+    //TODO: make the changes happen
+}
+
 void DataController::save(){
     // make a writer
     auto write = JsonWriter::alloc(_saveDir);
