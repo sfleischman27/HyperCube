@@ -35,16 +35,26 @@ protected:
     std::shared_ptr<cugl::scene2::Button> _clear;
     /** The volume slider */
     std::shared_ptr<cugl::scene2::Slider> _volume;
+    /** The volume label */
+    std::shared_ptr<cugl::scene2::Label> _volumeLabel;
     /** The value of the volume */
     float _volumeValue;
     /** The music toggle */
     std::shared_ptr<cugl::scene2::Button> _music;
+    /** The music label */
+    std::shared_ptr<cugl::scene2::Label> _musicLabel;
     /** The movement toggle */
     std::shared_ptr<cugl::scene2::Button> _movement;
+    /** The movement label */
+    std::shared_ptr<cugl::scene2::Label> _movementLabel;
     /** The rotation toggle */
     std::shared_ptr<cugl::scene2::Button> _rotation;
+    /** The rotation label */
+    std::shared_ptr<cugl::scene2::Label> _rotationLabel;
     /** The compass toggle */
     std::shared_ptr<cugl::scene2::Button> _compass;
+    /** The compass label */
+    std::shared_ptr<cugl::scene2::Label> _compassLabel;
     /** The clear data overlay */
     std::shared_ptr<cugl::scene2::SceneNode> _overlay;
     /** The yes clear the data button */

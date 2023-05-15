@@ -53,6 +53,7 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
         }
     });
     
+    _volumeLabel = std::dynamic_pointer_cast<scene2::Label>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_volume_value"));
     _volume = std::dynamic_pointer_cast<scene2::Slider>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_volume_slider"));
     _volume->addListener([this](const std::string& name, float value) {
         if (value != _volumeValue){
@@ -61,39 +62,55 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
         }
     });
     
+    _musicLabel = std::dynamic_pointer_cast<scene2::Label>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_music_value"));
     _music = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_music_toggle"));
+    _music->setToggle(true);
     _music->addListener([this](const std::string& name, bool down) {
         if (down) {
             _data->setMusic(false);
+            _musicLabel->setText("Off");
         } else {
             _data->setMusic(true);
+            _musicLabel->setText("On");
         }
     });
     
+    _movementLabel = std::dynamic_pointer_cast<scene2::Label>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_movement_value"));
     _movement = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_movement_toggle"));
+    _movement->setToggle(true);
     _movement->addListener([this](const std::string& name, bool down) {
         if (down) {
             _data->setControls(false);
+            _movementLabel->setText("Joystick");
         } else {
             _data->setControls(true);
+            _movementLabel->setText("Buttons");
         }
     });
     
+    _rotationLabel = std::dynamic_pointer_cast<scene2::Label>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_rotation_value"));
     _rotation = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_rotation_toggle"));
+    _rotation->setToggle(true);
     _rotation->addListener([this](const std::string& name, bool down) {
         if (down) {
             _data->setRotate(false);
+            _rotationLabel->setText("Counter Clockwise");
         } else {
             _data->setRotate(true);
+            _rotationLabel->setText("Clockwise");
         }
     });
     
+    _compassLabel = std::dynamic_pointer_cast<scene2::Label>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_compass_value"));
     _compass = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_compass_toggle"));
+    _compass->setToggle(true);
     _compass->addListener([this](const std::string& name, bool down) {
         if (down) {
             _data->setCompass(false);
+            _compassLabel->setText("360");
         } else {
             _data->setCompass(true);
+            _compassLabel->setText("180");
         }
     });
     

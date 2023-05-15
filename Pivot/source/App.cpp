@@ -384,6 +384,10 @@ void PivotApp::updateSettingsScene(float timestep){
         case SettingsMenu::Choice::EXIT:
             _settings.setActive(false);
             _levelSelect.setActive(true);
+            // save
+            _gameplay.save();
+            // change settings
+            //updateSettings();
             _scene = State::LEVEL;
             break;
         case SettingsMenu::OVERLAY:
