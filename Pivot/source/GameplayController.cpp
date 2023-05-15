@@ -725,7 +725,7 @@ void GameplayController::update(float dt) {
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
-            lastStablePlay2DPos = _model->_player->getPosition();
+            //lastStablePlay2DPos = _model->_player->getPosition();
         }
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
@@ -844,7 +844,7 @@ void GameplayController::update(float dt) {
 
     _portalDistance = distance.length();   //_model->getNavigatorTransforms().first.length();
     //CULog("portal distance: %f",_portalDistance);
-    _sound->setTrackVolume(1, std::clamp(1-_portalDistance/MAX_PORTAL_DIST, 0.0, 1.0)); //slot 1 = cave_p
+    _sound->setTrackVolume(1, clampf(1-_portalDistance/MAX_PORTAL_DIST, 0.0, 1.0)); //slot 1 = cave_p
 }
 
 /**
