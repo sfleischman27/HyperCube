@@ -168,7 +168,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->getTexture(), NULL, false));
 
     // Collectibles
-    std::unordered_map<std::string, Collectible> colls = model->getCollectibles();
+    std::map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
             drawables.push_back(DrawObject(c.second.getPosition(), c.second.getTexture(), NULL, false));

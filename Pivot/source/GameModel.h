@@ -72,7 +72,9 @@ private:
 #pragma mark Collectibles State
 public:
     /** map of collectibles */
-    std::unordered_map<std::string, Collectible> _collectibles;
+    std::map<std::string, Collectible> _collectibles;
+
+
 
 #pragma mark Decorations State
 public:
@@ -110,6 +112,9 @@ public:
 
 #pragma mark navigator State
     std::shared_ptr<cugl::scene2::Button> _navigator;
+
+    /** navigator target location**/
+    cugl::Vec3 _nav_target;
     
     /** the SpriteNode for the compass animations*/
     std::shared_ptr<cugl::scene2::SpriteNode> _compassSpin;
@@ -149,7 +154,7 @@ public:
      * Creates the model state.
      */
     GameModel() {
-        _collectibles = std::unordered_map<std::string, Collectible>();
+        _collectibles = std::map<std::string, Collectible>();
         _glowsticks = std::vector<Glowstick>();
         _lights = std::vector<Light>();
         _decorations = std::vector<std::shared_ptr<GameItem>>();
@@ -321,7 +326,7 @@ public:
     /**
      * Gets the map of collectibles
      */
-    std::unordered_map<std::string, Collectible> getCollectibles() {
+    std::map<std::string, Collectible> getCollectibles() {
         return _collectibles;
     }
 
@@ -421,7 +426,7 @@ public:
         z.cross(_norm);
         z.normalize();
         //get 2d screen coordinate
-        auto location = _exit->getPosition() - getPlayer3DLoc();
+        auto location = _nav_target - getPlayer3DLoc();
         auto norm = _norm;
         
         //dot the point onto the plane normal to get the distance from the cut plane
