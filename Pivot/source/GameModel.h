@@ -452,7 +452,7 @@ public:
         auto off = stuff.first;
         float rad = 100;
         if (off.length() < rad) { rad = off.length(); }
-        CULog(std::to_string(rad).c_str());
+        //CULog(std::to_string(rad).c_str());
         _navigator->setScale(Vec2(0.5, rad/200));
 
         auto crad = 300.0f;

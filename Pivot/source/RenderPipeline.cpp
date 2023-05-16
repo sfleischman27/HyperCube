@@ -237,7 +237,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _camera->setPosition(camPos);
     _camera->setDirection(-n);
     Vec3 toPrint = _camera->getDirection();
-    CULog("%f, %f, %f", toPrint.x, toPrint.y, toPrint.z);
+    //CULog("%f, %f, %f", toPrint.x, toPrint.y, toPrint.z);
     _camera->setUp(Vec3(0, 0, 1));
     _camera->update();
     basisUp = _camera->getUp();
