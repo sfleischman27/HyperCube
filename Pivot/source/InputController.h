@@ -21,7 +21,9 @@
 class InputController {
 public:
     float cutFactor = 0;
+    int settings_invertRotate = 1;
     bool isRotating = false;
+    bool settings_isUsingJoystick = false;
     
 private:
     /** Whether or not this input is active */
@@ -58,6 +60,9 @@ private:
     // TOUCH SUPPORT
     /** The initial touch location for the current gesture, IN SCREEN COORDINATES */
     cugl::Vec2 _dtouch;
+    
+    cugl::Vec2 originalRightButtonPos;
+    cugl::Vec2 originalLeftButtonPos;
   
 protected:
     // INPUT RESULTS
@@ -203,6 +208,11 @@ protected:
      * @param  pos  the current joystick position
      */
     void processJoystick(const cugl::Vec2 pos);
+    
+    void resetButtonPositions(){
+        _buttonRight->setPosition(originalRightButtonPos);
+        _buttonLeft->setPosition(originalLeftButtonPos);
+    }
     
     /**
      * Processes movement for the floating joystick that controls the cut.

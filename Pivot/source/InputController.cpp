@@ -192,6 +192,8 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         }
     });
     
+    originalLeftButtonPos = _buttonLeft->getPosition();
+    
     _buttonRight->addListener([this](const std::string& name, bool down) {
         if (down) {
             _keyLeft = false;
@@ -199,6 +201,8 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         }
     });
     
+    originalRightButtonPos = _buttonRight->getPosition();
+
     _buttonCenterPoint = ((_buttonRight->getPosition().x + _buttonLeft->getPosition().x)/2) + _buttonLeft->getBoundingBox().size.width;
     
     _buttonGlowstick->addListener([this](const std::string& name, bool down) {
@@ -400,12 +404,12 @@ void InputController::processJoystick(const cugl::Vec2 pos) {
         _runRight->setVisible(false);
     }
     
-    if(_buttonRight->isDown() && _ltouch.position.x > pos.x + 40){
+    if(_ltouch.position.x > pos.x + 40){
         _buttonLeft->setDown(true);
         _buttonRight->setDown(false);
         //CULog("right to left");
     }
-    if(_buttonLeft->isDown() && _ltouch.position.x < pos.x - 40){
+    if(_ltouch.position.x < pos.x - 40){
         _buttonRight->setDown(true);
         _buttonLeft->setDown(false);
         //CULog("left to right");
@@ -543,18 +547,37 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
 //                    isRotating = true;
 //                } else{
                 
-                _buttonRight->setVisible(true);
-                _buttonLeft->setVisible(true);
                 //set the y pos of the movement buttons to be the y pos of our touch location
-                _buttonRight->setPosition(_buttonRight->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
-                _buttonLeft->setPosition(_buttonLeft->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+                if(settings_isUsingJoystick){
+                    CULog("%f", _buttonLeft->getPosition().x);
+                    CULog("%f",_ltouch.position.x);
+                    _buttonRight->setVisible(true);
+                    _buttonLeft->setVisible(true);
+                    _buttonRight->setPosition(touch2Screen(_ltouch.position).x + 20, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+                    _buttonLeft->setPosition(touch2Screen(_ltouch.position).x - 120, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+                }else {
+                    _buttonRight->setVisible(true);
+                    _buttonLeft->setVisible(true);
+                    _runRight->setVisible(true);
+                    _runLeft->setVisible(true);
+                    if(_ltouch.position.x > _buttonRight->getPositionX() + 400){
+//                        CULog("running right");
+                        //CULog("%f",_ltouch.position.x);
+                        _keyRight = true;
+                        _keyRunRight = true;
+                        //_runRight->setVisible(false);
+                        //_runLeft->setVisible(true);
+                    }
+                    if(_ltouch.position.x < _buttonLeft->getPositionX() + 100){
+                        CULog("running left");
+                        _keyRunLeft= true;
+                        _keyLeft = true;
+                        //_runLeft->setVisible(false);
+                        //_runRight->setVisible(true);
+                    }
+                }
                 
                 //set the correct movement button to be down based on which side of the left zone we touched
-                if(pos.x > _lzone.size.width/2){
-                    _buttonRight->setDown(true);
-                }else{
-                    _buttonLeft->setDown(true);
-                }
                 
                 _joystick = true;
                 _joycenter = touch2Screen(event.position);
@@ -632,10 +655,12 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         _keyDecreaseCut = false;
         _joystick = false;
         isRotating = false;
-        _buttonRight->setVisible(false);
-        _buttonLeft->setVisible(false);
-        _runRight->setVisible(false);
-        _runLeft->setVisible(false);
+        if(settings_isUsingJoystick){
+            _buttonRight->setVisible(false);
+            _buttonLeft->setVisible(false);
+            _runRight->setVisible(false);
+            _runLeft->setVisible(false);
+        }
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         _hasJumped = false;
         isRotating = false;
@@ -677,7 +702,11 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
         //have the y pos of the movement buttons follow the y pos of our finger
 //        _buttonRight->setPosition(_buttonRight->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
 //        _buttonLeft->setPosition(_buttonLeft->getPosition().x, touch2Screen(pos).y - _lzone.size.height * 0.05f);
+        //if(settings_isUsingJoystick){
+        if(settings_isUsingJoystick){
             processJoystick(pos);
+        }
+        //}
             //CULog("joystick");
         //}
 //        processCutJoystick(pos, _ltouch);

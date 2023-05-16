@@ -680,7 +680,7 @@ void GameplayController::update(float dt) {
     if (_input->isRotating) {
 //        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
-        _plane->rotateNorm((_input->cutFactor - saveFloat)/1000);
+        _plane->rotateNorm((_input->cutFactor - saveFloat)/1000 * _input->settings_invertRotate);
         _model->updateCompassNum();
         _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
         _model->_player->isRotating = true;
