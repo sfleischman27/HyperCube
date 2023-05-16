@@ -411,7 +411,7 @@ void PivotApp::updateSettings(){
         _levelSelect.resetMax();
     }
     // change between buttons and joystick
-    _gameplay.updateJoystick(_gameplay.getControls());
+    _gameplay.updateJoystick(!_gameplay.getControls());
     // update volume
     _sound->setMasterVolume(_gameplay.getVolume());
     // turn music on or off
