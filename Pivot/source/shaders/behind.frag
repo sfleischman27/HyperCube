@@ -16,7 +16,7 @@ uniform float darken;
 void main(void) {
 	// Draw
 	frag_color = texture(billTex, outTexCoord);
-	if (frag_color.a < 0.5) {
+	if (frag_color.a == 0.0) {
 		discard;
 	}
 	frag_color.xyz = frag_color.xyz - vec3(darken); //TEMPORARY: artificial darkening
