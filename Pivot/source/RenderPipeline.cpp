@@ -454,7 +454,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     model->backgroundPic->bind();
 
     // Set uniforms and draw
-    float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, -1, 0), _camera->getUp());
+    float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, 1, 0), _camera->getUp());
     CULog("dir: %f, %f, %f", _camera->getDirection().x, _camera->getDirection().y, _camera->getDirection().z);
     CULog("up: %f, %f, %f", _camera->getUp().x, _camera->getUp().y, _camera->getUp().z);
     angle /= (2 * M_PI);
