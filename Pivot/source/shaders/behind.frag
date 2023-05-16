@@ -27,9 +27,11 @@ void main(void) {
 	}
 
 	// Manual depth test
-	float depth = DecodeFloatRGBA(texture(depthTexture, outTexCoord));
-	if (depth < gl_FragCoord.z) {
-		discard;
+	if (compBeforeAlpha == 0) {
+		float depth = DecodeFloatRGBA(texture(depthTexture, gl_FragCoord.xy));
+		if (depth < gl_FragCoord.z) {
+			discard;
+		}
 	}
 
 	// Darken and compute alpha
