@@ -305,6 +305,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuff->unbind();
 
     // --------------- Pass 2: Billboard --------------- //
+
     // Binding
     _vertbuffBill->bind();
 
@@ -324,6 +325,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBill->setUniformVec3("campos", _camera->getPosition());
         _shaderBill->setUniform1i("useNormTex", 0);
         _shaderBill->setUniform1i("id", dro.id);
+        _shaderBill->setUniform1i("doLighting", dro.emission ? 0 : 1);
         if (dro.normalMap != NULL) {
             _shaderBill->setUniform1i("normTex", dro.normalMap->getBindPoint());
             _shaderBill->setUniform1i("useNormTex", 1);
@@ -340,6 +342,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBill->unbind();
 
     // --------------- Pass 3: Position --------------- //
+    // OpenGL Blending
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     // Binding
     _vertbuffPosition->bind();
     fbopos->begin();
@@ -353,6 +358,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffPosition->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
 
     for (DrawObject dro : drawables) {
+        if (dro.emission) continue;
         // Construct vertices to be placed in the mesh
         constructBillMesh(model, dro);
 
@@ -386,6 +392,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbopos->getTexture()->bind();
 
     // Set uniforms and draw
+    const float numLights = model->_lights.size() + model->_lightsFromItems.size();
+    _shaderPointlight->setUniform1f("numLights", numLights);
     _shaderPointlight->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
     _shaderPointlight->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderPointlight->setUniform1i("normalTexture", fbo->getTexture(fboNormal)->getBindPoint());
@@ -450,6 +458,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Binding
     _vertbuffBehind->bind();
     fbo->getTexture(fboReplace)->bind();
+
+    // Stripped Billboards
     for (DrawObject dro : drawables) {
         if (dro.isPlayer) continue;
         // Calculate distance from plane
@@ -474,6 +484,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
         _shaderBehind->setUniform1f("alpha", alpha);
+        _shaderBehind->setUniform1f("darken", 0.2f);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
