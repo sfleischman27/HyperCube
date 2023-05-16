@@ -38,6 +38,8 @@ private:
 public:
     /** exit of the game*/
     std::shared_ptr<GameItem> _exit;
+    /** background pic of the level TODO JACK update this */
+    std::shared_ptr<Texture> backgroundPic;
     
 #pragma mark Player State
 public:

@@ -56,6 +56,9 @@
         "bullet": {
             "file": "textures/bullet.png"
         },
+        "space135": {
+            "file": "textures/testBg.png"
+        },
         "section_cut (1)": {
             "file": "textures/section_cut (1).png"
         },
