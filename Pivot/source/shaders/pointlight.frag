@@ -53,7 +53,7 @@ void main(void) {
     //vec3 specular = specularStrength * spec * color; 
 
 	frag_color = vec4(diffuse, 1.0);
-    if (doLighting == 0.0) {
+    if (doLighting == 0) {
         frag_color = vec4(alb / numLights, 1.0);
     }
 }
