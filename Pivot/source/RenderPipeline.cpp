@@ -430,6 +430,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderFog->setUniform1f("farPlaneDist", farPlaneDist);
     _shaderFog->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderFog->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
+    _shaderFog->setUniform3f("fadeColor", model->fadeCol.x, model->fadeCol.y, model->fadeCol.z);
     _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
@@ -455,11 +456,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Set uniforms and draw
     float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, 1, 0), _camera->getUp());
-    CULog("dir: %f, %f, %f", _camera->getDirection().x, _camera->getDirection().y, _camera->getDirection().z);
-    CULog("up: %f, %f, %f", _camera->getUp().x, _camera->getUp().y, _camera->getUp().z);
-    angle /= (2 * M_PI);
+    //CULog("dir: %f, %f, %f", _camera->getDirection().x, _camera->getDirection().y, _camera->getDirection().z);
+    //CULog("up: %f, %f, %f", _camera->getUp().x, _camera->getUp().y, _camera->getUp().z);
+    if (angle < 0) angle += 2 * M_PI;
+    angle /= M_PI;
     CULog("%f", angle);
-    float speed = 2.5;
+    float speed = 1.0;
     _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
     _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderCut->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());

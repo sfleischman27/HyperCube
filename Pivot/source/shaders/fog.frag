@@ -11,6 +11,7 @@ out vec4 frag_color;
 uniform float farPlaneDist;
 uniform sampler2D depthTexture;
 uniform sampler2D replaceTexture;
+uniform vec3 fadeCol;
 
 // Editable parameter for depth falloff. Higher = fades out sooner
 const float severity = 20.0;
@@ -25,7 +26,8 @@ void main(void) {
         discard;
     }
 	float d = DecodeFloatRGBA(texture(depthTexture, outTexCoord)) * severity;
-	frag_color.xyz = vec3(1.0) * d;
+    d = min(1.0, d);
+	frag_color.xyz = (vec3(1.0) - fadeCol) * d;
 	frag_color.a = 1.0;
 }
 
