@@ -309,6 +309,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBill->bind();
 
     for (DrawObject dro : drawables) {
+        if (dro.emission) continue;
         // Construct vertices to be placed in the mesh
         constructBillMesh(model, dro);
 
@@ -353,6 +354,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffPosition->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
 
     for (DrawObject dro : drawables) {
+        if (dro.emission) continue;
         // Construct vertices to be placed in the mesh
         constructBillMesh(model, dro);
 
@@ -440,7 +442,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffFog->unbind();
 
-    // --------------- Pass 6: Stripped Billboards --------------- //
+    // --------------- Pass 6: Stripped and Emission Billboards --------------- //
 
     // OpenGL Blending
     glDisable(GL_DEPTH_TEST);
@@ -450,6 +452,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Binding
     _vertbuffBehind->bind();
     fbo->getTexture(fboReplace)->bind();
+
+    // Stripped Billboards
     for (DrawObject dro : drawables) {
         if (dro.isPlayer) continue;
         // Calculate distance from plane
@@ -473,7 +477,32 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
+        _shaderBehind->setUniform1f("darken", 0.2);
         _shaderBehind->setUniform1f("alpha", alpha);
+        _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
+        _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
+        _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
+        dro.tex->unbind();
+    }
+
+    // OpenGL Blending, again
+    glEnable(GL_DEPTH_TEST);
+
+    // Emission Billboards
+    for (DrawObject dro : drawables) {
+        if (!dro.emission || dro.isPlayer) continue;
+
+        // Construct vertices to be placed in the mesh
+        constructBillMesh(model, dro);
+
+        // Set uniforms and draw individual billboard
+        dro.tex->bind();
+        _shaderBehind->setUniformMat4("uPerspective", _camera->getCombined());
+        _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
+        _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
+        _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
+        _shaderBehind->setUniform1f("darken", 0.0);
+        _shaderBehind->setUniform1f("alpha", 1.0);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
@@ -485,6 +514,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBehind->unbind();
 
     // --------------- Pass 7: Cut --------------- //
+
+    // OpenGL Blending
+    glDisable(GL_DEPTH_TEST);
 
     // Binding
     _vertbuffCut->bind();
