@@ -357,7 +357,7 @@ public:
         if (rotate){
             _input->settings_invertRotate = 1; //normal
         } else {
-            _input->settings_isUsingJoystick = -1; //inverted
+            _input->settings_invertRotate = -1; //inverted
         }
     }
     
