@@ -29,7 +29,7 @@
  * Once asset loading is completed, it will display a play button.  Clicking
  * this button will inform the application root to switch to the gameplay mode.
  */
-class LoadingScene : public cugl::Scene2 {
+class PFLoadingScene : public cugl::Scene2 {
 protected:
     /** The asset manager for loading. */
     std::shared_ptr<cugl::AssetManager> _assets;
@@ -67,7 +67,7 @@ public:
      * This constructor does not allocate any objects or start the game.
      * This allows us to use the object without a heap pointer.
      */
-    LoadingScene() : Scene2(), _progress(0.0f) {}
+    PFLoadingScene() : Scene2(), _progress(0.0f) {}
     
     /**
      * Disposes of all (non-static) resources allocated to this mode.
@@ -75,7 +75,7 @@ public:
      * This method is different from dispose() in that it ALSO shuts off any
      * static resources, like the input controller.
      */
-    ~LoadingScene() { dispose(); }
+    ~PFLoadingScene() { dispose(); }
     
     /**
      * Disposes of all (non-static) resources allocated to this mode.

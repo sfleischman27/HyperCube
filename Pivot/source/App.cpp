@@ -54,7 +54,7 @@ void PivotApp::onStartup() {
     
     // TODO: make our own loading screen
     // Create a "loading" screen
-    _demoloading.init(_assets);
+    _loading.init(_assets);
     
     // Queue up the other assets
     _assets->loadDirectoryAsync(jsonPath, nullptr);
@@ -91,7 +91,7 @@ void PivotApp::onShutdown() {
     }
     
     // TODO: dispose of other modes here (ex: level select) when they are implemented
-    _demoloading.dispose();
+    _loading.dispose();
     _gameplay.dispose();
     _mainMenu.dispose();
     _levelSelect.dispose();
@@ -207,7 +207,7 @@ void PivotApp::update(float timestep) {
 void PivotApp::draw() {
     switch (_scene) {
         case LOAD:
-            _demoloading.render(_batch);
+            _loading.render(_batch);
             break;
         case MAIN:
             _mainMenu.render(_batch);
@@ -231,10 +231,29 @@ void PivotApp::draw() {
 }
 
 void PivotApp::updateLoadingScene(float timestep){
-    if (_demoloading.isActive()) {
-        _demoloading.update(timestep);
+//    switch (_loading.getStatus()) {
+//        case Loading::Status::NONE:
+//            _loading.update(timestep);
+//            break;
+//        case Loading::Status::LOADED:
+//            _demoloading.dispose(); // Permanently disables the input listeners in this mode
+//            _mainMenu.init(_assets);
+//            if(_testing){ _levelSelect.initMax(_assets); }
+//            else{ _levelSelect.init(_assets); }
+//            _endMenu.init(_assets);
+//            _quitMenu.init(_assets);
+//            _gameplay.init(_assets, getDisplaySize(), _sound);
+//            if(_testing){ _gameplay.setMaxLevel(_levelSelect.getMaxLevel()); }
+//            _settings.init(_assets, _gameplay.getDataController());
+//            _mainMenu.setActive(true);
+//            _scene = State::MAIN;
+//            break;
+//    }
+    
+    if (_loading.isActive()) {
+        _loading.update(timestep);
     } else {
-        _demoloading.dispose(); // Permanently disables the input listeners in this mode
+        _loading.dispose(); // Permanently disables the input listeners in this mode
         _mainMenu.init(_assets);
         if(_testing){
             _levelSelect.initMax(_assets);
@@ -249,6 +268,27 @@ void PivotApp::updateLoadingScene(float timestep){
         _mainMenu.setActive(true);
         _scene = State::MAIN;
     }
+    
+//    if (_demoloading.isActive()) {
+//        _demoloading.update(timestep);
+//    } else {
+//        _demoloading.dispose(); // Permanently disables the input listeners in this mode
+//        _mainMenu.init(_assets);
+//        if(_testing){
+//            _levelSelect.initMax(_assets);
+//        }else{
+//            _levelSelect.init(_assets);
+//        }
+//        _endMenu.init(_assets);
+//        _quitMenu.init(_assets);
+//        _gameplay.init(_assets, getDisplaySize(), _sound);
+//        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
+//        _settings.init(_assets, _gameplay.getDataController());
+//        _mainMenu.setActive(true);
+//        _scene = State::MAIN;
+//    }
+    
+    
 }
 
 void PivotApp::updateGameScene(float timestep){
