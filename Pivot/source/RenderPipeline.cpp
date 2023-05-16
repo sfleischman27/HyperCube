@@ -456,11 +456,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Set uniforms and draw
     float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, 1, 0), _camera->getUp());
-    //CULog("dir: %f, %f, %f", _camera->getDirection().x, _camera->getDirection().y, _camera->getDirection().z);
-    //CULog("up: %f, %f, %f", _camera->getUp().x, _camera->getUp().y, _camera->getUp().z);
     if (angle < 0) angle += 2 * M_PI;
     angle /= M_PI;
-    CULog("%f", angle);
     float speed = 1.0;
     _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
     _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
