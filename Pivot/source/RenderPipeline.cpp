@@ -165,7 +165,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->getTexture(), NULL, false));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->getTexture(), NULL, false, 0, true));
 
     // Collectibles
     std::map<std::string, Collectible> colls = model->getCollectibles();
