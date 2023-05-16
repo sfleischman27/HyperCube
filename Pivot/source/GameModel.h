@@ -113,6 +113,8 @@ public:
 #pragma mark Compass State
 public:
     std::shared_ptr<cugl::scene2::Label> _compassNum;
+    /** compass degree setting true = 180, false = 360 */
+    bool _degrees;
 
 
 #pragma mark navigator State
@@ -477,7 +479,12 @@ public:
     
     void updateCompassNum() {
         int angle = static_cast<int>(getGlobalAngleDeg());
-        _compassNum->setText(std::to_string(angle));
+        if (_degrees){ // 0 -> 180
+            _compassNum->setText(std::to_string(angle));
+        } else { // 0 -> 360
+            if (angle < 0){ angle = angle + 360; }
+            _compassNum->setText(std::to_string(angle));
+        }
         int frame = (angle + 360) % 10;
         _compassSpin->setFrame(frame);
         // fade in
