@@ -187,7 +187,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
      }
 
     // Set bind points
-    const int bindStart = 8;
+    const int bindStart = 9;
     for (int i = 0; i < drawables.size(); i++) {
         drawables[i].tex->setBindPoint(bindStart + (2*i));
         if (drawables[i].normalMap != NULL) {
@@ -271,6 +271,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboDepth)->setBindPoint(5);
     fbofinal->getTexture()->setBindPoint(6);
     fbopos->getTexture(0)->setBindPoint(7);
+    model->backgroundPic->setBindPoint(8);
 
     // Cut texture translation
     if (model->_justFinishRotating) {
@@ -450,6 +451,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->bind();
     fbo->getTexture(fboDepth)->bind();
     earthTex->bind();
+    model->backgroundPic->bind();
 
     // Set uniforms and draw
     _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
@@ -458,11 +460,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
     _shaderCut->setUniformVec2("transOffset", transOffset);
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
+    _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
 
     // Unbinding
+    model->backgroundPic->unbind();
     earthTex->unbind();
     fbo->getTexture(fboAlbedo)->unbind();
     fbo->getTexture(fboReplace)->unbind();

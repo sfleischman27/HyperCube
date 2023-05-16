@@ -14,6 +14,7 @@ uniform sampler2D depthTexture;
 uniform sampler2D outsideTexture;
 uniform vec2 transOffset;
 uniform vec2 screenSize;
+uniform sampler2D background;
 
 // Editable parameter for how thick the cut outline is
 const float thickness = 1.0;
@@ -54,7 +55,9 @@ void main(void) {
 		}
 	} else if (texture(depthTexture, outTexCoord).xyz == vec3(1.0)) {
 		// Background color
-		frag_color = vec4(31.0, 34.0, 69.0, 255.0) / 255.0;
+		//frag_color = vec4(31.0, 34.0, 69.0, 255.0) / 255.0;
+		frag_color = texture(background, outTexCoord);
+		frag_color.a = 1.0;
 	} else {
 		// Ambient lighting
 		frag_color = texture(albedoTexture, outTexCoord);
