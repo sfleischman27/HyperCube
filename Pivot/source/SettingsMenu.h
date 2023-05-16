@@ -55,14 +55,6 @@ protected:
     std::shared_ptr<cugl::scene2::Button> _compass;
     /** The compass label */
     std::shared_ptr<cugl::scene2::Label> _compassLabel;
-    /** The outline toggle */
-    std::shared_ptr<cugl::scene2::Button> _outline;
-    /** The outline label */
-    std::shared_ptr<cugl::scene2::Label> _outlineLabel;
-    /** Right or left hand control toggle*/
-    std::shared_ptr<cugl::scene2::Button> _rightHand;
-    /** The handed label */
-    std::shared_ptr<cugl::scene2::Label> _rightHandLabel;
     /** The clear data overlay */
     std::shared_ptr<cugl::scene2::SceneNode> _overlay;
     /** The yes clear the data button */
