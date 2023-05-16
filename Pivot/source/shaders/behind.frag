@@ -39,6 +39,7 @@ void main(void) {
 	if (compBeforeAlpha == 1) {
 		frag_color.a = alpha;
 	}
+	frag_color.a = alpha;
 }
 
 /////////// SHADER END //////////)"

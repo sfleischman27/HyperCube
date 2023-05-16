@@ -480,16 +480,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
         _shaderBehind->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
         _shaderBehind->setUniform1f("darken", 0.2);
-        _shaderBehind->setUniform1i("compBehindAlpha", 1.0);
+        _shaderBehind->setUniform1i("compBehindAlpha", 1);
         _shaderBehind->setUniform1f("alpha", alpha);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
         dro.tex->unbind();
     }
-
-    // OpenGL Blending, again
-    glEnable(GL_DEPTH_TEST);
 
     // Emission Billboards
     for (DrawObject dro : drawables) {
@@ -506,7 +503,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
         _shaderBehind->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
         _shaderBehind->setUniform1f("darken", 0.0);
-        _shaderBehind->setUniform1i("compBehindAlpha", 0.0);
+        _shaderBehind->setUniform1i("compBehindAlpha", 0);
         _shaderBehind->setUniform1f("alpha", 1.0);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
