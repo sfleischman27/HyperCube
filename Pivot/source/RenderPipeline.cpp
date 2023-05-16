@@ -460,6 +460,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->bind();
 
     // Stripped Billboards
+    fbo->getTexture(fboReplace)->bind();
     for (DrawObject dro : drawables) {
         if (dro.isPlayer) continue;
         // Calculate distance from plane
@@ -484,7 +485,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
         _shaderBehind->setUniform1f("alpha", alpha);
-        _shaderBehind->setUniform1f("darken", 0.2f);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
