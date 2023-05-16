@@ -167,6 +167,26 @@ public:
      * Returns the rotate selction that is stored in the save file
      */
     bool getRotate() { return _save->getBool("rotate"); }
+    
+    /**
+     * Updates the outline selction in the save json
+     */
+    void setOutline(bool outline) { _save->get("outline")->set(outline); }
+    
+    /**
+     * Returns the outline selction that is stored in the save file
+     */
+    bool getOutline() { return _save->getBool("outline"); }
+    
+    /**
+     * Updates the right or left hand selction in the save json
+     */
+    void setRightHand(bool rightHand) { _save->get("right-hand")->set(rightHand); }
+    
+    /**
+     * Returns the right or left hand selction that is stored in the save file
+     */
+    bool getRightHand() { return _save->getBool("right-hand"); }
 };
 
 #endif /* DataController_h */

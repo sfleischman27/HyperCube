@@ -115,6 +115,32 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
         }
     });
     
+    _outlineLabel = std::dynamic_pointer_cast<scene2::Label>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_outline_value"));
+    _outline = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_outline_toggle"));
+    _outline->setToggle(true);
+    _outline->addListener([this](const std::string& name, bool down) {
+        if (down) {
+            _data->setOutline(false);
+            _outlineLabel->setText("Off");
+        } else {
+            _data->setOutline(true);
+            _outlineLabel->setText("On");
+        }
+    });
+    
+    _rightHandLabel = std::dynamic_pointer_cast<scene2::Label>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_control_value"));
+    _rightHand = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_control_toggle"));
+    _rightHand->setToggle(true);
+    _rightHand->addListener([this](const std::string& name, bool down) {
+        if (down) {
+            _data->setRightHand(false);
+            _rightHandLabel->setText("Left Hand");
+        } else {
+            _data->setRightHand(true);
+            _rightHandLabel->setText("Right Hand");
+        }
+    });
+    
     _overlay = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_overlay"));
     _overlay->setVisible(false);
     
@@ -125,7 +151,6 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
             setFromSave();
             // switch out of sub scene
             _choice = OVEROFF;
-            //TODO: show that data has been cleared
         }
     });
     
@@ -158,6 +183,8 @@ void SettingsMenu::dispose() {
     _movement = nullptr;
     _rotation = nullptr;
     _compass = nullptr;
+    _outline = nullptr;
+    _rightHand = nullptr;
     _overlay = nullptr;
     _yes = nullptr;
     _no = nullptr;
@@ -183,6 +210,8 @@ void SettingsMenu::setActive(bool value) {
         _movement->activate();
         _rotation->activate();
         _compass->activate();
+        _outline->activate();
+        _rightHand->activate();
     } else {
         _back->deactivate();
         _clear->deactivate();
@@ -191,6 +220,8 @@ void SettingsMenu::setActive(bool value) {
         _movement->deactivate();
         _rotation->deactivate();
         _compass->deactivate();
+        _outline->deactivate();
+        _rightHand->deactivate();
         // if back or clear were pressed, reset them
         _back->setDown(false);
         _clear->setDown(false);
@@ -259,6 +290,22 @@ void SettingsMenu::setFromSave() {
     } else {
         _compass->setDown(true);
         _compassLabel->setText("360");
+    }
+    
+    if (_data->getOutline()) {
+        _outline->setDown(false);
+        _outlineLabel->setText("On");
+    } else {
+        _outline->setDown(true);
+        _outlineLabel->setText("Off");
+    }
+    
+    if (_data->getRightHand()) {
+        _rightHand->setDown(false);
+        _rightHandLabel->setText("Right Hand");
+    } else {
+        _rightHand->setDown(true);
+        _rightHandLabel->setText("Left Hand");
     }
     
     _volume->setValue(_data->getVolume());
