@@ -381,6 +381,7 @@ void PivotApp::updateSettingsScene(float timestep){
     switch(_settings.getChoice()) {
         case SettingsMenu::Choice::NONE:
             _settings.update(timestep);
+            updateSettings();
             break;
         case SettingsMenu::Choice::EXIT:
             // save
@@ -410,12 +411,13 @@ void PivotApp::updateSettings(){
         _levelSelect.resetMax();
     }
     // change between buttons and joystick
-    
+    _gameplay.updateJoystick(_gameplay.getControls());
     // update volume
-    
+    _sound->setMasterVolume(_gameplay.getVolume());
     // turn music on or off
     
     // switch compass between 180 and 360
-    
+    _gameplay.updateCompass(_gameplay.getCompass());
     // switch rotate between clockwise and counter
+    _gameplay.updateRotate(_gameplay.getRotate());
 }
