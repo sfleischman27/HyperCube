@@ -237,7 +237,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _camera->setPosition(camPos);
     _camera->setDirection(-n);
     Vec3 toPrint = _camera->getDirection();
-    CULog("%f, %f, %f", toPrint.x, toPrint.y, toPrint.z);
+    //CULog("%f, %f, %f", toPrint.x, toPrint.y, toPrint.z);
     _camera->setUp(Vec3(0, 0, 1));
     _camera->update();
     basisUp = _camera->getUp();
@@ -454,6 +454,11 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     model->backgroundPic->bind();
 
     // Set uniforms and draw
+    float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, -1, 0), _camera->getUp());
+    CULog("dir: %f, %f, %f", _camera->getDirection().x, _camera->getDirection().y, _camera->getDirection().z);
+    CULog("up: %f, %f, %f", _camera->getUp().x, _camera->getUp().y, _camera->getUp().z);
+    angle /= (2 * M_PI);
+    CULog("%f", angle);
     _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
     _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderCut->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
@@ -461,6 +466,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniformVec2("transOffset", transOffset);
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
+    _shaderCut->setUniform1f("angle", angle);
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
