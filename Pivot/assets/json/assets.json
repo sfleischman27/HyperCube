@@ -172,6 +172,11 @@
             "file": "textures/glow_cube.png",
             "span": 1,
             "cols": 1
+        },
+        "mushroom": {
+            "file": "textures/mushroom.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
