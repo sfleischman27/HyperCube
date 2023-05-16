@@ -84,6 +84,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     exitPos.z = constants->get("exit")->get(2)->asFloat();
     std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("goal"));
     model->setExit(exitPtr);
+
+    model->backgroundPic = _assets->get<Texture>("space135");
     
     // get the sprites
     std::shared_ptr<cugl::JsonValue> sprites = constants->get("sprites");

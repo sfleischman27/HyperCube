@@ -244,6 +244,7 @@ void PivotApp::updateLoadingScene(float timestep){
         _endMenu.init(_assets);
         _quitMenu.init(_assets);
         _gameplay.init(_assets, getDisplaySize(), _sound);
+        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
         _settings.init(_assets, _gameplay.getDataController());
         _mainMenu.setActive(true);
         _scene = State::MAIN;

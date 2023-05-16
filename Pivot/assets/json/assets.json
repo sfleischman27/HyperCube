@@ -56,6 +56,9 @@
         "bullet": {
             "file": "textures/bullet.png"
         },
+        "space135": {
+            "file": "textures/supercoolspace.png"
+        },
         "section_cut (1)": {
             "file": "textures/section_cut (1).png"
         },
@@ -102,7 +105,7 @@
             "file": "textures/section_cut (15).png"
         },
         "goal": {
-            "file": "textures/goaldoor.png"
+            "file": "textures/exitman.png"
         },
         "dpad": {
             "file": "textures/dpad.png",
