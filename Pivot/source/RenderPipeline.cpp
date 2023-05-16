@@ -318,6 +318,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBill->bind();
 
     for (DrawObject dro : drawables) {
+        if (dro.emission) continue;
         // Construct vertices to be placed in the mesh
         constructBillMesh(model, dro);
 
@@ -362,6 +363,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffPosition->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
 
     for (DrawObject dro : drawables) {
+        if (dro.emission) continue;
         // Construct vertices to be placed in the mesh
         constructBillMesh(model, dro);
 
@@ -495,6 +497,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Binding
     _vertbuffEmission->bind();
+    fbo->getTexture(fboDepth)->bind();
 
     for (DrawObject dro : drawables) {
         if (!dro.emission) continue;
@@ -506,6 +509,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         dro.tex->bind();
         _shaderEmission->setUniformMat4("uPerspective", _camera->getCombined());
         _shaderEmission->setUniform1i("billTex", dro.tex->getBindPoint());
+        _shaderEmission->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
         _vertbuffEmission->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffEmission->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffEmission->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
@@ -513,6 +517,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // Unbinding
+    fbo->getTexture(fboDepth)->unbind();
     _vertbuffEmission->unbind();
 
     // --------------- Pass 8: Cut --------------- //

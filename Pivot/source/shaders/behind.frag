@@ -18,7 +18,7 @@ void main(void) {
 		discard;
 	}
 	frag_color.xyz = frag_color.xyz - vec3(.2); //TEMPORARY: artificial darkening
-	frag_color.a = alpha;
+	frag_color.a = alpha * frag_color.a;
 }
 
 /////////// SHADER END //////////)"
