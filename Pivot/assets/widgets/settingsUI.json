@@ -254,7 +254,7 @@
                                     "label": {
                                         "type": "Label",
                                         "data": {
-                                            "font": "gyparody",
+                                            "font": "gyparody-medium",
                                             "text": "Are you sure you want to clear save data?",
                                             "foreground": [255,255,255,255],
                                             "background": [0,0,0,0],
