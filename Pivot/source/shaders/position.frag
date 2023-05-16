@@ -17,7 +17,7 @@ void main(void) {
 	// Removing alpha for billboards only
 	vec4 frag_color = texture(billTex, outTexCoord);
 	if (isBillboard == 1) {
-		if (frag_color.a < 0.5) {
+		if (frag_color.a == 0.0) {
 			discard;
 		}
 	}

@@ -29,7 +29,7 @@ vec4 EncodeFloatRGBA(float v) {
 void main(void) {
 
 	frag_color = texture(billTex, outTexCoord);
-	if (frag_color.a < 0.5) {
+	if (frag_color.a == 0.0) {
 		discard;
 	}
 	frag_color.a = 1.0;
