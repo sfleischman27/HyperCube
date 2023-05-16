@@ -231,43 +231,43 @@ void PivotApp::draw() {
 }
 
 void PivotApp::updateLoadingScene(float timestep){
-//    switch (_loading.getStatus()) {
-//        case Loading::Status::NONE:
-//            _loading.update(timestep);
-//            break;
-//        case Loading::Status::LOADED:
-//            _demoloading.dispose(); // Permanently disables the input listeners in this mode
-//            _mainMenu.init(_assets);
-//            if(_testing){ _levelSelect.initMax(_assets); }
-//            else{ _levelSelect.init(_assets); }
-//            _endMenu.init(_assets);
-//            _quitMenu.init(_assets);
-//            _gameplay.init(_assets, getDisplaySize(), _sound);
-//            if(_testing){ _gameplay.setMaxLevel(_levelSelect.getMaxLevel()); }
-//            _settings.init(_assets, _gameplay.getDataController());
-//            _mainMenu.setActive(true);
-//            _scene = State::MAIN;
-//            break;
-//    }
-    
-    if (_loading.isActive()) {
-        _loading.update(timestep);
-    } else {
-        _loading.dispose(); // Permanently disables the input listeners in this mode
-        _mainMenu.init(_assets);
-        if(_testing){
-            _levelSelect.initMax(_assets);
-        }else{
-            _levelSelect.init(_assets);
-        }
-        _endMenu.init(_assets);
-        _quitMenu.init(_assets);
-        _gameplay.init(_assets, getDisplaySize(), _sound);
-        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
-        _settings.init(_assets, _gameplay.getDataController());
-        _mainMenu.setActive(true);
-        _scene = State::MAIN;
+    switch (_loading.getStatus()) {
+        case Loading::Status::NONE:
+            _loading.update(timestep);
+            break;
+        case Loading::Status::LOADED:
+            _loading.dispose(); // Permanently disables the input listeners in this mode
+            _mainMenu.init(_assets);
+            if(_testing){ _levelSelect.initMax(_assets); }
+            else{ _levelSelect.init(_assets); }
+            _endMenu.init(_assets);
+            _quitMenu.init(_assets);
+            _gameplay.init(_assets, getDisplaySize(), _sound);
+            if(_testing){ _gameplay.setMaxLevel(_levelSelect.getMaxLevel()); }
+            _settings.init(_assets, _gameplay.getDataController());
+            _mainMenu.setActive(true);
+            _scene = State::MAIN;
+            break;
     }
+    
+//    if (_loading.isActive()) {
+//        _loading.update(timestep);
+//    } else {
+//        _loading.dispose(); // Permanently disables the input listeners in this mode
+//        _mainMenu.init(_assets);
+//        if(_testing){
+//            _levelSelect.initMax(_assets);
+//        }else{
+//            _levelSelect.init(_assets);
+//        }
+//        _endMenu.init(_assets);
+//        _quitMenu.init(_assets);
+//        _gameplay.init(_assets, getDisplaySize(), _sound);
+//        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
+//        _settings.init(_assets, _gameplay.getDataController());
+//        _mainMenu.setActive(true);
+//        _scene = State::MAIN;
+//    }
     
 //    if (_demoloading.isActive()) {
 //        _demoloading.update(timestep);

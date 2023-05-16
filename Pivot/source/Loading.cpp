@@ -64,11 +64,12 @@ void Loading::update(float progress) {
             _progress = 1.0f;
             _bar->setVisible(false);
             _status = LOADED;
+        } else {
+            _bar->setProgress(_progress);
         }
-        _bar->setProgress(_progress);
     }
-    if (_status == LOADED) {
-        this->_active = false;
-        
-    }
+//    if (_status == LOADED) {
+//        this->_active = false;
+//
+//    }
 }
