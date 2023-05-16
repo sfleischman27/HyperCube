@@ -350,6 +350,7 @@ public:
             _collectibles.insert({std::to_string(i), item});
             _expectedCol.insert(std::to_string(i));
         }
+        
     }
     
     void clearPopups() {
@@ -420,7 +421,7 @@ public:
     }
 
     /**Get the 2d position and angle in radians which the navigator should rotate to point towards the exit*/
-    std::pair<Vec2, float> getNavigatorTransforms() {
+    std::pair<Vec2, std::vector<float>> getNavigatorTransforms() {
         //get basis right
         auto z = Vec3(0, 0, 1);
         z.cross(_norm);
@@ -441,15 +442,31 @@ public:
         auto det = projected.x * basis.y - projected.y * basis.x;      // Determinant
         auto angle =  atan2(det, dot);
 
-        return std::pair<Vec2, float>(projected, angle);
+        std::vector<float> nums{ angle, dist };
+        return std::pair<Vec2, std::vector<float>>(projected, nums);
     }
     
     void updateNavigator() {
         auto stuff = getNavigatorTransforms();
-        _navigator->setAngle(stuff.second);
+        _navigator->setAngle(stuff.second[0]);
         auto off = stuff.first;
-        //if (off.length() > 20) { off = off/ off.length() * 2; }
-        //_navigator->setPosition(off);
+        float rad = 100;
+        if (off.length() < rad) { rad = off.length(); }
+        CULog(std::to_string(rad).c_str());
+        _navigator->setScale(Vec2(0.5, rad/200));
+
+        auto crad = 300.0f;
+        auto tint = stuff.second[1];
+        if (tint > 0) {
+            auto t = std::min(1.0f, tint / crad);
+            _navigator->setColor(cugl::Color4(255, 160, 0, 255) * t + cugl::Color4::WHITE * (1-t));
+        }
+        else {
+            auto t = std::min(1.0f, -tint / crad);
+            _navigator->setColor(cugl::Color4(0, 255, 0, 255) * t + cugl::Color4::WHITE * (1-t));
+        }
+
+        
 
     }
     

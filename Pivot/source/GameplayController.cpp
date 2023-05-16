@@ -737,6 +737,16 @@ void GameplayController::update(float dt) {
         if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
             itr->second.setCollected(true);
             _model->_backpack.insert(itr->first);
+            if (_model->_nav_target == itr->second.getPosition()) {
+                itr++;
+                if (itr == _model->_collectibles.end()) {
+                    _model->_nav_target = _model->_exit->getPosition();
+                }
+                else {
+                    _model->_nav_target = itr->second.getPosition();
+                }
+                itr--;
+            }
         }
     }
     

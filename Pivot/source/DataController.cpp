@@ -160,7 +160,12 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             model->_decorations.push_back(decPtr);
         }
     }
-
+    if (col_locs.size() > 0) {
+        model->_nav_target = col_locs[0];
+    }
+    else {
+        model->_nav_target = model->_exit->getPosition();
+    }
     model->setCollectibles(col_locs, col_texs);
 
     // get and set triggers
