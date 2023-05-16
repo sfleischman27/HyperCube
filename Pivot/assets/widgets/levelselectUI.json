@@ -448,7 +448,7 @@
                                 },
                                 "data": {
                                     "upnode": "up",
-                                    "size": [800,200],
+                                    "size": [200,800],
                                     "anchor": [0, 1],
                                     "scale": 0.97,
                                     "visible": true
@@ -456,8 +456,8 @@
                                 "layout":{
                                     "x_anchor": "left",
                                     "y_anchor": "top",
-                                    "x_offset": -0.285,
-                                    "y_offset": -0.37
+                                    "x_offset": -0.102,
+                                    "y_offset": -0.01
                                 },
                                 "children": {
                                     "up":{
@@ -475,7 +475,7 @@
                                 },
                                 "data": {
                                     "upnode": "up",
-                                    "size": [800,200],
+                                    "size": [200,800],
                                     "anchor": [1, 1],
                                     "scale": 0.97,
                                     "visible": true
@@ -483,8 +483,8 @@
                                 "layout":{
                                     "x_anchor": "right",
                                     "y_anchor": "top",
-                                    "x_offset": 0.282,
-                                    "y_offset": -0.37
+                                    "x_offset": 0.1,
+                                    "y_offset": -0.01
                                 },
                                 "children": {
                                     "up":{
