@@ -347,6 +347,23 @@ public:
      */
     bool getRotate() { return _data->getRotate(); }
     
+    
+#pragma mark Setting update functions
+    /** Updates joystick setting in input controller */
+    void updateJoystick(bool control) { _input->settings_isUsingJoystick = control; }
+    
+    /** Updates rotate setting in input controller */
+    void updateRotate(bool rotate) {
+        if (rotate){
+            _input->settings_invertRotate = 1; //normal
+        } else {
+            _input->settings_isUsingJoystick = -1; //inverted
+        }
+    }
+    
+    /** Updates the degrees settings in game model */
+    void updateCompass(bool compass) { _model->_degrees = compass; }
+    
 };
 
 #endif /* GameplayController_h */
