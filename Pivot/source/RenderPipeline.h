@@ -25,7 +25,6 @@ public:
 		bool emission;
 
 		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, int id = 0, bool emission = false) {
-			assert(!(isPlayer && emission)); // player is never an emission mesh
 			this->pos = pos;
 			this->tex = tex;
 			this->normalMap = normalMap;
@@ -66,18 +65,24 @@ public:
 	const std::string fogFrag =
 #include "shaders/fog.frag"
 	;
-	const std::string cutVert =
-#include "shaders/cut.vert"
-	;
-	const std::string cutFrag =
-#include "shaders/cut.frag"
-	;
 	const std::string behindVert =
 #include "shaders/behind.vert"
 		;
 	const std::string behindFrag =
 #include "shaders/behind.frag"
 		;
+	const std::string emissionVert =
+#include "shaders/emission.vert"
+	;
+	const std::string emissionFrag =
+#include "shaders/emission.frag"
+	;
+	const std::string cutVert =
+#include "shaders/cut.vert"
+	;
+	const std::string cutFrag =
+#include "shaders/cut.frag"
+	;
 	const std::string screenVert =
 #include "shaders/screen.vert"
 	;
@@ -104,8 +109,9 @@ public:
 	std::shared_ptr<cugl::Shader> _shaderPosition;
 	std::shared_ptr<cugl::Shader> _shaderPointlight;
 	std::shared_ptr<cugl::Shader> _shaderFog;
-	std::shared_ptr<cugl::Shader> _shaderCut;
 	std::shared_ptr<cugl::Shader> _shaderBehind;
+	std::shared_ptr<cugl::Shader> _shaderEmission;
+	std::shared_ptr<cugl::Shader> _shaderCut;
 	std::shared_ptr<cugl::Shader> _shaderScreen;
 
 	// Buffers
@@ -114,8 +120,9 @@ public:
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffPosition;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffPointlight;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffFog;
-	std::shared_ptr<cugl::VertexBuffer> _vertbuffCut;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBehind;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffEmission;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffCut;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffScreen;
 
 	// Meshes

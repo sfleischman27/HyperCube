@@ -17,7 +17,6 @@ uniform mat4 Mv; // for specular only
 uniform vec3 color;
 uniform vec3 lpos;
 uniform float power;
-uniform float numLights;
 
 // Editable parameters for diffuse calculation
 const float powerMult = 10000.0;
@@ -34,7 +33,6 @@ void main(void) {
     // Grab pixel components from texture
 	vec3 alb = texture(albedoTexture, outTexCoord).xyz;
 	vec3 norm = (texture(normalTexture, outTexCoord).xyz * 2.0) - vec3(1.0);
-    float doLighting = texture(normalTexture, outTexCoord).a;
 	vec3 pos = texture(posTexture, outTexCoord).xyz;
 
     // Diffuse calculation
@@ -53,9 +51,6 @@ void main(void) {
     //vec3 specular = specularStrength * spec * color; 
 
 	frag_color = vec4(diffuse, 1.0);
-    if (doLighting == 0.0) {
-        frag_color = vec4(alb / numLights, 1.0);
-    }
 }
 
 /////////// SHADER END //////////)"
