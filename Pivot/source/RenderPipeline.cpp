@@ -440,49 +440,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffFog->unbind();
 
-    // --------------- Pass 6: Cut --------------- //
-    // OpenGL Blending
-    glEnable(GL_DEPTH_TEST);
-    glBlendEquation(GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // Binding
-    _vertbuffCut->bind();
-    fbo->getTexture(fboAlbedo)->bind();
-    fbo->getTexture(fboReplace)->bind();
-    fbo->getTexture(fboDepth)->bind();
-    earthTex->bind();
-    model->backgroundPic->bind();
-
-    // Set uniforms and draw
-    float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, 1, 0), _camera->getUp());
-    if (angle < 0) angle += 2 * M_PI;
-    angle /= M_PI;
-    float speed = 1.0;
-    _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
-    _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
-    _shaderCut->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
-    _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
-    _shaderCut->setUniformVec2("transOffset", transOffset);
-    _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
-    _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
-    _shaderCut->setUniform1f("angle", angle * speed);
-    _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
-    _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
-    _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
-
-    // Unbinding
-    model->backgroundPic->unbind();
-    earthTex->unbind();
-    fbo->getTexture(fboAlbedo)->unbind();
-    fbo->getTexture(fboReplace)->unbind();
-    fbo->getTexture(fboDepth)->unbind();
-    _vertbuffCut->unbind();
-
-    // --------------- Pass 7: Stripped Billboards --------------- //
+    // --------------- Pass 6: Stripped Billboards --------------- //
 
     // OpenGL Blending
     glDisable(GL_DEPTH_TEST);
+    glBlendEquation(GL_FUNC_ADD);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Binding
     _vertbuffBehind->bind();
@@ -521,6 +484,40 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->unbind();
     _vertbuffBehind->unbind();
 
+    // --------------- Pass 7: Cut --------------- //
+
+    // Binding
+    _vertbuffCut->bind();
+    fbo->getTexture(fboAlbedo)->bind();
+    fbo->getTexture(fboReplace)->bind();
+    fbo->getTexture(fboDepth)->bind();
+    earthTex->bind();
+    model->backgroundPic->bind();
+
+    // Set uniforms and draw
+    float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, 1, 0), _camera->getUp());
+    if (angle < 0) angle += 2 * M_PI;
+    angle /= M_PI;
+    float speed = 1.0;
+    _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
+    _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
+    _shaderCut->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
+    _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
+    _shaderCut->setUniformVec2("transOffset", transOffset);
+    _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
+    _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
+    _shaderCut->setUniform1f("angle", angle * speed);
+    _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+
+    // Unbinding
+    model->backgroundPic->unbind();
+    earthTex->unbind();
+    fbo->getTexture(fboAlbedo)->unbind();
+    fbo->getTexture(fboReplace)->unbind();
+    fbo->getTexture(fboDepth)->unbind();
+    _vertbuffCut->unbind();
 
     fbofinal->end();
 
