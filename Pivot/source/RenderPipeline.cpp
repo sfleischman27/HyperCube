@@ -104,15 +104,6 @@ void RenderPipeline::constructShaders() {
         offsetof(PivotVertex3, texcoord));
     _vertbuffFog->attach(_shaderFog);
 
-    // Cut shader
-    _shaderCut = Shader::alloc(SHADER(cutVert), SHADER(cutFrag));
-    _vertbuffCut = VertexBuffer::alloc(sizeof(PivotVertex3));
-    _vertbuffCut->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, position));
-    _vertbuffCut->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, texcoord));
-    _vertbuffCut->attach(_shaderCut);
-
     // Behind shader
     _shaderBehind = Shader::alloc(SHADER(behindVert), SHADER(behindFrag));
     _vertbuffBehind = VertexBuffer::alloc(sizeof(PivotVertex3));
@@ -121,6 +112,24 @@ void RenderPipeline::constructShaders() {
     _vertbuffBehind->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, texcoord));
     _vertbuffBehind->attach(_shaderBehind);
+
+    // Emission shader
+    _shaderEmission = Shader::alloc(SHADER(emissionVert), SHADER(emissionFrag));
+    _vertbuffEmission = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffEmission->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffEmission->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffEmission->attach(_shaderEmission);
+
+    // Cut shader
+    _shaderCut = Shader::alloc(SHADER(cutVert), SHADER(cutFrag));
+    _vertbuffCut = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffCut->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffCut->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffCut->attach(_shaderCut);
 
     // Screen shader
     _shaderScreen = Shader::alloc(SHADER(screenVert), SHADER(screenFrag));
@@ -449,7 +458,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     // Binding
     _vertbuffBehind->bind();
-    fbo->getTexture(fboReplace)->bind();
+
     for (DrawObject dro : drawables) {
         if (dro.isPlayer) continue;
         // Calculate distance from plane
@@ -472,7 +481,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniformMat4("uPerspective", _camera->getCombined());
         _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
         _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
-        _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
         _shaderBehind->setUniform1f("alpha", alpha);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
@@ -481,10 +489,33 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
 
     // Unbinding
-    fbo->getTexture(fboReplace)->unbind();
     _vertbuffBehind->unbind();
 
-    // --------------- Pass 7: Cut --------------- //
+    // --------------- Pass 7: Emission Billboards --------------- //
+
+    // Binding
+    _vertbuffEmission->bind();
+
+    for (DrawObject dro : drawables) {
+        if (!dro.emission) continue;
+
+        // Construct vertices to be placed in the mesh
+        constructBillMesh(model, dro);
+
+        // Set uniforms and draw individual billboard
+        dro.tex->bind();
+        _shaderEmission->setUniformMat4("uPerspective", _camera->getCombined());
+        _shaderEmission->setUniform1i("billTex", dro.tex->getBindPoint());
+        _vertbuffEmission->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
+        _vertbuffEmission->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
+        _vertbuffEmission->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
+        dro.tex->unbind();
+    }
+
+    // Unbinding
+    _vertbuffEmission->unbind();
+
+    // --------------- Pass 8: Cut --------------- //
 
     // Binding
     _vertbuffCut->bind();
@@ -521,7 +552,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     fbofinal->end();
 
-    // --------------- Pass 8: Screen --------------- //
+    // --------------- Pass 9: Screen --------------- //
     // OpenGL Blending
     glEnable(GL_DEPTH_TEST);
 

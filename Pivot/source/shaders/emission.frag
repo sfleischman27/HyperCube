@@ -9,7 +9,6 @@ in vec2 outTexCoord;
 out vec4 frag_color;
 
 uniform sampler2D billTex;
-uniform float alpha;
 
 void main(void) {
 	// Draw
@@ -17,8 +16,7 @@ void main(void) {
 	if (frag_color.a == 0.0) {
 		discard;
 	}
-	frag_color.xyz = frag_color.xyz - vec3(.2); //TEMPORARY: artificial darkening
-	frag_color.a = alpha;
+	frag_color.xyz = frag_color.xyz + vec3(.3);
 }
 
 /////////// SHADER END //////////)"
