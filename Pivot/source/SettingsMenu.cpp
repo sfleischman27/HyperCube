@@ -122,6 +122,7 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
     _yes->addListener([this](const std::string& name, bool down) {
         if (down) {
             _data->resetSave();
+            setFromSave();
             // switch out of sub scene
             _choice = OVEROFF;
             //TODO: show that data has been cleared

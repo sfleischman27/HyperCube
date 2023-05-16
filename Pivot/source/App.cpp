@@ -382,12 +382,13 @@ void PivotApp::updateSettingsScene(float timestep){
             _settings.update(timestep);
             break;
         case SettingsMenu::Choice::EXIT:
-            _settings.setActive(false);
-            _levelSelect.setActive(true);
             // save
             _gameplay.save();
             // change settings
-            //updateSettings();
+            updateSettings();
+            // switch scenes
+            _settings.setActive(false);
+            _levelSelect.setActive(true);
             _scene = State::LEVEL;
             break;
         case SettingsMenu::OVERLAY:
@@ -400,4 +401,20 @@ void PivotApp::updateSettingsScene(float timestep){
             break;
     }
     
+}
+
+void PivotApp::updateSettings(){
+    // if reset, update level select
+    if (_gameplay.getMaxLevel() == 0){
+        _levelSelect.resetMax();
+    }
+    // change between buttons and joystick
+    
+    // update volume
+    
+    // turn music on or off
+    
+    // switch compass between 180 and 360
+    
+    // switch rotate between clockwise and counter
 }

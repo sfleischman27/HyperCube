@@ -25,6 +25,8 @@ protected:
     std::shared_ptr<cugl::JsonValue> _save;
     /** The save file directory path */
     std::string _saveDir;
+    /** The default save file JsonValue */
+    std::shared_ptr<cugl::JsonValue> _default;
   
 #pragma mark Constructors
 public:

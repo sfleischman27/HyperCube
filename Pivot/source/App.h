@@ -255,6 +255,11 @@ private:
      */
     void updateSettingsScene(float timestep);
     
+    /**
+     * Updates the settings after exiting settings menu
+     */
+    void updateSettings();
+    
 #pragma mark Sound Functions
     
     void enqueueOnce(std::string name, float volume, bool loop){

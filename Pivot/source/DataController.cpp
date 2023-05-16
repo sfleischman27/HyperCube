@@ -211,6 +211,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 // Note: dir includes "save.json"
 void DataController::setupSave(std::string dir, bool exists){
     _saveDir = dir;
+    // get default save file
+    _default = _assets->get<JsonValue>("default_save");
     if(exists){ // save file already exists
         // make a reader
         std::shared_ptr<JsonReader> read = JsonReader::alloc(_saveDir);
@@ -221,14 +223,15 @@ void DataController::setupSave(std::string dir, bool exists){
         // make a save file
         filetool::file_create(_saveDir);
         // get default save json
-        _save = _assets->get<JsonValue>("default_save");
+        _save = JsonValue::allocObject();
+        _save->initWithJson(_default->toString());
     }
 }
 
 void DataController::resetSave(){
     // get default save json
-    _save = _assets->get<JsonValue>("default_save");
-    //TODO: make the changes happen
+    _save = JsonValue::allocObject();
+    _save->initWithJson(_default->toString());
 }
 
 void DataController::save(){
