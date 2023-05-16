@@ -3,6 +3,7 @@
         "showToggle": ["data", "visible"],
         "toggleScale": ["data", "scale"],
         "toggleYOffset": ["layout", "y_offset"],
+        "toggleXOffset": ["layout", "x_offset"],
         "toggleXPos": ["children", "toggle", "layout", "x_offset"],
         "valueXPos": ["children", "value", "layout", "x_offset"],
         "category": ["children", "category", "data", "text"],
@@ -78,17 +79,17 @@
             "value": {
                 "type": "Label",
                 "data": {
-                    "font": "gyparody",
+                    "font": "gyparody-medium",
                     "text": "0",
                     "foreground": [255,255,255,255],
                     "background": [0,0,0,0],
-                    "halign": "center",
+                    "halign": "left",
                     "valign": "middle",
                     "anchor": [1,0],
                     "visible": true
                 },
                 "layout":{
-                    "x_anchor": "right",
+                    "x_anchor": "fill",
                     "y_anchor": "fill",
                     "x_offset": 0
                 }

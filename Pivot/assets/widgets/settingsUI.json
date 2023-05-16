@@ -65,8 +65,8 @@
                                 "layout": {
                                     "x_anchor": "left",
                                     "y_anchor": "top",
-                                    "x_offset": 0.01,
-                                    "y_offset": -0.015
+                                    "x_offset": 0.03,
+                                    "y_offset": -0.06
                                 },
                                 "children": {
                                     "up":{
@@ -151,8 +151,9 @@
                                     "variables": {
                                         "showToggle": true,
                                         "toggleYOffset": 0.15,
+                                        "toggleXOffset": -0.06,
                                         "toggleXPos": -0.15,
-                                        "valueXPos": -0.5,
+                                        "valueXPos": 0.22,
                                         "value": "On",
                                         "category": "Music"
                                     }
@@ -165,8 +166,9 @@
                                     "variables": {
                                         "showToggle": true,
                                         "toggleYOffset": 0,
+                                        "toggleXOffset": -0.06,
                                         "toggleXPos": -0.15,
-                                        "valueXPos": -0.43,
+                                        "valueXPos": 0.22,
                                         "value": "Buttons",
                                         "category": "Movement"
                                     }
@@ -179,8 +181,9 @@
                                     "variables": {
                                         "showToggle": true,
                                         "toggleYOffset": -0.15,
+                                        "toggleXOffset": -0.06,
                                         "toggleXPos": -0.15,
-                                        "valueXPos": -0.4,
+                                        "valueXPos": 0.22,
                                         "value": "Clockwise",
                                         "category": "Rotation"
                                     }
@@ -193,10 +196,41 @@
                                     "variables": {
                                         "showToggle": true,
                                         "toggleYOffset": -0.3,
+                                        "toggleXOffset": -0.06,
                                         "toggleXPos": -0.15,
-                                        "valueXPos": -0.49,
+                                        "valueXPos": 0.22,
                                         "value": "180",
                                         "category": "Compass"
+                                    }
+                                }
+                            },
+                            "outline": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "settingstoggle",
+                                    "variables": {
+                                        "showToggle": true,
+                                        "toggleYOffset": 0.15,
+                                        "toggleXOffset": 0.41,
+                                        "toggleXPos": -0.15,
+                                        "valueXPos": 0.22,
+                                        "value": "On",
+                                        "category": "Outline"
+                                    }
+                                }
+                            },
+                            "control": {
+                                "type": "Widget",
+                                "data": {
+                                    "key": "settingstoggle",
+                                    "variables": {
+                                        "showToggle": true,
+                                        "toggleYOffset": 0,
+                                        "toggleXOffset": 0.41,
+                                        "toggleXPos": -0.15,
+                                        "valueXPos": 0.22,
+                                        "value": "Right Hand",
+                                        "category": "Control"
                                     }
                                 }
                             },

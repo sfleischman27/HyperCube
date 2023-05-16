@@ -10,7 +10,7 @@
             "type": "Anchored"
         },
         "data": {
-            "size": [1800,100],
+            "size": [1900,100],
             "scale": 1,
             "anchor": [0,1],
             "visible": true
@@ -75,9 +75,9 @@
                     "anchor": [1,0]
                 },
                 "layout":{
-                    "x_anchor": "right",
+                    "x_anchor": "fill",
                     "y_anchor": "fill",
-                    "x_offset": -0.15
+                    "x_offset": 0.3
                 }
             }
         }
