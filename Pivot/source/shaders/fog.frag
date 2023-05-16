@@ -26,7 +26,7 @@ void main(void) {
         discard;
     }
 	float d = DecodeFloatRGBA(texture(depthTexture, outTexCoord)) * severity;
-    d = min(1.0, d);
+    //d = min(1.0, d);
 	frag_color.xyz = (vec3(1.0) - fadeCol) * d;
 	frag_color.a = 1.0;
 }
