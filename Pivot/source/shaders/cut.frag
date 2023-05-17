@@ -16,6 +16,7 @@ uniform vec2 transOffset;
 uniform vec2 screenSize;
 uniform sampler2D background;
 uniform float angle;
+uniform int drawOutline;
 
 // Editable parameter for how thick the cut outline is
 const float thickness = 1.0;
@@ -51,7 +52,7 @@ void main(void) {
 		frag_color.a = 1.0;
 
 		// Edge detection, set to green if cut is near non-cut
-		if (checkNeighboring(replaceTexture, outTexCoord)) {
+		if (checkNeighboring(replaceTexture, outTexCoord) && drawOutline == 1) {
 			frag_color = vec4(0.0, 1.0, 0.0, 1.0);
 		}
 	} else if (texture(depthTexture, outTexCoord).xyz == vec3(1.0)) {

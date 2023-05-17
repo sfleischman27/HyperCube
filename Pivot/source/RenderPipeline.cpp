@@ -519,6 +519,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
     _shaderCut->setUniform1f("angle", angle * speed);
+    _shaderCut->setUniform1i("drawOutline", model->drawOutline);
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
