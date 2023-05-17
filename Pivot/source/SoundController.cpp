@@ -39,18 +39,18 @@ std::shared_ptr<GameSound> SoundController::getSound(std::string name){
 
 /**
  * sets master volume
- * @param volume the volume (0 - 1.0)
+ * @param volume the volume (0 - 100)
  */
 void SoundController::setMasterVolume(float volume){
-    _masterVolume = volume;
+    _masterVolume = volume * 0.01;
     setAllNodeGains();
 }
 
 /**
- * returns the master volume (range 0 - 1.0)
+ * returns the master volume (range 0 - 100)
  */
 float SoundController::getMasterVolume(){
-    return _masterVolume;
+    return _masterVolume * 100.0;
 }
 
 void SoundController::enableSound(bool sound){
