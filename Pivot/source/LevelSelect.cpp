@@ -248,29 +248,13 @@ std::string LevelSelect::getNextLevelString(){
 }
 
 void LevelSelect::nextLevel(){
-    // TODO: fix once things are renamed
-    if(_pack == 0 && _choice == 2){ // end of tutorial
+    if( _choice == inPackNum(_pack) - 1){ // reached the end of the pack
         _choice = Choice::LEVEL1;
         _pack = static_cast<LevelSelect::Pack>(_pack + 1);
-    } else { // in debug pack
+    } else {
         _choice = static_cast<LevelSelect::Choice>(_choice + 1);
     }
     updateMax(levelNum());
-    
-    /*
-    int level = _choice;
-   
-    if (level == 14){
-        level = 0;
-        _choice = Choice::LEVEL1;
-        _pack = static_cast<LevelSelect::Pack>(_pack + 1);
-    } else{
-        level +=1;
-        _choice = static_cast<LevelSelect::Choice>(_choice + 1);
-    }
-    // update maxLevel if needed
-    updateMax(levelNum());
-     */
 }
 
 /**
@@ -333,4 +317,8 @@ void LevelSelect::unlockNextLevel(){
 
 bool LevelSelect::isLast(){
     return levelNum() == LEVELS_IMPLEMENTED - 1;
+}
+
+bool LevelSelect::isLastInPack(){
+    return _choice == inPackNum(_pack) - 1;
 }
