@@ -26,8 +26,10 @@ public:
     bool settings_isUsingJoystick = true;
     
     void resetButtonPositions(){
-        _buttonRight->setPosition(originalRightButtonPos);
-        _buttonLeft->setPosition(originalLeftButtonPos);
+        if ( _buttonRight != nullptr && _buttonLeft != nullptr){
+            _buttonRight->setPosition(originalRightButtonPos);
+            _buttonLeft->setPosition(originalLeftButtonPos);
+        }
     }
     
 private:
