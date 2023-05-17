@@ -78,6 +78,8 @@ protected:
     
     /** The total number of levels we have in the game */
     const int LEVELS_IMPLEMENTED = 10;
+    /** The total number of packs in the game */
+    const int PACKS_IMPLEMENTED = 2;
     
     /**
      * Returns the active screen size of this scene.
@@ -226,6 +228,16 @@ public:
     void unlockNextLevel();
     
     /**
+     * Switches page to the next pack if possible
+     */
+    void nextPack();
+    
+    /**
+     * Switches page to the previous pack if possible
+     */
+    void prevPack();
+    
+    /**
      * Resets unlocked levels
      */
     void resetMax() { _maxLevel = 0; }
@@ -253,12 +265,12 @@ private:
      */
     int buttNameToNum(std::string name);
     
-    /**
-     * Translate a number to a level string
-     *
-     *  Example: 16 --> "test_0001"
-     */
-    std::string numToName(int level);
+//    /**
+//     * Translate a number to a level string
+//     *
+//     *  Example: 16 --> "test_0001"
+//     */
+//    std::string numToName(int level);
     
     /**
      * Returns the integer version of the current level and pack
@@ -273,6 +285,16 @@ private:
     void updateMax(int level);
     
     void setChoice(std::string name);
+    
+    /**
+     * Returns the number of levels before the given pack
+     */
+    int prePackNum(Pack pack);
+    
+    /**
+     * Returns the number of levels in the given pack
+     */
+    int inPackNum(Pack pack);
     
 };
 
