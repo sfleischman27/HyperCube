@@ -164,14 +164,14 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
-    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->getTexture(), NULL, false, 0, true));
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, 0, false, model->_player->currentSpriteSheet));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, 0, true, model->_exit->rotateSpriteSheet));
 
     // Collectibles
     std::map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            drawables.push_back(DrawObject(c.second.getPosition(), c.second.getTexture(), NULL, false));
+            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, 0, false, c.second.rotateSpriteSheet));
         }
     }
 
@@ -214,13 +214,13 @@ void RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, 
         for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
             Vec3 addOn = i * basisRight + j * basisUp;
             tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
-            if (dro.isPlayer) {
+            if (dro.sheet != NULL) {
                 // assuming the spritesheet has square dimensions
-                addOn /= model->_player->currentSpriteSheet->getDimen().first;
-                tempV.texcoord.x += model->_player->currentSpriteSheet->getFrameCoords().first - 1;
-                tempV.texcoord.y += model->_player->currentSpriteSheet->getFrameCoords().second - 1;
-                tempV.texcoord.x /= model->_player->currentSpriteSheet->getDimen().first;
-                tempV.texcoord.y /= model->_player->currentSpriteSheet->getDimen().second;
+                addOn /= dro.sheet->getDimen().first;
+                tempV.texcoord.x += dro.sheet->getFrameCoords().first - 1;
+                tempV.texcoord.y += dro.sheet->getFrameCoords().second - 1;
+                tempV.texcoord.x /= dro.sheet->getDimen().first;
+                tempV.texcoord.y /= dro.sheet->getDimen().second;
             }
             tempV.position = dro.pos + addOn;
             _meshBill.vertices.push_back(tempV);
