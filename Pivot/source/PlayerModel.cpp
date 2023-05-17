@@ -70,7 +70,7 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
     
     if (CapsuleObstacle::init(pos,nsize)) {
         setDensity(DUDE_DENSITY);
-        setFriction(1.0f);      // HE WILL STICK TO WALLS IF YOU FORGET
+        setFriction(0.01f);      // HE WILL STICK TO WALLS IF YOU FORGET
         setFixedRotation(true); // OTHERWISE, HE IS A WEEBLE WOBBLE
        
         
@@ -87,6 +87,8 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
         // Sound Cues
         _jumpCue = false;
         
+
+        // fix rotation of player sprite
         int c = 7;
         for(int i = 0; i < c*c; i++){
             rightRotateMap[i] = (std::floor(i / c) + 1) * c - (i % c + 1);
@@ -329,7 +331,7 @@ void PlayerModel::animate() {
         }
         //VERY BAD HACKY SOLUTION BELOW
         //Don't know why these darn spritesheets do not increment in any logcial way
-        if(animState == 2 && frame > 8){
+        if(animState == 2 && frame > 49){
             frame = 0;
         }
         //CULog("%i",frame);
