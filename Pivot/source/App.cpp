@@ -244,8 +244,9 @@ void PivotApp::updateLoadingScene(float timestep){
         _endMenu.init(_assets);
         _quitMenu.init(_assets);
         _gameplay.init(_assets, getDisplaySize(), _sound);
-        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
+        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());} // save the max level if not default
         _settings.init(_assets, _gameplay.getDataController());
+        updateSettings(); // update game to reflect settings
         _mainMenu.setActive(true);
         _scene = State::MAIN;
     }
@@ -411,7 +412,7 @@ void PivotApp::updateSettings(){
         _levelSelect.resetMax();
     }
     // change between buttons and joystick
-    _gameplay.updateJoystick(!_gameplay.getControls());
+    //_gameplay.updateJoystick(!_gameplay.getControls());
     // update volume
     _sound->setMasterVolume(_gameplay.getVolume());
     // turn music on or off
