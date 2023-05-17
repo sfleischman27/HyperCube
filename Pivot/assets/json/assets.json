@@ -105,7 +105,7 @@
             "file": "textures/section_cut (15).png"
         },
         "goal": {
-            "file": "textures/exitman.png"
+            "file": "textures/exit.png"
         },
         "dpad": {
             "file": "textures/dpad.png",
