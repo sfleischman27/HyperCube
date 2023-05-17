@@ -3,9 +3,9 @@
  * Copyright (C) 2022 Walker M. White
  *
  * This is a simple library to lad different types of audio files as PCM data.
- * We choose this over SDL_mixer because it gives us finer grain control over 
+ * We choose this over SDL_mixer because it gives us finer grain control over
  * our audio layer (which we need for effects).
- * 
+ *
  * SDL License:
  *
  * This software is provided 'as-is', without any express or implied
@@ -43,7 +43,7 @@
 
 
 /**
- * The internal structure for decoding 
+ * The internal structure for decoding
  */
 typedef struct {
     /** The file stream for the audio */
@@ -69,8 +69,8 @@ typedef struct {
 /**
  * Returns the SDL channel for the given OGG channel
  *
- * The channel layout for Ogg data is nonstandard (e.g. channels > 3 are not 
- * stereo compatible), so this function standardizes the channel layout to 
+ * The channel layout for Ogg data is nonstandard (e.g. channels > 3 are not
+ * stereo compatible), so this function standardizes the channel layout to
  * agree with FLAC and other data encodings.
  *
  * @param ch        The OGG channel position
@@ -114,13 +114,13 @@ static Uint32 ogg2sdl(Uint32 ch, Uint32 channels) {
  * Performs a read of the underlying file stream for the OGG decoder
  *
  * This method abstracts the file access to allow us to read the asset on
- * non-standard platforms (e.g. Android).  
+ * non-standard platforms (e.g. Android).
  *
  * @param ptr           The buffer to start the data read
  * @param size          The number of bytes per element
  * @param nmemb         The number of elements to read
  * @param datasource    The file to read from
- * 
+ *
  * @return the number of elements actually read.
  */
 static size_t ogg_read(void *ptr, size_t size, size_t nmemb, void *datasource) {
@@ -131,7 +131,7 @@ static size_t ogg_read(void *ptr, size_t size, size_t nmemb, void *datasource) {
  * Performs a seek of the underlying file stream for the OGG decoder
  *
  * This method abstracts the file access to allow us to read the asset on
- * non-standard platforms (e.g. Android).  The value whence is one the 
+ * non-standard platforms (e.g. Android).  The value whence is one the
  * classic values SEEK_CUR, SEEK_SET, or SEEK_END.
  *
  * @param datasource    The file to seek
@@ -163,9 +163,9 @@ static long   ogg_tell(void *datasource) {
 
 #pragma mark -
 #pragma mark CODEC Functions
-/** 
+/**
  * Creates a new CODEC_Source from an OGG Vorbis file
- * 
+ *
  * This function will return NULL if the file cannot be located or is not an
  * proper OGG Vorbis file. The file will not be read into memory, but is instead
  * available for streaming.
@@ -209,7 +209,10 @@ CODEC_Source* CODEC_OpenVorbis(const char* filename) {
     
     decoder->stream = stream;
     decoder->pagesize = DECODER_PAGE_SIZE/(sizeof(float)*info->channels);
-    decoder->lastpage = (Uint32)(frames/decoder->pagesize);;
+    decoder->lastpage = (Uint32)(frames/decoder->pagesize);
+    if (frames % decoder->pagesize != 0) {
+        decoder->lastpage++;
+    }
     decoder->currpage = 0;
     
     CODEC_Source* result = malloc(sizeof(CODEC_Source));
@@ -230,7 +233,7 @@ CODEC_Source* CODEC_OpenVorbis(const char* filename) {
  * The Vorbis specific implementation of {@link CODEC_Close}.
  *
  * @param source    The source to close
- * 
+ *
  * @return 0 if the source was successfully closed, -1 otherwise.
  */
 Sint32 CODEC_Vorbis_Close(CODEC_Source* source) {
@@ -259,8 +262,8 @@ Sint32 CODEC_Vorbis_Close(CODEC_Source* source) {
 Sint32 CODEC_Vorbis_Seek(CODEC_Source* source, Uint32 page) {
     CHECK_SOURCE(source,-1)
     
-    CODEC_Vorbis* decoder = (CODEC_Vorbis*)(source->decoder);    
-    if (page > decoder->lastpage) {
+    CODEC_Vorbis* decoder = (CODEC_Vorbis*)(source->decoder);
+    if (page >= decoder->lastpage) {
         CODEC_SetError("Page %d is out of bounds",page);
         return -1;
     }
@@ -334,7 +337,7 @@ Sint32 CODEC_Vorbis_Tell(CODEC_Source* source) {
  */
 Uint32 CODEC_Vorbis_EOF(CODEC_Source* source) {
     CHECK_SOURCE(source,0)
-    CODEC_Vorbis* decoder = (CODEC_Vorbis*)(source->decoder);    
+    CODEC_Vorbis* decoder = (CODEC_Vorbis*)(source->decoder);
     return (decoder->currpage == decoder->lastpage);
 }
 
@@ -349,7 +352,7 @@ Uint32 CODEC_Vorbis_EOF(CODEC_Source* source) {
 Sint32 CODEC_Vorbis_Read(CODEC_Source* source, float* buffer) {
     CHECK_SOURCE(source,-1)
     
-    CODEC_Vorbis* decoder = (CODEC_Vorbis*)(source->decoder);    
+    CODEC_Vorbis* decoder = (CODEC_Vorbis*)(source->decoder);
     if (decoder->currpage == decoder->lastpage) {
         return 0;
     }
@@ -360,8 +363,8 @@ Sint32 CODEC_Vorbis_Read(CODEC_Source* source, float* buffer) {
     
     float** pcmb;
     while (read < (Sint32)size) {
-        Sint32 avail = (size - read >= size ? size : size - read);
-        avail = (int)ov_read_float(&(decoder->oggfile), &pcmb, avail, &(decoder->bitstream));
+        Sint64 avail = (size - read >= size ? size : size - read);
+        avail = ov_read_float(&(decoder->oggfile), &pcmb, (int)avail, &(decoder->bitstream));
         if (avail < 0) {
             if (avail == OV_HOLE) {
                 CODEC_SetError("OGG file experienced an interruption in data");
@@ -369,8 +372,10 @@ Sint32 CODEC_Vorbis_Read(CODEC_Source* source, float* buffer) {
                 CODEC_SetError("OGG file has an invalid stream section");
             } else if (avail == OV_EINVAL) {
                 CODEC_SetError("The OGG file headers cannot be read");
+            } else {
+                CODEC_SetError("Undefined OGG error");
             }
-            return avail;
+            return (Sint32)avail;
         } else if (avail == 0) {
             break;
         }
@@ -382,7 +387,7 @@ Sint32 CODEC_Vorbis_Read(CODEC_Source* source, float* buffer) {
             
             float* output = buffer+(read*source->channels)+outch;
             float* input  = pcmb[ch];
-            Uint32 temp = avail;
+            Uint32 temp = (Uint32)avail;
             while (temp--) {
                 *output = *input;
                 output += source->channels;

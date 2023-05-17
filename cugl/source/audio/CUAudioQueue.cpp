@@ -71,13 +71,13 @@ bool AudioQueue::init(const std::shared_ptr<audio::AudioFader>& slot) {
             _panPool.push_back(AudioPanner::alloc(_queue->getChannels(),2,_queue->getRate()));
         }
         
-		_queue->setCallback([=](const std::shared_ptr<cugl::audio::AudioNode>& node,
-						 		cugl::audio::AudioNode::Action action) {
-			if (action != cugl::audio::AudioNode::Action::LOOPBACK) {
-				bool success = (action == cugl::audio::AudioNode::Action::COMPLETE);
-				this->gcollect(node,success);
-			}
-		});
+        _queue->setCallback([=](const std::shared_ptr<cugl::audio::AudioNode>& node,
+                                 cugl::audio::AudioNode::Action action) {
+            if (action != cugl::audio::AudioNode::Action::LOOPBACK) {
+                bool success = (action == cugl::audio::AudioNode::Action::COMPLETE);
+                this->gcollect(node,success);
+            }
+        });
         
         return true;
     }
@@ -234,7 +234,7 @@ std::shared_ptr<audio::AudioNode> AudioQueue::disposeWrapper(const std::shared_p
  */
 void AudioQueue::gcollect(const std::shared_ptr<audio::AudioNode>& instance, bool status) {
     std::shared_ptr<audio::AudioNode> source = disposeWrapper(instance);
-    if (_callback) {
+    if (_callback && source != nullptr) {
         std::string id = source->getName();
         AudioPlayer* player = dynamic_cast<AudioPlayer*>(source.get());
         if (player && id == "__queue_playback__") {

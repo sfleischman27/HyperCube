@@ -63,8 +63,8 @@ _inputs(nullptr),
 _buffer(nullptr) {
     _classname = "AudioScheduler";
 #if CU_PLATFORM == CU_PLATFORM_ANDROID
-	// Android handles clipping very badly.
-	_knee = AudioMixer::DEFAULT_KNEE;
+    // Android handles clipping very badly.
+    _knee = AudioMixer::DEFAULT_KNEE;
 #endif
 }
 
@@ -350,6 +350,7 @@ bool AudioMixer::setWidth(Uint8 width) {
         }
         delete[] _inputs;
         _inputs = replace;
+        _width = width;
         return true;
     }
     return false;

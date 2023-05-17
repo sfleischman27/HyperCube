@@ -3,9 +3,9 @@
  * Copyright (C) 2022 Walker M. White
  *
  * This is a simple library to lad different types of audio files as PCM data.
- * We choose this over SDL_mixer because it gives us finer grain control over 
+ * We choose this over SDL_mixer because it gives us finer grain control over
  * our audio layer (which we need for effects).
- * 
+ *
  * SDL License:
  *
  * This software is provided 'as-is', without any express or implied
@@ -42,7 +42,7 @@
     }
 
 /**
- * The internal structure for decoding 
+ * The internal structure for decoding
  */
 typedef struct {
     /** The file stream for the audio */
@@ -214,7 +214,7 @@ FLAC__StreamDecoderWriteStatus flac_write(const FLAC__StreamDecoder *flac,
     CODEC_Source* source = (CODEC_Source*)cdata;
     CODEC_FLAC* decoder = (CODEC_FLAC*)source->decoder;
     if(frame->header.channels != source->channels) {
-        SDL_SetError("FLAC has changed number of channels from %d to %d", 
+        SDL_SetError("FLAC has changed number of channels from %d to %d",
                      source->channels, frame->header.channels);
         decoder->buffsize = 0;
         return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
@@ -268,6 +268,9 @@ void flac_metadata(const FLAC__StreamDecoder *flac,
         source->frames = metadata->data.stream_info.total_samples;
         source->rate   = metadata->data.stream_info.sample_rate;
         decoder->lastpage = (Uint32)(source->frames/decoder->pagesize);
+        if (source->frames % decoder->pagesize != 0) {
+            decoder->lastpage++;
+        }
     }
 }
 
@@ -293,7 +296,7 @@ void flac_error(const FLAC__StreamDecoder *flac,
 /**
  * Reads a single page of audio data into the buffer
  *
- * This function reads in the current stream page into the buffer. The data written 
+ * This function reads in the current stream page into the buffer. The data written
  * into the buffer is linear PCM data with interleaved channels. If the stream is
  * at the end, nothing will be written.
  *
@@ -336,10 +339,9 @@ Sint32 flac_read_page(CODEC_Source* source, CODEC_FLAC* decoder, float* buffer) 
 
 #pragma mark -
 #pragma mark CODEC Functions
-
-/** 
+/**
  * Creates a new CODEC_Source from an Xiph FLAC file
- * 
+ *
  * This function will return NULL if the file cannot be located or is not an
  * proper Xiph FLAC file. The file will not be read into memory, but is instead
  * available for streaming.
@@ -369,7 +371,7 @@ CODEC_Source* CODEC_OpenFLAC(const char* filename) {
     FLAC__StreamDecoderInitStatus status;
     
     CODEC_FLAC* decoder = (CODEC_FLAC*)malloc(sizeof(CODEC_FLAC));
-    if (!decoder) { 
+    if (!decoder) {
         SDL_RWclose(stream);
         return NULL;
     }
@@ -421,7 +423,7 @@ CODEC_Source* CODEC_OpenFLAC(const char* filename) {
  * The FLAC specific implementation of {@link CODEC_Close}.
  *
  * @param source    The source to close
- * 
+ *
  * @return 0 if the source was successfully closed, -1 otherwise.
  */
 Sint32 CODEC_FLAC_Close(CODEC_Source* source) {
@@ -450,7 +452,7 @@ Sint32 CODEC_FLAC_Close(CODEC_Source* source) {
  * The FLAC specific implementation of {@link CODEC_Seek}.
  *
  * @param source    The audio source
- * @param page        The page to seek
+ * @param page      The page to seek
  *
  * @return the page acquired, or -1 if there is an error
  */
@@ -458,11 +460,13 @@ Sint32 CODEC_FLAC_Seek(CODEC_Source* source, Uint32 page) {
     CHECK_SOURCE(source,-1)
 
     CODEC_FLAC* decoder = (CODEC_FLAC*)(source->decoder);
+    Uint64 pos = page*decoder->pagesize;
     if (page > decoder->lastpage) {
         page = decoder->lastpage;
+        pos  = source->frames;
     }
     
-    if (!FLAC__stream_decoder_seek_absolute(decoder->flac,page*decoder->pagesize)) {
+    if (!FLAC__stream_decoder_seek_absolute(decoder->flac,pos)) {
         SDL_SetError("Seek is not supported");
     }
     decoder->currpage = page;
@@ -514,7 +518,7 @@ Sint32 CODEC_FLAC_Tell(CODEC_Source* source) {
  */
 Uint32 CODEC_FLAC_EOF(CODEC_Source* source) {
     CHECK_SOURCE(source,0)
-    CODEC_FLAC* decoder = (CODEC_FLAC*)(source->decoder);    
+    CODEC_FLAC* decoder = (CODEC_FLAC*)(source->decoder);
     return (decoder->currpage == decoder->lastpage);
 }
 
@@ -529,6 +533,9 @@ Uint32 CODEC_FLAC_EOF(CODEC_Source* source) {
 Sint32 CODEC_FLAC_Read(CODEC_Source* source, float* buffer) {
     CHECK_SOURCE(source,-1)
     CODEC_FLAC* decoder = (CODEC_FLAC*)(source->decoder);
+    if (decoder->currpage == decoder->lastpage) {
+        return 0;
+    }
     return flac_read_page(source,decoder,buffer);
 }
 

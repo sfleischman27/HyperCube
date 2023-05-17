@@ -9,10 +9,12 @@
 //  This module uses a custom resampling algorithm because SDL_AudioStream is
 //  (unfortunately) broken. The resampling algorithm in SDL_AudioStream is perfect
 //  (and indeed our code is a slight optimization of this algorithm). However,
-//  the page buffering is buggy and can fail, causing audio to cut out. This new
-//  paging scheme causes some minor round-off issues (compared to the original
-//  approach), but the filter removes any alias effects that may be caused from
-//  this error.
+//  the page buffering is buggy and can fail, causing audio to cut out.
+//
+//  Both this resampler and the original SDL_AudioStream are an implementation of
+//  a bandlimited interpolation resampler as described here:
+//
+//      https://ccrma.stanford.edu/~jos/resample/Implementation.html
 //
 //  CUGL MIT License:
 //
@@ -35,7 +37,7 @@
 //  3. This notice may not be removed or altered from any source distribution.
 //
 //  Author: Walker White
-//  Version: 12/28/22
+//  Version: 5/15/23
 //
 #include <cugl/audio/graph/CUAudioResampler.h>
 #include <cugl/audio/CUAudioDevices.h>
@@ -118,14 +120,17 @@ AudioResampler::AudioResampler() : AudioNode(),
 _inputrate(0),
 _stopband(STOPBAND_ATTEN),
 _zero_cross(ZERO_CROSSINGS),
-_bit_precision(BITS_PER_SAMPLE),
+_precision(BITS_PER_SAMPLE),
 _per_crossing(0),
 _filter_size(0),
 _filter_table(nullptr),
 _filter_diffs(nullptr),
 _capacity(0),
 _cvtavail(0),
-_cvtoffset(0.0),
+_cvtoffset(0),
+_cvtoversc(0),
+_intime(0.0),
+_mktime(0.0),
 _cvtbuffer(nullptr) {
     _input = nullptr;
     _classname = "AudioResampler";
@@ -196,6 +201,7 @@ void AudioResampler::dispose() {
     if (_booted) {
         std::unique_lock<std::mutex> lk(_buffmtex);
         AudioNode::dispose();
+        _input = nullptr;
         if (_filter_table  != nullptr) {
             free(_filter_table);
             _filter_table = nullptr;
@@ -204,25 +210,22 @@ void AudioResampler::dispose() {
             free(_filter_diffs);
             _filter_diffs = nullptr;
         }
-        if (_filter_table  != nullptr) {
-            free(_filter_table);
-            _filter_table = nullptr;
-        }
         if (_cvtbuffer  != nullptr) {
             free(_cvtbuffer);
             _cvtbuffer = nullptr;
         }
-        _input = nullptr;
         _capacity  = 0;
         _pagesize  = 0;
         _cvtavail  = 0;
         _cvtoffset = 0;
         _inputrate = 0;
         _stopband  = STOPBAND_ATTEN;
-        _zero_cross    = ZERO_CROSSINGS;
-        _bit_precision = BITS_PER_SAMPLE;
+        _zero_cross = ZERO_CROSSINGS;
+        _precision  = BITS_PER_SAMPLE;
         _per_crossing  = 0;
         _filter_size   = 0;
+        _intime = 0;
+        _mktime = 0;
     }
 }
 
@@ -266,7 +269,12 @@ bool AudioResampler::attach(const std::shared_ptr<AudioNode>& node) {
     if (node->getReadSize() != _readsize) {
         node->setReadSize(_readsize);
     }
-        
+    
+    {
+        std::unique_lock<std::mutex> lk(_buffmtex);
+        _intime = 0;
+    }
+
     std::atomic_store_explicit(&_input,node,std::memory_order_relaxed);
     return true;
 }
@@ -343,12 +351,11 @@ void AudioResampler::setInputRate(Uint32 value) {
         _cvtbuffer = nullptr;
     }
 
-    double cvtratio  = ((double)value)/getRate();
-    size_t buffsize  = std::max(_readsize,_pagesize);
-    _capacity  = std::ceil(buffsize*cvtratio)+2*_zero_cross;
-    _cvtbuffer = (float*)malloc(sizeof(float)*_capacity*_channels);
-    std::memset(_cvtbuffer, 0, sizeof(float)*_capacity*_channels);
-    _cvtoffset = _capacity;
+    _capacity  = std::max(_readsize,_pagesize);
+    _cvtbuffer = (float*)malloc(sizeof(float)*(_capacity+_zero_cross)*_channels);
+    _cvtoffset = 0;
+    _cvtavail  = 0;
+    _cvtoversc = 0;
 }
 
 /**
@@ -391,7 +398,7 @@ void AudioResampler::setBitPrecision(Uint32 value) {
     float oldval = getBitPrecision();
     if (value != oldval) {
         std::unique_lock<std::mutex> lk(_buffmtex);
-        _bit_precision = value;
+        _precision = value;
         setup();
     }
 }
@@ -438,7 +445,7 @@ void AudioResampler::setZeroCrossings(Uint32 value) {
  */
 bool AudioResampler::completed() {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
-    return (input == nullptr || input->completed());
+    return (input == nullptr || (input->completed() && _cvtavail == 0));
 }
 
 /**
@@ -460,51 +467,37 @@ bool AudioResampler::completed() {
  */
 Uint32 AudioResampler::read(float* buffer, Uint32 frames) {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_seq_cst);
-    Uint32 inrate = _inputrate.load(std::memory_order_seq_cst);
-
+    Uint32 cnvrate = _inputrate.load(std::memory_order_seq_cst);
+    double inrate  = cnvrate;
+    double outrate = getRate();
+    
     Uint32 take = 0;
     if (input == nullptr || _paused.load(std::memory_order_relaxed)) {
         std::memset(buffer,0,frames*_channels*sizeof(float));
         take = frames;
-    } if (inrate == getRate()) {
+    } if (cnvrate == getRate()) {
         take = input->read(buffer,frames);
     } else {
         std::unique_lock<std::mutex> lk(_buffmtex);
         // Prevent a subtle race
-        if (inrate != input->getRate()) {
+        if (cnvrate != input->getRate()) {
             std::memset(buffer,0,frames*_channels*sizeof(float));
             take = frames;
         } else {
             bool abort = false;
             while (take < frames && !abort) {
-                // Rotate the buffer
-                Uint32 ending = (Uint32)_cvtoffset;
-                Uint32 remain = _capacity-ending-_zero_cross;
-                for(size_t ii = 0; ii < (remain+_zero_cross)*_channels; ii++) {
-                    _cvtbuffer[ii] = _cvtbuffer[ii+ending*_channels];
-                }
-                _cvtoffset -= ending;
-
-                // Fill the remaider of the buffer
-                Uint32 amount = input->read(_cvtbuffer+(remain+_zero_cross)*_channels,
-                                            _capacity-remain-_zero_cross);
-                _cvtavail = amount+remain;
-            
-                // Consume the buffer
-                Uint32 limit = _cvtavail < frames-take ? _cvtavail : frames-take;
-                if (limit == 0) {
+                // FIll more stuff into the buffer
+                fillBuffer();
+                Uint32 amount = pageFilter(buffer+take*_channels,frames-take,
+                                           inrate,outrate);
+                take += amount;
+                if (amount == 0) {
                     abort = true;
-                } else {
-                    // Let's do this appropriately
-                    for(size_t index = 0; index < limit; index++) {
-                        filter(buffer+(take+index)*_channels, inrate, limit);
-                    }
-                    take += limit;
                 }
             }
         }
     }
-        
+    
     dsp::DSPMath::scale(buffer,_ndgain.load(std::memory_order_relaxed),buffer,take*_channels);
     return take;
 }
@@ -530,7 +523,12 @@ Uint32 AudioResampler::read(float* buffer, Uint32 frames) {
 bool AudioResampler::mark() {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
     if (input) {
-        return input->mark();
+        std::unique_lock<std::mutex> lk(_buffmtex);
+        bool result = input->mark();
+        if (result) {
+            _mktime = _intime;
+        }
+        return result;
     }
     return false;
 }
@@ -551,7 +549,12 @@ bool AudioResampler::mark() {
 bool AudioResampler::unmark() {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
     if (input) {
-        return input->unmark();
+        std::unique_lock<std::mutex> lk(_buffmtex);
+        bool result = input->unmark();
+        if (result) {
+            _mktime = 0;
+        }
+        return result;
     }
     return false;
 }
@@ -573,7 +576,12 @@ bool AudioResampler::unmark() {
 bool AudioResampler::reset() {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
     if (input) {
-        return input->reset();
+        std::unique_lock<std::mutex> lk(_buffmtex);
+        bool result = input->reset();
+        if (result) {
+            _intime = _mktime;
+        }
+        return result;
     }
     return false;
 }
@@ -595,8 +603,12 @@ bool AudioResampler::reset() {
 Sint64 AudioResampler::advance(Uint32 frames) {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
     if (input) {
-        double ratio =  (double)(_inputrate.load(std::memory_order_relaxed))/getRate();
-        return input->advance(std::ceil(frames*ratio));
+        double inrate  = _inputrate.load(std::memory_order_relaxed);
+        double outrate = getRate();
+        Sint64 actual = input->advance(frames*inrate/outrate);
+        Sint64 adjust = actual*outrate/inrate;
+        _intime += adjust*inrate/outrate;
+        return adjust;
     }
     return -1;
 }
@@ -617,8 +629,9 @@ Sint64 AudioResampler::advance(Uint32 frames) {
 Sint64 AudioResampler::getPosition() const {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
     if (input) {
-        double ratio =  (double)(_inputrate.load(std::memory_order_relaxed))/getRate();
-        return std::ceil(input->getPosition()*ratio);
+        double inrate  = _inputrate.load(std::memory_order_relaxed);
+        double outrate = getRate();
+        return input->getPosition()*inrate/outrate;
     }
     return -1;
 }
@@ -641,8 +654,12 @@ Sint64 AudioResampler::getPosition() const {
 Sint64 AudioResampler::setPosition(Uint32 position) {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
     if (input) {
-        double ratio =  (double)(_inputrate.load(std::memory_order_relaxed))/getRate();
-        return input->setPosition(std::ceil(position*ratio));
+        double inrate  = _inputrate.load(std::memory_order_relaxed);
+        double outrate = getRate();
+        Sint64 actual = input->setPosition(position*inrate/outrate);
+        Sint64 adjust = actual*outrate/inrate;
+        _intime = adjust*inrate/outrate;
+        return adjust;
     }
     return -1;
 }
@@ -686,7 +703,13 @@ double AudioResampler::getElapsed() const {
 double AudioResampler::setElapsed(double time) {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
     if (input) {
-        return input->setElapsed(time);
+        std::unique_lock<std::mutex> lk(_buffmtex);
+        double inrate  = _inputrate;
+        double outrate = getRate();
+        double actual = input->setElapsed(time);
+        Sint64 pos = input->getPosition();
+        _intime = pos*outrate/inrate;
+        return actual;
     }
     return -1;
 }
@@ -735,7 +758,13 @@ double AudioResampler::getRemaining() const {
 double AudioResampler::setRemaining(double time) {
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
     if (input) {
-        return input->setRemaining(time);
+        std::unique_lock<std::mutex> lk(_buffmtex);
+        double inrate  = _inputrate;
+        double outrate = getRate();
+        double actual = input->setRemaining(time);
+        Sint64 pos = input->getPosition();
+        _intime = pos*outrate/inrate;
+        return actual;
     }
     return -1;
 }
@@ -762,7 +791,7 @@ void AudioResampler::setup() {
     }
 
     // Initialize the new filter
-    _per_crossing = (1 << ((_bit_precision / 2) + 1));
+    _per_crossing = (1 << ((_precision / 2) + 1));
     _filter_size = ((_per_crossing * _zero_cross) + 1);
 
     _filter_table = (float*)malloc(sizeof(float)*_filter_size);
@@ -789,7 +818,7 @@ void AudioResampler::setup() {
     _filter_diffs[lenm1] = 0.0;
     
     // Need to ensure large enough convolution window.
-    _pagesize = nextPOT((Uint32)_filter_size);
+    _pagesize = nextPOT(2*_zero_cross+1);
 }
 
 /**
@@ -805,15 +834,16 @@ void AudioResampler::setup() {
  *
  * @param buffer    The buffer to store the audio frame
  * @param inrate    The input rate at the time of computation
- * @param limit     The number of elements in the intermediate buffer
+ * @param outrate   The output rate at the time of computation
  */
-void AudioResampler::filter(float* buffer, double inrate, Uint32 limit) {
-    Uint32 index = (Uint32)_cvtoffset;
+void AudioResampler::filterFrame(float* buffer,
+                                 double inrate, double outrate) {
+    Uint32 index   = (Uint32)_intime;
     double currtime =  index / inrate;
     double nexttime = (index + 1) / inrate;
     index += _zero_cross;
     
-    double interp0 = 1.0 - ((nexttime - (_cvtoffset/inrate)) / (nexttime - currtime));
+    double interp0 = 1.0 - ((nexttime - (_intime/inrate)) / (nexttime - currtime));
     Uint32 filterindex0 = (Uint32)(interp0 * _per_crossing);
     double interp1 = 1.0 - interp0;
     Uint32 filterindex1 = (Uint32)(interp1 * _per_crossing);
@@ -823,7 +853,7 @@ void AudioResampler::filter(float* buffer, double inrate, Uint32 limit) {
     
     Uint32 leftwing = index-leftbound+1;
     Uint32 midpoint = index+1;
-    Uint32 rghtwing = index+rghtbound+1 <= limit ? index+rghtbound+1 : limit;
+    Uint32 rghtwing = index+rghtbound+1;
 
     for(Uint32 chan = 0; chan < _channels; chan++) {
         float outsample = 0.0;
@@ -843,6 +873,85 @@ void AudioResampler::filter(float* buffer, double inrate, Uint32 limit) {
         }
         buffer[chan] = outsample;
     }
-    _cvtoffset += inrate/_sampling;
+    _intime += inrate/outrate;
 }
 
+/**
+ * Reads up to frames worth of data from the sampling buffer
+ *
+ * This method will either read frames audio frames, or the extent of the sampling
+ * buffer, which ever comes first.
+ *
+ * The additional parameters passed to this method are to ensure thread safety.
+ * For example, inrate is the input sampling rate at the time of the buffer
+ * computation, and not necessarily the current input rate.
+ *
+ * @param buffer    The buffer to store the audio data
+ * @param frames    The maximum number of frames to process
+ * @param inrate    The input rate at the time of computation
+ * @param outrate   The output rate at the time of computation
+ */
+Uint32 AudioResampler::pageFilter(float* buffer, Uint32 frames,
+                                  double inrate, double outrate) {
+    size_t index = (size_t)_intime;
+    Uint32 chans = _channels;
+    Uint32 pos = 0;
+    while (_intime < _cvtavail && pos < frames) {
+        filterFrame(buffer+pos*chans,inrate,outrate);
+        pos++;
+    }
+    _cvtoffset += _intime-index;
+    return pos;
+}
+
+/**
+ * Fills the sampling buffer with the next page of data
+ */
+void AudioResampler::fillBuffer() {
+    Uint32 chans = _channels;
+    std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_seq_cst);
+    if (_cvtoffset > 0) {
+        // Shift everything down
+        size_t pos = chans*_cvtoffset;
+        size_t amt = chans*(_cvtavail+_cvtoversc+_zero_cross-_cvtoffset);
+
+        if (amt > pos) {
+            memmove(_cvtbuffer,_cvtbuffer+pos,amt*sizeof(float));
+        } else {
+            memcpy(_cvtbuffer,_cvtbuffer+pos,amt*sizeof(float));
+        }
+        
+        // Sometimes we skip ahead past the availability
+        size_t left = 0;
+        if (_cvtoffset > _cvtavail) {
+            left = _cvtoffset-_cvtavail;
+            _cvtoffset = _cvtavail;
+        }
+        if (_cvtoffset > _cvtoversc) {
+            size_t shift = _cvtoffset-_cvtoversc+left;
+            if (shift > _cvtavail) {
+                shift = _cvtavail;
+            }
+            _cvtavail -= shift;
+            _cvtoversc = 0;
+        } else {
+            _cvtoversc -= _cvtoffset;
+        }
+        // Reset the time offset
+        _intime -= _cvtoffset;
+        _cvtoffset = left;
+    }
+    
+    // Read in up to the buffer
+    Uint32 remain = (Uint32)(_capacity-_cvtavail);
+    Uint32 actual = input->read(_cvtbuffer+(_cvtavail+_zero_cross)*chans, remain);
+
+    if (actual < remain) {
+        Uint32 tail = remain-actual;
+        memset(_cvtbuffer+(_cvtavail+_zero_cross+actual)*chans, 0, tail*chans*sizeof(float));
+        _cvtoversc = (tail > _zero_cross) ? 0 : _zero_cross-tail;
+    } else {
+        _cvtoversc = _zero_cross;
+    }
+    _cvtavail += actual-_cvtoversc;
+}

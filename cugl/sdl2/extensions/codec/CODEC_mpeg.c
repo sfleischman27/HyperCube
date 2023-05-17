@@ -3,9 +3,9 @@
  * Copyright (C) 2022 Walker M. White
  *
  * This is a simple library to lad different types of audio files as PCM data.
- * We choose this over SDL_mixer because it gives us finer grain control over 
+ * We choose this over SDL_mixer because it gives us finer grain control over
  * our audio layer (which we need for effects).
- * 
+ *
  * SDL License:
  *
  * This software is provided 'as-is', without any express or implied
@@ -35,17 +35,17 @@
 /** Macro for error checking */
 #define CHECK_SOURCE(source, retval) \
     if (source == NULL) { \
-    	SDL_Log("Attempt to access a NULL codec source"); \
+        SDL_Log("Attempt to access a NULL codec source"); \
         CODEC_SetError("Attempt to access a NULL codec source"); \
         return retval; \
     } else if (source->decoder == NULL) { \
-    	SDL_Log("Codec source has invalid state"); \
+        SDL_Log("Codec source has invalid state"); \
         CODEC_SetError("Codec source has invalid state"); \
         return retval; \
     }
 
 /**
- * The internal structure for decoding 
+ * The internal structure for decoding
  */
 typedef struct {
     /** The MPEG decoder struct */
@@ -65,7 +65,7 @@ typedef struct {
 /**
  * Reads a single page of audio data into the buffer
  *
- * This function reads in the current stream page into the buffer. The data written 
+ * This function reads in the current stream page into the buffer. The data written
  * into the buffer is linear PCM data with interleaved channels. If the stream is
  * at the end, nothing will be written.
  *
@@ -82,11 +82,11 @@ typedef struct {
  * @return the number of audio frames (samples/channels) read
  */
 Sint32 mpeg_read_page(CODEC_Source* source, CODEC_MPEG* decoder, float* buffer) {
-	Sint32 amount = (Sint32)MP3Stream_ReadPage(decoder->converter,decoder->buffer);
-	if (amount < 0) {
-		return -1;
-	}
-	double factor = 1.0/(SHRT_MAX+1);
+    Sint32 amount = (Sint32)MP3Stream_ReadPage(decoder->converter,decoder->buffer);
+    if (amount < 0) {
+        return -1;
+    }
+    double factor = 1.0/(SHRT_MAX+1);
 
     Uint32 temp = amount;
     float* output = buffer;
@@ -96,13 +96,13 @@ Sint32 mpeg_read_page(CODEC_Source* source, CODEC_MPEG* decoder, float* buffer) 
         output++;
         input++;
     }
-	decoder->currpage++;
+    decoder->currpage++;
     return amount/source->channels;
 }
 
-/** 
+/**
  * Creates a new CODEC_Source from an MP3 file
- * 
+ *
  * This function will return NULL if the file cannot be located or is not an
  * proper MP3 file. The file will not be read into memory, but is instead
  * available for streaming.
@@ -115,32 +115,34 @@ Sint32 mpeg_read_page(CODEC_Source* source, CODEC_MPEG* decoder, float* buffer) 
  * @return a new CODEC_Source from an MP3 file
  */
 CODEC_Source* CODEC_OpenMPEG(const char* filename) {
-	MP3Stream* converter = MP3Stream_Alloc(filename);
-	if (converter == NULL) {
-		return NULL;
-	}
-	
-	CODEC_MPEG* decoder  = (CODEC_MPEG*)malloc(sizeof(CODEC_MPEG));
+    MP3Stream* converter = MP3Stream_Alloc(filename);
+    if (converter == NULL) {
+        return NULL;
+    }
+    
+    CODEC_MPEG* decoder  = (CODEC_MPEG*)malloc(sizeof(CODEC_MPEG));
     if (!decoder) {
         MP3Stream_Free(converter);
         return NULL;
     }
-	CODEC_Source* source = (CODEC_Source*)malloc(sizeof(CODEC_Source));
+    CODEC_Source* source = (CODEC_Source*)malloc(sizeof(CODEC_Source));
     if (!source) {
         MP3Stream_Free(converter);
         free(decoder);
         return NULL;
     }
+    memset(decoder,0,sizeof(CODEC_MPEG));
+    memset(source,0,sizeof(CODEC_Source));
 
-	source->channels = MP3Stream_IsStereo(converter) ? 2 : 0;
-	source->rate     = MP3Stream_GetFrequency(converter);
-	decoder->pagesize = MP3Stream_GetPageSize(converter);
-	source->frames = MP3Stream_GetLength(converter);
-
-	SDL_Log("Rate %d",source->rate);
-	SDL_Log("Page size %d",decoder->pagesize);
+    source->channels = MP3Stream_IsStereo(converter) ? 2 : 0;
+    source->rate     = MP3Stream_GetFrequency(converter);
+    decoder->pagesize = MP3Stream_GetPageSize(converter);
+    source->frames = MP3Stream_GetLength(converter);
 
     decoder->lastpage = (Uint32)(source->frames/decoder->pagesize);
+    if (source->frames % decoder->pagesize != 0) {
+        decoder->lastpage++;
+    }
     decoder->currpage = 0;
     
     Sint16* buffer = (Sint16*)malloc(sizeof(Sint16)*decoder->pagesize*source->channels);
@@ -150,31 +152,31 @@ CODEC_Source* CODEC_OpenMPEG(const char* filename) {
     decoder->converter = converter;
     source->decoder = decoder;
     source->type = CODEC_TYPE_MPEG;
-	return source;
+    return source;
 }
 
 /**
  * The MP3 specific implementation of {@link CODEC_Close}.
  *
  * @param source    The source to close
- * 
+ *
  * @return 0 if the source was successfully closed, -1 otherwise.
  */
 Sint32 CODEC_MPEG_Close(CODEC_Source* source) {
-	CHECK_SOURCE(source,-1)
+    CHECK_SOURCE(source,-1)
     
     CODEC_MPEG* decoder = (CODEC_MPEG*)(source->decoder);
     if (decoder->converter != NULL) {
-	    MP3Stream_Free(decoder->converter);
-	    decoder->converter = NULL;
-	}
+        MP3Stream_Free(decoder->converter);
+        decoder->converter = NULL;
+    }
     if (decoder->buffer != NULL) {
         free(decoder->buffer);
         decoder->buffer = NULL;
     }
     free(decoder);
-	source->decoder = NULL;
-	free(source);	
+    source->decoder = NULL;
+    free(source);
     return 0;
 }
 
@@ -187,7 +189,7 @@ Sint32 CODEC_MPEG_Close(CODEC_Source* source) {
  * @return the page acquired, or -1 if there is an error
  */
 Sint32 CODEC_MPEG_Seek(CODEC_Source* source, Uint32 page) {
-	CHECK_SOURCE(source,-1)
+    CHECK_SOURCE(source,-1)
 
     CODEC_MPEG* decoder = (CODEC_MPEG*)(source->decoder);
     if (page*decoder->pagesize > source->frames) {
@@ -244,7 +246,7 @@ Sint32 CODEC_MPEG_Tell(CODEC_Source* source) {
  */
 Uint32 CODEC_MPEG_EOF(CODEC_Source* source) {
     CHECK_SOURCE(source,0)
-    CODEC_MPEG* decoder = (CODEC_MPEG*)(source->decoder);    
+    CODEC_MPEG* decoder = (CODEC_MPEG*)(source->decoder);
     return (decoder->currpage == decoder->lastpage);
 }
 
@@ -257,11 +259,11 @@ Uint32 CODEC_MPEG_EOF(CODEC_Source* source) {
  * @return the number of audio frames (samples/channels) read
  */
 Sint32 CODEC_MPEG_Read(CODEC_Source* source, float* buffer) {
-	CHECK_SOURCE(source,-1)
+    CHECK_SOURCE(source,-1)
 
     CODEC_MPEG* decoder = (CODEC_MPEG*)(source->decoder);
-	if (decoder->currpage < decoder->lastpage) {
-    	return mpeg_read_page(source,decoder,buffer);
+    if (decoder->currpage < decoder->lastpage) {
+        return mpeg_read_page(source,decoder,buffer);
     }
     return 0;
 }
@@ -282,18 +284,14 @@ Sint64 CODEC_MPEG_Fill(CODEC_Source* source, float* buffer) {
     if (currpage != 0) {
         MP3Stream_SetPage(decoder->converter,0);
     }
-	
+    
     Sint32 amt  = 0;
-	Sint64 read = 0;
-	Sint64 offset = 0;
-	while (decoder->currpage < decoder->lastpage) {
-		amt = mpeg_read_page(source,decoder,buffer+offset);
-		read += amt;
-		offset += amt*source->channels;
-	}
-    if (decoder->currpage == decoder->lastpage) {
+    Sint64 read = 0;
+    Sint64 offset = 0;
+    while (decoder->currpage < decoder->lastpage) {
         amt = mpeg_read_page(source,decoder,buffer+offset);
         read += amt;
+        offset += amt*source->channels;
     }
     
     if (currpage != 0) {

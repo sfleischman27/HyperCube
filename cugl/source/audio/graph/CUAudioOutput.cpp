@@ -62,7 +62,7 @@ const static std::string DEFAULT_NAME("(DEFAULT DEVICE)");
 
 #pragma mark -
 #pragma mark SDL Audio Loop
-/** 
+/**
  * The SDL callback function
  *
  * This is the function that SDL uses to populate the audio buffer
@@ -533,7 +533,7 @@ bool AudioOutput::reopenDevice() {
         if (_resampler == nullptr) {
             _resampler  = AudioResampler::alloc(_wantspec.channels, _audiospec.freq);
         }
-        _resampler->setReadSize(_readsize);
+        _resampler->setReadSize(2*_readsize);
     }
     if (_wantspec.channels != _audiospec.channels) {
         // Delegate channel distribution to a child node
@@ -890,10 +890,10 @@ Uint32 AudioOutput::poll(Uint8* stream, int len) {
  */
 void AudioOutput::reboot() {
     bool active = _active.exchange(false);
+    SDL_AudioDeviceID device = _device;
     if (active && !_paused.load(std::memory_order_relaxed)) {
         SDL_PauseAudioDevice(_device, 1);
     }
-    SDL_CloseAudioDevice(_device);
     SDL_AudioSpec want = _audiospec;
     _device = SDL_OpenAudioDevice((_dvname == "" ? NULL : _dvname.c_str()),
                                   0, &want, &_audiospec, SDL_AUDIO_ALLOW_ANY_CHANGE);
@@ -906,6 +906,7 @@ void AudioOutput::reboot() {
         SDL_PauseAudioDevice(_device, 0);
     }
     _active.store(active,std::memory_order_relaxed);
+    SDL_CloseAudioDevice(device);
 }
 
 /**

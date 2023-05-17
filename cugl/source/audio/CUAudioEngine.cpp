@@ -143,13 +143,13 @@ void AudioEngine::dispose() {
         _panPool.clear();
         _capacity = 0;
         
-		_output = nullptr;
+        _output = nullptr;
         _mixer = nullptr;
         
         _queues.clear();
-		_actives.clear();
+        _actives.clear();
         _evicts.clear();
-	}
+    }
 }
 
 
@@ -404,7 +404,7 @@ bool AudioEngine::start(const std::shared_ptr<audio::AudioOutput>& device, Uint3
         _readsize = device->getReadSize();
     } else {
         device->setReadSize(_readsize);
-    }    
+    }
     
     _gEngine = new AudioEngine();
     if (!_gEngine->init(device,slots)) {
@@ -523,18 +523,19 @@ std::shared_ptr<AudioQueue> AudioEngine::allocQueue() {
     cover = audio::AudioFader::alloc(channel);
 
     Uint32 ii = _mixer->getWidth();
+    _mixer->pause();
     channel->setTag(ii);
     cover->setTag(ii);
     _mixer->setWidth(_mixer->getWidth()+1);
     _mixer->attach(ii,cover);
-
+    _mixer->resume();
 
     std::shared_ptr<AudioQueue> music = std::make_shared<AudioQueue>();
     if (music->init(cover)) {
         _queues.push_back(music);
     }
     
-    if (paused) {
+    if (!paused) {
         _output->resume();
     }
     
@@ -622,7 +623,7 @@ bool AudioEngine::play(const std::string key, const std::shared_ptr<Sound>& soun
             clear(key,0);
             removeKey(key);
         } else {
-            //CULogError("Sound effect key is in use");
+            CULogError("Sound effect key is in use");
             return false;
         }
     }
@@ -1127,8 +1128,12 @@ void AudioEngine::clear(const std::string key,float fade) {
     CUAssertLog(_output != nullptr, "Attempt to use an unintiatialized audio engine");
     if (_actives.find(key) != _actives.end()) {
         std::shared_ptr<AudioFader> node = _actives.at(key);
-        _slots[node->getTag()]->setLoops(0);
-        node->fadeOut(fade);
+        if (fade == 0) {
+            _slots[node->getTag()]->skip();
+        } else {
+            _slots[node->getTag()]->setLoops(0);
+            node->fadeOut(fade);
+        }
     }
 
 }
@@ -1192,7 +1197,12 @@ void AudioEngine::resume(std::string key) {
 void AudioEngine::clearEffects(float fade) {
     CUAssertLog(_output != nullptr, "Attempt to use an unintiatialized audio engine");
     for(auto it = _actives.begin(); it != _actives.end(); ++it) {
-        it->second->fadeOut(fade);
+        if (fade == 0) {
+            _slots[it->second->getTag()]->skip();
+        } else {
+            _slots[it->second->getTag()]->setLoops(0);
+            it->second->fadeOut(fade);
+        }
     }
     _actives.clear();
     _evicts.clear();
@@ -1291,4 +1301,3 @@ void AudioEngine::resume()  {
         (*it)->resume();
     }
 }
-
