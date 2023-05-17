@@ -212,6 +212,13 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
         }
     });
     
+    if(settings_isUsingJoystick){
+        _buttonRight->setVisible(false);
+        _buttonLeft->setVisible(false);
+        _runRight->setVisible(false);
+        _runLeft->setVisible(false);
+    }
+    
 #endif
     _active = success;
     return success;
@@ -558,13 +565,12 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 }else {
                     _buttonRight->setVisible(true);
                     _buttonLeft->setVisible(true);
-                    _runRight->setVisible(true);
-                    _runLeft->setVisible(true);
                     if(_ltouch.position.x > _buttonRight->getPositionX() + 400){
 //                        CULog("running right");
                         //CULog("%f",_ltouch.position.x);
                         _keyRight = true;
                         _keyRunRight = true;
+                        _runLeft->setVisible(true);
                         //_runRight->setVisible(false);
                         //_runLeft->setVisible(true);
                     }
@@ -572,6 +578,7 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                         CULog("running left");
                         _keyRunLeft= true;
                         _keyLeft = true;
+                        _runRight->setVisible(true);
                         //_runLeft->setVisible(false);
                         //_runRight->setVisible(true);
                     }
@@ -658,9 +665,9 @@ void InputController::touchEndedCB(const TouchEvent& event, bool focus) {
         if(settings_isUsingJoystick){
             _buttonRight->setVisible(false);
             _buttonLeft->setVisible(false);
-            _runRight->setVisible(false);
-            _runLeft->setVisible(false);
         }
+        _runRight->setVisible(false);
+        _runLeft->setVisible(false);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         _hasJumped = false;
         isRotating = false;

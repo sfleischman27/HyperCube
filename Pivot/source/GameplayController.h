@@ -350,7 +350,12 @@ public:
     
 #pragma mark Setting update functions
     /** Updates joystick setting in input controller */
-    void updateJoystick(bool control) { _input->settings_isUsingJoystick = control; }
+    void updateJoystick(bool control) {
+        _input->settings_isUsingJoystick = control;
+        if(!control){
+            _input->resetButtonPositions();
+        }
+    }
     
     /** Updates rotate setting in input controller */
     void updateRotate(bool rotate) {

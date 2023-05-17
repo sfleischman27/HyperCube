@@ -23,7 +23,12 @@ public:
     float cutFactor = 0;
     int settings_invertRotate = 1;
     bool isRotating = false;
-    bool settings_isUsingJoystick = false;
+    bool settings_isUsingJoystick = true;
+    
+    void resetButtonPositions(){
+        _buttonRight->setPosition(originalRightButtonPos);
+        _buttonLeft->setPosition(originalLeftButtonPos);
+    }
     
 private:
     /** Whether or not this input is active */
@@ -208,11 +213,6 @@ protected:
      * @param  pos  the current joystick position
      */
     void processJoystick(const cugl::Vec2 pos);
-    
-    void resetButtonPositions(){
-        _buttonRight->setPosition(originalRightButtonPos);
-        _buttonLeft->setPosition(originalLeftButtonPos);
-    }
     
     /**
      * Processes movement for the floating joystick that controls the cut.
