@@ -59,7 +59,7 @@ void SoundController::enableMusic(bool sound){
 }
 
 bool SoundController::musicEnabled(){
-    return _volumeToggle == 0.0;
+    return _volumeToggle != 0.0;
 }
 
 void SoundController::setAllNodeGains(){
