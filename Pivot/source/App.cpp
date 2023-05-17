@@ -270,8 +270,14 @@ void PivotApp::updateGameScene(float timestep){
             _gameplay.setMaxLevel(_levelSelect.getMaxLevel());
             // save
             _gameplay.save();
-            _scene = State::END;
-            _sound->playSound("end", 0.5, false);
+            // go to end if last in pack
+            if (_levelSelect.isLastInPack()){
+                _scene = State::END;
+                _sound->playSound("end", 0.5, false);
+            } else {
+                _gameplay.setActive(true);
+                _gameplay.load(_levelSelect.getNextLevelString());
+            }
             break;
     }
 }
@@ -349,7 +355,7 @@ void PivotApp::updateEndScene(float timestep){
                 _scene = State::LEVEL;
             } else {
                 _gameplay.setActive(true);
-                _gameplay.load(_levelSelect.getNextLevelString());
+                _gameplay.load(_levelSelect.getNextLevelString()); ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 _scene = State::GAME;
             }
             break;

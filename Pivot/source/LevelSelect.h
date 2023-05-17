@@ -223,6 +223,11 @@ public:
     bool isLast();
     
     /**
+     * Returns true if the current level is the last level in the current pack
+     */
+    bool isLastInPack();
+    
+    /**
      * Unlocks the next level if it is not yet unlocked
      */
     void unlockNextLevel();
