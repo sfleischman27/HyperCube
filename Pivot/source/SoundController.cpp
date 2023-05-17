@@ -53,19 +53,23 @@ float SoundController::getMasterVolume(){
     return _masterVolume * 100.0;
 }
 
-void SoundController::enableSound(bool sound){
+void SoundController::enableMusic(bool sound){
     _volumeToggle = sound ? 1.0 : 0.0;
     setAllNodeGains();
 }
 
-bool SoundController::isMuted(){
-    return _volumeToggle == 0.0;
+bool SoundController::musicEnabled(){
+    return _volumeToggle != 0.0;
 }
 
 void SoundController::setAllNodeGains(){
     for (auto const& it : _sounds){
         std::shared_ptr<GameSound> sound = it.second;
-        sound->getNode()->setGain(sound->getVolume() * _masterVolume * _volumeToggle);
+        if(sound->isStreaming()){
+            sound->getNode()->setGain(sound->getVolume() * _masterVolume * _volumeToggle);
+        } else {
+            sound->getNode()->setGain(sound->getVolume() * _masterVolume);
+        }
     }
 }
 
@@ -157,7 +161,7 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     if(sound->isStreaming()){
         streamNode(sound->getNode(), volume, loop);
     } else {
-        cugl::AudioEngine::get()->play(name,sound->getNode(), loop, volume * _volumeToggle * _masterVolume, true);
+        cugl::AudioEngine::get()->play(name,sound->getNode(), loop, volume * _masterVolume, true);
     }
 }
 

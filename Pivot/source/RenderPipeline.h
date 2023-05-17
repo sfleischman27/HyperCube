@@ -62,12 +62,6 @@ public:
 	const std::string pointlightFrag =
 #include "shaders/pointlight.frag"
 	;
-	const std::string fogVert =
-#include "shaders/fog.vert"
-	;
-	const std::string fogFrag =
-#include "shaders/fog.frag"
-	;
 	const std::string cutVert =
 #include "shaders/cut.vert"
 	;
@@ -76,10 +70,16 @@ public:
 	;
 	const std::string behindVert =
 #include "shaders/behind.vert"
-		;
+	;
 	const std::string behindFrag =
 #include "shaders/behind.frag"
-		;
+	;
+	const std::string fogVert =
+#include "shaders/fog.vert"
+	;
+	const std::string fogFrag =
+#include "shaders/fog.frag"
+	;
 	const std::string screenVert =
 #include "shaders/screen.vert"
 	;
@@ -105,9 +105,9 @@ public:
 	std::shared_ptr<cugl::Shader> _shaderBill;
 	std::shared_ptr<cugl::Shader> _shaderPosition;
 	std::shared_ptr<cugl::Shader> _shaderPointlight;
-	std::shared_ptr<cugl::Shader> _shaderFog;
 	std::shared_ptr<cugl::Shader> _shaderCut;
 	std::shared_ptr<cugl::Shader> _shaderBehind;
+	std::shared_ptr<cugl::Shader> _shaderFog;
 	std::shared_ptr<cugl::Shader> _shaderScreen;
 
 	// Buffers
@@ -115,9 +115,9 @@ public:
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBill;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffPosition;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffPointlight;
-	std::shared_ptr<cugl::VertexBuffer> _vertbuffFog;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffCut;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffBehind;
+	std::shared_ptr<cugl::VertexBuffer> _vertbuffFog;
 	std::shared_ptr<cugl::VertexBuffer> _vertbuffScreen;
 
 	// Meshes
