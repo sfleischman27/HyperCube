@@ -415,6 +415,8 @@ void GameplayController::reset() {
     _data->resetGameModel(_model->getName(), _model);
     // reset collectibles
     resetCollectibleUI(_model->getColNum());
+    // reset popups
+    resetPopups();
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     _model->_player->setVelocity(Vec2::ZERO);
@@ -447,6 +449,8 @@ void GameplayController::load(std::string name){
     _data->loadGameModel(name, _model);
     // reset collectibles
     resetCollectibleUI(_model->getColNum());
+    // reset popups
+    resetPopups();
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     _model->_player->setVelocity(Vec2::ZERO);
@@ -624,6 +628,21 @@ void GameplayController::collectUI(int col, int got){
             }
             break;
     }
+}
+
+
+/**
+ * Turns off and resets all popups
+ */
+void GameplayController::resetPopups() {
+    _model->_popup->setState("none");
+    // turn the popup off
+    _model->_rotatePopup->setVisible(false);
+    // turn the a off
+    auto color = _model->_rotatePopup->getColor();
+    auto newColor = Color4(color.r, color.g, color.b, 0);
+    _model->_rotatePopup->setColor(newColor);
+    //TODO: add other popups here as they are created
 }
 
 /**

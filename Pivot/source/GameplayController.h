@@ -225,6 +225,11 @@ public:
      */
     void collectUI(int col, int got);
     
+    /**
+     * Turns off and resets all popups
+     */
+    void resetPopups();
+    
 #pragma mark State Access
 
     bool isDebug( ) const { return _debug; }
