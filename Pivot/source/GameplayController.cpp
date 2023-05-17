@@ -258,10 +258,20 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_player->spriteSheets.emplace("run", std::make_pair(sheet, normalSheet));
 
-    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump"), 7, 7);
-    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-normal"), 7, 7);
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-launch"), 7, 7);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-launch-normal"), 7, 7);
     
-    _model->_player->spriteSheets.emplace("jump", std::make_pair(sheet, normalSheet));
+    _model->_player->spriteSheets.emplace("jump-launch", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-hold"), 7, 7);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-hold-normal"), 7, 7);
+    
+    _model->_player->spriteSheets.emplace("jump-hold", std::make_pair(sheet, normalSheet));
+    
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-land"), 7, 7);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-jump-land-normal"), 7, 7);
+    
+    _model->_player->spriteSheets.emplace("jump-land", std::make_pair(sheet, normalSheet));
     
     sheet = SpriteSheet::alloc(assets->get<Texture>("player-idle"), 1, 1);
     normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-idle-normal"), 1, 1);

@@ -261,19 +261,20 @@ void PlayerModel::animate() {
     if(getVY() < 0.0 && !isGrounded()){
         if(animState != 2){
             animState = 2;
-            setSpriteSheet("jump");
-            resetOtherSpritesheets("jump");
+            setSpriteSheet("jump-hold");
+            resetOtherSpritesheets("jump-hold");
         } else{
             animState = 2;
         }
     }
     else if(getVY() > 0.1 && !isGrounded()){
-        if(animState != 2){
-            animState = 2;
-            setSpriteSheet("jump");
-            resetOtherSpritesheets("jump");
+        if(animState != 3){
+            animState = 3;
+            setSpriteSheet("jump-launch");
+            resetOtherSpritesheets("jump-launch");
+            currentSpriteSheet->setFrame(18);
         } else{
-            animState = 2;
+            animState = 3;
         }
     }
     else if(abs(getVX()) > 100 && !isRotating){
@@ -331,9 +332,9 @@ void PlayerModel::animate() {
         }
         //VERY BAD HACKY SOLUTION BELOW
         //Don't know why these darn spritesheets do not increment in any logcial way
-        if(animState == 2 && frame > 49){
-            frame = 0;
-        }
+//        if(animState == 2 && frame > 49){
+//            frame = 0;
+//        }
         //CULog("%i",frame);
         //CULog("%i", frame);
         currentSpriteSheet->setFrame(frame);
