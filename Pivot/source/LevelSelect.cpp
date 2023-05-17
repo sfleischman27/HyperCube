@@ -62,6 +62,9 @@ void LevelSelect::dispose() {
     _assets = nullptr;
 }
 
+/**
+ * The method that updates the menu to reflect unlocked levels
+ */
 void LevelSelect::updateLevel(int level) {
     if(level <= _maxLevel){
         // no update needed
@@ -69,23 +72,7 @@ void LevelSelect::updateLevel(int level) {
     }
     _maxLevel = level;
     
-    for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
-        int num = buttNameToNum(it->first);
-        if (it->first == "levelprevious" | it->first == "levelnext" | it->first == "settings"){ // non level butts
-            it->second->activate();
-        } else if (num <= _maxLevel && num != -1){
-            // unlocked and unlocked button
-            it->second->activate();
-            _buttons[it->first + "Locked"]->setVisible(false);
-            _buttons[it->first]->setVisible(true);
-        } else if (num == -1){ // locked button
-            it->second->deactivate();
-        } else{ // locked and unlocked button
-            it->second->deactivate();
-            _buttons[it->first + "Locked"]->setVisible(true);
-            _buttons[it->first]->setVisible(false);
-        }
-    }
+    setActive(true);
 }
 
 /**
@@ -103,8 +90,11 @@ void LevelSelect::setActive(bool value){
         _playMusic = true;
         _choice = NONE;
     }
+    // maximum level number in the pack
+    int maxPackNum = prePackNum(_pack) + inPackNum(_pack);
     for(auto it = _buttons.begin(); it != _buttons.end(); ++it){
         int num = buttNameToNum(it->first);
+        if(num != -1){ num = num + prePackNum(_pack); }
         if (it->first == "levelprevious" | it->first == "levelnext" | it->first == "settings"){ // non level butts
             if (value) {
                 it->second->activate();
@@ -113,11 +103,13 @@ void LevelSelect::setActive(bool value){
                 // reset if pressed
                 it->second->setDown(false);
             }
-        } else if (num <= _maxLevel && value && num != -1){
+        } else if (num <= _maxLevel && value && num != -1 && num < maxPackNum){
             // unlocked and unlocked button
             it->second->activate();
+            it->second->setVisible(true);
+            auto label =  std::dynamic_pointer_cast<scene2::Label>(it->second->getChildByName("label"));
+            label->setText(std::to_string(num + 1));
             _buttons[it->first + "Locked"]->setVisible(false);
-            _buttons[it->first]->setVisible(true);
         } else if (num == -1){ // locked button
             it->second->deactivate();
             it->second->setDown(false);
@@ -129,7 +121,6 @@ void LevelSelect::setActive(bool value){
         }
     }
 }
-//TODO: change this and update to take pack into account
 
 std::string LevelSelect::packToString(Pack pack){
     switch (pack) {
@@ -176,15 +167,15 @@ int LevelSelect::buttNameToNum(std::string name){
     }
 }
 
-std::string LevelSelect::numToName(int level){
-    int pack = 0;
-    while (level >= 15){
-        level -= 15;
-        pack += 1;
-    }
-    std::string packStr = packToString(static_cast<Pack>(pack));
-    return toLevelString(level, packStr);
-}
+//std::string LevelSelect::numToName(int level){
+//    int pack = 0;
+//    while (level >= 15){
+//        level -= 15;
+//        pack += 1;
+//    }
+//    std::string packStr = packToString(static_cast<Pack>(pack));
+//    return toLevelString(level, packStr);
+//}
 
 void LevelSelect::setChoice(std::string name){
     //TODO: integer.parsestring use char after 5
@@ -238,17 +229,17 @@ std::string LevelSelect::toLevelString(int level, std::string pack){
 }
 
 std::string LevelSelect::getLevelString(){
-    // TODO: fix once things are renamed
-    if(_choice < 3){ // intro levels
-        _pack = static_cast<LevelSelect::Pack>(0);
-        return toLevelString(_choice, packToString(_pack));
-    } else { // debug levels
-        _choice = static_cast<LevelSelect::Choice>(_choice - 3);
-        _pack = static_cast<LevelSelect::Pack>(1);
-        return toLevelString(_choice, packToString(_pack));
-    }
+//    // TODO: fix once things are renamed
+//    if(_choice < 3){ // intro levels
+//        _pack = static_cast<LevelSelect::Pack>(0);
+//        return toLevelString(_choice, packToString(_pack));
+//    } else { // debug levels
+//        _choice = static_cast<LevelSelect::Choice>(_choice - 3);
+//        _pack = static_cast<LevelSelect::Pack>(1);
+//        return toLevelString(_choice, packToString(_pack));
+//    }
     
-    //return toLevelString(_choice, packToString(_pack));
+    return toLevelString(_choice, packToString(_pack));
 }
 
 std::string LevelSelect::getNextLevelString(){
@@ -282,14 +273,51 @@ void LevelSelect::nextLevel(){
      */
 }
 
-int LevelSelect::levelNum(){
-    // TODO: fix once things are renamed
-    if( _pack == 0){
-        return _choice;
-    } else {
-        return _choice + 3;
+/**
+ * Switches page to the next pack if possible
+ */
+void LevelSelect::nextPack() {
+    if (_pack < PACKS_IMPLEMENTED - 1){
+        _pack = static_cast<LevelSelect::Pack>(_pack + 1);
+        setActive(true);
     }
-    //return (_pack * 15) + _choice;
+    _choice = NONE;
+}
+
+/**
+ * Switches page to the previous pack if possible
+ */
+void LevelSelect::prevPack() {
+    if (_pack != 0){
+        _pack = static_cast<LevelSelect::Pack>(_pack - 1);
+        setActive(true);
+    }
+    _choice = NONE;
+}
+
+int LevelSelect::levelNum(){
+    return prePackNum(_pack) + _choice;
+}
+
+/**
+ * Returns the number of levels before the current pack
+ */
+int LevelSelect::prePackNum(Pack pack){
+    switch(_pack){
+        case ZERO: // 0 levels before tutorial
+            return 0;
+        case ONE: // 3 levels before debug
+            return 3;
+    }
+}
+
+int LevelSelect::inPackNum(Pack pack){
+    switch(_pack){
+        case ZERO: // number of levels in tutorial
+            return 3;
+        case ONE:  // number of levels in debug
+            return 7;
+    }
 }
 
 void LevelSelect::updateMax(int level){
