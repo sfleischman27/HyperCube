@@ -29,11 +29,23 @@
         "player-run-normal": {
             "file": "textures/run_normal.png"
         },
-        "player-jump": {
+        "player-jump-launch": {
+            "file": "textures/jump_launch.png"
+        },
+        "player-jump-launch-normal": {
+            "file": "textures/jump_launch_normal.png"
+        },
+        "player-jump-hold": {
             "file": "textures/jump_hold.png"
         },
-        "player-jump-normal": {
+        "player-jump-hold-normal": {
             "file": "textures/jump_hold_normal.png"
+        },
+        "player-jump-land": {
+            "file": "textures/jump_land.png"
+        },
+        "player-jump-land-normal": {
+            "file": "textures/jump_land_normal.png"
         },
         "player-idle": {
             "file": "textures/idle.png"
@@ -105,7 +117,7 @@
             "file": "textures/section_cut (15).png"
         },
         "goal": {
-            "file": "textures/exitman.png"
+            "file": "textures/exit.png"
         },
         "dpad": {
             "file": "textures/dpad.png",
