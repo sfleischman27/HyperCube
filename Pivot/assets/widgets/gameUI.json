@@ -191,7 +191,16 @@
                         "navigatorYPos": 0.50
                     }
                 }
-            }
+            },
+           "messagePop":{
+               "type": "Widget",
+               "data": {
+                   "key": "messageOverlay",
+                   "variables":{
+                       "showMessage": false
+                   }
+               }
+           }
         }
     }
 }

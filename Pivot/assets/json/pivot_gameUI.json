@@ -65,13 +65,22 @@
         },
         "rotate_tutorial" : {
             "file": "textures/rotate_tutorial.png"
+        },
+        "message": {
+            "file": "textures/game_message.png"
+        },
+        "axel": {
+            "file": "textures/game_axel.png"
         }
-        
 	},
 	"fonts": {
         "gyparody": {
             "file":     "fonts/gyparody-hv.ttf",
             "size":     48
+        },
+        "gyparody-small": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     10
         }
 	},
     "widgets" : {
@@ -83,7 +92,8 @@
       "compassNum": "widgets/compassNum.json",
       "gameUI": "widgets/gameUI.json",
       "navigator": "widgets/navigator.json",
-      "popup": "widgets/popup.json"
+      "popup": "widgets/popup.json",
+      "messageOverlay": "widgets/gamemessage.json"
     },
     "scene2s" : {
         "lab": {

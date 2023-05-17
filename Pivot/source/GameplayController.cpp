@@ -918,7 +918,11 @@ void GameplayController::update(float dt) {
  */
 void GameplayController::render(const std::shared_ptr<cugl::SpriteBatch>& batch) {
     _pipeline->render(_model);
+    // turn off the render pipeline stuff
+    glDisable(GL_DEPTH_TEST);
     Scene2::render(batch);
+    // turn on the render pipeline stuff
+    glEnable(GL_DEPTH_TEST);
 }
 
 Size GameplayController::computeActiveSize() const {
