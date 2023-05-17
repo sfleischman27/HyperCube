@@ -32,8 +32,8 @@ protected:
     /** vector that stores the nodes inside the audiomixer */
     std::vector<std::shared_ptr<cugl::audio::AudioNode>> _mixerwrapper;
     
-    /** master volume, range 0 - 1.0 */
-    float _masterVolume = 1.0f;
+    /** master volume, range 0 - 100 */
+    float _masterVolume = 100.0f;
     
     /** toggle volume, either 0 or 1 */
     float _volumeToggle = 1.0f;
