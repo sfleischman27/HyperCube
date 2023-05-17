@@ -212,6 +212,11 @@
             "span": 1,
             "cols": 1
         },
+        "mushroom2-normal": {
+            "file": "textures/mushroom2_normals.png",
+            "span": 1,
+            "cols": 1
+        },
         "glow_cube_normal": {
             "file": "textures/glow_cube_normal.png",
             "span": 1,

@@ -344,12 +344,14 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 // will hardcode messages elsewhere
                 // the messages here should be keys
                 auto args = TriggerArgs();
+                args.popup = model->_popup;
                 args.message = message;
                 trig->registerEnterCallback(Trigger::showMessage, args);
                 trig->registerExitCallback(Trigger::stopPopups, args);
             }
             else if (trig_type == "EXITREGION") {
                 auto args = TriggerArgs();
+                args.popup = model->_popup;
                 args.message = "exit";
                 trig->registerEnterCallback(Trigger::showMessage, args);
                 trig->registerExitCallback(Trigger::stopPopups, args);
