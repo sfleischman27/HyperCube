@@ -258,7 +258,20 @@ void PlayerModel::applyForce() {
 
 void PlayerModel::animate() {
     /** Animation AND SOUND logic!!! IM HIJACKING AGAIN :) - Gordi*/
-    if(getVY() < 0.0 && !isGrounded()){
+    if(shouldStartFlipping){
+        if(animState != 5){
+            animState = 5;
+            setSpriteSheet("flip");
+            resetOtherSpritesheets("flip");
+        } else{
+            animState = 5;
+            if(currentSpriteSheet->getFrame() == currentSpriteSheet->getSize()-1){
+                doneFlipping = true;
+                shouldStartFlipping = false;
+            }
+        }
+    }
+    else if(getVY() < 0.0 && !isGrounded()){
         if(animState != 2){
             animState = 2;
             setSpriteSheet("jump-hold");
@@ -311,7 +324,7 @@ void PlayerModel::animate() {
 //    }
     
     
-    if((animFrameCounter >= 2 && animState != 0) || (animState == 3 || animState == 2)){
+    if((animFrameCounter >= 2 && animState != 0) || (animState == 3 || animState == 2 || animState == 5)){
         animFrameCounter = 0;
         int frame = currentSpriteSheet->getFrame();
         if(isFacingRight()){

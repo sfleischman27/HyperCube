@@ -47,6 +47,12 @@
         "player-jump-land-normal": {
             "file": "textures/jump_land_normal.png"
         },
+        "player-flip": {
+            "file": "textures/flip.png"
+        },
+        "player-flip-normal": {
+            "file": "textures/flip_normals.png"
+        },
         "player-idle": {
             "file": "textures/idle.png"
         },

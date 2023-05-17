@@ -273,6 +273,11 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_player->spriteSheets.emplace("jump-land", std::make_pair(sheet, normalSheet));
     
+    sheet = SpriteSheet::alloc(assets->get<Texture>("player-flip"), 7, 7);
+    normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-flip-normal"), 7, 7);
+    
+    _model->_player->spriteSheets.emplace("flip", std::make_pair(sheet, normalSheet));
+    
     sheet = SpriteSheet::alloc(assets->get<Texture>("player-idle"), 1, 1);
     normalSheet = SpriteSheet::alloc(assets->get<Texture>("player-idle-normal"), 1, 1);
     
@@ -420,6 +425,8 @@ void GameplayController::reset() {
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     _model->_player->setVelocity(Vec2::ZERO);
+    _model->_player->doneFlipping = false;
+    _model->_player->shouldStartFlipping = false;
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -454,6 +461,8 @@ void GameplayController::load(std::string name){
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     _model->_player->setVelocity(Vec2::ZERO);
+    _model->_player->doneFlipping = false;
+    _model->_player->shouldStartFlipping = false;
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -659,6 +668,14 @@ float saveFloat = 0.0;
 void GameplayController::update(float dt) {
     //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
     _model->_justFinishRotating = false;
+    
+    _model->_player->animate();
+    
+    if(_model->_player->doneFlipping){
+        _state = END;
+        _model->_player->doneFlipping = false;
+    }
+    
 #pragma mark INPUT
     _input->update(dt);
     
@@ -759,7 +776,6 @@ void GameplayController::update(float dt) {
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
-    _model->_player->animate();
     
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
@@ -785,7 +801,7 @@ void GameplayController::update(float dt) {
     if(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST) {
         if (_model->checkBackpack()) {
             _model->_endOfGame = true;
-            _state = END;
+            _model->_player->shouldStartFlipping = true;
         }
         else{
             // TODO: maybe saying find lost colletibles or something? - Sarah

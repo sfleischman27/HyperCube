@@ -88,6 +88,10 @@ public:
     
     float movementValue;
     
+    bool shouldStartFlipping;
+    
+    bool doneFlipping;
+    
 private:
     /** This macro disables the copy constructor (not allowed on physics objects) */
     CU_DISALLOW_COPY_AND_ASSIGN(PlayerModel);
