@@ -353,11 +353,12 @@ public:
      * @param locs  List of collectible locations
      * @param texs  List of collectible textures
      */
-    void setCollectibles(std::vector<Vec3> locs, std::vector<std::shared_ptr<cugl::Texture>> texs) {
+    void setCollectibles(std::vector<Vec3> locs, std::vector<std::shared_ptr<cugl::Texture>> texs, std::vector<std::shared_ptr<cugl::Texture>> normalTexs) {
         for(int i = 0; i < locs.size(); i++) {
             Collectible item = Collectible(locs[i], std::to_string(i));
             item.setTexture(texs[i]);
             item.rotateSpriteSheet = SpriteSheet::alloc(texs[i], 4, 4);
+            item.rotateNormalSpriteSheet = SpriteSheet::alloc(normalTexs[i], 4, 4);
             _collectibles.insert({std::to_string(i), item});
             _expectedCol.insert(std::to_string(i));
         }
