@@ -52,6 +52,24 @@ class ExportJsonOperator(bpy.types.Operator):
         
         # enter glowstick count 
         json_dict["glowsticks"] = bpy.context.scene.glow_count
+        
+        # enter shade depth
+        json_dict["shade_depth"] = bpy.context.scene.shade_depth
+        
+        # enter shade color
+        color = bpy.context.scene.shade_color 
+        json_dict["shade_color"] = [color.r, color.g, color.b]
+        
+        # enter background color 
+        color = bpy.context.scene.bg_color
+        json_dict["bg_color"] = [color.r, color.g, color.b]
+        
+        # enter background image
+        im_path = bpy.context.scene.bg_image
+        im_name = im_path.rsplit("\\")[-1].split(".")[0]
+        new_tex_dict = self.texture_check(dir, im_name)
+        asset_updates_dict["textures"].update(new_tex_dict)
+        json_dict["bg_image"] = im_name
     
         
         # enter collectibles    
@@ -75,7 +93,7 @@ class ExportJsonOperator(bpy.types.Operator):
             dir, 
             True
         )
-        json_dict["sprites"] = e_col_dict
+        json_dict["sprites"].update(e_col_dict)
         asset_updates_dict["textures"].update(new_tex_dict)
         
         
@@ -137,6 +155,11 @@ class ExportJsonOperator(bpy.types.Operator):
             scene_scale
         )
         json_dict["sprites"].update(light_dict)
+        
+        
+        audio = bpy.context.scene.audio_points
+        audio_dict = self.audio_to_dict(audio, scene_scale)
+        json_dict["sounds"] = audio_dict
         
         
         #export the collision meshes as an obj
@@ -237,12 +260,15 @@ class ExportJsonOperator(bpy.types.Operator):
             asset_dict = json.load(file)
             asset_dict["jsons"].update(asset_updates_dict["jsons"])
             
+            print(asset_updates_dict)
+            
             # only update the texture if it does not already exist
             for tex in list(asset_updates_dict["textures"]):
                 print(tex)
                 if tex not in asset_dict["textures"].keys():
                     print("is new")
                     asset_dict["textures"][tex] =  asset_updates_dict["textures"][tex]
+                    print(asset_updates_dict["textures"])
         
         # replace the old assets with updated assets
         #NOTE user is responsible for deleting assets for old levels
@@ -252,8 +278,6 @@ class ExportJsonOperator(bpy.types.Operator):
         return {'FINISHED'}
     
     def texture_check(self, dir, name):
-        
-        print(f"checking{name}")
         
         if not path.isfile(dir+ f"textures/{name}.png"):
             raise Exception(f"{name}.png was not found in the assets/textures/ directory. Please add it.")
@@ -265,6 +289,14 @@ class ExportJsonOperator(bpy.types.Operator):
             "span": 1,
             "cols": 1
             }
+            
+        if path.isfile(dir+ f"textures/{name}_normal.png"):
+            new_tex_dict[f"{name}_normal"] = {
+            "file":f"textures/{name}_normal.png",
+            "span": 1,
+            "cols": 1
+            }
+        
         return new_tex_dict
     
     def start_end_to_dict(self, scene_scale):
@@ -482,6 +514,21 @@ class ExportJsonOperator(bpy.types.Operator):
                 
         return (poster_dict, new_tex_dict, sprite_count)
     
+    def audio_to_dict(self, collection, scene_scale):
+        audio_dict = dict()
+        emitter_count = 0
+        for sound_group in collection.children:
+            if isinstance(sound_group, bpy.types.Collection):
+                for emitter in sound_group.objects:
+                    audio_dict[str(emitter_count)] = dict()
+                    audio_dict[str(emitter_count)]["sound"] = sound_group.name
+                    audio_dict[str(emitter_count)]["loc"] = [emitter.location.x * scene_scale,emitter.location.y * scene_scale,emitter.location.z * scene_scale]
+                    audio_dict[str(emitter_count)]["radius"] = emitter.scale[2]
+                    emitter_count += 1
+        
+        return audio_dict
+    
+    
     def checkFileStructure(self,dir,pack):
         # make sure necessary subdirectories exist
         if not path.isdir(dir+"json/"):
@@ -665,8 +712,15 @@ class PivotPanel(bpy.types.Panel):
         #solo point lights without textures
         col.label(text="LIGHTS")
         row = col.row()
-        row.label(text = "Point Lights Collection:")
+        row.label(text = "Point Lights:")
         row.prop(context.scene, "point_lights", text="")
+        col.separator(factor = 3)
+        
+        #solo point lights without textures
+        col.label(text="AUDIO")
+        row = col.row()
+        row.label(text = "Audio Points:")
+        row.prop(context.scene, "audio_points", text="")
         col.separator(factor = 3)
         
         #other settings
@@ -675,7 +729,9 @@ class PivotPanel(bpy.types.Panel):
         row = col.row()
         row.prop(context.scene, "scene_scale")
         row = col.row()
-        row.prop(context.scene, "depth_shade_dist")
+        row.prop(context.scene, "shade_depth")
+        row = col.row()
+        row.prop(context.scene, "shade_color")
         row = col.row()
         row.prop(context.scene, "bg_color")
         row = col.row()
@@ -733,10 +789,13 @@ def register():
     #register light elements
     bpy.types.Scene.point_lights = bpy.props.PointerProperty(type=bpy.types.Collection)
     
+    #register audio elements
+    bpy.types.Scene.audio_points = bpy.props.PointerProperty(type=bpy.types.Collection)
+    
     #register other ui elements
     bpy.types.Scene.glow_count = bpy.props.IntProperty(name = "Glowstick Count", min = 0, max = 10)
     bpy.types.Scene.scene_scale = bpy.props.IntProperty(name = "Scene Scale", min = 0, max = 10)
-    bpy.types.Scene.depth_shade_dist = bpy.props.IntProperty(name = "Depth_Shade_Level", min = 0, max = 10000)
+    bpy.types.Scene.shade_depth = bpy.props.IntProperty(name = "Shade Depth", min = -1, max = 10000)
     bpy.types.Scene.shade_color = bpy.props.FloatVectorProperty(
         name="Shade Color",
         subtype='COLOR',
@@ -785,9 +844,11 @@ def unregister():
     
     del bpy.types.Scene.point_lights   
     
+    del bpy.types.Scene.audio_points
+    
     del bpy.types.Scene.glow_count
     del bpy.types.Scene.scene_scale
-    del bpy.types.Scene.depth_shade_dist
+    del bpy.types.Scene.shade_depth
     del bpy.types.Scene.shade_color
     del bpy.types.Scene.bg_color
     del bpy.types.Scene.bg_image

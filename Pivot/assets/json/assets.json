@@ -176,13 +176,13 @@
             "span": 1,
             "cols": 1
         },
-        "jump": {
-            "file": "textures/jump.png",
+        "supercoolspace": {
+            "file": "textures/supercoolspace.png",
             "span": 1,
             "cols": 1
         },
-        "jump_normal": {
-            "file": "textures/jump_normal.png",
+        "mushroom2": {
+            "file": "textures/mushroom2.png",
             "span": 1,
             "cols": 1
         },
@@ -299,6 +299,6 @@
         "debug_0005": "json/level_json/debug/debug_0005.json",
         "debug_0004": "json/level_json/debug/debug_0004.json",
         "debug_0006": "json/level_json/debug/debug_0006.json",
-        "debug_0050": "json/level_json/debug/debug_0050.json"
+        "debug_0007": "json/level_json/debug/debug_0007.json"
     }
 }

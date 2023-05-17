@@ -27,7 +27,7 @@
         0.3919034004211426,
         0.0
     ],
-    "bg_image": "caution",
+    "bg_image": "supercoolspace",
     "sprites": {
         "1": {
             "loc": [
@@ -35,7 +35,7 @@
                 46.72425079345703,
                 -4.534463405609131
             ],
-            "tex": "jump",
+            "tex": "mushroom2",
             "scale": 11.563148498535156,
             "norm": [
                 0.0,
