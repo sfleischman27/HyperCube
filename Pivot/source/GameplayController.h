@@ -352,6 +352,16 @@ public:
      */
     bool getRotate() { return _data->getRotate(); }
     
+    /**
+     * Updates the outline selction in the save json
+     */
+    void setOutline(bool outline) { _data->setOutline(outline); }
+    
+    /**
+     * Returns the outline selction that is stored in the save file
+     */
+    bool getOutline() { return _data->getOutline(); }
+    
     
 #pragma mark Setting update functions
     /** Updates joystick setting in input controller */
@@ -373,6 +383,9 @@ public:
     
     /** Updates the degrees settings in game model */
     void updateCompass(bool compass) { _model->_degrees = compass; }
+    
+    /** Updates the cut outline setting in game model */
+    void updateOutline(bool outline) { _model->drawOutline = outline; }
     
 };
 

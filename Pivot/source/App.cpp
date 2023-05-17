@@ -422,6 +422,7 @@ void PivotApp::updateSettings(){
     // switch rotate between clockwise and counter
     _gameplay.updateRotate(_gameplay.getRotate());
     // turn on or off the outline
-    
+    _gameplay.updateOutline(_gameplay.getOutline());
     // switch from right handed to left handed
+    
 }
