@@ -51,8 +51,11 @@ void Trigger::killPlayer(TriggerArgs args) {
 };
 
 //** trigger the rotate tutorial to turn on */
-void Trigger::showRotate(TriggerArgs args) {
-    args.popup->setState("rotate");
+void Trigger::showPopup(TriggerArgs args) {
+    if (args.image == "rotate_tutorial"){
+        args.popup->setState("rotate");
+    }
+    // TODO: add more states in popup and gameplay controller and here
 };
 
 //** trigger to turn off popups */

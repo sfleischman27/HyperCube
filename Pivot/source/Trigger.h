@@ -47,6 +47,7 @@ struct TriggerArgs {
     std::vector<std::string> strings;
     std::shared_ptr<PlayerModel> player;
     std::shared_ptr<Popups> popup;
+    std::string image;
 };
 
 class Trigger {
@@ -121,8 +122,8 @@ public:
     //** trigger the player to die when they enter this zone*/
     static void killPlayer(TriggerArgs args);
 
-    //** trigger the rotate tutorial to turn on */
-    static void showRotate(TriggerArgs args);
+    //** trigger the popup to turn on */
+    static void showPopup(TriggerArgs args);
 
     //** trigger to turn off popups */
     static void stopPopups(TriggerArgs args);

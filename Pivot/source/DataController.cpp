@@ -85,20 +85,19 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("goal"));
     model->setExit(exitPtr);
 
-    auto shade_depth = constants->get("shade_depth")->asFloat();
-    //TODO set this somewhere in model
+    model->shadeDepth = constants->get("shade_depth")->asFloat();
 
     auto shade_color = cugl::Color4();
     shade_color.r = constants->get("shade_color")->get(0)->asFloat();
     shade_color.g = constants->get("shade_color")->get(1)->asFloat();
     shade_color.b = constants->get("shade_color")->get(2)->asFloat();
-    //TODO: set this somewhere in model
+    model->shadeColor = shade_color;
 
     auto bg_color = cugl::Color4();
     bg_color.r = constants->get("bg_color")->get(0)->asFloat();
     bg_color.g = constants->get("bg_color")->get(1)->asFloat();
     bg_color.b = constants->get("bg_color")->get(2)->asFloat();
-    //TODO set this in model, image takes priority
+    model->bgColor = bg_color;
 
     model->backgroundPic = _assets->get<Texture>(constants->get("bg_image")->asString());
     
@@ -328,20 +327,25 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             }
             else if (trig_type == "POPUP"){
                 std::string image = triggers->get(std::to_string(i))->getString("image");
-                //TODO use ^^^ this image instead @sarah
                 auto args = TriggerArgs();
                 args.popup = model->_popup;
-                trig->registerEnterCallback(Trigger::showRotate, args);
+                args.image = image;
+                trig->registerEnterCallback(Trigger::showPopup, args);
                 trig->registerExitCallback(Trigger::stopPopups, args);
             }
             else if (trig_type == "MESSAGE") {
                 std::string message = triggers->get(std::to_string(i))->getString("message");
                 // TODO: @sarah/czar how to setup a message popup?
+                
+                // they will be exactly like popups, they will have their own assets and could be handled by the same trigger type
             }
             else if (trig_type == "EXITREGION") {
                 // TODO @sarah you wanted this to check if you have enough collectibles
                 // we can also tint the exit orange or green to show that?
                 // i tinted the navigator, its pretty easy
+                
+                // I think that tinting the exit is good. We already have the arrow pointing to the collectibles
+                // maybe make a message and handle it like other popups where I handle them showing up in gameplay controller
             }
 
             model->_triggers.push_back(trig);

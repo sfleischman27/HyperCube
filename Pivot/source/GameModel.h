@@ -38,10 +38,18 @@ private:
 public:
     /** exit of the game*/
     std::shared_ptr<GameItem> _exit;
-
-    /** TODO JACK update all below/
-    /** background pic of the level TODO JACK update this */
+    
+#pragma mark Graphics Settings
+    /** The shade depth of the level */
+    float shadeDepth;
+    /** The shade color for the level */
+    Color4 shadeColor;
+    /** The background color for the level */
+    Color4 bgColor;
+    /** background pic of the level */
     std::shared_ptr<Texture> backgroundPic;
+    
+    //TODO: is this used @Matt
     Vec3 fadeCol = Vec3(31.0, 34.0, 69.0) / 255.0;
     
 #pragma mark Player State
