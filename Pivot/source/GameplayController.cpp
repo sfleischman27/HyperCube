@@ -677,7 +677,9 @@ void GameplayController::update(float dt) {
     }
     
 #pragma mark INPUT
-    _input->update(dt);
+    if(!(_model->_player->shouldStartFlipping)){
+        _input->update(dt);
+    }
     
     if (_input->didDebug()) {
         setDebug(!isDebug());

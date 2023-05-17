@@ -263,8 +263,13 @@ void PlayerModel::animate() {
             animState = 5;
             setSpriteSheet("flip");
             resetOtherSpritesheets("flip");
+            setVX(0);
         } else{
             animState = 5;
+            if(currentSpriteSheet->getFrame() == 13){
+                _body->SetLinearVelocity(b2Vec2(0,DUDE_JUMP_V/4));
+            }
+            setVX(0);
             if(currentSpriteSheet->getFrame() == currentSpriteSheet->getSize()-1){
                 doneFlipping = true;
                 shouldStartFlipping = false;
@@ -324,7 +329,7 @@ void PlayerModel::animate() {
 //    }
     
     
-    if((animFrameCounter >= 2 && animState != 0) || (animState == 3 || animState == 2 || animState == 5)){
+    if((animFrameCounter >= 2 && animState != 0) || (animState == 3 || animState == 2)){
         animFrameCounter = 0;
         int frame = currentSpriteSheet->getFrame();
         if(isFacingRight()){
