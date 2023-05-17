@@ -48,6 +48,7 @@ struct TriggerArgs {
     std::shared_ptr<PlayerModel> player;
     std::shared_ptr<Popups> popup;
     std::string image;
+    std::string message;
 };
 
 class Trigger {
@@ -125,6 +126,9 @@ public:
     //** trigger the popup to turn on */
     static void showPopup(TriggerArgs args);
 
+    //** trigger a message to appear */
+    static void showMessage(TriggerArgs args);
+    
     //** trigger to turn off popups */
     static void stopPopups(TriggerArgs args);
 };

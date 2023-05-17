@@ -336,10 +336,19 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             else if (trig_type == "MESSAGE") {
                 std::string message = triggers->get(std::to_string(i))->getString("message");
                 // TODO: @sarah/czar how to setup a message popup?
-                
-                // they will be exactly like popups, they will have their own assets and could be handled by the same trigger type
+                // will hardcode messages elsewhere
+                // the messages here should be keys
+                auto args = TriggerArgs();
+                args.message = message;
+                trig->registerEnterCallback(Trigger::showMessage, args);
+                trig->registerExitCallback(Trigger::stopPopups, args);
             }
             else if (trig_type == "EXITREGION") {
+                auto args = TriggerArgs();
+                args.message = "exit";
+                trig->registerEnterCallback(Trigger::showMessage, args);
+                trig->registerExitCallback(Trigger::stopPopups, args);
+                
                 // TODO @sarah you wanted this to check if you have enough collectibles
                 // we can also tint the exit orange or green to show that?
                 // i tinted the navigator, its pretty easy

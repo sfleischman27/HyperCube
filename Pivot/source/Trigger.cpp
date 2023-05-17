@@ -58,6 +58,11 @@ void Trigger::showPopup(TriggerArgs args) {
     // TODO: add more states in popup and gameplay controller and here
 };
 
+void Trigger::showMessage(TriggerArgs args) {
+    // TODO: add more states to popup that already has the messages
+    // This is just easier to hardcode at this point
+}
+
 //** trigger to turn off popups */
 void Trigger::stopPopups(TriggerArgs args) {
     args.popup->setState("none");
