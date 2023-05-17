@@ -145,6 +145,19 @@ public:
     bool init(Uint8 channels, Uint8 field, Uint32 rate);
     
     /**
+     * Initializes a panner for the given input node.
+     *
+     * This node acquires the channels and sample rate of the input.  If
+     * input is nullptr, this method will fail.
+     *
+     * @param channels  The number of output channels
+     * @param input     The audio node to pan
+     *
+     * @return true if initialization was successful
+     */
+    bool init(Uint8 channels, const std::shared_ptr<AudioNode>& input);
+    
+    /**
      * Disposes any resources allocated for this panner
      *
      * The state of the node is reset to that of an uninitialized constructor.
@@ -205,6 +218,22 @@ public:
     static std::shared_ptr<AudioPanner> alloc(Uint8 channels, Uint8 field, Uint32 rate) {
         std::shared_ptr<AudioPanner> result = std::make_shared<AudioPanner>();
         return (result->init(channels,field,rate) ? result : nullptr);
+    }
+    
+    /**
+     * Returns a newly allocated panner for the given input node.
+     *
+     * This node acquires the channels and sample rate of the input.  If
+     * input is nullptr, this method will fail.
+     *
+     * @param channels  The number of output channels
+     * @param input     The audio node to pan
+     *
+     * @return a newly allocated panner for the given input node.
+     */
+    static std::shared_ptr<AudioPanner> alloc(Uint8 channels, const std::shared_ptr<AudioNode>& input) {
+        std::shared_ptr<AudioPanner> result = std::make_shared<AudioPanner>();
+        return (result->init(channels,input) ? result : nullptr);
     }
     
 #pragma mark -

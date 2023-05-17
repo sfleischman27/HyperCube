@@ -9,15 +9,17 @@
 //  This module uses a custom resampling algorithm because SDL_AudioStream is
 //  (unfortunately) broken. The resampling algorithm in SDL_AudioStream is perfect
 //  (and indeed our code is a slight optimization of this algorithm). However,
-//  the page buffering is buggy and can fail, causing audio to cut out. This new
-//  paging scheme causes some minor round-off issues (compared to the original
-//  approach), but the filter removes any alias effects that may be caused from
-//  this error.
+//  the page buffering is buggy and can fail, causing audio to cut out.
+//
+//  Both this resampler and the original SDL_AudioStream are an implementation of
+//  a bandlimited interpolation resampler as described here:
+//
+//      https://ccrma.stanford.edu/~jos/resample/Implementation.html
 //
 //  CUGL MIT License:
 //
 //     This software is provided 'as-is', without any express or implied
-//     warranty.  In no event will the authors be held liable for any damages
+//     warranty. In no event will the authors be held liable for any damages
 //     arising from the use of this software.
 //
 //     Permission is granted to anyone to use this software for any purpose,
@@ -35,7 +37,7 @@
 //  3. This notice may not be removed or altered from any source distribution.
 //
 //  Author: Walker White
-//  Version: 12/28/22
+//  Version: 5/15/23
 //
 #ifndef __CU_AUDIO_RESAMPLER_H__
 #define __CU_AUDIO_RESAMPLER_H__
@@ -49,7 +51,7 @@ namespace cugl {
     /**
      * The audio graph classes.
      *
-     * This internal namespace is for the audio graph clases.  It was chosen
+     * This internal namespace is for the audio graph clases. It was chosen
      * to distinguish this graph from other graph class collections, such as the
      * scene graph collections in {@link scene2}.
      */
@@ -58,21 +60,24 @@ namespace cugl {
  * This class provides a graph node for converting from one sample rate to another.
  *
  * The node uses a kaiser-windowed sinc filter to perform continuous resampling on
- * a potentially infinite audio stream.  This is is necessary for cross-platform
+ * a potentially infinite audio stream. This is is necessary for cross-platform
  * reasons as iPhones are very stubborn about delivering any requested sampling
- * rates other than 48000.
+ * rates other than 48000. The basic algorithm for this resampling method is
+ * described here
  *
- * The filter is configurable.  You can set the number of zero crossings, as well
- * as the attentionuation factor in decibels. Details behind the filter design of
+ *     https://ccrma.stanford.edu/~jos/resample/Implementation.html
+ *
+ * The filter is configurable. You can set the number of zero crossings, as well
+ * as the attenuation factor in decibels. Details behind the filter design of
  * this resampler can be found here
  *
  *     https://tomroelandts.com/articles/how-to-create-a-configurable-filter-using-a-kaiser-window
  *
- * This is a dynamic resampler.  While the output sampling rate is fixed, the
- * input is not.  It will readjust the conversion filter to match the sampling
+ * This is a dynamic resampler. While the output sampling rate is fixed, the
+ * input is not. It will readjust the conversion filter to match the sampling
  * rate of the input node whenever the input node changes.
  *
- * The audio graph should only be accessed in the main thread.  In addition,
+ * The audio graph should only be accessed in the main thread. In addition,
  * no methods marked as AUDIO THREAD ONLY should ever be accessed by the
  * user.
  *
@@ -91,7 +96,7 @@ private:
     /** The number of zero crossings */
     std::atomic<Uint32> _zero_cross;
     /** The sample bit precision */
-    std::atomic<Uint32> _bit_precision;
+    std::atomic<Uint32> _precision;
     /** Filter attenuation in decibels */
     std::atomic<float> _stopband;
     /** The number of samples per zero crossing */
@@ -105,24 +110,39 @@ private:
     float* _filter_diffs;
     
     /** Intermediate read buffer */
-    /** The intermediate sampling buffer. Size set by _readsize. */
+    /** The intermediate sampling buffer. Capacity is set by _readsize. */
     float* _cvtbuffer;
-    /** The capacity of the sampling buffer */
-    Uint32 _capacity;
+    /**
+     * The capacity of the sampling buffer.
+     * Does not include convolution padding.
+     */
+    size_t _capacity;
+    /**
+     * The amount of data currently available in the sampling buffer.
+     * Does not include convolution padding.
+     */
+    size_t _cvtavail;
+    /**
+     * The offset for the next (unconsumed) bit of data in the buffer.
+     * Does not include convolution padding.
+     */
+    size_t _cvtoffset;
+    /** The padding overscan in the buffer */
+    size_t _cvtoversc;
     /** The supported page size for filtering */
     Uint32 _pagesize;
-    /** The amount of data currently available in the sampling buffer */
-    Uint32 _cvtavail;
-    /** The offset for the next (unconsumed) bit of data in the buffer */
-    double _cvtoffset;
-
+    /** The current input time */
+    double _intime;
+    /** The marked input time */
+    double _mktime;
+    
 public:
 #pragma mark -
 #pragma mark Constructors
     /**
      * Creates a degenerate audio resampler.
      *
-     * The node has not been initialized, so it is not active.  The node
+     * The node has not been initialized, so it is not active. The node
      * must be initialized to be used.
      */
     AudioResampler();
@@ -146,7 +166,7 @@ public:
     /**
      * Initializes a resampler with the given channels and sample rate.
      *
-     * This sample rate is the output rate of this node.  The input same rate
+     * This sample rate is the output rate of this node. The input same rate
      * depends on the input node, which can change over time. However, the
      * input node must agree with number of channels, which is fixed.
      *
@@ -199,7 +219,7 @@ public:
     /**
      * Returns a newly allocated resampler with the given channels and sample rate.
      *
-     * This sample rate is the output rate of this node.  The input same rate
+     * This sample rate is the output rate of this node. The input same rate
      * depends on the input node, which can change over time. However, the
      * input node must agree with number of channels, which is fixed.
      *
@@ -237,7 +257,7 @@ public:
      *
      * This method will reset the resampler stream if the input has a different
      * rate than the previous input value (and is not the same rate as the
-     * output).  It will fail if the input does not have the same number of
+     * output). It will fail if the input does not have the same number of
      * channels as this resampler.
      *
      * @param node  The audio node to resample
@@ -353,30 +373,30 @@ public:
      * Returns the bit precision for audio sent to this filter.
      *
      * Even though CUGL processes all audio data as floats, that does not mean that the
-     * audio on this platform is guaranteed to have 32 bit precision.  Indeed, on Android,
+     * audio on this platform is guaranteed to have 32 bit precision. Indeed, on Android,
      * most audio is processed at 16 bit precision, and many audio files are recorded at
      * this level of precision as well. Hence this filter assumes 16 bit precision by default.
      *
      * This is relevant for the size of the filter to process the audio. Each additional bit
-     * doubles the size of the filter table used for the convolution.  A 16 bit filter uses
+     * doubles the size of the filter table used for the convolution. A 16 bit filter uses
      * a very reasonable 512 entries per zero crossing. On the other hand, a 32 bit filter
      * would require 131072 entries per zero crossing. Given the limitations of real-time
      * resampling, it typically does not make much sense to assume more than 16 bits.
      *
      * @return the bit precision for audio sent to this filter.
      */
-    Uint32 getBitPrecision() const { return _bit_precision.load(std::memory_order_relaxed); };
+    Uint32 getBitPrecision() const { return _precision.load(std::memory_order_relaxed); };
     
     /**
      * Sets the bit precision for audio sent to this filter.
      *
      * Even though CUGL processes all audio data as floats, that does not mean that the
-     * audio on this platform is guaranteed to have 32 bit precision.  Indeed, on Android,
+     * audio on this platform is guaranteed to have 32 bit precision. Indeed, on Android,
      * most audio is processed at 16 bit precision, and many audio files are recorded at
      * this level of precision as well. Hence this filter assumes 16 bit precision by default.
      *
      * This is relevant for the size of the filter to process the audio. Each additional bit
-     * doubles the size of the filter table used for the convolution.  A 16 bit filter uses
+     * doubles the size of the filter table used for the convolution. A 16 bit filter uses
      * a very reasonable 512 entries per zero crossing. On the other hand, a 32 bit filter
      * would require 131072 entries per zero crossing. Given the limitations of real-time
      * resampling, it typically does not make much sense to assume more than 16 bits.
@@ -396,7 +416,7 @@ public:
      *
      * The default number of zero crossing is 5, meaning that this filter roughly causes
      * an 8x-10x decrease in performance when processing audio (when taking all the
-     * relevant overhead into account).  This value is that one recommended by this
+     * relevant overhead into account). This value is that one recommended by this
      * tutorial website:
      *
      *     https://www.dsprelated.com/freebooks/pasp/Windowed_Sinc_Interpolation.html
@@ -416,7 +436,7 @@ public:
      *
      * The default number of zero crossing is 5, meaning that this filter roughly causes
      * an 8x-10x decrease in performance when processing audio (when taking all the
-     * relevant overhead into account).  This value is that one recommended by this
+     * relevant overhead into account). This value is that one recommended by this
      * tutorial website:
      *
      *     https://www.dsprelated.com/freebooks/pasp/Windowed_Sinc_Interpolation.html
@@ -432,7 +452,7 @@ public:
      * Returns true if this resampler has no more data.
      *
      * An audio node is typically completed if it return 0 (no frames read) on
-     * subsequent calls to {@link read()}.  However, for infinite-running
+     * subsequent calls to {@link read()}. However, for infinite-running
      * audio threads, it is possible for this method to return true even when
      * data can still be read; in that case the node is notifying that it
      * should be shut down.
@@ -465,7 +485,7 @@ public:
     /**
      * Marks the current read position in the audio steam.
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns false if there is no input node or if this method is unsupported
      * in that node
      *
@@ -484,13 +504,13 @@ public:
     /**
      * Clears the current marked position.
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns false if there is no input node or if this method is unsupported
      * in that node
      *
      * If the method {@link mark()} started recording to a buffer (such as
      * with {@link AudioInput}), this method will stop recording and release
-     * the buffer.  When the mark is cleared, {@link reset()} may or may not
+     * the buffer. When the mark is cleared, {@link reset()} may or may not
      * work depending upon the specific node.
      *
      * @return true if the read position was marked.
@@ -500,12 +520,12 @@ public:
     /**
      * Resets the read position to the marked position of the audio stream.
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns false if there is no input node or if this method is unsupported
      * in that node
      *
      * When no {@link mark()} is set, the result of this method is node
-     * dependent.  Some nodes (such as {@link AudioPlayer}) will reset to the
+     * dependent. Some nodes (such as {@link AudioPlayer}) will reset to the
      * beginning of the stream, while others (like {@link AudioInput}) only
      * support a rest when a mark is set. Pay attention to the return value of
      * this method to see if the call is successful.
@@ -517,7 +537,7 @@ public:
     /**
      * Advances the stream by the given number of frames.
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns -1 if there is no input node or if this method is unsupported
      * in that node
      *
@@ -534,12 +554,12 @@ public:
     /**
      * Returns the current frame position of this audio node
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns -1 if there is no input node or if this method is unsupported
      * in that node
      *
      * In some nodes like {@link AudioInput}, this method is only supported
-     * if {@link mark()} is set.  In that case, the position will be the
+     * if {@link mark()} is set. In that case, the position will be the
      * number of frames since the mark. Other nodes like {@link AudioPlayer}
      * measure from the start of the stream.
      *
@@ -550,12 +570,12 @@ public:
     /**
      * Sets the current frame position of this audio node.
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns -1 if there is no input node or if this method is unsupported
      * in that node
      *
      * In some nodes like {@link AudioInput}, this method is only supported
-     * if {@link mark()} is set.  In that case, the position will be the
+     * if {@link mark()} is set. In that case, the position will be the
      * number of frames since the mark. Other nodes like {@link AudioPlayer}
      * measure from the start of the stream.
      *
@@ -568,12 +588,12 @@ public:
     /**
      * Returns the elapsed time in seconds.
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns -1 if there is no input node or if this method is unsupported
      * in that node
      *
      * In some nodes like {@link AudioInput}, this method is only supported
-     * if {@link mark()} is set.  In that case, the times will be the
+     * if {@link mark()} is set. In that case, the times will be the
      * number of seconds since the mark. Other nodes like {@link AudioPlayer}
      * measure from the start of the stream.
      *
@@ -584,12 +604,12 @@ public:
     /**
      * Sets the read position to the elapsed time in seconds.
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns -1 if there is no input node or if this method is unsupported
      * in that node
      *
      * In some nodes like {@link AudioInput}, this method is only supported
-     * if {@link mark()} is set.  In that case, the new time will be meaured
+     * if {@link mark()} is set. In that case, the new time will be meaured
      * from the mark. Other nodes like {@link AudioPlayer} measure from the
      * start of the stream.
      *
@@ -602,15 +622,15 @@ public:
     /**
      * Returns the remaining time in seconds.
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns -1 if there is no input node or if this method is unsupported
      * in that node
      *
      * In some nodes like {@link AudioInput}, this method is only supported
-     * if {@link setRemaining()} has been called.  In that case, the node will
-     * be marked as completed after the given number of seconds.  This may or may
-     * not actually move the read head.  For example, in {@link AudioPlayer} it
-     * will skip to the end of the sample.  However, in {@link AudioInput} it
+     * if {@link setRemaining()} has been called. In that case, the node will
+     * be marked as completed after the given number of seconds. This may or may
+     * not actually move the read head. For example, in {@link AudioPlayer} it
+     * will skip to the end of the sample. However, in {@link AudioInput} it
      * will simply time out after the given time.
      *
      * @return the remaining time in seconds.
@@ -620,14 +640,14 @@ public:
     /**
      * Sets the remaining time in seconds.
      *
-     * DELEGATED METHOD: This method delegates its call to the input node.  It
+     * DELEGATED METHOD: This method delegates its call to the input node. It
      * returns -1 if there is no input node or if this method is unsupported
      * in that node
      *
      * If this method is supported, then the node will be marked as completed
-     * after the given number of seconds.  This may or may not actually move
-     * the read head.  For example, in {@link AudioPlayer} it will skip to the
-     * end of the sample.  However, in {@link AudioInput} it will simply time
+     * after the given number of seconds. This may or may not actually move
+     * the read head. For example, in {@link AudioPlayer} it will skip to the
+     * end of the sample. However, in {@link AudioInput} it will simply time
      * out after the given time.
      *
      * @param time  The remaining time in seconds.
@@ -662,9 +682,32 @@ private:
      *
      * @param buffer    The buffer to store the audio frame
      * @param inrate    The input rate at the time of computation
-     * @param limit     The number of elements in the intermediate buffer
+     * @param outrate   The output rate at the time of computation
      */
-    void filter(float* buffer, double inrate, Uint32 limit);
+    void filterFrame(float* buffer, double inrate, double outrate);
+    
+    /**
+     * Reads up to frames worth of data from the sampling buffer
+     *
+     * This method will either read frames audio frames, or the extent of the sampling
+     * buffer, which ever comes first.
+     *
+     * The additional parameters passed to this method are to ensure thread safety.
+     * For example, inrate is the input sampling rate at the time of the buffer
+     * computation, and not necessarily the current input rate.
+     *
+     * @param buffer    The buffer to store the audio data
+     * @param frames    The maximum number of frames to process
+     * @param inrate    The input rate at the time of computation
+     * @param outrate   The output rate at the time of computation
+     */
+    Uint32 pageFilter(float* buffer, Uint32 frames, double inrate, double outrate);
+    
+    /**
+     * Fills the sampling buffer with the next page of data
+     */
+    void fillBuffer();
+    
     
 };
     }

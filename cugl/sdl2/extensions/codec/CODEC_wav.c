@@ -3,9 +3,9 @@
  * Copyright (C) 2022 Walker M. White, Sam Lantinga
  *
  * This is a simple library to lad different types of audio files as PCM data.
- * We choose this over SDL_mixer because it gives us finer grain control over 
+ * We choose this over SDL_mixer because it gives us finer grain control over
  * our audio layer (which we need for effects).
- * 
+ *
  * SDL License:
  *
  * This software is provided 'as-is', without any express or implied
@@ -25,9 +25,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-/* 
- * This is a WAV file loading framework. 
- * 
+/*
+ * This is a WAV file loading framework.
+ *
  * It is heavily based on an old version of SDL_wave.c by Sam Lantinga. It
  * has been refactored to support WAV streaming.
  */
@@ -96,7 +96,7 @@ typedef struct {
  * This type represents an internal decoder for ADPCM encoded WAV files.
  *
  * This decoder is a proxy decoder for ADPCM files, which are compressed.
- * This is the abstract base class for either MS or IMA decoding.  This 
+ * This is the abstract base class for either MS or IMA decoding.  This
  * class is for internal use and should never be instantiated by the user.
  */
 typedef struct {
@@ -153,8 +153,8 @@ typedef struct {
 } IMA_decoder;
 
 CODEC_ADPCM* CODEC_Alloc_MS_ADPCM(WaveFMT * format) {
-	CODEC_ADPCM* result = (CODEC_ADPCM*)SDL_malloc(sizeof(CODEC_ADPCM));
-	result->wavefmt.encoding = SDL_SwapLE16(format->encoding);
+    CODEC_ADPCM* result = (CODEC_ADPCM*)SDL_malloc(sizeof(CODEC_ADPCM));
+    result->wavefmt.encoding = SDL_SwapLE16(format->encoding);
     result->wavefmt.channels = SDL_SwapLE16(format->channels);
     result->wavefmt.frequency = SDL_SwapLE32(format->frequency);
     result->wavefmt.byterate = SDL_SwapLE32(format->byterate);
@@ -190,8 +190,8 @@ CODEC_ADPCM* CODEC_Alloc_MS_ADPCM(WaveFMT * format) {
 }
 
 CODEC_ADPCM* CODEC_Alloc_IMA_ADPCM(WaveFMT * format) {
-	CODEC_ADPCM* result = (CODEC_ADPCM*)SDL_malloc(sizeof(CODEC_ADPCM));
-	result->wavefmt.encoding = SDL_SwapLE16(format->encoding);
+    CODEC_ADPCM* result = (CODEC_ADPCM*)SDL_malloc(sizeof(CODEC_ADPCM));
+    result->wavefmt.encoding = SDL_SwapLE16(format->encoding);
     result->wavefmt.channels = SDL_SwapLE16(format->channels);
     result->wavefmt.frequency = SDL_SwapLE32(format->frequency);
     result->wavefmt.byterate = SDL_SwapLE32(format->byterate);
@@ -204,10 +204,10 @@ CODEC_ADPCM* CODEC_Alloc_IMA_ADPCM(WaveFMT * format) {
 }
 
 void CODEC_Free_ADPCM(CODEC_ADPCM* decoder) {
-	SDL_free(decoder->internal);
-	decoder->internal = NULL;
-	SDL_free(decoder);
-	decoder = NULL;
+    SDL_free(decoder->internal);
+    decoder->internal = NULL;
+    SDL_free(decoder);
+    decoder = NULL;
 }
 
 /**
@@ -221,7 +221,7 @@ void CODEC_Free_ADPCM(CODEC_ADPCM* decoder) {
  * @return the number of frames to decompress from the given number of bytes
  */
 Uint64 CODEC_ADPCM_GetFrames(CODEC_ADPCM* decoder,Uint64 bytes) {
-	return (decoder->blocksize*bytes)/decoder->wavefmt.blockalign;
+    return (decoder->blocksize*bytes)/decoder->wavefmt.blockalign;
 }
 
 /**
@@ -278,9 +278,9 @@ Sint32 MS_State_Nibble(MS_state *state, Uint8 nybble, Sint16 * coeff) {
  */
 Sint32 MS_Decoder_Read(CODEC_ADPCM* decoder, SDL_RWops* source, Uint8* buffer) {
     // Read in a single block align
-	if (decoder == NULL) {
+    if (decoder == NULL) {
         return -1;
-	} else if (!SDL_RWread(source, decoder->blkbuffer, decoder->wavefmt.blockalign, 1)) {
+    } else if (!SDL_RWread(source, decoder->blkbuffer, decoder->wavefmt.blockalign, 1)) {
         return -1;
     }
     
@@ -445,8 +445,8 @@ Sint32 IMA_State_Nibble(IMA_state* state, Uint8 nybble) {
  * @param numchannels   The total number of channels
  * @param state         The decoder state
  */
-void IMA_Decoder_Fill(Uint8 * decoded, Uint8 * encoded, int channel, 
-					  int numchannels, IMA_state *state) {
+void IMA_Decoder_Fill(Uint8 * decoded, Uint8 * encoded, int channel,
+                      int numchannels, IMA_state *state) {
     Sint8 nybble;
     Sint32 new_sample;
     
@@ -489,7 +489,7 @@ Sint32 IMA_Decoder_Read(CODEC_ADPCM* decoder, SDL_RWops* source, Uint8* buffer) 
     
     // Check to make sure we have enough variables in the state array
     // Then read in a single block align
-	if (decoder == NULL) {
+    if (decoder == NULL) {
         return -1;
     }
     
@@ -562,7 +562,7 @@ typedef struct Chunk {
  * Reads a single chunk of data from the given file.
  *
  * If the read is successful, this method returns the number of bytes read.
- * If it is not successful, it will return a negative number with the 
+ * If it is not successful, it will return a negative number with the
  * appropriate error code.
  *
  * @param src   The source file
@@ -594,25 +594,25 @@ static int readChunk(SDL_RWops * src, WaveChunk * chunk) {
  * More obscure coding types (e.g. DTS WAV) may or may not be supported.
  */
 typedef enum {
-	/** Raw PCM data in 16bit samples (the most common format) */
-	WAV_PCM_DATA   = 0,
-	/** Raw PCM data with 32bit float samples */
-	WAV_IEEE_FLOAT = 1,
-	/** MS encoded ADPCM data */
-	WAV_MS_ADPCM   = 2,
-	/** IMA encoded ADPCM data */
-	WAV_IMA_ADPCM  = 3,
-	/** MP3 data encoded in a WAV file */
-	WAV_MP3_DATA   = 4,
-	/** Unsupported WAV encoding */
-	WAV_UNKNOWN    = 5
+    /** Raw PCM data in 16bit samples (the most common format) */
+    WAV_PCM_DATA   = 0,
+    /** Raw PCM data with 32bit float samples */
+    WAV_IEEE_FLOAT = 1,
+    /** MS encoded ADPCM data */
+    WAV_MS_ADPCM   = 2,
+    /** IMA encoded ADPCM data */
+    WAV_IMA_ADPCM  = 3,
+    /** MP3 data encoded in a WAV file */
+    WAV_MP3_DATA   = 4,
+    /** Unsupported WAV encoding */
+    WAV_UNKNOWN    = 5
 } WaveType;
 
 #pragma mark -
 #pragma mark CODEC Functions
 
 /**
- * The internal structure for decoding 
+ * The internal structure for decoding
  */
 typedef struct {
     /** The file stream for the audio */
@@ -622,7 +622,7 @@ typedef struct {
     /** The encoding type */
     WaveType datatype;
     
-	/** The size of a decoder chunk */
+    /** The size of a decoder chunk */
     Uint32 pagesize;
     
     /** The current page in the stream */
@@ -644,7 +644,7 @@ typedef struct {
 /**
  * Reads a single page of audio data into the buffer
  *
- * This function reads in the current stream page into the buffer. The data written 
+ * This function reads in the current stream page into the buffer. The data written
  * into the buffer is linear PCM data with interleaved channels. If the stream is
  * at the end, nothing will be written.
  *
@@ -663,32 +663,32 @@ typedef struct {
 Sint32 wav_read_page(CODEC_Source* source, CODEC_WAV* decoder, float* buffer) {
     // Read into the local chunk
     Uint32 avail = decoder->pagesize*source->channels*decoder->sampsize;
-    if (decoder->currpage == decoder->lastpage) {
+    if ((decoder->currpage == decoder->lastpage-1) && (source->frames % decoder->pagesize) != 0) {
         avail = (source->frames % decoder->pagesize)*source->channels*decoder->sampsize;
-    } else if (decoder->currpage > decoder->lastpage) {
+    } else if (decoder->currpage >= decoder->lastpage) {
         avail = 0;
     }
     
     if (avail == 0) {
         return 0;
     } else {
-    	switch (decoder->datatype) {
-    	case WAV_MS_ADPCM:
-			if (!MS_Decoder_Read((CODEC_ADPCM*)(decoder->adpcm), decoder->stream, decoder->chunker)) {
-            	return 0;
-        	}
-			break;
-    	case WAV_IMA_ADPCM:
-			if (!IMA_Decoder_Read((CODEC_ADPCM*)(decoder->adpcm), decoder->stream, decoder->chunker)) {
-            	return 0;
-        	}
-			break;
-    	default:
-			if (!SDL_RWread(decoder->stream, decoder->chunker, avail, 1)) {
-            	return 0;
-        	}
-        	break;
-    	}
+        switch (decoder->datatype) {
+        case WAV_MS_ADPCM:
+            if (!MS_Decoder_Read((CODEC_ADPCM*)(decoder->adpcm), decoder->stream, decoder->chunker)) {
+                return 0;
+            }
+            break;
+        case WAV_IMA_ADPCM:
+            if (!IMA_Decoder_Read((CODEC_ADPCM*)(decoder->adpcm), decoder->stream, decoder->chunker)) {
+                return 0;
+            }
+            break;
+        default:
+            if (!SDL_RWread(decoder->stream, decoder->chunker, avail, 1)) {
+                return 0;
+            }
+            break;
+        }
     }
     
     // Now convert
@@ -698,7 +698,7 @@ Sint32 wav_read_page(CODEC_Source* source, CODEC_WAV* decoder, float* buffer) {
         case AUDIO_S16:
         {
             Sint16* input = (Sint16*)decoder->chunker;
-            double factor = 1.0/(1 << 16);
+            double factor = 1.0/(1 << 15);
             while(temp--) {
                 *output = *input*factor;
                 output++;
@@ -709,7 +709,7 @@ Sint32 wav_read_page(CODEC_Source* source, CODEC_WAV* decoder, float* buffer) {
         case AUDIO_S8:
         {
             Sint8* input = (Sint8*)decoder->chunker;
-            double factor = 1.0/(1 << 8);
+            double factor = 1.0/(1 << 7);
             while(temp--) {
                 *output = *input*(factor);
                 output++;
@@ -720,7 +720,7 @@ Sint32 wav_read_page(CODEC_Source* source, CODEC_WAV* decoder, float* buffer) {
         case AUDIO_S32:
         {
             Sint32* input = (Sint32*)decoder->chunker;
-            double factor = 1.0/(((Uint64)1) << 32);
+            double factor = 1.0/(1 << 31);
             while(temp--) {
                 *output = *input*(factor);
                 output++;
@@ -747,9 +747,9 @@ Sint32 wav_read_page(CODEC_Source* source, CODEC_WAV* decoder, float* buffer) {
     return avail/(source->channels*decoder->sampsize);
 }
 
-/** 
+/**
  * Creates a new CODEC_Source from an WAV file
- * 
+ *
  * This function will return NULL if the file cannot be located or is not an
  * proper WAV file. The file will not be read into memory, but is instead
  * available for streaming.
@@ -765,7 +765,7 @@ Sint32 wav_read_page(CODEC_Source* source, CODEC_WAV* decoder, float* buffer) {
  * @return a new CODEC_Source from an WAV file
  */
 CODEC_Source* CODEC_OpenWAV(const char* filename) {
-	WaveChunk chunk;
+    WaveChunk chunk;
     CODEC_WAV* decoder = NULL;
     
     int was_error = 0;
@@ -791,7 +791,7 @@ CODEC_Source* CODEC_OpenWAV(const char* filename) {
     SDL_zero(chunk);
     
     SDL_RWops *stream = SDL_RWFromFile(filename,"r");
-	was_error = 0;
+    was_error = 0;
     if (stream == NULL) {
         SDL_SetError("'%s' not found",filename);
         was_error = 1;
@@ -906,7 +906,7 @@ CODEC_Source* CODEC_OpenWAV(const char* filename) {
                 }
                 break;
             case 8:
-                decoder->sampbits = AUDIO_U8;
+                decoder->sampbits = AUDIO_S8;
                 decoder->sampsize = sizeof(Uint8);
                 break;
             case 16:
@@ -945,13 +945,19 @@ CODEC_Source* CODEC_OpenWAV(const char* filename) {
     
     if (is_adpcm) {
         decoder->pagesize = decoder->adpcm->blocksize;
-        decoder->lastpage = (Uint32)(frames/decoder->pagesize);
         frames  = (decoder->pagesize*frames)/decoder->adpcm->wavefmt.blockalign;
+        decoder->lastpage = (Uint32)(frames/decoder->pagesize);
+        if (frames % decoder->pagesize != 0) {
+            decoder->lastpage++;
+        }
     } else {
         // Good default buffer size
         frames  /= (decoder->sampsize*channels);
         decoder->pagesize = PAGE_SIZE/(decoder->sampsize*channels);
         decoder->lastpage = (Uint32)(frames/decoder->pagesize);
+        if (frames % decoder->pagesize != 0) {
+            decoder->lastpage++;
+        }
     }
     
     decoder->currpage = 0;
@@ -963,8 +969,8 @@ done:
         SDL_RWclose(stream);
         stream = NULL;
         if (decoder->adpcm != NULL) {
-        	SDL_free(decoder->adpcm);
-        	decoder->adpcm = NULL;
+            SDL_free(decoder->adpcm);
+            decoder->adpcm = NULL;
         }
         SDL_free(decoder);
         decoder = NULL;
@@ -973,13 +979,13 @@ done:
     
     
     if (!was_error) {
-    	Uint32 capacity = decoder->pagesize*channels*decoder->sampsize;
+        Uint32 capacity = decoder->pagesize*channels*decoder->sampsize;
         decoder->chunker = (Uint8 *)SDL_malloc(capacity);
         memset(decoder->chunker,0,capacity);
         decoder->stream = stream;
         
         CODEC_Source* result = (CODEC_Source*)SDL_malloc(sizeof(CODEC_Source));
-		result->type = CODEC_TYPE_WAV;
+        result->type = CODEC_TYPE_WAV;
         result->channels = channels;
         result->rate = rate;
         result->frames = frames;
@@ -994,25 +1000,25 @@ done:
  * The WAV specific implementation of {@link CODEC_Close}.
  *
  * @param source    The source to close
- * 
+ *
  * @return 0 if the source was successfully closed, -1 otherwise.
  */
 Sint32 CODEC_WAV_Close(CODEC_Source* source) {
-	CHECK_SOURCE(source,-1)
+    CHECK_SOURCE(source,-1)
     
     CODEC_WAV* decoder = (CODEC_WAV*)(source->decoder);
     if (decoder->adpcm != NULL) {
-		SDL_free(decoder->adpcm);
-		decoder->adpcm = NULL;
-	}
+        SDL_free(decoder->adpcm);
+        decoder->adpcm = NULL;
+    }
     if (decoder->stream != NULL) {
         SDL_RWclose(decoder->stream);
-		decoder->stream = NULL;
-	}
-	SDL_free(decoder);
-	source->decoder = NULL;
-	SDL_free(source);
-	return 0;
+        decoder->stream = NULL;
+    }
+    SDL_free(decoder);
+    source->decoder = NULL;
+    SDL_free(source);
+    return 0;
 }
 
 /**
@@ -1024,7 +1030,7 @@ Sint32 CODEC_WAV_Close(CODEC_Source* source) {
  * @return the page acquired, or -1 if there is an error
  */
 Sint32 CODEC_WAV_Seek(CODEC_Source* source, Uint32 page) {
-	CHECK_SOURCE(source,-1)
+    CHECK_SOURCE(source,-1)
     
     CODEC_WAV* decoder = (CODEC_WAV*)(source->decoder);
     Uint32 chunk  = decoder->pagesize*source->channels*decoder->sampsize;
@@ -1035,7 +1041,7 @@ Sint32 CODEC_WAV_Seek(CODEC_Source* source, Uint32 page) {
     
     SDL_RWseek(decoder->stream, decoder->datamark+offset, RW_SEEK_SET);
     decoder->currpage = offset/chunk;
-	return (int)decoder->currpage;
+    return (int)decoder->currpage;
 }
 
 /**
@@ -1083,7 +1089,7 @@ Sint32 CODEC_WAV_Tell(CODEC_Source* source) {
  */
 Uint32 CODEC_WAV_EOF(CODEC_Source* source) {
     CHECK_SOURCE(source,0)
-    CODEC_WAV* decoder = (CODEC_WAV*)(source->decoder);    
+    CODEC_WAV* decoder = (CODEC_WAV*)(source->decoder);
     return (decoder->currpage == decoder->lastpage);
 }
 
@@ -1096,10 +1102,10 @@ Uint32 CODEC_WAV_EOF(CODEC_Source* source) {
  * @return the number of audio frames (samples/channels) read
  */
 Sint32 CODEC_WAV_Read(CODEC_Source* source, float* buffer) {
-	CHECK_SOURCE(source,-1)
-	
-	CODEC_WAV* decoder = (CODEC_WAV*)(source->decoder);
-	return wav_read_page(source, decoder, buffer);
+    CHECK_SOURCE(source,-1)
+    
+    CODEC_WAV* decoder = (CODEC_WAV*)(source->decoder);
+    return wav_read_page(source, decoder, buffer);
 }
 
 /**
@@ -1118,18 +1124,14 @@ Sint64 CODEC_WAV_Fill(CODEC_Source* source, float* buffer) {
     if (currpage != 0) {
         CODEC_WAV_Seek(source,0);
     }
-	
+    
     Sint32 amt  = 0;
-	Sint64 read = 0;
-	Sint64 offset = 0;
-	while (decoder->currpage < decoder->lastpage) {
-        amt = wav_read_page(source,decoder,buffer+offset);
-		read += amt;
-		offset += amt*source->channels;
-	}
-    if (decoder->currpage == decoder->lastpage) {
+    Sint64 read = 0;
+    Sint64 offset = 0;
+    while (decoder->currpage < decoder->lastpage) {
         amt = wav_read_page(source,decoder,buffer+offset);
         read += amt;
+        offset += amt*source->channels;
     }
 
     if (currpage != 0) {

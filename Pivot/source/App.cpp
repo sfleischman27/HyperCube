@@ -302,9 +302,11 @@ void PivotApp::updateLevelScene(float timestep){
             _levelSelect.update(timestep);
             break;
         case LevelSelect::Choice::NEXT:
+            _levelSelect.nextPack();
             _levelSelect.update(timestep);
             break;
         case LevelSelect::Choice::PREV:
+            _levelSelect.prevPack();
             _levelSelect.update(timestep);
             break;
         case LevelSelect::Choice::SETTINGS:

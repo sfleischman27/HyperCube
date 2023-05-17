@@ -112,6 +112,28 @@ bool AudioPanner::init(Uint8 channels, Uint8 field, Uint32 rate) {
 }
 
 /**
+ * Initializes a panner for the given input node.
+ *
+ * This node acquires the channels and sample rate of the input.  If
+ * input is nullptr, this method will fail.
+ *
+ * @param channels  The number of output channels
+ * @param input     The audio node to pan
+ *
+ * @return true if initialization was successful
+ */
+bool AudioPanner::init(Uint8 channels, const std::shared_ptr<AudioNode>& input) {
+    if (input && AudioNode::init(channels,input->getRate())) {
+        setField(input->getChannels());
+        _buffer = (float*)malloc(_readsize*_field*sizeof(float));
+        std::memset(_buffer,0,_readsize*_field*sizeof(float));
+        attach(input);
+        return true;
+    }
+    return false;
+}
+
+/**
  * Disposes any resources allocated for this panner
  *
  * The state of the node is reset to that of an uninitialized constructor.
