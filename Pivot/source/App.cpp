@@ -244,6 +244,7 @@ void PivotApp::updateLoadingScene(float timestep){
         _endMenu.init(_assets);
         _quitMenu.init(_assets);
         _gameplay.init(_assets, getDisplaySize(), _sound);
+        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
         _settings.init(_assets, _gameplay.getDataController());
         _mainMenu.setActive(true);
         _scene = State::MAIN;
@@ -380,14 +381,16 @@ void PivotApp::updateSettingsScene(float timestep){
     switch(_settings.getChoice()) {
         case SettingsMenu::Choice::NONE:
             _settings.update(timestep);
+            updateSettings();
             break;
         case SettingsMenu::Choice::EXIT:
-            _settings.setActive(false);
-            _levelSelect.setActive(true);
             // save
             _gameplay.save();
             // change settings
-            //updateSettings();
+            updateSettings();
+            // switch scenes
+            _settings.setActive(false);
+            _levelSelect.setActive(true);
             _scene = State::LEVEL;
             break;
         case SettingsMenu::OVERLAY:
@@ -400,4 +403,21 @@ void PivotApp::updateSettingsScene(float timestep){
             break;
     }
     
+}
+
+void PivotApp::updateSettings(){
+    // if reset, update level select
+    if (_gameplay.getMaxLevel() == 0){
+        _levelSelect.resetMax();
+    }
+    // change between buttons and joystick
+    _gameplay.updateJoystick(!_gameplay.getControls());
+    // update volume
+    _sound->setMasterVolume(_gameplay.getVolume());
+    // turn music on or off
+    
+    // switch compass between 180 and 360
+    _gameplay.updateCompass(_gameplay.getCompass());
+    // switch rotate between clockwise and counter
+    _gameplay.updateRotate(_gameplay.getRotate());
 }

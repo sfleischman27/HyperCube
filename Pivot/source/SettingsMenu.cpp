@@ -59,6 +59,7 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
         if (value != _volumeValue){
             _volumeValue = value;
             _data->setVolume(value);
+            _volumeLabel->setText(cugl::strtool::to_string(value,1));
         }
     });
     
@@ -93,10 +94,10 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
     _rotation->setToggle(true);
     _rotation->addListener([this](const std::string& name, bool down) {
         if (down) {
-            _data->setRotate(false);
+            _data->setRotate(true);
             _rotationLabel->setText("Counter Clockwise");
         } else {
-            _data->setRotate(true);
+            _data->setRotate(false);
             _rotationLabel->setText("Clockwise");
         }
     });
@@ -121,6 +122,7 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
     _yes->addListener([this](const std::string& name, bool down) {
         if (down) {
             _data->resetSave();
+            setFromSave();
             // switch out of sub scene
             _choice = OVEROFF;
             //TODO: show that data has been cleared
@@ -135,8 +137,7 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
         }
     });
     
-    // TODO: use the _save in data to setup the buttons to proper settings
-    
+    setFromSave();
     
     addChild(layer);
     setActive(false);
@@ -224,3 +225,45 @@ void SettingsMenu::setOverlayActive(bool value) {
     }
 }
 
+/**
+ * Uses the save data to setup the scene
+ */
+void SettingsMenu::setFromSave() {
+    if (_data->getMusic()) {
+        _music->setDown(false);
+        _musicLabel->setText("On");
+    } else {
+        _music->setDown(true);
+        _musicLabel->setText("Off");
+    }
+    
+    if (_data->getControls()) {
+        _movement->setDown(false);
+        _movementLabel->setText("Buttons");
+    } else {
+        _movement->setDown(true);
+        _movementLabel->setText("Joystick");
+    }
+    
+    if (_data->getRotate()) {
+        _rotation->setDown(true);
+        _rotationLabel->setText("Counter Clockwise");
+    } else {
+        _rotation->setDown(false);
+        _rotationLabel->setText("Clockwise");
+    }
+    
+    if (_data->getCompass()) {
+        _compass->setDown(false);
+        _compassLabel->setText("180");
+    } else {
+        _compass->setDown(true);
+        _compassLabel->setText("360");
+    }
+    
+    _volume->setValue(_data->getVolume());
+    _volumeLabel->setText(cugl::strtool::to_string(_data->getVolume(), 1));
+}
+
+
+//Note: default -> up setDown(false) = true (setting) = on (label)

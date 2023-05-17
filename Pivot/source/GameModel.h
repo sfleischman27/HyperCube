@@ -38,6 +38,11 @@ private:
 public:
     /** exit of the game*/
     std::shared_ptr<GameItem> _exit;
+
+    /** TODO JACK update all below/
+    /** background pic of the level TODO JACK update this */
+    std::shared_ptr<Texture> backgroundPic;
+    Vec3 fadeCol = Vec3(31.0, 34.0, 69.0) / 255.0;
     
 #pragma mark Player State
 public:
@@ -108,6 +113,8 @@ public:
 #pragma mark Compass State
 public:
     std::shared_ptr<cugl::scene2::Label> _compassNum;
+    /** compass degree setting true = 180, false = 360 */
+    bool _degrees;
 
 
 #pragma mark navigator State
@@ -452,7 +459,7 @@ public:
         auto off = stuff.first;
         float rad = 100;
         if (off.length() < rad) { rad = off.length(); }
-        CULog(std::to_string(rad).c_str());
+        //CULog(std::to_string(rad).c_str());
         _navigator->setScale(Vec2(0.5, rad/200));
 
         auto crad = 300.0f;
@@ -472,7 +479,12 @@ public:
     
     void updateCompassNum() {
         int angle = static_cast<int>(getGlobalAngleDeg());
-        _compassNum->setText(std::to_string(angle));
+        if (_degrees){ // 0 -> 180
+            _compassNum->setText(std::to_string(angle));
+        } else { // 0 -> 360
+            if (angle < 0){ angle = angle + 360; }
+            _compassNum->setText(std::to_string(angle));
+        }
         int frame = (angle + 360) % 10;
         _compassSpin->setFrame(frame);
         // fade in

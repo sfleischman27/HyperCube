@@ -225,6 +225,11 @@ public:
      */
     void unlockNextLevel();
     
+    /**
+     * Resets unlocked levels
+     */
+    void resetMax() { _maxLevel = 0; }
+    
 private:
     /**
      * Returns a level name string using the given level states

@@ -152,36 +152,11 @@ public:
      */
     Choice getChoice() const { return _choice; }
     
-   /**
-     * Updates the buttons or joystick choice
-     *
-     * true = buttons, false = joystick
-     */
-    void setControls(bool buttons) { _movement->setDown(!buttons); }
-    
+private:
     /**
-     * Updates the volume in the save json
+     * Uses the save data to setup the scene
      */
-    void setVolume(float volume) { _volume->setValue(volume); }
-    
-    /**
-     * Updates the music choice in the save json
-     *
-     * true = on, false = off
-     */
-    void setMusic(bool music) { _music->setDown(!music); }
-    
-    /**
-     * Updates the compass increment selection in the save json
-     *
-     * true = 180, false = 360
-     */
-    void setCompass(bool compass) { _compass->setDown(!compass); }
-    
-    /**
-     * Updates the rotate selction in the save json
-     */
-    void setRotate(bool rotate) { _rotation->setDown(!rotate); }
+    void setFromSave();
     
 };
 

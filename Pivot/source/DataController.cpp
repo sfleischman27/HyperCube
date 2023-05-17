@@ -84,6 +84,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     exitPos.z = constants->get("exit")->get(2)->asFloat();
     std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("goal"));
     model->setExit(exitPtr);
+
+    model->backgroundPic = _assets->get<Texture>("space135");
     
     // get the sprites
     std::shared_ptr<cugl::JsonValue> sprites = constants->get("sprites");
@@ -211,6 +213,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 // Note: dir includes "save.json"
 void DataController::setupSave(std::string dir, bool exists){
     _saveDir = dir;
+    // get default save file
+    _default = _assets->get<JsonValue>("default_save");
     if(exists){ // save file already exists
         // make a reader
         std::shared_ptr<JsonReader> read = JsonReader::alloc(_saveDir);
@@ -221,14 +225,15 @@ void DataController::setupSave(std::string dir, bool exists){
         // make a save file
         filetool::file_create(_saveDir);
         // get default save json
-        _save = _assets->get<JsonValue>("default_save");
+        _save = JsonValue::allocObject();
+        _save->initWithJson(_default->toString());
     }
 }
 
 void DataController::resetSave(){
     // get default save json
-    _save = _assets->get<JsonValue>("default_save");
-    //TODO: make the changes happen
+    _save = JsonValue::allocObject();
+    _save->initWithJson(_default->toString());
 }
 
 void DataController::save(){

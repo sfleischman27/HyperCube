@@ -1,7 +1,7 @@
 {
     "max_level": 0,
     "buttons": true,
-    "volume": 1.0,
+    "volume": 100.0,
     "music": true,
     "compass_180": true,
     "rotate": false

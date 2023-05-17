@@ -22,13 +22,16 @@ public:
 		std::shared_ptr<cugl::Texture> normalMap;
 		bool isPlayer;
 		int id;
+		bool emission;
 
-		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, int id = 0) {
+		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, int id = 0, bool emission = false) {
+			assert(!(isPlayer && emission)); // player is never an emission mesh
 			this->pos = pos;
 			this->tex = tex;
 			this->normalMap = normalMap;
 			this->isPlayer = isPlayer;
 			this->id = id;
+			this->emission = emission;
 		}
 	};
 

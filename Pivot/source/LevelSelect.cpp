@@ -219,13 +219,9 @@ void LevelSelect::setChoice(std::string name){
     } else if (name == "level15"){
         _choice = Choice::LEVEL15;
     } else if (name == "levelnext"){
-        //TODO: REMOVE THIS TEMP CODEEEEE
-        _choice = Choice::LEVEL10;
-        //_choice = Choice::NEXT;
+        _choice = Choice::NEXT;
     } else if (name == "levelprevious"){
-        //TODO: REMOVE THIS TEMP CODEEEEE
-        _choice = Choice::LEVEL6;
-        //_choice = Choice::PREV;
+        _choice = Choice::PREV;
     } else if (name == "settings"){
         _choice = Choice::SETTINGS;
     } else{

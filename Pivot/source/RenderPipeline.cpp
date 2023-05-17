@@ -165,7 +165,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->getTexture(), NULL, false));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->getTexture(), NULL, false, 0, true));
 
     // Collectibles
     std::map<std::string, Collectible> colls = model->getCollectibles();
@@ -187,7 +187,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
      }
 
     // Set bind points
-    const int bindStart = 8;
+    const int bindStart = 9;
     for (int i = 0; i < drawables.size(); i++) {
         drawables[i].tex->setBindPoint(bindStart + (2*i));
         if (drawables[i].normalMap != NULL) {
@@ -237,7 +237,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _camera->setPosition(camPos);
     _camera->setDirection(-n);
     Vec3 toPrint = _camera->getDirection();
-    CULog("%f, %f, %f", toPrint.x, toPrint.y, toPrint.z);
+    //CULog("%f, %f, %f", toPrint.x, toPrint.y, toPrint.z);
     _camera->setUp(Vec3(0, 0, 1));
     _camera->update();
     basisUp = _camera->getUp();
@@ -271,6 +271,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboDepth)->setBindPoint(5);
     fbofinal->getTexture()->setBindPoint(6);
     fbopos->getTexture(0)->setBindPoint(7);
+    model->backgroundPic->setBindPoint(8);
 
     // Cut texture translation
     if (model->_justFinishRotating) {
@@ -304,6 +305,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuff->unbind();
 
     // --------------- Pass 2: Billboard --------------- //
+
     // Binding
     _vertbuffBill->bind();
 
@@ -323,6 +325,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBill->setUniformVec3("campos", _camera->getPosition());
         _shaderBill->setUniform1i("useNormTex", 0);
         _shaderBill->setUniform1i("id", dro.id);
+        _shaderBill->setUniform1i("doLighting", dro.emission ? 0 : 1);
         if (dro.normalMap != NULL) {
             _shaderBill->setUniform1i("normTex", dro.normalMap->getBindPoint());
             _shaderBill->setUniform1i("useNormTex", 1);
@@ -339,6 +342,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffBill->unbind();
 
     // --------------- Pass 3: Position --------------- //
+    // OpenGL Blending
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     // Binding
     _vertbuffPosition->bind();
     fbopos->begin();
@@ -352,6 +358,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _vertbuffPosition->draw(GL_TRIANGLES, (int)_mesh.indices.size(), 0);
 
     for (DrawObject dro : drawables) {
+        if (dro.emission) continue;
         // Construct vertices to be placed in the mesh
         constructBillMesh(model, dro);
 
@@ -385,6 +392,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbopos->getTexture()->bind();
 
     // Set uniforms and draw
+    const float numLights = model->_lights.size() + model->_lightsFromItems.size();
+    _shaderPointlight->setUniform1f("numLights", numLights);
     _shaderPointlight->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
     _shaderPointlight->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderPointlight->setUniform1i("normalTexture", fbo->getTexture(fboNormal)->getBindPoint());
@@ -429,6 +438,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderFog->setUniform1f("farPlaneDist", farPlaneDist);
     _shaderFog->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderFog->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
+    _shaderFog->setUniform3f("fadeColor", model->fadeCol.x, model->fadeCol.y, model->fadeCol.z);
     _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
@@ -438,44 +448,18 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffFog->unbind();
 
-    // --------------- Pass 6: Cut --------------- //
+    // --------------- Pass 6: Stripped Billboards --------------- //
+
     // OpenGL Blending
-    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
     glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Binding
-    _vertbuffCut->bind();
-    fbo->getTexture(fboAlbedo)->bind();
-    fbo->getTexture(fboReplace)->bind();
-    fbo->getTexture(fboDepth)->bind();
-    earthTex->bind();
-
-    // Set uniforms and draw
-    _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
-    _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
-    _shaderCut->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
-    _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
-    _shaderCut->setUniformVec2("transOffset", transOffset);
-    _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
-    _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
-    _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
-    _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
-
-    // Unbinding
-    earthTex->unbind();
-    fbo->getTexture(fboAlbedo)->unbind();
-    fbo->getTexture(fboReplace)->unbind();
-    fbo->getTexture(fboDepth)->unbind();
-    _vertbuffCut->unbind();
-
-    // --------------- Pass 7: Stripped Billboards --------------- //
-
-    // OpenGL Blending
-    glDisable(GL_DEPTH_TEST);
-
-    // Binding
     _vertbuffBehind->bind();
+    fbo->getTexture(fboReplace)->bind();
+
+    // Stripped Billboards
     fbo->getTexture(fboReplace)->bind();
     for (DrawObject dro : drawables) {
         if (dro.isPlayer) continue;
@@ -501,6 +485,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
         _shaderBehind->setUniform1f("alpha", alpha);
+        _shaderBehind->setUniform1f("darken", 0.2f);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
@@ -511,6 +496,40 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->unbind();
     _vertbuffBehind->unbind();
 
+    // --------------- Pass 7: Cut --------------- //
+
+    // Binding
+    _vertbuffCut->bind();
+    fbo->getTexture(fboAlbedo)->bind();
+    fbo->getTexture(fboReplace)->bind();
+    fbo->getTexture(fboDepth)->bind();
+    earthTex->bind();
+    model->backgroundPic->bind();
+
+    // Set uniforms and draw
+    float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, 1, 0), _camera->getUp());
+    if (angle < 0) angle += 2 * M_PI;
+    angle /= M_PI;
+    float speed = 1.0;
+    _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
+    _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
+    _shaderCut->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
+    _shaderCut->setUniform1i("outsideTexture", earthTex->getBindPoint());
+    _shaderCut->setUniformVec2("transOffset", transOffset);
+    _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
+    _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
+    _shaderCut->setUniform1f("angle", angle * speed);
+    _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+
+    // Unbinding
+    model->backgroundPic->unbind();
+    earthTex->unbind();
+    fbo->getTexture(fboAlbedo)->unbind();
+    fbo->getTexture(fboReplace)->unbind();
+    fbo->getTexture(fboDepth)->unbind();
+    _vertbuffCut->unbind();
 
     fbofinal->end();
 
