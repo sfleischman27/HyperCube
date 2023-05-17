@@ -290,7 +290,7 @@ void PlayerModel::animate() {
             animState = 3;
             setSpriteSheet("jump-launch");
             resetOtherSpritesheets("jump-launch");
-            currentSpriteSheet->setFrame(18);
+            currentSpriteSheet->setFrame(10);
         } else{
             animState = 3;
         }
