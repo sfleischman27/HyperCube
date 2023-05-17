@@ -95,12 +95,12 @@ public:
      * enables sound
      * @param sound whether to enable/disable sound
      */
-    void enableSound(bool sound);
+    void enableMusic(bool sound);
     
     /**
      * if sound is muted
      */
-    bool isMuted();
+    bool musicEnabled();
     
     /**
      * sets the gain of all nodes to master volume

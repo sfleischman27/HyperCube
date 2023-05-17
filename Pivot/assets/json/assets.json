@@ -125,6 +125,9 @@
         "goal": {
             "file": "textures/exit.png"
         },
+        "goal-normal": {
+            "file": "textures/exit_normals.png"
+        },
         "dpad": {
             "file": "textures/dpad.png",
             "wrapS": "clamp",
@@ -176,6 +179,11 @@
         },
         "orb": {
             "file": "textures/glow_cube.png",
+            "span": 4,
+            "cols": 4
+        },
+        "orb-normal": {
+            "file": "textures/glow_cube_normal.png",
             "span": 4,
             "cols": 4
         },

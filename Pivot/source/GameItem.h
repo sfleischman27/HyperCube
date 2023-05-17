@@ -158,7 +158,7 @@ public:
         int index = (int) localAng / repeat;
         
         rotateSpriteSheet->setFrame(index);
-        //rotateNormalSpriteSheet->setFrame(index);
+        rotateNormalSpriteSheet->setFrame(index);
     }
     
 #pragma mark Getters

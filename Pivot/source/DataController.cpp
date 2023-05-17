@@ -84,7 +84,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     exitPos.z = constants->get("exit")->get(2)->asFloat();
     std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("goal"));
     model->setExit(exitPtr);
-    exitPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>("goal"), 7, 7);
+    exitPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>("goal"), 6, 6);
+    exitPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>("goal-normal"), 6, 6);
 
     model->backgroundPic = _assets->get<Texture>("space135");
     
@@ -110,6 +111,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     
     std::vector<Vec3> col_locs;
     std::vector<std::shared_ptr<cugl::Texture>> col_texs;
+    std::vector<std::shared_ptr<cugl::Texture>> col_normal_texs;
 
     for (int i = 0; i < sprites->size(); i++) {
         auto iscol = sprites->get(std::to_string(i))->get("collectible")->asBool();
@@ -126,7 +128,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             // get sprite texture
             std::string texKey = tex;
             std::shared_ptr<Texture> tex = _assets->get<Texture>(texKey);
+            std::shared_ptr<Texture> normaltex = _assets->get<Texture>(texKey + "-normal");
             col_texs.push_back(tex);
+            col_normal_texs.push_back(normaltex);
 
             // does the sprite emit light?
             // TODO make lights for those sprites here
@@ -169,7 +173,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     else {
         model->_nav_target = model->_exit->getPosition();
     }
-    model->setCollectibles(col_locs, col_texs);
+    model->setCollectibles(col_locs, col_texs, col_normal_texs);
 
     // get and set triggers
     std::shared_ptr<cugl::JsonValue> triggers = constants->get("triggers");
