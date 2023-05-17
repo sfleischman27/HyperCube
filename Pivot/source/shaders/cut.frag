@@ -15,7 +15,8 @@ uniform sampler2D outsideTexture;
 uniform vec2 transOffset;
 uniform vec2 screenSize;
 uniform sampler2D background;
-uniform float angle;
+uniform float interpStartPosLeft;
+uniform float amtOfScreens;
 uniform int drawOutline;
 
 // Editable parameter for how thick the cut outline is
@@ -59,7 +60,8 @@ void main(void) {
 		// Background color
 		//frag_color = vec4(31.0, 34.0, 69.0, 255.0) / 255.0;
 		vec2 rotTexCoord = outTexCoord;
-		rotTexCoord.x = mod(outTexCoord.x + angle, 1.0);
+		rotTexCoord.x = mod((outTexCoord.x / amtOfScreens) + interpStartPosLeft, 1.0);
+		rotTexCoord.y = 1.0 - rotTexCoord.y;
 		frag_color = texture(background, rotTexCoord);
 		frag_color.a = 1.0;
 	} else {
