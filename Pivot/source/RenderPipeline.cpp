@@ -95,15 +95,6 @@ void RenderPipeline::constructShaders() {
         offsetof(PivotVertex3, texcoord));
     _vertbuffPointlight->attach(_shaderPointlight);
 
-    // Fog shader
-    _shaderFog = Shader::alloc(SHADER(fogVert), SHADER(fogFrag));
-    _vertbuffFog = VertexBuffer::alloc(sizeof(PivotVertex3));
-    _vertbuffFog->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, position));
-    _vertbuffFog->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, texcoord));
-    _vertbuffFog->attach(_shaderFog);
-
     // Cut shader
     _shaderCut = Shader::alloc(SHADER(cutVert), SHADER(cutFrag));
     _vertbuffCut = VertexBuffer::alloc(sizeof(PivotVertex3));
@@ -121,6 +112,15 @@ void RenderPipeline::constructShaders() {
     _vertbuffBehind->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, texcoord));
     _vertbuffBehind->attach(_shaderBehind);
+
+    // Fog shader
+    _shaderFog = Shader::alloc(SHADER(fogVert), SHADER(fogFrag));
+    _vertbuffFog = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffFog->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffFog->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffFog->attach(_shaderFog);
 
     // Screen shader
     _shaderScreen = Shader::alloc(SHADER(screenVert), SHADER(screenFrag));
@@ -425,31 +425,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboNormal)->unbind();
     _vertbuffPointlight->unbind();
 
-    // --------------- Pass 5: Fog --------------- //
-    // OpenGL Blending
-    glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
-
-    // Binding
-    _vertbuffFog->bind();
-    fbo->getTexture(fboReplace)->bind();
-    fbo->getTexture(fboDepth)->bind();
-
-    // Set uniforms and draw
-    _shaderFog->setUniform1f("farPlaneDist", farPlaneDist);
-    _shaderFog->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
-    _shaderFog->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
-    _shaderFog->setUniform3f("fadeColor", model->fadeCol.x, model->fadeCol.y, model->fadeCol.z);
-    _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
-    _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
-    _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
-
-    // Unbinding
-    fbo->getTexture(fboReplace)->unbind();
-    fbo->getTexture(fboDepth)->unbind();
-    _vertbuffFog->unbind();
-
-    // --------------- Pass 6: Stripped Billboards --------------- //
-
+    // --------------- Pass 5: Stripped Billboards --------------- //
     // OpenGL Blending
     glDisable(GL_DEPTH_TEST);
     glBlendEquation(GL_FUNC_ADD);
@@ -472,7 +448,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
         // Change the drawObject position to be reflected along the plane
         Vec3 oldPos = dro.pos;
-        dro.pos = dro.pos + (2 * distance * n);
+        dro.pos = dro.pos + ((1 + epsilon) * distance * n);
 
         // Construct vertices to be placed in the mesh
         constructBillMesh(model, dro);
@@ -496,7 +472,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->unbind();
     _vertbuffBehind->unbind();
 
-    // --------------- Pass 7: Cut --------------- //
+    // --------------- Pass 6: Cut --------------- //
 
     // Binding
     _vertbuffCut->bind();
@@ -531,6 +507,27 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->unbind();
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffCut->unbind();
+
+    // --------------- Pass 7: Fog --------------- //
+
+    // Binding
+    _vertbuffFog->bind();
+    fbo->getTexture(fboReplace)->bind();
+    fbo->getTexture(fboDepth)->bind();
+
+    // Set uniforms and draw
+    _shaderFog->setUniform1f("farPlaneDist", farPlaneDist);
+    _shaderFog->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
+    _shaderFog->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
+    _shaderFog->setUniform3f("fadeCol", model->fadeCol.x, model->fadeCol.y, model->fadeCol.z);
+    _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
+    _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
+    _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
+
+    // Unbinding
+    fbo->getTexture(fboReplace)->unbind();
+    fbo->getTexture(fboDepth)->unbind();
+    _vertbuffFog->unbind();
 
     fbofinal->end();
 
