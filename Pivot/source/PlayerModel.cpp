@@ -311,7 +311,7 @@ void PlayerModel::animate() {
 //    }
     
     
-    if(animFrameCounter >= 2 && animState != 0){
+    if((animFrameCounter >= 2 && animState != 0) || (animState == 3 || animState == 2)){
         animFrameCounter = 0;
         int frame = currentSpriteSheet->getFrame();
         if(isFacingRight()){
