@@ -48,7 +48,7 @@ RenderPipeline::RenderPipeline(int screenWidth, const Size& displaySize, const s
     // Set up voronoi texture
     cobbleTex = assets->get<Texture>("cobble");
     backgrounds = {};
-    for (int i = 1; i <= 14; i++) {
+    for (int i = 1; i <= 15; i++) {
         backgrounds.push_back(assets->get<Texture>("section_cut (" + std::to_string(i) + ")"));
     }
 }
@@ -249,7 +249,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // --------------- Pass 0: Textures --------------- //
     // Calculate voronoi angle
     const int numImages = backgrounds.size();
-    const int repeat = 3;
+    const int repeat = 6;
     const int repeatAngle = numImages * repeat;
     const float degToRad = 0.0174533;
     Vec3 vInit = Vec3(-1, 0, 0);
@@ -519,6 +519,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
     _shaderCut->setUniform1f("angle", angle * speed);
+    _shaderCut->setUniform1i("drawOutline", model->drawOutline);
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
