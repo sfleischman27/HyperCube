@@ -84,7 +84,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     exitPos.z = constants->get("exit")->get(2)->asFloat();
     std::shared_ptr<GameItem> exitPtr = std::make_shared<GameItem>(exitPos, "exit", _assets->get<Texture>("goal"));
     model->setExit(exitPtr);
-    exitPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>("goal"), 7, 7);
+    exitPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>("goal"), 6, 6);
 
     model->backgroundPic = _assets->get<Texture>("space135");
     
