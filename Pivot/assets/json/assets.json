@@ -172,6 +172,26 @@
             "file": "textures/glow_cube.png",
             "span": 1,
             "cols": 1
+        },
+        "jump": {
+            "file": "textures/jump.png",
+            "span": 1,
+            "cols": 1
+        },
+        "jump_normal": {
+            "file": "textures/jump_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "glow_cube_normal": {
+            "file": "textures/glow_cube_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "rotate_tutorial": {
+            "file": "textures/rotate_tutorial.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
@@ -275,6 +295,7 @@
         "tutorial_0002": "json/level_json/tutorial/tutorial_0002.json",
         "debug_0005": "json/level_json/debug/debug_0005.json",
         "debug_0004": "json/level_json/debug/debug_0004.json",
-        "debug_0006": "json/level_json/debug/debug_0006.json"
+        "debug_0006": "json/level_json/debug/debug_0006.json",
+        "debug_0050": "json/level_json/debug/debug_0050.json"
     }
 }
