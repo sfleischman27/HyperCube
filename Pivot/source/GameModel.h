@@ -39,10 +39,13 @@ public:
     /** exit of the game*/
     std::shared_ptr<GameItem> _exit;
 
-    /** TODO JACK update all below/
+    /** TODO JACK update all below */
     /** background pic of the level TODO JACK update this */
     std::shared_ptr<Texture> backgroundPic;
     Vec3 fadeCol = Vec3(31.0, 34.0, 69.0) / 255.0;
+
+    /** TODO SARAH update all below */
+    bool drawOutline = true;
     
 #pragma mark Player State
 public:
