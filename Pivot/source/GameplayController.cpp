@@ -781,6 +781,7 @@ void GameplayController::update(float dt) {
     
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
+        itr->second.setRotationalSprite(_model->getGlobalAngleDeg());
         if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
             itr->second.setCollected(true);
             _model->_backpack.insert(itr->first);
@@ -796,6 +797,8 @@ void GameplayController::update(float dt) {
             }
         }
     }
+    
+    _model->_exit->setRotationalSprite(_model->getGlobalAngleDeg());
     
     // update collectible UI
     collectUI(_model->getColNum(), _model->getCurrColNum());

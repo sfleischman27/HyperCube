@@ -27,6 +27,9 @@ public:
      */
     Collectible(const Vec3 pos, const std::string name) : GameItem(pos, name) {
         setCollected(false);
+        if(rotateSpriteSheet == nullptr){
+            CULog("I am a collectible with no spritesheet");
+        }
     }
     
 #pragma mark Setters

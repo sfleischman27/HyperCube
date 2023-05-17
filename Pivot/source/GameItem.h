@@ -33,6 +33,8 @@ protected:
     std::unordered_map<float, std::shared_ptr<cugl::Texture>> _rotateTextures;
     
 public:
+    std::shared_ptr<cugl::SpriteSheet> rotateSpriteSheet;
+    std::shared_ptr<cugl::SpriteSheet> rotateNormalSpriteSheet;
     /**
      * Creates the game item
      *
@@ -143,6 +145,20 @@ public:
     void setRotateTextureMap(std::unordered_map<float, std::shared_ptr<cugl::Texture>> map) {
         _rotateTextures = map;
         // TODO: Jolene use helper function to implement the map after it parsed in data controller
+    }
+    
+    void setRotationalSprite(float currentAngle){
+        float repeat = 360.0f / ((float) rotateSpriteSheet->getSize());
+        // float repeat = 10.0f;
+        int neg = 1;
+        int localAng = currentAngle;
+        localAng = localAng % 360;
+        localAng *= neg;
+        localAng = localAng < 0 ? localAng + 360 : localAng;
+        int index = (int) localAng / repeat;
+        
+        rotateSpriteSheet->setFrame(index);
+        //rotateNormalSpriteSheet->setFrame(index);
     }
     
 #pragma mark Getters

@@ -357,6 +357,7 @@ public:
         for(int i = 0; i < locs.size(); i++) {
             Collectible item = Collectible(locs[i], std::to_string(i));
             item.setTexture(texs[i]);
+            item.rotateSpriteSheet = SpriteSheet::alloc(texs[i], 4, 4);
             _collectibles.insert({std::to_string(i), item});
             _expectedCol.insert(std::to_string(i));
         }
