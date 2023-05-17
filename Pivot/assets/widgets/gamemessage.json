@@ -1,0 +1,67 @@
+{
+    "variables":{
+        "showMessage": ["data", "visible"],
+        "messageSize": ["children", "messagePopup", "data", "size"],
+        "message": ["children", "messagePopup", "children", "label", "data", "text"],
+        "messageXPos": ["layout", "x_offset"],
+        "messageYPos": ["layout", "y_offset"]
+    },
+    "contents":{
+        "type": "Image",
+        "format": {
+            "type": "Anchored"
+        },
+        "data": {
+            "texture": "axel",
+            "size": [200, 200],
+            "anchor": [1,0.5],
+            "scale": 0.5,
+            "visible": true
+        },
+        "layout": {
+            "x_anchor": "right",
+            "y_anchor": "middle",
+            "x_offset": 0,
+            "y_offset": 0
+        },
+        "children": {
+            "messagePopup": {
+                "type": "Ninepatch",
+                "data": {
+                    "texture": "message",
+                    "anchor": [1,0.5],
+                    "visible": true,
+                    "scale": 0.5,
+                    "size": [900,200],
+                    "interior": [5,5,790,190]
+                },
+                "layout": {
+                    "x_anchor": "left",
+                    "y_anchor": "middle"
+                },
+                "format":{
+                    "type": "Anchored"
+                },
+                "children": {
+                    "label": {
+                        "type": "Label",
+                        "data": {
+                            "font": "gyparody",
+                            "text": "this works",
+                            "size": [790,190],
+                            "foreground": [255,255,255,255],
+                            "background": [0,0,0,0],
+                            "halign": "center",
+                            "valign": "middle",
+                            "visible": true
+                        },
+                        "layout": {
+                            "x_anchor": "fill",
+                            "y_anchor": "fill"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

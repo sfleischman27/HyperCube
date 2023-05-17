@@ -171,7 +171,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     std::map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, 0, false, c.second.rotateSpriteSheet));
+            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, 0, true, c.second.rotateSpriteSheet));
         }
     }
 
