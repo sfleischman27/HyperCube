@@ -84,14 +84,16 @@ bool AudioPlayer::init(const std::shared_ptr<AudioSample>& source) {
         _buffer = source->getBuffer();
         _dirty  = false;
         
-        _decoder = source->getDecoder();
-        if (source->isStreamed() && _decoder != nullptr) {
-            Uint32 channels = _decoder->getChannels();
-            _chksize  = _decoder->getPageSize();
-            _chklimt  = _chksize;
-            _chklast  = _chksize;
-            _chunker  = (float*)malloc(_chksize*channels*sizeof(float));
-            std::memset(_chunker,0,_chksize*channels*sizeof(float));
+        if (source->isStreamed()) {
+            _decoder = source->getDecoder();
+            if (_decoder != nullptr) {
+                Uint32 channels = _decoder->getChannels();
+                _chksize  = _decoder->getPageSize();
+                _chklimt  = _chksize;
+                _chklast  = _chksize;
+                _chunker  = (float*)malloc(_chksize*channels*sizeof(float));
+                std::memset(_chunker,0,_chksize*channels*sizeof(float));
+            }
         }
         return true;
     }
