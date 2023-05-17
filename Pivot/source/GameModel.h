@@ -26,7 +26,7 @@ using namespace cugl;
  * A class representing an active level and its starting data
  */
 class GameModel{
-   
+
 #pragma mark Initialization
 private:
     /** level id */
@@ -39,14 +39,22 @@ public:
     /** exit of the game*/
     std::shared_ptr<GameItem> _exit;
 
-    /** TODO JACK update all below */
-    /** background pic of the level TODO JACK update this */
+#pragma mark Graphics Settings
+    /** The shade depth of the level */
+    float shadeDepth;
+    /** The shade color for the level */
+    Color4 shadeColor;
+    /** The background color for the level */
+    Color4 bgColor;
+    /** background pic of the level */
     std::shared_ptr<Texture> backgroundPic;
-    Vec3 fadeCol = Vec3(0.0, 0.0, 0.0) / 255.0;
+
+    //TODO: is this used @Matt
+    Vec3 fadeCol = Vec3(31.0, 34.0, 69.0) / 255.0;
 
     /** TODO SARAH update all below */
     bool drawOutline = true;
-    
+
 #pragma mark Player State
 public:
     /** Player */
@@ -54,16 +62,16 @@ public:
 
     /** Player 3D Location */
     Vec3 _player3DLoc;
-    
+
     /** If player just finishes rotating the cut */
     bool _justFinishRotating = false;
-    
+
     bool _endOfGame = false;
 
     std::shared_ptr<Timestamp> _deathTime;
     std::shared_ptr<Timestamp> _currentTime;
     const float timeToNormalSinceDeath = 500; // in milliseconds
-    
+
 #pragma mark Plane State
 private:
     /** Plane normal vector */
@@ -71,12 +79,12 @@ private:
 
     /**The origin of the cut plane AND 3d origin from which physics world is defined*/
     Vec3 _origin;
-    
+
 #pragma mark Cut State
 private:
     /** Vector of cut polygons */
     std::vector<Poly2> _cut;
-    
+
 #pragma mark Collectibles State
 public:
     /** map of collectibles */
@@ -93,11 +101,11 @@ public:
 public:
     /** Vector of triggers */
     std::vector<std::shared_ptr<Trigger>> _triggers;
-    
+
     std::shared_ptr<Popups> _popup;
-    
+
     std::shared_ptr<cugl::scene2::SceneNode> _rotatePopup;
-    
+
 #pragma mark Backpack State
 public:
     /** Vector of collectibles in player backpack */
@@ -105,12 +113,12 @@ public:
 private:
     /** Vector of collectibles need to be collected*/
     std::unordered_set<std::string> _expectedCol;
-    
+
 #pragma mark Glowsticks State
 public:
     /** Vector of glowsticks */
     std::vector<Glowstick> _glowsticks;
-    
+
     std::shared_ptr<cugl::scene2::Label> _glowstickCounter;
 
 #pragma mark Compass State
@@ -125,10 +133,10 @@ public:
 
     /** navigator target location**/
     cugl::Vec3 _nav_target;
-    
+
     /** the SpriteNode for the compass animations*/
     std::shared_ptr<cugl::scene2::SpriteNode> _compassSpin;
-    
+
 #pragma mark Lights
 public:
     // Light objects
@@ -150,14 +158,14 @@ public:
      *  The key is the string representing the light's location
      */
     std::unordered_map<std::string, Light> _lightsFromItems;
-    
+
 #pragma mark Meshes
 public:
     /** Level rendering mesh object */
     std::shared_ptr<PivotMesh> _renderMesh;
     /** Level collision mesh object */
     std::shared_ptr<PivotMesh> _colMesh;
-    
+
 #pragma mark Main Functions
 public:
     /**
@@ -172,7 +180,7 @@ public:
         _currentTime = std::make_shared<Timestamp>();
         _popup = std::make_shared<Popups>(Popups());
     }
-    
+
 #pragma mark Getters and Setters
 public:
     /**
@@ -190,7 +198,7 @@ public:
     std::string getName() {
         return _name;
     }
-    
+
     /**
      *  Sets the initial player location
      *
@@ -206,7 +214,7 @@ public:
     Vec3 getInitPlayerLoc() {
         return _startPlayerLoc;
     }
-    
+
     /**
      *  Sets the initial plane norm
      *
@@ -222,7 +230,7 @@ public:
     Vec3 getInitPlaneNorm() {
         return _startPlaneNorm;
     }
-    
+
     /**
      *  sets the exit object
      *
@@ -231,7 +239,7 @@ public:
     void setExit(std::shared_ptr<GameItem> exit) {
         _exit = exit;
     }
-    
+
     /**
      * Sets the player model
      *
@@ -240,7 +248,7 @@ public:
     void setPlayer(std::shared_ptr<PlayerModel> player){
         _player = player;
     }
-    
+
     /**
      *  Sets the player 3d location
      *
@@ -259,10 +267,10 @@ public:
 
     /**
      *  Sets the Norm
-     * 
+     *
      * NOTE: YOU should not use this method to set the plane normal,
      * instead use the methods available through  the PLANE CONTROLLER
-     * 
+     *
      * IF you do use this method it will NOT recompute the cut
      */
     void setPlaneNorm( Vec3 norm) {
@@ -294,7 +302,7 @@ public:
     Vec3 getPlaneOrigin() {
         return _origin;
     }
-    
+
     /**
      *  Sets the cut
      *
@@ -310,21 +318,21 @@ public:
     std::vector<Poly2> getCut() {
         return _cut;
     }
-    
+
     /**
      * Gets the collision mesh
      */
     std::shared_ptr<PivotMesh> getColMesh() {
         return _colMesh;
     }
-    
+
     /**
      * Gets the render mesh
      */
     std::shared_ptr<PivotMesh> getRenderMesh() {
         return _renderMesh;
     }
-    
+
     // this should not be here -Jolene
     /**
      * Returns if the player is touching the ground
@@ -346,7 +354,7 @@ public:
     std::vector<std::shared_ptr<GameItem>> getDecorations() {
         return _decorations;
     }
-    
+
     /**
      * Initializes collectibles with locations and textures
      *
@@ -362,31 +370,31 @@ public:
             _collectibles.insert({std::to_string(i), item});
             _expectedCol.insert(std::to_string(i));
         }
-        
+
     }
-    
+
     void clearPopups() {
         _popup->clear();
     }
-    
+
     void clearCollectibles() {
         _collectibles.clear();
     }
-    
+
     void clearGlowsticks() {
         _glowsticks.clear();
         updateGlowstickCount();
     }
-    
+
     void clearLights() {
         _lights.clear();
         _lightsFromItems.clear();
     }
-    
+
     void clearDecorations() {
         _decorations.clear();
     }
-    
+
     void clearBackpack(){
         _backpack.clear();
     }
@@ -402,15 +410,15 @@ public:
     std::unordered_set<std::string> getExpectedCol() {
         return _expectedCol;
     }
-    
+
     int getColNum() {
         return _collectibles.size();
     }
-    
+
     int getCurrColNum() {
         return _backpack.size();
     }
-    
+
     /**
      * check if player has collected all required collectibles
      * expectedCol right now is just all existing collectibles
@@ -418,7 +426,7 @@ public:
     bool checkBackpack() {
         return _expectedCol == _backpack;
     }
-    
+
     void updateGlowstickCount() {
         _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _glowsticks.size()));
     }
@@ -441,7 +449,7 @@ public:
         //get 2d screen coordinate
         auto location = _nav_target - getPlayer3DLoc();
         auto norm = _norm;
-        
+
         //dot the point onto the plane normal to get the distance from the cut plane
         auto dist = location.dot(norm);
         // get the point projected onto the plane basis vectors (unit_z is always y-axis and x-axis is to the right)
@@ -457,7 +465,7 @@ public:
         std::vector<float> nums{ angle, dist };
         return std::pair<Vec2, std::vector<float>>(projected, nums);
     }
-    
+
     void updateNavigator() {
         auto stuff = getNavigatorTransforms();
         _navigator->setAngle(stuff.second[0]);
@@ -478,10 +486,10 @@ public:
             _navigator->setColor(cugl::Color4(0, 255, 0, 255) * t + cugl::Color4::WHITE * (1-t));
         }
 
-        
+
 
     }
-    
+
     void updateCompassNum() {
         int angle = static_cast<int>(getGlobalAngleDeg());
         if (_degrees){ // 0 -> 180
@@ -498,7 +506,7 @@ public:
         _compassSpin->setColor(newColor);
         // set visible
         _compassSpin->setVisible(true);
-    }    
+    }
 };
 
 #endif /* GameModel_h */
