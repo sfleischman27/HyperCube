@@ -64,8 +64,21 @@ public:
 
     bool _endOfGame = false;
 
+#pragma mark Timestamps
+    /** Player time of death */
     std::shared_ptr<Timestamp> _deathTime;
+    /** Time to pixel in */
+    std::shared_ptr<Timestamp> _pixelInTime;
+    /** Time to pixel out */
+    std::shared_ptr<Timestamp> _pixelOutTime;
+    /** Current time */
     std::shared_ptr<Timestamp> _currentTime;
+    
+    /** True when done pixeling out */
+    bool _donePixelOut;
+    /** True when first starts level */
+    bool _startOfLevel;
+    
     const float timeToNormalSinceDeath = 500; // in milliseconds
 
 #pragma mark Plane State
@@ -196,6 +209,8 @@ public:
         _lights = std::vector<Light>();
         _decorations = std::vector<std::shared_ptr<GameItem>>();
         _deathTime = std::make_shared<Timestamp>();
+        _pixelInTime = std::make_shared<Timestamp>();
+        _pixelOutTime = std::make_shared<Timestamp>();
         _currentTime = std::make_shared<Timestamp>();
         _popup = std::make_shared<Popups>(Popups());
     }
