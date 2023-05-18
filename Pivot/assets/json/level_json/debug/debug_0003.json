@@ -1,8 +1,8 @@
 {
     "level_id": "debug_0003",
     "player_loc": [
-        -40.0,
-        160.0,
+        -4.0,
+        -42.47842025756836,
         104.0
     ],
     "norm": [
@@ -11,204 +11,323 @@
         0.0
     ],
     "exit": [
-        -4.0,
-        -212.0,
-        104.0
+        325.65655517578125,
+        0.06973910331726074,
+        -136.59889221191406
     ],
-    "glowsticks": 4,
+    "glowsticks": 0,
+    "shade_depth": 30,
+    "shade_color": [
+        0.028955690562725067,
+        0.0,
+        0.000467849982669577
+    ],
+    "bg_color": [
+        0.0038262885063886642,
+        0.024506382644176483,
+        0.06779468059539795
+    ],
+    "bg_image": "supercoolspace",
     "sprites": {
         "0": {
             "loc": [
-                0.0,
-                -60.0,
+                192.1004638671875,
+                92.45258331298828,
                 104.0
             ],
             "tex": "orb",
-            "color": [
-                1.0,
-                0.0002727329556364566,
+            "scale": 1.0,
+            "norm": [
+                0.0,
+                -1.0,
                 0.0
             ],
-            "intense": 0.2,
-            "collectible": true
+            "collectible": true,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null
         },
         "1": {
             "loc": [
-                -88.53839111328125,
-                39.800018310546875,
-                -36.70800018310547
+                192.1004638671875,
+                92.45258331298828,
+                104.0
             ],
-            "tex": "caution",
+            "tex": "orb",
+            "scale": 1.0,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": true,
+            "billboard": true,
+            "emissive": true,
             "color": null,
             "intense": null,
-            "collectible": false
+            "radius": null
         },
         "2": {
-            "loc": [
-                38.0,
-                -1.9999847412109375,
-                -63.99993896484375
-            ],
-            "tex": "lightning",
-            "color": null,
-            "intense": null,
-            "collectible": false
-        },
-        "3": {
-            "loc": [
-                38.0,
-                -1.5999755859375,
-                -119.99993896484375
-            ],
-            "tex": "lightning_flip",
-            "color": null,
-            "intense": null,
-            "collectible": false
-        },
-        "4": {
-            "loc": [
-                -88.0,
-                -39.399986267089844,
-                -43.99994659423828
-            ],
-            "tex": "biohazrd",
-            "color": null,
-            "intense": null,
-            "collectible": false
-        },
-        "5": {
             "loc": [
                 -88.0,
                 -1.9999847412109375,
                 -19.999954223632812
             ],
             "tex": "alarm",
+            "scale": -1.100000262260437,
+            "norm": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
             "color": null,
             "intense": null,
-            "collectible": false
+            "radius": null
+        },
+        "3": {
+            "loc": [
+                38.0,
+                -1.9999847412109375,
+                -63.99993896484375
+            ],
+            "tex": "lightning",
+            "scale": 11.520003318786621,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "4": {
+            "loc": [
+                38.0,
+                -1.5999755859375,
+                -119.99993896484375
+            ],
+            "tex": "lightning_flip",
+            "scale": 11.520003318786621,
+            "norm": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "5": {
+            "loc": [
+                -3.8350830078125,
+                -71.37870788574219,
+                100.0
+            ],
+            "tex": "orb",
+            "scale": 1.0,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": true,
+            "color": null,
+            "intense": null,
+            "radius": null
         },
         "6": {
+            "loc": [
+                -88.53839111328125,
+                39.800018310546875,
+                -36.70800018310547
+            ],
+            "tex": "caution",
+            "scale": 5.000000953674316,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "7": {
             "loc": [
                 119.5999984741211,
                 102.0,
                 -115.99993896484375
             ],
             "tex": "caution",
+            "scale": 5.000000953674316,
+            "norm": [
+                -1.0,
+                0.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": null,
             "intense": null,
-            "collectible": false
+            "radius": null
         },
-        "7": {
+        "8": {
             "loc": [
                 -132.4000244140625,
                 26.00002098083496,
                 -59.99995422363281
             ],
             "tex": "caution",
-            "color": null,
-            "intense": null,
-            "collectible": false
-        },
-        "8": {
-            "loc": [
-                -132.40005493164062,
-                -1.9999847412109375,
-                -29.99994659423828
+            "scale": 5.000000953674316,
+            "norm": [
+                -1.0,
+                0.0,
+                0.0
             ],
-            "tex": "Warning-Sign-PNG-Clipart",
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": null,
             "intense": null,
-            "collectible": false
+            "radius": null
         },
         "9": {
+            "loc": [
+                -88.0,
+                -39.399986267089844,
+                -43.99994659423828
+            ],
+            "tex": "biohazrd",
+            "scale": 4.000000953674316,
+            "norm": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "10": {
+            "loc": [
+                -3.8350830078125,
+                -71.37870788574219,
+                100.0
+            ],
+            "tex": "orb",
+            "scale": 1.0,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": false,
+            "emissive": true,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "11": {
             "loc": [
                 -48.0,
                 4.0000152587890625,
                 44.00006103515625
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                1.0,
-                1.0
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "10": {
+        "12": {
             "loc": [
                 124.0,
                 4.0000152587890625,
                 48.00006103515625
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                1.0,
-                1.0
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "11": {
+        "13": {
             "loc": [
                 108.0,
                 4.0000152587890625,
                 148.0
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                1.0,
-                1.0
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "12": {
+        "14": {
             "loc": [
                 -40.0,
                 4.0000152587890625,
                 128.0
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                1.0,
-                1.0
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
-        },
-        "13": {
-            "loc": [
-                -176.0,
-                1.52587890625e-05,
-                -19.999954223632812
-            ],
-            "tex": null,
-            "color": [
-                0.8674519062042236,
-                1.0,
-                0.07272271811962128
-            ],
-            "intense": 0.2,
-            "collectible": false
-        },
-        "14": {
-            "loc": [
-                164.0,
-                1.52587890625e-05,
-                -103.99993896484375
-            ],
-            "tex": null,
-            "color": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
         "15": {
             "loc": [
@@ -217,255 +336,419 @@
                 -103.99993896484375
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                1.0,
-                1.0
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
         "16": {
             "loc": [
-                164.0,
-                100.0,
-                -103.99993896484375
+                204.0,
+                76.0,
+                100.0
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                0.0,
-                0.0037951183039695024
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
         "17": {
-            "loc": [
-                -4.0,
-                100.0,
-                -103.99993896484375
-            ],
-            "tex": null,
-            "color": [
-                1.0,
-                0.0,
-                0.0037951183039695024
-            ],
-            "intense": 0.2,
-            "collectible": false
-        },
-        "18": {
-            "loc": [
-                -88.0,
-                1.52587890625e-05,
-                -23.999954223632812
-            ],
-            "tex": null,
-            "color": [
-                1.0,
-                0.001415748498402536,
-                0.0
-            ],
-            "intense": 0.2,
-            "collectible": false
-        },
-        "19": {
-            "loc": [
-                -52.0,
-                104.0,
-                -60.0
-            ],
-            "tex": null,
-            "color": [
-                1.0,
-                0.0,
-                0.0037951183039695024
-            ],
-            "intense": 0.2,
-            "collectible": false
-        },
-        "20": {
-            "loc": [
-                -112.0,
-                104.0,
-                -24.0
-            ],
-            "tex": null,
-            "color": [
-                1.0,
-                0.0,
-                0.0037951183039695024
-            ],
-            "intense": 0.2,
-            "collectible": false
-        },
-        "21": {
-            "loc": [
-                36.0,
-                0.0,
-                -92.0
-            ],
-            "tex": null,
-            "color": [
-                1.0,
-                0.06971566379070282,
-                0.0
-            ],
-            "intense": 2.0,
-            "collectible": false
-        },
-        "22": {
-            "loc": [
-                232.0,
-                76.0,
-                8.0
-            ],
-            "tex": null,
-            "color": [
-                0.8674519062042236,
-                1.0,
-                0.07272271811962128
-            ],
-            "intense": 0.2,
-            "collectible": false
-        },
-        "23": {
             "loc": [
                 248.0,
                 176.0,
                 -47.99994659423828
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                0.0,
-                0.0037951183039695024
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "24": {
+        "18": {
             "loc": [
                 248.0,
                 72.0,
                 -7.99993896484375
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                0.0,
-                0.0037951183039695024
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "25": {
+        "19": {
             "loc": [
                 248.0,
                 176.0,
                 -139.99993896484375
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                0.0,
-                0.0037951183039695024
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "26": {
+        "20": {
             "loc": [
                 248.0,
                 72.0,
                 -95.99993896484375
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                0.0,
-                0.0037951183039695024
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "27": {
+        "21": {
             "loc": [
                 120.0,
                 200.0,
                 136.0
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                0.0,
-                0.0037951183039695024
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "28": {
+        "22": {
             "loc": [
                 -76.0,
                 180.0,
                 120.0
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                0.0,
-                0.0037951183039695024
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "29": {
+        "23": {
             "loc": [
                 0.0,
-                -120.0,
+                -168.0,
                 88.0
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                0.0,
-                0.0037951183039695024
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "30": {
+        "24": {
             "loc": [
                 0.0,
-                -196.0,
+                -80.0,
                 168.0
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
                 1.0,
-                0.0,
-                0.0037951183039695024
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
         },
-        "31": {
+        "25": {
             "loc": [
                 -260.0,
                 0.0,
                 -20.0
             ],
             "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
             "color": [
-                0.8674519062042236,
                 1.0,
-                0.07272271811962128
+                0.0028918308671563864,
+                0.0
             ],
             "intense": 0.2,
-            "collectible": false
+            "radius": 0.0
+        },
+        "26": {
+            "loc": [
+                -176.0,
+                1.52587890625e-05,
+                -19.999954223632812
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 0.2,
+            "radius": 0.0
+        },
+        "27": {
+            "loc": [
+                164.0,
+                1.52587890625e-05,
+                -103.99993896484375
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 0.2,
+            "radius": 0.0
+        },
+        "28": {
+            "loc": [
+                164.0,
+                100.0,
+                -103.99993896484375
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 0.2,
+            "radius": 0.0
+        },
+        "29": {
+            "loc": [
+                -4.0,
+                100.0,
+                -103.99993896484375
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 0.2,
+            "radius": 0.0
+        },
+        "30": {
+            "loc": [
+                -88.0,
+                1.52587890625e-05,
+                -23.999954223632812
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 0.2,
+            "radius": 40.0
+        },
+        "31": {
+            "loc": [
+                -52.0,
+                104.0,
+                -60.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 0.2,
+            "radius": 0.0
+        },
+        "32": {
+            "loc": [
+                -112.0,
+                104.0,
+                -24.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 0.2,
+            "radius": 0.0
+        },
+        "33": {
+            "loc": [
+                36.0,
+                0.0,
+                -92.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0
         }
     },
+    "sounds": {},
     "collision_mesh": "meshes/debug/debug_0003_col.obj",
-    "render_mesh": "meshes/debug/debug_0003_dec.obj"
+    "render_mesh": "meshes/debug/debug_0003_dec.obj",
+    "triggers": {
+        "0": {
+            "type": "DEATH",
+            "mesh": "meshes/debug/debug_0003_death_0000.obj",
+            "image": null,
+            "message": null
+        },
+        "1": {
+            "type": "DEATH",
+            "mesh": "meshes/debug/debug_0003_death_0001.obj",
+            "image": null,
+            "message": null
+        },
+        "2": {
+            "type": "MESSAGE",
+            "mesh": "meshes/debug/debug_0003_message_0000.obj",
+            "image": null,
+            "message": "THE REACTOR! IT'S DESTROYED!\nMAYBE I CAN FIX IT.\nI'LL NEED TO GET TO MY OFFICE"
+        },
+        "3": {
+            "type": "MESSAGE",
+            "mesh": "meshes/debug/debug_0003_message_0002.obj",
+            "image": null,
+            "message": "I'LL NEED MY KEY CARD FIRST\nIT'S IN MY OFFICE"
+        },
+        "4": {
+            "type": "MESSAGE",
+            "mesh": "meshes/debug/debug_0003_message_0004.obj",
+            "image": null,
+            "message": "GREAT! LETS GO GET MY TOOLS"
+        },
+        "5": {
+            "type": "EXITREGION",
+            "mesh": "meshes/debug/debug_0003_exitregion_0000.obj",
+            "image": null,
+            "message": null
+        }
+    }
 }

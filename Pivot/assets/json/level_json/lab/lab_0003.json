@@ -1,9 +1,9 @@
 {
-    "level_id": "debug_0002",
+    "level_id": "lab_0003",
     "player_loc": [
-        96.5446548461914,
-        -348.0,
-        120.0
+        -4.0,
+        -42.47842025756836,
+        104.0
     ],
     "norm": [
         -1.0,
@@ -11,9 +11,9 @@
         0.0
     ],
     "exit": [
-        -4.0,
-        -42.47842025756836,
-        104.0
+        325.65655517578125,
+        0.06973910331726074,
+        -136.59889221191406
     ],
     "glowsticks": 0,
     "shade_depth": 30,
@@ -31,8 +31,8 @@
     "sprites": {
         "0": {
             "loc": [
-                0.0,
-                -220.0,
+                192.1004638671875,
+                92.45258331298828,
                 104.0
             ],
             "tex": "orb",
@@ -45,18 +45,14 @@
             "collectible": true,
             "billboard": true,
             "emissive": false,
-            "color": [
-                1.0,
-                0.0002727329556364566,
-                0.0
-            ],
-            "intense": 0.2,
-            "radius": 0.0
+            "color": null,
+            "intense": null,
+            "radius": null
         },
         "1": {
             "loc": [
-                0.0,
-                -220.0,
+                192.1004638671875,
+                92.45258331298828,
                 104.0
             ],
             "tex": "orb",
@@ -69,13 +65,9 @@
             "collectible": true,
             "billboard": true,
             "emissive": true,
-            "color": [
-                1.0,
-                0.0002727329556364566,
-                0.0
-            ],
-            "intense": 0.2,
-            "radius": 0.0
+            "color": null,
+            "intense": null,
+            "radius": null
         },
         "2": {
             "loc": [
@@ -719,42 +711,42 @@
         }
     },
     "sounds": {},
-    "collision_mesh": "meshes/debug/debug_0002_col.obj",
-    "render_mesh": "meshes/debug/debug_0002_dec.obj",
+    "collision_mesh": "meshes/lab/lab_0003_col.obj",
+    "render_mesh": "meshes/lab/lab_0003_dec.obj",
     "triggers": {
         "0": {
             "type": "DEATH",
-            "mesh": "meshes/debug/debug_0002_death_0000.obj",
+            "mesh": "meshes/lab/lab_0003_death_0000.obj",
             "image": null,
             "message": null
         },
         "1": {
             "type": "DEATH",
-            "mesh": "meshes/debug/debug_0002_death_0001.obj",
+            "mesh": "meshes/lab/lab_0003_death_0001.obj",
             "image": null,
             "message": null
         },
         "2": {
             "type": "MESSAGE",
-            "mesh": "meshes/debug/debug_0002_message_0000.obj",
+            "mesh": "meshes/lab/lab_0003_message_0000.obj",
             "image": null,
             "message": "THE REACTOR! IT'S DESTROYED!\nMAYBE I CAN FIX IT.\nI'LL NEED TO GET TO MY OFFICE"
         },
         "3": {
             "type": "MESSAGE",
-            "mesh": "meshes/debug/debug_0002_message_0002.obj",
+            "mesh": "meshes/lab/lab_0003_message_0002.obj",
             "image": null,
             "message": "I'LL NEED MY KEY CARD FIRST\nIT'S IN MY OFFICE"
         },
         "4": {
             "type": "MESSAGE",
-            "mesh": "meshes/debug/debug_0002_message_0004.obj",
+            "mesh": "meshes/lab/lab_0003_message_0004.obj",
             "image": null,
             "message": "GREAT! LETS GO GET MY TOOLS"
         },
         "5": {
             "type": "EXITREGION",
-            "mesh": "meshes/debug/debug_0002_exitregion_0000.obj",
+            "mesh": "meshes/lab/lab_0003_exitregion_0000.obj",
             "image": null,
             "message": null
         }

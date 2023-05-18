@@ -1,7 +1,7 @@
 # Blender v3.5.0 OBJ File: 'Starting Facility_final.blend'
 # www.blender.org
-mtllib debug_0002_col.mtl
-o COLLISION.004_Cube.026
+mtllib lab_0002_col.mtl
+o COLLISION.005_Cube.030
 v 109.556961 769.191345 46.178421
 v -102.567490 -371.283020 131.534393
 v -34.744522 763.253601 -4.000001

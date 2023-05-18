@@ -371,6 +371,8 @@
         "debug_0006": "json/level_json/debug/debug_0006.json",
         "debug_0007": "json/level_json/debug/debug_0007.json",
         "lab_0000": "json/level_json/lab/lab_0000.json",
-        "lab_0001": "json/level_json/lab/lab_0001.json"
+        "lab_0001": "json/level_json/lab/lab_0001.json",
+        "lab_0003": "json/level_json/lab/lab_0003.json",
+        "lab_0002": "json/level_json/lab/lab_0002.json"
     }
 }

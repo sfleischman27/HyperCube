@@ -1,4 +1,4 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'Starting Facility_final.blend'
 # Material Count: 2
 
 newmtl Material.001
@@ -20,4 +20,3 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_d Kratsios\\HyperCube\\Pivot\\assets\\textures\\color_picker.png

@@ -1,5 +1,5 @@
 {
-    "level_id": "debug_0002",
+    "level_id": "lab_0002",
     "player_loc": [
         96.5446548461914,
         -348.0,
@@ -719,42 +719,42 @@
         }
     },
     "sounds": {},
-    "collision_mesh": "meshes/debug/debug_0002_col.obj",
-    "render_mesh": "meshes/debug/debug_0002_dec.obj",
+    "collision_mesh": "meshes/lab/lab_0002_col.obj",
+    "render_mesh": "meshes/lab/lab_0002_dec.obj",
     "triggers": {
         "0": {
             "type": "DEATH",
-            "mesh": "meshes/debug/debug_0002_death_0000.obj",
+            "mesh": "meshes/lab/lab_0002_death_0000.obj",
             "image": null,
             "message": null
         },
         "1": {
             "type": "DEATH",
-            "mesh": "meshes/debug/debug_0002_death_0001.obj",
+            "mesh": "meshes/lab/lab_0002_death_0001.obj",
             "image": null,
             "message": null
         },
         "2": {
             "type": "MESSAGE",
-            "mesh": "meshes/debug/debug_0002_message_0000.obj",
+            "mesh": "meshes/lab/lab_0002_message_0000.obj",
             "image": null,
             "message": "THE REACTOR! IT'S DESTROYED!\nMAYBE I CAN FIX IT.\nI'LL NEED TO GET TO MY OFFICE"
         },
         "3": {
             "type": "MESSAGE",
-            "mesh": "meshes/debug/debug_0002_message_0002.obj",
+            "mesh": "meshes/lab/lab_0002_message_0002.obj",
             "image": null,
             "message": "I'LL NEED MY KEY CARD FIRST\nIT'S IN MY OFFICE"
         },
         "4": {
             "type": "MESSAGE",
-            "mesh": "meshes/debug/debug_0002_message_0004.obj",
+            "mesh": "meshes/lab/lab_0002_message_0004.obj",
             "image": null,
             "message": "GREAT! LETS GO GET MY TOOLS"
         },
         "5": {
             "type": "EXITREGION",
-            "mesh": "meshes/debug/debug_0002_exitregion_0000.obj",
+            "mesh": "meshes/lab/lab_0002_exitregion_0000.obj",
             "image": null,
             "message": null
         }
