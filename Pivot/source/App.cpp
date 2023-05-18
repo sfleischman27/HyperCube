@@ -297,6 +297,12 @@ void PivotApp::updateGameScene(float timestep){
                 // otherwise go straight to next level
                 _gameplay.setActive(true);
                 _gameplay.load(_levelSelect.getNextLevelString());
+                // if first lab level (and it has not been beaten, play cutscene
+                if(_levelSelect.getLevelString() == "lab_0000" && _levelSelect.getMaxLevel() == _levelSelect.levelNum()){
+                    _gameplay.setActive(false);
+                    _cutscene.setActive(true);
+                    _scene = State::CUTSCENE;
+                }
             }
             break;
     }
@@ -342,7 +348,7 @@ void PivotApp::updateLevelScene(float timestep){
             break;
         default:
             _levelSelect.setActive(false);
-            if(_levelSelect.getLevelString() == "lab_0000"){
+            if(_levelSelect.getLevelString() == "lab_0000" && _levelSelect.getMaxLevel() == _levelSelect.levelNum()){
                 _cutscene.setActive(true);
                 _scene = State::CUTSCENE;
             } else {

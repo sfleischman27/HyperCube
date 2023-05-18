@@ -210,6 +210,11 @@ public:
     int getMaxLevel() { return _maxLevel; }
 
     /**
+     * Returns the integer version of the current level and pack
+     */
+    int levelNum();
+    
+    /**
      * Returns the user's menu choice.
      *
      * This will return NONE if the user had no yet made a choice.
@@ -278,12 +283,6 @@ private:
 //     */
 //    std::string numToName(int level);
 
-    /**
-     * Returns the integer version of the current level and pack
-     *
-     * (pack * 15) + choice
-     */
-    int levelNum();
 
     /**
      * Updated max level if level is greater than the current max
