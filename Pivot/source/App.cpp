@@ -371,7 +371,7 @@ void PivotApp::updateEndScene(float timestep){
         case EndLevelMenu::Choice::REPLAY:
             _endMenu.setActive(false);
             _gameplay.setActive(true);
-            _gameplay.reset();
+            _gameplay.load(_levelSelect.getFirstInPackString());
             _scene = State::GAME;
             break;
         case EndLevelMenu::Choice::LEVEL:

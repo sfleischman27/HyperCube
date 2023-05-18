@@ -721,8 +721,8 @@ void GameplayController::update(float dt) {
     _model->_player->animate();
     
     if(_model->_player->doneFlipping){
-        _state = END;
         _model->_player->doneFlipping = false;
+        _state = END;
     }
     
 #pragma mark INPUT
