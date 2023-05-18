@@ -259,6 +259,7 @@ void PivotApp::updateLoadingScene(float timestep){
             _gameplay.init(_assets, getDisplaySize(), _sound);
             if(_testing){ _gameplay.setMaxLevel(_levelSelect.getMaxLevel()); }
             _settings.init(_assets, _gameplay.getDataController());
+            updateSettings();
             _cutscene.init(_assets);
             _credits.init(_assets);
             _mainMenu.setActive(true);
