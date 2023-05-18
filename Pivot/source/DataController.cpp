@@ -103,6 +103,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
     model->backgroundPic = _assets->get<Texture>("space135");
 
+    // get the number of glowsticks
+    model->_numGlowsticks = constants->get("glowsticks")->asInt();
+    
     // get the sprites
     std::shared_ptr<cugl::JsonValue> sprites = constants->get("sprites");
 
@@ -113,6 +116,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     model->clearGlowsticks();
 
     // clear backpack
+    model->clearExpectedCol();
+    
+    // clear expected collectibles
     model->clearBackpack();
 
     // clear collectibles and init data vectors

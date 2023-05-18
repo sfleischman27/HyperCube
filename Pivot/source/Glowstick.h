@@ -28,6 +28,7 @@ public:
         setColor(Vec3(0.0, 1.0, 0.2));
         setIntense(0.35);
     }
+    Glowstick() :  GameItem() {}
 };
 
 #endif /* Glowstick_h */

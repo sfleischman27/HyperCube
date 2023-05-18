@@ -19,9 +19,6 @@
 
 using namespace cugl;
 
-/** Number of glowsticks allowed to put */
-#define NUM_GLOWSTICKS 4
-
 /**
  * A class representing an active level and its starting data
  */
@@ -133,6 +130,9 @@ private:
 
 #pragma mark Glowsticks State
 public:
+    /** Number of glowsticks */
+    int _numGlowsticks;
+    
     /** Vector of glowsticks */
     std::vector<Glowstick> _glowsticks;
 
@@ -417,6 +417,10 @@ public:
     void clearBackpack(){
         _backpack.clear();
     }
+    
+    void clearExpectedCol(){
+        _expectedCol.clear();
+    }
 
     void clearTriggers() {
         _triggers.clear();
@@ -447,7 +451,7 @@ public:
     }
 
     void updateGlowstickCount() {
-        _glowstickCounter->setText(std::to_string(NUM_GLOWSTICKS - _glowsticks.size()));
+        _glowstickCounter->setText(std::to_string(_numGlowsticks - _glowsticks.size()));
     }
 
 #pragma mark Compass Methods

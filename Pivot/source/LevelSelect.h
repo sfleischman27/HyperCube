@@ -200,6 +200,11 @@ public:
     std::string getNextLevelString();
 
     /**
+     * Returns a level name string that is the first level in the current pack and sets to that level
+     */
+    std::string getFirstInPackString();
+    
+    /**
      * Updates the choice and pack to the next level
      */
     void nextLevel();
