@@ -195,8 +195,8 @@
                                     "key": "settingstoggle",
                                     "variables": {
                                         "showToggle": true,
-                                        "toggleYOffset": -0.3,
-                                        "toggleXOffset": -0.06,
+                                        "toggleYOffset": 0,
+                                        "toggleXOffset": 0.41,
                                         "toggleXPos": -0.15,
                                         "valueXPos": 0.22,
                                         "value": "180",
@@ -216,21 +216,6 @@
                                         "valueXPos": 0.22,
                                         "value": "On",
                                         "category": "Outline"
-                                    }
-                                }
-                            },
-                            "control": {
-                                "type": "Widget",
-                                "data": {
-                                    "key": "settingstoggle",
-                                    "variables": {
-                                        "showToggle": true,
-                                        "toggleYOffset": 0,
-                                        "toggleXOffset": 0.41,
-                                        "toggleXPos": -0.15,
-                                        "valueXPos": 0.22,
-                                        "value": "Right Hand",
-                                        "category": "Control"
                                     }
                                 }
                             },
