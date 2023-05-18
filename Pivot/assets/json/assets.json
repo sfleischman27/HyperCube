@@ -75,7 +75,7 @@
             "file": "textures/bullet.png"
         },
         "space135": {
-            "file": "textures/supercoolspace.png"
+            "file": "textures/background_swamp.png"
         },
         "section_cut (1)": {
             "file": "textures/section_cut (1).png"
@@ -201,6 +201,31 @@
             "file": "textures/glow_cube.png",
             "span": 1,
             "cols": 1
+        },
+        "supercoolspace": {
+            "file": "textures/supercoolspace.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom2": {
+            "file": "textures/mushroom2.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom2-normal": {
+            "file": "textures/mushroom2_normals.png",
+            "span": 1,
+            "cols": 1
+        },
+        "glow_cube_normal": {
+            "file": "textures/glow_cube_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "rotate_tutorial": {
+            "file": "textures/rotate_tutorial.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
@@ -304,6 +329,7 @@
         "tutorial_0002": "json/level_json/tutorial/tutorial_0002.json",
         "debug_0005": "json/level_json/debug/debug_0005.json",
         "debug_0004": "json/level_json/debug/debug_0004.json",
-        "debug_0006": "json/level_json/debug/debug_0006.json"
+        "debug_0006": "json/level_json/debug/debug_0006.json",
+        "debug_0007": "json/level_json/debug/debug_0007.json"
     }
 }

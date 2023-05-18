@@ -444,7 +444,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
         // If 0 < distance <= -c, then we will want to draw
         if (distance >= 0 || distance <= cutoff) continue;
-        float alpha = (1.0 - (distance / cutoff)) * .5;
+        float alpha = (1.0 - (distance / cutoff)) * .75;
 
         // Change the drawObject position to be reflected along the plane
         Vec3 oldPos = dro.pos;
@@ -461,7 +461,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
         _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
         _shaderBehind->setUniform1f("alpha", alpha);
-        _shaderBehind->setUniform1f("darken", 0.2f);
+        _shaderBehind->setUniform1f("darken", 0.0f);
         _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
         _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
         _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
@@ -485,8 +485,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Set uniforms and draw
     float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, 1, 0), _camera->getUp());
     if (angle < 0) angle += 2 * M_PI;
-    angle /= M_PI;
-    float speed = 1.0;
+    angle /= 2 * M_PI;
+    float amtOfScreens = model->backgroundPic->getWidth() / screenSize.width;
     _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
     _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderCut->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
@@ -494,7 +494,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniformVec2("transOffset", transOffset);
     _shaderCut->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
-    _shaderCut->setUniform1f("angle", angle * speed);
+    _shaderCut->setUniform1f("interpStartPosLeft", angle);
+    _shaderCut->setUniform1f("amtOfScreens", amtOfScreens);
     _shaderCut->setUniform1i("drawOutline", model->drawOutline);
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());

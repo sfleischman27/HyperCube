@@ -20,10 +20,10 @@ using namespace cugl;
  *  @return true if the controller is initialized properly, false otherwise.
  */
 bool DataController::loadGameModel(std::string level, const std::shared_ptr<GameModel>& model) {
-    
+
     // get the level json
     std::shared_ptr<cugl::JsonValue> constants = _assets->get<JsonValue>(level);
-    
+
     // load the new meshes
     CULog("%s", Application::get()->getAssetDirectory().c_str());
     std::string assetDirectoryPath = Application::get()->getAssetDirectory();
@@ -32,10 +32,10 @@ bool DataController::loadGameModel(std::string level, const std::shared_ptr<Game
     assetDirectoryPath.append(rendmeshPath);
     assetDirectoryPath = filetool::normalize_path(assetDirectoryPath);
     model->_renderMesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
-    
+
     assetDirectoryPath = Application::get()->getAssetDirectory();
     std::string colmeshPath = constants->getString("collision_mesh");
-    
+
     assetDirectoryPath.append(colmeshPath);
     assetDirectoryPath = filetool::normalize_path(assetDirectoryPath);
     model->_colMesh = PivotMesh::MeshFromOBJ(assetDirectoryPath);
@@ -54,10 +54,10 @@ bool DataController::loadGameModel(std::string level, const std::shared_ptr<Game
  *  @return true if the model is initialized properly, false otherwise.
  */
 bool DataController::resetGameModel(std::string level, const std::shared_ptr<GameModel>& model){
-    
+
     // get the level json
     std::shared_ptr<cugl::JsonValue> constants = _assets->get<JsonValue>(level);
-    
+
     // get and set player location
     Vec3 playerLoc;
     playerLoc.x = constants->get("player_loc")->get(0)->asFloat();
@@ -67,16 +67,16 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     std::cout<<"init y: " <<playerLoc.y<<std::endl;
     std::cout<<"init z: " <<playerLoc.z<<std::endl;
     model->setInitPlayerLoc(playerLoc);
-    
+
     model->setPlayer3DLoc(playerLoc);
-    
+
     // get and set plane normal
     Vec3 norm;
     norm.x = constants->get("norm")->get(0)->asFloat();
     norm.y = constants->get("norm")->get(1)->asFloat();
     norm.z = constants->get("norm")->get(2)->asFloat();
     model->setInitPlaneNorm(norm);
-    
+
     // get and set exit location and texture
     Vec3 exitPos;
     exitPos.x = constants->get("exit")->get(0)->asFloat();
@@ -87,20 +87,34 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     exitPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>("goal"), 6, 6);
     exitPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>("goal-normal"), 6, 6);
 
-    model->backgroundPic = _assets->get<Texture>("space135");
-    
+    model->shadeDepth = constants->get("shade_depth")->asFloat();
+
+    auto shade_color = cugl::Color4();
+    shade_color.r = constants->get("shade_color")->get(0)->asFloat();
+    shade_color.g = constants->get("shade_color")->get(1)->asFloat();
+    shade_color.b = constants->get("shade_color")->get(2)->asFloat();
+    model->shadeColor = shade_color;
+
+    auto bg_color = cugl::Color4();
+    bg_color.r = constants->get("bg_color")->get(0)->asFloat();
+    bg_color.g = constants->get("bg_color")->get(1)->asFloat();
+    bg_color.b = constants->get("bg_color")->get(2)->asFloat();
+    model->bgColor = bg_color;
+
+    model->backgroundPic = _assets->get<Texture>(constants->get("bg_image")->asString());
+
     // get the sprites
     std::shared_ptr<cugl::JsonValue> sprites = constants->get("sprites");
 
     // remove any active popups
     model->clearPopups();
-    
+
     // clear glowsticks
     model->clearGlowsticks();
-    
+
     // clear backpack
     model->clearBackpack();
-    
+
     // clear collectibles and init data vectors
     model->clearCollectibles();
     model->clearLights();
@@ -108,14 +122,18 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
     // clear the triggers
     model->clearTriggers();
-    
+
     std::vector<Vec3> col_locs;
     std::vector<std::shared_ptr<cugl::Texture>> col_texs;
     std::vector<std::shared_ptr<cugl::Texture>> col_normal_texs;
 
     for (int i = 0; i < sprites->size(); i++) {
         auto iscol = sprites->get(std::to_string(i))->get("collectible")->asBool();
+        auto isbill = sprites->get(std::to_string(i))->get("billboard")->asBool();
+        auto isemit = sprites->get(std::to_string(i))->get("emissive")->asBool();
+
         auto tex = sprites->get(std::to_string(i))->getString("tex");
+
         if (iscol && (tex != "")) {
             // its a collectible
             // get sprite location
@@ -124,7 +142,18 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
             col_locs.push_back(loc);
-            
+
+            Vec3 norm;
+            norm.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+            norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+            norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+            // TODO: convert normal to an angle,
+            // use angle to offset the rotating sprite index so they dont all look the same
+
+            //get sprite scale
+            float scale = sprites->get(std::to_string(i))->get("scale")->asFloat();
+            // TODO use scale to scale sprites differently @matt
+
             // get sprite texture
             std::string texKey = tex;
             std::shared_ptr<Texture> tex = _assets->get<Texture>(texKey);
@@ -133,7 +162,21 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             col_normal_texs.push_back(normaltex);
 
             // does the sprite emit light?
-            // TODO make lights for those sprites here
+            auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
+            if (haslight) {
+                Vec3 color;
+                color.x = sprites->get(std::to_string(i))->get("color")->get(0)->asFloat();
+                color.y = sprites->get(std::to_string(i))->get("color")->get(1)->asFloat();
+                color.z = sprites->get(std::to_string(i))->get("color")->get(2)->asFloat();
+
+                float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
+                float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
+                // TODO make lights for those sprites here
+                // those lights need to disappear when the collectible is collected
+                // same as glowsticks @jolene
+            }
+
+            //TODO if(isemit) put it in the emissive collectibles
         }
         else if (tex == "") {
             // its ONLY a light with no texture
@@ -147,24 +190,92 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
 
+
             float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
+            float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
+            //TODO @matt how to make lights with falloff?
 
             GameModel::Light light = GameModel::Light(color, intensity, loc);
             model->_lights.push_back(light);
 
         }
-        
-        else {
+
+        else if (isbill) {
             // its a decoration
             Vec3 loc;
             loc.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
             loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+
+            Vec3 norm;
+            norm.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+            norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+            norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+            // TODO: convert normal to an angle,
+            // use angle to offset the rotating sprite index so they dont all look the same
+
+            //get sprite scale
+            float scale = sprites->get(std::to_string(i))->get("scale")->asFloat();
+            // TODO use scale to scale sprites differently @matt
+
+            // does the sprite emit light?
+            auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
+            if (haslight) {
+                Vec3 color;
+                color.x = sprites->get(std::to_string(i))->get("color")->get(0)->asFloat();
+                color.y = sprites->get(std::to_string(i))->get("color")->get(1)->asFloat();
+                color.z = sprites->get(std::to_string(i))->get("color")->get(2)->asFloat();
+
+                float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
+                float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
+                // TODO make lights for those sprites here
+                // These could just go in the scene bc they never disappear
+            }
+
             //get texture
             auto texkey = sprites->get(std::to_string(i))->getString("tex");
 
-            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco"+std::to_string(i), _assets->get<Texture>(texkey));
+            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey));
             model->_decorations.push_back(decPtr);
+
+            //TODO if(isemit) put it in the emissive decorations
+        }
+        else {
+            // its a poster
+            Vec3 loc;
+            loc.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+            loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+            loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+
+            Vec3 norm;
+            norm.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+            norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+            norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+            // TODO: convert normal to an angle,
+            // use normal to orient poster
+
+            //get sprite scale
+            float scale = sprites->get(std::to_string(i))->get("scale")->asFloat();
+            // TODO use scale to scale sprites differently @matt
+
+            //get texture
+            auto texkey = sprites->get(std::to_string(i))->getString("tex");
+
+
+            // does the sprite emit light?
+            auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
+            if (haslight){
+                Vec3 color;
+                color.x = sprites->get(std::to_string(i))->get("color")->get(0)->asFloat();
+                color.y = sprites->get(std::to_string(i))->get("color")->get(1)->asFloat();
+                color.z = sprites->get(std::to_string(i))->get("color")->get(2)->asFloat();
+
+                float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
+                float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
+                // TODO make lights for those sprites here @jolene
+            }
+            //TODO add poster to model
+            //TODO if(isemit) put it in the emissive posters
         }
     }
     if (col_locs.size() > 0) {
@@ -174,6 +285,29 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
         model->_nav_target = model->_exit->getPosition();
     }
     model->setCollectibles(col_locs, col_texs, col_normal_texs);
+
+
+    // emitters (sound points)
+    std::shared_ptr<cugl::JsonValue> emitters = constants->get("sounds");
+    for (int i = 0; i < emitters->size(); i++) {
+        //get location
+        Vec3 loc;
+        loc.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
+        loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
+        loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+
+        //get the sound
+        std::string sound = emitters->get(std::to_string(i))->get("sound")->asString();
+
+        //get the radius
+        float radius = emitters->get(std::to_string(i))->get("radius")->asFloat();
+
+        //TODO @Gordi ^^^ use these, make emitters
+        // rn the sounds are named sound_0 and sound_1, you will need to change them in the level json
+        // we need to meet about what makes what sounds, and we can set this up properly later
+
+    }
+
 
     // get and set triggers
     std::shared_ptr<cugl::JsonValue> triggers = constants->get("triggers");
@@ -188,30 +322,58 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             auto trig = std::make_shared<Trigger>(region);
 
             std::string trig_type = triggers->get(std::to_string(i))->getString("type");
+
+
+
             if (trig_type == "DEATH") {
                 auto args = TriggerArgs();
                 args.player = model->_player;
                 trig->registerEnterCallback(Trigger::killPlayer, args);
             }
             else if (trig_type == "POPUP"){
+                std::string image = triggers->get(std::to_string(i))->getString("image");
                 auto args = TriggerArgs();
                 args.popup = model->_popup;
-                trig->registerEnterCallback(Trigger::showRotate, args);
+                args.image = image;
+                trig->registerEnterCallback(Trigger::showPopup, args);
                 trig->registerExitCallback(Trigger::stopPopups, args);
             }
-            
-            
+            else if (trig_type == "MESSAGE") {
+                std::string message = triggers->get(std::to_string(i))->getString("message");
+                // TODO: @sarah/czar how to setup a message popup?
+                // will hardcode messages elsewhere
+                // the messages here should be keys
+                auto args = TriggerArgs();
+                args.popup = model->_popup;
+                args.message = message;
+                trig->registerEnterCallback(Trigger::showMessage, args);
+                trig->registerExitCallback(Trigger::stopPopups, args);
+            }
+            else if (trig_type == "EXITREGION") {
+                auto args = TriggerArgs();
+                args.popup = model->_popup;
+                args.message = "exit";
+                trig->registerEnterCallback(Trigger::showMessage, args);
+                trig->registerExitCallback(Trigger::stopPopups, args);
+
+                // TODO @sarah you wanted this to check if you have enough collectibles
+                // we can also tint the exit orange or green to show that?
+                // i tinted the navigator, its pretty easy
+
+                // I think that tinting the exit is good. We already have the arrow pointing to the collectibles
+                // maybe make a message and handle it like other popups where I handle them showing up in gameplay controller
+            }
 
             model->_triggers.push_back(trig);
         }
     }
 
-    
-    
+
+
     // get and set level id
     std::string level_id = constants->getString("level_id");
     model->setName(level_id);
-    
+
     return true;
 }
 
