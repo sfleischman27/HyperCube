@@ -54,8 +54,17 @@ void Trigger::killPlayer(TriggerArgs args) {
 void Trigger::showPopup(TriggerArgs args) {
     if (args.image == "rotate_tutorial"){
         args.popup->setState("rotate");
+    } else if (args.image == "collect_tutorial"){
+        args.popup->setState("collect");
+    } else if (args.image == "glow_tutorial"){
+        args.popup->setState("glow");
+    } else if (args.image == "jump_tutorial"){
+        args.popup->setState("jump");
+    } else if (args.image == "run_tutorial"){
+        args.popup->setState("run");
+    } else if (args.image == "walk_tutorial"){
+        args.popup->setState("walk");
     }
-    // TODO: add more states in popup and gameplay controller and here
 };
 
 void Trigger::showMessage(TriggerArgs args) {

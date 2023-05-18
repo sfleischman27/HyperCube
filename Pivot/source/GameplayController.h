@@ -387,6 +387,9 @@ public:
     /** Updates the cut outline setting in game model */
     void updateOutline(bool outline) { _model->drawOutline = outline; }
     
+    /** Fades in and out the appropriate popups */
+    void updatePopups();
+    
 };
 
 #endif /* GameplayController_h */

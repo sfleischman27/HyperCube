@@ -223,7 +223,32 @@
             "cols": 1
         },
         "rotate_tutorial": {
-            "file": "textures/rotate_tutorial.png",
+            "file": "textures/tutorial_rotate.png",
+            "span": 1,
+            "cols": 1
+        },
+        "collect_tutorial": {
+            "file": "textures/tutorial_collect.png",
+            "span": 1,
+            "cols": 1
+        },
+        "glow_tutorial": {
+            "file": "textures/tutorial_glow.png",
+            "span": 1,
+            "cols": 1
+        },
+        "jump_tutorial": {
+            "file": "textures/tutorial_jump.png",
+            "span": 1,
+            "cols": 1
+        },
+        "run_tutorial": {
+            "file": "textures/tutorial_run.png",
+            "span": 1,
+            "cols": 1
+        },
+        "walk_tutorial": {
+            "file": "textures/tutorial_walk.png",
             "span": 1,
             "cols": 1
         }

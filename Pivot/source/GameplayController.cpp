@@ -207,16 +207,47 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_rotatePopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("rotateTutorial"));
     
+    _model->_collectPopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("collectTutorial"));
+    
+    _model->_glowPopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("glowTutorial"));
+    
+    _model->_jumpPopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("jumpTutorial"));
+    
+    _model->_runPopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("runTutorial"));
+    
+    _model->_walkPopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("walkTutorial"));
+    
     // set compass alpha to 0.0 so it can fade in
     auto color = _model->_compassSpin->getColor();
     auto newColor = Color4(color.r, color.g, color.b, 0.0);
     _model->_compassSpin->setColor(newColor);
     
-    // set rotate popup alpha to 0.0 so it can fade in
+    // set popup alphas to 0.0 so it can fade in
     color = _model->_rotatePopup->getColor();
     newColor = Color4(color.r, color.g, color.b, 0.0);
     _model->_rotatePopup->setColor(newColor);
     
+    color = _model->_collectPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_collectPopup->setColor(newColor);
+    
+    color = _model->_glowPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_glowPopup->setColor(newColor);
+    
+    color = _model->_jumpPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_jumpPopup->setColor(newColor);
+    
+    color = _model->_runPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_runPopup->setColor(newColor);
+    
+    color = _model->_walkPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_walkPopup->setColor(newColor);
+    
+    // final UI setup
     layer->setContentSize(_dimen);
     layer->doLayout();
 
@@ -696,24 +727,7 @@ void GameplayController::update(float dt) {
     _model->_currentTime->mark();
     
     // update popups
-    if (_model->_popup->getState() == Popups::ROTATE){
-        // turn on the rotate popup
-        _model->_rotatePopup->setVisible(true);
-        auto color = _model->_rotatePopup->getColor();
-        auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
-        _model->_rotatePopup->setColor(newColor);
-    } else {
-        // turn off any active popups
-        if (_model->_rotatePopup->isVisible()){
-            auto color = _model->_rotatePopup->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
-            _model->_rotatePopup->setColor(newColor);
-            // if it is completely faded out, turn it off
-            if (_model->_rotatePopup->getColor().a <= 0) {
-                _model->_rotatePopup->setVisible(false);
-            }
-        }
-    }
+    updatePopups();
 
     if (!_input->isRotating) {
         saveFloat = 0.0;
@@ -905,6 +919,106 @@ void GameplayController::update(float dt) {
     _portalDistance = distance.length();   //_model->getNavigatorTransforms().first.length();
     //CULog("portal distance: %f",_portalDistance);
     _sound->setTrackVolume(1, clampf(1-_portalDistance/MAX_PORTAL_DIST, 0.0, 1.0)); //slot 1 = cave_p
+}
+
+void GameplayController::updatePopups() {
+    // turn all visible popups down in transparency
+    if (_model->_rotatePopup->isVisible()){
+        auto color = _model->_rotatePopup->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+        _model->_rotatePopup->setColor(newColor);
+        // if it is completely faded out, turn it off
+        if (_model->_rotatePopup->getColor().a <= 0) {
+            _model->_rotatePopup->setVisible(false);
+        }
+    }
+    if (_model->_collectPopup->isVisible()){
+        auto color = _model->_collectPopup->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+        _model->_collectPopup->setColor(newColor);
+        // if it is completely faded out, turn it off
+        if (_model->_collectPopup->getColor().a <= 0) {
+            _model->_collectPopup->setVisible(false);
+        }
+    }
+    if (_model->_glowPopup->isVisible()){
+        auto color = _model->_glowPopup->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+        _model->_glowPopup->setColor(newColor);
+        // if it is completely faded out, turn it off
+        if (_model->_glowPopup->getColor().a <= 0) {
+            _model->_glowPopup->setVisible(false);
+        }
+    }
+    if (_model->_jumpPopup->isVisible()){
+        auto color = _model->_jumpPopup->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+        _model->_jumpPopup->setColor(newColor);
+        // if it is completely faded out, turn it off
+        if (_model->_jumpPopup->getColor().a <= 0) {
+            _model->_jumpPopup->setVisible(false);
+        }
+    }
+    if (_model->_runPopup->isVisible()){
+        auto color = _model->_runPopup->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+        _model->_runPopup->setColor(newColor);
+        // if it is completely faded out, turn it off
+        if (_model->_runPopup->getColor().a <= 0) {
+            _model->_runPopup->setVisible(false);
+        }
+    }
+    if (_model->_walkPopup->isVisible()){
+        auto color = _model->_walkPopup->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+        _model->_walkPopup->setColor(newColor);
+        // if it is completely faded out, turn it off
+        if (_model->_walkPopup->getColor().a <= 0) {
+            _model->_walkPopup->setVisible(false);
+        }
+    }
+    // turn the active popup (if there is one) up in transparency (x2)
+    switch (_model->_popup->getState()) {
+        case Popups::NONE:
+            break;
+        case Popups::ROTATE: {
+            _model->_rotatePopup->setVisible(true);
+            auto color = _model->_rotatePopup->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 20, 255));
+            _model->_rotatePopup->setColor(newColor);
+            break; }
+        case Popups::COLLECT: {
+            _model->_collectPopup->setVisible(true);
+            auto color = _model->_collectPopup->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 20, 255));
+            _model->_collectPopup->setColor(newColor);
+            break; }
+        case Popups::GLOW: {
+            _model->_glowPopup->setVisible(true);
+            auto color = _model->_glowPopup->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 20, 255));
+            _model->_glowPopup->setColor(newColor);
+            break; }
+        case Popups::JUMP: {
+            _model->_jumpPopup->setVisible(true);
+            auto color = _model->_jumpPopup->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 20, 255));
+            _model->_jumpPopup->setColor(newColor);
+            break; }
+        case Popups::RUN: {
+            _model->_runPopup->setVisible(true);
+            auto color = _model->_runPopup->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 20, 255));
+            _model->_runPopup->setColor(newColor);
+            break; }
+        case Popups::WALK: {
+            _model->_walkPopup->setVisible(true);
+            auto color = _model->_walkPopup->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 20, 255));
+            _model->_walkPopup->setColor(newColor);
+            break; }
+    }
+    
 }
 
 /**
