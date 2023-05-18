@@ -200,6 +200,11 @@ public:
     std::string getNextLevelString();
 
     /**
+     * Returns a level name string that is the first level in the current pack and sets to that level
+     */
+    std::string getFirstInPackString();
+    
+    /**
      * Updates the choice and pack to the next level
      */
     void nextLevel();
@@ -209,6 +214,11 @@ public:
      */
     int getMaxLevel() { return _maxLevel; }
 
+    /**
+     * Returns the integer version of the current level and pack
+     */
+    int levelNum();
+    
     /**
      * Returns the user's menu choice.
      *
@@ -278,12 +288,6 @@ private:
 //     */
 //    std::string numToName(int level);
 
-    /**
-     * Returns the integer version of the current level and pack
-     *
-     * (pack * 15) + choice
-     */
-    int levelNum();
 
     /**
      * Updated max level if level is greater than the current max

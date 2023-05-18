@@ -244,6 +244,11 @@ std::string LevelSelect::getLevelString(){
     return toLevelString(_choice, packToString(_pack));
 }
 
+std::string LevelSelect::getFirstInPackString(){
+    _choice = LEVEL1;
+    return toLevelString(_choice, packToString(_pack));
+}
+
 std::string LevelSelect::getNextLevelString(){
     nextLevel();
     return toLevelString(_choice, packToString(_pack));
