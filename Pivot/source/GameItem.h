@@ -29,8 +29,12 @@ protected:
     Vec3 _color;
     /** The intensity of the light of the item. */
     float _intense;
+    /** The radius of the light of the item. */
+    float _radius;
     /** map of rotation textures of the item */
     std::unordered_map<float, std::shared_ptr<cugl::Texture>> _rotateTextures;
+    /** If the GameItem is emissive */
+    bool isemit;
     
 public:
     std::shared_ptr<cugl::SpriteSheet> rotateSpriteSheet;
@@ -139,6 +143,14 @@ public:
         _intense = intense;
     }
     /**
+     *  Sets the radius of the light
+     *
+     *  @param radius
+     */
+    void setRadius(float radius) {
+        _radius = radius;
+    }
+    /**
      *  Sets the rotation texture map
      *  @param map
      */
@@ -200,6 +212,10 @@ public:
      *  Gets the intensity of the light
      */
     float getIntense() { return _intense; }
+    /**
+     *  Gets the radiue of the light
+     */
+    float getRadius() { return _radius; }
     
 #pragma mark Helper Methods
 public:
