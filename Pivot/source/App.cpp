@@ -183,11 +183,9 @@ void PivotApp::update(float timestep) {
         case GAME:
             updateGameScene(timestep);
             break;
-        case SETTINGS:
+        case SETTINGS: case SETTINGSQUIT:
             updateSettingsScene(timestep);
             break;
-        case SETTINGSQUIT:
-            updateSettingsScene(timestep);
     }
     
     //level sound cues
@@ -226,10 +224,7 @@ void PivotApp::draw() {
         case GAME:
             _gameplay.render(_batch);
             break;
-        case SETTINGS:
-            _settings.render(_batch);
-            break;
-        case SETTINGSQUIT:
+        case SETTINGS: case SETTINGSQUIT:
             _settings.render(_batch);
             break;
     }
