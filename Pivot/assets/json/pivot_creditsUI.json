@@ -1,0 +1,42 @@
+{
+    "textures": {
+        "credits": {
+            "file": "textures/credits_credits.png"
+        }
+    },
+    "fonts": {
+        "gyparody": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     48
+        }
+    },
+    "widgets" : {
+        "creditsUI": "widgets/creditsUI.json"
+    },
+    "scene2s" : {
+        "creditsLab": {
+            "type"      : "Node",
+            "comment"   : "This is the root node of the scene for the lab",
+            "format"    : {
+                "type" : "Anchored"
+            },
+            "children" : {
+                "creditsScreen": {
+                    "type": "Widget",
+                    "data": {
+                        "key": "creditsUI",
+                        "variables": {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
