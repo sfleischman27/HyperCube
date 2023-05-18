@@ -51,7 +51,7 @@
             "file": "textures/flip.png"
         },
         "player-flip-normal": {
-            "file": "textures/flip_normals.png"
+            "file": "textures/flip_normal.png"
         },
         "player-idle": {
             "file": "textures/idle.png"
@@ -126,7 +126,7 @@
             "file": "textures/exit.png"
         },
         "goal-normal": {
-            "file": "textures/exit_normals.png"
+            "file": "textures/exit_normal.png"
         },
         "dpad": {
             "file": "textures/dpad.png",
@@ -165,17 +165,11 @@
         "lightning": {
             "file": "textures/lightning.png"
         },
-        "biohazrd": {
-            "file": "textures/biohazrd.png"
-        },
         "alarm": {
             "file": "textures/alarm.png"
         },
         "lightning_flip": {
             "file": "textures/lightning_flip.png"
-        },
-        "Warning-Sign-PNG-Clipart": {
-            "file": "textures/Warning-Sign-PNG-Clipart.png"
         },
         "orb": {
             "file": "textures/glow_cube.png",
@@ -213,7 +207,7 @@
             "cols": 1
         },
         "mushroom2-normal": {
-            "file": "textures/mushroom2_normals.png",
+            "file": "textures/mushroom2_normal.png",
             "span": 1,
             "cols": 1
         },
@@ -249,6 +243,16 @@
         },
         "walk_tutorial": {
             "file": "textures/tutorial_walk.png",
+            "span": 1,
+            "cols": 1
+        },
+        "biohazard": {
+            "file": "textures/biohazard.png",
+            "span": 1,
+            "cols": 1
+        },
+        "biohazard-normal": {
+            "file": "textures/biohazard.png",
             "span": 1,
             "cols": 1
         }
