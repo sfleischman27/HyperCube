@@ -20,7 +20,9 @@ public:
         /** User has triggered the overlay */
         OVERLAY,
         /** User is exiting the overlay */
-        OVEROFF
+        OVEROFF,
+        /** User wants to see the credits */
+        CREDITS
     };
     
 protected:
@@ -63,6 +65,8 @@ protected:
     std::shared_ptr<cugl::scene2::Button> _rightHand;
     /** The handed label */
     std::shared_ptr<cugl::scene2::Label> _rightHandLabel;
+    /** The credits button */
+    std::shared_ptr<cugl::scene2::Button> _credits;
     /** The clear data overlay */
     std::shared_ptr<cugl::scene2::SceneNode> _overlay;
     /** The yes clear the data button */

@@ -99,6 +99,7 @@ void PivotApp::onShutdown() {
     _quitMenu.dispose();
     _settings.dispose();
     _cutscene.dispose();
+    _credits.dispose();
     _assets = nullptr;
     _batch = nullptr;
 
@@ -190,6 +191,9 @@ void PivotApp::update(float timestep) {
         case CUTSCENE:
             updateCutscene(timestep);
             break;
+        case CREDITS: case CREDITSSET: case CREDITSSETQ:
+            updateCredits(timestep);
+            break;
     }
 
     //level sound cues
@@ -234,6 +238,9 @@ void PivotApp::draw() {
         case CUTSCENE:
             _cutscene.render(_batch);
             break;
+        case CREDITS: case CREDITSSET: case CREDITSSETQ:
+            _credits.render(_batch);
+            break;
     }
 }
 
@@ -253,6 +260,7 @@ void PivotApp::updateLoadingScene(float timestep){
             if(_testing){ _gameplay.setMaxLevel(_levelSelect.getMaxLevel()); }
             _settings.init(_assets, _gameplay.getDataController());
             _cutscene.init(_assets);
+            _credits.init(_assets);
             _mainMenu.setActive(true);
             _scene = State::MAIN;
             break;
@@ -271,17 +279,22 @@ void PivotApp::updateGameScene(float timestep){
             break;
         case GameplayController::State::END:
             _gameplay.setActive(false);
-            _endMenu.setActive(true);
             // unlock next level (if not yet unlocked)
             _levelSelect.unlockNextLevel();
             _gameplay.setMaxLevel(_levelSelect.getMaxLevel());
             // save
             _gameplay.save();
-            // go to end if last in pack
-            if (_levelSelect.isLastInPack()){
+            if (_levelSelect.isLast()){
+                // go to credits if last level
+                _credits.setActive(true);
+                _scene = State::CREDITS;
+            } else if (_levelSelect.isLastInPack()){
+                // go to end if last in pack
+                _endMenu.setActive(true);
                 _scene = State::END;
                 _sound->playSound("end", 0.5, false);
             } else {
+                // otherwise go straight to next level
                 _gameplay.setActive(true);
                 _gameplay.load(_levelSelect.getNextLevelString());
             }
@@ -406,8 +419,6 @@ void PivotApp::updateQuitScene(float timestep){
 void PivotApp::updateCutscene(float timestep){
     switch(_cutscene.getChoice()) {
         case Cutscene::NONE:
-            _cutscene.update(timestep);
-            break;
         case Cutscene::STORY1:
         case Cutscene::STORY2:
         case Cutscene::STORY3:
@@ -420,6 +431,27 @@ void PivotApp::updateCutscene(float timestep){
             _gameplay.load(_levelSelect.getLevelString());
             _gameplay.setActive(true);
             _scene = State::GAME;
+            break;
+    }
+}
+
+void PivotApp::updateCredits(float timestep){
+    switch(_credits.getChoice()) {
+        case CreditsScene::NONE:
+            _credits.update(timestep);
+            break;
+        case CreditsScene::EXIT:
+            _credits.setActive(false);
+            if(_scene == CREDITS){
+                _levelSelect.setActive(true);
+                _scene = State::LEVEL;
+            } else if (_scene == CREDITSSET){
+                _settings.setActive(true);
+                _scene = SETTINGS;
+            } else { // _scene = CREDITSSETQ
+                _settings.setActive(true);
+                _scene = SETTINGSQUIT;
+            }
             break;
     }
 }
@@ -452,6 +484,20 @@ void PivotApp::updateSettingsScene(float timestep){
         case SettingsMenu::OVEROFF:
             _settings.setOverlayActive(false);
             _settings.update(timestep);
+            break;
+        case SettingsMenu::CREDITS:
+            // save
+            _gameplay.save();
+            // change settings
+            updateSettings();
+            // switch scenes
+            _settings.setActive(false);
+            _credits.setActive(true);
+            if(_scene == State::SETTINGS){
+                _scene = State::CREDITSSET;
+            } else { // State::SETTINGSQUIT
+                _scene = State::CREDITSSETQ;
+            }
             break;
     }
 

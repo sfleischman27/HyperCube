@@ -23,6 +23,7 @@
 #include "SettingsMenu.h"
 #include "Loading.h"
 #include "Cutscene.h"
+#include "Credits.h"
 
 // Demo mode
 #include "PFLoadingScene.h"
@@ -50,7 +51,13 @@ protected:
         /** The settings menu but returns to the quit scene */
         SETTINGSQUIT,
         /** The cutscene */
-        CUTSCENE
+        CUTSCENE,
+        /** The credits scene and returns to level select */
+        CREDITS,
+        /** The credits scene and returns to settings */
+        CREDITSSET,
+        /** The credits scene and returns to settings-quit */
+        CREDITSSETQ
     };
     
     /** The global sprite batch for drawing (only want one of these) */
@@ -85,6 +92,8 @@ protected:
     SettingsMenu _settings;
     /** The cutscene view*/
     Cutscene _cutscene;
+    /** The credits view */
+    CreditsScene _credits;
     
     /** The current active scene */
     State _scene;
@@ -243,7 +252,7 @@ private:
     void updateEndScene(float timestep);
     
     /**
-     * Inidividualized update method for the end of level menu scene.
+     * Inidividualized update method for the quite a level menu scene.
      *
      * This method keeps the primary {@link #update} from being a mess of switch
      * statements. It also handles the transition logic from the loading scene.
@@ -253,7 +262,7 @@ private:
     void updateQuitScene(float timestep);
     
     /**
-     * Inidividualized update method for the settings scene.
+     * Inidividualized update method for the cutscene scene.
      *
      * This method keeps the primary {@link #update} from being a mess of switch
      * statements. It also handles the transition logic from the loading scene.
@@ -261,6 +270,16 @@ private:
      * @param timestep  The amount of time (in seconds) since the last frame
      */
     void updateCutscene(float timestep);
+    
+    /**
+     * Inidividualized update method for the credits scene.
+     *
+     * This method keeps the primary {@link #update} from being a mess of switch
+     * statements. It also handles the transition logic from the loading scene.
+     *
+     * @param timestep  The amount of time (in seconds) since the last frame
+     */
+    void updateCredits(float timestep);
     
     /**
      * Inidividualized update method for the settings scene.

@@ -141,6 +141,13 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
         }
     });
     
+    _credits = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_credits"));
+    _credits->addListener([this](const std::string& name, bool down) {
+        if (down) {
+            _choice = CREDITS;
+        }
+    });
+    
     _overlay = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_overlay"));
     _overlay->setVisible(false);
     
@@ -185,6 +192,7 @@ void SettingsMenu::dispose() {
     _compass = nullptr;
     _outline = nullptr;
     _rightHand = nullptr;
+    _credits = nullptr;
     _overlay = nullptr;
     _yes = nullptr;
     _no = nullptr;
@@ -212,6 +220,7 @@ void SettingsMenu::setActive(bool value) {
         _compass->activate();
         _outline->activate();
         _rightHand->activate();
+        _credits->activate();
     } else {
         _back->deactivate();
         _clear->deactivate();
@@ -222,9 +231,11 @@ void SettingsMenu::setActive(bool value) {
         _compass->deactivate();
         _outline->deactivate();
         _rightHand->deactivate();
+        _credits->deactivate();
         // if back or clear were pressed, reset them
         _back->setDown(false);
         _clear->setDown(false);
+        _credits->setDown(false);
     }
 }
 
