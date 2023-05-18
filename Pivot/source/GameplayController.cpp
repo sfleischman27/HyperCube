@@ -222,30 +222,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     auto newColor = Color4(color.r, color.g, color.b, 0.0);
     _model->_compassSpin->setColor(newColor);
     
-    // set popup alphas to 0.0 so it can fade in
-    color = _model->_rotatePopup->getColor();
-    newColor = Color4(color.r, color.g, color.b, 0.0);
-    _model->_rotatePopup->setColor(newColor);
-    
-    color = _model->_collectPopup->getColor();
-    newColor = Color4(color.r, color.g, color.b, 0.0);
-    _model->_collectPopup->setColor(newColor);
-    
-    color = _model->_glowPopup->getColor();
-    newColor = Color4(color.r, color.g, color.b, 0.0);
-    _model->_glowPopup->setColor(newColor);
-    
-    color = _model->_jumpPopup->getColor();
-    newColor = Color4(color.r, color.g, color.b, 0.0);
-    _model->_jumpPopup->setColor(newColor);
-    
-    color = _model->_runPopup->getColor();
-    newColor = Color4(color.r, color.g, color.b, 0.0);
-    _model->_runPopup->setColor(newColor);
-    
-    color = _model->_walkPopup->getColor();
-    newColor = Color4(color.r, color.g, color.b, 0.0);
-    _model->_walkPopup->setColor(newColor);
+    // turns off and sets alphas for popups
+    resetPopups();
     
     // final UI setup
     layer->setContentSize(_dimen);
@@ -678,11 +656,36 @@ void GameplayController::resetPopups() {
     _model->_popup->setState("none");
     // turn the popup off
     _model->_rotatePopup->setVisible(false);
-    // turn the a off
+    _model->_collectPopup->setVisible(false);
+    _model->_glowPopup->setVisible(false);
+    _model->_jumpPopup->setVisible(false);
+    _model->_runPopup->setVisible(false);
+    _model->_walkPopup->setVisible(false);
+    
+    // set popup alphas to 0.0 so it can fade in
     auto color = _model->_rotatePopup->getColor();
-    auto newColor = Color4(color.r, color.g, color.b, 0);
+    auto newColor = Color4(color.r, color.g, color.b, 0.0);
     _model->_rotatePopup->setColor(newColor);
-    //TODO: add other popups here as they are created
+    
+    color = _model->_collectPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_collectPopup->setColor(newColor);
+    
+    color = _model->_glowPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_glowPopup->setColor(newColor);
+    
+    color = _model->_jumpPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_jumpPopup->setColor(newColor);
+    
+    color = _model->_runPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_runPopup->setColor(newColor);
+    
+    color = _model->_walkPopup->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_walkPopup->setColor(newColor);
 }
 
 /**
