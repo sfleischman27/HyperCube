@@ -47,6 +47,8 @@ protected:
     
     bool _pickupGlowstick = false;
     
+    bool _justCollected = false;
+    
     /** Reference to the physics root of the scene graph */
     std::shared_ptr<cugl::scene2::SceneNode> _worldnode;
     //SET OF CUT COLLISION OBSTACLES
@@ -389,6 +391,12 @@ public:
     
     /** Fades in and out the appropriate popups */
     void updatePopups();
+    
+    void fadeoutCollectibles();
+    
+    void fadeinCollectibles();
+    
+    void resetCollectibleAlpha();
     
 };
 

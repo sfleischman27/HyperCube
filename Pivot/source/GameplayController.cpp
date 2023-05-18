@@ -217,6 +217,14 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_walkPopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("walkTutorial"));
     
+    _model->_invent = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory"));
+    
+    _model->_inventodd = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd"));
+    
+    _model->initInventAlpha = _model->_invent->getColor().a;
+    
+    _model->initOddAlpha = _model->_inventodd->getColor().a;
+    
     // set compass alpha to 0.0 so it can fade in
     auto color = _model->_compassSpin->getColor();
     auto newColor = Color4(color.r, color.g, color.b, 0.0);
@@ -447,6 +455,8 @@ void GameplayController::reset() {
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     _model->updateCompassNum();
+    resetCollectibleAlpha();
+    _model->_endOfGame = false;
     
 
     lastStablePlay2DPos = _model->_player->getPosition();
@@ -490,7 +500,7 @@ void GameplayController::load(std::string name){
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();
     _model->_compassSpin->setVisible(false);
-    
+    resetCollectibleAlpha();
 }
 
 /**
@@ -700,6 +710,11 @@ void GameplayController::resetPopups() {
  */
 float saveFloat = 0.0;
 void GameplayController::update(float dt) {
+    if(_justCollected) {
+        fadeinCollectibles();
+    }else{
+        fadeoutCollectibles();
+    }
     //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
     _model->_justFinishRotating = false;
     
@@ -799,8 +814,10 @@ void GameplayController::update(float dt) {
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
         itr->second.setRotationalSprite(_model->getGlobalAngleDeg());
-        if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST){
+        if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST
+            && !itr->second.getCollected()){
             itr->second.setCollected(true);
+            _justCollected = true;
             _model->_backpack.insert(itr->first);
             if (_model->_nav_target == itr->second.getPosition()) {
                 itr++;
@@ -822,6 +839,7 @@ void GameplayController::update(float dt) {
     
     if(_model->getPlayer3DLoc().distance(_model->_exit->getPosition()) <= EXITING_DIST) {
         if (_model->checkBackpack()) {
+            fadeinCollectibles();
             _model->_endOfGame = true;
             _model->_player->shouldStartFlipping = true;
         }
@@ -1145,3 +1163,37 @@ void GameplayController::endContact(b2Contact* contact) {
         }
     }
 }
+
+void GameplayController::fadeoutCollectibles(){
+    auto color = _model->_invent->getColor();
+    auto colorodd = _model->_inventodd->getColor();
+    auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 1, 0));
+    auto newColorodd = Color4(color.r, color.g, color.b, std::max(colorodd.a - 1, 0));
+    _model->_invent->setColor(newColor);
+    _model->_inventodd->setColor(newColorodd);
+//    if(_model->_invent->getColor().a <= 0 || _model->_inventodd->getColor().a <= 0) {
+//        _justCollected = false;
+//    }
+}
+
+void GameplayController::fadeinCollectibles(){
+    auto color = _model->_invent->getColor();
+    auto colorodd = _model->_inventodd->getColor();
+    auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, _model->initInventAlpha));
+    auto newColorodd = Color4(color.r, color.g, color.b, std::min(colorodd.a + 10, _model->initOddAlpha));
+    _model->_invent->setColor(newColor);
+    _model->_inventodd->setColor(newColorodd);
+    if(_model->_invent->getColor().a == _model->initInventAlpha
+       || _model->_inventodd->getColor().a == _model->initOddAlpha) {
+        _justCollected = false;
+    }
+}
+
+void GameplayController::resetCollectibleAlpha() {
+    auto color = _model->_invent->getColor();
+    auto colorodd = _model->_inventodd->getColor();
+    _model->_invent->setColor(Color4(color.r, color.g, color.b, _model->initInventAlpha));
+    _model->_inventodd->setColor(Color4(colorodd.r, colorodd.g, colorodd.b, _model->initOddAlpha));
+    _justCollected = false;
+}
+

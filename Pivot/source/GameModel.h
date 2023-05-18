@@ -88,6 +88,14 @@ private:
 public:
     /** map of collectibles */
     std::map<std::string, Collectible> _collectibles;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _invent;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _inventodd;
+    
+    int initInventAlpha;
+    
+    int initOddAlpha;
 
 
 
