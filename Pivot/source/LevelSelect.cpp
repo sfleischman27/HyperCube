@@ -300,7 +300,7 @@ int LevelSelect::inPackNum(Pack pack){
         case ZERO: // number of levels in tutorial
             return 3;
         case ONE:  // number of levels in debug
-            return 7;
+            return 8;
     }
 }
 

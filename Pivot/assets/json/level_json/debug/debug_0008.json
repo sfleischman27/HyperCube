@@ -1,0 +1,261 @@
+{
+    "level_id": "debug_0050",
+    "player_loc": [
+        0.3223457336425781,
+        2.4031620025634766,
+        0.26563167572021484
+    ],
+    "norm": [
+        0.0,
+        -1.0,
+        0.0
+    ],
+    "exit": [
+        0.1880035400390625,
+        66.13832092285156,
+        -15.790438652038574
+    ],
+    "glowsticks": 5,
+    "shade_depth": 500,
+    "shade_color": [
+        0.0008295918232761323,
+        0.0,
+        0.027718435972929
+    ],
+    "bg_color": [
+        1.0,
+        0.3919034004211426,
+        0.0
+    ],
+    "bg_image": "supercoolspace",
+    "sprites": {
+        "1": {
+            "loc": [
+                0.7214560508728027,
+                46.72425079345703,
+                -4.534463405609131
+            ],
+            "tex": "mushroom2",
+            "scale": 11.563148498535156,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": true,
+            "billboard": true,
+            "emissive": true,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "2": {
+            "loc": [
+                59.38325500488281,
+                1.6217784881591797,
+                4.839430809020996
+            ],
+            "tex": "glow_cube",
+            "scale": 12.698282241821289,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "3": {
+            "loc": [
+                59.38325500488281,
+                1.6217784881591797,
+                4.839430809020996
+            ],
+            "tex": "glow_cube",
+            "scale": 12.698282241821289,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": true,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "4": {
+            "loc": [
+                29.176895141601562,
+                9.535330772399902,
+                1.5248117446899414
+            ],
+            "tex": "biohazrd",
+            "scale": 7.009476184844971,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "5": {
+            "loc": [
+                18.07956886291504,
+                -7.6960577964782715,
+                0.17124652862548828
+            ],
+            "tex": "acid",
+            "scale": 5.6909565925598145,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": false,
+            "emissive": true,
+            "color": null,
+            "intense": null,
+            "radius": null
+        },
+        "6": {
+            "loc": [
+                -2.6906471252441406,
+                2.2146081924438477,
+                5.907691955566406
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.0,
+                1.0,
+                0.004149466287344694
+            ],
+            "intense": 0.1,
+            "radius": 16.049999237060547
+        },
+        "7": {
+            "loc": [
+                -2.6906471252441406,
+                28.620635986328125,
+                5.120555877685547
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.0,
+                0.0031433298718184233,
+                1.0
+            ],
+            "intense": 0.1,
+            "radius": 10.0
+        },
+        "8": {
+            "loc": [
+                -2.6906471252441406,
+                59.45298767089844,
+                4.07771110534668
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.3806104362010956,
+                0.0
+            ],
+            "intense": 0.1,
+            "radius": 4.690000057220459
+        },
+        "9": {
+            "loc": [
+                34.04509353637695,
+                2.2146081924438477,
+                5.907691955566406
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.9390882253646851,
+                0.9503995180130005
+            ],
+            "intense": 0.1,
+            "radius": 16.049999237060547
+        }
+    },
+    "sounds": {
+        "0": {
+            "sound": "sound_0",
+            "loc": [
+                58.09117126464844,
+                1.3760037422180176,
+                -1.381143569946289
+            ],
+            "radius": 27.704158782958984
+        },
+        "1": {
+            "sound": "sound_1",
+            "loc": [
+                -3.1350860595703125,
+                64.25289154052734,
+                -12.28481674194336
+            ],
+            "radius": 30.83496856689453
+        }
+    },
+    "collision_mesh": "meshes/debug/debug_0050_col.obj",
+    "render_mesh": "meshes/debug/debug_0050_dec.obj",
+    "triggers": {
+        "0": {
+            "type": "DEATH",
+            "mesh": "meshes/debug/debug_0050_death_0000.obj",
+            "image": null,
+            "message": null
+        },
+        "1": {
+            "type": "POPUP",
+            "mesh": "meshes/debug/debug_0050_popup_0000.obj",
+            "image": "rotate_tutorial",
+            "message": null
+        },
+        "2": {
+            "type": "MESSAGE",
+            "mesh": "meshes/debug/debug_0050_message_0000.obj",
+            "image": null,
+            "message": "You are in a message box\nWith multiple lines\nwowowow!"
+        },
+        "3": {
+            "type": "EXITREGION",
+            "mesh": "meshes/debug/debug_0050_exitregion_0000.obj",
+            "image": null,
+            "message": null
+        }
+    }
+}

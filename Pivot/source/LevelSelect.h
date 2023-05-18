@@ -14,7 +14,7 @@ class LevelSelect : public cugl::Scene2 {
 public:
     // whether to play this levels background music
     bool _playMusic = false;
-    
+
     enum Choice {
         /** User has not yet made a choice */
         NONE = -1,
@@ -55,32 +55,32 @@ public:
         /** User wants to go to the settings menu */
         SETTINGS = 22
     };
-    
+
     enum Pack {
         /** The pack of levels that the page is displaying */
         ZERO = 0,
         ONE = 1
     };
-    
+
 protected:
     /** The asset manager for loading. */
     std::shared_ptr<cugl::AssetManager> _assets;
-    
+
     /** The list of level buttons */
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
-    
+
     /** The max level number unlocked (starts at 1)*/
     int _maxLevel;
     /** The player menu choice */
     Choice _choice;
     /** The current pack */
     Pack _pack;
-    
+
     /** The total number of levels we have in the game */
-    const int LEVELS_IMPLEMENTED = 10;
+    const int LEVELS_IMPLEMENTED = 11;
     /** The total number of packs in the game */
     const int PACKS_IMPLEMENTED = 2;
-    
+
     /**
      * Returns the active screen size of this scene.
      *
@@ -88,7 +88,7 @@ protected:
      * ratios
      */
     cugl::Size computeActiveSize() const;
-    
+
 public:
 #pragma mark -
 #pragma mark Constructors
@@ -99,7 +99,7 @@ public:
      * This allows us to use the object without a heap pointer.
      */
     LevelSelect() : Scene2() {}
-    
+
     /**
      * Disposes of all (non-static) resources allocated to this mode.
      *
@@ -107,12 +107,12 @@ public:
      * static resources, like the input controller.
      */
     ~LevelSelect() { dispose(); }
-    
+
     /**
      * Disposes of all (non-static) resources allocated to this mode.
      */
     void dispose();
-    
+
     /**
      * Initializes the controller contents, making it ready for loading with only the first level unlocked
      *
@@ -125,7 +125,7 @@ public:
      * @return true if the controller is initialized properly, false otherwise.
      */
     bool init(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 0); }
-    
+
     /**
      * Initializes the controller contents, making it ready for loading with all levels unlocked
      *
@@ -138,7 +138,7 @@ public:
      * @return true if the controller is initialized properly, false otherwise.
      */
     bool initMax(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, LEVELS_IMPLEMENTED - 1); }
-    
+
     /**
      * Initializes the controller contents, making it ready for loading
      *
@@ -152,8 +152,8 @@ public:
      * @return true if the controller is initialized properly, false otherwise.
      */
     bool init(const std::shared_ptr<cugl::AssetManager>& assets, int level);
-    
-    
+
+
 #pragma mark -
 #pragma mark Progress Monitoring
     /**
@@ -163,12 +163,12 @@ public:
      * @param timestep  The amount of time (in seconds) since the last frame
      */
     void update(float timestep) {}
-    
+
     /**
      * The method that updates the menu to reflect unlocked levels
      */
     void updateLevel(int level);
-    
+
     /**
      * Sets whether the scene is currently active
      *
@@ -179,7 +179,7 @@ public:
      * @param value whether the scene is currently active
      */
     virtual void setActive(bool value) override;
-    
+
 #pragma mark State Transition Helpers
 public:
     /**
@@ -189,7 +189,7 @@ public:
      * Only use when a level has been selected! (otherwise this will break things)
      */
     std::string getLevelString();
-    
+
     /**
      * Returns a level name string using the current level menu states
      *
@@ -197,17 +197,17 @@ public:
      * Only use when a level has been selected! (otherwise this will break things)
      */
     std::string getNextLevelString();
-    
+
     /**
      * Updates the choice and pack to the next level
      */
     void nextLevel();
-    
+
     /**
      * Returns the level number  of the max level unlocked
      */
     int getMaxLevel() { return _maxLevel; }
-    
+
     /**
      * Returns the user's menu choice.
      *
@@ -216,37 +216,37 @@ public:
      * @return the user's menu choice.
      */
     Choice getChoice() const { return _choice; }
-    
+
     /**
      * Returns true if the current level is the last level
      */
     bool isLast();
-    
+
     /**
      * Returns true if the current level is the last level in the current pack
      */
     bool isLastInPack();
-    
+
     /**
      * Unlocks the next level if it is not yet unlocked
      */
     void unlockNextLevel();
-    
+
     /**
      * Switches page to the next pack if possible
      */
     void nextPack();
-    
+
     /**
      * Switches page to the previous pack if possible
      */
     void prevPack();
-    
+
     /**
      * Resets unlocked levels
      */
     void resetMax() { _maxLevel = 0; }
-    
+
 private:
     /**
      * Returns a level name string using the given level states
@@ -255,52 +255,52 @@ private:
      * @param pack    Level pack string
      */
     std::string toLevelString(int level, std::string pack);
-    
+
     /**
      * Returns the current pack as a string.
      *
      * @return the string of the current pack
      */
     std::string packToString(Pack pack);
-  
+
     /** Translates a button level string to a number
      *  Only use for levels 1-15  all others return -1
      *
      *  Example: "level12" --> 11
      */
     int buttNameToNum(std::string name);
-    
+
 //    /**
 //     * Translate a number to a level string
 //     *
 //     *  Example: 16 --> "test_0001"
 //     */
 //    std::string numToName(int level);
-    
+
     /**
      * Returns the integer version of the current level and pack
      *
      * (pack * 15) + choice
      */
     int levelNum();
-    
+
     /**
      * Updated max level if level is greater than the current max
      */
     void updateMax(int level);
-    
+
     void setChoice(std::string name);
-    
+
     /**
      * Returns the number of levels before the given pack
      */
     int prePackNum(Pack pack);
-    
+
     /**
      * Returns the number of levels in the given pack
      */
     int inPackNum(Pack pack);
-    
+
 };
 
 #endif /* LevelSelect_h */
