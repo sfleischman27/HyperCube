@@ -22,6 +22,7 @@
 #include "QuitMenu.h"
 #include "SettingsMenu.h"
 #include "Loading.h"
+#include "Cutscene.h"
 
 // Demo mode
 #include "PFLoadingScene.h"
@@ -47,7 +48,9 @@ protected:
         /** The settings menu scene */
         SETTINGS,
         /** The settings menu but returns to the quit scene */
-        SETTINGSQUIT
+        SETTINGSQUIT,
+        /** The cutscene */
+        CUTSCENE
     };
     
     /** The global sprite batch for drawing (only want one of these) */
@@ -80,9 +83,8 @@ protected:
     QuitMenu _quitMenu;
     /** The settings menu view */
     SettingsMenu _settings;
-    
-    /** The controller for the loading screen */
-    //LoadingScene _loading;
+    /** The cutscene view*/
+    Cutscene _cutscene;
     
     /** The current active scene */
     State _scene;
@@ -249,6 +251,16 @@ private:
      * @param timestep  The amount of time (in seconds) since the last frame
      */
     void updateQuitScene(float timestep);
+    
+    /**
+     * Inidividualized update method for the settings scene.
+     *
+     * This method keeps the primary {@link #update} from being a mess of switch
+     * statements. It also handles the transition logic from the loading scene.
+     *
+     * @param timestep  The amount of time (in seconds) since the last frame
+     */
+    void updateCutscene(float timestep);
     
     /**
      * Inidividualized update method for the settings scene.

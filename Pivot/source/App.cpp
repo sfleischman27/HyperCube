@@ -98,6 +98,7 @@ void PivotApp::onShutdown() {
     _endMenu.dispose();
     _quitMenu.dispose();
     _settings.dispose();
+    _cutscene.dispose();
     _assets = nullptr;
     _batch = nullptr;
 
@@ -186,6 +187,9 @@ void PivotApp::update(float timestep) {
         case SETTINGS: case SETTINGSQUIT:
             updateSettingsScene(timestep);
             break;
+        case CUTSCENE:
+            updateCutscene(timestep);
+            break;
     }
 
     //level sound cues
@@ -227,6 +231,9 @@ void PivotApp::draw() {
         case SETTINGS: case SETTINGSQUIT:
             _settings.render(_batch);
             break;
+        case CUTSCENE:
+            _cutscene.render(_batch);
+            break;
     }
 }
 
@@ -245,50 +252,15 @@ void PivotApp::updateLoadingScene(float timestep){
             _gameplay.init(_assets, getDisplaySize(), _sound);
             if(_testing){ _gameplay.setMaxLevel(_levelSelect.getMaxLevel()); }
             _settings.init(_assets, _gameplay.getDataController());
-            _mainMenu.setActive(true);
-            _scene = State::MAIN;
+            _cutscene.init(_assets);
+            ///
+            _cutscene.setActive(true);
+            _scene = State::CUTSCENE;
+            // TODO: RESET THIS
+//            _mainMenu.setActive(true);
+//            _scene = State::MAIN;
             break;
     }
-
-//    if (_loading.isActive()) {
-//        _loading.update(timestep);
-//    } else {
-//        _loading.dispose(); // Permanently disables the input listeners in this mode
-//        _mainMenu.init(_assets);
-//        if(_testing){
-//            _levelSelect.initMax(_assets);
-//        }else{
-//            _levelSelect.init(_assets);
-//        }
-//        _endMenu.init(_assets);
-//        _quitMenu.init(_assets);
-//        _gameplay.init(_assets, getDisplaySize(), _sound);
-//        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
-//        _settings.init(_assets, _gameplay.getDataController());
-//        _mainMenu.setActive(true);
-//        _scene = State::MAIN;
-//    }
-
-//    if (_demoloading.isActive()) {
-//        _demoloading.update(timestep);
-//    } else {
-//        _demoloading.dispose(); // Permanently disables the input listeners in this mode
-//        _mainMenu.init(_assets);
-//        if(_testing){
-//            _levelSelect.initMax(_assets);
-//        }else{
-//            _levelSelect.init(_assets);
-//        }
-//        _endMenu.init(_assets);
-//        _quitMenu.init(_assets);
-//        _gameplay.init(_assets, getDisplaySize(), _sound);
-//        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
-//        _settings.init(_assets, _gameplay.getDataController());
-//        _mainMenu.setActive(true);
-//        _scene = State::MAIN;
-//    }
-
-
 }
 
 void PivotApp::updateGameScene(float timestep){
@@ -426,6 +398,27 @@ void PivotApp::updateQuitScene(float timestep){
             _quitMenu.setActive(false);
             _settings.setActive(true);
             _scene = State::SETTINGSQUIT;
+            break;
+    }
+}
+
+void PivotApp::updateCutscene(float timestep){
+    switch(_cutscene.getChoice()) {
+        case Cutscene::NONE:
+            _cutscene.update(timestep);
+            break;
+        case Cutscene::STORY1:
+        case Cutscene::STORY2:
+        case Cutscene::STORY3:
+        case Cutscene::STORY4:
+        case Cutscene::BUTTON:
+            _cutscene.update(timestep);
+            break;
+        case Cutscene::NEXT:
+            _cutscene.setActive(false);
+            //TODO: CHANGE THIS!!!!
+            _levelSelect.setActive(true);
+            _scene = State::LEVEL;
             break;
     }
 }

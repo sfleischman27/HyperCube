@@ -15,6 +15,7 @@ using namespace cugl;
 
 bool Cutscene::init(const std::shared_ptr<cugl::AssetManager> &assets) {
     _choice = NONE;
+    _counter = 0;
     
     Size dimen = Application::get()->getDisplaySize();
     
@@ -125,30 +126,65 @@ void Cutscene::update(float timestep){
         case STORY1: {
             _story1->setVisible(true);
             auto color = _story1->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 2, 255));
             _story1->setColor(newColor);
-            if (newColor.a == 255){ _choice = STORY2; }
+            if (newColor.a == 255){
+                _counter += 2;
+                if( _counter >= 255){
+                    _choice = STORY2;
+                    _counter = 0;
+                }
+            }
             break; }
         case STORY2:{
             _story2->setVisible(true);
             auto color = _story2->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 2, 255));
             _story2->setColor(newColor);
-            if (newColor.a == 255){ _choice = STORY3; }
+            if (newColor.a == 255){
+                _counter += 2;
+                if( _counter >= 255){
+                    _choice = STORY3;
+                    _counter = 0;
+                }
+            }
             break; }
         case STORY3:{
             _story3->setVisible(true);
             auto color = _story3->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 2, 255));
             _story3->setColor(newColor);
-            if (newColor.a == 255){ _choice = STORY4; }
+            if (newColor.a == 255){
+                _counter += 2;
+                if( _counter >= 255){
+                    _choice = STORY4;
+                    _counter = 0;
+                }
+            }
             break; }
         case STORY4:{
             _story4->setVisible(true);
             auto color = _story4->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 2, 255));
             _story4->setColor(newColor);
-            if (newColor.a == 255){ _choice = NONE; }
+            if (newColor.a == 255){
+                _counter += 2;
+                if( _counter >= 255){
+                    _choice = BUTTON;
+                    _counter = 0;
+                }
+            }
+            break; }
+        case BUTTON:{
+            _butt->setVisible(true);
+            auto color = _story4->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 5, 255));
+            _butt->setColor(newColor);
+            if (newColor.a == 255){
+                _choice = NONE;
+                _counter = 0;
+                _butt->activate();
+            }
             break; }
     }
 }
