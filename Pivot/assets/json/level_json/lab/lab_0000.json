@@ -1,5 +1,5 @@
 {
-    "level_id": "debug_0000",
+    "level_id": "lab_0000",
     "player_loc": [
         -88.0,
         -1.9999847412109375,
@@ -411,42 +411,42 @@
         }
     },
     "sounds": {},
-    "collision_mesh": "meshes/debug/debug_0000_col.obj",
-    "render_mesh": "meshes/debug/debug_0000_dec.obj",
+    "collision_mesh": "meshes/lab/lab_0000_col.obj",
+    "render_mesh": "meshes/lab/lab_0000_dec.obj",
     "triggers": {
         "0": {
             "type": "DEATH",
-            "mesh": "meshes/debug/debug_0000_death_0000.obj",
+            "mesh": "meshes/lab/lab_0000_death_0000.obj",
             "image": null,
             "message": null
         },
         "1": {
             "type": "DEATH",
-            "mesh": "meshes/debug/debug_0000_death_0001.obj",
+            "mesh": "meshes/lab/lab_0000_death_0001.obj",
             "image": null,
             "message": null
         },
         "2": {
             "type": "POPUP",
-            "mesh": "meshes/debug/debug_0000_popup_0000.obj",
+            "mesh": "meshes/lab/lab_0000_popup_0000.obj",
             "image": "tutorial_rotate",
             "message": null
         },
         "3": {
             "type": "POPUP",
-            "mesh": "meshes/debug/debug_0000_popup_0001.obj",
+            "mesh": "meshes/lab/lab_0000_popup_0001.obj",
             "image": "tutorial_rotate",
             "message": null
         },
         "4": {
             "type": "MESSAGE",
-            "mesh": "meshes/debug/debug_0000_message_0000.obj",
+            "mesh": "meshes/lab/lab_0000_message_0000.obj",
             "image": null,
             "message": "I NEED TO GET DOWN TO THE REACTOR!"
         },
         "5": {
             "type": "EXITREGION",
-            "mesh": "meshes/debug/debug_0000_exitregion_0000.obj",
+            "mesh": "meshes/lab/lab_0000_exitregion_0000.obj",
             "image": null,
             "message": null
         }

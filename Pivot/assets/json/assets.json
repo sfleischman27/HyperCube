@@ -255,6 +255,16 @@
             "file": "textures/biohazard.png",
             "span": 1,
             "cols": 1
+        },
+        "biohazrd": {
+            "file": "textures/biohazrd.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tutorial_rotate": {
+            "file": "textures/tutorial_rotate.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
@@ -359,6 +369,7 @@
         "debug_0005": "json/level_json/debug/debug_0005.json",
         "debug_0004": "json/level_json/debug/debug_0004.json",
         "debug_0006": "json/level_json/debug/debug_0006.json",
-        "debug_0007": "json/level_json/debug/debug_0007.json"
+        "debug_0007": "json/level_json/debug/debug_0007.json",
+        "lab_0000": "json/level_json/lab/lab_0000.json"
     }
 }
