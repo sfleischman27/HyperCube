@@ -101,7 +101,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     bg_color.b = constants->get("bg_color")->get(2)->asFloat();
     model->bgColor = bg_color;
 
-    model->backgroundPic = _assets->get<Texture>(constants->get("bg_image")->asString());
+    model->backgroundPic = _assets->get<Texture>("space135");
 
     // get the sprites
     std::shared_ptr<cugl::JsonValue> sprites = constants->get("sprites");
@@ -195,7 +195,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
             //TODO @matt how to make lights with falloff?
 
-            GameModel::Light light = GameModel::Light(color, intensity, loc);
+            GameModel::Light light = GameModel::Light(color, intensity, loc, radius);
             model->_lights.push_back(light);
 
         }

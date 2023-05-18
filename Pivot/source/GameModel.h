@@ -49,9 +49,6 @@ public:
     /** background pic of the level */
     std::shared_ptr<Texture> backgroundPic;
 
-    //TODO: is this used @Matt
-    Vec3 fadeCol = Vec3(31.0, 34.0, 69.0) / 255.0;
-
     /** TODO SARAH update all below */
     bool drawOutline = true;
 
@@ -144,11 +141,13 @@ public:
         Vec3 color;
         float intensity;
         Vec3 loc;
+        float falloff;
 
-        Light(Vec3 color, float intensity, Vec3 loc) {
+        Light(Vec3 color, float intensity, Vec3 loc, float falloff) {
             this->color = color;
             this->intensity = intensity;
             this->loc = loc;
+            this->falloff = falloff;
         }
         Light(){}
     };

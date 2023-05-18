@@ -832,7 +832,7 @@ void GameplayController::update(float dt) {
             // std::cout << "here name:" <<std::string(g.getPosition()) <<std::endl;
             _model->_glowsticks.push_back(g);
             _model->updateGlowstickCount();
-            _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition());
+            _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0); // hard coded for now
         }
         
         _pickupGlowstick = false;

@@ -18,10 +18,11 @@ uniform vec3 color;
 uniform vec3 lpos;
 uniform float power;
 uniform float numLights;
+uniform float attenuation;
 
 // Editable parameters for diffuse calculation
 const float powerMult = 10000.0;
-const float constAtten = 2000.0;
+float constAtten = attenuation; //usually 2000.0
 const float linearAtten = 0.0;
 const float sqAtten = 1.0;
 

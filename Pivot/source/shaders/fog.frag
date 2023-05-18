@@ -12,9 +12,10 @@ uniform float farPlaneDist;
 uniform sampler2D depthTexture;
 uniform sampler2D replaceTexture;
 uniform vec3 fadeCol;
+uniform float severity; // should be 40.0, maybe 20.0, 2.0 on forest
 
 // Editable parameter for depth falloff. Higher = fades out sooner
-const float severity = 40.0;
+//const float severity = 40.0;
 
 float DecodeFloatRGBA(vec4 rgba) {
   return dot( rgba, vec4(1.0, 1.0/255.0, 1.0/65025.0, 1.0/16581375.0) );

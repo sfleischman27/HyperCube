@@ -404,6 +404,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderPointlight->setUniform3f("color", l.color.x, l.color.y, l.color.z);
         _shaderPointlight->setUniform3f("lpos", l.loc.x, l.loc.y, l.loc.z);
         _shaderPointlight->setUniform1f("power", l.intensity);
+        _shaderPointlight->setUniform1f("attenuation", l.falloff);
         _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
         _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
         _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
@@ -413,6 +414,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderPointlight->setUniform3f("color", l.color.x, l.color.y, l.color.z);
         _shaderPointlight->setUniform3f("lpos", l.loc.x, l.loc.y, l.loc.z);
         _shaderPointlight->setUniform1f("power", l.intensity);
+        _shaderPointlight->setUniform1f("attenuation", l.falloff);
         _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
         _vertbuffPointlight->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
         _vertbuffPointlight->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
@@ -520,7 +522,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderFog->setUniform1f("farPlaneDist", farPlaneDist);
     _shaderFog->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderFog->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
-    _shaderFog->setUniform3f("fadeCol", model->fadeCol.x, model->fadeCol.y, model->fadeCol.z);
+    _shaderFog->setUniform3f("fadeCol", model->shadeColor.r, model->shadeColor.g, model->shadeColor.b);
+    _shaderFog->setUniform1f("severity", model->shadeDepth);
     _vertbuffFog->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffFog->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffFog->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
