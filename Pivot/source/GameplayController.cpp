@@ -814,20 +814,20 @@ void GameplayController::update(float dt) {
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
         itr->second.setRotationalSprite(_model->getGlobalAngleDeg());
-        if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST
-            && !itr->second.getCollected()){
+        if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST && !itr->second.getCollected()) {
             itr->second.setCollected(true);
             _justCollected = true;
             _model->_backpack.insert(itr->first);
             if (_model->_nav_target == itr->second.getPosition()) {
-                itr++;
-                if (itr == _model->_collectibles.end()) {
-                    _model->_nav_target = _model->_exit->getPosition();
+                //need a new nav target, exit unless there are collectibles left
+                Vec3 new_target = _model->_exit->getPosition();
+                for (auto it_nav = _model->_collectibles.begin(); it_nav != _model->_collectibles.end(); it_nav++) {
+                    if (_model->_backpack.count(it_nav->first) == 0) {
+                        new_target = it_nav->second.getPosition();
+                    }
                 }
-                else {
-                    _model->_nav_target = itr->second.getPosition();
-                }
-                itr--;
+                _model->_nav_target = new_target;
+
             }
         }
     }
