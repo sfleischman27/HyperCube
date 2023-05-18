@@ -60,6 +60,7 @@ void main(void) {
 		// Background color
 		//frag_color = vec4(31.0, 34.0, 69.0, 255.0) / 255.0;
 		vec2 rotTexCoord = outTexCoord;
+		//rotTexCoord *= .5;
 		rotTexCoord.x = mod((outTexCoord.x / amtOfScreens) + interpStartPosLeft, 1.0);
 		rotTexCoord.y = 1.0 - rotTexCoord.y;
 		frag_color = texture(background, rotTexCoord);
