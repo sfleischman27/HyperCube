@@ -34,8 +34,6 @@ using namespace cugl;
 #define COLLECTING_DIST   25
 /** Threshold of the reaching exit distance */
 #define EXITING_DIST   25
-/** Number of glowsticks allowed to put */
-#define NUM_GLOWSTICKS 4
 /** Glowstick pickup distance*/
 #define PICKING_DIST   15
 /** Scale from player image to capsule */
@@ -862,9 +860,13 @@ void GameplayController::update(float dt) {
                 ++g;
             }
         }
-        if (!_pickupGlowstick && _model->_glowsticks.size() < NUM_GLOWSTICKS) {
-            auto g = Glowstick(player3DPos-(_model->getPlaneNorm()*10));
-            // std::cout << "here name:" <<std::string(g.getPosition()) <<std::endl;
+        if (!_pickupGlowstick && _model->_glowsticks.size() < _model->_numGlowsticks) {
+            auto g = Glowstick();
+            if(_model->_player->isFacingRight()){
+                g = Glowstick(player3DPos+(_plane->getBasisRight()*10)-(_model->getPlaneNorm()*1));
+            }else{
+                g = Glowstick(player3DPos-(_plane->getBasisRight()*10)-(_model->getPlaneNorm()*1));
+            }
             _model->_glowsticks.push_back(g);
             _model->updateGlowstickCount();
             _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0); // hard coded for now
