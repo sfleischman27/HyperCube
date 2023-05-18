@@ -46,7 +46,7 @@
                     "label": {
                         "type": "Label",
                         "data": {
-                            "font": "gyparody",
+                            "font": "roboto",
                             "text": "this works",
                             "size": [790,190],
                             "foreground": [255,255,255,255],

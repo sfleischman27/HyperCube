@@ -29,17 +29,17 @@
         }
     },
     "fonts": {
-        "gyparody": {
-            "file":     "fonts/gyparody-hv.ttf",
-            "size":     48
-        },
-        "gyparody-smaller": {
-            "file":     "fonts/gyparody-hv.ttf",
+        "roboto-smaller": {
+            "file":     "fonts/rm-light.ttf",
             "size":     30
         },
-        "gyparody-medium": {
-            "file":     "fonts/gyparody-hv.ttf",
+        "roboto-medium": {
+            "file":     "fonts/rm-light.ttf",
             "size":     42
+        },
+        "roboto-reg": {
+            "file":     "fonts/rm.ttf",
+            "size":     36
         }
     },
     "widgets" : {

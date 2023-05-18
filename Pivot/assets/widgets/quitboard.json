@@ -27,7 +27,7 @@
             "label": {
                 "type": "Label",
                 "data": {
-                    "font": "gyparody-smaller",
+                    "font": "roboto-smaller",
                     "size": [450,300],
                     "anchor": [0.075,0.35],
                     "text": "Are you sure you want to quit?",

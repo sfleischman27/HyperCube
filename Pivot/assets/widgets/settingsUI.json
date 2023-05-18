@@ -78,7 +78,7 @@
                                     "label": {
                                         "type": "Label",
                                         "data": {
-                                            "font": "gyparody",
+                                            "font": "roboto-reg",
                                             "text": "Back",
                                             "foreground": [255,255,255,255],
                                             "background": [0,0,0,0],
@@ -120,7 +120,7 @@
                                     "label": {
                                         "type": "Label",
                                         "data": {
-                                            "font": "gyparody",
+                                            "font": "roboto-reg",
                                             "text": "Clear Data",
                                             "foreground": [255,255,255,255],
                                             "background": [0,0,0,0],
@@ -254,7 +254,7 @@
                                     "label": {
                                         "type": "Label",
                                         "data": {
-                                            "font": "gyparody-medium",
+                                            "font": "roboto-reg",
                                             "text": "Are you sure you want to clear save data?",
                                             "foreground": [255,255,255,255],
                                             "background": [0,0,0,0],
@@ -293,7 +293,7 @@
                                             "label": {
                                                 "type": "Label",
                                                 "data": {
-                                                    "font": "gyparody",
+                                                    "font": "roboto-reg",
                                                     "text": "Yes",
                                                     "foreground": [255,255,255,255],
                                                     "background": [0,0,0,0],
@@ -334,7 +334,7 @@
                                             "label": {
                                                 "type": "Label",
                                                 "data": {
-                                                    "font": "gyparody",
+                                                    "font": "roboto-reg",
                                                     "text": "No",
                                                     "foreground": [255,255,255,255],
                                                     "background": [0,0,0,0],

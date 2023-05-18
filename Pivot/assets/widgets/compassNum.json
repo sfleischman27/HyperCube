@@ -11,7 +11,7 @@
            "size": [150,150],
            "anchor": [0,0],
            "scale": 1,
-           "font": "gyparody",
+           "font": "roboto",
            "text": "0",
            "foreground": [255,255,255,255],
            "background": [0,0,0,0]

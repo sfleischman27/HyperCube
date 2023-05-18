@@ -74,12 +74,12 @@
         }
 	},
 	"fonts": {
-        "gyparody": {
-            "file":     "fonts/gyparody-hv.ttf",
+        "roboto": {
+            "file":     "fonts/rm-light.ttf",
             "size":     48
         },
-        "gyparody-small": {
-            "file":     "fonts/gyparody-hv.ttf",
+        "roboto-small": {
+            "file":     "fonts/rm-light.ttf",
             "size":     10
         }
 	},
