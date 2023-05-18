@@ -19,7 +19,9 @@ public:
         /** User does not want to quit */
         N,
         /** User wants to restart level */
-        RESTART
+        RESTART,
+        /** User wants to go to settings */
+        SETTINGS
     };
     
 protected:
@@ -32,6 +34,8 @@ protected:
     std::shared_ptr<cugl::scene2::Button>    _no;
     /** The "restart" button */
     std::shared_ptr<cugl::scene2::Button>    _restart;
+    /** The "settings" button */
+    std::shared_ptr<cugl::scene2::Button>    _settings;
     
     /** The player menu choice */
     Choice _choice;

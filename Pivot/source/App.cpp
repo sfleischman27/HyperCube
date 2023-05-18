@@ -186,6 +186,8 @@ void PivotApp::update(float timestep) {
         case SETTINGS:
             updateSettingsScene(timestep);
             break;
+        case SETTINGSQUIT:
+            updateSettingsScene(timestep);
     }
     
     //level sound cues
@@ -225,6 +227,9 @@ void PivotApp::draw() {
             _gameplay.render(_batch);
             break;
         case SETTINGS:
+            _settings.render(_batch);
+            break;
+        case SETTINGSQUIT:
             _settings.render(_batch);
             break;
     }
@@ -355,7 +360,7 @@ void PivotApp::updateEndScene(float timestep){
                 _scene = State::LEVEL;
             } else {
                 _gameplay.setActive(true);
-                _gameplay.load(_levelSelect.getNextLevelString()); ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                _gameplay.load(_levelSelect.getNextLevelString());
                 _scene = State::GAME;
             }
             break;
@@ -383,6 +388,11 @@ void PivotApp::updateQuitScene(float timestep){
             _gameplay.reset();
             _scene = State::GAME;
             break;
+        case QuitMenu::SETTINGS:
+            _quitMenu.setActive(false);
+            _settings.setActive(true);
+            _scene = State::SETTINGSQUIT;
+            break;
     }
 }
 
@@ -399,8 +409,13 @@ void PivotApp::updateSettingsScene(float timestep){
             updateSettings();
             // switch scenes
             _settings.setActive(false);
-            _levelSelect.setActive(true);
-            _scene = State::LEVEL;
+            if(_scene == State::SETTINGS){
+                _levelSelect.setActive(true);
+                _scene = State::LEVEL;
+            } else { // State::SETTINGSQUIT
+                _quitMenu.setActive(true);
+                _scene = State::QUIT;
+            }
             break;
         case SettingsMenu::OVERLAY:
             _settings.setOverlayActive(true);
