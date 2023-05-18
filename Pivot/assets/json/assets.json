@@ -265,6 +265,11 @@
             "file": "textures/tutorial_rotate.png",
             "span": 1,
             "cols": 1
+        },
+        "mushroom2_normal": {
+            "file": "textures/mushroom2_normal.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {

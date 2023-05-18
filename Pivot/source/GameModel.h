@@ -45,8 +45,14 @@ public:
     Color4 bgColor;
     /** background pic of the level */
     std::shared_ptr<Texture> backgroundPic;
-    /** Ambient light TODO JACK here it is. default value is (1.0, 1.0, 1.0, .4) which represents a soft white light*/
-    Color4f ambientLight = Color4f(1.0, 1.0, 1.0, .4);
+    /** ambient light color and level*/
+    Color4 ambientLight;
+
+    /** color of cutline*/
+    Color4 cutLineColor;
+
+    /** color tint of vorinoi fill*/
+    Color4 cutFillColor;
 
     /** Boolean for the cut outline */
     bool drawOutline = true;
@@ -64,8 +70,21 @@ public:
 
     bool _endOfGame = false;
 
+#pragma mark Timestamps
+    /** Player time of death */
     std::shared_ptr<Timestamp> _deathTime;
+    /** Time to pixel in */
+    std::shared_ptr<Timestamp> _pixelInTime;
+    /** Time to pixel out */
+    std::shared_ptr<Timestamp> _pixelOutTime;
+    /** Current time */
     std::shared_ptr<Timestamp> _currentTime;
+    
+    /** True when done pixeling out */
+    bool _donePixelOut;
+    /** True when first starts level */
+    bool _startOfLevel;
+    
     const float timeToNormalSinceDeath = 500; // in milliseconds
 
 #pragma mark Plane State
@@ -196,6 +215,8 @@ public:
         _lights = std::vector<Light>();
         _decorations = std::vector<std::shared_ptr<GameItem>>();
         _deathTime = std::make_shared<Timestamp>();
+        _pixelInTime = std::make_shared<Timestamp>();
+        _pixelOutTime = std::make_shared<Timestamp>();
         _currentTime = std::make_shared<Timestamp>();
         _popup = std::make_shared<Popups>(Popups());
     }

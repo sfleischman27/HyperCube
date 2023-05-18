@@ -57,8 +57,20 @@ class ExportJsonOperator(bpy.types.Operator):
         json_dict["shade_depth"] = bpy.context.scene.shade_depth
         
         # enter shade color
-        color = bpy.context.scene.shade_color 
-        json_dict["shade_color"] = [color.r, color.g, color.b]
+        sh_color = bpy.context.scene.shade_color 
+        json_dict["shade_color"] = [sh_color.r, sh_color.g, sh_color.b]
+        
+        # enter ambient_color
+        amb_int = bpy.context.scene.ambient_intensity
+        amb_c = bpy.context.scene.ambient_color 
+        json_dict["ambient_color"] = [amb_c.r, amb_c.g, amb_c.b, amb_int]
+        
+        # enter cut colors color
+        color = bpy.context.scene.cutline_color 
+        json_dict["cutline_color"] = [color.r, color.g, color.b]
+
+        color = bpy.context.scene.cutfill_color 
+        json_dict["cutfill_color"] = [color.r, color.g, color.b]
         
         # enter background color 
         color = bpy.context.scene.bg_color
@@ -334,7 +346,9 @@ class ExportJsonOperator(bpy.types.Operator):
         return se_dict
     
     def collectibles_to_dict(self, collection, sprite_count, scene_scale, dir,emit_bool):
-                
+        if collection == None:
+            return (dict(), dict(), sprite_count)
+        
         #get sprite data
         collectibles = collection
         col_dict = dict()
@@ -374,8 +388,8 @@ class ExportJsonOperator(bpy.types.Operator):
                 for ch in sprite.children:
                     if ch.data.type  == 'POINT':
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
-                        sprite_dict["intense"] = ch.data.energy/100000
-                        sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale
+                        sprite_dict["intense"] = ch.data.energy/10000
+                        sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale*1000
                 
                 col_dict[f"{sprite_count}"] = sprite_dict
                 sprite_count += 1
@@ -383,6 +397,8 @@ class ExportJsonOperator(bpy.types.Operator):
         return (col_dict, new_tex_dict, sprite_count)
     
     def dec_to_dict(self, collection, sprite_count, scene_scale, dir, emit_bool):
+        if collection == None:
+            return (dict(), dict(), sprite_count)
         
         decorations = collection
         deco_dict = dict()
@@ -423,8 +439,8 @@ class ExportJsonOperator(bpy.types.Operator):
                 for ch in sprite.children:
                     if ch.data.type == 'POINT':
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
-                        sprite_dict["intense"] = ch.data.energy/100000
-                        sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale
+                        sprite_dict["intense"] = ch.data.energy/10000
+                        sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale*100
                 
                 deco_dict[f"{sprite_count}"] = sprite_dict
                 sprite_count += 1
@@ -432,6 +448,8 @@ class ExportJsonOperator(bpy.types.Operator):
         return (deco_dict, new_tex_dict, sprite_count)
     
     def lights_to_dict(self, collection, sprite_count, scene_scale):
+        if collection == None:
+            return (dict(), sprite_count)
         
         light_dict = dict()
     
@@ -456,8 +474,8 @@ class ExportJsonOperator(bpy.types.Operator):
                 
                 #light properties
                 sprite_dict["color"] = [obj.data.color.r,obj.data.color.g,obj.data.color.b]
-                sprite_dict["intense"] = obj.data.energy/100000
-                sprite_dict["radius"] = obj.data.shadow_soft_size*scene_scale
+                sprite_dict["intense"] = obj.data.energy/10000
+                sprite_dict["radius"] = obj.data.shadow_soft_size*scene_scale*100
                 
                 
                 light_dict[f"{sprite_count}"] = sprite_dict
@@ -466,6 +484,8 @@ class ExportJsonOperator(bpy.types.Operator):
         return light_dict, sprite_count
     
     def posters_to_dict(self, collection, sprite_count, scene_scale, dir, emit_bool):
+        if collection == None:
+            return (dict(), dict(), sprite_count)
         
         posters = collection
         poster_dict = dict()
@@ -507,7 +527,7 @@ class ExportJsonOperator(bpy.types.Operator):
                     if ch.data.type == 'POINT':
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
                         sprite_dict["intense"] = ch.data.energy/100000
-                        sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale
+                        sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale*100
                 
                 poster_dict[f"{sprite_count}"] = sprite_dict
                 sprite_count += 1
@@ -515,6 +535,9 @@ class ExportJsonOperator(bpy.types.Operator):
         return (poster_dict, new_tex_dict, sprite_count)
     
     def audio_to_dict(self, collection, scene_scale):
+        if collection == None:
+            return dict()
+        
         audio_dict = dict()
         emitter_count = 0
         for sound_group in collection.children:
@@ -733,6 +756,16 @@ class PivotPanel(bpy.types.Panel):
         row = col.row()
         row.prop(context.scene, "shade_color")
         row = col.row()
+        
+        row.prop(context.scene, "cutline_color")
+        row = col.row()
+        row.prop(context.scene, "cutfill_color")
+        row = col.row()
+        
+        row.prop(context.scene, "ambient_intensity")
+        row = col.row()
+        row.prop(context.scene, "ambient_color")
+        row = col.row()
         row.prop(context.scene, "bg_color")
         row = col.row()
         row.prop(context.scene, "bg_image")
@@ -759,7 +792,7 @@ def register():
             ('lab', "Lab", "Lab Level"),
             ('tunnels', "Tunnels", "Tunnel Level"),
             ('woods', "Woods", "Woods Level"),
-            ('finalfacility', "Final Facility", "Final Facility Level")           
+            ('final', "Final Facility", "Final Facility Level")
         ],
         default='debug'
     )
@@ -795,9 +828,33 @@ def register():
     #register other ui elements
     bpy.types.Scene.glow_count = bpy.props.IntProperty(name = "Glowstick Count", min = 0, max = 10)
     bpy.types.Scene.scene_scale = bpy.props.IntProperty(name = "Scene Scale", min = 0, max = 10)
-    bpy.types.Scene.shade_depth = bpy.props.IntProperty(name = "Shade Depth", min = -1, max = 10000)
+    bpy.types.Scene.shade_depth = bpy.props.IntProperty(name = "Shade Strength", min = 0, max = 1000)
     bpy.types.Scene.shade_color = bpy.props.FloatVectorProperty(
         name="Shade Color",
+        subtype='COLOR',
+        default=(1.0, 1.0, 1.0),
+        min=0.0,
+        max=1.0
+    )
+    bpy.types.Scene.ambient_intensity = bpy.props.FloatProperty(name = "Ambient Intensity", min = 0, max = 1)
+    
+    bpy.types.Scene.cutfill_color = bpy.props.FloatVectorProperty(
+        name="Cut Fill Color",
+        subtype='COLOR',
+        default=(0.0, 0.01, 0.0),
+        min=0.0,
+        max=1.0
+    )
+    bpy.types.Scene.cutline_color = bpy.props.FloatVectorProperty(
+        name="Cut Line Color",
+        subtype='COLOR',
+        default=(0.0, 1.0, 0.0),
+        min=0.0,
+        max=1.0
+    )
+    
+    bpy.types.Scene.ambient_color = bpy.props.FloatVectorProperty(
+        name="Ambient Color",
         subtype='COLOR',
         default=(1.0, 1.0, 1.0),
         min=0.0,
@@ -850,8 +907,12 @@ def unregister():
     del bpy.types.Scene.scene_scale
     del bpy.types.Scene.shade_depth
     del bpy.types.Scene.shade_color
+    del bpy.types.Scene.ambient_intensity
+    del bpy.types.Scene.ambient_color
     del bpy.types.Scene.bg_color
     del bpy.types.Scene.bg_image
+    del bpy.types.Scene.cutfill_color
+    del bpy.types.Scene.cutline_color
     
     
     bpy.utils.unregister_class(ExportJsonOperator)

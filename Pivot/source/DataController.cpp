@@ -95,13 +95,44 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     shade_color.b = constants->get("shade_color")->get(2)->asFloat();
     model->shadeColor = shade_color;
 
+    if (constants->has("ambient_color")) {
+        auto ambient_color = cugl::Color4();
+        ambient_color.r = constants->get("ambient_color")->get(0)->asFloat();
+        ambient_color.g = constants->get("ambient_color")->get(1)->asFloat();
+        ambient_color.b = constants->get("ambient_color")->get(2)->asFloat();
+        ambient_color.a = constants->get("ambient_color")->get(3)->asFloat();
+        model->ambientLight = ambient_color;
+    }
+
     auto bg_color = cugl::Color4();
     bg_color.r = constants->get("bg_color")->get(0)->asFloat();
     bg_color.g = constants->get("bg_color")->get(1)->asFloat();
     bg_color.b = constants->get("bg_color")->get(2)->asFloat();
     model->bgColor = bg_color;
 
-    model->backgroundPic = _assets->get<Texture>("space135");
+    if (constants->has("cutline_color")) {
+        auto cutline_color = cugl::Color4();
+        cutline_color.r = constants->get("cutline_color")->get(0)->asFloat();
+        cutline_color.g = constants->get("cutline_color")->get(1)->asFloat();
+        cutline_color.b = constants->get("cutline_color")->get(2)->asFloat();
+        model->cutLineColor = cutline_color;
+    }
+    
+    if (constants->has("cutfill_color")) {
+        auto cutfill_color = cugl::Color4();
+        cutfill_color.r = constants->get("cutfill_color")->get(0)->asFloat();
+        cutfill_color.g = constants->get("cutfill_color")->get(1)->asFloat();
+        cutfill_color.b = constants->get("cutfill_color")->get(2)->asFloat();
+        model->cutFillColor = cutfill_color;
+    }
+
+    if (constants->has("bg_image")) {
+        std::string texkey = constants->get("bg_image")->asString();
+        model->backgroundPic = _assets->get<Texture>(texkey);
+    }
+    else {
+        model->backgroundPic = _assets->get<Texture>("backgroung_swamp");
+    }
 
     // get the number of glowsticks
     model->_numGlowsticks = constants->get("glowsticks")->asInt();

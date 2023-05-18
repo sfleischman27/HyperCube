@@ -442,6 +442,8 @@ void GameplayController::reset() {
     _model->_player->setVelocity(Vec2::ZERO);
     _model->_player->doneFlipping = false;
     _model->_player->shouldStartFlipping = false;
+    _model->_donePixelOut = false;
+    _model->_startOfLevel = true;
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -480,6 +482,8 @@ void GameplayController::load(std::string name){
     _model->_player->setVelocity(Vec2::ZERO);
     _model->_player->doneFlipping = false;
     _model->_player->shouldStartFlipping = false;
+    _model->_donePixelOut = false;
+    _model->_startOfLevel = true;
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -720,7 +724,20 @@ void GameplayController::update(float dt) {
     
     if(_model->_player->doneFlipping){
         _model->_player->doneFlipping = false;
+        _model->_pixelOutTime->mark();
+        //TODO: @MATT remove the _state here when you have implemented the pixel stuff
         _state = END;
+    }
+    
+    if(_model->_donePixelOut){
+        _model->_donePixelOut = false;
+        _state = END;
+    }
+    
+    // pixel in the level
+    if(_model->_startOfLevel){
+        _model->_startOfLevel = false;
+        _model->_pixelInTime->mark();
     }
     
 #pragma mark INPUT
