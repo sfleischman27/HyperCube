@@ -44,7 +44,9 @@ protected:
         /** The scene to play the game */
         GAME,
         /** The settings menu scene */
-        SETTINGS
+        SETTINGS,
+        /** The settings menu but returns to the quit scene */
+        SETTINGSQUIT
     };
     
     /** The global sprite batch for drawing (only want one of these) */
