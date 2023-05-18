@@ -33,7 +33,7 @@ using namespace cugl;
  *
  * @return true if the controller is initialized properly, false otherwise.
  */
-bool LoadingScene::init(const std::shared_ptr<cugl::AssetManager>& assets) {
+bool PFLoadingScene::init(const std::shared_ptr<cugl::AssetManager>& assets) {
     // Initialize the scene to a locked width
     Size dimen = Application::get()->getDisplaySize();
     // Lock the scene to a reasonable resolution
@@ -70,7 +70,7 @@ bool LoadingScene::init(const std::shared_ptr<cugl::AssetManager>& assets) {
 /**
  * Disposes of all (non-static) resources allocated to this mode.
  */
-void LoadingScene::dispose() {
+void PFLoadingScene::dispose() {
     // Deactivate the button (platform dependent)
     if (isPending()) {
         _button->deactivate();
@@ -92,7 +92,7 @@ void LoadingScene::dispose() {
  *
  * @param timestep  The amount of time (in seconds) since the last frame
  */
-void LoadingScene::update(float progress) {
+void PFLoadingScene::update(float progress) {
     if (_progress < 1) {
         _progress = _assets->progress();
         if (_progress >= 1) {
@@ -111,7 +111,7 @@ void LoadingScene::update(float progress) {
  *
  * @return true if loading is complete, but the player has not pressed play
  */
-bool LoadingScene::isPending( ) const {
+bool PFLoadingScene::isPending( ) const {
     return _button != nullptr && _button->isVisible();
 }
 

@@ -21,6 +21,7 @@
 #include "EndMenu.h"
 #include "QuitMenu.h"
 #include "SettingsMenu.h"
+#include "Loading.h"
 
 // Demo mode
 #include "PFLoadingScene.h"
@@ -62,7 +63,9 @@ protected:
     // TODO: add more scenes as they are created
     // Player modes
     /** The controller for the demo loading screen */
-    LoadingScene _demoloading;
+    PFLoadingScene _demoloading;
+    /** The controller for the loading screen*/
+    Loading _loading;
     /** The  controller for all sound functions */
     std::shared_ptr<SoundController> _sound;
     /** The primary controller for the game world */

@@ -34,31 +34,31 @@ void PivotApp::onStartup() {
     getDisplaySize();
 
     std::string jsonPath = "json/assets.json";
-	
+
     _assets = AssetManager::alloc();
     _batch  = SpriteBatch::alloc();
-    
+
     // Start-up basic input
 #ifdef CU_TOUCH_SCREEN
     Input::activate<Touchscreen>();
 #else
     Input::activate<Mouse>();
 #endif
-    
+
     _assets->attach<Font>(FontLoader::alloc()->getHook());
     _assets->attach<Texture>(TextureLoader::alloc()->getHook());
     _assets->attach<Sound>(SoundLoader::alloc()->getHook());
     _assets->attach<scene2::SceneNode>(Scene2Loader::alloc()->getHook());
     _assets->attach<JsonValue>(JsonLoader::alloc()->getHook());
     _assets->attach<WidgetValue>(WidgetLoader::alloc()->getHook());
-    
+
     // TODO: make our own loading screen
     // Create a "loading" screen
-    _demoloading.init(_assets);
-    
+    _loading.init(_assets);
+
     // Queue up the other assets
     _assets->loadDirectoryAsync(jsonPath, nullptr);
-    
+
     //init audio engine singleton and sound controller
     AudioEngine::start();
     _sound = std::make_shared<SoundController>();
@@ -66,10 +66,10 @@ void PivotApp::onStartup() {
 
     // set clear color for entire canvas
     setClearColor(Color4(255, 255, 255, 255));
-    
+
     Application::setVSync(false);
     Application::setFPS(80);
-    
+
     Application::onStartup(); // YOU MUST END with call to parent
 }
 
@@ -89,9 +89,9 @@ void PivotApp::onShutdown() {
     if (_scene != LOAD){
         _gameplay.save();
     }
-    
+
     // TODO: dispose of other modes here (ex: level select) when they are implemented
-    _demoloading.dispose();
+    _loading.dispose();
     _gameplay.dispose();
     _mainMenu.dispose();
     _levelSelect.dispose();
@@ -100,16 +100,16 @@ void PivotApp::onShutdown() {
     _settings.dispose();
     _assets = nullptr;
     _batch = nullptr;
-    
+
     // Shutdown input
 #ifdef CU_TOUCH_SCREEN
     Input::deactivate<Touchscreen>();
 #else
     Input::deactivate<Mouse>();
 #endif
-    
+
     AudioEngine::stop();
-    
+
     Application::onShutdown();  // YOU MUST END with call to parent
 }
 
@@ -187,7 +187,7 @@ void PivotApp::update(float timestep) {
             updateSettingsScene(timestep);
             break;
     }
-    
+
     //level sound cues
     if(_levelSelect._playMusic){
         enqueueOnce("menu", 0.5, true);
@@ -207,7 +207,7 @@ void PivotApp::update(float timestep) {
 void PivotApp::draw() {
     switch (_scene) {
         case LOAD:
-            _demoloading.render(_batch);
+            _loading.render(_batch);
             break;
         case MAIN:
             _mainMenu.render(_batch);
@@ -231,25 +231,64 @@ void PivotApp::draw() {
 }
 
 void PivotApp::updateLoadingScene(float timestep){
-    if (_demoloading.isActive()) {
-        _demoloading.update(timestep);
-    } else {
-        _demoloading.dispose(); // Permanently disables the input listeners in this mode
-        _mainMenu.init(_assets);
-        if(_testing){
-            _levelSelect.initMax(_assets);
-        }else{
-            _levelSelect.init(_assets);
-        }
-        _endMenu.init(_assets);
-        _quitMenu.init(_assets);
-        _gameplay.init(_assets, getDisplaySize(), _sound);
-        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());} // save the max level if not default
-        _settings.init(_assets, _gameplay.getDataController());
-        updateSettings(); // update game to reflect settings
-        _mainMenu.setActive(true);
-        _scene = State::MAIN;
+    switch (_loading.getStatus()) {
+        case Loading::Status::NONE:
+            _loading.update(timestep);
+            break;
+        case Loading::Status::LOADED:
+            _loading.dispose(); // Permanently disables the input listeners in this mode
+            _mainMenu.init(_assets);
+            if(_testing){ _levelSelect.initMax(_assets); }
+            else{ _levelSelect.init(_assets); }
+            _endMenu.init(_assets);
+            _quitMenu.init(_assets);
+            _gameplay.init(_assets, getDisplaySize(), _sound);
+            if(_testing){ _gameplay.setMaxLevel(_levelSelect.getMaxLevel()); }
+            _settings.init(_assets, _gameplay.getDataController());
+            _mainMenu.setActive(true);
+            _scene = State::MAIN;
+            break;
     }
+
+//    if (_loading.isActive()) {
+//        _loading.update(timestep);
+//    } else {
+//        _loading.dispose(); // Permanently disables the input listeners in this mode
+//        _mainMenu.init(_assets);
+//        if(_testing){
+//            _levelSelect.initMax(_assets);
+//        }else{
+//            _levelSelect.init(_assets);
+//        }
+//        _endMenu.init(_assets);
+//        _quitMenu.init(_assets);
+//        _gameplay.init(_assets, getDisplaySize(), _sound);
+//        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
+//        _settings.init(_assets, _gameplay.getDataController());
+//        _mainMenu.setActive(true);
+//        _scene = State::MAIN;
+//    }
+
+//    if (_demoloading.isActive()) {
+//        _demoloading.update(timestep);
+//    } else {
+//        _demoloading.dispose(); // Permanently disables the input listeners in this mode
+//        _mainMenu.init(_assets);
+//        if(_testing){
+//            _levelSelect.initMax(_assets);
+//        }else{
+//            _levelSelect.init(_assets);
+//        }
+//        _endMenu.init(_assets);
+//        _quitMenu.init(_assets);
+//        _gameplay.init(_assets, getDisplaySize(), _sound);
+//        if(_testing){_gameplay.setMaxLevel(_levelSelect.getMaxLevel());}
+//        _settings.init(_assets, _gameplay.getDataController());
+//        _mainMenu.setActive(true);
+//        _scene = State::MAIN;
+//    }
+
+
 }
 
 void PivotApp::updateGameScene(float timestep){
@@ -324,7 +363,7 @@ void PivotApp::updateLevelScene(float timestep){
             _levelSelect.setActive(false);
             _gameplay.load(_levelSelect.getLevelString());
             _gameplay.setActive(true);
-            _scene = State::GAME;            
+            _scene = State::GAME;
             break;
     }
 }
@@ -421,7 +460,7 @@ void PivotApp::updateSettingsScene(float timestep){
             _settings.update(timestep);
             break;
     }
-    
+
 }
 
 void PivotApp::updateSettings(){
@@ -434,7 +473,7 @@ void PivotApp::updateSettings(){
     // update volume
     _sound->setMasterVolume(_gameplay.getVolume());
     // turn music on or off
-    
+
     // switch compass between 180 and 360
     _gameplay.updateCompass(_gameplay.getCompass());
     // switch rotate between clockwise and counter
@@ -442,5 +481,5 @@ void PivotApp::updateSettings(){
     // turn on or off the outline
     _gameplay.updateOutline(_gameplay.getOutline());
     // switch from right handed to left handed
-    
+
 }
