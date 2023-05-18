@@ -253,12 +253,8 @@ void PivotApp::updateLoadingScene(float timestep){
             if(_testing){ _gameplay.setMaxLevel(_levelSelect.getMaxLevel()); }
             _settings.init(_assets, _gameplay.getDataController());
             _cutscene.init(_assets);
-            ///
-            _cutscene.setActive(true);
-            _scene = State::CUTSCENE;
-            // TODO: RESET THIS
-//            _mainMenu.setActive(true);
-//            _scene = State::MAIN;
+            _mainMenu.setActive(true);
+            _scene = State::MAIN;
             break;
     }
 }
@@ -333,9 +329,14 @@ void PivotApp::updateLevelScene(float timestep){
             break;
         default:
             _levelSelect.setActive(false);
-            _gameplay.load(_levelSelect.getLevelString());
-            _gameplay.setActive(true);
-            _scene = State::GAME;
+            if(_levelSelect.getLevelString() == "lab_0000"){
+                _cutscene.setActive(true);
+                _scene = State::CUTSCENE;
+            } else {
+                _gameplay.load(_levelSelect.getLevelString());
+                _gameplay.setActive(true);
+                _scene = State::GAME;
+            }
             break;
     }
 }
@@ -416,9 +417,9 @@ void PivotApp::updateCutscene(float timestep){
             break;
         case Cutscene::NEXT:
             _cutscene.setActive(false);
-            //TODO: CHANGE THIS!!!!
-            _levelSelect.setActive(true);
-            _scene = State::LEVEL;
+            _gameplay.load(_levelSelect.getLevelString());
+            _gameplay.setActive(true);
+            _scene = State::GAME;
             break;
     }
 }
