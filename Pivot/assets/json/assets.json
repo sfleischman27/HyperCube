@@ -270,7 +270,7 @@
         },
         "end": {
             "type": "sample",
-            "file": "sounds/music/loopingtest-m.wav",
+            "file": "sounds/music/level-end.wav",
             "stream": true,
             "volume": 0.5
         },
