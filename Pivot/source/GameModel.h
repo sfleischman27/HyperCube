@@ -49,7 +49,7 @@ public:
     /** background pic of the level */
     std::shared_ptr<Texture> backgroundPic;
 
-    /** TODO SARAH update all below */
+    /** Boolean for the cut outline */
     bool drawOutline = true;
 
 #pragma mark Player State
@@ -102,6 +102,16 @@ public:
     std::shared_ptr<Popups> _popup;
 
     std::shared_ptr<cugl::scene2::SceneNode> _rotatePopup;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _collectPopup;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _glowPopup;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _jumpPopup;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _runPopup;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _walkPopup;
 
 #pragma mark Backpack State
 public:

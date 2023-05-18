@@ -20,8 +20,16 @@ struct Popups {
         NONE,
         /** Rotate graphic is currently active */
         ROTATE,
+        /** Collect graphic is currently active */
+        COLLECT,
+        /** Glow graphic is currently active */
+        GLOW,
+        /** Jump graphic is currently active */
+        JUMP,
         /** Running graphic is currently active */
-        RUN
+        RUN,
+        /** Walking graphic is currenly active */
+        WALK
     };
     
     State _state;
@@ -33,8 +41,16 @@ struct Popups {
             _state = NONE;
         } else if(state == "rotate"){
             _state = ROTATE;
+        } else if(state == "collect"){
+            _state = COLLECT;
+        } else if(state == "glow"){
+            _state = GLOW;
+        } else if(state == "jump"){
+            _state = JUMP;
         } else if(state == "run"){
             _state = RUN;
+        } else if(state == "walk"){
+            _state = WALK;
         }
     }
     

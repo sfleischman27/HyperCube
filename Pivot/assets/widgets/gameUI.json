@@ -180,6 +180,51 @@
                    }
                }
            },
+           "collectTutorial":{
+               "type": "Widget",
+               "data": {
+                   "key": "popup",
+                   "variables":{
+                       "popupImage": "collect_tutorial"
+                   }
+               }
+           },
+           "glowTutorial":{
+               "type": "Widget",
+               "data": {
+                   "key": "popup",
+                   "variables":{
+                       "popupImage": "glow_tutorial"
+                   }
+               }
+           },
+           "jumpTutorial":{
+               "type": "Widget",
+               "data": {
+                   "key": "popup",
+                   "variables":{
+                       "popupImage": "jump_tutorial"
+                   }
+               }
+           },
+           "runTutorial":{
+               "type": "Widget",
+               "data": {
+                   "key": "popup",
+                   "variables":{
+                       "popupImage": "run_tutorial"
+                   }
+               }
+           },
+           "walkTutorial":{
+               "type": "Widget",
+               "data": {
+                   "key": "popup",
+                   "variables":{
+                       "popupImage": "walk_tutorial"
+                   }
+               }
+           },
            "navigator":{
                 "type": "Widget",
                 "data": {
