@@ -18,11 +18,12 @@ uniform sampler2D background;
 uniform float interpStartPosLeft;
 uniform float amtOfScreens;
 uniform int drawOutline;
+uniform vec4 ambientLight;
 
 // Editable parameter for how thick the cut outline is
 const float thickness = 1.0;
 // Editable parameter for strength of ambient lighting. 0 = no ambient light, 1 = all ambient light
-const float ambient = .4;
+//const float ambient = .4;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	float offX = thickness/screenSize.x;
@@ -67,8 +68,8 @@ void main(void) {
 		frag_color.a = 1.0;
 	} else {
 		// Ambient lighting
-		frag_color = texture(albedoTexture, outTexCoord);
-		frag_color.a = ambient;
+		frag_color.xyz = texture(albedoTexture, outTexCoord).xyz * ambientLight.xyz;
+		frag_color.a = ambientLight.a;
 	}
 }
 

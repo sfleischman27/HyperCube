@@ -48,6 +48,8 @@ public:
     Color4 bgColor;
     /** background pic of the level */
     std::shared_ptr<Texture> backgroundPic;
+    /** Ambient light TODO JACK here it is. default value is (1.0, 1.0, 1.0, .4) which represents a soft white light*/
+    Color4f ambientLight = Color4f(1.0, 1.0, 1.0, .4);
 
     /** TODO SARAH update all below */
     bool drawOutline = true;
