@@ -127,6 +127,8 @@ std::string LevelSelect::packToString(Pack pack){
         case Pack::ZERO:
             return "tutorial";
         case Pack::ONE:
+            return "lab";
+        case Pack::TWO:
             return "debug";
     }
 }
@@ -290,8 +292,10 @@ int LevelSelect::prePackNum(Pack pack){
     switch(_pack){
         case ZERO: // 0 levels before tutorial
             return 0;
-        case ONE: // 3 levels before debug
+        case ONE: // 3 levels before lab
             return 3;
+        case TWO: // 7 levels before debug
+            return 7;
     }
 }
 
@@ -299,7 +303,9 @@ int LevelSelect::inPackNum(Pack pack){
     switch(_pack){
         case ZERO: // number of levels in tutorial
             return 3;
-        case ONE:  // number of levels in debug
+        case ONE:  // number of levels in lab
+            return 4;
+        case TWO:  // number of levels in debug
             return 8;
     }
 }
