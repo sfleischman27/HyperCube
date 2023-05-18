@@ -14,6 +14,9 @@
         },
         "restart": {
             "file": "textures/quit_buttons_restart.png"
+        },
+        "settingsoption": {
+            "file": "textures/quit_settingsbutton.png"
         }
     },
     "fonts": {
