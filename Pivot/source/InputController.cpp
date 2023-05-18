@@ -356,11 +356,14 @@ void InputController::clearTouchInstance(TouchInstance& touchInstance) {
  * @return the correct zone for the given position.
  */
 InputController::Zone InputController::getZone(const Vec2 pos) const {
+//    CULog("%f", _tbounds.getMaxY() * 0.75f);
+//    CULog("%f", pos.y);
     if (_lzone.contains(pos)) {
         return Zone::LEFT;
     } else if (_rzone.contains(pos)) {
         return Zone::RIGHT;
     } else if (_tbounds.contains(pos)) {
+        //&& pos.y < _tbounds.getMaxY() * 0.75f
         return Zone::MAIN;
     }
     return Zone::UNDEFINED;
@@ -566,10 +569,10 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                     _buttonLeft->setVisible(true);
                     _buttonRight->setPosition(touch2Screen(_ltouch.position).x + 20, touch2Screen(pos).y - _lzone.size.height * 0.05f);
                     _buttonLeft->setPosition(touch2Screen(_ltouch.position).x - 120, touch2Screen(pos).y - _lzone.size.height * 0.05f);
-                }else {
+                } else {
                     _buttonRight->setVisible(true);
                     _buttonLeft->setVisible(true);
-                    if(_ltouch.position.x > _buttonRight->getPositionX() + 400){
+                    if(_ltouch.position.x > _buttonRight->getPositionX() + 400 && _ltouch.position.y < _tbounds.getMaxY() * 0.75f){
 //                        CULog("running right");
                         //CULog("%f",_ltouch.position.x);
                         _keyRight = true;
@@ -578,7 +581,7 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                         //_runRight->setVisible(false);
                         //_runLeft->setVisible(true);
                     }
-                    if(_ltouch.position.x < _buttonLeft->getPositionX() + 100){
+                    if(_ltouch.position.x < _buttonLeft->getPositionX() + 100 && _ltouch.position.y < _tbounds.getMaxY() * 0.75f){
                         CULog("running left");
                         _keyRunLeft= true;
                         _keyLeft = true;
@@ -604,8 +607,8 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _rtouch.position = event.position;
                 _rtouch.timestamp.mark();
                 _rtouch.touchids.insert(event.touch);
-                if(!_keyJump){
-                    isRotating = true;
+                if(!_keyJump || _ltouch.position.y < _tbounds.getMaxY() * 0.75f){
+                    //isRotating = true;
                 }
 //                _hasJumped = false;
             }
@@ -615,7 +618,7 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 _mtouch.position = event.position;
                 _mtouch.timestamp.mark();
                 _mtouch.touchids.insert(event.touch);
-                isRotating = true;
+                //isRotating = true;
 
 //                _joystick = true;
 //                _cutjoycenter = touch2Screen(event.position);
@@ -716,6 +719,9 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
         //if(settings_isUsingJoystick){
         if(settings_isUsingJoystick){
             processJoystick(pos);
+        } else {
+            processSwipe(_ltouch.position, event.position, event.timestamp);
+            isRotating = true;
         }
         //}
             //CULog("joystick");
@@ -723,7 +729,10 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
 //        processCutJoystick(pos, _ltouch);
     } else if (_rtouch.touchids.find(event.touch) != _rtouch.touchids.end()) {
         //processCutJoystick(pos, _rtouch);
-        processSwipe(_rtouch.position, event.position, event.timestamp);
+        if(_rtouch.position.y < _tbounds.getMaxY() * 0.75f){
+            processSwipe(_rtouch.position, event.position, event.timestamp);
+            isRotating = true;
+        }
 //        if (!_hasJumped) {
 //            if ((_rtouch.position.y-pos.y) > SWIPE_LENGTH) {
 //                _keyJump = true;
@@ -732,6 +741,7 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
 //        }
     } else if (_mtouch.touchids.find(event.touch) != _mtouch.touchids.end()) {
         processSwipe(_mtouch.position, event.position, event.timestamp);
+        isRotating = true;
         //processCutJoystick(pos, _mtouch);
     } else if (_mtouch.touchids.size() > 1) {
         // We only process multifinger swipes in main
