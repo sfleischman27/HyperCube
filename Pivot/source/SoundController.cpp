@@ -10,7 +10,7 @@
 /** The initial fade-in on scene activation */
 #define INITIAL_FADE  8.0
 /** The crossfade duration */
-#define CROSS_FADE    0.5
+#define CROSS_FADE    0.25
 
 bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
     cugl::AudioEngine::get()->getMusicQueue()->setOverlap(CROSS_FADE);
