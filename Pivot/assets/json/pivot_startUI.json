@@ -17,6 +17,10 @@
         "gyparody": {
             "file":     "fonts/gyparody-hv.ttf",
             "size":     48
+        },
+        "roboto": {
+            "file":     "fonts/rm-light.ttf",
+            "size":     56
         }
     },
     "widgets" : {

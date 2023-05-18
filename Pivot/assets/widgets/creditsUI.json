@@ -4,6 +4,9 @@
     },
     "contents": {
         "type": "Image",
+        "format": {
+            "type": "Anchored"
+        },
         "data": {
             "visible": true,
             "texture": "credits",
@@ -13,6 +16,32 @@
         "layout": {
             "x_anchor": "center",
             "y_anchor": "fill"
+        },
+        "children": {
+            "creditsexit": {
+                "type": "Button",
+                "data": {
+                    "upnode": "up",
+                    "size": [300, 200],
+                    "anchor": [1,0],
+                    "scale": 0.25,
+                    "visible": true
+                },
+                "layout": {
+                    "x_anchor": "right",
+                    "y_anchor": "bottom",
+                    "y_offset": 0.05,
+                    "x_offset": -0.25
+                },
+                "children": {
+                    "up":{
+                        "type": "Image",
+                        "data": {
+                            "texture": "exitcredits"
+                        }
+                    }
+                }
+            }
         }
     }
 }

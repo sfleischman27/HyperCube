@@ -2,11 +2,14 @@
     "textures": {
         "credits": {
             "file": "textures/credits_credits.png"
+        },
+        "exitcredits": {
+            "file": "textures/credits_exit.png"
         }
     },
     "fonts": {
-        "gyparody": {
-            "file":     "fonts/gyparody-hv.ttf",
+        "roboto": {
+            "file":     "fonts/rm-light.ttf",
             "size":     48
         }
     },

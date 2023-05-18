@@ -39,7 +39,7 @@
             "label": {
                 "type": "Label",
                 "data": {
-                    "font": "gyparody",
+                    "font": "roboto",
                     "text": "No",
                     "foreground": [255,255,255,255],
                     "background": [0,0,0,0],

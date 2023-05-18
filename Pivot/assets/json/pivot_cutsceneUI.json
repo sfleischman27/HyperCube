@@ -20,8 +20,8 @@
         }
     },
     "fonts": {
-        "gyparody": {
-            "file":     "fonts/gyparody-hv.ttf",
+        "roboto": {
+            "file":     "fonts/rm-light.ttf",
             "size":     48
         }
     },
