@@ -178,15 +178,6 @@ public:
      */
     bool getOutline() { return _save->getBool("outline"); }
     
-    /**
-     * Updates the right or left hand selction in the save json
-     */
-    void setRightHand(bool rightHand) { _save->get("right-hand")->set(rightHand); }
-    
-    /**
-     * Returns the right or left hand selction that is stored in the save file
-     */
-    bool getRightHand() { return _save->getBool("right-hand"); }
 };
 
 #endif /* DataController_h */
