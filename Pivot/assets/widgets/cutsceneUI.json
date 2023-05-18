@@ -23,12 +23,12 @@
                 "data": {
                     "visible": true,
                     "texture": "cutscene1",
-                    "scale": 1,
+                    "scale": 0.75,
                     "anchor": [0.5,0.5]
                 },
                 "layout": {
-                    "x_anchor": "center",
-                    "y_anchor": "fill"
+                    "x_anchor": "fill",
+                    "y_anchor": "middle"
                 }
             },
             "cutscene2": {
@@ -36,12 +36,12 @@
                 "data": {
                     "visible": false,
                     "texture": "cutscene2",
-                    "scale": 1,
+                    "scale": 0.75,
                     "anchor": [0.5,0.5]
                 },
                 "layout": {
-                    "x_anchor": "center",
-                    "y_anchor": "fill"
+                    "x_anchor": "fill",
+                    "y_anchor": "middle"
                 }
             },
             "cutscene3": {
@@ -49,12 +49,12 @@
                 "data": {
                     "visible": false,
                     "texture": "cutscene3",
-                    "scale": 1,
+                    "scale": 0.75,
                     "anchor": [0.5,0.5]
                 },
                 "layout": {
-                    "x_anchor": "center",
-                    "y_anchor": "fill"
+                    "x_anchor": "fill",
+                    "y_anchor": "middle"
                 }
             },
             "cutscene4": {
@@ -62,12 +62,12 @@
                 "data": {
                     "visible": false,
                     "texture": "cutscene4",
-                    "scale": 1,
+                    "scale": 0.75,
                     "anchor": [0.5,0.5]
                 },
                 "layout": {
-                    "x_anchor": "center",
-                    "y_anchor": "fill"
+                    "x_anchor": "fill",
+                    "y_anchor": "middle"
                 }
             },
             "nextscene": {
@@ -76,14 +76,14 @@
                     "upnode": "up",
                     "size": [300, 200],
                     "anchor": [1,0],
-                    "scale": 1,
+                    "scale": 0.25,
                     "visible": true
                 },
                 "layout": {
                     "x_anchor": "right",
                     "y_anchor": "bottom",
-                    "y_offset": 0.1,
-                    "x_offset": -0.2
+                    "y_offset": 0.05,
+                    "x_offset": -0.25
                 },
                 "children": {
                     "up":{
