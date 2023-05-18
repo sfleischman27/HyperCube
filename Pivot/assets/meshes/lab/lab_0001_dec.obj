@@ -1,7 +1,7 @@
 # Blender v3.5.0 OBJ File: 'Starting Facility_final.blend'
 # www.blender.org
-mtllib debug_0001_dec.mtl
-o RENDER.024_Cube.082
+mtllib lab_0001_dec.mtl
+o RENDER.025_Cube.084
 v -12.000001 300.686768 0.000061
 v -172.000046 100.000038 5.071174
 v -143.337524 28.638481 176.000107
