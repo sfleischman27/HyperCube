@@ -26,6 +26,9 @@
         },
         "overlaybutton": {
             "file": "textures/settings_overlaybutton.png"
+        },
+        "creditsbutton": {
+            "file": "textures/settings_credits.png"
         }
     },
     "fonts": {
