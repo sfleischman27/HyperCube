@@ -1,0 +1,101 @@
+{
+    "variables": {
+        "showCutsceneUI" : ["data", "visible"]
+    },
+    "contents": {
+        "type": "Image",
+        "format": {
+            "type": "Anchored"
+        },
+        "data": {
+            "visible": true,
+            "texture": "cutscenebackground",
+            "scale": 1,
+            "anchor": [0.5,0.5]
+        },
+        "layout": {
+            "x_anchor": "center",
+            "y_anchor": "fill"
+        },
+        "children": {
+            "cutscene1": {
+                "type": "Image",
+                "data": {
+                    "visible": true,
+                    "texture": "cutscene1",
+                    "scale": 1,
+                    "anchor": [0.5,0.5]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "fill"
+                }
+            },
+            "cutscene2": {
+                "type": "Image",
+                "data": {
+                    "visible": false,
+                    "texture": "cutscene2",
+                    "scale": 1,
+                    "anchor": [0.5,0.5]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "fill"
+                }
+            },
+            "cutscene3": {
+                "type": "Image",
+                "data": {
+                    "visible": false,
+                    "texture": "cutscene3",
+                    "scale": 1,
+                    "anchor": [0.5,0.5]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "fill"
+                }
+            },
+            "cutscene4": {
+                "type": "Image",
+                "data": {
+                    "visible": false,
+                    "texture": "cutscene4",
+                    "scale": 1,
+                    "anchor": [0.5,0.5]
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "fill"
+                }
+            },
+            "nextscene": {
+                "type": "Button",
+                "data": {
+                    "upnode": "up",
+                    "size": [300, 200],
+                    "anchor": [1,0],
+                    "scale": 1,
+                    "visible": true
+                },
+                "layout": {
+                    "x_anchor": "right",
+                    "y_anchor": "bottom",
+                    "y_offset": 0.1,
+                    "x_offset": -0.2
+                },
+                "children": {
+                    "up":{
+                        "type": "Image",
+                        "data": {
+                            "texture": "nextscene"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+

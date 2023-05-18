@@ -1,0 +1,54 @@
+{
+    "textures": {
+        "cutscene1": {
+            "file": "textures/cutscene_story1.png"
+        },
+        "cutscene2": {
+            "file": "textures/cutscene_story2.png"
+        },
+        "cutscene3": {
+            "file": "textures/cutscene_story3.png"
+        },
+        "cutscene4": {
+            "file": "textures/cutscene_story4.png"
+        },
+        "nextscene": {
+            "file": "textures/cutscene_button.png"
+        },
+        "cutscenebackground": {
+            "file": "textures/cutscene_background.png"
+        }
+    },
+    "fonts": {
+        "gyparody": {
+            "file":     "fonts/gyparody-hv.ttf",
+            "size":     48
+        }
+    },
+    "widgets" : {
+        "cutsceneUI": "widgets/cutsceneUI.json"
+    },
+    "scene2s" : {
+        "cutsceneLab": {
+            "type"      : "Node",
+            "comment"   : "This is the root node of the scene for the lab",
+            "format"    : {
+                "type" : "Anchored"
+            },
+            "children" : {
+                "cutsceneScreen": {
+                    "type": "Widget",
+                    "data": {
+                        "key": "cutsceneUI",
+                        "variables": {
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
