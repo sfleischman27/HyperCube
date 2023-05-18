@@ -519,13 +519,11 @@ void PivotApp::updateSettings(){
     // update volume
     _sound->setMasterVolume(_gameplay.getVolume());
     // turn music on or off
-
+    _sound->enableMusic(_gameplay.getMusic());
     // switch compass between 180 and 360
     _gameplay.updateCompass(_gameplay.getCompass());
     // switch rotate between clockwise and counter
     _gameplay.updateRotate(_gameplay.getRotate());
     // turn on or off the outline
     _gameplay.updateOutline(_gameplay.getOutline());
-    // switch from right handed to left handed
-
 }

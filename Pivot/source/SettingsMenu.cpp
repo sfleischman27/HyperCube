@@ -128,19 +128,6 @@ bool SettingsMenu::init(const std::shared_ptr<cugl::AssetManager>& assets, const
         }
     });
     
-    _rightHandLabel = std::dynamic_pointer_cast<scene2::Label>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_control_value"));
-    _rightHand = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_control_toggle"));
-    _rightHand->setToggle(true);
-    _rightHand->addListener([this](const std::string& name, bool down) {
-        if (down) {
-            _data->setRightHand(false);
-            _rightHandLabel->setText("Left Hand");
-        } else {
-            _data->setRightHand(true);
-            _rightHandLabel->setText("Right Hand");
-        }
-    });
-    
     _credits = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("settingsLab_settingsScreen_baseNode_base_credits"));
     _credits->addListener([this](const std::string& name, bool down) {
         if (down) {
@@ -191,7 +178,6 @@ void SettingsMenu::dispose() {
     _rotation = nullptr;
     _compass = nullptr;
     _outline = nullptr;
-    _rightHand = nullptr;
     _credits = nullptr;
     _overlay = nullptr;
     _yes = nullptr;
@@ -219,7 +205,6 @@ void SettingsMenu::setActive(bool value) {
         _rotation->activate();
         _compass->activate();
         _outline->activate();
-        _rightHand->activate();
         _credits->activate();
     } else {
         _back->deactivate();
@@ -230,7 +215,6 @@ void SettingsMenu::setActive(bool value) {
         _rotation->deactivate();
         _compass->deactivate();
         _outline->deactivate();
-        _rightHand->deactivate();
         _credits->deactivate();
         // if back or clear were pressed, reset them
         _back->setDown(false);
@@ -309,14 +293,6 @@ void SettingsMenu::setFromSave() {
     } else {
         _outline->setDown(true);
         _outlineLabel->setText("Off");
-    }
-    
-    if (_data->getRightHand()) {
-        _rightHand->setDown(false);
-        _rightHandLabel->setText("Right Hand");
-    } else {
-        _rightHand->setDown(true);
-        _rightHandLabel->setText("Left Hand");
     }
     
     _volume->setValue(_data->getVolume());
