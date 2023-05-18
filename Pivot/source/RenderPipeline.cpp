@@ -165,19 +165,19 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, 0, false, model->_player->currentSpriteSheet));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, 0, true, model->_exit->rotateSpriteSheet));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, 0, true, model->_exit->rotateSpriteSheet, true));
 
     // Collectibles
     std::map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, 0, true, c.second.rotateSpriteSheet));
+            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, 0, true, c.second.rotateSpriteSheet, true));
         }
     }
 
     // Glowsticks
     for (Glowstick g : model->_glowsticks) {
-        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), model->_glowsticks[0].getNorm(), false, 1));
+        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), model->_glowsticks[0].getNorm(), false, 1, true, NULL, true));
     }
 
     // Decorations
@@ -440,7 +440,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     // Stripped Billboards
     fbo->getTexture(fboReplace)->bind();
     for (DrawObject dro : drawables) {
-        if (dro.isPlayer) continue;
+        if (dro.isPlayer || !dro.fade) continue;
         // Calculate distance from plane
         float distance = -n.dot(dro.pos - charPos);
 
