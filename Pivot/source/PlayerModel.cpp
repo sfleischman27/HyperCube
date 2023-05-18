@@ -167,6 +167,34 @@ void PlayerModel::createFixtures() {
     sensorDef.shape = &sensorShape;
     sensorDef.userData.pointer = reinterpret_cast<uintptr_t>(getSensorName());
     _sensorFixture = _body->CreateFixture(&sensorDef);
+    
+    b2FixtureDef landSensorDef;
+    landSensorDef.density = 0;
+    landSensorDef.isSensor = true;
+    
+    // Sensor dimensions
+    b2Vec2 landCorners[4];
+    float sensorWidth = getWidth() / 4.0f;
+    float sensorHeight = getHeight() / 4.0f;
+
+    landCorners[0].x = -DUDE_SSHRINK * sensorWidth / 2.0f;
+    landCorners[0].y = (-getHeight() - sensorHeight) / 2.0f;
+
+    landCorners[1].x = -DUDE_SSHRINK * sensorWidth / 2.0f;
+    landCorners[1].y = (-getHeight() - sensorHeight) / 2.0f - sensorHeight;
+
+    landCorners[2].x = DUDE_SSHRINK * sensorWidth / 2.0f;
+    landCorners[2].y = (-getHeight() - sensorHeight) / 2.0f - sensorHeight;
+
+    landCorners[3].x = DUDE_SSHRINK * sensorWidth / 2.0f;
+    landCorners[3].y = (-getHeight() - sensorHeight) / 2.0f;
+    
+    b2PolygonShape landSensorShape;
+    landSensorShape.Set(landCorners,4);
+    
+    landSensorDef.shape = &landSensorShape;
+    landSensorDef.userData.pointer = reinterpret_cast<uintptr_t>(getLandSensorName());
+    _sensorFixture = _body->CreateFixture(&landSensorDef);
 }
 
 /**
@@ -259,6 +287,7 @@ void PlayerModel::applyForce() {
 void PlayerModel::animate() {
     /** Animation AND SOUND logic!!! IM HIJACKING AGAIN :) - Gordi*/
     if(shouldStartFlipping){
+        setLanding(false);
         if(animState != 5){
             animState = 5;
             setSpriteSheet("flip");
@@ -276,16 +305,8 @@ void PlayerModel::animate() {
             }
         }
     }
-    else if(getVY() < 0.0 && !isGrounded()){
-        if(animState != 2){
-            animState = 2;
-            setSpriteSheet("jump-hold");
-            resetOtherSpritesheets("jump-hold");
-        } else{
-            animState = 2;
-        }
-    }
     else if(getVY() > 0.1 && !isGrounded()){
+        setLanding(false);
         if(animState != 3){
             animState = 3;
             setSpriteSheet("jump-launch");
@@ -295,7 +316,30 @@ void PlayerModel::animate() {
             animState = 3;
         }
     }
-    else if(abs(getVX()) > 100 && !isRotating){
+    else if(isLanding()){
+        CULog("Landing");
+        if(animState != 6){
+            animState = 6;
+            setSpriteSheet("jump-land");
+            resetOtherSpritesheets("jump-land");
+        } else{
+            if(currentSpriteSheet->getFrame() == currentSpriteSheet->getSize()-1 || (isGrounded() && abs(getVX()) > 2)){
+                setLanding(false);
+            }
+            animState = 6;
+        }
+    }
+    else if(getVY() < 0.0 && !isGrounded()){
+        setLanding(false);
+        if(animState != 2){
+            animState = 2;
+            setSpriteSheet("jump-hold");
+            resetOtherSpritesheets("jump-hold");
+        } else{
+            animState = 2;
+        }
+    }else if(abs(getVX()) > 100 && !isRotating){
+        setLanding(false);
         if(animState != 4){
             animState = 4;
             setSpriteSheet("run");
@@ -306,6 +350,7 @@ void PlayerModel::animate() {
         }
     }
     else if(abs(getVX()) > 2 && !isRotating){
+        setLanding(false);
         if(animState != 1){
             animState = 1;
             setSpriteSheet("walk");
@@ -316,6 +361,7 @@ void PlayerModel::animate() {
         }
     }
     else {
+        setLanding(false);
         //setSpriteSheet("idle");
         //spriteSheets.find("jump")->second.first->setFrame(0);
         //spriteSheets.find("jump")->second.second->setFrame(0);
@@ -329,7 +375,7 @@ void PlayerModel::animate() {
 //    }
     
     
-    if((animFrameCounter >= 2 && animState != 0) || (animState == 3 || animState == 2)){
+    if((animFrameCounter >= 2 && animState != 0) || (animState == 3 || animState == 2 || animState == 6)){
         animFrameCounter = 0;
         int frame = currentSpriteSheet->getFrame();
         if(isFacingRight()){

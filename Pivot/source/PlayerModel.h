@@ -38,7 +38,8 @@
 #define DUDE_TEXTURE    "dude"
 /** Identifier to allow us to track the sensor in ContactListener */
 #define SENSOR_NAME     "dudesensor"
-
+/** Identifier to allow us to track the sensor in ContactListener */
+#define LAND_SENSOR_NAME     "dudelandsensor"
 
 #pragma mark -
 #pragma mark Physics Constants
@@ -114,6 +115,8 @@ protected:
     int  _shootCooldown;
     /** Whether our feet are on the ground */
     bool _isGrounded;
+    /** Whether we are about to hit the ground */
+    bool _isLanding;
     /** is the player dead? */
     bool _isDead;
     /** Whether we are actively shooting */
@@ -122,6 +125,8 @@ protected:
     b2Fixture*  _sensorFixture;
     /** Reference to the sensor name (since a constant cannot have a pointer) */
     std::string _sensorName;
+    /** Reference to the sensor name (since a constant cannot have a pointer) */
+    std::string _landSensorName;
     /** The node for debugging the sensor */
     std::shared_ptr<cugl::scene2::WireNode> _sensorNode;
 
@@ -159,7 +164,7 @@ public:
      * This constructor does not initialize any of the dude values beyond
      * the defaults.  To use a PlayerModel, you must call init().
      */
-    PlayerModel() : CapsuleObstacle(), _sensorName(SENSOR_NAME) { }
+    PlayerModel() : CapsuleObstacle(), _sensorName(SENSOR_NAME), _landSensorName(LAND_SENSOR_NAME) { }
     
     /**
      * Destroys this PlayerModel, releasing all resources.
@@ -435,6 +440,8 @@ public:
      * @return true if the dude is on the ground.
      */
     bool isGrounded() const { return _isGrounded; }
+    
+    bool isLanding() const { return _isLanding; }
 
     /**
      * Returns true if the player is dead.
@@ -450,6 +457,8 @@ public:
      */
     void setGrounded(bool value) { _isGrounded = value; fallAccelerationAcc = 1.1f;}
 
+    void setLanding(bool value) {_isLanding = value;}
+    
     /**
      * Sets whether the player is dead.
      *
@@ -492,6 +501,15 @@ public:
      * @return the name of the ground sensor
      */
     std::string* getSensorName() { return &_sensorName; }
+    
+    /**
+     * Returns the name of the ground sensor
+     *
+     * This is used by ContactListener
+     *
+     * @return the name of the ground sensor
+     */
+    std::string* getLandSensorName() { return &_landSensorName; }
     
     /**
      * Returns true if this character is facing right

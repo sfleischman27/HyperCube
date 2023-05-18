@@ -1129,6 +1129,16 @@ void GameplayController::beginContact(b2Contact* contact) {
         // Could have more than one ground
         _sensorFixtures.emplace(_model->_player.get() == bd1 ? fix2 : fix1);
     }
+    
+    if ((_model->_player->getLandSensorName() == fd2 && _model->_player.get() != bd1) ||
+        (_model->_player->getLandSensorName() == fd1 && _model->_player.get() != bd2)) {
+        if(_model->_player->getVY() < 0.0f){
+            _model->_player->setLanding(true);
+            //CULog("Landing");
+        }
+        // Could have more than one ground
+        //_sensorFixtures.emplace(_model->_player.get() == bd1 ? fix2 : fix1);
+    }
 
     // If we hit the "win" door, we are done
 //    if((bd1 == _model->_player.get() && bd2 == _goalDoor.get()) ||
