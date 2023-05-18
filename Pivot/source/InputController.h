@@ -26,6 +26,8 @@ public:
 private:
     /** Whether or not this input is active */
     bool _active;
+    /** The input key for everything */
+    Uint32 _inputKey;
     // KEYBOARD EMULATION
     /** Whether the jump key is down */
     bool  _keyJump;

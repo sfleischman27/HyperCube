@@ -31,8 +31,6 @@ using namespace cugl;
 
 /** How close we need to be for a multi touch */
 #define NEAR_TOUCH      100
-/** The key for the event handlers */
-#define LISTENER_KEY      1
 
 /** This defines the joystick "deadzone" (how far we must move) */
 #define JSTICK_DEADZONE  15
@@ -116,12 +114,12 @@ void InputController::dispose() {
 #ifndef CU_TOUCH_SCREEN
         Input::deactivate<Keyboard>();
         Mouse* mouse = Input::get<Mouse>();
-        mouse->removePressListener(LISTENER_KEY);
-        mouse->removeReleaseListener(LISTENER_KEY);
+        mouse->removePressListener(_inputKey);
+        mouse->removeReleaseListener(_inputKey);
 #else
         Touchscreen* touch = Input::get<Touchscreen>();
-        touch->removeBeginListener(LISTENER_KEY);
-        touch->removeEndListener(LISTENER_KEY);
+        touch->removeBeginListener(_inputKey);
+        touch->removeEndListener(_inputKey);
 #endif
         _active = false;
     }
@@ -152,11 +150,14 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
     success = Input::activate<Keyboard>();
     success = success && Input::activate<Mouse>();
     Mouse* mouse = Input::get<Mouse>();
+    
+    _inputKey = mouse->acquireKey();
+    
     mouse->setPointerAwareness(cugl::Mouse::PointerAwareness::ALWAYS);
-    mouse->addPressListener(LISTENER_KEY, [=](const cugl::MouseEvent& event, Uint8 clicks, bool focus) {
+    mouse->addPressListener(_inputKey, [=](const cugl::MouseEvent& event, Uint8 clicks, bool focus) {
       this->mousePressBeganCB(event, clicks, focus);
     });
-    mouse->addReleaseListener(LISTENER_KEY, [=](const cugl::MouseEvent& event, Uint8 clicks, bool focus) {
+    mouse->addReleaseListener(_inputKey, [=](const cugl::MouseEvent& event, Uint8 clicks, bool focus) {
       this->mouseReleasedCB(event, clicks, focus);
     });
 #else
@@ -169,13 +170,16 @@ bool InputController::init(const cugl::Rect bounds, std::shared_ptr<cugl::scene2
     _runLeft = rightRun;
     
     Touchscreen* touch = Input::get<Touchscreen>();
-    touch->addBeginListener(LISTENER_KEY,[=](const TouchEvent& event, bool focus) {
+    
+    _inputKey = touch->acquireKey();
+    
+    touch->addBeginListener(_inputKey,[=](const TouchEvent& event, bool focus) {
         this->touchBeganCB(event,focus);
     });
-    touch->addEndListener(LISTENER_KEY,[=](const TouchEvent& event, bool focus) {
+    touch->addEndListener(_inputKey,[=](const TouchEvent& event, bool focus) {
         this->touchEndedCB(event,focus);
     });
-    touch->addMotionListener(LISTENER_KEY,[=](const TouchEvent& event, const Vec2& previous, bool focus) {
+    touch->addMotionListener(_inputKey,[=](const TouchEvent& event, const Vec2& previous, bool focus) {
         this->touchesMovedCB(event, previous, focus);
     });
     
