@@ -45,8 +45,14 @@ public:
     Color4 bgColor;
     /** background pic of the level */
     std::shared_ptr<Texture> backgroundPic;
-    /** Ambient light TODO JACK here it is. default value is (1.0, 1.0, 1.0, .4) which represents a soft white light*/
-    Color4f ambientLight = Color4f(1.0, 1.0, 1.0, .4);
+    /** ambient light color and level*/
+    Color4 ambientLight;
+
+    /** color of cutline*/
+    Color4 cutLineColor;
+
+    /** color tint of vorinoi fill*/
+    Color4 cutFillColor;
 
     /** Boolean for the cut outline */
     bool drawOutline = true;
