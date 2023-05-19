@@ -20,7 +20,7 @@ bool MainMenu::init(const std::shared_ptr<cugl::AssetManager>& assets) {
     
     // deletes save file if on windows
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    remove(savePath);
+    remove(savePath.c_str());
 #else
         
 #endif
