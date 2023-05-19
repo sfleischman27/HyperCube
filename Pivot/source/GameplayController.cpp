@@ -755,7 +755,9 @@ void GameplayController::resetMessages() {
  * @param  delta    Number of seconds since last animation frame
  */
 float saveFloat = 0.0;
+float lastFrameAngle;
 void GameplayController::update(float dt) {
+    lastFrameAngle = _model->getGlobalAngleDeg();
     _model->_currentTime->mark();
     
     if(_justCollected) {
@@ -840,7 +842,10 @@ void GameplayController::update(float dt) {
         //createCutObstacles();
         _plane->rotateNorm((_input->cutFactor - saveFloat)/1000 * _input->settings_invertRotate);
         _model->updateCompassNum();
-        _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        //only recalculate the rotational sprite if we changed our angle from the last frame
+        if (_model->getGlobalAngleDeg() != lastFrameAngle) {
+            _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        }
         _model->_player->isRotating = true;
         saveFloat = _input->cutFactor;
         _rotating = true;
@@ -891,7 +896,9 @@ void GameplayController::update(float dt) {
     
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
-        itr->second->setRotationalSprite(_model->getGlobalAngleDeg());
+        if (_model->getGlobalAngleDeg() != lastFrameAngle) {
+            itr->second->setRotationalSprite(_model->getGlobalAngleDeg());
+        }
         if (_model->getPlayer3DLoc().distance(itr->second->getPosition())<= COLLECTING_DIST && !itr->second->getCollected()) {
             itr->second->setCollected(true);
             _justCollected = true;
@@ -924,8 +931,10 @@ void GameplayController::update(float dt) {
     }
     
 #pragma mark DECORATIONS
-    for(auto itr = _model->_decorations.begin(); itr != _model->_decorations.end(); itr++){
-        (*itr)->setRotationalSprite(_model->getGlobalAngleDeg());
+    if (_model->getGlobalAngleDeg() != lastFrameAngle) {
+        for (auto itr = _model->_decorations.begin(); itr != _model->_decorations.end(); itr++) {
+            (*itr)->setRotationalSprite(_model->getGlobalAngleDeg());
+        }
     }
     
 #pragma mark Glowsticks
