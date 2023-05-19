@@ -270,6 +270,11 @@
             "file": "textures/mushroom2_normal.png",
             "span": 1,
             "cols": 1
+        },
+        "background_default": {
+            "file": "textures/background_default.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {

@@ -197,7 +197,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     // store UI elements for later usage
     _model->_glowstickCounter = std::dynamic_pointer_cast<scene2::Label>( _buttons["glowstickB"]->getChildByName("label"));
     
-    _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum"));
+    _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum")->getChildByName("compassnum"));
 
     _model->_navigator = std::dynamic_pointer_cast<scene2::Button>(kids->getChildByName("navigator"));
     

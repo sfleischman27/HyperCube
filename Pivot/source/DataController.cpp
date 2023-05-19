@@ -126,12 +126,12 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
         model->cutFillColor = cutfill_color;
     }
 
-    if (constants->has("bg_image")) {
+    if (constants->has("bg_image") ) {
         std::string texkey = constants->get("bg_image")->asString();
         model->backgroundPic = _assets->get<Texture>(texkey);
     }
     else {
-        model->backgroundPic = _assets->get<Texture>("backgroung_swamp");
+        model->backgroundPic = _assets->get<Texture>("background_default");
     }
 
     // get the number of glowsticks
