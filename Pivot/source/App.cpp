@@ -63,6 +63,7 @@ void PivotApp::onStartup() {
     AudioEngine::start();
     _sound = std::make_shared<SoundController>();
     _sound->init(_assets);
+    //_sound->setMasterVolume();
 
     // set clear color for entire canvas
     setClearColor(Color4(255, 255, 255, 255));
@@ -128,7 +129,7 @@ void PivotApp::onShutdown() {
  */
 void PivotApp::onSuspend() {
     // pause the music
-    AudioEngine::get()->pause();
+    //AudioEngine::get()->pause();
     // save the level data (after loading is done)
     if (_scene != LOAD){
         _gameplay.save();
@@ -146,7 +147,7 @@ void PivotApp::onSuspend() {
  * paused before app suspension.
  */
 void PivotApp::onResume() {
-    AudioEngine::get()->resume();
+    //AudioEngine::get()->resume();
     // TODO: figure out how this works
 }
 
@@ -174,9 +175,15 @@ void PivotApp::update(float timestep) {
             updateMainScene(timestep);
             break;
         case LEVEL:
+            //level sound cues
+            if(_levelSelect._playMusic){
+                enqueueOnce("menu", 1, true);
+                _levelSelect._playMusic = false;
+            }
             updateLevelScene(timestep);
             break;
         case END:
+            _sound->playSound("end", 1, false);
             updateEndScene(timestep);
             break;
         case QUIT:
@@ -194,12 +201,6 @@ void PivotApp::update(float timestep) {
         case CREDITS: case CREDITSSET: case CREDITSSETQ:
             updateCredits(timestep);
             break;
-    }
-
-    //level sound cues
-    if(_levelSelect._playMusic){
-        enqueueOnce("menu", 0.5, true);
-        _levelSelect._playMusic = false;
     }
 }
 
@@ -293,7 +294,6 @@ void PivotApp::updateGameScene(float timestep){
                 // go to end if last in pack
                 _endMenu.setActive(true);
                 _scene = State::END;
-                _sound->playSound("end", 0.5, false);
             } else {
                 // otherwise go straight to next level
                 _gameplay.setActive(true);
