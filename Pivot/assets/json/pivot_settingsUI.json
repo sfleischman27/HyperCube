@@ -32,16 +32,16 @@
         }
     },
     "fonts": {
-        "roboto-smaller": {
-            "file":     "fonts/rm-light.ttf",
+        "roboto-smaller-bold": {
+            "file":     "fonts/rm-bold.ttf",
             "size":     30
         },
-        "roboto-medium": {
-            "file":     "fonts/rm-light.ttf",
+        "roboto-medium-bold": {
+            "file":     "fonts/rm-bold.ttf",
             "size":     42
         },
-        "roboto-reg": {
-            "file":     "fonts/rm.ttf",
+        "roboto-reg-bold": {
+            "file":     "fonts/rm-bold.ttf",
             "size":     36
         }
     },

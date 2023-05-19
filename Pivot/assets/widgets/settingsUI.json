@@ -78,8 +78,8 @@
                                     "label": {
                                         "type": "Label",
                                         "data": {
-                                            "font": "roboto-reg",
-                                            "text": "Back",
+                                            "font": "roboto-reg-bold",
+                                            "text": "BACK",
                                             "foreground": [255,255,255,255],
                                             "background": [0,0,0,0],
                                             "halign": "center",
@@ -120,8 +120,8 @@
                                     "label": {
                                         "type": "Label",
                                         "data": {
-                                            "font": "roboto-reg",
-                                            "text": "Clear Data",
+                                            "font": "roboto-reg-bold",
+                                            "text": "CLEAR DATA",
                                             "foreground": [255,255,255,255],
                                             "background": [0,0,0,0],
                                             "halign": "center",
@@ -154,7 +154,7 @@
                                         "toggleXOffset": -0.06,
                                         "toggleXPos": -0.15,
                                         "valueXPos": 0.22,
-                                        "value": "On",
+                                        "value": "ON",
                                         "category": "Music"
                                     }
                                 }
@@ -169,7 +169,7 @@
                                         "toggleXOffset": -0.06,
                                         "toggleXPos": -0.15,
                                         "valueXPos": 0.22,
-                                        "value": "Buttons",
+                                        "value": "BUTTONS",
                                         "category": "Movement"
                                     }
                                 }
@@ -184,7 +184,7 @@
                                         "toggleXOffset": -0.06,
                                         "toggleXPos": -0.15,
                                         "valueXPos": 0.22,
-                                        "value": "Clockwise",
+                                        "value": "CLOCKWISE",
                                         "category": "Rotation"
                                     }
                                 }
@@ -214,7 +214,7 @@
                                         "toggleXOffset": 0.41,
                                         "toggleXPos": -0.15,
                                         "valueXPos": 0.22,
-                                        "value": "On",
+                                        "value": "ON",
                                         "category": "Outline"
                                     }
                                 }
@@ -247,8 +247,8 @@
                                     "label": {
                                         "type": "Label",
                                         "data": {
-                                            "font": "roboto-reg",
-                                            "text": "Credits",
+                                            "font": "roboto-medium-bold",
+                                            "text": "CREDITS",
                                             "foreground": [255,255,255,255],
                                             "background": [0,0,0,0],
                                             "halign": "center",
@@ -281,7 +281,7 @@
                                     "label": {
                                         "type": "Label",
                                         "data": {
-                                            "font": "roboto-reg",
+                                            "font": "roboto-reg-bold",
                                             "text": "Are you sure you want to clear save data?",
                                             "foreground": [255,255,255,255],
                                             "background": [0,0,0,0],
@@ -320,7 +320,7 @@
                                             "label": {
                                                 "type": "Label",
                                                 "data": {
-                                                    "font": "roboto-reg",
+                                                    "font": "roboto-reg-bold",
                                                     "text": "Yes",
                                                     "foreground": [255,255,255,255],
                                                     "background": [0,0,0,0],
@@ -361,7 +361,7 @@
                                             "label": {
                                                 "type": "Label",
                                                 "data": {
-                                                    "font": "roboto-reg",
+                                                    "font": "roboto-reg-bold",
                                                     "text": "No",
                                                     "foreground": [255,255,255,255],
                                                     "background": [0,0,0,0],

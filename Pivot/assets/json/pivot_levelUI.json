@@ -83,6 +83,10 @@
         "roboto": {
             "file":     "fonts/rm-light.ttf",
             "size":     48
+        },
+        "roboto-bold": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     48
         }
     },
     "widgets" : {

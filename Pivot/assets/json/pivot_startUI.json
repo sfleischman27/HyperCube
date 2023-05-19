@@ -21,6 +21,10 @@
         "roboto": {
             "file":     "fonts/rm-light.ttf",
             "size":     56
+        },
+        "roboto-bold": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     56
         }
     },
     "widgets" : {
