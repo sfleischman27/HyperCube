@@ -245,18 +245,17 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             loc.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
             loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
-
+            
             Vec3 norm;
             norm.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
             norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
             // TODO: convert normal to an angle,
             // use angle to offset the rotating sprite index so they dont all look the same
-
+            
             //get sprite scale
             float scale = sprites->get(std::to_string(i))->get("scale")->asFloat();
             // TODO use scale to scale sprites differently @matt
-
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
             if (haslight) {
@@ -264,23 +263,21 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 color.x = sprites->get(std::to_string(i))->get("color")->get(0)->asFloat();
                 color.y = sprites->get(std::to_string(i))->get("color")->get(1)->asFloat();
                 color.z = sprites->get(std::to_string(i))->get("color")->get(2)->asFloat();
-
+                
                 float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
                 float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
                 // TODO make lights for those sprites here
                 // These could just go in the scene bc they never disappear
             }
-
+            
             //get texture
             auto texkey = sprites->get(std::to_string(i))->getString("tex");
-
             std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey));
-//            CULog(texkey.c_str());
             decPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
             if(_assets->get<Texture>(texkey + "-normal") != nullptr){
                 decPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
-            }else {
-                decPtr->isEmission = true;
+            } else {
+                decPtr->setEmissive(true);
             }
             
             model->_decorations.push_back(decPtr);
