@@ -804,6 +804,7 @@ void GameplayController::update(float dt) {
     if(_model->_startOfLevel){
         _model->_startOfLevel = false;
         _model->_pixelingIn = true;
+        _model->_donePixelIn = false;
         _model->_pixelInTime->mark();
         return;
     }
