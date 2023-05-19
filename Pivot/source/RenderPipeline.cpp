@@ -183,16 +183,13 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Decorations
     auto decor = model->getDecorations();
      for (auto d : decor) {
-         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->isEmissive() ? NULL : d->rotateNormalSpriteSheet->getTexture(), false, false, d->rotateSpriteSheet, false));
+         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->isEmissive() ? NULL : d->rotateNormalSpriteSheet->getTexture(), false, d->isEmissive(), d->rotateSpriteSheet, false));
      }
 
     // Set bind points
     const int bindStart = 9;
     for (int i = 0; i < drawables.size(); i++) {
         drawables[i].tex->setBindPoint(bindStart);
-        //int t = 0;
-        //glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &t);
-        //CULog("%i", t);
         if (drawables[i].normalMap != NULL) {
             drawables[i].normalMap->setBindPoint(bindStart + 1);
         }
