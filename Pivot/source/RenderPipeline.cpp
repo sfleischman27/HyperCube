@@ -499,7 +499,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniform1f("interpStartPosLeft", angle);
     _shaderCut->setUniform1f("amtOfScreens", amtOfScreens);
     _shaderCut->setUniform1i("drawOutline", model->drawOutline);
-    _shaderCut->setUniform4f("ambientLight", model->ambientLight.r, model->ambientLight.g, model->ambientLight.b, model->ambientLight.a);
+    _shaderCut->setUniform4f("ambientLight", 1.0, 1.0, 1.0, 0.4);
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
