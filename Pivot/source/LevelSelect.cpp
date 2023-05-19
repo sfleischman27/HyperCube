@@ -154,7 +154,11 @@ std::string LevelSelect::packToString(Pack pack){
         case Pack::ONE:
             return "lab";
         case Pack::TWO:
-            return "debug";
+            return "tunnel";
+        case Pack::THREE:
+            return "woods";
+        case Pack::FOUR:
+            return "final";
     }
 }
 
@@ -287,10 +291,16 @@ void LevelSelect::setPackLabel(){
             _label->setText("Tutorial Levels");
             break;
         case ONE:
-            _label->setText("Labratory Levels");
+            _label->setText("Laboratory Levels");
             break;
         case TWO:
-            _label->setText("Debug Levels");
+            _label->setText("Underground Levels");
+            break;
+        case THREE:
+            _label->setText("Wooded Swamp Levels");
+            break;
+        case FOUR:
+            _label->setText("The Final Bunker");
             break;
     }
 }

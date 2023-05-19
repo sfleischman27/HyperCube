@@ -38,10 +38,9 @@ public:
         /** The pack of levels that the page is displaying */
         ZERO = 0, // tutorial
         ONE = 1, // lab
-        TWO = 2 // debug
-        // tunnel
-        // woods
-        // final
+        TWO = 2, // tunnel
+        THREE = 3, // woods
+        FOUR = 4 // final
     };
 
 protected:
@@ -63,7 +62,7 @@ protected:
     /** The total number of levels we have in the game */
     const int LEVELS_IMPLEMENTED = 20;
     /** The total number of packs in the game */
-    const int PACKS_IMPLEMENTED = 3;
+    const int PACKS_IMPLEMENTED = 5;
 
     /**
      * Returns the active screen size of this scene.
