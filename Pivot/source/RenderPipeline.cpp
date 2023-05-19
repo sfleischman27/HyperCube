@@ -559,12 +559,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         CULog("2nd: %f", pixelFrac);
         pixelFrac = std::min(1.0f, pixelFrac);
         if (pixelFrac == 1.0f) {
-            model->_donePixelOut = true;
+            //model->_donePixelOut = true;
         }
     }
 
     _shaderScreen->setUniform1f("blackFrac", blackFrac);
     _shaderScreen->setUniform1f("pixelFrac", pixelFrac);
+    _shaderScreen->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffScreen->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
