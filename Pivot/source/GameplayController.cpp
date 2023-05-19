@@ -173,6 +173,12 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _assets->loadDirectory("json/pivot_gameUI.json");
     
     auto layer = _assets->get<cugl::scene2::SceneNode>("lab");
+    _layer = layer;
+    
+    /** set apha to 0.0 so it can fade in */
+    auto color = _layer->getColor();
+    auto newColor = Color4(color.r, color.g, color.b, 0.0);
+    _layer->setColor(newColor);
     
     auto kids = layer->getChildren()[0];
     std::vector<std::string> butts = std::vector<std::string>();
@@ -229,8 +235,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _model->initOddAlpha = _model->_inventodd->getColor().a;
     
     // set compass alpha to 0.0 so it can fade in
-    auto color = _model->_compassSpin->getColor();
-    auto newColor = Color4(color.r, color.g, color.b, 0.0);
+    color = _model->_compassSpin->getColor();
+    newColor = Color4(color.r, color.g, color.b, 0.0);
     _model->_compassSpin->setColor(newColor);
     
     // turns off and sets alphas for popups
@@ -469,6 +475,10 @@ void GameplayController::reset() {
     resetCollectibleAlpha();
     _model->_endOfGame = false;
     
+    /** set UI apha to 0.0 so it can fade in */
+    auto color = _layer->getColor();
+    auto newColor = Color4(color.r, color.g, color.b, 0.0);
+    _layer->setColor(newColor);
 
     lastStablePlay2DPos = _model->_player->getPosition();
 }
@@ -517,6 +527,11 @@ void GameplayController::load(std::string name){
     _model->updateCompassNum();
     _model->_compassSpin->setVisible(false);
     resetCollectibleAlpha();
+    
+    /** set UI apha to 0.0 so it can fade in */
+    auto color = _layer->getColor();
+    auto newColor = Color4(color.r, color.g, color.b, 0.0);
+    _layer->setColor(newColor);
 }
 
 /**
@@ -749,11 +764,13 @@ void GameplayController::update(float dt) {
     //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
     _model->_justFinishRotating = false;
     
+    // signal app state machine
     if(_model->_donePixelOut){
         _model->_donePixelOut = false;
         _state = END;
     }
     
+    // pixel out the level
     if(_model->_player->doneFlipping){
         _model->_player->doneFlipping = false;
         _model->_pixelingIn = false;
@@ -765,6 +782,18 @@ void GameplayController::update(float dt) {
         _model->_startOfLevel = false;
         _model->_pixelingIn = true;
         _model->_pixelInTime->mark();
+    }
+    
+    if (_model->_pixelingIn){
+        // all UI fade in
+        auto color = _layer->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 5, 255));
+        _layer->setColor(newColor);
+    } else {
+        // all UI fade out
+        auto color = _layer->getColor();
+        auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+        _layer->setColor(newColor);
     }
     
     _model->_player->animate();

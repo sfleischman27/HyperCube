@@ -555,12 +555,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     float pixelFrac;
     if (model->_pixelingIn) { // if we are currently fading in
         pixelFrac = (model->timeToPixelIn - model->_currentTime->ellapsedMillis(*model->_pixelInTime)) / model->timeToPixelIn;
-        CULog("1st: %f", pixelFrac);
+        //CULog("1st: %f", pixelFrac);
         pixelFrac = std::max(0.0f, pixelFrac);
     }
     else {
         pixelFrac = model->_currentTime->ellapsedMillis(*model->_pixelOutTime) / model->timeToPixelOut;
-        CULog("2nd: %f", pixelFrac);
+        //CULog("2nd: %f", pixelFrac);
         pixelFrac = std::min(1.0f, pixelFrac);
         if (pixelFrac == 1.0f) {
             model->_donePixelOut = true;

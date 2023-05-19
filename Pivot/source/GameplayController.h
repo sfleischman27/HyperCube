@@ -68,7 +68,8 @@ protected:
     std::unordered_set<b2Fixture*> _sensorFixtures;
     
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
-
+    /** The entire game UI scene */
+    std::shared_ptr<cugl::scene2::SceneNode> _layer;
     
 private:
     std::shared_ptr<SoundController> _sound;// = 
