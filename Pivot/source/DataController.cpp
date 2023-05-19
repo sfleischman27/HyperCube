@@ -196,7 +196,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             // get sprite texture
             std::string texKey = tex;
             std::shared_ptr<Texture> tex = _assets->get<Texture>(texKey);
-            std::shared_ptr<Texture> normaltex = _assets->get<Texture>(texKey + "_normal");
+            std::shared_ptr<Texture> normaltex = _assets->get<Texture>(texKey + "-normal");
             col_texs.push_back(tex);
             col_normal_texs.push_back(normaltex);
 
