@@ -8,55 +8,55 @@
         "dude": {
             "file": "textures/dude.png"
         },
-        "dude-normal": {
-            "file": "textures/dude-normal.png"
+        "dude_normal": {
+            "file": "textures/dude_normal.png"
         },
         "player-rotate": {
             "file": "textures/rotate.png"
         },
-        "player-rotate-normal": {
+        "player-rotate_normal": {
             "file": "textures/rotate_normal.png"
         },
         "player-walk": {
             "file": "textures/walk.png"
         },
-        "player-walk-normal": {
+        "player-walk_normal": {
             "file": "textures/walk_normal.png"
         },
         "player-run": {
             "file": "textures/run.png"
         },
-        "player-run-normal": {
+        "player-run_normal": {
             "file": "textures/run_normal.png"
         },
         "player-jump-launch": {
             "file": "textures/jump_launch.png"
         },
-        "player-jump-launch-normal": {
+        "player-jump-launch_normal": {
             "file": "textures/jump_launch_normal.png"
         },
         "player-jump-hold": {
             "file": "textures/jump_hold.png"
         },
-        "player-jump-hold-normal": {
+        "player-jump-hold_normal": {
             "file": "textures/jump_hold_normal.png"
         },
         "player-jump-land": {
             "file": "textures/jump_land.png"
         },
-        "player-jump-land-normal": {
+        "player-jump-land_normal": {
             "file": "textures/jump_land_normal.png"
         },
         "player-flip": {
             "file": "textures/flip.png"
         },
-        "player-flip-normal": {
+        "player-flip_normal": {
             "file": "textures/flip_normal.png"
         },
         "player-idle": {
             "file": "textures/idle.png"
         },
-        "player-idle-normal": {
+        "player-idle_normal": {
             "file": "textures/idle_normal.png"
         },
         "cobble": {
@@ -65,8 +65,8 @@
         "spinner": {
             "file": "textures/barrier.png"
         },
-        "spinner-normal": {
-            "file": "textures/glowstick-normal.png"
+        "spinner_normal": {
+            "file": "textures/glowstick_normal.png"
         },
         "bridge": {
             "file": "textures/ropebridge.png"
@@ -125,7 +125,7 @@
         "goal": {
             "file": "textures/exit.png"
         },
-        "goal-normal": {
+        "goal_normal": {
             "file": "textures/exit_normal.png"
         },
         "dpad": {
@@ -176,7 +176,7 @@
             "span": 4,
             "cols": 4
         },
-        "orb-normal": {
+        "orb_normal": {
             "file": "textures/glow_cube_normal.png",
             "span": 4,
             "cols": 4
@@ -206,7 +206,7 @@
             "span": 1,
             "cols": 1
         },
-        "mushroom2-normal": {
+        "mushroom2_normal": {
             "file": "textures/mushroom2_normal.png",
             "span": 1,
             "cols": 1
@@ -251,13 +251,8 @@
             "span": 1,
             "cols": 1
         },
-        "biohazard-normal": {
+        "biohazard_normal": {
             "file": "textures/biohazard.png",
-            "span": 1,
-            "cols": 1
-        },
-        "biohazrd": {
-            "file": "textures/biohazrd.png",
             "span": 1,
             "cols": 1
         },
@@ -266,13 +261,38 @@
             "span": 1,
             "cols": 1
         },
-        "mushroom2_normal": {
-            "file": "textures/mushroom2_normal.png",
+        "background_default": {
+            "file": "textures/background_default.png",
             "span": 1,
             "cols": 1
         },
-        "background_default": {
-            "file": "textures/background_default.png",
+        "tree1": {
+            "file": "textures/tree1.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree1_normal": {
+            "file": "textures/tree1_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree2": {
+            "file": "textures/tree2.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree2_normal": {
+            "file": "textures/tree2_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom1": {
+            "file": "textures/mushroom1.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom1_normal": {
+            "file": "textures/mushroom1_normal.png",
             "span": 1,
             "cols": 1
         }
