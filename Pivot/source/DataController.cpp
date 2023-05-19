@@ -163,8 +163,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     model->clearTriggers();
 
     std::vector<Vec3> col_locs;
-    std::vector<std::shared_ptr<cugl::Texture>> col_texs;
-    std::vector<std::shared_ptr<cugl::Texture>> col_normal_texs;
+//    std::vector<std::shared_ptr<cugl::Texture>> col_texs;
+//    std::vector<std::shared_ptr<cugl::Texture>> col_normal_texs;
 
     for (int i = 0; i < sprites->size(); i++) {
         auto iscol = sprites->get(std::to_string(i))->get("collectible")->asBool();
@@ -180,7 +180,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             loc.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
             loc.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
-//            col_locs.push_back(loc);
+            col_locs.push_back(loc);
 
             Vec3 norm;
             norm.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
@@ -322,6 +322,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
             // TODO: convert normal to an angle,
+            float offsetAngle = getOffsetAngleDeg(norm);
             // use normal to orient poster
 
             //get sprite scale
@@ -330,7 +331,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
             //get texture
             auto texkey = sprites->get(std::to_string(i))->getString("tex");
-
+            std::shared_ptr<GameItem> posPtr = std::make_shared<GameItem>(loc, "poster" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
+            posPtr->setIsbill(false);
 
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
@@ -343,8 +345,13 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
                 float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
                 // TODO make lights for those sprites here @jolene
+                posPtr->setIsemit(true);
+            }
+            else{
+                posPtr->setIsemit(false);
             }
             //TODO add poster to model
+            model->_posters.push_back(posPtr);
             //TODO if(isemit) put it in the emissive posters
         }
     }
@@ -354,7 +361,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     else {
         model->_nav_target = model->_exit->getPosition();
     }
-    model->setCollectibles(col_locs, col_texs, col_normal_texs);
+//     model->setCollectibles(col_locs, col_texs, col_normal_texs);
 
 
     // emitters (sound points)
