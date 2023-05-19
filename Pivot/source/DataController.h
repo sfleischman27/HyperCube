@@ -12,7 +12,6 @@
 #include <cugl/base/CUApplication.h>
 #include <cugl/cugl.h>
 #include "GameModel.h"
-#include "Collectible.h"
 #include <vector>
 
 /**
@@ -178,13 +177,6 @@ public:
      * Returns the outline selction that is stored in the save file
      */
     bool getOutline() { return _save->getBool("outline"); }
-    
-    float getOffsetAngleDeg(Vec3 norm) {
-        auto basis = Vec3(1, 0, 0);
-        auto dot = norm.dot(basis);     // Dot product between[x1, y1] and [x2, y2]
-        auto det = norm.x * basis.y - norm.y * basis.x;      // Determinant
-        return atan2(det, dot) * 180 / M_PI;
-    }
     
 };
 

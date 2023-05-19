@@ -2,6 +2,7 @@
     "textures": {
         "credits": {
             "file": "textures/credits_credits.png"
+            
         },
         "exitcredits": {
             "file": "textures/credits_exit.png"

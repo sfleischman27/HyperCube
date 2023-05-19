@@ -168,10 +168,10 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, true, model->_exit->rotateSpriteSheet, true));
 
     // Collectibles
-    std::map<std::string, std::shared_ptr<Collectible>> colls = model->getCollectibles();
-    for (std::pair<std::string, std::shared_ptr<Collectible>> c : colls) {
-        if (!c.second->getCollected()) {
-            drawables.push_back(DrawObject(c.second->getPosition(), c.second->rotateSpriteSheet->getTexture(), NULL, false, c.second->isEmissive(), c.second->rotateSpriteSheet, true));
+    std::map<std::string, Collectible> colls = model->getCollectibles();
+    for (std::pair<std::string, Collectible> c : colls) {
+        if (!c.second.getCollected()) {
+            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, true, c.second.rotateSpriteSheet, true));
         }
     }
 
