@@ -81,7 +81,7 @@ public:
     std::shared_ptr<Timestamp> _currentTime;
     
     /** True while pixeling in, false when pixeling out*/
-    bool _curPixeling;
+    bool _pixelingIn;
     /** True when done pixeling out */
     bool _donePixelOut;
     /** True when first starts level */
