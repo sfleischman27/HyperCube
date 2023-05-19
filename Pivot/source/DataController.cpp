@@ -273,6 +273,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             //get texture
             auto texkey = sprites->get(std::to_string(i))->getString("tex");
             std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
+            decPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
 
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
@@ -294,18 +295,12 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             else{
                 decPtr->setIsemit(false);
             }
-            
-            //get texture
-            auto texkey = sprites->get(std::to_string(i))->getString("tex");
-            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey));
-            decPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
+            //TODO: emissive?? Jolene
             if(_assets->get<Texture>(texkey + "-normal") != nullptr){
                 decPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
             } else {
                 decPtr->setEmissive(true);
             }
-            
-            model->_decorations.push_back(decPtr);
             
             model->_decorations.push_back(decPtr);
             //TODO if(isemit) put it in the emissive decorations
