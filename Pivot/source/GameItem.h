@@ -39,6 +39,7 @@ protected:
 public:
     std::shared_ptr<cugl::SpriteSheet> rotateSpriteSheet;
     std::shared_ptr<cugl::SpriteSheet> rotateNormalSpriteSheet;
+    bool isEmission = false;
     /**
      * Creates the game item
      *
@@ -170,7 +171,10 @@ public:
         int index = (int) localAng / repeat;
         
         rotateSpriteSheet->setFrame(index);
-        rotateNormalSpriteSheet->setFrame(index);
+        if(!isEmission){
+            rotateNormalSpriteSheet->setFrame(index);
+
+        }        
     }
     
 #pragma mark Getters

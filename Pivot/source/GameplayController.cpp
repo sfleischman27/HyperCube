@@ -511,7 +511,7 @@ void GameplayController::load(std::string name){
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     
-    _sound->streamSounds({ "cave_m", "cave_p" }, { 1.0, 0.0 }, true);
+    _sound->streamSounds({ "lab_m", "lab_p" }, { 1.0, 0.0 }, true);
     
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();
@@ -890,6 +890,11 @@ void GameplayController::update(float dt) {
             _model->_endOfGame = true;
             _model->_player->shouldStartFlipping = true;
         }
+    }
+    
+#pragma mark DECORATIONS
+    for(auto itr = _model->_decorations.begin(); itr != _model->_decorations.end(); itr++){
+        (*itr)->setRotationalSprite(_model->getGlobalAngleDeg());
     }
     
 #pragma mark Glowsticks

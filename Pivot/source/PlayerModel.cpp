@@ -324,7 +324,7 @@ void PlayerModel::animate() {
             animState = 3;
         }
     }
-    else if(isLanding() && airTime > 10){
+    else if(isLanding() && airTime > 20){
         //CULog("Landing");
         if(animState != 6){
             animState = 6;
