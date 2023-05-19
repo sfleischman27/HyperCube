@@ -452,6 +452,8 @@ void GameplayController::reset() {
     _model->_player->setVelocity(Vec2::ZERO);
     _model->_player->doneFlipping = false;
     _model->_player->shouldStartFlipping = false;
+    _model->_curPixelOut = false;
+    _model->_curPixelIn = false;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
     prevPlay2DPos = Vec2::ZERO;
@@ -494,6 +496,8 @@ void GameplayController::load(std::string name){
     _model->_player->setVelocity(Vec2::ZERO);
     _model->_player->doneFlipping = false;
     _model->_player->shouldStartFlipping = false;
+    _model->_curPixelOut = false;
+    _model->_curPixelIn = false;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
     prevPlay2DPos = Vec2::ZERO;
@@ -737,6 +741,8 @@ void GameplayController::resetMessages() {
  */
 float saveFloat = 0.0;
 void GameplayController::update(float dt) {
+    _model->_currentTime->mark();
+    
     if(_justCollected) {
         fadeinCollectibles();
     }else{
@@ -745,28 +751,34 @@ void GameplayController::update(float dt) {
     //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
     _model->_justFinishRotating = false;
     
-    _model->_player->animate();
-    
-    if(_model->_player->doneFlipping){
-        _model->_player->doneFlipping = false;
-        _model->_pixelOutTime->mark();
-        //TODO: @MATT remove the _state here when you have implemented the pixel stuff
-        //_state = END;
-    }
-    
     if(_model->_donePixelOut){
+        _model->_curPixelOut = false;
         _model->_donePixelOut = false;
         _state = END;
+    }
+    
+    if(_model->_curPixelOut){
+        return;
+    }
+    
+    if(_model->_player->doneFlipping && !_model->_curPixelOut){
+        _model->_player->doneFlipping = false;
+        _model->_curPixelOut = true;
+        _model->_pixelOutTime->mark();
     }
     
     // pixel in the level
     if(_model->_startOfLevel){
         _model->_startOfLevel = false;
+        _model->_curPixelIn = true;
         _model->_pixelInTime->mark();
     }
     
+    _model->_player->animate();
+    
 #pragma mark INPUT
-    if(!(_model->_player->shouldStartFlipping)){
+    // if the player shouldn't flip and the level isn't fading out
+    if(!(_model->_player->shouldStartFlipping) && !(_model->_curPixelOut)){
         _input->update(dt);
     }
     
@@ -782,7 +794,6 @@ void GameplayController::update(float dt) {
         _model->_player->setDead(false);
         _model->_deathTime->mark();
     }
-    _model->_currentTime->mark();
     
     // update popups
     updatePopups();
