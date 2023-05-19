@@ -11,7 +11,6 @@ out vec4 frag_color;
 uniform sampler2D billTex;
 uniform sampler2D replaceTexture;
 uniform float alpha;
-uniform float darken;
 
 void main(void) {
 	// Draw
@@ -19,7 +18,7 @@ void main(void) {
 	if (frag_color.a < 0.5) {
 		discard;
 	}
-	frag_color.xyz = frag_color.xyz - vec3(darken); //TEMPORARY: artificial darkening
+	frag_color.xyz = frag_color.xyz;
 	frag_color.a = alpha;
 }
 

@@ -24,8 +24,10 @@ public:
 		bool isPlayer;
 		bool emission;
 		bool fade;
+		bool isPoster;
+		Vec3 posterNormal;
 
-		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, bool emission = false, std::shared_ptr<cugl::SpriteSheet> sheet = NULL, bool fade = false) {
+		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, bool emission, std::shared_ptr<cugl::SpriteSheet> sheet, bool fade, bool isPoster = false, Vec3 posterNormal = Vec3(0, 0, 0)) {
 			assert(!(isPlayer && emission)); // player is never an emission mesh
 			this->pos = pos;
 			this->tex = tex;
