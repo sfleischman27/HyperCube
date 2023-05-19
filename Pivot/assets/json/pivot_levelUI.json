@@ -26,11 +26,14 @@
         },
         "settingsbutton": {
             "file": "textures/level_settingsbutton.png"
+        },
+        "leveltitle": {
+            "file": "textures/level_title.png"
         }
     },
     "fonts": {
-        "gyparody": {
-            "file":     "fonts/gyparody-hv.ttf",
+        "roboto": {
+            "file":     "fonts/rm-light.ttf",
             "size":     48
         }
     },
