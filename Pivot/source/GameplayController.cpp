@@ -934,7 +934,7 @@ void GameplayController::update(float dt) {
             _model->_endOfGame = true;
             _model->_player->shouldStartFlipping = true;
             if(_model->_player->_isFlipping){
-                _sound->playSound("portal", 0.75);
+                _sound->playSound("portal", 1);
                 _model->_player->_isFlipping = false;
             }
         }
