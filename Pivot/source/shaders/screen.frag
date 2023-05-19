@@ -26,7 +26,7 @@ void main(void) {
     // Pixelate
     if (pixelFrac > 0.0) {
         float resolution = nonLinearMix(maxResolution, minResolution, pixelFrac);
-        //vec2 middle = 
+        //float middle = 1.0 / (2.0 * resolution);
         vec2 grid_uv = round(outTexCoord * float(resolution)) / float(resolution);
         frag_color = texture(screenTexture, grid_uv);
     } else {
