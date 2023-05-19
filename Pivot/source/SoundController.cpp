@@ -20,7 +20,7 @@ bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
     //4 audio nodes (main music, portal music, ending music, menu music)
     //_mixer = std::make_shared<cugl::audio::AudioMixer>();
     _mixer = _mixer->alloc(4, 2, 48000);
-    _mixerwrapper = std::vector<std::shared_ptr<GameSound>>(_mixer->getWidth());
+    _mixerwrapper = std::vector<std::shared_ptr<cugl::audio::AudioNode>>(_mixer->getWidth());
     return true;
 }
 
@@ -65,15 +65,12 @@ bool SoundController::musicEnabled(){
 void SoundController::setAllNodeGains(){
     for (auto const& it : _sounds){
         std::shared_ptr<GameSound> sound = it.second;
-        if(sound->isStreaming()){ //portal is not counted as music
+        if(sound->isStreaming()){
             sound->getNode()->setGain(sound->getVolume() * _masterVolume * _volumeToggle);
         } else {
             sound->getNode()->setGain(sound->getVolume() * _masterVolume);
         }
     }
-    /*if(getMixerSlot(1) != nullptr){
-        getMixerSlot(1)->getNode()->setGain(getMixerSlot(1)->getVolume() * _masterVolume);
-    }*/
 }
 
 /**
@@ -106,14 +103,14 @@ std::shared_ptr<GameSound> SoundController::createSound(std::string name){
  * @param name the name of the sound in the json.
  */
 void SoundController::attachSound(std::string name){
-    _mixerwrapper[getSound(name)->attachSound(_mixer)] = getSound(name);
+    _mixerwrapper[getSound(name)->attachSound(_mixer)] = getSound(name)->getNode();
 }
 
 /**
  * returns AudioNode at mixer slot
  * @param slot the slot the node is in
  */
-std::shared_ptr<GameSound> SoundController::getMixerSlot(int slot){
+std::shared_ptr<cugl::audio::AudioNode> SoundController::getMixerSlot(int slot){
     return _mixerwrapper[slot];
 }
 
@@ -206,7 +203,7 @@ void SoundController::setTrackVolumes(std::vector<std::string> names, float volu
  * @param volume the volume to set the sound to, from 0.0-1.0
  */
 void SoundController::setTrackVolume(int slot, float volume){
-    std::shared_ptr<cugl::audio::AudioNode> n = _mixerwrapper[slot]->getNode();
+    std::shared_ptr<cugl::audio::AudioNode> n = _mixerwrapper[slot];
     if(n == nullptr){
         CULogError("setTrackVolume node is null, name: %s, slot: %i", n->getName().c_str(), slot);
     }

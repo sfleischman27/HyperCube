@@ -30,10 +30,10 @@ protected:
     std::unordered_map<std::string, std::shared_ptr<GameSound>> _sounds;
     
     /** vector that stores the nodes inside the audiomixer */
-    std::vector<std::shared_ptr<GameSound>> _mixerwrapper;
+    std::vector<std::shared_ptr<cugl::audio::AudioNode>> _mixerwrapper;
     
     /** master volume, range 0 - 100 */
-    float _masterVolume = 0.0f;
+    float _masterVolume = 100.0f;
     
     /** toggle volume, either 0 or 1 */
     float _volumeToggle = 1.0f;
@@ -76,7 +76,7 @@ public:
      * returns AudioNode at mixer slot
      * @param slot the slot the node is in
      */
-    std::shared_ptr<GameSound> getMixerSlot(int slot);
+    std::shared_ptr<cugl::audio::AudioNode> getMixerSlot(int slot);
 
     
 #pragma mark master sound controls
