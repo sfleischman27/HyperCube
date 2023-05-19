@@ -334,6 +334,9 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     addChild(_worldnode);
     addChild(_debugnode);
+    
+    _initInertia = _model->_player->getInertia();
+    _initFriction = _model->_player->getFriction();
 
 #pragma mark SOUND SETUP
     _sound = sound;
@@ -461,6 +464,8 @@ void GameplayController::reset() {
     _model->_pixelingIn = true;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
+    _model->_player->setFriction(_initFriction);
+    _model->_player->setInertia(_initInertia);
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -508,6 +513,8 @@ void GameplayController::load(std::string name){
     _model->_pixelingIn = true;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
+    _model->_player->setFriction(_initFriction);
+    _model->_player->setInertia(_initInertia);
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
