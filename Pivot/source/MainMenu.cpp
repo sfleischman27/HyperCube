@@ -18,6 +18,13 @@ bool MainMenu::init(const std::shared_ptr<cugl::AssetManager>& assets) {
     savePath.append("save.json");
     savePath = filetool::normalize_path(savePath);
     
+    // deletes save file if on windows
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    remove(savePath);
+#else
+        
+#endif
+    
     // deletes save file for testing purposes
     //filetool::file_delete(savePath);
     // true if there is a save file
