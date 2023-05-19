@@ -58,7 +58,8 @@
                                         "levelStartX" : "left",
                                         "levelStartY" : "middle",
                                         "levelPosX": 0.125,
-                                        "levelPosY": 0
+                                        "levelPosY": 0,
+                                        "levelState": "tutorialunlockedone"
                                     }
                                 }
                             },
@@ -87,7 +88,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 2
+                                        "levelNumber": 2,
+                                        "levelState": "tutorialunlockedtwo"
                                     }
                                 }
                             },
@@ -116,7 +118,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 3
+                                        "levelNumber": 3,
+                                        "levelState": "tutorialunlockedthree"
                                     }
                                 }
                             },
@@ -145,7 +148,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
-                                        "levelNumber": 4
+                                        "levelNumber": 4,
+                                        "levelState": "tutorialunlockedfour"
                                     }
                                 }
                             },
@@ -174,7 +178,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0.125,
                                         "levelPosY": 0,
-                                        "levelNumber": 5
+                                        "levelNumber": 5,
+                                        "levelState": "unlockedone"
                                     }
                                 }
                             },
@@ -203,7 +208,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 6
+                                        "levelNumber": 6,
+                                        "levelState": "unlockedtwo"
                                     }
                                 }
                             },
@@ -232,7 +238,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 7
+                                        "levelNumber": 7,
+                                        "levelState": "unlockedthree"
                                     }
                                 }
                             },
@@ -261,7 +268,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
-                                        "levelNumber": 8
+                                        "levelNumber": 8,
+                                        "levelState": "unlockedfour"
                                     }
                                 }
                             },
@@ -290,7 +298,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0.125,
                                         "levelPosY": 0,
-                                        "levelNumber": 9
+                                        "levelNumber": 9,
+                                        "levelState": "unlockedone"
                                     }
                                 }
                             },
@@ -319,7 +328,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 10
+                                        "levelNumber": 10,
+                                        "levelState": "unlockedtwo"
                                     }
                                 }
                             },
@@ -348,7 +358,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 11
+                                        "levelNumber": 11,
+                                        "levelState": "unlockedthree"
                                     }
                                 }
                             },
@@ -377,7 +388,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
-                                        "levelNumber": 12
+                                        "levelNumber": 12,
+                                        "levelState": "unlockedfour"
                                     }
                                 }
                             },
@@ -406,7 +418,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0.125,
                                         "levelPosY": 0,
-                                        "levelNumber": 13
+                                        "levelNumber": 13,
+                                        "levelState": "unlockedone"
                                     }
                                 }
                             },
@@ -435,7 +448,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 14
+                                        "levelNumber": 14,
+                                        "levelState": "unlockedtwo"
                                     }
                                 }
                             },
@@ -464,7 +478,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 15
+                                        "levelNumber": 15,
+                                        "levelState": "unlockedthree"
                                     }
                                 }
                             },
@@ -493,7 +508,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
-                                        "levelNumber": 16
+                                        "levelNumber": 16,
+                                        "levelState": "unlockedfour"
                                     }
                                 }
                             },
@@ -522,7 +538,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0.125,
                                         "levelPosY": 0,
-                                        "levelNumber": 17
+                                        "levelNumber": 17,
+                                        "levelState": "unlockedone"
                                     }
                                 }
                             },
@@ -551,7 +568,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 18
+                                        "levelNumber": 18,
+                                        "levelState": "unlockedtwo"
                                     }
                                 }
                             },
@@ -580,7 +598,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": 0,
                                         "levelPosY": 0,
-                                        "levelNumber": 19
+                                        "levelNumber": 19,
+                                        "levelState": "unlockedthree"
                                     }
                                 }
                             },
@@ -609,7 +628,8 @@
                                         "levelStartY" : "middle",
                                         "levelPosX":-0.125,
                                         "levelPosY": 0,
-                                        "levelNumber": 20
+                                        "levelNumber": 20,
+                                        "levelState": "unlockedfour"
                                     }
                                 }
                             },
