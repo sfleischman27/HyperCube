@@ -84,6 +84,8 @@ public:
     bool _pixelingIn;
     /** True when done pixeling out */
     bool _donePixelOut;
+    /** True when done pixeling in */
+    bool _donePixelIn;
     /** True when first starts level */
     bool _startOfLevel;
     
