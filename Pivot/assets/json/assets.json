@@ -356,24 +356,19 @@
             "stream": true,
             "volume": 0.5
         },
-        "jump": {
-            "type": "sample",
-            "file": "sounds/jump.wav",
-            "volume": 0.5
-        },
         "collect": {
             "type": "sample",
             "file": "sounds/collect.wav",
             "volume": 0.5
         },
-        "pew": {
+        "glowstick_pickup": {
             "type": "sample",
-            "file": "sounds/pew.wav",
+            "file": "sounds/glowstick-pickup.wav",
             "volume": 0.5
         },
-        "pop": {
+        "glowstick_place": {
             "type": "sample",
-            "file": "sounds/plop.wav",
+            "file": "sounds/glowstick-place.wav",
             "volume": 0.5
         },
         "walk_1": {
@@ -423,7 +418,7 @@
             "type": "sample",
             "file": "sounds/music/pivot-lab-p.ogg",
             "stream": true,
-            "volume": 0.5
+            "volume": 0.75
         }
     },
     "fonts": {

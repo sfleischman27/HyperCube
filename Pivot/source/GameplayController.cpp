@@ -945,6 +945,8 @@ void GameplayController::update(float dt) {
                 g = _model->_glowsticks.erase(g);
                 _model->updateGlowstickCount();
                 _pickupGlowstick = true;
+                
+                _sound->playSound("glowstick_pickup", 0.75);
             }
             else{
                 ++g;
@@ -960,6 +962,8 @@ void GameplayController::update(float dt) {
             _model->_glowsticks.push_back(g);
             _model->updateGlowstickCount();
             _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0); // hard coded for now
+            
+            _sound->playSound("glowstick_place", 0.75);
         }
         
         _pickupGlowstick = false;
