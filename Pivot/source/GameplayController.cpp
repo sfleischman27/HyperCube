@@ -334,6 +334,9 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     addChild(_worldnode);
     addChild(_debugnode);
+    
+    _initInertia = _model->_player->getInertia();
+    _initFriction = _model->_player->getFriction();
 
 #pragma mark SOUND SETUP
     _sound = sound;
@@ -461,6 +464,8 @@ void GameplayController::reset() {
     _model->_pixelingIn = true;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
+    _model->_player->setFriction(_initFriction);
+    _model->_player->setInertia(_initInertia);
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -508,6 +513,8 @@ void GameplayController::load(std::string name){
     _model->_pixelingIn = true;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
+    _model->_player->setFriction(_initFriction);
+    _model->_player->setInertia(_initInertia);
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -926,6 +933,10 @@ void GameplayController::update(float dt) {
             fadeinCollectibles();
             _model->_endOfGame = true;
             _model->_player->shouldStartFlipping = true;
+            if(_model->_player->_isFlipping){
+                _sound->playSound("portal", 0.75);
+                _model->_player->_isFlipping = false;
+            }
         }
     }
     
@@ -945,6 +956,8 @@ void GameplayController::update(float dt) {
                 g = _model->_glowsticks.erase(g);
                 _model->updateGlowstickCount();
                 _pickupGlowstick = true;
+                
+                _sound->playSound("glowstick_pickup", 0.75);
             }
             else{
                 ++g;
@@ -960,6 +973,8 @@ void GameplayController::update(float dt) {
             _model->_glowsticks.push_back(g);
             _model->updateGlowstickCount();
             _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0); // hard coded for now
+            
+            _sound->playSound("glowstick_place", 0.75);
         }
         
         _pickupGlowstick = false;

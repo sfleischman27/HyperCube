@@ -97,6 +97,9 @@ public:
     
     bool doneFlipping;
     
+    /** Whether we are actively flipping*/
+    bool _isFlipping = false;
+    
 private:
     /** This macro disables the copy constructor (not allowed on physics objects) */
     CU_DISALLOW_COPY_AND_ASSIGN(PlayerModel);
