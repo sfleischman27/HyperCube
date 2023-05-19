@@ -89,14 +89,14 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
     model->shadeDepth = constants->get("shade_depth")->asFloat();
 
-    auto shade_color = cugl::Color4();
+    auto shade_color = cugl::Color4f();
     shade_color.r = constants->get("shade_color")->get(0)->asFloat();
     shade_color.g = constants->get("shade_color")->get(1)->asFloat();
     shade_color.b = constants->get("shade_color")->get(2)->asFloat();
     model->shadeColor = shade_color;
 
     if (constants->has("ambient_color")) {
-        auto ambient_color = cugl::Color4();
+        auto ambient_color = cugl::Color4f();
         ambient_color.r = constants->get("ambient_color")->get(0)->asFloat();
         ambient_color.g = constants->get("ambient_color")->get(1)->asFloat();
         ambient_color.b = constants->get("ambient_color")->get(2)->asFloat();
@@ -104,14 +104,14 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
         model->ambientLight = ambient_color;
     }
 
-    auto bg_color = cugl::Color4();
+    auto bg_color = cugl::Color4f();
     bg_color.r = constants->get("bg_color")->get(0)->asFloat();
     bg_color.g = constants->get("bg_color")->get(1)->asFloat();
     bg_color.b = constants->get("bg_color")->get(2)->asFloat();
     model->bgColor = bg_color;
 
     if (constants->has("cutline_color")) {
-        auto cutline_color = cugl::Color4();
+        auto cutline_color = cugl::Color4f();
         cutline_color.r = constants->get("cutline_color")->get(0)->asFloat();
         cutline_color.g = constants->get("cutline_color")->get(1)->asFloat();
         cutline_color.b = constants->get("cutline_color")->get(2)->asFloat();
@@ -119,7 +119,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     }
     
     if (constants->has("cutfill_color")) {
-        auto cutfill_color = cugl::Color4();
+        auto cutfill_color = cugl::Color4f();
         cutfill_color.r = constants->get("cutfill_color")->get(0)->asFloat();
         cutfill_color.g = constants->get("cutfill_color")->get(1)->asFloat();
         cutfill_color.b = constants->get("cutfill_color")->get(2)->asFloat();

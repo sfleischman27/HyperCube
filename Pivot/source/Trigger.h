@@ -72,7 +72,9 @@ struct Messages {
     State _state;
     std::string _message;
     
-    Messages(){ _state = NONE; _message = ""; }
+    Messages(){ 
+        _state = NONE; 
+        _message = ""; }
     
     void setState(std::string message) {
         _state = MESS;
