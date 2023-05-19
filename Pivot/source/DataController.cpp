@@ -201,9 +201,10 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 //            col_texs.push_back(tex);
 //            col_normal_texs.push_back(normaltex);
             
-            std::shared_ptr<Collectible> item = std::make_shared<Collectible>(loc, std::to_string(model->_expectedCol.size()), tex, offsetAngle, scale);
-            item->rotateSpriteSheet = SpriteSheet::alloc(tex, 6, 6);
-            item->rotateNormalSpriteSheet = SpriteSheet::alloc(normaltex, 6, 6);
+
+            Collectible item = Collectible(loc, std::to_string(model->_expectedCol.size()), tex, offsetAngle, scale);
+            item.rotateSpriteSheet = SpriteSheet::alloc(tex, 4, 4);
+            item.rotateNormalSpriteSheet = SpriteSheet::alloc(normaltex, 4, 4);
 
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
