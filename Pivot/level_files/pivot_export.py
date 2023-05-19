@@ -79,9 +79,10 @@ class ExportJsonOperator(bpy.types.Operator):
         # enter background image
         im_path = bpy.context.scene.bg_image
         im_name = im_path.rsplit("\\")[-1].split(".")[0]
-        new_tex_dict = self.texture_check(dir, im_name)
-        asset_updates_dict["textures"].update(new_tex_dict)
-        json_dict["bg_image"] = im_name
+        if im_name != "":
+            new_tex_dict = self.texture_check(dir, im_name)
+            asset_updates_dict["textures"].update(new_tex_dict)
+            json_dict["bg_image"] = im_name
     
         
         # enter collectibles    
@@ -177,12 +178,14 @@ class ExportJsonOperator(bpy.types.Operator):
         #export the collision meshes as an obj
         fpath = dir+ f"meshes/{pack}/{name}_col.obj"
         collection = bpy.context.scene.collision_meshes
+        if collection is None: raise Exception("You MUST have a collision mesh")
         self.export_collection_for_pivot(collection, fpath)
         json_dict["collision_mesh"] = f"meshes/{pack}/{name}_col.obj"
         
         #export the decorative meshes as an obj
         fpath = dir+ f"meshes/{pack}/{name}_dec.obj"
         collection = bpy.context.scene.decorative_meshes
+        if collection is None: raise Exception("You MUST have a render mesh")
         self.export_collection_for_pivot(collection, fpath)
         json_dict["render_mesh"] = f"meshes/{pack}/{name}_dec.obj"
         
@@ -193,67 +196,71 @@ class ExportJsonOperator(bpy.types.Operator):
         #death meshes
         fpath_base = dir+ f"meshes/{pack}/{name}_death_"
         collection = bpy.context.scene.death_meshes
-        for i in range(len(collection.objects)):
-            if collection.objects[i].type == 'MESH':
-                fpath = fpath_base + str(i).zfill(4) + ".obj"
-                self.export_mesh_for_pivot(collection.objects[i], fpath)
-                trigger_dict[str(trig_count)] = dict()
-                trigger_dict[str(trig_count)]["type"] = "DEATH"
-                trigger_dict[str(trig_count)]["mesh"] = f"meshes/{pack}/{name}_death_" + str(i).zfill(4) + ".obj"
-                trigger_dict[str(trig_count)]["image"] = None
-                trigger_dict[str(trig_count)]["message"] = None
-                trig_count += 1
+        if collection != None:
+            for i in range(len(collection.objects)):
+                if collection.objects[i].type == 'MESH':
+                    fpath = fpath_base + str(i).zfill(4) + ".obj"
+                    self.export_mesh_for_pivot(collection.objects[i], fpath)
+                    trigger_dict[str(trig_count)] = dict()
+                    trigger_dict[str(trig_count)]["type"] = "DEATH"
+                    trigger_dict[str(trig_count)]["mesh"] = f"meshes/{pack}/{name}_death_" + str(i).zfill(4) + ".obj"
+                    trigger_dict[str(trig_count)]["image"] = None
+                    trigger_dict[str(trig_count)]["message"] = None
+                    trig_count += 1
                         
         
         #popup meshes
         fpath_base = dir+ f"meshes/{pack}/{name}_popup_"
         collection = bpy.context.scene.popup_meshes
-        for i in range(len(collection.objects)):
-            if collection.objects[i].type == 'MESH':
-                fpath = fpath_base + str(i).zfill(4) + ".obj"
-                self.export_mesh_for_pivot(collection.objects[i], fpath)                   
-                
-                trigger_dict[str(trig_count)] = dict()
-                trigger_dict[str(trig_count)]["type"] = "POPUP"
-                trigger_dict[str(trig_count)]["mesh"] = f"meshes/{pack}/{name}_popup_" + str(i).zfill(4) + ".obj"
-                
-                new_tex_dict = self.texture_check(dir, collection.objects[i].active_material.name)
-                asset_updates_dict["textures"].update(new_tex_dict)
-                
-                trigger_dict[str(trig_count)]["image"] = collection.objects[i].active_material.name
-                trigger_dict[str(trig_count)]["message"] = None
-                trig_count += 1
+        if collection != None:
+            for i in range(len(collection.objects)):
+                if collection.objects[i].type == 'MESH':
+                    fpath = fpath_base + str(i).zfill(4) + ".obj"
+                    self.export_mesh_for_pivot(collection.objects[i], fpath)                   
+                    
+                    trigger_dict[str(trig_count)] = dict()
+                    trigger_dict[str(trig_count)]["type"] = "POPUP"
+                    trigger_dict[str(trig_count)]["mesh"] = f"meshes/{pack}/{name}_popup_" + str(i).zfill(4) + ".obj"
+                    
+                    new_tex_dict = self.texture_check(dir, collection.objects[i].active_material.name)
+                    asset_updates_dict["textures"].update(new_tex_dict)
+                    
+                    trigger_dict[str(trig_count)]["image"] = collection.objects[i].active_material.name
+                    trigger_dict[str(trig_count)]["message"] = None
+                    trig_count += 1
                 
         #message meshes
         fpath_base = dir+ f"meshes/{pack}/{name}_message_"
         collection = bpy.context.scene.message_meshes
-        for i in range(len(collection.objects)):
-            if collection.objects[i].type == 'MESH':
-                fpath = fpath_base + str(i).zfill(4) + ".obj"
-                self.export_mesh_for_pivot(collection.objects[i], fpath)                   
-                
-                trigger_dict[str(trig_count)] = dict()
-                trigger_dict[str(trig_count)]["type"] = "MESSAGE"
-                trigger_dict[str(trig_count)]["mesh"] = f"meshes/{pack}/{name}_message_" + str(i).zfill(4) + ".obj"
-                trigger_dict[str(trig_count)]["image"] = None
-                trigger_dict[str(trig_count)]["message"] = collection.objects[i].children[0].data.body
-                trig_count += 1
+        if collection != None:
+            for i in range(len(collection.objects)):
+                if collection.objects[i].type == 'MESH':
+                    fpath = fpath_base + str(i).zfill(4) + ".obj"
+                    self.export_mesh_for_pivot(collection.objects[i], fpath)                   
+                    
+                    trigger_dict[str(trig_count)] = dict()
+                    trigger_dict[str(trig_count)]["type"] = "MESSAGE"
+                    trigger_dict[str(trig_count)]["mesh"] = f"meshes/{pack}/{name}_message_" + str(i).zfill(4) + ".obj"
+                    trigger_dict[str(trig_count)]["image"] = None
+                    trigger_dict[str(trig_count)]["message"] = collection.objects[i].children[0].data.body
+                    trig_count += 1
                 
                 
         #exit region
         fpath_base = dir+ f"meshes/{pack}/{name}_exitregion_"
         collection = bpy.context.scene.exit_region
-        for i in range(len(collection.objects)):
-            if collection.objects[i].type == 'MESH':
-                fpath = fpath_base + str(i).zfill(4) + ".obj"
-                self.export_mesh_for_pivot(collection.objects[i], fpath)                   
-                
-                trigger_dict[str(trig_count)] = dict()
-                trigger_dict[str(trig_count)]["type"] = "EXITREGION"
-                trigger_dict[str(trig_count)]["mesh"] = f"meshes/{pack}/{name}_exitregion_" + str(i).zfill(4) + ".obj"
-                trigger_dict[str(trig_count)]["image"] = None
-                trigger_dict[str(trig_count)]["message"] = None
-                trig_count += 1
+        if collection != None:
+            for i in range(len(collection.objects)):
+                if collection.objects[i].type == 'MESH':
+                    fpath = fpath_base + str(i).zfill(4) + ".obj"
+                    self.export_mesh_for_pivot(collection.objects[i], fpath)                   
+                    
+                    trigger_dict[str(trig_count)] = dict()
+                    trigger_dict[str(trig_count)]["type"] = "EXITREGION"
+                    trigger_dict[str(trig_count)]["mesh"] = f"meshes/{pack}/{name}_exitregion_" + str(i).zfill(4) + ".obj"
+                    trigger_dict[str(trig_count)]["image"] = None
+                    trigger_dict[str(trig_count)]["message"] = None
+                    trig_count += 1
         
         
         json_dict["triggers"] = trigger_dict

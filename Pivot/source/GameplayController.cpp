@@ -197,7 +197,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     // store UI elements for later usage
     _model->_glowstickCounter = std::dynamic_pointer_cast<scene2::Label>( _buttons["glowstickB"]->getChildByName("label"));
     
-    _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum"));
+    _model->_compassNum = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("compassNum")->getChildByName("compassnum"));
 
     _model->_navigator = std::dynamic_pointer_cast<scene2::Button>(kids->getChildByName("navigator"));
     
@@ -1143,6 +1143,7 @@ void GameplayController::beginContact(b2Contact* contact) {
     if ((_model->_player->getSensorName() == fd2 && _model->_player.get() != bd1) ||
         (_model->_player->getSensorName() == fd1 && _model->_player.get() != bd2)) {
         _model->_player->setGrounded(true);
+        _model->_player->startTrackingAirTime = false;
         // Could have more than one ground
         _sensorFixtures.emplace(_model->_player.get() == bd1 ? fix2 : fix1);
     }
