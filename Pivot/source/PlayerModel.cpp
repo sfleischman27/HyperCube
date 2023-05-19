@@ -286,8 +286,8 @@ void PlayerModel::applyForce() {
 
 void PlayerModel::animate() {
     if(startTrackingAirTime){
-        CULog("tracking");
-        CULog("%f", airTime);
+        //CULog("tracking");
+        //CULog("%f", airTime);
     }
     if(!isGrounded()){
         startTrackingAirTime = true;
@@ -325,7 +325,7 @@ void PlayerModel::animate() {
         }
     }
     else if(isLanding() && airTime > 10){
-        CULog("Landing");
+        //CULog("Landing");
         if(animState != 6){
             animState = 6;
             setSpriteSheet("jump-land");

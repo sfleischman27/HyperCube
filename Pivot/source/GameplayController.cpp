@@ -751,7 +751,7 @@ void GameplayController::update(float dt) {
         _model->_player->doneFlipping = false;
         _model->_pixelOutTime->mark();
         //TODO: @MATT remove the _state here when you have implemented the pixel stuff
-        _state = END;
+        //_state = END;
     }
     
     if(_model->_donePixelOut){

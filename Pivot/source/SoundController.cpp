@@ -205,7 +205,7 @@ void SoundController::setTrackVolumes(std::vector<std::string> names, float volu
 void SoundController::setTrackVolume(int slot, float volume){
     std::shared_ptr<cugl::audio::AudioNode> n = _mixerwrapper[slot];
     if(n == nullptr){
-        CULogError("setTrackVolume node is null, name: %s, slot: %i", n->getName().c_str(), slot);
+        //CULogError("setTrackVolume node is null, name: %s, slot: %i", n->getName().c_str(), slot);
     }
     n->setGain(volume * _volumeToggle * _masterVolume);
 }

@@ -86,6 +86,10 @@ public:
     bool _startOfLevel;
     
     const float timeToNormalSinceDeath = 500; // in milliseconds
+    /** Time to pixel in */
+    const float timeToPixelIn = 1250; // in milliseconds
+    /** Time to pixel in */
+    const float timeToPixelOut = 1250; // in milliseconds
 
 #pragma mark Plane State
 private:

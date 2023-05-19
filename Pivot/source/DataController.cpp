@@ -25,7 +25,7 @@ bool DataController::loadGameModel(std::string level, const std::shared_ptr<Game
     std::shared_ptr<cugl::JsonValue> constants = _assets->get<JsonValue>(level);
 
     // load the new meshes
-    CULog("%s", Application::get()->getAssetDirectory().c_str());
+    //CULog("%s", Application::get()->getAssetDirectory().c_str());
     std::string assetDirectoryPath = Application::get()->getAssetDirectory();
     std::string rendmeshPath = constants->getString("render_mesh");
 

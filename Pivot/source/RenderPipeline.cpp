@@ -548,7 +548,23 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderScreen->setUniform1i("screenTexture", fbofinal->getTexture()->getBindPoint());
     float blackFrac = (model->timeToNormalSinceDeath - model->_currentTime->ellapsedMillis(*model->_deathTime)) / model->timeToNormalSinceDeath;
     blackFrac = std::max(0.0f, blackFrac);
+    float pixelFrac;
+    if (model->_pixelInTime >= model->_pixelOutTime) { // if we are currently fading in
+        pixelFrac = (model->timeToPixelIn - model->_currentTime->ellapsedMillis(*model->_pixelInTime)) / model->timeToPixelIn;
+        CULog("1st: %f", pixelFrac);
+        pixelFrac = std::max(0.0f, pixelFrac);
+    }
+    else {
+        pixelFrac = model->_currentTime->ellapsedMillis(*model->_pixelOutTime) / model->timeToPixelOut;
+        CULog("2nd: %f", pixelFrac);
+        pixelFrac = std::min(1.0f, pixelFrac);
+        if (pixelFrac == 1.0f) {
+            model->_donePixelOut = true;
+        }
+    }
+
     _shaderScreen->setUniform1f("blackFrac", blackFrac);
+    _shaderScreen->setUniform1f("pixelFrac", pixelFrac);
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffScreen->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);
