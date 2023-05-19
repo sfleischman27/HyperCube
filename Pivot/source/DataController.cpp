@@ -295,14 +295,15 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             else{
                 decPtr->setIsemit(false);
             }
-            // we also set gameItem without a normal to be emissive
+            //TODO: emissive?? Jolene
             if(_assets->get<Texture>(texkey + "-normal") != nullptr){
                 decPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
             } else {
-                decPtr->setIsemit(true);
+                decPtr->setEmissive(true);
             }
             
             model->_decorations.push_back(decPtr);
+            //TODO if(isemit) put it in the emissive decorations
         }
         else {
             // its a poster
