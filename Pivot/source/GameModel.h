@@ -92,6 +92,10 @@ public:
     const float timeToPixelIn = 1250; // in milliseconds
     /** Time to pixel in */
     const float timeToPixelOut = 1250; // in milliseconds
+    /** Time to pixel in */
+    const float timeFromPixelInToOutline = 0; // in milliseconds
+    /** Time to pixel in */
+    const float timeToOutline = 750; // in milliseconds
 
 #pragma mark Plane State
 private:

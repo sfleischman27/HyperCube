@@ -21,6 +21,7 @@ uniform int drawOutline;
 uniform vec4 ambientLight;
 uniform vec3 cutColor;
 uniform vec3 outlineColor;
+uniform float outlineOpacity;
 
 // Editable parameter for how thick the cut outline is
 const float thickness = 1.0;
@@ -58,7 +59,7 @@ void main(void) {
 
 		// Edge detection, set to green if cut is near non-cut
 		if (checkNeighboring(replaceTexture, outTexCoord) && drawOutline == 1) {
-			frag_color = vec4(outlineColor, 1.0);
+			frag_color.xyz = mix(frag_color.xyz, outlineColor, outlineOpacity);
 		}
 	} else if (texture(depthTexture, outTexCoord).xyz == vec3(1.0)) {
 		// Background color

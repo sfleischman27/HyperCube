@@ -213,7 +213,7 @@ bool RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, 
     bool visible = false;
     for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
         for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
-            Vec3 addOn = i * basisRight + j * basisUp;
+            Vec3 addOn = (i * basisRight + j * basisUp) * 1.0; // TODO scale
             tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
             if (dro.sheet != NULL) {
                 // assuming the spritesheet has square dimensions
@@ -488,11 +488,20 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     earthTex->bind();
     model->backgroundPic->bind();
 
-    // Set uniforms and draw
+    // Generate background scroll
     float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, 1, 0), _camera->getUp());
     if (angle < 0) angle += 2 * M_PI;
     angle /= 2 * M_PI;
     float amtOfScreens = model->backgroundPic->getWidth() / screenSize.width;
+
+    // Generate outline opacity
+    float outlineOpacity = .5;
+    float startTime = model->timeToPixelIn + model->timeFromPixelInToOutline;
+    float endTime = startTime + model->timeToOutline;
+    outlineOpacity = (model->_currentTime->ellapsedMillis(*model->_pixelInTime) - startTime) / model->timeToOutline;
+    outlineOpacity = std::min(1.0f, outlineOpacity);
+
+    // Set uniforms and draw
     _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
     _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderCut->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
@@ -502,6 +511,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
     _shaderCut->setUniform1f("interpStartPosLeft", angle);
     _shaderCut->setUniform1f("amtOfScreens", amtOfScreens);
+    _shaderCut->setUniform1f("outlineOpacity", outlineOpacity);
     _shaderCut->setUniform1i("drawOutline", model->drawOutline);
     _shaderCut->setUniform4f("ambientLight", model->ambientLight.r, model->ambientLight.g, model->ambientLight.b, model->ambientLight.a);
     _shaderCut->setUniform3f("cutColor", model->cutFillColor.r, model->cutFillColor.g, model->cutFillColor.b);
