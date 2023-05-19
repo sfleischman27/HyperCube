@@ -163,8 +163,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     model->clearTriggers();
 
     std::vector<Vec3> col_locs;
-    std::vector<std::shared_ptr<cugl::Texture>> col_texs;
-    std::vector<std::shared_ptr<cugl::Texture>> col_normal_texs;
+//    std::vector<std::shared_ptr<cugl::Texture>> col_texs;
+//    std::vector<std::shared_ptr<cugl::Texture>> col_normal_texs;
 
     for (int i = 0; i < sprites->size(); i++) {
         auto iscol = sprites->get(std::to_string(i))->get("collectible")->asBool();
@@ -186,8 +186,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             norm.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
             norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
-            // TODO: convert normal to an angle,
             // use angle to offset the rotating sprite index so they dont all look the same
+            float offsetAngle = getOffsetAngleDeg(norm);
+            // TODO: convert normal to an angle,
 
             //get sprite scale
             float scale = sprites->get(std::to_string(i))->get("scale")->asFloat();
@@ -197,8 +198,12 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             std::string texKey = tex;
             std::shared_ptr<Texture> tex = _assets->get<Texture>(texKey);
             std::shared_ptr<Texture> normaltex = _assets->get<Texture>(texKey + "-normal");
-            col_texs.push_back(tex);
-            col_normal_texs.push_back(normaltex);
+//            col_texs.push_back(tex);
+//            col_normal_texs.push_back(normaltex);
+            
+            Collectible item = Collectible(loc, std::to_string(model->_expectedCol.size()), tex, offsetAngle, scale);
+            item.rotateSpriteSheet = SpriteSheet::alloc(tex, 4, 4);
+            item.rotateNormalSpriteSheet = SpriteSheet::alloc(normaltex, 4, 4);
 
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
@@ -213,9 +218,17 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 // TODO make lights for those sprites here
                 // those lights need to disappear when the collectible is collected
                 // same as glowsticks @jolene
+                //if(isemit) put it in the emissive collectibles
+                item.setIsemit(true);
+                item.setColor(color);
+                item.setIntense(intensity);
+                item.setRadius(radius);
             }
-
-            //TODO if(isemit) put it in the emissive collectibles
+            else{
+                item.setIsemit(false);
+            }
+            model->_collectibles.insert({std::to_string(model->_expectedCol.size()), item});
+            model->_expectedCol.insert(std::to_string(model->_expectedCol.size()));
         }
         else if (tex == "") {
             // its ONLY a light with no texture
@@ -236,7 +249,6 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
             GameModel::Light light = GameModel::Light(color, intensity, loc, radius);
             model->_lights.push_back(light);
-
         }
 
         else if (isbill) {
@@ -251,11 +263,18 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
             // TODO: convert normal to an angle,
+            float offsetAngle = getOffsetAngleDeg(norm);
             // use angle to offset the rotating sprite index so they dont all look the same
             
             //get sprite scale
             float scale = sprites->get(std::to_string(i))->get("scale")->asFloat();
             // TODO use scale to scale sprites differently @matt
+            
+            //get texture
+            auto texkey = sprites->get(std::to_string(i))->getString("tex");
+            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
+            decPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
+
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
             if (haslight) {
@@ -268,12 +287,15 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
                 // TODO make lights for those sprites here
                 // These could just go in the scene bc they never disappear
+                decPtr->setIsemit(true);
+                decPtr->setColor(color);
+                decPtr->setIntense(intensity);
+                decPtr->setRadius(radius);
             }
-            
-            //get texture
-            auto texkey = sprites->get(std::to_string(i))->getString("tex");
-            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey));
-            decPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
+            else{
+                decPtr->setIsemit(false);
+            }
+            //TODO: emissive?? Jolene
             if(_assets->get<Texture>(texkey + "-normal") != nullptr){
                 decPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
             } else {
@@ -281,7 +303,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             }
             
             model->_decorations.push_back(decPtr);
-            
+            //TODO if(isemit) put it in the emissive decorations
         }
         else {
             // its a poster
@@ -295,6 +317,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
             // TODO: convert normal to an angle,
+            float offsetAngle = getOffsetAngleDeg(norm);
             // use normal to orient poster
 
             //get sprite scale
@@ -303,7 +326,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
             //get texture
             auto texkey = sprites->get(std::to_string(i))->getString("tex");
-
+            std::shared_ptr<GameItem> posPtr = std::make_shared<GameItem>(loc, "poster" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
+            posPtr->setIsbill(false);
 
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
@@ -316,8 +340,13 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
                 float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
                 // TODO make lights for those sprites here @jolene
+                posPtr->setIsemit(true);
+            }
+            else{
+                posPtr->setIsemit(false);
             }
             //TODO add poster to model
+            model->_posters.push_back(posPtr);
             //TODO if(isemit) put it in the emissive posters
         }
     }
@@ -327,7 +356,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     else {
         model->_nav_target = model->_exit->getPosition();
     }
-    model->setCollectibles(col_locs, col_texs, col_normal_texs);
+//     model->setCollectibles(col_locs, col_texs, col_normal_texs);
 
 
     // emitters (sound points)

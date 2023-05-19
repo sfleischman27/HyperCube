@@ -120,11 +120,13 @@ public:
     int initOddAlpha;
 
 
-
-#pragma mark Decorations State
+#pragma mark Decorations and Poster State
 public:
     /** Vector of decorations */
     std::vector<std::shared_ptr<GameItem>> _decorations;
+    
+    /** Vector of posters */
+    std::vector<std::shared_ptr<GameItem>> _posters;
 
 #pragma mark Triggers and Popups
 public:
@@ -153,7 +155,7 @@ public:
 public:
     /** Vector of collectibles in player backpack */
     std::unordered_set<std::string> _backpack;
-private:
+
     /** Vector of collectibles need to be collected*/
     std::unordered_set<std::string> _expectedCol;
 
