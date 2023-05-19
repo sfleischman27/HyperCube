@@ -219,14 +219,11 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 // those lights need to disappear when the collectible is collected
                 // same as glowsticks @jolene
                 //if(isemit) put it in the emissive collectibles
-                item->setIsemit(true);
                 item->setColor(color);
                 item->setIntense(intensity);
                 item->setRadius(radius);
             }
-            else{
-                item->setIsemit(false);
-            }
+            item->setIsemit(isemit);
             model->_collectibles.insert({std::to_string(model->_expectedCol.size()), item});
             model->_expectedCol.insert(std::to_string(model->_expectedCol.size()));
         }
