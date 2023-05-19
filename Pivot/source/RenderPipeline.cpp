@@ -553,6 +553,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         pixelFrac = (model->timeToPixelIn - model->_currentTime->ellapsedMillis(*model->_pixelInTime)) / model->timeToPixelIn;
         CULog("1st: %f", pixelFrac);
         pixelFrac = std::max(0.0f, pixelFrac);
+        if (pixelFrac == 0.0) {
+            model->_curPixelIn = false;
+        }
     }
     else {
         pixelFrac = model->_currentTime->ellapsedMillis(*model->_pixelOutTime) / model->timeToPixelOut;
