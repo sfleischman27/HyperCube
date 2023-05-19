@@ -163,7 +163,7 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
-                                        "levelState": "lockedone",
+                                        "levelState": "lockedfour",
                                         "levelNumber": ""
                                     }
                                 }
@@ -179,7 +179,7 @@
                                         "levelPosX": 0.125,
                                         "levelPosY": 0,
                                         "levelNumber": 5,
-                                        "levelState": "unlockedone"
+                                        "levelState": "labunlockedone"
                                     }
                                 }
                             },
@@ -209,7 +209,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0,
                                         "levelNumber": 6,
-                                        "levelState": "unlockedtwo"
+                                        "levelState": "labunlockedtwo"
                                     }
                                 }
                             },
@@ -239,7 +239,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0,
                                         "levelNumber": 7,
-                                        "levelState": "unlockedthree"
+                                        "levelState": "labunlockedthree"
                                     }
                                 }
                             },
@@ -269,7 +269,7 @@
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
                                         "levelNumber": 8,
-                                        "levelState": "unlockedfour"
+                                        "levelState": "labunlockedfour"
                                     }
                                 }
                             },
@@ -283,7 +283,7 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
-                                        "levelState": "lockedone",
+                                        "levelState": "lockedfour",
                                         "levelNumber": ""
                                     }
                                 }
@@ -403,7 +403,7 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
-                                        "levelState": "lockedone",
+                                        "levelState": "lockedfour",
                                         "levelNumber": ""
                                     }
                                 }
@@ -419,7 +419,7 @@
                                         "levelPosX": 0.125,
                                         "levelPosY": 0,
                                         "levelNumber": 13,
-                                        "levelState": "unlockedone"
+                                        "levelState": "swampunlockedone"
                                     }
                                 }
                             },
@@ -449,7 +449,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0,
                                         "levelNumber": 14,
-                                        "levelState": "unlockedtwo"
+                                        "levelState": "swampunlockedtwo"
                                     }
                                 }
                             },
@@ -523,7 +523,7 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
-                                        "levelState": "lockedone",
+                                        "levelState": "lockedfour",
                                         "levelNumber": ""
                                     }
                                 }
@@ -643,7 +643,7 @@
                                         "levelStartY" : "middle",
                                         "levelPosX": -0.125,
                                         "levelPosY": 0,
-                                        "levelState": "lockedone",
+                                        "levelState": "lockedfour",
                                         "levelNumber": ""
                                     }
                                 }

@@ -15,6 +15,9 @@
         "lockedthree" : {
             "file": "textures/level_locked3.png"
         },
+        "lockedthree" : {
+            "file": "textures/level_locked4.png"
+        },
         "unlockedone" : {
             "file": "textures/level_unlocked1.png"
         },
@@ -38,6 +41,30 @@
         },
         "tutorialunlockedfour" : {
             "file": "textures/level_tutorialunlocked4.png"
+        },
+        "labunlockedone" : {
+            "file": "textures/level_labunlocked1.png"
+        },
+        "labunlockedtwo" : {
+            "file": "textures/level_labunlocked2.png"
+        },
+        "labunlockedthree" : {
+            "file": "textures/level_labunlocked3.png"
+        },
+        "labunlockedfour" : {
+            "file": "textures/level_labunlocked4.png"
+        },
+        "swampunlockedone" : {
+            "file": "textures/level_swampunlocked1.png"
+        },
+        "swampunlockedtwo" : {
+            "file": "textures/level_swampunlocked2.png"
+        },
+        "swampunlockedthree" : {
+            "file": "textures/level_swampunlocked3.png"
+        },
+        "swampunlockedfour" : {
+            "file": "textures/level_swampunlocked4.png"
         },
         "levelnext" : {
             "file": "textures/level_next.png"
