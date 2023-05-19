@@ -28,10 +28,8 @@ void main(void) {
         vec2 midTexCoord = outTexCoord * 2.0 - 1.0;
         vec2 resolution = nonLinearMix(maxResolution, minResolution, pixelFrac);
         vec2 grid_uv;
-        //grid_uv.x = (round((midTexCoord.x * float(resolution.x)))) / float(resolution.x);
-        //grid_uv.y = (round((midTexCoord.y * float(resolution.y)))) / float(resolution.y);
-        grid_uv.x = (round((midTexCoord.x * float(resolution.x)) - 0.5) + 0.5) / float(resolution.x);
-        grid_uv.y = (round((midTexCoord.y * float(resolution.y)) - 0.5) + 0.5) / float(resolution.y);
+        grid_uv.x = (round((midTexCoord.x * float(resolution.x)))) / float(resolution.x);
+        grid_uv.y = (round((midTexCoord.y * float(resolution.y)))) / float(resolution.y);
         grid_uv = (grid_uv + 1.0) / 2.0;
         frag_color = texture(screenTexture, grid_uv);
     } else {

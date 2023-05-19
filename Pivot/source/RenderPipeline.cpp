@@ -204,12 +204,13 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     }
 }
 
-void RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, const RenderPipeline::DrawObject& dro) {
+bool RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, const RenderPipeline::DrawObject& dro) {
 
     _meshBill.vertices.clear();
     Size sz = dro.tex->getSize();
     int div = 4;
     PivotVertex3 tempV;
+    bool visible = false;
     for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
         for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
             Vec3 addOn = i * basisRight + j * basisUp;
@@ -223,9 +224,14 @@ void RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, 
                 tempV.texcoord.y /= dro.sheet->getDimen().second;
             }
             tempV.position = dro.pos + addOn;
+            Vec3 windowCoords = _camera->project(tempV.position);
+            if (windowCoords.x > 0.0 && windowCoords.x < screenSize.width) {
+                visible = true;
+            }
             _meshBill.vertices.push_back(tempV);
         }
     }
+    return visible;
 }
 
 void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
@@ -311,7 +317,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     for (DrawObject dro : drawables) {
         // Construct vertices to be placed in the mesh
-        constructBillMesh(model, dro);
+        if (!constructBillMesh(model, dro)) continue;
 
         // Set uniforms and draw individual billboard
         dro.tex->bind();
@@ -359,7 +365,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     for (DrawObject dro : drawables) {
         if (dro.emission) continue;
         // Construct vertices to be placed in the mesh
-        constructBillMesh(model, dro);
+        if (!constructBillMesh(model, dro)) continue;
 
         // Set uniforms and draw individual billboard
         dro.tex->bind();
@@ -452,7 +458,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         dro.pos = dro.pos + ((1 + epsilon) * distance * n);
 
         // Construct vertices to be placed in the mesh
-        constructBillMesh(model, dro);
+        if (!constructBillMesh(model, dro)) continue;
         dro.pos = oldPos;
 
         // Set uniforms and draw individual billboard

@@ -167,9 +167,9 @@ public:
 	void billboardSetup(const std::shared_ptr<GameModel>& model);
 
 	/**
-	 * Sets up the mesh to draw one drawable
+	 * Sets up the mesh to draw one drawable. Returns true if the billboard is visible on-screen (regardless of depth), and false otherwise.
 	 */
-	void constructBillMesh(const std::shared_ptr<GameModel>& model, const DrawObject& dro);
+	bool constructBillMesh(const std::shared_ptr<GameModel>& model, const DrawObject& dro);
 	
 	/**
 	 * Renders a given gamemodel
