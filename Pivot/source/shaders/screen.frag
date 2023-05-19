@@ -26,10 +26,11 @@ void main(void) {
     // Pixelate
     if (pixelFrac > 0.0) {
         float resolution = nonLinearMix(maxResolution, minResolution, pixelFrac);
+        vec2 middle = 
         vec2 grid_uv = round(outTexCoord * float(resolution)) / float(resolution);
-        frag_color = texture2D(screenTexture, grid_uv);
+        frag_color = texture(screenTexture, grid_uv);
     } else {
-        frag_color = texture2D(screenTexture, outTexCoord);
+        frag_color = texture(screenTexture, outTexCoord);
     }
     
     // Black shader
