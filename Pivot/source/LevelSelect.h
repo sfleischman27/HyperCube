@@ -26,28 +26,6 @@ public:
         LEVEL3 = 2,
         /** User wants to start level 4 */
         LEVEL4 = 3,
-        /** User wants to start level 5 */
-        LEVEL5 = 4,
-        /** User wants to start level 6 */
-        LEVEL6 = 5,
-        /** User wants to start level 7 */
-        LEVEL7 = 6,
-        /** User wants to start level 8 */
-        LEVEL8 = 7,
-        /** User wants to start level 9 */
-        LEVEL9 = 8,
-        /** User wants to start level 10 */
-        LEVEL10 = 9,
-        /** User wants to start level 11 */
-        LEVEL11 = 10,
-        /** User wants to start level 12 */
-        LEVEL12 = 11,
-        /** User wants to start level 13 */
-        LEVEL13 = 12,
-        /** User wants to start level 14 */
-        LEVEL14 = 13,
-        /** User wants to start level 15 */
-        LEVEL15 = 14,
         /** User wants to go to the next page of levels */
         NEXT = 20,
         /** User wants to go the the previous page of levels */
@@ -61,6 +39,9 @@ public:
         ZERO = 0, // tutorial
         ONE = 1, // lab
         TWO = 2 // debug
+        // tunnel
+        // woods
+        // final
     };
 
 protected:
@@ -69,6 +50,8 @@ protected:
 
     /** The list of level buttons */
     std::unordered_map<std::string,std::shared_ptr<cugl::scene2::Button>> _buttons;
+    /** The pack label */
+    std::shared_ptr<cugl::scene2::Label> _label;
 
     /** The max level number unlocked (starts at 1)*/
     int _maxLevel;
@@ -78,7 +61,7 @@ protected:
     Pack _pack;
 
     /** The total number of levels we have in the game */
-    const int LEVELS_IMPLEMENTED = 15;
+    const int LEVELS_IMPLEMENTED = 20;
     /** The total number of packs in the game */
     const int PACKS_IMPLEMENTED = 3;
 
@@ -281,14 +264,6 @@ private:
      */
     int buttNameToNum(std::string name);
 
-//    /**
-//     * Translate a number to a level string
-//     *
-//     *  Example: 16 --> "test_0001"
-//     */
-//    std::string numToName(int level);
-
-
     /**
      * Updated max level if level is greater than the current max
      */
@@ -305,6 +280,11 @@ private:
      * Returns the number of levels in the given pack
      */
     int inPackNum(Pack pack);
+    
+    /**
+     * Updates the label for the current pack
+     */
+    void setPackLabel();
 
 };
 

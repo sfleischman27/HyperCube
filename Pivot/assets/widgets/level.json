@@ -16,7 +16,7 @@
         },
         "data": {
             "upnode": "up",
-            "size": [200,200],
+            "size": [300,300],
             "anchor": [0, 1],
             "scale": 1,
             "visible": true
@@ -37,7 +37,7 @@
             "label": {
                 "type": "Label",
                 "data": {
-                    "font": "gyparody",
+                    "font": "roboto",
                     "text": "1",
                     "foreground": [255,255,255,255],
                     "background": [0,0,0,0],
