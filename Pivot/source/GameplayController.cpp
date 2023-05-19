@@ -892,6 +892,11 @@ void GameplayController::update(float dt) {
         }
     }
     
+#pragma mark DECORATIONS
+    for(auto itr = _model->_decorations.begin(); itr != _model->_decorations.end(); itr++){
+        (*itr)->setRotationalSprite(_model->getGlobalAngleDeg());
+    }
+    
 #pragma mark Glowsticks
     if (_input->didGlowstick()) {
         Vec3 player3DPos = _model->getPlayer3DLoc();

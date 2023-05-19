@@ -275,6 +275,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             auto texkey = sprites->get(std::to_string(i))->getString("tex");
 
             std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey));
+            decPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
             model->_decorations.push_back(decPtr);
 
             //TODO if(isemit) put it in the emissive decorations
