@@ -19,6 +19,8 @@ uniform float interpStartPosLeft;
 uniform float amtOfScreens;
 uniform int drawOutline;
 uniform vec4 ambientLight;
+uniform vec3 cutColor;
+uniform vec3 outlineColor;
 
 // Editable parameter for how thick the cut outline is
 const float thickness = 1.0;
@@ -50,12 +52,12 @@ void main(void) {
         transTexCoord.y = 1.0 - mod(midTexCoord.y, 1.0);
 
 		// Set cut texture
-		frag_color = texture(outsideTexture, transTexCoord);
+		frag_color.xyz = texture(outsideTexture, transTexCoord).xyz * cutColor;
 		frag_color.a = 1.0;
 
 		// Edge detection, set to green if cut is near non-cut
 		if (checkNeighboring(replaceTexture, outTexCoord) && drawOutline == 1) {
-			frag_color = vec4(0.0, 1.0, 0.0, 1.0);
+			frag_color = vec4(outlineColor, 1.0);
 		}
 	} else if (texture(depthTexture, outTexCoord).xyz == vec3(1.0)) {
 		// Background color

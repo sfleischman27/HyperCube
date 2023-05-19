@@ -502,6 +502,8 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniform1f("amtOfScreens", amtOfScreens);
     _shaderCut->setUniform1i("drawOutline", model->drawOutline);
     _shaderCut->setUniform4f("ambientLight", model->ambientLight.r, model->ambientLight.g, model->ambientLight.b, model->ambientLight.a);
+    _shaderCut->setUniform3f("cutColor", model->cutFillColor.r, model->cutFillColor.g, model->cutFillColor.b);
+    _shaderCut->setUniform3f("outlineColor", model->cutLineColor.r, model->cutLineColor.g, model->cutLineColor.b);
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);

@@ -14,10 +14,10 @@ uniform float pixelFrac;
 uniform vec2 screenSize;
 
 vec2 maxResolution = screenSize;
-vec2 minResolution = .007 * screenSize;
+vec2 minResolution = .0005 * screenSize;
 
 vec2 nonLinearMix(vec2 a, vec2 b, float frac) {
-    float t = pow(2.71828, -10.0 * frac);
+    float t = pow(2.71828, -5.0 * frac);
     return a * t + b * (1.0 - t);
 }
 
