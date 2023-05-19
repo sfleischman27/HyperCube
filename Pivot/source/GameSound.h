@@ -136,7 +136,7 @@ public:
                 slot = 0;
             break;
             case 'p':
-                slot = 1;
+                slot = 1; //portal
             break;
             case 'e':
                 slot = 2;
