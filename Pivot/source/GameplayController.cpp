@@ -452,8 +452,7 @@ void GameplayController::reset() {
     _model->_player->setVelocity(Vec2::ZERO);
     _model->_player->doneFlipping = false;
     _model->_player->shouldStartFlipping = false;
-    _model->_curPixelOut = false;
-    _model->_curPixelIn = false;
+    _model->_curPixeling = false;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
     prevPlay2DPos = Vec2::ZERO;
@@ -496,8 +495,7 @@ void GameplayController::load(std::string name){
     _model->_player->setVelocity(Vec2::ZERO);
     _model->_player->doneFlipping = false;
     _model->_player->shouldStartFlipping = false;
-    _model->_curPixelOut = false;
-    _model->_curPixelIn = false;
+    _model->_curPixeling = false;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
     prevPlay2DPos = Vec2::ZERO;
@@ -752,25 +750,20 @@ void GameplayController::update(float dt) {
     _model->_justFinishRotating = false;
     
     if(_model->_donePixelOut){
-        _model->_curPixelOut = false;
         _model->_donePixelOut = false;
         _state = END;
     }
     
-    if(_model->_curPixelOut){
-        return;
-    }
-    
-    if(_model->_player->doneFlipping && !_model->_curPixelOut){
+    if(_model->_player->doneFlipping){
         _model->_player->doneFlipping = false;
-        _model->_curPixelOut = true;
+        _model->_curPixeling = false;
         _model->_pixelOutTime->mark();
     }
     
     // pixel in the level
     if(_model->_startOfLevel){
         _model->_startOfLevel = false;
-        _model->_curPixelIn = true;
+        _model->_curPixeling = true;
         _model->_pixelInTime->mark();
     }
     
@@ -778,7 +771,7 @@ void GameplayController::update(float dt) {
     
 #pragma mark INPUT
     // if the player shouldn't flip and the level isn't fading out
-    if(!(_model->_player->shouldStartFlipping) && !(_model->_curPixelOut)){
+    if(!(_model->_player->shouldStartFlipping)){
         _input->update(dt);
     }
     
