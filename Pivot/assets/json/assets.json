@@ -201,16 +201,6 @@
             "span": 1,
             "cols": 1
         },
-        "mushroom2": {
-            "file": "textures/mushroom2.png",
-            "span": 1,
-            "cols": 1
-        },
-        "mushroom2-normal": {
-            "file": "textures/mushroom2_normal.png",
-            "span": 1,
-            "cols": 1
-        },
         "glow_cube_normal": {
             "file": "textures/glow_cube_normal.png",
             "span": 1,
@@ -256,23 +246,93 @@
             "span": 1,
             "cols": 1
         },
-        "biohazrd": {
-            "file": "textures/biohazrd.png",
-            "span": 1,
-            "cols": 1
-        },
         "tutorial_rotate": {
             "file": "textures/tutorial_rotate.png",
             "span": 1,
             "cols": 1
         },
-        "mushroom2_normal": {
+        "background_default": {
+            "file": "textures/background_default.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree1": {
+            "file": "textures/tree1.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree1-normal": {
+            "file": "textures/tree1_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree2": {
+            "file": "textures/tree2.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree2-normal": {
+            "file": "textures/tree2_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree3": {
+            "file": "textures/tree3.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree3-normal": {
+            "file": "textures/tree3_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom1": {
+            "file": "textures/mushroom1.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom1-normal": {
+            "file": "textures/mushroom1_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom2": {
+            "file": "textures/mushroom2.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom2-normal": {
             "file": "textures/mushroom2_normal.png",
             "span": 1,
             "cols": 1
         },
-        "background_default": {
-            "file": "textures/background_default.png",
+        "mushroom3": {
+            "file": "textures/mushroom3.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom3-normal": {
+            "file": "textures/mushroom3_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom4": {
+            "file": "textures/mushroom4.png",
+            "span": 1,
+            "cols": 1
+        },
+        "mushroom4-normal": {
+            "file": "textures/mushroom4_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree2normal": {
+            "file": "textures/tree2_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tree3normal": {
+            "file": "textures/tree3_normal.png",
             "span": 1,
             "cols": 1
         }
@@ -383,6 +443,7 @@
         "lab_0000": "json/level_json/lab/lab_0000.json",
         "lab_0001": "json/level_json/lab/lab_0001.json",
         "lab_0003": "json/level_json/lab/lab_0003.json",
-        "lab_0002": "json/level_json/lab/lab_0002.json"
+        "lab_0002": "json/level_json/lab/lab_0002.json",
+        "woods_0000": "json/level_json/woods/woods_0000.json"
     }
 }

@@ -189,9 +189,12 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Set bind points
     const int bindStart = 9;
     for (int i = 0; i < drawables.size(); i++) {
-        drawables[i].tex->setBindPoint(bindStart + (2*i));
+        drawables[i].tex->setBindPoint(bindStart);
+        //int t = 0;
+        //glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &t);
+        //CULog("%i", t);
         if (drawables[i].normalMap != NULL) {
-            drawables[i].normalMap->setBindPoint(bindStart + (2*i) + 1);
+            drawables[i].normalMap->setBindPoint(bindStart + 1);
         }
     }
 
