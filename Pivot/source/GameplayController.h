@@ -71,6 +71,10 @@ protected:
     /** The entire game UI scene */
     std::shared_ptr<cugl::scene2::SceneNode> _layer;
     
+    float _initFriction;
+     
+    float _initInertia;
+    
 private:
     std::shared_ptr<SoundController> _sound;// = 
     std::shared_ptr<GameModel> _model;

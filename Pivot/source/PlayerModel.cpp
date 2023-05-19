@@ -296,6 +296,8 @@ void PlayerModel::animate() {
     /** Animation AND SOUND logic!!! IM HIJACKING AGAIN :) - Gordi*/
     if(shouldStartFlipping){
         setLanding(false);
+        setInertia(0);
+        setFriction(999);
         if(animState != 5){
             animState = 5;
             setSpriteSheet("flip");
