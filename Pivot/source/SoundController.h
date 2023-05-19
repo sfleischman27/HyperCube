@@ -33,7 +33,7 @@ protected:
     std::vector<std::shared_ptr<GameSound>> _mixerwrapper;
     
     /** master volume, range 0 - 100 */
-    float _masterVolume = 0.0f;
+    float _masterVolume = 0.5f;
     
     /** toggle volume, either 0 or 1 */
     float _volumeToggle = 1.0f;
