@@ -6,23 +6,43 @@
         "compassNumYPos": ["layout", "y_offset"]
     },
     "contents": {
-        "type": "Label",
+        "type": "Image",
+        "format": {
+            "type": "Anchored"
+        },
         "data": {
-           "size": [200,200],
-           "anchor": [0.5,0.5],
-           "scale": 1,
-           "font": "roboto",
-           "text": "0",
-           "foreground": [255,255,255,255],
-           "background": [0,0,0,0],
-           "halign": "center",
-           "valign": "top"
+            "size": [105,54],
+            "scale": 1,
+            "visible": "true",
+            "texture": "compass-background",
+            "anchor": [0.5, 0]
         },
         "layout": {
-            "x_anchor": "fill",
-            "y_anchor" : "top",
-            "x_offset" : 0.00,
-            "y_offset" : 0.00
+            "x_anchor": "center",
+            "y_anchor": "top",
+            "x_offset" : 0,
+            "y_offset" : -0.11
+        },
+        "children": {
+            "compassnum": {
+                "type": "Label",
+                "data": {
+                   "anchor": [0.5,0.5],
+                   "scale": 1,
+                   "font": "roboto-medium",
+                   "text": "0",
+                   "foreground": [255,255,255,255],
+                   "background": [0,0,0,0],
+                   "halign": "center",
+                   "valign": "top"
+                },
+                "layout": {
+                    "x_anchor": "fill",
+                    "y_anchor" : "fill",
+                    "x_offset" : 0.00,
+                    "y_offset" : 0.00
+                }
+            }
         }
     }
 }

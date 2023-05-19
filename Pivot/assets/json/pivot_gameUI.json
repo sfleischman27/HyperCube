@@ -42,6 +42,9 @@
         "compass-collapse": {
             "file": "textures/compass_collapse.png"
         },
+        "compass-background": {
+           "file": "textures/compass_background.png"
+        },
         "collectedkey":{
             "file": "textures/game_collectedkey.png"
         },
@@ -81,6 +84,10 @@
         "roboto-small": {
             "file":     "fonts/rm-light.ttf",
             "size":     10
+        },
+        "roboto-medium": {
+            "file":     "fonts/rm-light.ttf",
+            "size":     40
         }
 	},
     "widgets" : {
