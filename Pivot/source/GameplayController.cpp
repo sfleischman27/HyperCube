@@ -532,6 +532,8 @@ void GameplayController::load(std::string name){
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     
+    _playOutline = true;
+
     _sound->streamSounds({ "lab_m", "lab_p" }, { 1.0, 0.0 }, true);
     
     //_sound->streamSounds({ "end" }, 1.0, true);
@@ -810,6 +812,11 @@ void GameplayController::update(float dt) {
     
     // not done pixeling in
     if(!_model->_donePixelIn){ return; }
+    
+    if(_playOutline){
+        _sound->playSound("outline", 0.75);
+        _playOutline = false;
+    }
     
     // not done pixeling out
     if(!_model->_pixelingIn){ return; }
