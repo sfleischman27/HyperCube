@@ -68,11 +68,18 @@ void Trigger::showPopup(TriggerArgs args) {
 };
 
 void Trigger::showMessage(TriggerArgs args) {
-    // TODO: add more states to popup that already has the messages
-    // This is just easier to hardcode at this point
+    args.messages->setState(args.text);
+}
+
+void Trigger::showExitMess(TriggerArgs args){
+    args.messages->setExit(args.text);
 }
 
 //** trigger to turn off popups */
 void Trigger::stopPopups(TriggerArgs args) {
     args.popup->setState("none");
+}
+
+void Trigger::stopMessages(TriggerArgs args){
+    args.messages->clear();
 }

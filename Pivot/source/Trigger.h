@@ -59,12 +59,43 @@ struct Popups {
     void clear() { _state = NONE; }
 };
 
+struct Messages {
+    enum State {
+        /** No message is currently active */
+        NONE,
+        /** Exit message is currently active */
+        EXIT,
+        /** Other message is currently active */
+        MESS
+    };
+    
+    State _state;
+    std::string _message;
+    
+    Messages(){ _state = NONE; _message = ""; }
+    
+    void setState(std::string message) {
+        _state = MESS;
+        _message = message;
+    }
+    
+    void setExit(std::string message) {
+        _state = EXIT;
+        _message = message;
+    }
+    
+    State getState() { return _state; }
+    
+    void clear() { _state = NONE; _message = ""; }
+};
+
 struct TriggerArgs {
     std::vector<std::string> strings;
     std::shared_ptr<PlayerModel> player;
     std::shared_ptr<Popups> popup;
+    std::shared_ptr<Messages> messages;
     std::string image;
-    std::string message;
+    std::string text;
 };
 
 class Trigger {
@@ -145,8 +176,14 @@ public:
     //** trigger a message to appear */
     static void showMessage(TriggerArgs args);
     
+    //** trigger the exit message to appear */
+    static void showExitMess(TriggerArgs args);
+    
     //** trigger to turn off popups */
     static void stopPopups(TriggerArgs args);
+    
+    //** trigger to turn off messages */
+    static void stopMessages(TriggerArgs args);
 };
 
 

@@ -232,6 +232,11 @@ public:
      */
     void resetPopups();
     
+    /**
+     * Turns off and resets all messages
+     */
+    void resetMessages();
+    
 #pragma mark State Access
 
     bool isDebug( ) const { return _debug; }
@@ -391,6 +396,9 @@ public:
     
     /** Fades in and out the appropriate popups */
     void updatePopups();
+    
+    /** Fades in and out the appropriate messages */
+    void updateMessages();
     
     void fadeoutCollectibles();
     

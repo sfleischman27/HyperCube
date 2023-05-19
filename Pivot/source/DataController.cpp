@@ -142,7 +142,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
     // remove any active popups
     model->clearPopups();
-
+    // remove any active messages
+    model->clearMessages();
+    
     // clear glowsticks
     model->clearGlowsticks();
 
@@ -373,32 +375,27 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 args.popup = model->_popup;
                 args.image = image;
                 trig->registerEnterCallback(Trigger::showPopup, args);
+                trig->registerInBoundsCallback(Trigger::showPopup, args);
                 trig->registerExitCallback(Trigger::stopPopups, args);
             }
             else if (trig_type == "MESSAGE") {
                 std::string message = triggers->get(std::to_string(i))->getString("message");
-                // TODO: @sarah/czar how to setup a message popup?
-                // will hardcode messages elsewhere
-                // the messages here should be keys
                 auto args = TriggerArgs();
-                args.popup = model->_popup;
-                args.message = message;
+                args.messages = model->_messages;
+                args.text = message;
                 trig->registerEnterCallback(Trigger::showMessage, args);
-                trig->registerExitCallback(Trigger::stopPopups, args);
+                trig->registerInBoundsCallback(Trigger::showMessage, args);
+                trig->registerExitCallback(Trigger::stopMessages, args);
             }
             else if (trig_type == "EXITREGION") {
                 auto args = TriggerArgs();
-                args.popup = model->_popup;
-                args.message = "exit";
+                args.messages = model->_messages;
+                args.text = "I feel like I'm missing something...";
                 trig->registerEnterCallback(Trigger::showMessage, args);
-                trig->registerExitCallback(Trigger::stopPopups, args);
+                trig->registerInBoundsCallback(Trigger::showMessage, args);
+                trig->registerExitCallback(Trigger::stopMessages, args);
 
                 // TODO @sarah you wanted this to check if you have enough collectibles
-                // we can also tint the exit orange or green to show that?
-                // i tinted the navigator, its pretty easy
-
-                // I think that tinting the exit is good. We already have the arrow pointing to the collectibles
-                // maybe make a message and handle it like other popups where I handle them showing up in gameplay controller
             }
 
             model->_triggers.push_back(trig);

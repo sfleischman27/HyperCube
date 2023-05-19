@@ -138,6 +138,10 @@ public:
     std::shared_ptr<cugl::scene2::SceneNode> _runPopup;
     
     std::shared_ptr<cugl::scene2::SceneNode> _walkPopup;
+    
+    std::shared_ptr<Messages> _messages;
+    
+    std::shared_ptr<cugl::scene2::SceneNode> _messScene;
 
 #pragma mark Backpack State
 public:
@@ -219,6 +223,7 @@ public:
         _pixelOutTime = std::make_shared<Timestamp>();
         _currentTime = std::make_shared<Timestamp>();
         _popup = std::make_shared<Popups>(Popups());
+        _messages = std::make_shared<Messages>(Messages());
     }
 
 #pragma mark Getters and Setters
@@ -415,6 +420,10 @@ public:
 
     void clearPopups() {
         _popup->clear();
+    }
+    
+    void clearMessages() {
+        _messages->clear();
     }
 
     void clearCollectibles() {

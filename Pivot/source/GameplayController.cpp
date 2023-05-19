@@ -203,6 +203,7 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_compassSpin = std::dynamic_pointer_cast<scene2::SpriteNode>(kids->getChildByName("compassBar"));
     
+    // popups
     _model->_rotatePopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("rotateTutorial"));
     
     _model->_collectPopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("collectTutorial"));
@@ -215,6 +216,10 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _model->_walkPopup = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("walkTutorial"));
     
+    // messages
+    _model->_messScene = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("messagePop"));
+    
+    // collectibles
     _model->_invent = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory"));
     
     _model->_inventodd = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory-odd"));
@@ -230,6 +235,9 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     // turns off and sets alphas for popups
     resetPopups();
+    
+    // turn off and set alpha for message
+    resetMessages();
     
     // final UI setup
     layer->setContentSize(_dimen);
@@ -437,6 +445,8 @@ void GameplayController::reset() {
     resetCollectibleUI(_model->getColNum());
     // reset popups
     resetPopups();
+    // reset messages
+    resetMessages();
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     _model->_player->setVelocity(Vec2::ZERO);
@@ -477,6 +487,8 @@ void GameplayController::load(std::string name){
     resetCollectibleUI(_model->getColNum());
     // reset popups
     resetPopups();
+    // reset messages
+    resetMessages();
     // add person object
     _model->_player->setPosition(Vec2::ZERO);
     _model->_player->setVelocity(Vec2::ZERO);
@@ -701,6 +713,19 @@ void GameplayController::resetPopups() {
 }
 
 /**
+ * Turns off and resets the message popups
+ */
+void GameplayController::resetMessages() {
+    _model->_messages->clear();
+    // turn the message off
+    _model->_messScene->setVisible(false);
+    // set the alpha to 0.0 so it can fade in
+    auto color = _model->_messScene->getColor();
+    auto newColor = Color4(color.r, color.g, color.b, 0.0);
+    _model->_messScene->setColor(newColor);
+}
+
+/**
  * Executes the core gameplay loop of this world.
  *
  * This method contains the specific update code for this mini-game. It does
@@ -761,6 +786,9 @@ void GameplayController::update(float dt) {
     
     // update popups
     updatePopups();
+    
+    // update messages
+    updateMessages();
 
     if (!_input->isRotating) {
         saveFloat = 0.0;
@@ -857,9 +885,6 @@ void GameplayController::update(float dt) {
             fadeinCollectibles();
             _model->_endOfGame = true;
             _model->_player->shouldStartFlipping = true;
-        }
-        else{
-            // TODO: maybe saying find lost colletibles or something? - Sarah
         }
     }
     
@@ -1059,6 +1084,42 @@ void GameplayController::updatePopups() {
             break; }
     }
     
+}
+
+void GameplayController::updateMessages() {
+    switch (_model->_messages->getState()) {
+        case Messages::NONE: {
+            // fade out any active message
+            auto color = _model->_messScene->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::max(color.a - 10, 0));
+            _model->_messScene->setColor(newColor);
+            // if it is completely faded out, turn it off
+            if (_model->_messScene->getColor().a <= 0) {
+                _model->_messScene->setVisible(false);
+            }
+            break; }
+        case Messages::EXIT: {
+            // if the backpack is not full show exit message
+            if(!_model->checkBackpack()) {
+                // TODO: set message to text
+                // turn on message
+                _model->_messScene->setVisible(true);
+                // fade in active message
+                auto color = _model->_messScene->getColor();
+                auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+                _model->_messScene->setColor(newColor);
+            }
+            break; }
+        case Messages::MESS: {
+            // TODO: set message to text
+            // turn on message
+            _model->_messScene->setVisible(true);
+            // fade in active message
+            auto color = _model->_messScene->getColor();
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
+            _model->_messScene->setColor(newColor);
+            break; }
+    }
 }
 
 /**
