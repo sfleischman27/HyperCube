@@ -164,26 +164,26 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
-    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, false, model->_player->currentSpriteSheet, false));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, true, model->_exit->rotateSpriteSheet, true));
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, model->_player->currentSpriteSheet, false));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, model->_exit->rotateSpriteSheet, true));
 
     // Collectibles
     std::map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, true, c.second.rotateSpriteSheet, true));
+            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, c.second.rotateSpriteSheet, true));
         }
     }
 
     // Glowsticks
     for (Glowstick g : model->_glowsticks) {
-        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), model->_glowsticks[0].getNorm(), false, true, NULL, true));
+        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), NULL, false, NULL, true));
     }
 
     // Decorations
     auto decor = model->getDecorations();
      for (auto d : decor) {
-         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->isEmissive() ? NULL : d->rotateNormalSpriteSheet->getTexture(), false, d->isEmissive(), d->rotateSpriteSheet, false));
+         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->isEmissive() ? NULL : d->rotateNormalSpriteSheet->getTexture(), false, d->rotateSpriteSheet, false));
      }
 
     // Set bind points

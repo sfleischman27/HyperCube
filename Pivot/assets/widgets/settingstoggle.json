@@ -30,7 +30,7 @@
             "category": {
                 "type": "Label",
                 "data": {
-                    "font": "roboto-reg",
+                    "font": "roboto-reg-bold",
                     "text": "Category",
                     "foreground": [255,255,255,255],
                     "background": [0,0,0,0],
@@ -79,7 +79,7 @@
             "value": {
                 "type": "Label",
                 "data": {
-                    "font": "roboto-reg",
+                    "font": "roboto-reg-bold",
                     "text": "0",
                     "foreground": [255,255,255,255],
                     "background": [0,0,0,0],
