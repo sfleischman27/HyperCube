@@ -454,6 +454,7 @@
         "lab_0001": "json/level_json/lab/lab_0001.json",
         "lab_0003": "json/level_json/lab/lab_0003.json",
         "lab_0002": "json/level_json/lab/lab_0002.json",
-        "woods_0000": "json/level_json/woods/woods_0000.json"
+        "woods_0000": "json/level_json/woods/woods_0000.json",
+        "woods_0001": "json/level_json/woods/woods_0001.json"
     }
 }

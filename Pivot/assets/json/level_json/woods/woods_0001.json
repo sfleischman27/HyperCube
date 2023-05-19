@@ -1,9 +1,9 @@
 {
-    "level_id": "woods_0000",
+    "level_id": "woods_0001",
     "player_loc": [
-        -477.8592834472656,
-        0.0,
-        15.440101623535156
+        213.3333282470703,
+        106.66667175292969,
+        121.67361450195312
     ],
     "norm": [
         0.0,
@@ -11,9 +11,9 @@
         0.0
     ],
     "exit": [
-        213.3333282470703,
-        106.66667175292969,
-        121.67361450195312
+        1642.55224609375,
+        -164.35092163085938,
+        25.667354583740234
     ],
     "glowsticks": 4,
     "shade_depth": 15,
@@ -24,7 +24,7 @@
     ],
     "ambient_color": [
         1.0,
-        0.21127599477767944,
+        0.9132964015007019,
         0.0,
         0.4000000059604645
     ],
@@ -10027,18 +10027,18 @@
         }
     },
     "sounds": {},
-    "collision_mesh": "meshes/woods/woods_0000_col.obj",
-    "render_mesh": "meshes/woods/woods_0000_dec.obj",
+    "collision_mesh": "meshes/woods/woods_0001_col.obj",
+    "render_mesh": "meshes/woods/woods_0001_dec.obj",
     "triggers": {
         "0": {
             "type": "DEATH",
-            "mesh": "meshes/woods/woods_0000_death_0000.obj",
+            "mesh": "meshes/woods/woods_0001_death_0000.obj",
             "image": null,
             "message": null
         },
         "1": {
             "type": "DEATH",
-            "mesh": "meshes/woods/woods_0000_death_0001.obj",
+            "mesh": "meshes/woods/woods_0001_death_0001.obj",
             "image": null,
             "message": null
         }
