@@ -145,6 +145,18 @@
                    }
                }
            },
+           "compassBar":{
+               "type": "Widget",
+               "data": {
+                   "key": "compass",
+                   "variables":{
+                       "compassSize": [1000, 200],
+                       "showCompass": true,
+                       "compassScale": 0.35,
+                       "compassYPos": 0.02
+                   }
+               }
+           },
            "compassNum":{
                "type": "Widget",
                "data": {
@@ -156,18 +168,6 @@
                        "compassNumScale": 0.4,
                        "compassNumXPos": -0.015,
                        "compassNumYPos": -0.08
-                   }
-               }
-           },
-           "compassBar":{
-               "type": "Widget",
-               "data": {
-                   "key": "compass",
-                   "variables":{
-                       "compassSize": [1000, 200],
-                       "showCompass": true,
-                       "compassScale": 0.35,
-                       "compassYPos": 0.02
                    }
                }
            },
