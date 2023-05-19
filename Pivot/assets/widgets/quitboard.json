@@ -47,7 +47,7 @@
                     "key": "quitbuttons",
                     "variables": {
                         "showButton": true,
-                        "buttonText": "Resume",
+                        "buttonText": "RESUME",
                         "buttonScale": 0.67,
                         "buttonType": "continue"
                     }
@@ -60,7 +60,7 @@
                     "variables": {
                         "showButton": true,
                         "buttonXPos": 0.335,
-                        "buttonText": "Quit",
+                        "buttonText": "QUIT",
                         "buttonScale": 0.67,
                         "buttonType": "quit"
                     }
@@ -73,7 +73,7 @@
                     "variables": {
                         "showButton": true,
                         "buttonXPos": 0.665,
-                        "buttonText": "Restart",
+                        "buttonText": "RESTART",
                         "buttonScale": 0.67,
                         "buttonType": "restart"
                     }

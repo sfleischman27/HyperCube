@@ -288,19 +288,19 @@ void LevelSelect::prevPack() {
 void LevelSelect::setPackLabel(){
     switch (_pack) {
         case ZERO:
-            _label->setText("Tutorial Levels");
+            _label->setText("Tutorial");
             break;
         case ONE:
-            _label->setText("Laboratory Levels");
+            _label->setText("Axel's Laboratory");
             break;
         case TWO:
-            _label->setText("Underground Levels");
+            _label->setText("The Underground");
             break;
         case THREE:
-            _label->setText("Wooded Swamp Levels");
+            _label->setText("Toxic Wasteland");
             break;
         case FOUR:
-            _label->setText("The Final Bunker");
+            _label->setText("The Reactor");
             break;
     }
 }
