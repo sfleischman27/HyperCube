@@ -33,12 +33,11 @@ protected:
     float _radius;
     /** map of rotation textures of the item */
     std::unordered_map<float, std::shared_ptr<cugl::Texture>> _rotateTextures;
-    /** If the GameItem is emissive */
-    bool isemit;
     
 public:
     std::shared_ptr<cugl::SpriteSheet> rotateSpriteSheet;
     std::shared_ptr<cugl::SpriteSheet> rotateNormalSpriteSheet;
+    /** If the GameItem is emissive */
     bool isEmission = false;
     /**
      * Creates the game item
@@ -173,7 +172,6 @@ public:
         rotateSpriteSheet->setFrame(index);
         if(!isEmission){
             rotateNormalSpriteSheet->setFrame(index);
-
         }        
     }
     
