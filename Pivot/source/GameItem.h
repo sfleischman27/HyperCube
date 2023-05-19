@@ -33,10 +33,8 @@ protected:
     float _radius;
     /** map of rotation textures of the item */
     std::unordered_map<float, std::shared_ptr<cugl::Texture>> _rotateTextures;
-
-    bool _isEmission = false;
     /** If the GameItem is emissive */
-    bool _isemit;
+    bool _isemit = false;
     /** If the GameItem is a billboard */
     bool _isbill;
     /** the scale of the sprite being rendered */
@@ -193,12 +191,9 @@ public:
         int index = (int) localAng / repeat;
         
         rotateSpriteSheet->setFrame(index);
-        if(!_isEmission){
+        if(!_isemit){
             rotateNormalSpriteSheet->setFrame(index);
         }        
-    }
-    void setEmissive(bool value){
-        _isEmission = value;
     }
     
     void setIsemit(bool isemit) {
@@ -261,10 +256,9 @@ public:
      */
     float getRadius() { return _radius; }
     
-    bool isEmissive() {return _isEmission; }
-    bool getIsemit() { return _isemit; }
+    bool isEmissive() {return _isemit; }
     
-    bool getIsbool() { return _isbill; }
+    bool isBill() { return _isbill; }
     
     float getScale() { return _spriteScale; }
     
