@@ -40,19 +40,19 @@ public:
     /** The shade depth of the level */
     float shadeDepth;
     /** The shade color for the level */
-    Color4 shadeColor;
+    Color4f shadeColor;
     /** The background color for the level */
-    Color4 bgColor;
+    Color4f bgColor;
     /** background pic of the level */
     std::shared_ptr<Texture> backgroundPic;
     /** ambient light color and level*/
-    Color4 ambientLight;
+    Color4f ambientLight;
 
     /** color of cutline*/
-    Color4 cutLineColor;
+    Color4f cutLineColor;
 
     /** color tint of vorinoi fill*/
-    Color4 cutFillColor;
+    Color4f cutFillColor;
 
     /** Boolean for the cut outline */
     bool drawOutline = true;
