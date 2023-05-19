@@ -280,7 +280,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             if(_assets->get<Texture>(texkey + "-normal") != nullptr){
                 decPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
             }else {
-                decPtr->isEmission = true;
+                decPtr->isEmission = true;
             }
             
             model->_decorations.push_back(decPtr);

@@ -14,7 +14,6 @@ uniform sampler2D billTex;
 uniform sampler2D normTex;
 uniform int useNormTex;
 uniform int flipXfrag;
-uniform int id;
 uniform vec3 uDirection;
 uniform float farPlaneDist;
 uniform vec3 campos;
@@ -37,9 +36,7 @@ void main(void) {
 	frag_depth = EncodeFloatRGBA(gl_FragCoord.z);
 	// Set normal, if it exists
 	frag_normal = vec4(0.0, 0.0, 0.0, doLighting);
-	if (id == 1) { // if glowstick
-		frag_normal.xyz = texture(normTex, outTexCoord).xyz;
-	} else if (useNormTex == 1) {
+	if (useNormTex == 1) {
 		vec3 pre_norm = texture(normTex, outTexCoord).xzy;
 		if (flipXfrag != 1) {
 			pre_norm.x = 1.0 - pre_norm.x;

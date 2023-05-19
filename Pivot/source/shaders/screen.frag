@@ -13,10 +13,10 @@ uniform float blackFrac;
 uniform float pixelFrac;
 uniform vec2 screenSize;
 
-float maxResolution = screenSize.y;
-float minResolution = 4.0;
+vec2 maxResolution = screenSize;
+vec2 minResolution = .007 * screenSize;
 
-float nonLinearMix(float a, float b, float frac) {
+vec2 nonLinearMix(vec2 a, vec2 b, float frac) {
     float t = pow(2.71828, -10.0 * frac);
     return a * t + b * (1.0 - t);
 }
@@ -25,9 +25,14 @@ void main(void) {
     
     // Pixelate
     if (pixelFrac > 0.0) {
-        float resolution = nonLinearMix(maxResolution, minResolution, pixelFrac);
-        //float middle = 1.0 / (2.0 * resolution);
-        vec2 grid_uv = round(outTexCoord * float(resolution)) / float(resolution);
+        vec2 midTexCoord = outTexCoord * 2.0 - 1.0;
+        vec2 resolution = nonLinearMix(maxResolution, minResolution, pixelFrac);
+        vec2 grid_uv;
+        //grid_uv.x = (round((midTexCoord.x * float(resolution.x)))) / float(resolution.x);
+        //grid_uv.y = (round((midTexCoord.y * float(resolution.y)))) / float(resolution.y);
+        grid_uv.x = (round((midTexCoord.x * float(resolution.x)) - 0.5) + 0.5) / float(resolution.x);
+        grid_uv.y = (round((midTexCoord.y * float(resolution.y)) - 0.5) + 0.5) / float(resolution.y);
+        grid_uv = (grid_uv + 1.0) / 2.0;
         frag_color = texture(screenTexture, grid_uv);
     } else {
         frag_color = texture(screenTexture, outTexCoord);
