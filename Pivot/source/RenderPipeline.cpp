@@ -104,15 +104,6 @@ void RenderPipeline::constructShaders() {
         offsetof(PivotVertex3, texcoord));
     _vertbuffCut->attach(_shaderCut);
 
-    // Behind shader
-    _shaderBehind = Shader::alloc(SHADER(behindVert), SHADER(behindFrag));
-    _vertbuffBehind = VertexBuffer::alloc(sizeof(PivotVertex3));
-    _vertbuffBehind->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, position));
-    _vertbuffBehind->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
-        offsetof(PivotVertex3, texcoord));
-    _vertbuffBehind->attach(_shaderBehind);
-
     // Fog shader
     _shaderFog = Shader::alloc(SHADER(fogVert), SHADER(fogFrag));
     _vertbuffFog = VertexBuffer::alloc(sizeof(PivotVertex3));
@@ -121,6 +112,15 @@ void RenderPipeline::constructShaders() {
     _vertbuffFog->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
         offsetof(PivotVertex3, texcoord));
     _vertbuffFog->attach(_shaderFog);
+
+    // Behind shader
+    _shaderBehind = Shader::alloc(SHADER(behindVert), SHADER(behindFrag));
+    _vertbuffBehind = VertexBuffer::alloc(sizeof(PivotVertex3));
+    _vertbuffBehind->setupAttribute("aPosition", 3, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, position));
+    _vertbuffBehind->setupAttribute("aTexCoord", 2, GL_FLOAT, GL_FALSE,
+        offsetof(PivotVertex3, texcoord));
+    _vertbuffBehind->attach(_shaderBehind);
 
     // Screen shader
     _shaderScreen = Shader::alloc(SHADER(screenVert), SHADER(screenFrag));
@@ -432,53 +432,11 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboNormal)->unbind();
     _vertbuffPointlight->unbind();
 
-    // --------------- Pass 5: Stripped Billboards --------------- //
+    // --------------- Pass 5: Cut --------------- //
     // OpenGL Blending
     glDisable(GL_DEPTH_TEST);
     glBlendEquation(GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // Binding
-    _vertbuffBehind->bind();
-    fbo->getTexture(fboReplace)->bind();
-
-    // Stripped Billboards
-    fbo->getTexture(fboReplace)->bind();
-    for (DrawObject dro : drawables) {
-        if (dro.isPlayer || !dro.fade) continue;
-        // Calculate distance from plane
-        float distance = -n.dot(dro.pos - charPos);
-
-        // If 0 < distance <= -c, then we will want to draw
-        if (distance >= 0 || distance <= cutoff) continue;
-        float alpha = (1.0 - (distance / cutoff)) * .75;
-
-        // Change the drawObject position to be reflected along the plane
-        Vec3 oldPos = dro.pos;
-        dro.pos = dro.pos + ((1 + epsilon) * distance * n);
-
-        // Construct vertices to be placed in the mesh
-        if (!constructBillMesh(model, dro)) continue;
-        dro.pos = oldPos;
-
-        // Set uniforms and draw individual billboard
-        dro.tex->bind();
-        _shaderBehind->setUniformMat4("uPerspective", _camera->getCombined());
-        _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
-        _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
-        _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
-        _shaderBehind->setUniform1f("alpha", alpha);
-        _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
-        _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
-        _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
-        dro.tex->unbind();
-    }
-
-    // Unbinding
-    fbo->getTexture(fboReplace)->unbind();
-    _vertbuffBehind->unbind();
-
-    // --------------- Pass 6: Cut --------------- //
 
     // Binding
     _vertbuffCut->bind();
@@ -528,7 +486,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffCut->unbind();
 
-    // --------------- Pass 7: Fog --------------- //
+    // --------------- Pass 6: Fog --------------- //
 
     // Binding
     _vertbuffFog->bind();
@@ -549,6 +507,48 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     fbo->getTexture(fboReplace)->unbind();
     fbo->getTexture(fboDepth)->unbind();
     _vertbuffFog->unbind();
+
+    // --------------- Pass 7: Stripped Billboards --------------- //
+
+    // Binding
+    _vertbuffBehind->bind();
+    fbo->getTexture(fboReplace)->bind();
+
+    // Stripped Billboards
+    fbo->getTexture(fboReplace)->bind();
+    for (DrawObject dro : drawables) {
+        if (dro.isPlayer || !dro.fade) continue;
+        // Calculate distance from plane
+        float distance = -n.dot(dro.pos - charPos);
+
+        // If 0 < distance <= -c, then we will want to draw
+        if (distance >= 0 || distance <= cutoff) continue;
+        float alpha = (1.0 - (distance / cutoff)) * .75;
+
+        // Change the drawObject position to be reflected along the plane
+        Vec3 oldPos = dro.pos;
+        dro.pos = dro.pos + ((1 + epsilon) * distance * n);
+
+        // Construct vertices to be placed in the mesh
+        if (!constructBillMesh(model, dro)) continue;
+        dro.pos = oldPos;
+
+        // Set uniforms and draw individual billboard
+        dro.tex->bind();
+        _shaderBehind->setUniformMat4("uPerspective", _camera->getCombined());
+        _shaderBehind->setUniform1i("flipXvert", dro.isPlayer && !model->_player->isFacingRight() ? 1 : 0);
+        _shaderBehind->setUniform1i("billTex", dro.tex->getBindPoint());
+        _shaderBehind->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
+        _shaderBehind->setUniform1f("alpha", alpha);
+        _vertbuffBehind->loadVertexData(_meshBill.vertices.data(), (int)_meshBill.vertices.size());
+        _vertbuffBehind->loadIndexData(_meshBill.indices.data(), (int)_meshBill.indices.size());
+        _vertbuffBehind->draw(GL_TRIANGLES, (int)_meshBill.indices.size(), 0);
+        dro.tex->unbind();
+    }
+
+    // Unbinding
+    fbo->getTexture(fboReplace)->unbind();
+    _vertbuffBehind->unbind();
 
     fbofinal->end();
 
