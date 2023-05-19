@@ -225,6 +225,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     // messages
     _model->_messScene = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("messagePop"));
     
+    _model->_messText = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("messagePop")->getChildByName("messagePopup")->getChildByName("label"));
+    
     // collectibles
     _model->_invent = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory"));
     
@@ -1139,7 +1141,8 @@ void GameplayController::updateMessages() {
         case Messages::EXIT: {
             // if the backpack is not full show exit message
             if(!_model->checkBackpack()) {
-                // TODO: set message to text
+                // set message to text
+                _model->_messText->setText(_model->_messages->getText());
                 // turn on message
                 _model->_messScene->setVisible(true);
                 // fade in active message
@@ -1149,7 +1152,8 @@ void GameplayController::updateMessages() {
             }
             break; }
         case Messages::MESS: {
-            // TODO: set message to text
+            // set message to text
+            _model->_messText->setText(_model->_messages->getText());
             // turn on message
             _model->_messScene->setVisible(true);
             // fade in active message
