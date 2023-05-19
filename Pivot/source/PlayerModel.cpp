@@ -285,6 +285,14 @@ void PlayerModel::applyForce() {
 }
 
 void PlayerModel::animate() {
+    if(startTrackingAirTime){
+        CULog("tracking");
+        CULog("%f", airTime);
+    }
+    if(!isGrounded()){
+        startTrackingAirTime = true;
+    }
+    
     /** Animation AND SOUND logic!!! IM HIJACKING AGAIN :) - Gordi*/
     if(shouldStartFlipping){
         setLanding(false);
@@ -301,7 +309,7 @@ void PlayerModel::animate() {
             setVX(0);
             if(currentSpriteSheet->getFrame() == currentSpriteSheet->getSize()-1){
                 doneFlipping = true;
-                shouldStartFlipping = false;
+                //shouldStartFlipping = false;
             }
         }
     }
@@ -316,7 +324,7 @@ void PlayerModel::animate() {
             animState = 3;
         }
     }
-    else if(isLanding()){
+    else if(isLanding() && airTime > 10){
         CULog("Landing");
         if(animState != 6){
             animState = 6;
@@ -325,6 +333,8 @@ void PlayerModel::animate() {
         } else{
             if(currentSpriteSheet->getFrame() == currentSpriteSheet->getSize()-1 || (isGrounded() && abs(getVX()) > 2)){
                 setLanding(false);
+                airTime = 0;
+                startTrackingAirTime = false;
             }
             animState = 6;
         }
@@ -368,6 +378,10 @@ void PlayerModel::animate() {
         currentSpriteSheet = rotateSpriteSheet;
         currentNormalSpriteSheet = rotateNormalSpriteSheet;
         animState = 0;
+    }
+    
+    if(startTrackingAirTime){
+        airTime++;
     }
     
 //    if(!_isGrounded){

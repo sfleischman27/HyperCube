@@ -89,6 +89,10 @@ public:
     
     float movementValue;
     
+    bool startTrackingAirTime;
+    
+    float airTime;
+    
     bool shouldStartFlipping;
     
     bool doneFlipping;

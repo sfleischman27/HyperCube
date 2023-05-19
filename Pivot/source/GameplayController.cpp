@@ -1143,6 +1143,7 @@ void GameplayController::beginContact(b2Contact* contact) {
     if ((_model->_player->getSensorName() == fd2 && _model->_player.get() != bd1) ||
         (_model->_player->getSensorName() == fd1 && _model->_player.get() != bd2)) {
         _model->_player->setGrounded(true);
+        _model->_player->startTrackingAirTime = false;
         // Could have more than one ground
         _sensorFixtures.emplace(_model->_player.get() == bd1 ? fix2 : fix1);
     }
