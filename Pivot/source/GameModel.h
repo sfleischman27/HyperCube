@@ -109,7 +109,7 @@ private:
 #pragma mark Collectibles State
 public:
     /** map of collectibles */
-    std::map<std::string, std::shared_ptr<Collectible>> _collectibles;
+    std::map<std::string, Collectible> _collectibles;
     
     std::shared_ptr<cugl::scene2::SceneNode> _invent;
     
@@ -222,7 +222,7 @@ public:
      * Creates the model state.
      */
     GameModel() {
-        _collectibles = std::map<std::string, std::shared_ptr<Collectible>>();
+        _collectibles = std::map<std::string, Collectible>();
         _glowsticks = std::vector<Glowstick>();
         _lights = std::vector<Light>();
         _decorations = std::vector<std::shared_ptr<GameItem>>();
@@ -397,7 +397,7 @@ public:
     /**
      * Gets the map of collectibles
      */
-    std::map<std::string, std::shared_ptr<Collectible>> getCollectibles() {
+    std::map<std::string, Collectible> getCollectibles() {
         return _collectibles;
     }
 
@@ -414,17 +414,17 @@ public:
      * @param locs  List of collectible locations
      * @param texs  List of collectible textures
      */
-//    void setCollectibles(std::vector<Vec3> locs, std::vector<std::shared_ptr<cugl::Texture>> texs, std::vector<std::shared_ptr<cugl::Texture>> normalTexs) {
-//        for(int i = 0; i < locs.size(); i++) {
-//            Collectible item = Collectible(locs[i], std::to_string(i));
-//            item.setTexture(texs[i]);
-//            item.rotateSpriteSheet = SpriteSheet::alloc(texs[i], 6, 6);
-//            item.rotateNormalSpriteSheet = SpriteSheet::alloc(normalTexs[i], 6, 6);
-//            _collectibles.insert({std::to_string(i), item});
-//            _expectedCol.insert(std::to_string(i));
-//        }
-//
-//    }
+    void setCollectibles(std::vector<Vec3> locs, std::vector<std::shared_ptr<cugl::Texture>> texs, std::vector<std::shared_ptr<cugl::Texture>> normalTexs) {
+        for(int i = 0; i < locs.size(); i++) {
+            Collectible item = Collectible(locs[i], std::to_string(i));
+            item.setTexture(texs[i]);
+            item.rotateSpriteSheet = SpriteSheet::alloc(texs[i], 6, 6);
+            item.rotateNormalSpriteSheet = SpriteSheet::alloc(normalTexs[i], 6, 6);
+            _collectibles.insert({std::to_string(i), item});
+            _expectedCol.insert(std::to_string(i));
+        }
+
+    }
 
     void clearPopups() {
         _popup->clear();
