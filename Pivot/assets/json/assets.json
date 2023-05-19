@@ -361,6 +361,11 @@
             "file": "sounds/jump.wav",
             "volume": 0.5
         },
+        "collect": {
+            "type": "sample",
+            "file": "sounds/collect.wav",
+            "volume": 0.5
+        },
         "pew": {
             "type": "sample",
             "file": "sounds/pew.wav",

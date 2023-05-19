@@ -898,6 +898,7 @@ void GameplayController::update(float dt) {
             itr->second.setRotationalSprite(_model->getGlobalAngleDeg());
         }
         if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST && !itr->second.getCollected()) {
+            _sound->playSound("collect", 0.75);
             itr->second.setCollected(true);
             _justCollected = true;
             _model->_backpack.insert(itr->first);
