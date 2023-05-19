@@ -463,6 +463,7 @@ void GameplayController::reset() {
     _model->_player->shouldStartFlipping = false;
     _model->_pixelingIn = true;
     _model->_donePixelOut = false;
+    _model->_donePixelIn = false;
     _model->_startOfLevel = true;
     _model->_player->setFriction(_initFriction);
     _model->_player->setInertia(_initInertia);
@@ -512,6 +513,7 @@ void GameplayController::load(std::string name){
     _model->_player->shouldStartFlipping = false;
     _model->_pixelingIn = true;
     _model->_donePixelOut = false;
+    _model->_donePixelIn = false;
     _model->_startOfLevel = true;
     _model->_player->setFriction(_initFriction);
     _model->_player->setInertia(_initInertia);
@@ -762,37 +764,13 @@ void GameplayController::resetMessages() {
 float saveFloat = 0.0;
 float lastFrameAngle;
 void GameplayController::update(float dt) {
+    // update time and global angle
     lastFrameAngle = _model->getGlobalAngleDeg();
     _model->_currentTime->mark();
     
-    if(_justCollected) {
-        fadeinCollectibles();
-    }else{
-        fadeoutCollectibles();
-    }
-    //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
-    _model->_justFinishRotating = false;
+#pragma mark SCENE TRANSITIONS
     
-    // signal app state machine
-    if(_model->_donePixelOut){
-        _model->_donePixelOut = false;
-        _state = END;
-    }
-    
-    // pixel out the level
-    if(_model->_player->doneFlipping){
-        _model->_player->doneFlipping = false;
-        _model->_pixelingIn = false;
-        _model->_pixelOutTime->mark();
-    }
-    
-    // pixel in the level
-    if(_model->_startOfLevel){
-        _model->_startOfLevel = false;
-        _model->_pixelingIn = true;
-        _model->_pixelInTime->mark();
-    }
-    
+    // Fade in/out the UI
     if (_model->_pixelingIn){
         // all UI fade in
         auto color = _layer->getColor();
@@ -805,7 +783,48 @@ void GameplayController::update(float dt) {
         _layer->setColor(newColor);
     }
     
+    // done pixeling out
+    if(_model->_donePixelOut){
+        _model->_donePixelOut = false;
+        _state = END;
+        return;
+    }
+    
+    // done backflip and starting to pixel out
+    if(_model->_player->doneFlipping){
+        _model->_player->doneFlipping = false;
+        _model->_pixelingIn = false;
+        _model->_pixelOutTime->mark();
+        return;
+    }
+    
+    // start to pixel in
+    if(_model->_startOfLevel){
+        _model->_startOfLevel = false;
+        _model->_pixelingIn = true;
+        _model->_pixelInTime->mark();
+        return;
+    }
+    
+    // not done pixeling in
+    if(!_model->_donePixelIn){ return; }
+    
+    // not done pixeling out
+    if(!_model->_pixelingIn){ return; }
+    
+#pragma mark -----
+    
+    if(_justCollected) {
+        fadeinCollectibles();
+    }else{
+        fadeoutCollectibles();
+    }
+    
+    _model->_justFinishRotating = false;
+    
     _model->_player->animate();
+    
+    //CULog("loop on: %d", cugl::AudioEngine::get()->getMusicQueue()->isLoop());
     
 #pragma mark INPUT
     // if the player shouldn't flip and the level isn't fading out

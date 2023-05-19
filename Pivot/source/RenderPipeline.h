@@ -27,7 +27,7 @@ public:
 		bool isPoster;
 		Vec3 posterNormal;
 
-		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, std::shared_ptr<cugl::SpriteSheet> sheet, bool fade, bool isPoster = false, Vec3 posterNormal = Vec3(0, 0, 0)) {
+		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, std::shared_ptr<cugl::SpriteSheet> sheet, bool fade, Vec3 posterNormal = Vec3(0, 0, 0)) {
 			this->pos = pos;
 			this->tex = tex;
 			this->normalMap = normalMap;
@@ -35,6 +35,8 @@ public:
 			this->emission = normalMap == NULL;
 			this->sheet = sheet;
 			this->fade = fade;
+			this->isPoster = posterNormal != Vec3(0, 0, 0);
+			this->posterNormal = posterNormal;
 		}
 	};
 
