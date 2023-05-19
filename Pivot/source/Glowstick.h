@@ -27,7 +27,6 @@ public:
         setNorm(norm);
         setColor(Vec3(0.0, 1.0, 0.2));
         setIntense(0.35);
-        setIsemit(true);
     }
     Glowstick() :  GameItem() {}
 };

@@ -164,26 +164,26 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
-    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, false, model->_player->currentSpriteSheet, false));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, true, model->_exit->rotateSpriteSheet, true));
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, model->_player->currentSpriteSheet, false));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, model->_exit->rotateSpriteSheet, true));
 
     // Collectibles
-    std::map<std::string, std::shared_ptr<Collectible>> colls = model->getCollectibles();
-    for (std::pair<std::string, std::shared_ptr<Collectible>> c : colls) {
-        if (!c.second->getCollected()) {
-            drawables.push_back(DrawObject(c.second->getPosition(), c.second->rotateSpriteSheet->getTexture(), NULL, false, c.second->isEmissive(), c.second->rotateSpriteSheet, true));
+    std::map<std::string, Collectible> colls = model->getCollectibles();
+    for (std::pair<std::string, Collectible> c : colls) {
+        if (!c.second.getCollected()) {
+            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, c.second.rotateSpriteSheet, true));
         }
     }
 
     // Glowsticks
     for (Glowstick g : model->_glowsticks) {
-        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), model->_glowsticks[0].getNorm(), false, true, NULL, true));
+        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), NULL, false, NULL, true));
     }
 
     // Decorations
     auto decor = model->getDecorations();
      for (auto d : decor) {
-         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->isEmissive() ? NULL : d->rotateNormalSpriteSheet->getTexture(), false, d->isEmissive(), d->rotateSpriteSheet, false));
+         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->isEmissive() ? NULL : d->rotateNormalSpriteSheet->getTexture(), false, d->rotateSpriteSheet, false));
      }
 
     // Set bind points
@@ -204,15 +204,16 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     }
 }
 
-void RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, const RenderPipeline::DrawObject& dro) {
+bool RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, const RenderPipeline::DrawObject& dro) {
 
     _meshBill.vertices.clear();
     Size sz = dro.tex->getSize();
     int div = 4;
     PivotVertex3 tempV;
+    bool visible = false;
     for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
         for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
-            Vec3 addOn = i * basisRight + j * basisUp;
+            Vec3 addOn = (i * basisRight + j * basisUp) * 1.0; // TODO scale
             tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
             if (dro.sheet != NULL) {
                 // assuming the spritesheet has square dimensions
@@ -223,9 +224,14 @@ void RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, 
                 tempV.texcoord.y /= dro.sheet->getDimen().second;
             }
             tempV.position = dro.pos + addOn;
+            Vec3 windowCoords = _camera->project(tempV.position);
+            if (windowCoords.x > 0.0 && windowCoords.x < screenSize.width) {
+                visible = true;
+            }
             _meshBill.vertices.push_back(tempV);
         }
     }
+    return visible;
 }
 
 void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
@@ -311,7 +317,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     for (DrawObject dro : drawables) {
         // Construct vertices to be placed in the mesh
-        constructBillMesh(model, dro);
+        if (!constructBillMesh(model, dro)) continue;
 
         // Set uniforms and draw individual billboard
         dro.tex->bind();
@@ -359,7 +365,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     for (DrawObject dro : drawables) {
         if (dro.emission) continue;
         // Construct vertices to be placed in the mesh
-        constructBillMesh(model, dro);
+        if (!constructBillMesh(model, dro)) continue;
 
         // Set uniforms and draw individual billboard
         dro.tex->bind();
@@ -452,7 +458,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         dro.pos = dro.pos + ((1 + epsilon) * distance * n);
 
         // Construct vertices to be placed in the mesh
-        constructBillMesh(model, dro);
+        if (!constructBillMesh(model, dro)) continue;
         dro.pos = oldPos;
 
         // Set uniforms and draw individual billboard
@@ -482,11 +488,20 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     earthTex->bind();
     model->backgroundPic->bind();
 
-    // Set uniforms and draw
+    // Generate background scroll
     float angle = _camera->getDirection().angle(_camera->getDirection(), Vec3(0, 1, 0), _camera->getUp());
     if (angle < 0) angle += 2 * M_PI;
     angle /= 2 * M_PI;
     float amtOfScreens = model->backgroundPic->getWidth() / screenSize.width;
+
+    // Generate outline opacity
+    float outlineOpacity = .5;
+    float startTime = model->timeToPixelIn + model->timeFromPixelInToOutline;
+    float endTime = startTime + model->timeToOutline;
+    outlineOpacity = (model->_currentTime->ellapsedMillis(*model->_pixelInTime) - startTime) / model->timeToOutline;
+    outlineOpacity = std::min(1.0f, outlineOpacity);
+
+    // Set uniforms and draw
     _shaderCut->setUniform1i("albedoTexture", fbo->getTexture(fboAlbedo)->getBindPoint());
     _shaderCut->setUniform1i("replaceTexture", fbo->getTexture(fboReplace)->getBindPoint());
     _shaderCut->setUniform1i("depthTexture", fbo->getTexture(fboDepth)->getBindPoint());
@@ -496,6 +511,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniform1i("background", model->backgroundPic->getBindPoint());
     _shaderCut->setUniform1f("interpStartPosLeft", angle);
     _shaderCut->setUniform1f("amtOfScreens", amtOfScreens);
+    _shaderCut->setUniform1f("outlineOpacity", outlineOpacity);
     _shaderCut->setUniform1i("drawOutline", model->drawOutline);
     _shaderCut->setUniform4f("ambientLight", model->ambientLight.r, model->ambientLight.g, model->ambientLight.b, model->ambientLight.a);
     _shaderCut->setUniform3f("cutColor", model->cutFillColor.r, model->cutFillColor.g, model->cutFillColor.b);

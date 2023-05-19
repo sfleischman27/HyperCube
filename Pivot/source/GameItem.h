@@ -59,6 +59,7 @@ public:
         setPosition(pos);
         setTexture(text);
         setOffsetAngle(offangle);
+        setScale(scale);
     }
     /**
      * Creates the game item

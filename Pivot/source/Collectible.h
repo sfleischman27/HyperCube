@@ -29,8 +29,6 @@ public:
         setCollected(false);
     }
     
-    Collectible(const Vec3 pos, const std::string name, const std::shared_ptr<cugl::Texture>& text, float offangle, float scale) : GameItem(pos, name, text, offangle, scale){}
-    
 #pragma mark Setters
 public:
     /**

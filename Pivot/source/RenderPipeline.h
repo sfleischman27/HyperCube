@@ -27,13 +27,12 @@ public:
 		bool isPoster;
 		Vec3 posterNormal;
 
-		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, bool emission, std::shared_ptr<cugl::SpriteSheet> sheet, bool fade, bool isPoster = false, Vec3 posterNormal = Vec3(0, 0, 0)) {
-			assert(!(isPlayer && emission)); // player is never an emission mesh
+		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, std::shared_ptr<cugl::SpriteSheet> sheet, bool fade, bool isPoster = false, Vec3 posterNormal = Vec3(0, 0, 0)) {
 			this->pos = pos;
 			this->tex = tex;
 			this->normalMap = normalMap;
 			this->isPlayer = isPlayer;
-			this->emission = emission;
+			this->emission = normalMap == NULL;
 			this->sheet = sheet;
 			this->fade = fade;
 		}
@@ -167,9 +166,9 @@ public:
 	void billboardSetup(const std::shared_ptr<GameModel>& model);
 
 	/**
-	 * Sets up the mesh to draw one drawable
+	 * Sets up the mesh to draw one drawable. Returns true if the billboard is visible on-screen (regardless of depth), and false otherwise.
 	 */
-	void constructBillMesh(const std::shared_ptr<GameModel>& model, const DrawObject& dro);
+	bool constructBillMesh(const std::shared_ptr<GameModel>& model, const DrawObject& dro);
 	
 	/**
 	 * Renders a given gamemodel
