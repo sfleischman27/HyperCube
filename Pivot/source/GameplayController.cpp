@@ -894,7 +894,6 @@ void GameplayController::update(float dt) {
     
 #pragma mark COLLECTIBLES
     for (auto itr = _model->_collectibles.begin(); itr != _model->_collectibles.end(); itr++) {
-
         itr->second.setRotationalSprite(_model->getGlobalAngleDeg());
         if (_model->getPlayer3DLoc().distance(itr->second.getPosition())<= COLLECTING_DIST && !itr->second.getCollected()) {
             itr->second.setCollected(true);
