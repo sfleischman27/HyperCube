@@ -164,26 +164,26 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
-    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, 0, false, model->_player->currentSpriteSheet));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, 0, true, model->_exit->rotateSpriteSheet, true));
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, false, model->_player->currentSpriteSheet));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, true, model->_exit->rotateSpriteSheet, true));
 
     // Collectibles
     std::map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, 0, true, c.second.rotateSpriteSheet, true));
+            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, true, c.second.rotateSpriteSheet, true));
         }
     }
 
     // Glowsticks
     for (Glowstick g : model->_glowsticks) {
-        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), model->_glowsticks[0].getNorm(), false, 1, true, NULL, true));
+        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), model->_glowsticks[0].getNorm(), false, true, NULL, true));
     }
 
     // Decorations
     auto decor = model->getDecorations();
      for (auto d : decor) {
-         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), NULL, false, 0, false, d->rotateSpriteSheet, false));
+         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->rotateNormalSpriteSheet->getTexture(), false, false, d->rotateSpriteSheet, false));
      }
 
     // Set bind points
@@ -327,7 +327,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderBill->setUniformVec3("uDirection", n);
         _shaderBill->setUniformVec3("campos", _camera->getPosition());
         _shaderBill->setUniform1i("useNormTex", 0);
-        _shaderBill->setUniform1i("id", dro.id);
         _shaderBill->setUniform1i("doLighting", dro.emission ? 0 : 1);
         if (dro.normalMap != NULL) {
             _shaderBill->setUniform1i("normTex", dro.normalMap->getBindPoint());
@@ -502,7 +501,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     _shaderCut->setUniform1f("interpStartPosLeft", angle);
     _shaderCut->setUniform1f("amtOfScreens", amtOfScreens);
     _shaderCut->setUniform1i("drawOutline", model->drawOutline);
-    _shaderCut->setUniform4f("ambientLight", model->ambientLight.r, model->ambientLight.g, model->ambientLight.b, model->ambientLight.a);
+    _shaderCut->setUniform4f("ambientLight", model->ambientLight.r, model->ambientLight.g, model->ambientLight.b, 0);
     _vertbuffCut->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffCut->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
     _vertbuffCut->draw(GL_TRIANGLES, (int)_meshFsq.indices.size(), 0);

@@ -22,17 +22,15 @@ public:
 		std::shared_ptr<cugl::Texture> normalMap;
 		std::shared_ptr<cugl::SpriteSheet> sheet;
 		bool isPlayer;
-		int id;
 		bool emission;
 		bool fade;
 
-		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, int id = 0, bool emission = false, std::shared_ptr<cugl::SpriteSheet> sheet = NULL, bool fade = false) {
+		DrawObject(Vec3 pos, std::shared_ptr<cugl::Texture> tex, std::shared_ptr<cugl::Texture> normalMap, bool isPlayer, bool emission = false, std::shared_ptr<cugl::SpriteSheet> sheet = NULL, bool fade = false) {
 			assert(!(isPlayer && emission)); // player is never an emission mesh
 			this->pos = pos;
 			this->tex = tex;
 			this->normalMap = normalMap;
 			this->isPlayer = isPlayer;
-			this->id = id;
 			this->emission = emission;
 			this->sheet = sheet;
 			this->fade = fade;
