@@ -33,12 +33,12 @@ protected:
     float _radius;
     /** map of rotation textures of the item */
     std::unordered_map<float, std::shared_ptr<cugl::Texture>> _rotateTextures;
+    /** If the GameItem is emissive */
+    bool _isEmission = false;
     
 public:
     std::shared_ptr<cugl::SpriteSheet> rotateSpriteSheet;
     std::shared_ptr<cugl::SpriteSheet> rotateNormalSpriteSheet;
-    /** If the GameItem is emissive */
-    bool isEmission = false;
     /**
      * Creates the game item
      *
@@ -170,9 +170,12 @@ public:
         int index = (int) localAng / repeat;
         
         rotateSpriteSheet->setFrame(index);
-        if(!isEmission){
+        if(!_isEmission){
             rotateNormalSpriteSheet->setFrame(index);
         }        
+    }
+    void setEmissive(bool value){
+        _isEmission = value;
     }
     
 #pragma mark Getters
@@ -218,6 +221,8 @@ public:
      *  Gets the radiue of the light
      */
     float getRadius() { return _radius; }
+    
+    bool isEmissive() {return _isEmission; }
     
 #pragma mark Helper Methods
 public:
