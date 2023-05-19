@@ -348,15 +348,15 @@
             "stream": true,
             "volume": 0.5
         },
-        "cave_m": {
+        "lab_m": {
             "type": "sample",
-            "file": "sounds/music/cave-m.ogg",
+            "file": "sounds/music/pivot-lab-m.ogg",
             "stream": true,
             "volume": 0.5
         },
-        "cave_p": {
+        "lab_p": {
             "type": "sample",
-            "file": "sounds/music/cave-p.ogg",
+            "file": "sounds/music/pivot-lab-p.ogg",
             "stream": true,
             "volume": 0.5
         }
