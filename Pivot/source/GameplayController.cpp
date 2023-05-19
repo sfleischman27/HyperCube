@@ -324,6 +324,11 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
     _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
     
+    // setup glowstick sprite sheet
+    for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+        it->setRotationalSprite(_model->getGlobalAngleDeg());
+    }
+    
     std::shared_ptr<scene2::PolygonNode> sprite = scene2::PolygonNode::allocWithTexture(image);
     _model->_player->setSceneNode(sprite);
     _model->_player->setDebugColor(DEBUG_COLOR);
@@ -914,6 +919,11 @@ void GameplayController::update(float dt) {
 
             }
         }
+    }
+    
+    // rotate glowsticks
+    for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+        it->setRotationalSprite(_model->getGlobalAngleDeg());
     }
     
     _model->_exit->setRotationalSprite(_model->getGlobalAngleDeg());
