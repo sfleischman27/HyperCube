@@ -196,13 +196,13 @@
             "span": 1,
             "cols": 1
         },
-        "supercoolspace": {
-            "file": "textures/supercoolspace.png",
+        "glow_cube-normal": {
+            "file": "textures/glow_cube_normal.png",
             "span": 1,
             "cols": 1
         },
-        "glow_cube_normal": {
-            "file": "textures/glow_cube_normal.png",
+        "supercoolspace": {
+            "file": "textures/supercoolspace.png",
             "span": 1,
             "cols": 1
         },
@@ -323,16 +323,6 @@
         },
         "mushroom4-normal": {
             "file": "textures/mushroom4_normal.png",
-            "span": 1,
-            "cols": 1
-        },
-        "tree2normal": {
-            "file": "textures/tree2_normal.png",
-            "span": 1,
-            "cols": 1
-        },
-        "tree3normal": {
-            "file": "textures/tree3_normal.png",
             "span": 1,
             "cols": 1
         },
