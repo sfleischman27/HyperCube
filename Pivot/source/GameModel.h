@@ -153,7 +153,7 @@ public:
 public:
     /** Vector of collectibles in player backpack */
     std::unordered_set<std::string> _backpack;
-private:
+
     /** Vector of collectibles need to be collected*/
     std::unordered_set<std::string> _expectedCol;
 

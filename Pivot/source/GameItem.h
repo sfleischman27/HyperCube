@@ -35,10 +35,32 @@ protected:
     std::unordered_map<float, std::shared_ptr<cugl::Texture>> _rotateTextures;
     /** If the GameItem is emissive */
     bool _isEmission = false;
+    bool _isemit;
+    /** If the GameItem is a billboard */
+    bool _isbill;
+    /** the scale of the sprite being rendered */
+    float _spriteScale;
+    /** the offset angle of the item */
+    float _offsetAngle;
     
 public:
     std::shared_ptr<cugl::SpriteSheet> rotateSpriteSheet;
     std::shared_ptr<cugl::SpriteSheet> rotateNormalSpriteSheet;
+    /**
+     * Creates the game item
+     *
+     * @param pos          The position of the item
+     * @param name        The name/identifier of the item
+     * @param text       The teture of the item
+     * @param offangle      The initial offset angle of the item
+     * @param scale      The  scale of the item sprite
+     */
+    GameItem(const Vec3 pos, const std::string name, const std::shared_ptr<cugl::Texture>& text, float offangle, float scale) {
+        setName(name);
+        setPosition(pos);
+        setTexture(text);
+        setOffsetAngle(offangle);
+    }
     /**
      * Creates the game item
      *
@@ -178,6 +200,22 @@ public:
         _isEmission = value;
     }
     
+    void setIsemit(bool isemit) {
+        _isemit = isemit;
+    }
+    
+    void setIsbill(bool isbill) {
+        _isbill = isbill;
+    }
+    
+    void setScale(float scale) {
+        _spriteScale = scale;
+    }
+    
+    void setOffsetAngle(float offangle) {
+        _offsetAngle = offangle;
+    }
+    
 #pragma mark Getters
 public:
     /**
@@ -223,6 +261,13 @@ public:
     float getRadius() { return _radius; }
     
     bool isEmissive() {return _isEmission; }
+    bool getIsemit() { return _isemit; }
+    
+    bool getIsbool() { return _isbill; }
+    
+    float getScale() { return _spriteScale; }
+    
+    float setOffsetAngle() { return _offsetAngle; }
     
 #pragma mark Helper Methods
 public:
