@@ -301,7 +301,7 @@ Vec3 Camera::project(const Vec3 worldCoords) const {
 Vec3 Camera::project(const Vec3 worldCoords, const Rect viewport) const {
     Vec4 temp(worldCoords,1);
     temp *= _combined;
-    CULog("%s",temp.toString().c_str());
+    //CULog("%s",temp.toString().c_str());
 
     temp.x /= temp.w;
     temp.y /= temp.w;
