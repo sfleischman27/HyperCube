@@ -88,8 +88,6 @@ struct Messages {
     
     State getState() { return _state; }
     
-    std::string getText() { return _message; }
-    
     void clear() { _state = NONE; _message = ""; }
 };
 
