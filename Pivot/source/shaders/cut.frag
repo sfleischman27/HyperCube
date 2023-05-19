@@ -26,6 +26,7 @@ uniform vec3 outlineColor;
 const float thickness = 1.0;
 // Editable parameter for strength of ambient lighting. 0 = no ambient light, 1 = all ambient light
 //const float ambient = .4;
+const float squashFactor = 2.0;
 
 bool checkNeighboring(sampler2D tx, vec2 oTex) {
 	float offX = thickness/screenSize.x;
@@ -48,7 +49,7 @@ void main(void) {
         // Cut texture translation coordinates
 		vec2 midTexCoord = outTexCoord + transOffset;
 		vec2 transTexCoord;
-        transTexCoord.x = mod(midTexCoord.x, 1.0);
+        transTexCoord.x = mod(midTexCoord.x / squashFactor, 1.0);
         transTexCoord.y = 1.0 - mod(midTexCoord.y, 1.0);
 
 		// Set cut texture
