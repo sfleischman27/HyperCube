@@ -361,6 +361,11 @@
             "file": "sounds/collect.wav",
             "volume": 0.5
         },
+        "portal": {
+            "type": "sample",
+            "file": "sounds/portal.wav",
+            "volume": 0.5
+        },
         "glowstick_pickup": {
             "type": "sample",
             "file": "sounds/glowstick-pickup.wav",

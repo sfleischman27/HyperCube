@@ -297,6 +297,7 @@ void PlayerModel::animate() {
     if(shouldStartFlipping){
         setLanding(false);
         if(animState != 5){
+            _isFlipping = true;
             animState = 5;
             setSpriteSheet("flip");
             resetOtherSpritesheets("flip");
