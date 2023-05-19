@@ -572,7 +572,7 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                 } else {
                     _buttonRight->setVisible(true);
                     _buttonLeft->setVisible(true);
-                    if(_ltouch.position.x > _buttonRight->getPositionX() + 400 && _ltouch.position.y < _tbounds.getMaxY() * 0.75f){
+                    if(_ltouch.position.x > _buttonRight->getPositionX() + 400 && _ltouch.position.y > _tbounds.getMaxY() * 0.75f){
 //                        CULog("running right");
                         //CULog("%f",_ltouch.position.x);
                         _keyRight = true;
@@ -581,7 +581,7 @@ void InputController::touchBeganCB(const TouchEvent& event, bool focus) {
                         //_runRight->setVisible(false);
                         //_runLeft->setVisible(true);
                     }
-                    if(_ltouch.position.x < _buttonLeft->getPositionX() + 100 && _ltouch.position.y < _tbounds.getMaxY() * 0.75f){
+                    if(_ltouch.position.x < _buttonLeft->getPositionX() + 100 && _ltouch.position.y > _tbounds.getMaxY() * 0.75f){
                         CULog("running left");
                         _keyRunLeft= true;
                         _keyLeft = true;
@@ -719,9 +719,11 @@ void InputController::touchesMovedCB(const TouchEvent& event, const Vec2& previo
         //if(settings_isUsingJoystick){
         if(settings_isUsingJoystick){
             processJoystick(pos);
-        } else {
+        } else if (_ltouch.position.y < _tbounds.getMaxY() * 0.75f) {
             processSwipe(_ltouch.position, event.position, event.timestamp);
             isRotating = true;
+        } else {
+            processJoystick(pos);
         }
         //}
             //CULog("joystick");
