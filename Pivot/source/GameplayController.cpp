@@ -452,7 +452,7 @@ void GameplayController::reset() {
     _model->_player->setVelocity(Vec2::ZERO);
     _model->_player->doneFlipping = false;
     _model->_player->shouldStartFlipping = false;
-    _model->_pixelingIn = false;
+    _model->_pixelingIn = true;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
     prevPlay2DPos = Vec2::ZERO;
@@ -495,7 +495,7 @@ void GameplayController::load(std::string name){
     _model->_player->setVelocity(Vec2::ZERO);
     _model->_player->doneFlipping = false;
     _model->_player->shouldStartFlipping = false;
-    _model->_pixelingIn = false;
+    _model->_pixelingIn = true;
     _model->_donePixelOut = false;
     _model->_startOfLevel = true;
     prevPlay2DPos = Vec2::ZERO;
