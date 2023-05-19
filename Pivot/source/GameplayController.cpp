@@ -815,7 +815,7 @@ void GameplayController::update(float dt) {
     if(!_model->_donePixelIn){ return; }
     
     if(_playOutline){
-        _sound->playSound("outline", 0.75);
+        _sound->playSound("outline", 1);
         _playOutline = false;
     }
     
