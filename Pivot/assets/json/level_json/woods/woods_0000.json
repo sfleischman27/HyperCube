@@ -16,7 +16,7 @@
         121.67361450195312
     ],
     "glowsticks": 4,
-    "shade_depth": 20,
+    "shade_depth": 15,
     "shade_color": [
         0.010632873512804508,
         0.021350648254156113,
@@ -24,9 +24,9 @@
     ],
     "ambient_color": [
         1.0,
+        0.3383987545967102,
         0.0,
-        0.5,
-        1.0
+        0.4000000059604645
     ],
     "cutline_color": [
         1.0,
@@ -43,13 +43,13 @@
         0.23626849055290222,
         0.0
     ],
-    "bg_image": "supercoolspace",
+    "bg_image": "end_background",
     "sprites": {
         "0": {
             "loc": [
                 985.1531982421875,
                 -173.69985961914062,
-                -65.50227355957031
+                -62.7022705078125
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -58,7 +58,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -69,7 +69,7 @@
             "loc": [
                 1691.643310546875,
                 455.4068603515625,
-                -46.140296936035156
+                -43.340293884277344
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -78,7 +78,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -89,7 +89,7 @@
             "loc": [
                 1653.693603515625,
                 389.2991943359375,
-                -35.228050231933594
+                -32.42805099487305
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -98,7 +98,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -109,7 +109,7 @@
             "loc": [
                 1496.34619140625,
                 -305.7918701171875,
-                -76.13983917236328
+                -73.33983612060547
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -118,7 +118,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -129,7 +129,7 @@
             "loc": [
                 1523.1015625,
                 -365.0928955078125,
-                -62.226478576660156
+                -59.426475524902344
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -138,7 +138,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -149,7 +149,7 @@
             "loc": [
                 1514.19140625,
                 -316.29150390625,
-                -75.97576904296875
+                -73.17576599121094
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -158,7 +158,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -169,7 +169,7 @@
             "loc": [
                 1030.9468994140625,
                 -150.5626983642578,
-                -57.10231018066406
+                -54.30230712890625
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -178,7 +178,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -189,7 +189,7 @@
             "loc": [
                 999.9795532226562,
                 -753.909423828125,
-                -54.64227294921875
+                -51.84226989746094
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -198,7 +198,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -209,7 +209,7 @@
             "loc": [
                 1409.9222412109375,
                 -417.90753173828125,
-                -53.18962860107422
+                -50.38962936401367
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -218,7 +218,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -229,7 +229,7 @@
             "loc": [
                 1655.6422119140625,
                 287.86279296875,
-                -34.91254425048828
+                -32.112545013427734
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -238,7 +238,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -249,7 +249,7 @@
             "loc": [
                 1654.428955078125,
                 180.57655334472656,
-                -25.015216827392578
+                -22.21521759033203
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -258,7 +258,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -269,7 +269,7 @@
             "loc": [
                 1451.11669921875,
                 -397.12347412109375,
-                -56.450233459472656
+                -53.650230407714844
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -278,7 +278,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -289,7 +289,7 @@
             "loc": [
                 888.6616821289062,
                 -748.5557250976562,
-                -2.9032163619995117
+                -0.10321617126464844
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -298,7 +298,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -309,7 +309,7 @@
             "loc": [
                 962.6680908203125,
                 -697.756103515625,
-                18.27613067626953
+                21.076133728027344
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -318,7 +318,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -329,7 +329,7 @@
             "loc": [
                 991.6473388671875,
                 -719.79931640625,
-                12.517398834228516
+                15.317398071289062
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -338,7 +338,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -349,7 +349,7 @@
             "loc": [
                 1052.002197265625,
                 -697.310791015625,
-                -3.081658363342285
+                -0.2816581726074219
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -358,7 +358,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -369,7 +369,7 @@
             "loc": [
                 888.4848022460938,
                 -62.01109313964844,
-                -2.6241531372070312
+                0.17584800720214844
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -378,7 +378,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -389,7 +389,7 @@
             "loc": [
                 1414.1240234375,
                 -651.4686889648438,
-                -58.598724365234375
+                -55.79872131347656
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -398,7 +398,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -409,7 +409,7 @@
             "loc": [
                 1414.33642578125,
                 -697.1380004882812,
-                -75.75560760498047
+                -72.95560455322266
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -418,7 +418,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -429,7 +429,7 @@
             "loc": [
                 744.3799438476562,
                 711.9068603515625,
-                -63.77226257324219
+                -60.972259521484375
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -438,7 +438,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -449,7 +449,7 @@
             "loc": [
                 1114.8436279296875,
                 -748.5751342773438,
-                -54.21586608886719
+                -51.415863037109375
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -458,7 +458,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -469,7 +469,7 @@
             "loc": [
                 1371.1470947265625,
                 -663.8677978515625,
-                -30.00832748413086
+                -27.208328247070312
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -478,7 +478,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -489,7 +489,7 @@
             "loc": [
                 628.7279663085938,
                 774.3311767578125,
-                -1.7519712448120117
+                1.0480289459228516
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -498,7 +498,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -509,7 +509,7 @@
             "loc": [
                 1419.1009521484375,
                 -626.9427490234375,
-                -41.424522399902344
+                -38.6245231628418
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -518,7 +518,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -529,7 +529,7 @@
             "loc": [
                 1316.000244140625,
                 -720.23095703125,
-                -53.45887756347656
+                -50.65887451171875
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -538,7 +538,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -549,7 +549,7 @@
             "loc": [
                 1395.00048828125,
                 -323.5854187011719,
-                -52.81025695800781
+                -50.01025390625
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -558,7 +558,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -569,7 +569,7 @@
             "loc": [
                 922.742919921875,
                 -108.6827621459961,
-                -57.30035400390625
+                -54.50035858154297
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -578,7 +578,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -589,7 +589,7 @@
             "loc": [
                 960.3461303710938,
                 55.97639465332031,
-                14.964285850524902
+                17.764286041259766
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -598,7 +598,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -609,7 +609,7 @@
             "loc": [
                 943.2965698242188,
                 55.03114700317383,
-                8.945262908935547
+                11.745264053344727
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -618,7 +618,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -629,7 +629,7 @@
             "loc": [
                 941.6655883789062,
                 13.173346519470215,
-                -35.41850280761719
+                -32.61850357055664
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -638,7 +638,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -649,7 +649,7 @@
             "loc": [
                 1110.0521240234375,
                 754.3931884765625,
-                -70.05659484863281
+                -67.256591796875
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -658,7 +658,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -669,7 +669,7 @@
             "loc": [
                 1420.9449462890625,
                 -473.601318359375,
-                -42.691200256347656
+                -39.89120101928711
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -678,7 +678,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -689,7 +689,7 @@
             "loc": [
                 1094.777587890625,
                 766.451904296875,
-                -49.249332427978516
+                -46.44933319091797
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -698,7 +698,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -709,7 +709,7 @@
             "loc": [
                 1049.7418212890625,
                 755.9229736328125,
-                -69.06107330322266
+                -66.26107025146484
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -718,7 +718,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -729,7 +729,7 @@
             "loc": [
                 1437.37841796875,
                 -150.30319213867188,
-                -55.243377685546875
+                -52.44337463378906
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -738,7 +738,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -749,7 +749,7 @@
             "loc": [
                 1047.41015625,
                 770.8190307617188,
-                -59.36747741699219
+                -56.567474365234375
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -758,7 +758,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -769,7 +769,7 @@
             "loc": [
                 845.7830810546875,
                 766.383544921875,
-                -62.25389862060547
+                -59.453895568847656
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -778,7 +778,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -789,7 +789,7 @@
             "loc": [
                 992.0895385742188,
                 748.2505493164062,
-                -58.4539794921875
+                -55.65397644042969
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -798,7 +798,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -809,7 +809,7 @@
             "loc": [
                 1701.5107421875,
                 388.1171875,
-                -11.36822509765625
+                -8.56822395324707
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -818,7 +818,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -829,7 +829,7 @@
             "loc": [
                 920.059326171875,
                 763.4813232421875,
-                -51.18247985839844
+                -48.38248062133789
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -838,7 +838,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -849,7 +849,7 @@
             "loc": [
                 1686.5821533203125,
                 326.0699462890625,
-                -5.636443614959717
+                -2.836444854736328
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -858,7 +858,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -869,7 +869,7 @@
             "loc": [
                 1595.73193359375,
                 -149.66677856445312,
-                -7.294748783111572
+                -4.494750022888184
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -878,7 +878,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -889,7 +889,7 @@
             "loc": [
                 1730.4246826171875,
                 752.2225952148438,
-                -58.5091552734375
+                -55.70915222167969
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -898,7 +898,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -909,7 +909,7 @@
             "loc": [
                 1812.7691650390625,
                 510.54986572265625,
-                -44.905418395996094
+                -42.10541915893555
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -918,7 +918,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -929,7 +929,7 @@
             "loc": [
                 1647.68310546875,
                 756.1798095703125,
-                -55.933937072753906
+                -53.133934020996094
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -938,7 +938,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -949,7 +949,7 @@
             "loc": [
                 1594.183837890625,
                 747.78564453125,
-                -61.396461486816406
+                -58.596458435058594
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -958,7 +958,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -969,7 +969,7 @@
             "loc": [
                 1436.86767578125,
                 760.3388671875,
-                -66.18750762939453
+                -63.387508392333984
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -978,7 +978,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -989,7 +989,7 @@
             "loc": [
                 1609.8446044921875,
                 -668.0623168945312,
-                -60.60833740234375
+                -57.80833435058594
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -998,7 +998,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1009,7 +1009,7 @@
             "loc": [
                 1603.353515625,
                 -592.0999755859375,
-                -48.54579162597656
+                -45.74578857421875
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -1018,7 +1018,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1029,7 +1029,7 @@
             "loc": [
                 1545.62060546875,
                 327.5917053222656,
-                -59.3621826171875
+                -56.56217956542969
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1038,7 +1038,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1049,7 +1049,7 @@
             "loc": [
                 1599.85009765625,
                 331.3039245605469,
-                -38.51112365722656
+                -35.711124420166016
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -1058,7 +1058,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1069,7 +1069,7 @@
             "loc": [
                 1337.4013671875,
                 766.5023193359375,
-                -49.21656799316406
+                -46.416568756103516
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1078,7 +1078,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1089,7 +1089,7 @@
             "loc": [
                 1610.30517578125,
                 319.00421142578125,
-                -58.82392883300781
+                -56.02392578125
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1098,7 +1098,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1109,7 +1109,7 @@
             "loc": [
                 1266.01025390625,
                 762.0496826171875,
-                -49.47416687011719
+                -46.67416763305664
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1118,7 +1118,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1129,7 +1129,7 @@
             "loc": [
                 1483.2242431640625,
                 248.01773071289062,
-                -50.97731018066406
+                -48.17730712890625
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1138,7 +1138,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1149,7 +1149,7 @@
             "loc": [
                 494.5045471191406,
                 -525.5501708984375,
-                10.67266845703125
+                13.472667694091797
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1158,7 +1158,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1169,7 +1169,7 @@
             "loc": [
                 1499.7000732421875,
                 193.83876037597656,
-                -50.61640930175781
+                -47.816410064697266
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1178,7 +1178,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1189,7 +1189,7 @@
             "loc": [
                 1571.4345703125,
                 211.19322204589844,
-                -46.649757385253906
+                -43.84975814819336
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1198,7 +1198,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1209,7 +1209,7 @@
             "loc": [
                 1611.3917236328125,
                 174.29129028320312,
-                -47.952880859375
+                -45.15288162231445
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1218,7 +1218,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1229,7 +1229,7 @@
             "loc": [
                 858.8960571289062,
                 711.541015625,
-                -66.76899719238281
+                -63.968994140625
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1238,7 +1238,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1249,7 +1249,7 @@
             "loc": [
                 862.7669067382812,
                 724.50048828125,
-                -60.467384338378906
+                -57.667381286621094
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -1258,7 +1258,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1269,7 +1269,7 @@
             "loc": [
                 1103.64599609375,
                 720.4119873046875,
-                -81.16539001464844
+                -78.36538696289062
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1278,7 +1278,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1289,7 +1289,7 @@
             "loc": [
                 540.942138671875,
                 49.06797790527344,
-                54.02238845825195
+                56.8223876953125
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1298,7 +1298,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1309,7 +1309,7 @@
             "loc": [
                 1160.51904296875,
                 719.818359375,
-                -81.06926727294922
+                -78.2692642211914
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1318,7 +1318,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1329,7 +1329,7 @@
             "loc": [
                 1218.6947021484375,
                 711.58837890625,
-                -66.77667236328125
+                -63.97666931152344
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1338,7 +1338,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1349,7 +1349,7 @@
             "loc": [
                 512.0870361328125,
                 178.53167724609375,
-                35.27972412109375
+                38.0797233581543
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1358,7 +1358,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1369,7 +1369,7 @@
             "loc": [
                 1298.854736328125,
                 715.3992919921875,
-                -80.35374450683594
+                -77.55374145507812
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1378,7 +1378,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1389,7 +1389,7 @@
             "loc": [
                 1303.1185302734375,
                 732.4854125976562,
-                -83.12026977539062
+                -80.32026672363281
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1398,7 +1398,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1409,7 +1409,7 @@
             "loc": [
                 1374.2548828125,
                 703.3787841796875,
-                -62.80744934082031
+                -60.0074462890625
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1418,7 +1418,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1429,7 +1429,7 @@
             "loc": [
                 492.0836181640625,
                 229.87643432617188,
-                44.9047737121582
+                47.70477294921875
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1438,7 +1438,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1449,7 +1449,7 @@
             "loc": [
                 1445.5185546875,
                 717.3869018554688,
-                -65.07560729980469
+                -62.275604248046875
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1458,7 +1458,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1469,7 +1469,7 @@
             "loc": [
                 1511.46630859375,
                 732.356201171875,
-                -70.13932037353516
+                -67.33931732177734
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1478,7 +1478,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1489,7 +1489,7 @@
             "loc": [
                 1604.101806640625,
                 731.1151123046875,
-                -69.93836212158203
+                -67.13835906982422
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1498,7 +1498,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1509,7 +1509,7 @@
             "loc": [
                 1712.5648193359375,
                 712.4022216796875,
-                -64.26849365234375
+                -61.46849060058594
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1518,7 +1518,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1529,7 +1529,7 @@
             "loc": [
                 1263.61865234375,
                 768.610595703125,
-                -60.80462646484375
+                -58.00463104248047
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1538,7 +1538,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1549,7 +1549,7 @@
             "loc": [
                 1481.724365234375,
                 -711.7796630859375,
-                -54.62641143798828
+                -51.82640838623047
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -1558,7 +1558,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1569,7 +1569,7 @@
             "loc": [
                 1526.943115234375,
                 -738.1288452148438,
-                -58.63203430175781
+                -55.83203125
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1578,7 +1578,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1589,7 +1589,7 @@
             "loc": [
                 851.5446166992188,
                 631.159423828125,
-                -61.18065643310547
+                -58.380653381347656
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1598,7 +1598,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1609,7 +1609,7 @@
             "loc": [
                 883.4886474609375,
                 605.497314453125,
-                -76.78063201904297
+                -73.98062896728516
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1618,7 +1618,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1629,7 +1629,7 @@
             "loc": [
                 889.7794189453125,
                 634.846923828125,
-                -76.78063201904297
+                -73.98062896728516
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1638,7 +1638,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1649,7 +1649,7 @@
             "loc": [
                 454.88299560546875,
                 -515.4282836914062,
-                16.57002830505371
+                19.370031356811523
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1658,7 +1658,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1669,7 +1669,7 @@
             "loc": [
                 386.7569274902344,
                 -443.56341552734375,
-                29.32518768310547
+                32.125186920166016
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1678,7 +1678,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1689,7 +1689,7 @@
             "loc": [
                 445.52618408203125,
                 -466.4224853515625,
-                24.99211883544922
+                27.79212188720703
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -1698,7 +1698,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1709,7 +1709,7 @@
             "loc": [
                 444.8691711425781,
                 -454.49603271484375,
-                3.9563629627227783
+                6.756363391876221
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1718,7 +1718,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1729,7 +1729,7 @@
             "loc": [
                 451.3586120605469,
                 -403.21893310546875,
-                19.503320693969727
+                22.303319931030273
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1738,7 +1738,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1749,7 +1749,7 @@
             "loc": [
                 964.78466796875,
                 669.182861328125,
-                -61.18065643310547
+                -58.380653381347656
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1758,7 +1758,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1769,7 +1769,7 @@
             "loc": [
                 427.27984619140625,
                 -371.6579284667969,
-                24.421241760253906
+                27.221242904663086
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1778,7 +1778,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1789,7 +1789,7 @@
             "loc": [
                 925.1303100585938,
                 624.2506713867188,
-                -63.82061004638672
+                -61.020606994628906
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1798,7 +1798,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1809,7 +1809,7 @@
             "loc": [
                 414.5570373535156,
                 -311.9335632324219,
-                25.07964515686035
+                27.8796443939209
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1818,7 +1818,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1829,7 +1829,7 @@
             "loc": [
                 1065.0966796875,
                 674.299560546875,
-                -55.42064666748047
+                -52.620643615722656
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -1838,7 +1838,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1849,7 +1849,7 @@
             "loc": [
                 1054.70556640625,
                 599.8239135742188,
-                -76.78063201904297
+                -73.98062896728516
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1858,7 +1858,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1869,7 +1869,7 @@
             "loc": [
                 1073.9398193359375,
                 622.7012939453125,
-                -61.18065643310547
+                -58.380653381347656
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1878,7 +1878,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1889,7 +1889,7 @@
             "loc": [
                 1078.794677734375,
                 629.8015747070312,
-                -55.420654296875
+                -52.62065124511719
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -1898,7 +1898,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1909,7 +1909,7 @@
             "loc": [
                 812.2035522460938,
                 -39.39557647705078,
-                12.516031265258789
+                15.316030502319336
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1918,7 +1918,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1929,7 +1929,7 @@
             "loc": [
                 469.5260009765625,
                 22.254405975341797,
-                59.40618133544922
+                62.2061767578125
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1938,7 +1938,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1949,7 +1949,7 @@
             "loc": [
                 401.2416076660156,
                 30.535991668701172,
-                86.61412811279297
+                89.41413116455078
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -1958,7 +1958,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1969,7 +1969,7 @@
             "loc": [
                 458.66876220703125,
                 147.9563446044922,
-                56.491783142089844
+                59.291786193847656
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -1978,7 +1978,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -1989,7 +1989,7 @@
             "loc": [
                 414.474853515625,
                 175.08078002929688,
-                78.24291229248047
+                81.04291534423828
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -1998,7 +1998,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2009,7 +2009,7 @@
             "loc": [
                 463.07525634765625,
                 316.51953125,
-                42.468963623046875
+                45.26896286010742
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -2018,7 +2018,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2029,7 +2029,7 @@
             "loc": [
                 1126.914306640625,
                 640.687744140625,
-                -63.82061004638672
+                -61.020606994628906
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2038,7 +2038,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2049,7 +2049,7 @@
             "loc": [
                 399.995361328125,
                 405.5831298828125,
-                53.624481201171875
+                56.424476623535156
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2058,7 +2058,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2069,7 +2069,7 @@
             "loc": [
                 836.2592163085938,
                 -91.40496063232422,
-                12.516031265258789
+                15.316030502319336
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -2078,7 +2078,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2089,7 +2089,7 @@
             "loc": [
                 1174.4776611328125,
                 654.7384643554688,
-                -55.42064666748047
+                -52.620643615722656
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2098,7 +2098,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2109,7 +2109,7 @@
             "loc": [
                 1210.1346435546875,
                 617.6635131835938,
-                -61.18065643310547
+                -58.380653381347656
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -2118,7 +2118,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2129,7 +2129,7 @@
             "loc": [
                 1275.6617431640625,
                 679.5803833007812,
-                -61.18065643310547
+                -58.380653381347656
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -2138,7 +2138,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2149,7 +2149,7 @@
             "loc": [
                 1185.7364501953125,
                 -116.39390563964844,
-                12.516031265258789
+                15.316030502319336
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -2158,7 +2158,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2169,7 +2169,7 @@
             "loc": [
                 1336.61328125,
                 630.8232421875,
-                -61.18065643310547
+                -58.380653381347656
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -2178,7 +2178,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2189,7 +2189,7 @@
             "loc": [
                 342.7449645996094,
                 -548.8275146484375,
-                27.09194564819336
+                29.891944885253906
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2198,7 +2198,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2209,7 +2209,7 @@
             "loc": [
                 322.2410888671875,
                 -457.1457214355469,
-                43.82802963256836
+                46.628028869628906
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -2218,7 +2218,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2229,7 +2229,7 @@
             "loc": [
                 344.66656494140625,
                 -421.7353820800781,
-                24.214311599731445
+                27.014312744140625
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2238,7 +2238,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2249,7 +2249,7 @@
             "loc": [
                 361.5311279296875,
                 -346.9253234863281,
-                42.17817687988281
+                44.978172302246094
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2258,7 +2258,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2269,7 +2269,7 @@
             "loc": [
                 324.64947509765625,
                 -336.20770263671875,
-                43.03208923339844
+                45.832088470458984
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2278,7 +2278,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2289,7 +2289,7 @@
             "loc": [
                 1319.0592041015625,
                 644.550537109375,
-                -76.78063201904297
+                -73.98062896728516
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2298,7 +2298,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2309,7 +2309,7 @@
             "loc": [
                 118.62948608398438,
                 5.977899551391602,
-                101.79934692382812
+                104.59934997558594
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2318,7 +2318,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2329,7 +2329,7 @@
             "loc": [
                 1383.3919677734375,
                 635.2627563476562,
-                -55.12260437011719
+                -52.322601318359375
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2338,7 +2338,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2349,7 +2349,7 @@
             "loc": [
                 1436.768310546875,
                 599.0187377929688,
-                -75.54169464111328
+                -72.74169158935547
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2358,7 +2358,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2369,7 +2369,7 @@
             "loc": [
                 128.87957763671875,
                 73.78666687011719,
-                101.57354736328125
+                104.37355041503906
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -2378,7 +2378,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2389,7 +2389,7 @@
             "loc": [
                 1417.3590087890625,
                 670.4818115234375,
-                -76.50485229492188
+                -73.70484924316406
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2398,7 +2398,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2409,7 +2409,7 @@
             "loc": [
                 283.1396484375,
                 97.15169525146484,
-                114.40670776367188
+                117.20671081542969
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2418,7 +2418,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2429,7 +2429,7 @@
             "loc": [
                 1437.38720703125,
                 682.735107421875,
-                -76.59164428710938
+                -73.79164123535156
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2438,7 +2438,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2449,7 +2449,7 @@
             "loc": [
                 280.5654296875,
                 316.33697509765625,
-                75.36244201660156
+                78.16244506835938
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2458,7 +2458,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2469,7 +2469,7 @@
             "loc": [
                 336.1494445800781,
                 301.0486755371094,
-                70.45706939697266
+                73.25706481933594
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2478,7 +2478,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2489,7 +2489,7 @@
             "loc": [
                 1473.4627685546875,
                 666.481689453125,
-                -76.2747802734375
+                -73.47477722167969
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2498,7 +2498,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2509,7 +2509,7 @@
             "loc": [
                 1587.0726318359375,
                 658.4129638671875,
-                -75.67797088623047
+                -72.87796783447266
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2518,7 +2518,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2529,7 +2529,7 @@
             "loc": [
                 1563.51513671875,
                 627.2952880859375,
-                -73.9637451171875
+                -71.16374206542969
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2538,7 +2538,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2549,7 +2549,7 @@
             "loc": [
                 1597.169677734375,
                 631.5142822265625,
-                -74.92435455322266
+                -72.12435150146484
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2558,7 +2558,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2569,7 +2569,7 @@
             "loc": [
                 1607.672607421875,
                 659.3089599609375,
-                -54.594383239746094
+                -51.79438018798828
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2578,7 +2578,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2589,7 +2589,7 @@
             "loc": [
                 1669.9432373046875,
                 660.5662841796875,
-                -55.19365692138672
+                -52.393653869628906
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2598,7 +2598,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2609,7 +2609,7 @@
             "loc": [
                 1691.4158935546875,
                 659.9788818359375,
-                -63.65406036376953
+                -60.85405731201172
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2618,7 +2618,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2629,7 +2629,7 @@
             "loc": [
                 1700.6888427734375,
                 627.016357421875,
-                -63.51387023925781
+                -60.7138671875
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2638,7 +2638,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2649,7 +2649,7 @@
             "loc": [
                 1718.99462890625,
                 645.825439453125,
-                -76.63863372802734
+                -73.83863067626953
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2658,7 +2658,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2669,7 +2669,7 @@
             "loc": [
                 242.49154663085938,
                 -503.24859619140625,
-                54.909149169921875
+                57.709144592285156
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2678,7 +2678,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2689,7 +2689,7 @@
             "loc": [
                 1773.011474609375,
                 623.5917358398438,
-                -62.334754943847656
+                -59.534751892089844
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2698,7 +2698,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2709,7 +2709,7 @@
             "loc": [
                 1788.212646484375,
                 633.5046997070312,
-                -53.616363525390625
+                -50.81636047363281
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2718,7 +2718,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2729,7 +2729,7 @@
             "loc": [
                 898.4846801757812,
                 -182.55734252929688,
-                -9.942485809326172
+                -7.142485618591309
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2738,7 +2738,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2749,7 +2749,7 @@
             "loc": [
                 1916.69921875,
                 615.1113891601562,
-                -59.42596435546875
+                -56.62596130371094
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2758,7 +2758,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2769,7 +2769,7 @@
             "loc": [
                 1375.306396484375,
                 -774.1717529296875,
-                -43.79348373413086
+                -40.99348068237305
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -2778,7 +2778,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2789,7 +2789,7 @@
             "loc": [
                 827.7576904296875,
                 570.7022705078125,
-                -76.54684448242188
+                -73.74684143066406
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2798,7 +2798,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2809,7 +2809,7 @@
             "loc": [
                 969.6277465820312,
                 -659.8450927734375,
-                9.876075744628906
+                12.67607593536377
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2818,7 +2818,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2829,7 +2829,7 @@
             "loc": [
                 964.417724609375,
                 568.3016357421875,
-                -76.78063201904297
+                -73.98062896728516
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2838,7 +2838,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2849,7 +2849,7 @@
             "loc": [
                 1671.028076171875,
                 -760.265380859375,
-                -53.629241943359375
+                -50.82924270629883
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2858,7 +2858,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2869,7 +2869,7 @@
             "loc": [
                 1103.470947265625,
                 525.4912719726562,
-                -63.82061004638672
+                -61.020606994628906
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2878,7 +2878,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2889,7 +2889,7 @@
             "loc": [
                 1153.0567626953125,
                 498.1783142089844,
-                -76.78063201904297
+                -73.98062896728516
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -2898,7 +2898,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2909,7 +2909,7 @@
             "loc": [
                 198.73526000976562,
                 -16.973979949951172,
-                91.47758483886719
+                94.277587890625
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2918,7 +2918,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2929,7 +2929,7 @@
             "loc": [
                 1216.427001953125,
                 545.133544921875,
-                -63.82061004638672
+                -61.020606994628906
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2938,7 +2938,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2949,7 +2949,7 @@
             "loc": [
                 232.82061767578125,
                 5.8788347244262695,
-                87.72966766357422
+                90.52967834472656
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -2958,7 +2958,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2969,7 +2969,7 @@
             "loc": [
                 188.1347198486328,
                 10.881454467773438,
-                97.50514221191406
+                100.30514526367188
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2978,7 +2978,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -2989,7 +2989,7 @@
             "loc": [
                 202.40565490722656,
                 94.9990463256836,
-                114.00592041015625
+                116.80592346191406
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -2998,7 +2998,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3009,7 +3009,7 @@
             "loc": [
                 232.5023193359375,
                 138.88406372070312,
-                100.3154296875
+                103.11543273925781
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -3018,7 +3018,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3029,7 +3029,7 @@
             "loc": [
                 211.90769958496094,
                 147.0693817138672,
-                102.11809539794922
+                104.91809844970703
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -3038,7 +3038,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3049,7 +3049,7 @@
             "loc": [
                 194.82191467285156,
                 186.2613983154297,
-                113.67444610595703
+                116.47445678710938
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3058,7 +3058,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3069,7 +3069,7 @@
             "loc": [
                 201.67071533203125,
                 203.29733276367188,
-                105.97026824951172
+                108.77027893066406
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3078,7 +3078,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3089,7 +3089,7 @@
             "loc": [
                 245.32736206054688,
                 209.6025390625,
-                103.66043853759766
+                106.46043395996094
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3098,7 +3098,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3109,7 +3109,7 @@
             "loc": [
                 192.8226318359375,
                 287.07696533203125,
-                71.95704650878906
+                74.75704956054688
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -3118,7 +3118,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3129,7 +3129,7 @@
             "loc": [
                 231.28787231445312,
                 339.0155944824219,
-                67.3131332397461
+                70.1131362915039
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3138,7 +3138,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3149,7 +3149,7 @@
             "loc": [
                 1289.818359375,
                 493.34368896484375,
-                -59.75358581542969
+                -56.953582763671875
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3158,7 +3158,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3169,7 +3169,7 @@
             "loc": [
                 1321.954345703125,
                 494.467529296875,
-                -58.998863220214844
+                -56.19886016845703
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3178,7 +3178,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3189,7 +3189,7 @@
             "loc": [
                 1337.159912109375,
                 549.0557250976562,
-                -59.92285919189453
+                -57.12285614013672
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3198,7 +3198,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3209,7 +3209,7 @@
             "loc": [
                 1386.434326171875,
                 539.9478149414062,
-                -58.96526336669922
+                -56.165260314941406
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3218,7 +3218,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3229,7 +3229,7 @@
             "loc": [
                 1377.0933837890625,
                 527.4947509765625,
-                -58.797218322753906
+                -55.997215270996094
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3238,7 +3238,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3249,7 +3249,7 @@
             "loc": [
                 1483.177734375,
                 539.1845703125,
-                -63.8072509765625
+                -61.00724792480469
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -3258,7 +3258,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3269,7 +3269,7 @@
             "loc": [
                 1526.39990234375,
                 574.8140258789062,
-                -54.490997314453125
+                -51.69099426269531
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3278,7 +3278,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3289,7 +3289,7 @@
             "loc": [
                 1626.467041015625,
                 499.069091796875,
-                -62.137115478515625
+                -59.337120056152344
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -3298,7 +3298,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3309,7 +3309,7 @@
             "loc": [
                 1697.6441650390625,
                 -778.415283203125,
-                -35.8643913269043
+                -33.06439208984375
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3318,7 +3318,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3329,7 +3329,7 @@
             "loc": [
                 1541.55029296875,
                 -756.5986938476562,
-                -47.52368927001953
+                -44.72368621826172
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3338,7 +3338,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3349,7 +3349,7 @@
             "loc": [
                 1486.158935546875,
                 -775.83740234375,
-                -42.89398956298828
+                -40.093990325927734
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3358,7 +3358,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3369,7 +3369,7 @@
             "loc": [
                 1509.027099609375,
                 -496.1522216796875,
-                -31.571514129638672
+                -28.771514892578125
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3378,7 +3378,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3389,7 +3389,7 @@
             "loc": [
                 1600.831298828125,
                 -521.5478515625,
-                -41.55454635620117
+                -38.75455093383789
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3398,7 +3398,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3409,7 +3409,7 @@
             "loc": [
                 1058.0478515625,
                 22.655799865722656,
-                -6.611589431762695
+                -3.8115901947021484
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3418,7 +3418,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3429,7 +3429,7 @@
             "loc": [
                 1612.9091796875,
                 -572.9515380859375,
-                -53.00379943847656
+                -50.203800201416016
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3438,7 +3438,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3449,7 +3449,7 @@
             "loc": [
                 1633.95849609375,
                 -552.166015625,
-                -60.384857177734375
+                -57.584861755371094
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -3458,7 +3458,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3469,7 +3469,7 @@
             "loc": [
                 1669.0128173828125,
                 -578.3601684570312,
-                -53.463958740234375
+                -50.66395950317383
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3478,7 +3478,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3489,7 +3489,7 @@
             "loc": [
                 1489.322265625,
                 107.53722381591797,
-                -44.62208557128906
+                -41.822086334228516
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3498,7 +3498,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3509,7 +3509,7 @@
             "loc": [
                 1432.1712646484375,
                 -527.708251953125,
-                -38.144500732421875
+                -35.34450149536133
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3518,7 +3518,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3529,7 +3529,7 @@
             "loc": [
                 971.4664306640625,
                 -65.08255004882812,
-                -65.50227355957031
+                -62.7022705078125
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3538,7 +3538,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3549,7 +3549,7 @@
             "loc": [
                 1524.9447021484375,
                 124.09843444824219,
-                -54.676841735839844
+                -51.87683868408203
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3558,7 +3558,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3569,7 +3569,7 @@
             "loc": [
                 1572.60693359375,
                 99.64034271240234,
-                -48.93836975097656
+                -46.13836669921875
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3578,7 +3578,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3589,7 +3589,7 @@
             "loc": [
                 1615.9722900390625,
                 139.41525268554688,
-                -47.773826599121094
+                -44.97382736206055
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3598,7 +3598,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3609,7 +3609,7 @@
             "loc": [
                 985.760986328125,
                 -68.45872497558594,
-                -57.10231018066406
+                -54.30230712890625
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3618,7 +3618,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3629,7 +3629,7 @@
             "loc": [
                 1518.5377197265625,
                 -21.876422882080078,
-                -51.00172424316406
+                -48.20172119140625
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3638,7 +3638,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3649,7 +3649,7 @@
             "loc": [
                 1563.0728759765625,
                 -26.058042526245117,
-                -57.06756591796875
+                -54.26756286621094
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3658,7 +3658,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3669,7 +3669,7 @@
             "loc": [
                 1587.610595703125,
                 -15.774826049804688,
-                -58.25970458984375
+                -55.45970153808594
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3678,7 +3678,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3689,7 +3689,7 @@
             "loc": [
                 1046.107421875,
                 -69.1985855102539,
-                -65.50227355957031
+                -62.7022705078125
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3698,7 +3698,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3709,7 +3709,7 @@
             "loc": [
                 1504.010498046875,
                 -409.3007507324219,
-                -50.92967224121094
+                -48.129676818847656
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3718,7 +3718,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3729,7 +3729,7 @@
             "loc": [
                 1524.35595703125,
                 -403.9490661621094,
-                -46.44898986816406
+                -43.64898681640625
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3738,7 +3738,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3749,7 +3749,7 @@
             "loc": [
                 1607.4840087890625,
                 -458.8170471191406,
-                -40.29993438720703
+                -37.499935150146484
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3758,7 +3758,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3769,7 +3769,7 @@
             "loc": [
                 1095.299560546875,
                 -99.22792053222656,
-                -62.86231994628906
+                -60.06231689453125
             ],
             "tex": "mushroom4",
             "scale": 1.0,
@@ -3778,7 +3778,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3789,7 +3789,7 @@
             "loc": [
                 1493.05078125,
                 -245.6509246826172,
-                -55.030540466308594
+                -52.23053741455078
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3798,7 +3798,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3809,7 +3809,7 @@
             "loc": [
                 1508.8035888671875,
                 -186.6886444091797,
-                -73.96161651611328
+                -71.16161346435547
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -3818,7 +3818,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3829,7 +3829,7 @@
             "loc": [
                 1548.627197265625,
                 -178.11724853515625,
-                -50.50990295410156
+                -47.70989990234375
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3838,7 +3838,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3849,7 +3849,7 @@
             "loc": [
                 1564.4482421875,
                 -187.9962158203125,
-                -51.48027038574219
+                -48.680267333984375
             ],
             "tex": "mushroom1",
             "scale": 1.0,
@@ -3858,7 +3858,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3869,7 +3869,7 @@
             "loc": [
                 951.1597900390625,
                 -185.6642608642578,
-                -65.50227355957031
+                -62.7022705078125
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3878,7 +3878,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3889,7 +3889,7 @@
             "loc": [
                 977.1635131835938,
                 -182.22669982910156,
-                -65.50227355957031
+                -62.7022705078125
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3898,7 +3898,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3909,7 +3909,7 @@
             "loc": [
                 1431.412109375,
                 202.84121704101562,
-                -8.05184555053711
+                -5.2518463134765625
             ],
             "tex": "mushroom2",
             "scale": 1.0,
@@ -3918,7 +3918,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3929,7 +3929,7 @@
             "loc": [
                 1440.822998046875,
                 405.23980712890625,
-                -66.66893005371094
+                -63.868927001953125
             ],
             "tex": "mushroom3",
             "scale": 1.0,
@@ -3938,7 +3938,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3949,7 +3949,7 @@
             "loc": [
                 -672.580810546875,
                 736.95654296875,
-                86.671875
+                89.47187805175781
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -3958,7 +3958,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3969,7 +3969,7 @@
             "loc": [
                 -11.43989372253418,
                 725.4400634765625,
-                122.88653564453125
+                125.68653869628906
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -3978,7 +3978,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -3989,7 +3989,7 @@
             "loc": [
                 226.15625,
                 702.1121826171875,
-                141.141845703125
+                143.94183349609375
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -3998,7 +3998,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4009,7 +4009,7 @@
             "loc": [
                 519.00732421875,
                 726.9483032226562,
-                94.05488586425781
+                96.85488891601562
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4018,7 +4018,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4029,7 +4029,7 @@
             "loc": [
                 628.7279052734375,
                 774.3311767578125,
-                87.52806091308594
+                90.32806396484375
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4038,7 +4038,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4049,7 +4049,7 @@
             "loc": [
                 2058.09716796875,
                 -722.659912109375,
-                99.44369506835938
+                102.24369812011719
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4058,7 +4058,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4069,7 +4069,7 @@
             "loc": [
                 608.2176513671875,
                 -777.5838623046875,
-                99.53477478027344
+                102.33476257324219
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4078,7 +4078,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4089,7 +4089,7 @@
             "loc": [
                 609.1148681640625,
                 -534.392578125,
-                99.20089721679688
+                102.00090026855469
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4098,7 +4098,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4109,7 +4109,7 @@
             "loc": [
                 677.6612548828125,
                 -522.5889282226562,
-                86.39068603515625
+                89.19068908691406
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4118,7 +4118,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4129,7 +4129,7 @@
             "loc": [
                 1779.527099609375,
                 -144.69447326660156,
-                98.91606140136719
+                101.71604919433594
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4138,7 +4138,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4149,7 +4149,7 @@
             "loc": [
                 1034.1627197265625,
                 -556.067626953125,
-                98.91606140136719
+                101.71604919433594
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4158,7 +4158,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4169,7 +4169,7 @@
             "loc": [
                 666.479248046875,
                 7.304588794708252,
-                121.22584533691406
+                124.02584838867188
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4178,7 +4178,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4189,7 +4189,7 @@
             "loc": [
                 612.9739379882812,
                 631.8924560546875,
-                104.69026184082031
+                107.49026489257812
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4198,7 +4198,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4209,7 +4209,7 @@
             "loc": [
                 564.2960815429688,
                 -394.6707763671875,
-                86.89498901367188
+                89.69497680664062
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4218,7 +4218,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4229,7 +4229,7 @@
             "loc": [
                 486.9544677734375,
                 -224.08685302734375,
-                105.770751953125
+                108.57075500488281
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4238,7 +4238,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4249,7 +4249,7 @@
             "loc": [
                 537.0325317382812,
                 172.85614013671875,
-                148.20211791992188
+                151.00213623046875
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4258,7 +4258,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4269,7 +4269,7 @@
             "loc": [
                 1079.6868896484375,
                 -533.760498046875,
-                86.19609069824219
+                88.99607849121094
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4278,7 +4278,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4289,7 +4289,7 @@
             "loc": [
                 504.0480651855469,
                 330.4841003417969,
-                121.46531677246094
+                124.26531982421875
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4298,7 +4298,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4309,7 +4309,7 @@
             "loc": [
                 549.19775390625,
                 666.361328125,
-                108.69868469238281
+                111.49868774414062
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4318,7 +4318,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4329,7 +4329,7 @@
             "loc": [
                 454.8829345703125,
                 -515.4282836914062,
-                120.97004699707031
+                123.77005004882812
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4338,7 +4338,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4349,7 +4349,7 @@
             "loc": [
                 451.3585510253906,
                 -403.2189025878906,
-                93.18338012695312
+                95.98336791992188
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4358,7 +4358,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4369,7 +4369,7 @@
             "loc": [
                 1197.273681640625,
                 -498.0832214355469,
-                116.91606140136719
+                119.71604919433594
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4378,7 +4378,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4389,7 +4389,7 @@
             "loc": [
                 453.15606689453125,
                 -88.33555603027344,
-                141.01771545410156
+                143.81771850585938
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4398,7 +4398,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4409,7 +4409,7 @@
             "loc": [
                 397.1439208984375,
                 -16.11391258239746,
-                185.71878051757812
+                188.518798828125
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4418,7 +4418,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4429,7 +4429,7 @@
             "loc": [
                 401.24163818359375,
                 30.535961151123047,
-                162.93414306640625
+                165.734130859375
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4438,7 +4438,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4449,7 +4449,7 @@
             "loc": [
                 414.474853515625,
                 175.080810546875,
-                182.6429443359375
+                185.44293212890625
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4458,7 +4458,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4469,7 +4469,7 @@
             "loc": [
                 463.0753173828125,
                 316.5195007324219,
-                128.86898803710938
+                131.6689910888672
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4478,7 +4478,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4489,7 +4489,7 @@
             "loc": [
                 278.8837890625,
                 -620.5523681640625,
-                135.34030151367188
+                138.14031982421875
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4498,7 +4498,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4509,7 +4509,7 @@
             "loc": [
                 361.5311279296875,
                 -346.92535400390625,
-                140.81817626953125
+                143.61819458007812
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4518,7 +4518,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4529,7 +4529,7 @@
             "loc": [
                 280.5654602050781,
                 316.33697509765625,
-                174.00247192382812
+                176.80245971679688
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4538,7 +4538,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4549,7 +4549,7 @@
             "loc": [
                 336.1494445800781,
                 301.0486755371094,
-                169.09707641601562
+                171.8970947265625
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4558,7 +4558,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4569,7 +4569,7 @@
             "loc": [
                 363.466796875,
                 627.5263671875,
-                149.52554321289062
+                152.32553100585938
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4578,7 +4578,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4589,7 +4589,7 @@
             "loc": [
                 192.45492553710938,
                 -200.30223083496094,
-                161.20758056640625
+                164.007568359375
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4598,7 +4598,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4609,7 +4609,7 @@
             "loc": [
                 1701.5107421875,
                 388.11724853515625,
-                77.6717529296875
+                80.47175598144531
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4618,7 +4618,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4629,7 +4629,7 @@
             "loc": [
                 1935.91552734375,
                 -643.840087890625,
-                86.19609069824219
+                88.99607849121094
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4638,7 +4638,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4649,7 +4649,7 @@
             "loc": [
                 1188.906494140625,
                 314.3280334472656,
-                116.91606140136719
+                119.71604919433594
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4658,7 +4658,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4669,7 +4669,7 @@
             "loc": [
                 231.28787231445312,
                 339.015625,
-                156.35311889648438
+                159.15310668945312
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4678,7 +4678,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4689,7 +4689,7 @@
             "loc": [
                 212.06332397460938,
                 462.916015625,
-                145.5236053466797
+                148.3236083984375
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4698,7 +4698,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4709,7 +4709,7 @@
             "loc": [
                 169.19500732421875,
                 552.2401123046875,
-                138.2515106201172
+                141.051513671875
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4718,7 +4718,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4729,7 +4729,7 @@
             "loc": [
                 216.3336181640625,
                 637.4697875976562,
-                119.57051086425781
+                122.37051391601562
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4738,7 +4738,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4749,7 +4749,7 @@
             "loc": [
                 199.18348693847656,
                 651.1553344726562,
-                129.7644805908203
+                132.56448364257812
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4758,7 +4758,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4769,7 +4769,7 @@
             "loc": [
                 91.36064147949219,
                 -784.8511352539062,
-                89.68928527832031
+                92.48928833007812
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4778,7 +4778,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4789,7 +4789,7 @@
             "loc": [
                 79.5174331665039,
                 -524.3574829101562,
-                163.31234741210938
+                166.11233520507812
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4798,7 +4798,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4809,7 +4809,7 @@
             "loc": [
                 1853.49365234375,
                 288.04632568359375,
-                116.97177124023438
+                119.77177429199219
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4818,7 +4818,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4829,7 +4829,7 @@
             "loc": [
                 99.05595397949219,
                 558.13232421875,
-                129.75765991210938
+                132.55764770507812
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4838,7 +4838,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4849,7 +4849,7 @@
             "loc": [
                 90.56722259521484,
                 684.9581298828125,
-                104.78675842285156
+                107.58676147460938
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4858,7 +4858,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4869,7 +4869,7 @@
             "loc": [
                 -24.721437454223633,
                 -724.3944091796875,
-                99.82682800292969
+                102.6268310546875
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4878,7 +4878,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4889,7 +4889,7 @@
             "loc": [
                 -4.550780296325684,
                 -573.9232177734375,
-                136.30274963378906
+                139.10275268554688
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4898,7 +4898,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4909,7 +4909,7 @@
             "loc": [
                 22.15758514404297,
                 -569.3814086914062,
-                170.14276123046875
+                172.94277954101562
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -4918,7 +4918,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4929,7 +4929,7 @@
             "loc": [
                 -13.339293479919434,
                 -339.3765563964844,
-                177.641845703125
+                180.44183349609375
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4938,7 +4938,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4949,7 +4949,7 @@
             "loc": [
                 -28.257522583007812,
                 -171.76434326171875,
-                146.2445068359375
+                149.0445098876953
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4958,7 +4958,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4969,7 +4969,7 @@
             "loc": [
                 990.11669921875,
                 236.14834594726562,
-                98.91606140136719
+                101.71604919433594
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -4978,7 +4978,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -4989,7 +4989,7 @@
             "loc": [
                 -43.64263153076172,
                 415.1942138671875,
-                98.25885009765625
+                101.05885314941406
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -4998,7 +4998,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5009,7 +5009,7 @@
             "loc": [
                 34.695274353027344,
                 680.525390625,
-                130.80267333984375
+                133.60267639160156
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5018,7 +5018,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5029,7 +5029,7 @@
             "loc": [
                 -38.07776641845703,
                 666.91845703125,
-                93.42863464355469
+                96.2286376953125
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5038,7 +5038,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5049,7 +5049,7 @@
             "loc": [
                 -82.00120544433594,
                 -658.9317626953125,
-                122.01365661621094
+                124.81365966796875
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5058,7 +5058,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5069,7 +5069,7 @@
             "loc": [
                 -107.84127044677734,
                 -456.13629150390625,
-                174.36239624023438
+                177.16238403320312
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5078,7 +5078,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5089,7 +5089,7 @@
             "loc": [
                 -66.16064453125,
                 -244.60043334960938,
-                176.59539794921875
+                179.3953857421875
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5098,7 +5098,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5109,7 +5109,7 @@
             "loc": [
                 -128.8682861328125,
                 193.92257690429688,
-                99.32850646972656
+                102.12850952148438
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5118,7 +5118,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5129,7 +5129,7 @@
             "loc": [
                 -141.5924072265625,
                 282.3014221191406,
-                115.08787536621094
+                117.88786315917969
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5138,7 +5138,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5149,7 +5149,7 @@
             "loc": [
                 -140.19900512695312,
                 548.5875244140625,
-                88.95596313476562
+                91.75596618652344
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5158,7 +5158,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5169,7 +5169,7 @@
             "loc": [
                 -140.91348266601562,
                 679.8014526367188,
-                87.33334350585938
+                90.13334655761719
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5178,7 +5178,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5189,7 +5189,7 @@
             "loc": [
                 -192.21792602539062,
                 -749.2086181640625,
-                120.08062744140625
+                122.88063049316406
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5198,7 +5198,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5209,7 +5209,7 @@
             "loc": [
                 -183.90602111816406,
                 -606.1130981445312,
-                118.30874633789062
+                121.10873413085938
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5218,7 +5218,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5229,7 +5229,7 @@
             "loc": [
                 -216.2756805419922,
                 -437.78839111328125,
-                149.0977783203125
+                151.89776611328125
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5238,7 +5238,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5249,7 +5249,7 @@
             "loc": [
                 -194.3887481689453,
                 -422.10687255859375,
-                155.64456176757812
+                158.444580078125
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5258,7 +5258,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5269,7 +5269,7 @@
             "loc": [
                 -249.1783905029297,
                 -318.4178466796875,
-                123.00399780273438
+                125.80400085449219
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5278,7 +5278,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5289,7 +5289,7 @@
             "loc": [
                 -218.26502990722656,
                 281.22003173828125,
-                114.93391418457031
+                117.73390197753906
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5298,7 +5298,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5309,7 +5309,7 @@
             "loc": [
                 -289.3858642578125,
                 -741.415283203125,
-                86.8372802734375
+                89.63728332519531
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5318,7 +5318,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5329,7 +5329,7 @@
             "loc": [
                 -347.374755859375,
                 -709.196044921875,
-                117.37254333496094
+                120.17253112792969
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5338,7 +5338,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5349,7 +5349,7 @@
             "loc": [
                 -361.40509033203125,
                 -563.2952880859375,
-                100.39450073242188
+                103.19450378417969
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5358,7 +5358,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5369,7 +5369,7 @@
             "loc": [
                 -367.36090087890625,
                 -527.162109375,
-                118.71183776855469
+                121.5118408203125
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5378,7 +5378,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5389,7 +5389,7 @@
             "loc": [
                 -359.2408447265625,
                 -457.67169189453125,
-                120.67779541015625
+                123.47779846191406
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5398,7 +5398,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5409,7 +5409,7 @@
             "loc": [
                 -358.47894287109375,
                 -245.81155395507812,
-                89.41072082519531
+                92.21072387695312
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5418,7 +5418,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5429,7 +5429,7 @@
             "loc": [
                 -350.392822265625,
                 -140.7099609375,
-                86.70249938964844
+                89.50250244140625
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5438,7 +5438,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5449,7 +5449,7 @@
             "loc": [
                 -309.2292785644531,
                 -155.52149963378906,
-                120.10649108886719
+                122.906494140625
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5458,7 +5458,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5469,7 +5469,7 @@
             "loc": [
                 -309.6061706542969,
                 -104.80947875976562,
-                113.36857604980469
+                116.1685791015625
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5478,7 +5478,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5489,7 +5489,7 @@
             "loc": [
                 -320.18402099609375,
                 -24.988130569458008,
-                88.020263671875
+                90.82026672363281
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5498,7 +5498,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5509,7 +5509,7 @@
             "loc": [
                 -320.7961120605469,
                 514.1068115234375,
-                117.23045349121094
+                120.03044128417969
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5518,7 +5518,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5529,7 +5529,7 @@
             "loc": [
                 -326.9468994140625,
                 575.1557006835938,
-                99.23045349121094
+                102.03044128417969
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5538,7 +5538,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5549,7 +5549,7 @@
             "loc": [
                 -409.68310546875,
                 -402.91461181640625,
-                100.43598937988281
+                103.23599243164062
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5558,7 +5558,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5569,7 +5569,7 @@
             "loc": [
                 -403.3780212402344,
                 -338.8958740234375,
-                118.44744873046875
+                121.24745178222656
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5578,7 +5578,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5589,7 +5589,7 @@
             "loc": [
                 -440.3369445800781,
                 -288.13897705078125,
-                86.93220520019531
+                89.73220825195312
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5598,7 +5598,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5609,7 +5609,7 @@
             "loc": [
                 -471.4300537109375,
                 -12.367944717407227,
-                86.34368896484375
+                89.14369201660156
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5618,7 +5618,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5629,7 +5629,7 @@
             "loc": [
                 -409.26300048828125,
                 -27.010242462158203,
-                85.02915954589844
+                87.82916259765625
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5638,7 +5638,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5649,7 +5649,7 @@
             "loc": [
                 -460.4727783203125,
                 139.5072021484375,
-                99.00135803222656
+                101.80136108398438
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5658,7 +5658,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5669,7 +5669,7 @@
             "loc": [
                 -383.69390869140625,
                 346.39434814453125,
-                117.23045349121094
+                120.03044128417969
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5678,7 +5678,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5689,7 +5689,7 @@
             "loc": [
                 -428.6077880859375,
                 431.5965576171875,
-                99.23045349121094
+                102.03044128417969
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5698,7 +5698,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5709,7 +5709,7 @@
             "loc": [
                 -548.2018432617188,
                 -789.4019165039062,
-                86.86592102050781
+                89.66592407226562
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5718,7 +5718,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5729,7 +5729,7 @@
             "loc": [
                 -536.4423217773438,
                 -647.2831420898438,
-                86.51048278808594
+                89.31047058105469
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5738,7 +5738,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5749,7 +5749,7 @@
             "loc": [
                 -536.4365844726562,
                 -589.8766479492188,
-                86.51048278808594
+                89.31047058105469
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5758,7 +5758,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5769,7 +5769,7 @@
             "loc": [
                 -536.988525390625,
                 -516.7013549804688,
-                117.23045349121094
+                120.03044128417969
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5778,7 +5778,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5789,7 +5789,7 @@
             "loc": [
                 -580.8348388671875,
                 -219.34011840820312,
-                86.51048278808594
+                89.31047058105469
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5798,7 +5798,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5809,7 +5809,7 @@
             "loc": [
                 -498.5922546386719,
                 -41.3120002746582,
-                117.23045349121094
+                120.03044128417969
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5818,7 +5818,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5829,7 +5829,7 @@
             "loc": [
                 -529.0424194335938,
                 230.52102661132812,
-                86.51048278808594
+                89.31047058105469
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5838,7 +5838,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5849,7 +5849,7 @@
             "loc": [
                 -563.3663940429688,
                 217.89630126953125,
-                86.51048278808594
+                89.31047058105469
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5858,7 +5858,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5869,7 +5869,7 @@
             "loc": [
                 -621.4931030273438,
                 -493.72491455078125,
-                117.23045349121094
+                120.03044128417969
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5878,7 +5878,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5889,7 +5889,7 @@
             "loc": [
                 -635.7197875976562,
                 -293.54998779296875,
-                86.51048278808594
+                89.31047058105469
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5898,7 +5898,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5909,7 +5909,7 @@
             "loc": [
                 -602.9339599609375,
                 -33.14370346069336,
-                117.23045349121094
+                120.03044128417969
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5918,7 +5918,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5929,7 +5929,7 @@
             "loc": [
                 -624.7466430664062,
                 627.5189208984375,
-                86.51048278808594
+                89.31047058105469
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5938,7 +5938,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5949,7 +5949,7 @@
             "loc": [
                 -662.6282958984375,
                 682.8511352539062,
-                99.23045349121094
+                102.03044128417969
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -5958,7 +5958,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5969,7 +5969,7 @@
             "loc": [
                 1117.032958984375,
                 210.18341064453125,
-                86.19609069824219
+                88.99607849121094
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -5978,7 +5978,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -5989,7 +5989,7 @@
             "loc": [
                 -714.9515991210938,
                 -251.61329650878906,
-                117.31044006347656
+                120.11044311523438
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -5998,7 +5998,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6009,7 +6009,7 @@
             "loc": [
                 -725.857421875,
                 64.42164611816406,
-                86.63081359863281
+                89.43081665039062
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -6018,7 +6018,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6029,7 +6029,7 @@
             "loc": [
                 -756.2427368164062,
                 333.72784423828125,
-                99.46321105957031
+                102.26321411132812
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -6038,7 +6038,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6049,7 +6049,7 @@
             "loc": [
                 1992.3118896484375,
                 -397.36895751953125,
-                117.00059509277344
+                119.80059814453125
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -6058,7 +6058,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6069,7 +6069,7 @@
             "loc": [
                 1805.0501708984375,
                 114.68984985351562,
-                98.92288208007812
+                101.72288513183594
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -6078,7 +6078,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6089,7 +6089,7 @@
             "loc": [
                 1955.8101806640625,
                 185.4933624267578,
-                86.19609069824219
+                88.99607849121094
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -6098,7 +6098,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6109,7 +6109,7 @@
             "loc": [
                 2018.46240234375,
                 257.1307678222656,
-                99.16806030273438
+                101.96806335449219
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -6118,7 +6118,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6129,7 +6129,7 @@
             "loc": [
                 1935.164794921875,
                 407.96661376953125,
-                86.19609069824219
+                88.99607849121094
             ],
             "tex": "tree1",
             "scale": 1.0,
@@ -6138,7 +6138,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6149,7 +6149,7 @@
             "loc": [
                 2047.5494384765625,
                 -257.71990966796875,
-                117.35432434082031
+                120.15432739257812
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -6158,7 +6158,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6169,7 +6169,7 @@
             "loc": [
                 764.7161865234375,
                 152.65740966796875,
-                98.96505737304688
+                101.76506042480469
             ],
             "tex": "tree2",
             "scale": 1.0,
@@ -6178,7 +6178,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6189,7 +6189,7 @@
             "loc": [
                 779.603271484375,
                 336.87261962890625,
-                116.98721313476562
+                119.78721618652344
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -6198,7 +6198,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6209,7 +6209,7 @@
             "loc": [
                 2023.593994140625,
                 421.03533935546875,
-                117.200927734375
+                120.00091552734375
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -6218,7 +6218,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6229,7 +6229,7 @@
             "loc": [
                 1928.83203125,
                 -274.4375,
-                116.91606140136719
+                119.71604919433594
             ],
             "tex": "tree3",
             "scale": 1.0,
@@ -6238,7 +6238,7 @@
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
             "emissive": false,
             "color": null,
@@ -6984,6 +6984,186 @@
             ],
             "intense": 5.0,
             "radius": 0.0
+        },
+        "347": {
+            "loc": [
+                313.989013671875,
+                -447.23944091796875,
+                49.82974624633789
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 5.0,
+            "radius": 0.0
+        },
+        "348": {
+            "loc": [
+                411.32049560546875,
+                -329.6555480957031,
+                51.8655891418457
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 5.0,
+            "radius": 0.0
+        },
+        "349": {
+            "loc": [
+                494.728759765625,
+                -504.3408203125,
+                31.901504516601562
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 5.0,
+            "radius": 0.0
+        },
+        "350": {
+            "loc": [
+                756.6189575195312,
+                -468.92706298828125,
+                -44.481201171875
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 10.0,
+            "radius": 0.0
+        },
+        "351": {
+            "loc": [
+                636.314208984375,
+                207.01214599609375,
+                -44.481201171875
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 10.0,
+            "radius": 0.0
+        },
+        "352": {
+            "loc": [
+                697.0867919921875,
+                242.97952270507812,
+                -44.481201171875
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 10.0,
+            "radius": 0.0
+        },
+        "353": {
+            "loc": [
+                601.587158203125,
+                261.5834045410156,
+                -44.481201171875
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 10.0,
+            "radius": 0.0
+        },
+        "354": {
+            "loc": [
+                781.4241943359375,
+                -363.5053405761719,
+                -44.481201171875
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 10.0,
+            "radius": 0.0
+        },
+        "355": {
+            "loc": [
+                687.1647338867188,
+                -387.0701904296875,
+                -44.481201171875
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 10.0,
+            "radius": 0.0
         }
     },
     "sounds": {},
@@ -6993,6 +7173,12 @@
         "0": {
             "type": "DEATH",
             "mesh": "meshes/woods/woods_0000_death_0000.obj",
+            "image": null,
+            "message": null
+        },
+        "1": {
+            "type": "DEATH",
+            "mesh": "meshes/woods/woods_0000_death_0001.obj",
             "image": null,
             "message": null
         }

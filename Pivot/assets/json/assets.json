@@ -335,6 +335,16 @@
             "file": "textures/tree3_normal.png",
             "span": 1,
             "cols": 1
+        },
+        "settings_background": {
+            "file": "textures/settings_background.png",
+            "span": 1,
+            "cols": 1
+        },
+        "end_background": {
+            "file": "textures/end_background.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
