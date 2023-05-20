@@ -1055,6 +1055,14 @@ void GameplayController::update(float dt) {
         _model->_player->_jumpCue = false;
     }
     
+    if(_model->_player->_landCue){
+        _sound->playSound("jump_land", 1, false);
+        /*if(_model->_player->isGrounded()){
+            _sound->playSound("jump_land", 0.5, false);
+        }*/
+        _model->_player->_landCue = false;
+    }
+    
     if(_model->_player->_walkCue){
         
         float walkNumber = rand() % 12;

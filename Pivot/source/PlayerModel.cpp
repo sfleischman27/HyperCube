@@ -331,6 +331,7 @@ void PlayerModel::animate() {
         //CULog("Landing");
         if(animState != 6){
             animState = 6;
+            _landCue = true;
             setSpriteSheet("jump-land");
             resetOtherSpritesheets("jump-land");
         } else{
@@ -359,7 +360,7 @@ void PlayerModel::animate() {
             resetOtherSpritesheets("run");
         } else{
             animState = 4;
-            _walkCue = false;
+           // _walkCue = false;
         }
     }
     else if(abs(getVX()) > 2 && !isRotating){
@@ -370,7 +371,7 @@ void PlayerModel::animate() {
             resetOtherSpritesheets("walk");
         } else{
             animState = 1;
-            _walkCue = false;
+          //  _walkCue = false;
         }
     }
     else {
@@ -425,10 +426,20 @@ void PlayerModel::animate() {
         switch(animState){
             //WALKING
             //frames where foot is down: 5, 13
-            case 1:
+            case 1: //walk
                 if(frame == 5 || frame == 13){
                     _walkCue = true;
                     //CULog("Walk %i", frame);
+                }
+                break;
+            case 4: //run
+                if(frame == 5 || frame == 13){
+                    _walkCue = true;
+                }
+                break;
+            case 6: //landing
+                if(frame == 1){
+                    //
                 }
                 break;
             default:
