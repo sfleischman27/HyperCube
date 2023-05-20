@@ -1402,8 +1402,9 @@ void GameplayController::updateMessages() {
             _model->_messScene->setVisible(true);
             // count newlines
             int lines = countNewLines(_model->_messages->getText()) + 1;
+            int chars = getMaxLine(_model->_messages->getText());
             // change the background size
-            _model->_messBack->setContentWidth(1500);
+            _model->_messBack->setContentWidth( ( 35 * chars ) + 90);
             _model->_messBack->setContentHeight(100 * lines);
             // custom widths for repeated messages
             if(_model->_messages->getText() == "OUCH!"){
@@ -1424,10 +1425,27 @@ void GameplayController::updateMessages() {
 
 int GameplayController::countNewLines(std::string s){
     int count = 0;
-    for (int i = 0; i < s.size() - 1; i ++){
+    for (int i = 0; i < s.size(); i ++){
         if(s[i] == '\n'){ count ++; }
     }
     return count;
+}
+
+int GameplayController::getMaxLine(std::string s){
+    int count = 0;
+    int maximum = 0;
+    for (int i = 0; i < s.size(); i ++){
+        if(s[i] != '\n'){
+            count ++;
+        } else {
+            // check and reset when you hit a newline
+            maximum = std::max(maximum, count);
+            count = 0;
+        }
+    }
+    // make sure you check after the last newline
+    maximum = std::max(maximum, count);
+    return maximum;
 }
 
 /**
