@@ -165,7 +165,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, model->_player->currentSpriteSheet, false, 1.0));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, model->_exit->rotateSpriteSheet, true, model->_exit->getScale()));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, model->_exit->rotateSpriteSheet, true, 1.0));
 
     // Collectibles
     std::map<std::string, Collectible> colls = model->getCollectibles();
@@ -588,7 +588,6 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     float pixelFrac;
     if (model->_pixelingIn) { // if we are currently fading in
         pixelFrac = (model->timeToPixelIn - model->_currentTime->ellapsedMillis(*model->_pixelInTime)) / model->timeToPixelIn;
-        //CULog("1st: %f", pixelFrac);
         pixelFrac = std::max(0.0f, pixelFrac);
         if (pixelFrac == 0.0f) {
             model->_donePixelIn = true;
@@ -596,16 +595,17 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     }
     else {
         pixelFrac = model->_currentTime->ellapsedMillis(*model->_pixelOutTime) / model->timeToPixelOut;
-        //CULog("2nd: %f", pixelFrac);
         pixelFrac = std::min(1.0f, pixelFrac);
         if (pixelFrac == 1.0f) {
             model->_donePixelOut = true;
         }
     }
 
+    const float rippleDuration = .5;
+    float tr = (model->_currentTime->ellapsedMillis(*model->_collectTime)) / (rippleDuration * 1000.0f);
     _shaderScreen->setUniform1f("blackFrac", blackFrac);
     _shaderScreen->setUniform1f("pixelFrac", pixelFrac);
-    //_shaderScreen->setUniform1f("time", model->_currentTime->ellapsedMillis(*model->_pixelInTime) / 1000.0f);
+    _shaderScreen->setUniform1f("tr", tr);
     _shaderScreen->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());

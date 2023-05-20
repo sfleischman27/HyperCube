@@ -883,7 +883,6 @@ void GameplayController::update(float dt) {
 #pragma mark -----
     
     if(_justCollected) {
-        _model->_collectTime->mark();
         fadeinCollectibles();
     }else{
         fadeoutCollectibles();
@@ -1059,6 +1058,7 @@ void GameplayController::update(float dt) {
             _sound->playSound("collect", 0.75);
             itr->second.setCollected(true);
             _justCollected = true;
+            _model->_collectTime->mark();
             _model->_backpack.insert(itr->first);
             if (_model->_nav_target == itr->second.getPosition()) {
                 //need a new nav target, exit unless there are collectibles left

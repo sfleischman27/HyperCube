@@ -1,0 +1,194 @@
+{
+    "level_id": "tutorial_0003",
+    "player_loc": [
+        402.0238494873047,
+        523.6373291015625,
+        580.5826263427734
+    ],
+    "norm": [
+        1.0,
+        0.0,
+        0.0
+    ],
+    "exit": [
+        1178.1598205566406,
+        717.6075439453125,
+        589.6825103759766
+    ],
+    "glowsticks": 0,
+    "shade_depth": 42,
+    "shade_color": [
+        0.035586148500442505,
+        0.035586148500442505,
+        0.035586148500442505
+    ],
+    "ambient_color": [
+        1.0,
+        1.0,
+        1.0,
+        0.85999995470047
+    ],
+    "cutline_color": [
+        1.0,
+        1.0,
+        1.0
+    ],
+    "cutfill_color": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "bg_color": [
+        1.0,
+        0.23626849055290222,
+        0.0
+    ],
+    "bg_image": "grey_background",
+    "sprites": {
+        "0": {
+            "loc": [
+                963.1212158203125,
+                716.8217926025391,
+                605.5597686767578
+            ],
+            "tex": "orb",
+            "scale": 1.0,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": true,
+            "billboard": true,
+            "emissive": false,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.0011,
+            "radius": 37.5,
+            "pulse": null
+        },
+        "1": {
+            "loc": [
+                529.3102111816406,
+                716.8217926025391,
+                608.1747436523438
+            ],
+            "tex": "orb",
+            "scale": 1.0,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": true,
+            "billboard": true,
+            "emissive": false,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intense": 0.0011,
+            "radius": 37.5,
+            "pulse": null
+        }
+    },
+    "sounds": {},
+    "collision_mesh": "meshes/tutorial/tutorial_0003_col.obj",
+    "render_mesh": "meshes/tutorial/tutorial_0003_dec.obj",
+    "triggers": {
+        "0": {
+            "type": "DEATH",
+            "mesh": "meshes/tutorial/tutorial_0003_death_0000.obj",
+            "image": null,
+            "message": null
+        },
+        "1": {
+            "type": "POPUP",
+            "mesh": "meshes/tutorial/tutorial_0003_popup_0000.obj",
+            "image": "tutorial_walk",
+            "message": null
+        },
+        "2": {
+            "type": "POPUP",
+            "mesh": "meshes/tutorial/tutorial_0003_popup_0001.obj",
+            "image": "tutorial_run",
+            "message": null
+        },
+        "3": {
+            "type": "POPUP",
+            "mesh": "meshes/tutorial/tutorial_0003_popup_0002.obj",
+            "image": "tutorial_rotate",
+            "message": null
+        },
+        "4": {
+            "type": "POPUP",
+            "mesh": "meshes/tutorial/tutorial_0003_popup_0003.obj",
+            "image": "tutorial_jump",
+            "message": null
+        },
+        "5": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0003_message_0000.obj",
+            "image": null,
+            "message": "LET'S GET TO THE END!"
+        },
+        "6": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0003_message_0002.obj",
+            "image": null,
+            "message": "HMM... FEELS LIKE A DEAD END\nTRY ROTATING AROUND"
+        },
+        "7": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0003_message_0004.obj",
+            "image": null,
+            "message": "HI, IM DR.AXLE TURNER\nLET'S LEARN TO NAVIGATE\nTHIS STRANGE WORLD"
+        },
+        "8": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0003_message_0006.obj",
+            "image": null,
+            "message": "WEIRD, I CAN SEE MY TARGET\nBUT HOW DO I GET THERE?"
+        },
+        "9": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0003_message_0008.obj",
+            "image": null,
+            "message": "WOAH! THAT WAS CRAZY!\nLET'S SEE WHAT ELSE WE CAN DO"
+        },
+        "10": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0003_message_0010.obj",
+            "image": null,
+            "message": "OH GEEZ! A HOLE IN THE FLOOR!\nUSE THE PLATFORM TO NOT FALL IN"
+        },
+        "11": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0003_message_0012.obj",
+            "image": null,
+            "message": "MAKE SURE TO COLLECT ALL THE CUBES\nBEFORE REACHING THE EXIT"
+        },
+        "12": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0003_message_0014.obj",
+            "image": null,
+            "message": "NICE JOB!\nLETS FINISH THIS OFF"
+        },
+        "13": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0003_message_0016.obj",
+            "image": null,
+            "message": "LETS TRY NAVIGATING SOMETHING\nA BIT MORE TRICKY"
+        },
+        "14": {
+            "type": "EXITREGION",
+            "mesh": "meshes/tutorial/tutorial_0003_exitregion_0000.obj",
+            "image": null,
+            "message": null
+        }
+    }
+}
