@@ -225,7 +225,7 @@ bool RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, 
             }
             tempV.position = dro.pos + addOn;
             Vec3 windowCoords = _camera->project(tempV.position);
-            if (windowCoords.x > 0.0 && windowCoords.x < screenSize.width) {
+            if (windowCoords.x > 0.0f && windowCoords.x < 2.5 * screenSize.width) {
                 visible = true;
             }
             _meshBill.vertices.push_back(tempV);
