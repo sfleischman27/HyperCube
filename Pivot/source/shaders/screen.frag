@@ -11,6 +11,7 @@ out vec4 frag_color;
 uniform sampler2D screenTexture;
 uniform float blackFrac;
 uniform float pixelFrac;
+uniform float time;
 uniform vec2 screenSize;
 
 vec2 maxResolution = screenSize;
@@ -33,7 +34,11 @@ void main(void) {
         grid_uv = (grid_uv + 1.0) / 2.0;
         frag_color = texture(screenTexture, grid_uv);
     } else {
-        frag_color = texture(screenTexture, outTexCoord);
+        vec2 midTexCoord = outTexCoord * 2.0 - 1.0;
+        float dist = length(midTexCoord);
+        midTexCoord += midTexCoord / dist * sin(time + dist * 20.0) * 0.03;
+
+        frag_color = texture(screenTexture, (midTexCoord + 1.0) / 2.0);
     }
     
     // Black shader

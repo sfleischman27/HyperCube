@@ -341,6 +341,30 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _initInertia = _model->_player->getInertia();
     _initFriction = _model->_player->getFriction();
+    
+#pragma mark GLOWSTICK SPRITESHEET
+    std::shared_ptr<cugl::Texture> gstex1 =Texture::allocWithFile("textures/glowstick1.png");
+    std::shared_ptr<cugl::SpriteSheet> gsss1 = SpriteSheet::alloc(gstex1, 6, 6);
+    
+    std::shared_ptr<cugl::Texture> gstex2 =Texture::allocWithFile("textures/glowstick2.png");
+    std::shared_ptr<cugl::SpriteSheet> gsss2 = SpriteSheet::alloc(gstex2, 6, 6);
+    
+    std::shared_ptr<cugl::Texture> gstex3 =Texture::allocWithFile("textures/glowstick3.png");
+    std::shared_ptr<cugl::SpriteSheet> gsss3 = SpriteSheet::alloc(gstex3, 6, 6);
+    
+    std::shared_ptr<cugl::Texture> gstex4 =Texture::allocWithFile("textures/glowstick4.png");
+    std::shared_ptr<cugl::SpriteSheet> gsss4 = SpriteSheet::alloc(gstex4, 6, 6);
+    
+    _model->_glowstickSprites[0] = gsss1;
+    _model->_glowstickSprites[1] = gsss2;
+    _model->_glowstickSprites[2] = gsss3;
+    _model->_glowstickSprites[3] = gsss4;
+    
+    _model->_glowstickColors[0] = Vec3(0.0, 1.0, 0.2);
+    _model->_glowstickColors[1] = Vec3(1.0, 0.0, 0.0);
+    _model->_glowstickColors[2] = Vec3(0.0, 0.8, 0.9);
+    _model->_glowstickColors[3] = Vec3(1.0, 1.0, 0.0);
+    
 
 #pragma mark SOUND SETUP
     _sound = sound;
@@ -475,6 +499,7 @@ void GameplayController::reset() {
     _model->_startOfLevel = true;
     _model->_player->setFriction(_initFriction);
     _model->_player->setInertia(_initInertia);
+    _model->_glowstickOrder = 0;
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -527,6 +552,7 @@ void GameplayController::load(std::string name){
     _model->_startOfLevel = true;
     _model->_player->setFriction(_initFriction);
     _model->_player->setInertia(_initInertia);
+    _model->_glowstickOrder = 0;
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -836,7 +862,15 @@ void GameplayController::update(float dt) {
     }
     
     // not done pixeling in
-    if(!_model->_donePixelIn){ return; }
+    if(!_model->_donePixelIn){
+        // let gravity happen
+        _physics->update(dt);
+        currPlay2DPos = _model->_player->getPosition();
+        Vec2 displacement = currPlay2DPos - prevPlay2DPos;
+        updatePlayer3DLoc(displacement);
+        prevPlay2DPos = currPlay2DPos;
+        return;
+    }
     
     if(_playOutline){
         _sound->playSound("outline", 1);
@@ -877,6 +911,13 @@ void GameplayController::update(float dt) {
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_player->setDead(false);
         _model->_deathTime->mark();
+        _model->_player->justDied = true;
+        
+        // turn on death message
+        auto args = TriggerArgs();
+        args.messages = _model->_messages;
+        args.text = "OUCH!";
+        Trigger::showMessage(args);
     }
     
     if(_model->_player->timeStuckAtZeroYvelocity > 100){
@@ -885,6 +926,12 @@ void GameplayController::update(float dt) {
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_player->timeStuckAtZeroYvelocity = 0;
         _model->_player->justFinishedGettingUnstuck = true;
+        
+        // turn on stuck message
+        auto args = TriggerArgs();
+        args.messages = _model->_messages;
+        args.text = "HMM, I THINK I GOT STUCK";
+        Trigger::showMessage(args);
     }
     
     // update popups
@@ -903,8 +950,24 @@ void GameplayController::update(float dt) {
         _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
         
         if(_model->_player->justFinishedGettingUnstuck){
-            //TODO sarah this is when the stuck popup goes away
             _model->_player->justFinishedGettingUnstuck = false;
+            
+            // turn off stuck message
+            auto args = TriggerArgs();
+            args.messages = _model->_messages;
+            Trigger::stopMessages(args);
+        }
+        if(_model->_player->justDied){
+            _model->_player->justDied = false;
+            
+            // turn off dead message
+            auto args = TriggerArgs();
+            args.messages = _model->_messages;
+            Trigger::stopMessages(args);
+        }
+        
+        for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+            it->setRotationalSprite(_model->getGlobalAngleDeg());
         }
     }
     
@@ -924,6 +987,9 @@ void GameplayController::update(float dt) {
         //only recalculate the rotational sprite if we changed our angle from the last frame
         if (_model->getGlobalAngleDeg() != lastFrameAngle) {
             _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+            for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+                it->setRotationalSprite(_model->getGlobalAngleDeg());
+            }
         }
         _model->_player->isRotating = true;
         saveFloat = _input->cutFactor;
@@ -934,6 +1000,9 @@ void GameplayController::update(float dt) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         _model->updateCompassNum();
         _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+            it->setRotationalSprite(_model->getGlobalAngleDeg());
+        }
         _model->_player->isRotating = true;
         //createCutObstacles();
         _rotating = true;
@@ -962,6 +1031,9 @@ void GameplayController::update(float dt) {
         if (_model->_justFinishRotating) {
             _physics->getWorld()->addObstacle(_model->_player);
             _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+            for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+                it->setRotationalSprite(_model->getGlobalAngleDeg());
+            }
             _model->_player->isRotating = false;
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
@@ -1047,10 +1119,14 @@ void GameplayController::update(float dt) {
             }else{
                 g = Glowstick(player3DPos-(_plane->getBasisRight()*10)-(_model->getPlaneNorm()*1));
             }
+            int num = _model->_glowstickOrder % 4;
+            g.rotateSpriteSheet = _model->_glowstickSprites[num];
+            g.setColor(_model->_glowstickColors[num]);
+            g.setRotationalSprite(_model->getGlobalAngleDeg());
             _model->_glowsticks.push_back(g);
             _model->updateGlowstickCount();
-            _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0); // hard coded for now
-            
+            _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0, g.getPulse()); // hard coded for now
+            _model->_glowstickOrder = _model->_glowstickOrder+1;
             _sound->playSound("glowstick_place", 0.75);
         }
         
@@ -1273,7 +1349,7 @@ void GameplayController::updateMessages() {
                 // turn on message
                 _model->_messScene->setVisible(true);
                 // change the background size
-                _model->_messBack->setContentWidth(1500);
+                _model->_messBack->setContentWidth(1300);
                 _model->_messBack->setContentHeight(100);
                 _layer->doLayout();
                 // fade in active message
@@ -1293,6 +1369,14 @@ void GameplayController::updateMessages() {
             // change the background size
             _model->_messBack->setContentWidth(1500);
             _model->_messBack->setContentHeight(100 * lines);
+            // custom widths for repeated messages
+            if(_model->_messages->getText() == "OUCH!"){
+                _model->_messBack->setContentWidth(260);
+            }
+            if(_model->_messages->getText() == "HMM, I THINK I GOT STUCK"){
+                _model->_messBack->setContentWidth(940);
+            }
+            // re-layout the UI to implement the size change
             _layer->doLayout();
             // fade in active message
             auto color = _model->_messScene->getColor();

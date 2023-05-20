@@ -177,7 +177,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Glowsticks
     for (Glowstick g : model->_glowsticks) {
-        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), NULL, false, NULL, true, g.getScale()));
+        drawables.push_back(DrawObject(g.getPosition(), g.rotateSpriteSheet->getTexture(), g.getNorm(), false, g.rotateSpriteSheet, true, 1.0));
     }
 
     // Decorations
@@ -421,10 +421,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderPointlight->setUniform3f("color", l.color.x, l.color.y, l.color.z);
         _shaderPointlight->setUniform3f("lpos", l.loc.x, l.loc.y, l.loc.z);
         float effectivePower = 1.0;
-        if (1000.0 > 0.0) {
-            float xFac = 2 * M_PI / 1000.0;
+        if (l.pulse > 0.0) {
+            const float minEff = .4;
+            float xFac = 2 * M_PI / l.pulse;
             float time = model->_currentTime->ellapsedMillis(*model->_pixelInTime);
             effectivePower = (std::cos(xFac * time) + 1.0) / 2.0;
+            effectivePower = effectivePower * (1.0 - minEff) + minEff;
         }
         _shaderPointlight->setUniform1f("effectivePower", effectivePower);
         _shaderPointlight->setUniform1f("power", l.intensity);
@@ -603,6 +605,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     _shaderScreen->setUniform1f("blackFrac", blackFrac);
     _shaderScreen->setUniform1f("pixelFrac", pixelFrac);
+    _shaderScreen->setUniform1f("time", model->_currentTime->ellapsedMillis(*model->_pixelInTime) / 1000.0f);
     _shaderScreen->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
