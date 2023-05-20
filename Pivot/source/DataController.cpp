@@ -295,6 +295,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
             // TODO: convert normal to an angle,
+            float offsetAngle = getOffsetAngleDeg(norm);
             // use normal to orient poster
 
             //get sprite scale
@@ -318,6 +319,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 // TODO make lights for those sprites here @jolene
             }
             //TODO add poster to model
+            std::shared_ptr<GameItem> posPtr = std::make_shared<GameItem>(loc, "poster" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
+            posPtr->setIsemit(isemit);
+            model->_posters.push_back(posPtr);
             //TODO if(isemit) put it in the emissive posters
         }
     }
@@ -395,8 +399,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 auto args = TriggerArgs();
                 args.messages = model->_messages;
                 args.text = "I feel like I'm missing something...";
-                trig->registerEnterCallback(Trigger::showMessage, args);
-                trig->registerInBoundsCallback(Trigger::showMessage, args);
+                trig->registerEnterCallback(Trigger::showExitMess, args);
+                trig->registerInBoundsCallback(Trigger::showExitMess, args);
                 trig->registerExitCallback(Trigger::stopMessages, args);
 
                 // TODO @sarah you wanted this to check if you have enough collectibles

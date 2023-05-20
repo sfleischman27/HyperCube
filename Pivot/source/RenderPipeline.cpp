@@ -408,6 +408,13 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     for (GameModel::Light &l : model->_lights) {
         _shaderPointlight->setUniform3f("color", l.color.x, l.color.y, l.color.z);
         _shaderPointlight->setUniform3f("lpos", l.loc.x, l.loc.y, l.loc.z);
+        float effectivePower = 1.0;
+        if (1000.0 > 0.0) {
+            float xFac = 2 * M_PI / 1000.0;
+            float time = model->_currentTime->ellapsedMillis(*model->_pixelInTime);
+            effectivePower = (std::cos(xFac * time) + 1.0) / 2.0;
+        }
+        _shaderPointlight->setUniform1f("effectivePower", effectivePower);
         _shaderPointlight->setUniform1f("power", l.intensity);
         _shaderPointlight->setUniform1f("attenuation", l.falloff);
         _vertbuffPointlight->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());

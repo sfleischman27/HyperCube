@@ -772,6 +772,10 @@ void GameplayController::update(float dt) {
     lastFrameAngle = _model->getGlobalAngleDeg();
     _model->_currentTime->mark();
     
+    if(_model->_player->getVY() == 0.0f && !(_model->_player->isGrounded())){
+        _model->_player->timeStuckAtZeroYvelocity++;
+    }
+    
 #pragma mark SCENE TRANSITIONS
     
     // Fade in/out the UI
@@ -853,6 +857,10 @@ void GameplayController::update(float dt) {
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_player->setDead(false);
         _model->_deathTime->mark();
+    }
+    
+    if(_model->_player->timeStuckAtZeroYvelocity > 50){
+        _model->_player->setPosition(lastStablePlay2DPos);
     }
     
     // update popups
@@ -1314,6 +1322,7 @@ void GameplayController::beginContact(b2Contact* contact) {
         (_model->_player->getSensorName() == fd1 && _model->_player.get() != bd2)) {
         _model->_player->setGrounded(true);
         _model->_player->startTrackingAirTime = false;
+        _model->_player->timeStuckAtZeroYvelocity = 0.0f;
         // Could have more than one ground
         _sensorFixtures.emplace(_model->_player.get() == bd1 ? fix2 : fix1);
     }
