@@ -84,6 +84,7 @@ void EndLevelMenu::dispose() {
 void EndLevelMenu::setActive(bool value){
     Scene2::setActive(value);
     if (value) {
+        _playMusic = true;
         _choice = NONE;
         _level->activate();
         _next->activate();

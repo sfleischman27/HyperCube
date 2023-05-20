@@ -184,7 +184,11 @@ void PivotApp::update(float timestep) {
             updateLevelScene(timestep);
             break;
         case END:
-            _sound->playSound("end", 1, false);
+            if(_endMenu._playMusic){
+                _sound->resetMixer();
+                enqueueOnce("end", 1, false);
+                _endMenu._playMusic = false;
+            }
             updateEndScene(timestep);
             break;
         case QUIT:

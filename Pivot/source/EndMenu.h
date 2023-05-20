@@ -11,6 +11,9 @@
 
 class EndLevelMenu : public cugl::Scene2 {
 public:
+    // whether to play this background music
+    bool _playMusic = false;
+    
     enum Choice {
         /** User has not yet made a choice */
         NONE,
