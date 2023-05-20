@@ -850,7 +850,7 @@ def register():
     
     #register other ui elements
     bpy.types.Scene.glow_count = bpy.props.IntProperty(name = "Glowstick Count", min = 0, max = 10)
-    bpy.types.Scene.scene_scale = bpy.props.IntProperty(name = "Scene Scale", min = 0, max = 10)
+    bpy.types.Scene.scene_scale = bpy.props.FloatProperty(name = "Scene Scale", min = 0, max = 10)
     bpy.types.Scene.shade_depth = bpy.props.IntProperty(name = "Shade Strength", min = 0, max = 1000)
     bpy.types.Scene.shade_color = bpy.props.FloatVectorProperty(
         name="Shade Color",
