@@ -20,10 +20,13 @@
         "children": {
             "cutscene1": {
                 "type": "Image",
+                "format": {
+                    "type": "Anchored"
+                },
                 "data": {
                     "visible": true,
                     "texture": "cutscene1",
-                    "scale": 0.75,
+                    "scale": 0.6,
                     "anchor": [0.5,0.5]
                 },
                 "layout": {
@@ -34,27 +37,31 @@
                     "scene1": {
                         "type": "Label",
                         "data": {
-                            "font": "roboto",
+                            "font": "big-roboto",
+                            "visible": "true",
                             "text": "this is scene 1",
                             "foreground": [255,255,255,255],
                             "background": [0,0,0,0],
                             "halign": "center",
-                            "valign": "bottom"
+                            "valign": "middle"
                         },
                         "layout":{
                             "x_anchor": "fill",
                             "y_anchor": "bottom",
-                            "y_offset": -0.1
+                            "y_offset": 0.15
                         }
                     }
                 }
             },
             "cutscene2": {
                 "type": "Image",
+                "format": {
+                    "type": "Anchored"
+                },
                 "data": {
                     "visible": false,
                     "texture": "cutscene2",
-                    "scale": 0.75,
+                    "scale": 0.6,
                     "anchor": [0.5,0.5]
                 },
                 "layout": {
@@ -65,27 +72,31 @@
                     "scene2": {
                         "type": "Label",
                         "data": {
-                            "font": "roboto",
+                            "font": "big-roboto",
+                            "visible": "true",
                             "text": "this is scene 2",
                             "foreground": [255,255,255,255],
                             "background": [0,0,0,0],
                             "halign": "center",
-                            "valign": "bottom"
+                            "valign": "middle"
                         },
                         "layout":{
                             "x_anchor": "fill",
                             "y_anchor": "bottom",
-                            "y_offset": -0.1
+                            "y_offset": 0.15
                         }
                     }
                 }
             },
             "cutscene3": {
                 "type": "Image",
+                "format": {
+                    "type": "Anchored"
+                },
                 "data": {
                     "visible": false,
                     "texture": "cutscene3",
-                    "scale": 0.75,
+                    "scale": 0.6,
                     "anchor": [0.5,0.5]
                 },
                 "layout": {
@@ -96,17 +107,18 @@
                     "scene3": {
                         "type": "Label",
                         "data": {
-                            "font": "roboto",
+                            "font": "big-roboto",
+                            "visible": "true",
                             "text": "this is scene 3",
                             "foreground": [255,255,255,255],
                             "background": [0,0,0,0],
                             "halign": "center",
-                            "valign": "bottom"
+                            "valign": "middle"
                         },
                         "layout":{
                             "x_anchor": "fill",
                             "y_anchor": "bottom",
-                            "y_offset": -0.1
+                            "y_offset": 0.15
                         }
                     }
                 }
@@ -117,7 +129,7 @@
                     "upnode": "up",
                     "size": [300, 200],
                     "anchor": [1,0],
-                    "scale": 0.25,
+                    "scale": 0.35,
                     "visible": true
                 },
                 "layout": {
@@ -132,7 +144,24 @@
                         "data": {
                             "texture": "nextscene"
                         }
+                    },
+                    "label": {
+                        "type": "Label",
+                        "data": {
+                            "font": "roboto",
+                            "text": "NEXT",
+                            "foreground": [255,255,255,255],
+                            "background": [0,0,0,0],
+                            "halign": "right",
+                            "valign": "middle",
+                            "padding": [90,60,0,0]
+                        },
+                        "layout":{
+                            "x_anchor": "fill",
+                            "y_anchor": "fill"
+                        }
                     }
+
                 }
             }
         }
