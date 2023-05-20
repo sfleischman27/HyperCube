@@ -50,7 +50,8 @@ using namespace cugl;
 #define WALK_COOLDOWN   5
 /** Maximum portal distance where it will still play noise */
 #define MAX_PORTAL_DIST 250.0
-
+/** Time it takes to fade from main to rotation and vice versa*/
+#define ROTATE_FADE 0.15
 /**
  * Creates a new game world with the default values.
  *
@@ -977,9 +978,8 @@ void GameplayController::update(float dt) {
         if(_justRotated == false){
             //#TODO set lab_r to 1
             //_sound->playSound("lab_r", 1.0, true);
-            _sound->fadeOut("lab_m", 0.5f);
-            _sound->getSound("lab_r")->setVolume(1.0);
-            _sound->fadeIn("lab_r", 0.5f);
+            _sound->fadeOut("lab_m", ROTATE_FADE);
+            _sound->fadeIn("lab_r", ROTATE_FADE);
             _justRotated = true;
         }
 //        _plane->rotateNorm(_input->cutFactor/15000);
@@ -1043,9 +1043,9 @@ void GameplayController::update(float dt) {
             createCutObstacles();
             //lastStablePlay2DPos = _model->_player->getPosition();
             _justRotated = false;
-            _sound->fadeOut("lab_r", 0.5f);
-            _sound->fadeIn("lab_m", 0.5f);
-        }
+            _sound->fadeIn("lab_m", ROTATE_FADE);
+            _sound->fadeOut("lab_r", ROTATE_FADE);
+        }\
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
@@ -1228,6 +1228,8 @@ void GameplayController::update(float dt) {
     float maxLow = 0.9; //how differentiable are channels when youre right next to reactor (0 = more 1 = less)
     
     _sound->setSpinnerPan(acosf(icos), volDist*maxLow);
+    
+    _sound->checkFades();
     //CULog("spinner pan: %f", atanf(itan));
 }
 

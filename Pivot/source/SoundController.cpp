@@ -9,6 +9,8 @@
 
 /** The initial fade-in on scene activation */
 #define INITIAL_FADE  8.0
+/** The default fade-in */
+#define DEFAULT_FADE  0.15
 /** The crossfade duration */
 #define CROSS_FADE    0.25
 
@@ -230,18 +232,100 @@ void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, f
     }
 }
 
-void SoundController::fadeIn(std::string name, float duration){
-    getSound(name)->getNode()->mark();
-    getSound(name)->getNode()->reset();
-    getSound(name)->getNode()->setMarkOut(false);
-    getSound(name)->getNode()->fadeIn(duration);
+void SoundController::fadeIn(std::string name, float duration){    
+    auto sound = getSound(name);
+    
+    sound->setVolume(1.0);
+    
+    if(sound->getNode()->isFadeIn()){
+        sound->_keepFade = true;
+    }
+    
+    if(sound->getNode()->isFadeOut()){
+        sound->_keepFade = false;
+        return;
+    }
+    
+    if(std::find(_fadeIns.begin(), _fadeIns.end(), getSound(name)) == _fadeIns.end()){
+        _fadeIns.push_back(sound);
+    }
+    
+    //sound->setVolume(1.0);
+    
+    sound->_keepFade = true;
+    
+    sound->getNode()->mark();
+    sound->getNode()->reset();
+    sound->getNode()->unmark();
+    sound->getNode()->setMarkOut(false);
+    sound->getNode()->fadeIn(duration);
 }
 
 void SoundController::fadeOut(std::string name, float duration){
-    getSound(name)->getNode()->setMarkOut(false);
-    getSound(name)->getNode()->fadeOut(duration);
+    auto sound = getSound(name);
+    
+    if(sound->getNode()->isFadeOut()){
+        sound->_keepFade = true;
+    }
+    
+    if(sound->getNode()->isFadeIn()){
+        sound->_keepFade = false;
+        return;
+    }
+    
+    if(std::find(_fadeOuts.begin(), _fadeOuts.end(), getSound(name)) == _fadeOuts.end()){
+        _fadeOuts.push_back(sound);
+    }
+    
+    sound->_keepFade = true;
+    
+    sound->getNode()->setMarkOut(false);
+    sound->getNode()->fadeOut(duration, true);
 }
 
+void SoundController::checkFades(){
+    for (int i = _fadeIns.size()-1; i >= 0; i--){
+        std::shared_ptr<GameSound> fader = _fadeIns[i];
+        if(!fader->getNode()->isFadeIn()){
+            _fadeIns.erase(_fadeIns.begin() + i);
+            if(fader->_keepFade){
+                fader->setVolume(1.0);
+            } else {
+                fader->_keepFade = true;
+                fadeOut(fader->getName(), DEFAULT_FADE);
+            }
+        }
+        if(_fadeIns.size() == 0 ){
+            break;
+        }
+    }
+
+    for (int i = _fadeOuts.size()-1; i >= 0; i--){
+        std::shared_ptr<GameSound> fader = _fadeOuts[i];
+        if(!fader->getNode()->isFadeOut()){
+            _fadeOuts.erase(_fadeOuts.begin() + i);
+            if(fader->_keepFade){
+                fader->setVolume(0.0);
+            } else {
+                fader->_keepFade = true;
+                fadeIn(fader->getName(), DEFAULT_FADE);
+            }
+        }
+        if(_fadeOuts.size() == 0 ){
+            break;
+        }
+    }
+    
+//    for (std::shared_ptr<GameSound> fader : _fadeOuts) {
+//        if(!fader->getNode()->isFadeOut()){
+//            fader->setVolume(0.0);
+//            //_fadeOuts.erase(fader);
+//        }
+//        if(_fadeOuts.size() == 0 ){
+//            break;
+//        }
+//    }
+}
 
 void SoundController::streamMixer(){
     streamNode(_mixer, 1.0, true);
