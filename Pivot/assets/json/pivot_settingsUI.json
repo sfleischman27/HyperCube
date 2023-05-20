@@ -24,23 +24,34 @@
         "overlay": {
             "file": "textures/settings_overlay.png"
         },
-        "overlaybutton": {
-            "file": "textures/settings_overlaybutton.png"
+        "overlaybuttonone": {
+            "file": "textures/settings_overlaybutton1.png"
+        },
+        "overlaybuttontwo": {
+            "file": "textures/settings_overlaybutton2.png"
         },
         "creditsbutton": {
             "file": "textures/settings_credits.png"
         }
     },
     "fonts": {
-        "roboto-smaller-bold": {
+        "settings-robotosmall": {
             "file":     "fonts/rm-bold.ttf",
             "size":     30
         },
-        "roboto-medium-bold": {
+        "settings-robotobig": {
             "file":     "fonts/rm-bold.ttf",
             "size":     42
         },
-        "roboto-reg-bold": {
+        "settings-robotobigger": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     50
+        },
+        "settings-robotobiggest": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     75
+        },
+        "settings-roboto": {
             "file":     "fonts/rm-bold.ttf",
             "size":     36
         }

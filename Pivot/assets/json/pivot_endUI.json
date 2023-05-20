@@ -17,9 +17,9 @@
         }
     },
     "fonts": {
-        "roboto": {
-            "file":     "fonts/rm-light.ttf",
-            "size":     56
+        "end-roboto": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     50
         }
     },
     "widgets" : {

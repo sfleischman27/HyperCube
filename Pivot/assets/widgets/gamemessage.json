@@ -45,7 +45,7 @@
                     "label": {
                         "type": "Label",
                         "data": {
-                            "font": "roboto",
+                            "font": "game-robotobold",
                             "text": "this works",
                             "foreground": [255,255,255,255],
                             "background": [0,0,0,0],

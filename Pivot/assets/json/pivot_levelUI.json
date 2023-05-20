@@ -95,19 +95,18 @@
         }
     },
     "fonts": {
-        "roboto": {
+        "level-roboto": {
             "file":     "fonts/rm-light.ttf",
             "size":     48
         },
-        "roboto-bold": {
+        "level-robotobold": {
             "file":     "fonts/rm-bold.ttf",
             "size":     48
         }
     },
     "widgets" : {
         "levelselectUI": "widgets/levelselectUI.json",
-        "level": "widgets/level.json",
-        "lockedLevel": "widgets/lockedLevel.json"
+        "level": "widgets/level.json"
     },
     "scene2s" : {
         "levelLab": {

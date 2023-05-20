@@ -20,9 +20,13 @@
         }
     },
     "fonts": {
-        "big-roboto": {
+        "cutscene-roboto": {
             "file":     "fonts/rm-bold.ttf",
             "size":     50
+        },
+        "cutscene-bigroboto": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     68
         }
     },
     "widgets" : {

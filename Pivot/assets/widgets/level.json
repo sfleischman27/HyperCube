@@ -54,7 +54,7 @@
                     "label": {
                         "type": "Label",
                         "data": {
-                            "font": "roboto-bold",
+                            "font": "level-robotobold",
                             "text": "1",
                             "foreground": [255,255,255,255],
                             "background": [164,220,90,0],

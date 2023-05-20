@@ -160,7 +160,6 @@
                "type": "Widget",
                "data": {
                    "key": "compassNum",
-                   "font": "gyparody",
                    "text": "0",
                    "variables":{
                    }

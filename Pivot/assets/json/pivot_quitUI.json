@@ -20,12 +20,12 @@
         }
     },
     "fonts": {
-        "roboto": {
-            "file":     "fonts/rm-light.ttf",
+        "quit-roboto": {
+            "file":     "fonts/rm-bold.ttf",
             "size":     48
         },
-        "roboto-smaller": {
-            "file":     "fonts/rm-light.ttf",
+        "quit-robotosmaller": {
+            "file":     "fonts/rm-bold.ttf",
             "size":     30
         }
     },

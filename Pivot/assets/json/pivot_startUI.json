@@ -14,15 +14,11 @@
         }
     },
     "fonts": {
-        "gyparody": {
-            "file":     "fonts/gyparody-hv.ttf",
-            "size":     48
-        },
-        "roboto": {
+        "start-roboto": {
             "file":     "fonts/rm-light.ttf",
             "size":     56
         },
-        "roboto-bold": {
+        "start-robotobold": {
             "file":     "fonts/rm-bold.ttf",
             "size":     56
         }

@@ -27,13 +27,13 @@
             "label": {
                 "type": "Label",
                 "data": {
-                    "font": "roboto-smaller",
+                    "font": "quit-robotosmaller",
                     "size": [450,300],
                     "anchor": [0.075,0.35],
-                    "text": "Are you sure you want to quit?",
+                    "text": "Are you sure you want to \nquit?",
                     "foreground": [255,255,255,255],
                     "background": [0,0,0,0],
-                    "halign": "center",
+                    "halign": "left",
                     "valign": "middle"
                 },
                 "layout":{

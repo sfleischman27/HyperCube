@@ -37,7 +37,7 @@
             "label": {
                 "type": "Label",
                 "data": {
-                    "font": "roboto",
+                    "font": "quit-roboto",
                     "text": "No",
                     "foreground": [255,255,255,255],
                     "background": [0,0,0,0],

@@ -77,21 +77,25 @@
         }
 	},
 	"fonts": {
-        "roboto": {
+        "game-roboto": {
             "file":     "fonts/rm-light.ttf",
             "size":     48
         },
-        "roboto-small": {
+        "game-robotosmall": {
             "file":     "fonts/rm-light.ttf",
             "size":     10
         },
-        "roboto-medium": {
+        "game-robotomedium": {
             "file":     "fonts/rm-light.ttf",
             "size":     40
         },
-        "game-roboto": {
+        "game-robotobold": {
             "file":     "fonts/rm-bold.ttf",
             "size":     48
+        },
+        "game-robotoboldbigger": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     52
         }
 	},
     "widgets" : {

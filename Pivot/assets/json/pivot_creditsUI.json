@@ -9,9 +9,9 @@
         }
     },
     "fonts": {
-        "roboto": {
-            "file":     "fonts/rm-light.ttf",
-            "size":     48
+        "credits-roboto": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     68
         }
     },
     "widgets" : {

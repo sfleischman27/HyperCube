@@ -37,7 +37,7 @@
                     "scene1": {
                         "type": "Label",
                         "data": {
-                            "font": "big-roboto",
+                            "font": "cutscene-roboto",
                             "visible": "true",
                             "text": "this is scene 1",
                             "foreground": [255,255,255,255],
@@ -72,7 +72,7 @@
                     "scene2": {
                         "type": "Label",
                         "data": {
-                            "font": "big-roboto",
+                            "font": "cutscene-roboto",
                             "visible": "true",
                             "text": "this is scene 2",
                             "foreground": [255,255,255,255],
@@ -107,7 +107,7 @@
                     "scene3": {
                         "type": "Label",
                         "data": {
-                            "font": "big-roboto",
+                            "font": "cutscene-roboto",
                             "visible": "true",
                             "text": "this is scene 3",
                             "foreground": [255,255,255,255],
@@ -148,11 +148,11 @@
                     "label": {
                         "type": "Label",
                         "data": {
-                            "font": "roboto",
+                            "font": "cutscene-bigroboto",
                             "text": "NEXT",
                             "foreground": [255,255,255,255],
                             "background": [0,0,0,0],
-                            "halign": "right",
+                            "halign": "center",
                             "valign": "middle",
                             "padding": [90,60,0,0]
                         },

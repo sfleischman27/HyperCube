@@ -28,7 +28,7 @@
                 "data": {
                    "anchor": [0.5,0.5],
                    "scale": 1,
-                   "font": "roboto",
+                   "font": "game-robotoboldbigger",
                    "text": "0",
                    "foreground": [255,255,255,255],
                    "background": [0,0,0,0],
