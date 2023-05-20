@@ -79,12 +79,16 @@ void CreditsScene::setActive(bool value){
         _image->setColor(newColor);
         
         _image->setVisible(true);
+        
+        _playMusic = true;
     } else {
         _image->setVisible(false);
         _butt->deactivate();
         // reset if butt was pressed
         _butt->setDown(false);
     }
+    
+    
 }
 
 void CreditsScene::update(float timestep){

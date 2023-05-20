@@ -11,6 +11,9 @@
 
 class CreditsScene : public cugl::Scene2 {
 public:
+    // whether to play credits background music
+    bool _playMusic = false;
+    
     enum Choice {
         /** The user has not yet pressed the button */
         NONE,

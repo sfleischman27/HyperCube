@@ -204,6 +204,13 @@ void PivotApp::update(float timestep) {
             updateCutscene(timestep);
             break;
         case CREDITS: case CREDITSSET: case CREDITSSETQ:
+            if(_scene == CREDITS){
+                if(_credits._playMusic){
+                    _sound->resetMixer();
+                    enqueueOnce("menu", 1, true);
+                    _credits._playMusic = false;
+                }
+            }
             updateCredits(timestep);
             break;
     }
