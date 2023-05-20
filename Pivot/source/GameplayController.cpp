@@ -909,6 +909,13 @@ void GameplayController::update(float dt) {
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_player->setDead(false);
         _model->_deathTime->mark();
+        _model->_player->justDied = true;
+        
+        // turn on death message
+        auto args = TriggerArgs();
+        args.messages = _model->_messages;
+        args.text = "OUCH!";
+        Trigger::showMessage(args);
     }
     
     if(_model->_player->timeStuckAtZeroYvelocity > 100){
@@ -948,6 +955,15 @@ void GameplayController::update(float dt) {
             args.messages = _model->_messages;
             Trigger::stopMessages(args);
         }
+        if(_model->_player->justDied){
+            _model->_player->justDied = false;
+            
+            // turn off dead message
+            auto args = TriggerArgs();
+            args.messages = _model->_messages;
+            Trigger::stopMessages(args);
+        }
+        
         for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
             it->setRotationalSprite(_model->getGlobalAngleDeg());
         }
