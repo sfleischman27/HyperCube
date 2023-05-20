@@ -10,13 +10,13 @@
             "file": "textures/level_locked1.png"
         },
         "lockedtwo" : {
-            "file": "textures/level_locked2.png"
+            "file": "textures/level_locked4.png"
         },
         "lockedthree" : {
             "file": "textures/level_locked3.png"
         },
-        "lockedthree" : {
-            "file": "textures/level_locked4.png"
+        "lockedfour" : {
+            "file": "textures/level_locked2.png"
         },
         "unlockedone" : {
             "file": "textures/level_unlocked1.png"

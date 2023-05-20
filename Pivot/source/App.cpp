@@ -429,7 +429,6 @@ void PivotApp::updateCutscene(float timestep){
         case Cutscene::STORY1:
         case Cutscene::STORY2:
         case Cutscene::STORY3:
-        case Cutscene::STORY4:
         case Cutscene::BUTTON:
             _cutscene.update(timestep);
             break;
