@@ -388,28 +388,10 @@
         }
     },
     "sounds": {
-        "game": {
-            "type": "sample",
-            "file": "sounds/DD_Main.ogg",
-            "stream": true,
-            "volume": 0.5
-        },
-        "win": {
-            "type": "sample",
-            "file": "sounds/DD_Victory.ogg",
-            "stream": true,
-            "volume": 0.5
-        },
-        "lose": {
-            "type": "sample",
-            "file": "sounds/DD_Failure.ogg",
-            "stream": true,
-            "volume": 0.5
-        },
         "collect": {
             "type": "sample",
             "file": "sounds/collect.wav",
-            "volume": 0.5
+            "volume": 0.4
         },
         "portal": {
             "type": "sample",
