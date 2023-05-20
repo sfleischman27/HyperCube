@@ -50,7 +50,7 @@
 /** The maximum character speed */
 #define DUDE_MAXWALKSPEED   60.0f
 /** The maximum character speed */
-#define DUDE_MAXRUNSPEED   240.0f
+#define DUDE_MAXRUNSPEED   100.0f
 
 
 #pragma mark -

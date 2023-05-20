@@ -1,0 +1,286 @@
+{
+    "level_id": "tunnels_0000",
+    "player_loc": [
+        1.2893829345703125,
+        9.612648010253906,
+        1.0625267028808594
+    ],
+    "norm": [
+        0.0,
+        -1.0,
+        0.0
+    ],
+    "exit": [
+        0.75201416015625,
+        264.55328369140625,
+        -63.1617546081543
+    ],
+    "glowsticks": 2,
+    "shade_depth": 33,
+    "shade_color": [
+        0.001173602882772684,
+        0.0,
+        0.03921268880367279
+    ],
+    "ambient_color": [
+        1.0,
+        0.25278228521347046,
+        0.24760504066944122,
+        0.6100000143051147
+    ],
+    "cutline_color": [
+        0.0,
+        1.0,
+        0.0
+    ],
+    "cutfill_color": [
+        1.0,
+        0.07572811841964722,
+        0.0
+    ],
+    "bg_color": [
+        0.29295220971107483,
+        0.14623849093914032,
+        0.0
+    ],
+    "bg_image": "background_default",
+    "sprites": {
+        "0": {
+            "loc": [
+                2.885824203491211,
+                117.38799285888672,
+                -18.137853622436523
+            ],
+            "tex": "mushroom2",
+            "scale": 11.563148498535156,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": true,
+            "billboard": true,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0,
+                0.4260902404785156
+            ],
+            "intense": 1.0,
+            "radius": 4000.0,
+            "pulse": 6052.631139755249
+        },
+        "1": {
+            "loc": [
+                -29.78130531311035,
+                160.60360717773438,
+                -18.137853622436523
+            ],
+            "tex": "mushroom2",
+            "scale": 11.563148498535156,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": true,
+            "billboard": true,
+            "emissive": true,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "2": {
+            "loc": [
+                237.53302001953125,
+                6.487113952636719,
+                -42.12921142578125
+            ],
+            "tex": "glow_cube",
+            "scale": 12.698282241821289,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "3": {
+            "loc": [
+                237.53302001953125,
+                6.487113952636719,
+                19.357723236083984
+            ],
+            "tex": "glow_cube",
+            "scale": 12.698282241821289,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": true,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "4": {
+            "loc": [
+                116.70758056640625,
+                38.14132308959961,
+                6.099246978759766
+            ],
+            "tex": "biohazrd",
+            "scale": 7.009476184844971,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "5": {
+            "loc": [
+                72.31827545166016,
+                -30.784231185913086,
+                0.6849861145019531
+            ],
+            "tex": "acid",
+            "scale": 5.6909565925598145,
+            "norm": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "collectible": false,
+            "billboard": false,
+            "emissive": true,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "6": {
+            "loc": [
+                -10.762588500976562,
+                8.85843276977539,
+                23.630767822265625
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.0,
+                1.0,
+                0.004149466287344694
+            ],
+            "intense": 2.0,
+            "radius": 6419.999694824219,
+            "pulse": null
+        },
+        "7": {
+            "loc": [
+                -10.762588500976562,
+                114.4825439453125,
+                20.482223510742188
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.0,
+                0.0031433298718184233,
+                1.0
+            ],
+            "intense": 2.0,
+            "radius": 8000.0,
+            "pulse": 2828.9473056793213
+        },
+        "8": {
+            "loc": [
+                -10.762588500976562,
+                237.81195068359375,
+                16.31084442138672
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.3806104362010956,
+                0.0
+            ],
+            "intense": 1.0,
+            "radius": 1876.0000228881836,
+            "pulse": null
+        },
+        "9": {
+            "loc": [
+                136.1803741455078,
+                8.85843276977539,
+                23.630767822265625
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.9390882253646851,
+                0.9503995180130005
+            ],
+            "intense": 1.0,
+            "radius": 6419.999694824219,
+            "pulse": null
+        }
+    },
+    "sounds": {},
+    "collision_mesh": "meshes/tunnels/tunnels_0000_col.obj",
+    "render_mesh": "meshes/tunnels/tunnels_0000_dec.obj",
+    "triggers": {
+        "0": {
+            "type": "DEATH",
+            "mesh": "meshes/tunnels/tunnels_0000_death_0000.obj",
+            "image": null,
+            "message": null
+        },
+        "1": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tunnels/tunnels_0000_message_0000.obj",
+            "image": null,
+            "message": "You are in a message box\nWith multiple lines\nwowowow!"
+        },
+        "2": {
+            "type": "EXITREGION",
+            "mesh": "meshes/tunnels/tunnels_0000_exitregion_0000.obj",
+            "image": null,
+            "message": null
+        }
+    }
+}

@@ -335,6 +335,11 @@
             "file": "textures/end_background.png",
             "span": 1,
             "cols": 1
+        },
+        "biohazrd": {
+            "file": "textures/biohazrd.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
@@ -455,6 +460,7 @@
         "lab_0003": "json/level_json/lab/lab_0003.json",
         "lab_0002": "json/level_json/lab/lab_0002.json",
         "woods_0000": "json/level_json/woods/woods_0000.json",
-        "woods_0001": "json/level_json/woods/woods_0001.json"
+        "woods_0001": "json/level_json/woods/woods_0001.json",
+        "tunnels_0000": "json/level_json/tunnels/tunnels_0000.json"
     }
 }
