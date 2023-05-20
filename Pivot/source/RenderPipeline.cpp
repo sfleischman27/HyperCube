@@ -474,10 +474,9 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
     float amtOfScreens = model->backgroundPic->getWidth() / screenSize.width;
 
     // Generate outline opacity
-    float outlineOpacity = .5;
     float startTime = model->timeToPixelIn + model->timeFromPixelInToOutline;
     float endTime = startTime + model->timeToOutline;
-    outlineOpacity = (model->_currentTime->ellapsedMillis(*model->_pixelInTime) - startTime) / model->timeToOutline;
+    float outlineOpacity = (model->_currentTime->ellapsedMillis(*model->_pixelInTime) - startTime) / model->timeToOutline;
     outlineOpacity = std::min(1.0f, outlineOpacity);
 
     // Set uniforms and draw
