@@ -245,9 +245,15 @@ void PlayerModel::applyForce() {
             _body->SetLinearVelocity(vel);
         } else {
             // Damping factor in the air
-            b2Vec2 force(-getDamping()*getVX(),0);
+            float damp = _isRunning ? -getVX()*100 : -getDamping();
+            b2Vec2 force(damp*getVX(),0);
+
             _body->ApplyForce(force,_body->GetPosition(),true);
         }
+    }
+    
+    if(_isRunning && !_isGrounded){
+        _body->ApplyForce(b2Vec2(-getDamping()*1000,0),_body->GetPosition(),true);
     }
     
     // Velocity too high, clamp it

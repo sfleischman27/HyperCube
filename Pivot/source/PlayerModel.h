@@ -46,11 +46,11 @@
 /** The factor to multiply by the input */
 #define DUDE_FORCE      2000.0f
 /** The amount to slow the character down */
-#define DUDE_DAMPING    1.0f
+#define DUDE_DAMPING    2.0f
 /** The maximum character speed */
 #define DUDE_MAXWALKSPEED   60.0f
 /** The maximum character speed */
-#define DUDE_MAXRUNSPEED   100.0f
+#define DUDE_MAXRUNSPEED   240.0f
 
 
 #pragma mark -
