@@ -385,6 +385,16 @@
             "file": "textures/tutorial_jump.png",
             "span": 1,
             "cols": 1
+        },
+        "hypercube": {
+            "file": "textures/hypercube.png",
+            "span": 1,
+            "cols": 1
+        },
+        "hypercube-normal": {
+            "file": "textures/hypercube_normal.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
