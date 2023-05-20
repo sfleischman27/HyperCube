@@ -497,13 +497,13 @@
             "type": "sample",
             "file": "sounds/music/pivot-tutorial-m.ogg",
             "stream": true,
-            "volume": 0.5
+            "volume": 0.4
         },
         "tutorial_p": {
             "type": "sample",
             "file": "sounds/music/pivot-tutorial-p.ogg",
             "stream": true,
-            "volume": 0.8
+            "volume": 0.7
         },
         "tutorial_r": {
             "type": "sample",
@@ -521,7 +521,7 @@
             "type": "sample",
             "file": "sounds/music/pivot-lab-p.ogg",
             "stream": true,
-            "volume": 0.8
+            "volume": 0.6
         },
         "lab_r": {
             "type": "sample",
