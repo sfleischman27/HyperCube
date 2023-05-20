@@ -251,6 +251,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
             norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
             // TODO: convert normal to an angle,
+            float offsetAngle = getOffsetAngleDeg(norm);
             // use angle to offset the rotating sprite index so they dont all look the same
             
             //get sprite scale
@@ -272,13 +273,16 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             
             //get texture
             auto texkey = sprites->get(std::to_string(i))->getString("tex");
-            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey));
+            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
+            decPtr->setIsemit(isemit);
             decPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
+            
             if(_assets->get<Texture>(texkey + "-normal") != nullptr){
                 decPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
-            } else {
-                decPtr->setIsemit(true);
             }
+//            else {
+//                decPtr->setIsemit(true);
+//            }
             
             model->_decorations.push_back(decPtr);
             
