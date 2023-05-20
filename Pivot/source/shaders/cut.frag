@@ -1,7 +1,7 @@
 R"(////////// SHADER BEGIN /////////
 
 #ifdef CUGLES
-precision mediump float;
+precision highp float;
 #endif
 
 in vec2 outTexCoord;
