@@ -568,10 +568,11 @@ void GameplayController::load(std::string name){
     _physics->update(0);
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
-    
+    //get lvlpack
+    _packName = getPackName(name);
+    //play sounds
     _playOutline = true;
-
-    _sound->streamSounds({ "lab_m", "lab_p", "lab_r" }, { 1.0, 0.0, 0.0 }, true);
+    _sound->streamSounds({getSongName("m"), getSongName("p"), getSongName("r")}, { 1.0, 0.0, 0.0 }, true);
     
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();
@@ -582,6 +583,29 @@ void GameplayController::load(std::string name){
     auto color = _layer->getColor();
     auto newColor = Color4(color.r, color.g, color.b, 0.0);
     _layer->setColor(newColor);
+}
+
+std::string GameplayController::getSongName(std::string c){
+    return _packName + "_" + c;
+}
+
+std::string GameplayController::getPackName(std::string name){
+    if (name.length() < 3) {
+        return "lab";
+    }
+ 
+    if(name.substr(0, 3) == "tut"){
+        return "lab";
+    } else if (name.substr(0, 3) == "lab"){
+        return "lab";
+    } else if (name.substr(0, 3) == "tun"){
+        return "swamp";
+    } else if (name.substr(0, 3) == "woo"){
+        return "swamp";
+    } else if (name.substr(0, 3) == "rea"){
+        return "lab";
+    }
+    return "lab";
 }
 
 void GameplayController::resetGlowstickButt(){
@@ -980,8 +1004,8 @@ void GameplayController::update(float dt) {
         if(_justRotated == false){
             //#TODO set lab_r to 1
             //_sound->playSound("lab_r", 1.0, true);
-            _sound->fadeOut("lab_m", ROTATE_FADE);
-            _sound->fadeIn("lab_r", ROTATE_FADE);
+            _sound->fadeOut(getSongName("m"), ROTATE_FADE);
+            _sound->fadeIn(getSongName("r"), ROTATE_FADE);
             _justRotated = true;
         }
 //        _plane->rotateNorm(_input->cutFactor/15000);
@@ -1045,8 +1069,8 @@ void GameplayController::update(float dt) {
             createCutObstacles();
             //lastStablePlay2DPos = _model->_player->getPosition();
             _justRotated = false;
-            _sound->fadeIn("lab_m", ROTATE_FADE);
-            _sound->fadeOut("lab_r", ROTATE_FADE);
+            _sound->fadeIn(getSongName("m"), ROTATE_FADE);
+            _sound->fadeOut(getSongName("r"), ROTATE_FADE);
         }\
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;

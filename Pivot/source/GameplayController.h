@@ -55,6 +55,8 @@ protected:
     
     bool _justStoppedRotating = false;
     
+    std::string _packName;
+    
     /** Reference to the physics root of the scene graph */
     std::shared_ptr<cugl::scene2::SceneNode> _worldnode;
     //SET OF CUT COLLISION OBSTACLES
@@ -152,6 +154,16 @@ public:
     //bool init(const std::shared_ptr<AssetManager>& assets,  const Rect& rect);
     
     bool init(const std::shared_ptr<AssetManager>& assets, const Rect& rect, std::shared_ptr<SoundController> sound);
+    
+    /**
+     * returns name of pack var based on name of level (sorry couldnt find how to access pack otherwise)
+     */
+    std::string getPackName(std::string name);
+    
+    /**
+     * returns name of song based on char put in (m p & r for main, portal and rotate)
+     */
+    std::string getSongName(std::string c);
     
     /**
     * Generates obstacle instances from the given cut, specified by the list of Poly2s given by the GameModel _model.
