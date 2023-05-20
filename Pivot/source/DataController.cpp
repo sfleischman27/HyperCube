@@ -183,9 +183,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             col_locs.push_back(loc);
 
             Vec3 norm;
-            norm.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
-            norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
-            norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+            norm.x = sprites->get(std::to_string(i))->get("norm")->get(0)->asFloat();
+            norm.y = sprites->get(std::to_string(i))->get("norm")->get(1)->asFloat();
+            norm.z = sprites->get(std::to_string(i))->get("norm")->get(2)->asFloat();
             // TODO: convert normal to an angle,
             // use angle to offset the rotating sprite index so they dont all look the same
 
@@ -247,9 +247,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
             
             Vec3 norm;
-            norm.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
-            norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
-            norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+            norm.x = sprites->get(std::to_string(i))->get("norm")->get(0)->asFloat();
+            norm.y = sprites->get(std::to_string(i))->get("norm")->get(1)->asFloat();
+            norm.z = sprites->get(std::to_string(i))->get("norm")->get(2)->asFloat();
             // TODO: convert normal to an angle,
             float offsetAngle = getOffsetAngleDeg(norm);
             // use angle to offset the rotating sprite index so they dont all look the same
@@ -295,9 +295,9 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             loc.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
 
             Vec3 norm;
-            norm.x = sprites->get(std::to_string(i))->get("loc")->get(0)->asFloat();
-            norm.y = sprites->get(std::to_string(i))->get("loc")->get(1)->asFloat();
-            norm.z = sprites->get(std::to_string(i))->get("loc")->get(2)->asFloat();
+            norm.x = sprites->get(std::to_string(i))->get("norm")->get(0)->asFloat();
+            norm.y = sprites->get(std::to_string(i))->get("norm")->get(1)->asFloat();
+            norm.z = sprites->get(std::to_string(i))->get("norm")->get(2)->asFloat();
             // TODO: convert normal to an angle,
             float offsetAngle = getOffsetAngleDeg(norm);
             // use normal to orient poster
