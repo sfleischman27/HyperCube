@@ -120,7 +120,7 @@ public:
      *
      * @return true if the controller is initialized properly, false otherwise.
      */
-    bool initMax(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, LEVELS_IMPLEMENTED - 1); }
+    bool initMax(const std::shared_ptr<cugl::AssetManager>& assets) { return init(assets, 4); }
 
     /**
      * Initializes the controller contents, making it ready for loading
