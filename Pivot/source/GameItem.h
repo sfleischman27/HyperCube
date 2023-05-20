@@ -263,7 +263,7 @@ public:
     
     float getScale() { return _spriteScale; }
     
-    float setOffsetAngle() { return _offsetAngle; }
+    float getOffsetAngle() { return _offsetAngle; }
     
 #pragma mark Helper Methods
 public:
