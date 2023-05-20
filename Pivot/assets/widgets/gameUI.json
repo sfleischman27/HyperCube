@@ -150,7 +150,6 @@
                "data": {
                    "key": "compass",
                    "variables":{
-                       "compassSize": [1000, 200],
                        "showCompass": true,
                        "compassScale": 0.35,
                        "compassYPos": 0.02

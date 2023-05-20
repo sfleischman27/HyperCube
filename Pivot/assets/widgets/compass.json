@@ -13,7 +13,6 @@
         },
         "data": {
             "texture": "compass-spin",
-            "size": [1000, 200],
             "scale": 1,
             "anchor": [0.5,1],
             "visible": true,

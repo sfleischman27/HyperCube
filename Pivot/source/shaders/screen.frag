@@ -20,7 +20,7 @@ vec2 minResolution = .0005 * screenSize;
 const float pi = 3.141592653;
 const float maxDistChange = .02;
 const float rMin = 0.0;
-const float rMax = sqrt(2) + maxDistChange;
+const float rMax = sqrt(2.0) + maxDistChange;
 const float areaOfEffect = .3;
 float aspectRatio = screenSize.y / screenSize.x;
 
@@ -48,7 +48,7 @@ void main(void) {
         float dist = fromCenter - r;
         if (abs(dist) < areaOfEffect) {
             float period = areaOfEffect * 4.0;
-            float xfac = (2 * pi) / period;
+            float xfac = (2.0 * pi) / period;
             float displacement = maxDistChange * cos(xfac * dist);
             midTexCoord += vec2(displacement);
         }

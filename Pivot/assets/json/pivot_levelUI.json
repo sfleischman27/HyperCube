@@ -54,6 +54,18 @@
         "labunlockedfour" : {
             "file": "textures/level_labunlocked4.png"
         },
+        "caveunlockedone" : {
+            "file": "textures/level_caveunlocked1.png"
+        },
+        "caveunlockedtwo" : {
+            "file": "textures/level_caveunlocked2.png"
+        },
+        "caveunlockedthree" : {
+            "file": "textures/level_caveunlocked3.png"
+        },
+        "caveunlockedfour" : {
+            "file": "textures/level_caveunlocked4.png"
+        },
         "swampunlockedone" : {
             "file": "textures/level_swampunlocked1.png"
         },
