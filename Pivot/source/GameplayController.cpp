@@ -881,7 +881,10 @@ void GameplayController::update(float dt) {
     
     if(_model->_player->timeStuckAtZeroYvelocity > 100){
         _model->_player->setPosition(lastStablePlay2DPos);
+        _model->_deathTime->mark();
+        _model->_player->setPosition(lastStablePlay2DPos);
         _model->_player->timeStuckAtZeroYvelocity = 0;
+        _model->_player->justFinishedGettingUnstuck = true;
     }
     
     // update popups
@@ -898,6 +901,11 @@ void GameplayController::update(float dt) {
     if(_input->getHorizontal() != 0.0f){
         _model->_player->lastRotateAngle = _model->getGlobalAngleDeg();
         _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        
+        if(_model->_player->justFinishedGettingUnstuck){
+            //TODO sarah this is when the stuck popup goes away
+            _model->_player->justFinishedGettingUnstuck = false;
+        }
     }
     
     if (_model->_player->isGrounded() && _input->isRotating) {

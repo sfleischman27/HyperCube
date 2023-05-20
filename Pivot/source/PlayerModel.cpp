@@ -34,7 +34,7 @@
 
 #define DUDE_JUMP_V     1000000000.0f
 
-#define FALL_FORCE 100.0f
+#define FALL_FORCE 20.0f
 
 #define FALL_ACCELERATION 1.1f
 /** Debug color for the sensor */
@@ -248,8 +248,23 @@ void PlayerModel::applyForce() {
         }
     }
     
+    if(getMovement() == 0.0f && fabs(getVX()) > 0.0 && !isGrounded()){
+        float damp = _isRunning ? getVX()*80 : -getDamping();
+        b2Vec2 force(damp*getVX(),0);
+        
+        if(getVX() < 0){
+            _body->ApplyForce(force,_body->GetPosition(),true);
+        } else {
+            _body->ApplyForce(-force,_body->GetPosition(),true);
+        }
+    }
+    
     if(_isRunning && !_isGrounded){
-        _body->ApplyForce(b2Vec2(-getDamping()*1000,0),_body->GetPosition(),true);
+        if(getVX() < 0){
+            _body->ApplyForce(b2Vec2(getDamping()*1000,0),_body->GetPosition(),true);
+        } else {
+            _body->ApplyForce(b2Vec2(-getDamping()*1000,0),_body->GetPosition(),true);
+        }
     }
     
     // Velocity too high, clamp it
