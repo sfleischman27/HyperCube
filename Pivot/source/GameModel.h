@@ -127,10 +127,13 @@ public:
 
 
 
-#pragma mark Decorations State
+#pragma mark Decorations and Poster State
 public:
     /** Vector of decorations */
     std::vector<std::shared_ptr<GameItem>> _decorations;
+    
+    /** Vector of posters */
+    std::vector<std::shared_ptr<GameItem>> _posters;
 
 #pragma mark Triggers and Popups
 public:
