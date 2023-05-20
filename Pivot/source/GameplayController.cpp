@@ -341,6 +341,30 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     
     _initInertia = _model->_player->getInertia();
     _initFriction = _model->_player->getFriction();
+    
+#pragma mark GLOWSTICK SPRITESHEET
+    std::shared_ptr<cugl::Texture> gstex1 =Texture::allocWithFile("textures/glowstick1.png");
+    std::shared_ptr<cugl::SpriteSheet> gsss1 = SpriteSheet::alloc(gstex1, 6, 6);
+    
+    std::shared_ptr<cugl::Texture> gstex2 =Texture::allocWithFile("textures/glowstick2.png");
+    std::shared_ptr<cugl::SpriteSheet> gsss2 = SpriteSheet::alloc(gstex2, 6, 6);
+    
+    std::shared_ptr<cugl::Texture> gstex3 =Texture::allocWithFile("textures/glowstick3.png");
+    std::shared_ptr<cugl::SpriteSheet> gsss3 = SpriteSheet::alloc(gstex3, 6, 6);
+    
+    std::shared_ptr<cugl::Texture> gstex4 =Texture::allocWithFile("textures/glowstick4.png");
+    std::shared_ptr<cugl::SpriteSheet> gsss4 = SpriteSheet::alloc(gstex4, 6, 6);
+    
+    _model->_glowstickSprites[0] = gsss1;
+    _model->_glowstickSprites[1] = gsss2;
+    _model->_glowstickSprites[2] = gsss3;
+    _model->_glowstickSprites[3] = gsss4;
+    
+    _model->_glowstickColors[0] = Vec3(0.0, 1.0, 0.2);
+    _model->_glowstickColors[1] = Vec3(1.0, 0.0, 0.0);
+    _model->_glowstickColors[2] = Vec3(0.0, 0.8, 0.9);
+    _model->_glowstickColors[3] = Vec3(1.0, 1.0, 0.0);
+    
 
 #pragma mark SOUND SETUP
     _sound = sound;
@@ -924,6 +948,9 @@ void GameplayController::update(float dt) {
             args.messages = _model->_messages;
             Trigger::stopMessages(args);
         }
+        for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+            it->setRotationalSprite(_model->getGlobalAngleDeg());
+        }
     }
     
     if (_model->_player->isGrounded() && _input->isRotating) {
@@ -934,6 +961,9 @@ void GameplayController::update(float dt) {
         //only recalculate the rotational sprite if we changed our angle from the last frame
         if (_model->getGlobalAngleDeg() != lastFrameAngle) {
             _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+            for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+                it->setRotationalSprite(_model->getGlobalAngleDeg());
+            }
         }
         _model->_player->isRotating = true;
         saveFloat = _input->cutFactor;
@@ -944,6 +974,9 @@ void GameplayController::update(float dt) {
         _plane->rotateNorm(_input->getMoveNorm() * 1.75);
         _model->updateCompassNum();
         _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+        for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+            it->setRotationalSprite(_model->getGlobalAngleDeg());
+        }
         _model->_player->isRotating = true;
         //createCutObstacles();
         _rotating = true;
@@ -972,6 +1005,9 @@ void GameplayController::update(float dt) {
         if (_model->_justFinishRotating) {
             _physics->getWorld()->addObstacle(_model->_player);
             _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
+            for(auto it = _model->_glowsticks.begin(); it != _model->_glowsticks.end(); it ++){
+                it->setRotationalSprite(_model->getGlobalAngleDeg());
+            }
             _model->_player->isRotating = false;
             _plane->movePlaneToPlayer();
             _plane->calculateCut();//calculate cut here so it only happens when we finish rotating
@@ -1054,6 +1090,10 @@ void GameplayController::update(float dt) {
             }else{
                 g = Glowstick(player3DPos-(_plane->getBasisRight()*10)-(_model->getPlaneNorm()*1));
             }
+            int num = _model->_glowsticks.size() % 4;
+            g.rotateSpriteSheet = _model->_glowstickSprites[num];
+            g.setColor(_model->_glowstickColors[num]);
+            g.setRotationalSprite(_model->getGlobalAngleDeg());
             _model->_glowsticks.push_back(g);
             _model->updateGlowstickCount();
             _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0); // hard coded for now
