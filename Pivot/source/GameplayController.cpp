@@ -225,6 +225,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     // messages
     _model->_messScene = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("messagePop"));
     
+    _model->_messBack = std::dynamic_pointer_cast<scene2::NinePatch>(kids->getChildByName("messagePop")->getChildByName("messagePopup"));
+    
     _model->_messText = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("messagePop")->getChildByName("messagePopup")->getChildByName("label"));
     
     // collectibles
@@ -454,6 +456,8 @@ void GameplayController::reset() {
     _data->resetGameModel(_model->getName(), _model);
     // reset collectibles
     resetCollectibleUI(_model->getColNum());
+    // check glowstick UI
+    resetGlowstickButt();
     // reset popups
     resetPopups();
     // reset messages
@@ -504,6 +508,8 @@ void GameplayController::load(std::string name){
     _data->loadGameModel(name, _model);
     // reset collectibles
     resetCollectibleUI(_model->getColNum());
+    // check glowstick UI
+    resetGlowstickButt();
     // reset popups
     resetPopups();
     // reset messages
@@ -545,6 +551,18 @@ void GameplayController::load(std::string name){
     auto color = _layer->getColor();
     auto newColor = Color4(color.r, color.g, color.b, 0.0);
     _layer->setColor(newColor);
+}
+
+void GameplayController::resetGlowstickButt(){
+    if(_model->_numGlowsticks == 0){
+        _buttons["glowstickB"]->setVisible(false);
+        _buttons["glowstickB"]->deactivate();
+        _model->_glowstickCounter->setVisible(false);
+    } else {
+        _buttons["glowstickB"]->setVisible(true);
+        _buttons["glowstickB"]->activate();
+        _model->_glowstickCounter->setVisible(true);
+    }
 }
 
 /**
@@ -1229,17 +1247,26 @@ void GameplayController::updateMessages() {
                 _model->_messText->setText(_model->_messages->getText());
                 // turn on message
                 _model->_messScene->setVisible(true);
+                // change the background size
+                _model->_messBack->setContentWidth(1500);
+                _model->_messBack->setContentHeight(100);
+                _layer->doLayout();
                 // fade in active message
                 auto color = _model->_messScene->getColor();
                 auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
                 _model->_messScene->setColor(newColor);
             }
             break; }
+        // default size = [1500,200]
         case Messages::MESS: {
             // set message to text
             _model->_messText->setText(_model->_messages->getText());
             // turn on message
             _model->_messScene->setVisible(true);
+            // change the background size
+            //_model->_messBack->setContentHeight(1);
+            //_model->_messBack->setContentWidth(1);
+            _layer->doLayout();
             // fade in active message
             auto color = _model->_messScene->getColor();
             auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));

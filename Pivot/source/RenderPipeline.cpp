@@ -186,6 +186,12 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
          drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->isEmissive() ? NULL : d->rotateNormalSpriteSheet->getTexture(), false, d->rotateSpriteSheet, false, d->getScale()));
      }
 
+     // Posters
+     auto posters = model->_posters;
+     for (auto p : posters) {
+         drawables.push_back(DrawObject(p->getPosition(), p->rotateSpriteSheet->getTexture(), p->isEmissive() ? NULL : p->rotateNormalSpriteSheet->getTexture(), false, p->rotateSpriteSheet, false, p->getScale()));
+     }
+
     // Set bind points
     const int bindStart = 9;
     for (int i = 0; i < drawables.size(); i++) {
@@ -213,7 +219,13 @@ bool RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, 
     bool visible = false;
     for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
         for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
-            Vec3 addOn = (i * basisRight + j * basisUp) * dro.scale; // TODO scale
+            Vec3 addOn;
+            if (dro.isPoster) {
+                Vec3 newBasisRight = dro.posterNormal.getCross(basisUp);
+                addOn = (i * newBasisRight + j * basisUp) * dro.scale;
+            } else {
+                addOn = (i * basisRight + j * basisUp) * dro.scale;
+            }
             tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
             if (dro.sheet != NULL) {
                 // assuming the spritesheet has square dimensions

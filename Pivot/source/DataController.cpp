@@ -403,7 +403,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             else if (trig_type == "EXITREGION") {
                 auto args = TriggerArgs();
                 args.messages = model->_messages;
-                args.text = "I feel like I'm missing something...";
+                args.text = "I FEEL LIKE I'M MISSING SOMETHING...";
                 trig->registerEnterCallback(Trigger::showExitMess, args);
                 trig->registerInBoundsCallback(Trigger::showExitMess, args);
                 trig->registerExitCallback(Trigger::stopMessages, args);
