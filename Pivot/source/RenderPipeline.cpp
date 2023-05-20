@@ -213,7 +213,7 @@ bool RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, 
     bool visible = false;
     for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
         for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
-            Vec3 addOn = (i * basisRight + j * basisUp); // TODO scale
+            Vec3 addOn = (i * basisRight + j * basisUp) * dro.scale; // TODO scale
             tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
             if (dro.sheet != NULL) {
                 // assuming the spritesheet has square dimensions
