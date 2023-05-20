@@ -59,7 +59,7 @@ protected:
     Pack _pack;
 
     /** The total number of levels we have in the game */
-    const int LEVELS_IMPLEMENTED = 13;
+    const int LEVELS_IMPLEMENTED = 16;
     /** The total number of packs in the game */
     const int PACKS_IMPLEMENTED = 4;
 
