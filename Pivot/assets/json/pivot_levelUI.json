@@ -18,18 +18,6 @@
         "lockedfour" : {
             "file": "textures/level_locked2.png"
         },
-        "unlockedone" : {
-            "file": "textures/level_unlocked1.png"
-        },
-        "unlockedtwo" : {
-            "file": "textures/level_unlocked2.png"
-        },
-        "unlockedthree" : {
-            "file": "textures/level_unlocked3.png"
-        },
-        "unlockedfour" : {
-            "file": "textures/level_unlocked4.png"
-        },
         "tutorialunlockedone" : {
             "file": "textures/level_tutorialunlocked1.png"
         },
@@ -77,6 +65,18 @@
         },
         "swampunlockedfour" : {
             "file": "textures/level_swampunlocked4.png"
+        },
+        "reactorunlockedone" : {
+            "file": "textures/level_reactorunlocked1.png"
+        },
+        "reactorunlockedtwo" : {
+            "file": "textures/level_reactorunlocked2.png"
+        },
+        "reactorunlockedthree" : {
+            "file": "textures/level_reactorunlocked3.png"
+        },
+        "reactorunlockedfour" : {
+            "file": "textures/level_reactorunlocked4.png"
         },
         "levelnext" : {
             "file": "textures/level_next.png"

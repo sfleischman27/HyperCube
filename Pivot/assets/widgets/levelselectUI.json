@@ -359,7 +359,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0.05,
                                         "levelNumber": 11,
-                                        "levelState": "unlockedthree"
+                                        "levelState": "caveunlockedthree"
                                     }
                                 }
                             },
@@ -509,7 +509,7 @@
                                         "levelPosX": -0.125,
                                         "levelPosY": 0.05,
                                         "levelNumber": 16,
-                                        "levelState": "unlockedfour"
+                                        "levelState": "swampunlockedfour"
                                     }
                                 }
                             },
@@ -539,7 +539,7 @@
                                         "levelPosX": 0.125,
                                         "levelPosY": 0.05,
                                         "levelNumber": 17,
-                                        "levelState": "unlockedone"
+                                        "levelState": "reactorunlockedone"
                                     }
                                 }
                             },
@@ -569,7 +569,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0.05,
                                         "levelNumber": 18,
-                                        "levelState": "unlockedtwo"
+                                        "levelState": "reactorunlockedtwo"
                                     }
                                 }
                             },
@@ -599,7 +599,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0.05,
                                         "levelNumber": 19,
-                                        "levelState": "unlockedthree"
+                                        "levelState": "reactorunlockedthree"
                                     }
                                 }
                             },
@@ -629,7 +629,7 @@
                                         "levelPosX":-0.125,
                                         "levelPosY": 0.05,
                                         "levelNumber": 20,
-                                        "levelState": "unlockedfour"
+                                        "levelState": "reactorunlockedfour"
                                     }
                                 }
                             },
