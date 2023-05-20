@@ -411,7 +411,7 @@
         "outline": {
             "type": "sample",
             "file": "sounds/outline-whirr.wav",
-            "volume": 0.5
+            "volume": 0.3
         },
         "walk_1": {
             "type": "sample",

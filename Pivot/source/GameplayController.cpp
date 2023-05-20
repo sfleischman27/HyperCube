@@ -606,7 +606,7 @@ std::string GameplayController::getPackName(std::string name){
         return "swamp";
     } else if (name.substr(0, 3) == "woo"){
         return "swamp";
-    } else if (name.substr(0, 3) == "rea"){
+    } else if (name.substr(0, 3) == "fin"){
         return "lab";
     }
     return "lab";
@@ -642,6 +642,9 @@ void GameplayController::setActive(bool value){
         // turn on the render pipeline stuff
         glEnable(GL_DEPTH_TEST);
         // reset the state to none (fixes pauses for quitting)
+//        if(_state == State::NONE){
+//            _sound->resetMixer();
+//        }
         _state = State::NONE;
     } else {
         for(auto it = _buttons.begin(); it != _buttons.end(); ++it) {
