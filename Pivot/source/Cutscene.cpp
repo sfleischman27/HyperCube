@@ -15,7 +15,6 @@ using namespace cugl;
 
 bool Cutscene::init(const std::shared_ptr<cugl::AssetManager> &assets) {
     _choice = NONE;
-    _counter = 0;
     
     Size dimen = Application::get()->getDisplaySize();
     
@@ -45,7 +44,7 @@ bool Cutscene::init(const std::shared_ptr<cugl::AssetManager> &assets) {
     
     _butt->addListener([this](const std::string& name, bool down) {
         if (down) {
-            _choice = Choice::NEXT;
+            _choice = Choice::STORY2;
         }
     });
     
@@ -79,6 +78,7 @@ void Cutscene::setActive(bool value){
     Scene2::setActive(value);
     if (value) {
         _choice = STORY1;
+        _butt->activate();
     } else {
         resetStory();
         _butt->deactivate();
@@ -117,54 +117,44 @@ void Cutscene::update(float timestep){
         case NONE: case NEXT:
             break;
         case STORY1: {
+            // fade in scene
             _story1->setVisible(true);
             auto color = _story1->getColor();
             auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 1, 255));
             _story1->setColor(newColor);
-            if (newColor.a == 255){
-                _counter += 2;
-                if( _counter >= 255){
-                    _choice = STORY2;
-                    _counter = 0;
-                }
-            }
+            // fade in button
+            _butt->setVisible(true);
+            color = _butt->getColor();
+            newColor = Color4(color.r, color.g, color.b, std::min(color.a + 1, 255));
+            _butt->setColor(newColor);
             break; }
         case STORY2:{
+            // set skip button
+            _butt->clearListeners();
+            _butt->addListener([this](const std::string& name, bool down) {
+                if (down) {
+                    _choice = Choice::STORY3;
+                }
+            });
+            // fade in scene
             _story2->setVisible(true);
             auto color = _story2->getColor();
             auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 1, 255));
             _story2->setColor(newColor);
-            if (newColor.a == 255){
-                _counter += 2;
-                if( _counter >= 255){
-                    _choice = STORY3;
-                    _counter = 0;
-                }
-            }
             break; }
         case STORY3:{
+            // set skip button
+            _butt->clearListeners();
+            _butt->addListener([this](const std::string& name, bool down) {
+                if (down) {
+                    _choice = Choice::NEXT;
+                }
+            });
+            // fade in scene
             _story3->setVisible(true);
             auto color = _story3->getColor();
             auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 1, 255));
             _story3->setColor(newColor);
-            if (newColor.a == 255){
-                _counter += 2;
-                if( _counter >= 255){
-                    _choice = BUTTON;
-                    _counter = 0;
-                }
-            }
-            break; }
-        case BUTTON:{
-            _butt->setVisible(true);
-            auto color = _butt->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 5, 255));
-            _butt->setColor(newColor);
-            if (newColor.a == 255){
-                _choice = NONE;
-                _counter = 0;
-                _butt->activate();
-            }
             break; }
     }
 }

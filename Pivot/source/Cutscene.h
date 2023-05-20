@@ -20,8 +20,6 @@ public:
         STORY2,
         /** Story 3 is being turned on */
         STORY3,
-        /** Button is being turned on */
-        BUTTON,
         /** The user has pressed the next button */
         NEXT
     };
@@ -41,8 +39,6 @@ protected:
     
     /** The current status of the scene */
     Choice _choice;
-    /** A counter used to pause between storys */
-    int _counter;
     
     /**
      * Returns the active screen size of this scene.
