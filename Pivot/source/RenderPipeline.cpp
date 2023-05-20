@@ -220,13 +220,12 @@ bool RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, 
     for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
         for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
             Vec3 addOn;
-            //if (dro.isPoster) {
-            //    Vec3 newBasisRight = dro.posterNormal.getCross(basisUp);
-            //    CULog("%f, %f, %f", newBasisRight.x, newBasisRight.y, newBasisRight.z);
-            //    addOn = (i * newBasisRight + j * basisUp) * dro.scale;
-            //} else {
+            if (dro.isPoster) {
+                Vec3 newBasisRight = dro.posterNormal.getCross(basisUp);
+                addOn = (i * newBasisRight + j * basisUp) * dro.scale;
+            } else {
                 addOn = (i * basisRight + j * basisUp) * dro.scale;
-            //}
+            }
             tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
             if (dro.sheet != NULL) {
                 // assuming the spritesheet has square dimensions

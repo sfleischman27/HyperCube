@@ -1269,9 +1269,11 @@ void GameplayController::updateMessages() {
             _model->_messText->setText(_model->_messages->getText());
             // turn on message
             _model->_messScene->setVisible(true);
+            // count newlines
+            int lines = countNewLines(_model->_messages->getText()) + 1;
             // change the background size
-            //_model->_messBack->setContentHeight(1);
-            //_model->_messBack->setContentWidth(1);
+            _model->_messBack->setContentWidth(1500);
+            _model->_messBack->setContentHeight(100 * lines);
             _layer->doLayout();
             // fade in active message
             auto color = _model->_messScene->getColor();
@@ -1279,6 +1281,14 @@ void GameplayController::updateMessages() {
             _model->_messScene->setColor(newColor);
             break; }
     }
+}
+
+int GameplayController::countNewLines(std::string s){
+    int count = 0;
+    for (int i = 0; i < s.size() - 1; i ++){
+        if(s[i] == '\n'){ count ++; }
+    }
+    return count;
 }
 
 /**

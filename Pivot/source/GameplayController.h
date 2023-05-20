@@ -412,6 +412,9 @@ public:
     /** Fades in and out the appropriate messages */
     void updateMessages();
     
+    /** Counts the number of newlines in the given string */
+    int countNewLines(std::string s);
+    
     void fadeoutCollectibles();
     
     void fadeinCollectibles();
