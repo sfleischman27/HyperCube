@@ -326,6 +326,14 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             std::shared_ptr<GameItem> posPtr = std::make_shared<GameItem>(loc, "poster" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
             posPtr->setIsemit(isemit);
             posPtr->setNormal(norm);
+            posPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
+            
+            if(_assets->get<Texture>(texkey + "-normal") != nullptr){
+                posPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
+            }
+            else {
+                posPtr->setIsemit(true);
+            }
             model->_posters.push_back(posPtr);
             //TODO if(isemit) put it in the emissive posters
         }
