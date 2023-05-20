@@ -88,6 +88,10 @@
         "roboto-medium": {
             "file":     "fonts/rm-light.ttf",
             "size":     40
+        },
+        "game-roboto": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     48
         }
 	},
     "widgets" : {
