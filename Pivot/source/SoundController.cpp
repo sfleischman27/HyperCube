@@ -242,5 +242,5 @@ void SoundController::setSpinnerPan(float angle, float lowest){
     
     _panner->setPan(0,0,left);
     _panner->setPan(1,1,right);
-    CULog("pan L R: %f, %f ", left, right);
+    //CULog("pan L R: %f, %f ", left, right);
 }
