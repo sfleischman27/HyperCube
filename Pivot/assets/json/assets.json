@@ -396,7 +396,7 @@
         "portal": {
             "type": "sample",
             "file": "sounds/portal.wav",
-            "volume": 0.5
+            "volume": 0.6
         },
         "glowstick_pickup": {
             "type": "sample",

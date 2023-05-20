@@ -147,12 +147,13 @@ public:
         switch(name.back()) {
             case 'm': //main music
                 slot = 0;
-            break;
+                break;
             case 'p':
                 slot = 1; //portal
-            break;
+                break;
             case 'r':
                 slot = 2;
+                break;
             default:
                 slot = 3;
         }

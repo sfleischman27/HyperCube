@@ -70,6 +70,12 @@ bool SoundController::musicEnabled(){
 }
 
 void SoundController::setAllNodeGains(){
+    bool gainzero = false;
+    if(getMixerSlot(2) != nullptr){
+        if(getMixerSlot(2)->getNode()->getGain() == 0){
+            gainzero = true;
+        }
+    }
     for (auto const& it : _sounds){
         std::shared_ptr<GameSound> sound = it.second;
         if(sound->isStreaming()){ //portal is not counted as music
@@ -81,6 +87,9 @@ void SoundController::setAllNodeGains(){
     }
     if(getMixerSlot(1) != nullptr){
         getMixerSlot(1)->getNode()->setGain(getMixerSlot(1)->getVolume() * _masterVolume);
+    }
+    if(getMixerSlot(2) != nullptr && gainzero){
+        getMixerSlot(2)->getNode()->setGain(0);
     }
 }
 
@@ -178,7 +187,7 @@ void SoundController::playSound(std::string name, float volume, bool loop){
     if(sound->isStreaming()){
         streamNode(sound->getNode(), volume, loop);
     } else {
-        cugl::AudioEngine::get()->play(name,sound->getNode(), loop, volume * _masterVolume, true);
+        cugl::AudioEngine::get()->play(name,sound->getNode(), loop, volume, true);
     }
 }
 
@@ -238,7 +247,7 @@ void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, f
     if(queue->getState() == cugl::AudioEngine::State::INACTIVE || queue->current() != node->getName()){
         queue->setLoop(loop);
         queue->clear(CROSS_FADE);
-        queue->enqueue(node, loop, volume * _volumeToggle * _masterVolume, CROSS_FADE);
+        queue->enqueue(node, loop, volume, CROSS_FADE);
 
     }
 }
