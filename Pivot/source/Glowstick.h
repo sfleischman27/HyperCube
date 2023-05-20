@@ -23,6 +23,7 @@ public:
     Glowstick(const Vec3 pos) : GameItem(pos) {
         setIsemit(true);
         setIntense(0.8);
+        setPulse(0);
     }
     Glowstick() :  GameItem() {}
 };

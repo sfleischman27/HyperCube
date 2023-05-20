@@ -208,12 +208,14 @@ public:
         float intensity;
         Vec3 loc;
         float falloff;
+        float pulse;
 
-        Light(Vec3 color, float intensity, Vec3 loc, float falloff) {
+        Light(Vec3 color, float intensity, Vec3 loc, float falloff, float pulse) {
             this->color = color;
             this->intensity = intensity;
             this->loc = loc;
             this->falloff = falloff;
+            this->pulse = pulse;
         }
         Light(){}
     };

@@ -1096,7 +1096,7 @@ void GameplayController::update(float dt) {
             g.setRotationalSprite(_model->getGlobalAngleDeg());
             _model->_glowsticks.push_back(g);
             _model->updateGlowstickCount();
-            _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0); // hard coded for now
+            _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0, g.getPulse()); // hard coded for now
             
             _sound->playSound("glowstick_place", 0.75);
         }

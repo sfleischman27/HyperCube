@@ -246,7 +246,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
             //TODO @matt how to make lights with falloff?
 
-            GameModel::Light light = GameModel::Light(color, intensity, loc, radius);
+            GameModel::Light light = GameModel::Light(color, intensity, loc, radius, pulse);
             model->_lights.push_back(light);
 
         }
