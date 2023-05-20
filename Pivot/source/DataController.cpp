@@ -176,6 +176,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
         float pulse;
         if(sprites->get(std::to_string(i))->get("pulse") != nullptr){
             pulse = sprites->get(std::to_string(i))->get("pulse")->asFloat();
+//            CULog("%f, pulse", sprites->get(std::to_string(i))->get("pulse")->asFloat());
         }else{
             pulse = 0.0f;
         }

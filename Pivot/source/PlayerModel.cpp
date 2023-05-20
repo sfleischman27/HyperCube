@@ -319,13 +319,13 @@ void PlayerModel::animate() {
             animState = 5;
             setSpriteSheet("flip");
             resetOtherSpritesheets("flip");
-            setVX(0);
+            setVX(-getVX() * 100);
         } else{
             animState = 5;
             if(currentSpriteSheet->getFrame() == 13){
                 _body->SetLinearVelocity(b2Vec2(0,DUDE_JUMP_V/4));
             }
-            setVX(0);
+            setVX(-getVX() * 2);
             if(currentSpriteSheet->getFrame() == currentSpriteSheet->getSize()-1){
                 doneFlipping = true;
                 //shouldStartFlipping = false;
