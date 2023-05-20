@@ -340,6 +340,31 @@
             "file": "textures/biohazrd.png",
             "span": 1,
             "cols": 1
+        },
+        "background_swamp": {
+            "file": "textures/background_swamp.png",
+            "span": 1,
+            "cols": 1
+        },
+        "rock1": {
+            "file": "textures/rock1.png",
+            "span": 1,
+            "cols": 1
+        },
+        "rock1-normal": {
+            "file": "textures/rock1_normal.png",
+            "span": 1,
+            "cols": 1
+        },
+        "rock2": {
+            "file": "textures/rock2.png",
+            "span": 1,
+            "cols": 1
+        },
+        "rock2-normal": {
+            "file": "textures/rock2_normal.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
@@ -481,6 +506,7 @@
         "lab_0002": "json/level_json/lab/lab_0002.json",
         "woods_0000": "json/level_json/woods/woods_0000.json",
         "woods_0001": "json/level_json/woods/woods_0001.json",
-        "tunnels_0000": "json/level_json/tunnels/tunnels_0000.json"
+        "tunnels_0000": "json/level_json/tunnels/tunnels_0000.json",
+        "woods_0002": "json/level_json/woods/woods_0002.json"
     }
 }
