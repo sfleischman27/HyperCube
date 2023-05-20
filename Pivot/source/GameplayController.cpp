@@ -836,7 +836,15 @@ void GameplayController::update(float dt) {
     }
     
     // not done pixeling in
-    if(!_model->_donePixelIn){ return; }
+    if(!_model->_donePixelIn){
+        // let gravity happen
+        _physics->update(dt);
+        currPlay2DPos = _model->_player->getPosition();
+        Vec2 displacement = currPlay2DPos - prevPlay2DPos;
+        updatePlayer3DLoc(displacement);
+        prevPlay2DPos = currPlay2DPos;
+        return;
+    }
     
     if(_playOutline){
         _sound->playSound("outline", 1);
