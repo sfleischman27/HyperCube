@@ -395,8 +395,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 auto args = TriggerArgs();
                 args.messages = model->_messages;
                 args.text = "I feel like I'm missing something...";
-                trig->registerEnterCallback(Trigger::showMessage, args);
-                trig->registerInBoundsCallback(Trigger::showMessage, args);
+                trig->registerEnterCallback(Trigger::showExitMess, args);
+                trig->registerInBoundsCallback(Trigger::showExitMess, args);
                 trig->registerExitCallback(Trigger::stopMessages, args);
 
                 // TODO @sarah you wanted this to check if you have enough collectibles

@@ -225,6 +225,8 @@ bool GameplayController::init(const std::shared_ptr<AssetManager>& assets, const
     // messages
     _model->_messScene = std::dynamic_pointer_cast<scene2::SceneNode>(kids->getChildByName("messagePop"));
     
+    _model->_messText = std::dynamic_pointer_cast<scene2::Label>(kids->getChildByName("messagePop")->getChildByName("messagePopup")->getChildByName("label"));
+    
     // collectibles
     _model->_invent = std::dynamic_pointer_cast<scene2::SceneNode>(_assets->get<scene2::SceneNode>("lab_gameUIScreen_inventory"));
     
@@ -530,6 +532,8 @@ void GameplayController::load(std::string name){
     // setup graphics pipeline
     _pipeline->sceneSetup(_model);
     
+    _playOutline = true;
+
     _sound->streamSounds({ "lab_m", "lab_p" }, { 1.0, 0.0 }, true);
     
     //_sound->streamSounds({ "end" }, 1.0, true);
@@ -802,12 +806,18 @@ void GameplayController::update(float dt) {
     if(_model->_startOfLevel){
         _model->_startOfLevel = false;
         _model->_pixelingIn = true;
+        _model->_donePixelIn = false;
         _model->_pixelInTime->mark();
         return;
     }
     
     // not done pixeling in
     if(!_model->_donePixelIn){ return; }
+    
+    if(_playOutline){
+        _sound->playSound("outline", 1);
+        _playOutline = false;
+    }
     
     // not done pixeling out
     if(!_model->_pixelingIn){ return; }
@@ -953,7 +963,7 @@ void GameplayController::update(float dt) {
             _model->_endOfGame = true;
             _model->_player->shouldStartFlipping = true;
             if(_model->_player->_isFlipping){
-                _sound->playSound("portal", 0.75);
+                _sound->playSound("portal", 1);
                 _model->_player->_isFlipping = false;
             }
         }
@@ -1183,7 +1193,8 @@ void GameplayController::updateMessages() {
         case Messages::EXIT: {
             // if the backpack is not full show exit message
             if(!_model->checkBackpack()) {
-                // TODO: set message to text
+                // set message to text
+                _model->_messText->setText(_model->_messages->getText());
                 // turn on message
                 _model->_messScene->setVisible(true);
                 // fade in active message
@@ -1193,7 +1204,8 @@ void GameplayController::updateMessages() {
             }
             break; }
         case Messages::MESS: {
-            // TODO: set message to text
+            // set message to text
+            _model->_messText->setText(_model->_messages->getText());
             // turn on message
             _model->_messScene->setVisible(true);
             // fade in active message

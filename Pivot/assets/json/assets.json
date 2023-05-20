@@ -376,6 +376,11 @@
             "file": "sounds/glowstick-place.wav",
             "volume": 0.5
         },
+        "outline": {
+            "type": "sample",
+            "file": "sounds/outline-whirr.wav",
+            "volume": 0.5
+        },
         "walk_1": {
             "type": "sample",
             "file": "sounds/walk1.wav",
