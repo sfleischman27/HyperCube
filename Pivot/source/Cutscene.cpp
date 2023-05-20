@@ -40,7 +40,6 @@ bool Cutscene::init(const std::shared_ptr<cugl::AssetManager> &assets) {
     _story1 = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("cutsceneLab_cutsceneScreen_cutscene1"));
     _story2 = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("cutsceneLab_cutsceneScreen_cutscene2"));
     _story3 = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("cutsceneLab_cutsceneScreen_cutscene3"));
-    _story4 = std::dynamic_pointer_cast<scene2::SceneNode>(assets->get<scene2::SceneNode>("cutsceneLab_cutsceneScreen_cutscene4"));
     
     _butt = std::dynamic_pointer_cast<scene2::Button>(assets->get<scene2::SceneNode>("cutsceneLab_cutsceneScreen_nextscene"));
     
@@ -63,7 +62,6 @@ void Cutscene::dispose() {
     _story1 = nullptr;
     _story2 = nullptr;
     _story3 = nullptr;
-    _story4 = nullptr;
     _butt = nullptr;
     _assets = nullptr;
 }
@@ -103,10 +101,6 @@ void Cutscene::resetStory(){
     newColor = Color4(color.r, color.g, color.b, 0.0);
     _story3->setColor(newColor);
     
-    color = _story4->getColor();
-    newColor = Color4(color.r, color.g, color.b, 0.0);
-    _story4->setColor(newColor);
-    
     color = _butt->getColor();
     newColor = Color4(color.r, color.g, color.b, 0.0);
     _butt->setColor(newColor);
@@ -115,7 +109,6 @@ void Cutscene::resetStory(){
     _story1->setVisible(false);
     _story2->setVisible(false);
     _story3->setVisible(false);
-    _story4->setVisible(false);
     _butt->setVisible(false);
 }
 
@@ -157,19 +150,6 @@ void Cutscene::update(float timestep){
             if (newColor.a == 255){
                 _counter += 2;
                 if( _counter >= 255){
-                    _choice = STORY4;
-                    _counter = 0;
-                }
-            }
-            break; }
-        case STORY4:{
-            _story4->setVisible(true);
-            auto color = _story4->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 2, 255));
-            _story4->setColor(newColor);
-            if (newColor.a == 255){
-                _counter += 2;
-                if( _counter >= 255){
                     _choice = BUTTON;
                     _counter = 0;
                 }
@@ -177,7 +157,7 @@ void Cutscene::update(float timestep){
             break; }
         case BUTTON:{
             _butt->setVisible(true);
-            auto color = _story4->getColor();
+            auto color = _butt->getColor();
             auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 5, 255));
             _butt->setColor(newColor);
             if (newColor.a == 255){

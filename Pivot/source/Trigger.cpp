@@ -52,17 +52,17 @@ void Trigger::killPlayer(TriggerArgs args) {
 
 //** trigger the rotate tutorial to turn on */
 void Trigger::showPopup(TriggerArgs args) {
-    if (args.image == "rotate_tutorial"){
+    if (args.image == "tutorial_rotate"){
         args.popup->setState("rotate");
-    } else if (args.image == "collect_tutorial"){
+    } else if (args.image == "tutorial_collect"){
         args.popup->setState("collect");
-    } else if (args.image == "glow_tutorial"){
+    } else if (args.image == "tutorial_glow"){
         args.popup->setState("glow");
-    } else if (args.image == "jump_tutorial"){
+    } else if (args.image == "tutorial_jump"){
         args.popup->setState("jump");
-    } else if (args.image == "run_tutorial"){
+    } else if (args.image == "tutorial_run"){
         args.popup->setState("run");
-    } else if (args.image == "walk_tutorial"){
+    } else if (args.image == "tutorial_walk"){
         args.popup->setState("walk");
     }
 };

@@ -365,6 +365,21 @@
             "file": "textures/rock2_normal.png",
             "span": 1,
             "cols": 1
+        },
+        "grey_background": {
+            "file": "textures/grey_background.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tutorial_walk": {
+            "file": "textures/tutorial_walk.png",
+            "span": 1,
+            "cols": 1
+        },
+        "tutorial_run": {
+            "file": "textures/tutorial_run.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
