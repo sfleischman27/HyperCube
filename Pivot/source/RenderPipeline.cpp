@@ -165,7 +165,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
     drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, model->_player->currentSpriteSheet, false, 1.0));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, model->_exit->rotateSpriteSheet, true, model->_exit->getScale()));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, model->_exit->rotateSpriteSheet, true, 1.0));
 
     // Collectibles
     std::map<std::string, Collectible> colls = model->getCollectibles();
@@ -603,9 +603,12 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         }
     }
 
+    const float rippleDuration = .5;
+    float tr = (model->_currentTime->ellapsedMillis(*model->_collectTime)) / (rippleDuration * 1000.0f);
+    CULog("%f", tr);
     _shaderScreen->setUniform1f("blackFrac", blackFrac);
     _shaderScreen->setUniform1f("pixelFrac", pixelFrac);
-    //_shaderScreen->setUniform1f("time", model->_currentTime->ellapsedMillis(*model->_pixelInTime) / 1000.0f);
+    _shaderScreen->setUniform1f("tr", tr);
     _shaderScreen->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
