@@ -32,6 +32,9 @@ protected:
     /** vector that stores the nodes inside the audiomixer */
     std::vector<std::shared_ptr<GameSound>> _mixerwrapper;
     
+    /** panner for the portal hum */
+    std::shared_ptr<cugl::audio::AudioPanner> _panner;
+    
     /** master volume, range 0 - 100 */
     float _masterVolume = 0.5f;
     
@@ -162,6 +165,13 @@ public:
      *  @param volume the volume of the sound, from 0.0-1.0
      */
     void streamNode(std::shared_ptr<cugl::audio::AudioNode> node, float volume, bool loop);
+    
+    /**
+     * Sets pan of spinner
+     * @param angle the angle of the spinner, in RADIANS
+     * @param lowest the lowest value a panned channel can be.
+     */
+    void setSpinnerPan(float angle, float lowest);
 };
 
 #endif /* SoundController_h */

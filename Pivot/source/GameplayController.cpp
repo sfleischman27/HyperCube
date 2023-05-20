@@ -1083,7 +1083,22 @@ void GameplayController::update(float dt) {
 
     _portalDistance = distance.length();   //_model->getNavigatorTransforms().first.length();
     //CULog("portal distance: %f",_portalDistance);
-    _sound->setTrackVolume(1, clampf(1-_portalDistance/MAX_PORTAL_DIST, 0.0, 1.0)); //slot 1 = cave_p
+    
+    float volDist = clampf(1-_portalDistance/MAX_PORTAL_DIST, 0.0f, 1.0f);
+    
+    _sound->setTrackVolume(1, volDist); //slot 1 = cave_p
+    
+    auto flatPcoords = std::get<0>(ScreenCoordinatesFrom3DPoint(_model->getPlayer3DLoc()));
+    auto flatEcoords = std::get<0>(ScreenCoordinatesFrom3DPoint(_model->_exit->getPosition()));
+    
+    float hyp = sqrt(pow(flatEcoords.y - flatPcoords.y, 2) + pow(flatEcoords.x - flatPcoords.x, 2));
+    
+    float icos = (flatEcoords.x - flatPcoords.x)/hyp;
+    
+    float maxLow = 0.9; //how differentiable are channels when youre right next to reactor (0 = more 1 = less)
+    
+    _sound->setSpinnerPan(acosf(icos), volDist*maxLow);
+    //CULog("spinner pan: %f", atanf(itan));
 }
 
 void GameplayController::updatePopups() {
