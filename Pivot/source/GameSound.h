@@ -103,7 +103,6 @@ public:
     }
     
     void setVolume(float volume){
-        _node->setGain(volume);
         _volume = volume;
     }
     

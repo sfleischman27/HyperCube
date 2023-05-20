@@ -131,6 +131,12 @@ std::shared_ptr<GameSound> SoundController::getMixerSlot(int slot){
 */
 void SoundController::setVolume(std::string name, float volume){
     getSound(name)->setVolume(volume);
+    if(getSound(name)->isStreaming()){
+        getSound(name)->getNode()->setGain(getSound(name)->getVolume() * _masterVolume * _volumeToggle);
+    } else {
+        getSound(name)->getNode()->setGain(getSound(name)->getVolume() * _masterVolume);
+    }
+
 }
 
 /**

@@ -63,6 +63,7 @@ void PivotApp::onStartup() {
     AudioEngine::start();
     _sound = std::make_shared<SoundController>();
     _sound->init(_assets);
+    _sound->setAllNodeGains();
     //_sound->setMasterVolume();
 
     // set clear color for entire canvas
