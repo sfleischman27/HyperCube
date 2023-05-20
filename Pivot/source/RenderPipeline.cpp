@@ -177,7 +177,7 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Glowsticks
     for (Glowstick g : model->_glowsticks) {
-        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), NULL, false, NULL, true, g.getScale()));
+        drawables.push_back(DrawObject(g.getPosition(), g.rotateSpriteSheet->getTexture(), g.getNorm(), false, g.rotateSpriteSheet, true, 1.0));
     }
 
     // Decorations

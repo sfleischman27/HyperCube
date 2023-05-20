@@ -179,6 +179,10 @@ public:
     std::vector<Glowstick> _glowsticks;
 
     std::shared_ptr<cugl::scene2::Label> _glowstickCounter;
+    
+    std::map<int, std::shared_ptr<SpriteSheet>> _glowstickSprites;
+    
+    std::map<int, cugl::Vec3> _glowstickColors;
 
 #pragma mark Compass State
 public:
