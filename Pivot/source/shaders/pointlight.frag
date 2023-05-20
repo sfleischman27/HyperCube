@@ -23,7 +23,7 @@ uniform float effectivePower;
 
 // Editable parameters for diffuse calculation
 const float powerMult = 10000.0;
-float constAtten = attenuation; //usually 2000.0
+float constAtten = 2000.0; //usually attenuation
 const float linearAtten = 0.0;
 const float sqAtten = 1.0;
 
