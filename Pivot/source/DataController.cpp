@@ -172,7 +172,14 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
         auto iscol = sprites->get(std::to_string(i))->get("collectible")->asBool();
         auto isbill = sprites->get(std::to_string(i))->get("billboard")->asBool();
         auto isemit = sprites->get(std::to_string(i))->get("emissive")->asBool();
-
+        
+        float pulse;
+        if(sprites->get(std::to_string(i))->get("pulse") != nullptr){
+            pulse = sprites->get(std::to_string(i))->get("pulse")->asFloat();
+        }else{
+            pulse = 0.0f;
+        }
+        
         auto tex = sprites->get(std::to_string(i))->getString("tex");
 
         if (iscol && (tex != "")) {
@@ -262,6 +269,11 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             //get sprite scale
             float scale = sprites->get(std::to_string(i))->get("scale")->asFloat();
             // TODO use scale to scale sprites differently @matt
+            
+            //get texture
+            auto texkey = sprites->get(std::to_string(i))->getString("tex");
+            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
+            
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
             if (haslight) {
@@ -273,12 +285,13 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
                 float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
                 // TODO make lights for those sprites here
+                decPtr->setColor(color);
+                decPtr->setIntense(intensity);
+                decPtr->setRadius(radius);
+                decPtr->setPulse(pulse);
                 // These could just go in the scene bc they never disappear
             }
-            
-            //get texture
-            auto texkey = sprites->get(std::to_string(i))->getString("tex");
-            std::shared_ptr<GameItem> decPtr = std::make_shared<GameItem>(loc, "deco" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
+        
             decPtr->setIsemit(isemit);
             decPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
             
@@ -313,8 +326,8 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
             //get texture
             auto texkey = sprites->get(std::to_string(i))->getString("tex");
-
-
+            std::shared_ptr<GameItem> posPtr = std::make_shared<GameItem>(loc, "poster" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
+            
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
             if (haslight){
@@ -325,16 +338,19 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
 
                 float intensity = sprites->get(std::to_string(i))->get("intense")->asFloat();
                 float radius = sprites->get(std::to_string(i))->get("radius")->asFloat(); //falloff
+                posPtr->setColor(color);
+                posPtr->setIntense(intensity);
+                posPtr->setRadius(radius);
+                posPtr->setPulse(pulse);
                 // TODO make lights for those sprites here @jolene
             }
             //TODO add poster to model
-            std::shared_ptr<GameItem> posPtr = std::make_shared<GameItem>(loc, "poster" + std::to_string(i), _assets->get<Texture>(texkey), offsetAngle, scale);
             posPtr->setIsemit(isemit);
             posPtr->setNormal(norm);
-            posPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
+            posPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 1, 1);
             
             if(_assets->get<Texture>(texkey + "-normal") != nullptr){
-                posPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
+                posPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 1, 1);
             }
             else {
                 posPtr->setIsemit(true);

@@ -31,6 +31,8 @@ protected:
     float _intense;
     /** The radius of the light of the item. */
     float _radius;
+    /** The pulse of the light of the item. */
+    float _pulse;
     /** map of rotation textures of the item */
     std::unordered_map<float, std::shared_ptr<cugl::Texture>> _rotateTextures;
     /** If the GameItem is emissive */
@@ -219,6 +221,10 @@ public:
         _normal = normal;
     }
     
+    void setPulse(float pulse) {
+        _pulse = pulse;
+    }
+    
 #pragma mark Getters
 public:
     /**
@@ -272,6 +278,8 @@ public:
     float getOffsetAngle() { return _offsetAngle; }
     
     Vec3 getNormal() { return _normal; }
+    
+    float getPulse() { return _pulse; }
     
 #pragma mark Helper Methods
 public:
