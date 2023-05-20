@@ -503,7 +503,7 @@
             "type": "sample",
             "file": "sounds/music/pivot-tutorial-p.ogg",
             "stream": true,
-            "volume": 0.9
+            "volume": 0.8
         },
         "tutorial_r": {
             "type": "sample",
@@ -521,7 +521,7 @@
             "type": "sample",
             "file": "sounds/music/pivot-lab-p.ogg",
             "stream": true,
-            "volume": 0.9
+            "volume": 0.8
         },
         "lab_r": {
             "type": "sample",
@@ -539,7 +539,7 @@
             "type": "sample",
             "file": "sounds/music/pivot-swamp-p.ogg",
             "stream": true,
-            "volume": 0.9
+            "volume": 0.8
         },
         "swamp_r": {
             "type": "sample",
