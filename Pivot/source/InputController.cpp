@@ -256,8 +256,8 @@ void InputController::update(float dt) {
 
     _keyLeft = keys->keyDown(KeyCode::ARROW_LEFT);
     _keyRight = keys->keyDown(KeyCode::ARROW_RIGHT);
-    _keyRunLeft = keys->keyDown(KeyCode::A);
-    _keyRunRight = keys->keyDown(KeyCode::D);
+    _keyRunLeft = keys->keyDown(KeyCode::X);
+    _keyRunRight = keys->keyDown(KeyCode::X);
     _keyKeepIncreasingCut = keys->keyDown(INCREASE_CUT_KEY);
     _keyKeepDecreasingCut = keys->keyDown(DECREASE_CUT_KEY);
 #endif
