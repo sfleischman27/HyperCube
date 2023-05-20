@@ -6,15 +6,15 @@
         "type": "Image",
         "data": {
             "texture": "rotate_tutorial",
-            "size": [1000, 200],
             "anchor": [0.5,0.75],
             "scale": 0.25,
             "visible": true
         },
         "layout": {
-            "x_anchor": "fill",
-            "y_anchor": "fill",
-            "y-offset": 0.5
+            "x_anchor": "left",
+            "y_anchor": "middle",
+            "y_offset": 0.2,
+            "x_offset": 0.18
         }
     }
 }
