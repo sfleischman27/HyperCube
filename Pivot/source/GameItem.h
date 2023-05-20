@@ -189,7 +189,7 @@ public:
         float repeat = 360.0f / ((float) rotateSpriteSheet->getSize());
         // float repeat = 10.0f;
         int neg = 1;
-        int localAng = currentAngle;
+        int localAng = currentAngle - _offsetAngle;
         localAng = localAng % 360;
         localAng *= neg;
         localAng = localAng < 0 ? localAng + 360 : localAng;

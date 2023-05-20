@@ -11,7 +11,7 @@
             "type": "Anchored"
         },
         "data": {
-            "scale": 0.32,
+            "scale": 0.35,
             "visible": "true",
             "texture": "compass-background",
             "anchor": [0.5, 1]
@@ -20,7 +20,7 @@
             "x_anchor": "center",
             "y_anchor": "top",
             "x_offset" : 0,
-            "y_offset" : -0.035
+            "y_offset" : 0.02
         },
         "children": {
             "compassnum": {

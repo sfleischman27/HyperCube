@@ -819,8 +819,9 @@ void GameplayController::update(float dt) {
     lastFrameAngle = _model->getGlobalAngleDeg();
     _model->_currentTime->mark();
     
-    if(_model->_player->getVY() == 0.0f && !(_model->_player->isGrounded())){
+    if((_model->_player->getVY() > -5.0f && _model->_player->getVY() < 5.0f) && !(_model->_player->isGrounded())){
         _model->_player->timeStuckAtZeroYvelocity++;
+        CULog("I'm Stuck!!!");
     }
     
 #pragma mark SCENE TRANSITIONS
@@ -884,7 +885,6 @@ void GameplayController::update(float dt) {
 #pragma mark -----
     
     if(_justCollected) {
-        _model->_collectTime->mark();
         fadeinCollectibles();
     }else{
         fadeoutCollectibles();
@@ -922,7 +922,7 @@ void GameplayController::update(float dt) {
         Trigger::showMessage(args);
     }
     
-    if(_model->_player->timeStuckAtZeroYvelocity > 100){
+    if(_model->_player->timeStuckAtZeroYvelocity > 50){
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_deathTime->mark();
         _model->_player->setPosition(lastStablePlay2DPos);
@@ -1059,6 +1059,7 @@ void GameplayController::update(float dt) {
             _sound->playSound("collect", 0.75);
             itr->second.setCollected(true);
             _justCollected = true;
+            _model->_collectTime->mark();
             _model->_backpack.insert(itr->first);
             if (_model->_nav_target == itr->second.getPosition()) {
                 //need a new nav target, exit unless there are collectibles left

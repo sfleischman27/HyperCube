@@ -76,21 +76,93 @@
     "render_mesh": "meshes/tutorial/tutorial_0001_dec.obj",
     "triggers": {
         "0": {
+            "type": "DEATH",
+            "mesh": "meshes/tutorial/tutorial_0001_death_0000.obj",
+            "image": null,
+            "message": null
+        },
+        "1": {
             "type": "POPUP",
             "mesh": "meshes/tutorial/tutorial_0001_popup_0000.obj",
             "image": "tutorial_walk",
             "message": null
         },
-        "1": {
+        "2": {
             "type": "POPUP",
             "mesh": "meshes/tutorial/tutorial_0001_popup_0001.obj",
             "image": "tutorial_run",
             "message": null
         },
-        "2": {
+        "3": {
             "type": "POPUP",
             "mesh": "meshes/tutorial/tutorial_0001_popup_0002.obj",
             "image": "tutorial_rotate",
+            "message": null
+        },
+        "4": {
+            "type": "POPUP",
+            "mesh": "meshes/tutorial/tutorial_0001_popup_0003.obj",
+            "image": "tutorial_jump",
+            "message": null
+        },
+        "5": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0001_message_0000.obj",
+            "image": null,
+            "message": "LET'S GET TO THE END!"
+        },
+        "6": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0001_message_0002.obj",
+            "image": null,
+            "message": "HMM... FEELS LIKE A DEAD END\nTRY ROTATING AROUND"
+        },
+        "7": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0001_message_0004.obj",
+            "image": null,
+            "message": "HI, IM DR.AXLE TURNER\nLET'S LEARN TO NAVIGATE\nTHIS STRANGE WORLD"
+        },
+        "8": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0001_message_0006.obj",
+            "image": null,
+            "message": "WEIRD, I CAN SEE MY TARGET\nBUT HOW DO I GET THERE?"
+        },
+        "9": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0001_message_0008.obj",
+            "image": null,
+            "message": "WOAH! THAT WAS CRAZY!\nLET'S SEE WHAT ELSE WE CAN DO"
+        },
+        "10": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0001_message_0010.obj",
+            "image": null,
+            "message": "OH GEEZ! A HOLE IN THE FLOOR!\nUSE THE PLATFORM TO NOT FALL IN"
+        },
+        "11": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0001_message_0012.obj",
+            "image": null,
+            "message": "MAKE SURE TO COLLECT ALL THE CUBES\nBEFORE REACHING THE EXIT"
+        },
+        "12": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0001_message_0014.obj",
+            "image": null,
+            "message": "NICE JOB!\nLETS FINISH THIS OFF"
+        },
+        "13": {
+            "type": "MESSAGE",
+            "mesh": "meshes/tutorial/tutorial_0001_message_0016.obj",
+            "image": null,
+            "message": "LETS TRY NAVIGATING SOMETHING\nA BIT MORE TRICKY"
+        },
+        "14": {
+            "type": "EXITREGION",
+            "mesh": "meshes/tutorial/tutorial_0001_exitregion_0000.obj",
+            "image": null,
             "message": null
         }
     }

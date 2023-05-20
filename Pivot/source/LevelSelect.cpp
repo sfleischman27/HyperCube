@@ -288,7 +288,7 @@ void LevelSelect::prevPack() {
 void LevelSelect::setPackLabel(){
     switch (_pack) {
         case ZERO:
-            _label->setText("Tutorial");
+            _label->setText("Training Facility");
             break;
         case ONE:
             _label->setText("Axel's Laboratory");

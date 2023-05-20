@@ -20,9 +20,9 @@
         }
     },
     "fonts": {
-        "roboto": {
-            "file":     "fonts/rm-light.ttf",
-            "size":     48
+        "big-roboto": {
+            "file":     "fonts/rm-bold.ttf",
+            "size":     50
         }
     },
     "widgets" : {
