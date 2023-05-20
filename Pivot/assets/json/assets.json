@@ -428,7 +428,7 @@
             "type": "sample",
             "file": "sounds/music/pivot-lab-p.ogg",
             "stream": true,
-            "volume": 0.75
+            "volume": 0.9
         }
     },
     "fonts": {

@@ -60,12 +60,16 @@ public:
     /** attaches sound to a mixer. returns the slot number that it fits into.
      * @param mixer the mixer you're attaching to
      */
-    int attachSound(std::shared_ptr<cugl::audio::AudioMixer> mixer){
+    int attachSound(std::shared_ptr<cugl::audio::AudioMixer> mixer, std::shared_ptr<cugl::audio::AudioPanner> panner){
         //cugl::AudioEngine::get()->getMusicQueue()->enqueue(sound->getSource());
         int slot = findMixerSlot(_name);
-
+        
         if(_streaming){
-            mixer->attach(slot, _node);
+            if (slot == 1){
+                panner->attach(_node);
+            } else {
+                mixer->attach(slot, _node);
+            }
         }
         
         return slot;
