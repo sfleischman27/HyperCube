@@ -19,6 +19,7 @@ uniform vec3 lpos;
 uniform float power;
 uniform float numLights;
 uniform float attenuation;
+uniform float effectivePower;
 
 // Editable parameters for diffuse calculation
 const float powerMult = 10000.0;
@@ -41,7 +42,7 @@ void main(void) {
     // Diffuse calculation
     vec3 lightDir = normalize(lpos - pos);
 	float lightDist = distance(lpos, pos);
-    vec3 numerator = max(dot(norm, lightDir), 0.0) * alb * color * power * powerMult;
+    vec3 numerator = max(dot(norm, lightDir), 0.0) * alb * color * power * powerMult * effectivePower;
     float denominator = constAtten + (linearAtten * lightDist) + (sqAtten * lightDist * lightDist);
     vec3 diffuse = numerator / denominator;
 
