@@ -11,17 +11,16 @@
             "type": "Anchored"
         },
         "data": {
-            "size": [240,120],
-            "scale": 0.55,
+            "scale": 0.32,
             "visible": "true",
             "texture": "compass-background",
-            "anchor": [0.5, 0]
+            "anchor": [0.5, 1]
         },
         "layout": {
             "x_anchor": "center",
             "y_anchor": "top",
             "x_offset" : 0,
-            "y_offset" : -0.1
+            "y_offset" : -0.035
         },
         "children": {
             "compassnum": {
@@ -29,7 +28,7 @@
                 "data": {
                    "anchor": [0.5,0.5],
                    "scale": 1,
-                   "font": "roboto-medium",
+                   "font": "roboto",
                    "text": "0",
                    "foreground": [255,255,255,255],
                    "background": [0,0,0,0],
