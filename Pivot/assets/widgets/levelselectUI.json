@@ -299,7 +299,7 @@
                                         "levelPosX": 0.125,
                                         "levelPosY": 0.05,
                                         "levelNumber": 9,
-                                        "levelState": "caveunlockedone"
+                                        "levelState": "swampunlockedone"
                                     }
                                 }
                             },
@@ -329,7 +329,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0.05,
                                         "levelNumber": 10,
-                                        "levelState": "caveunlockedtwo"
+                                        "levelState": "swampunlockedtwo"
                                     }
                                 }
                             },
@@ -359,7 +359,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0.05,
                                         "levelNumber": 11,
-                                        "levelState": "caveunlockedthree"
+                                        "levelState": "swampunlockedthree"
                                     }
                                 }
                             },
@@ -389,7 +389,7 @@
                                         "levelPosX": -0.125,
                                         "levelPosY": 0.05,
                                         "levelNumber": 12,
-                                        "levelState": "caveunlockedfour"
+                                        "levelState": "swampunlockedfour"
                                     }
                                 }
                             },
@@ -419,7 +419,7 @@
                                         "levelPosX": 0.125,
                                         "levelPosY": 0.05,
                                         "levelNumber": 13,
-                                        "levelState": "swampunlockedone"
+                                        "levelState": "reactorunlockedone"
                                     }
                                 }
                             },
@@ -449,7 +449,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0.05,
                                         "levelNumber": 14,
-                                        "levelState": "swampunlockedtwo"
+                                        "levelState": "reactorunlockedtwo"
                                     }
                                 }
                             },
@@ -479,7 +479,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0.05,
                                         "levelNumber": 15,
-                                        "levelState": "swampunlockedthree"
+                                        "levelState": "reactorunlockedthree"
                                     }
                                 }
                             },
@@ -509,7 +509,7 @@
                                         "levelPosX": -0.125,
                                         "levelPosY": 0.05,
                                         "levelNumber": 16,
-                                        "levelState": "swampunlockedfour"
+                                        "levelState": "reactorunlockedfour"
                                     }
                                 }
                             },
