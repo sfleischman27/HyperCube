@@ -431,6 +431,9 @@ public:
     /** Counts the number of newlines in the given string */
     int countNewLines(std::string s);
     
+    /** Counts the max number of char in a string before a new line */
+    int getMaxLine(std::string s);
+    
     void fadeoutCollectibles();
     
     void fadeinCollectibles();
