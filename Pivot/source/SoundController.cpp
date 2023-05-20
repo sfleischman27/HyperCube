@@ -77,10 +77,11 @@ void SoundController::setAllNodeGains(){
         } else {
             sound->getNode()->setGain(sound->getVolume() * _masterVolume);
         }
+        //CULog("gain %f, %i", sound->getNode()->getGain(), sound->getNode()->getGain());
     }
-    /*if(getMixerSlot(1) != nullptr){
+    if(getMixerSlot(1) != nullptr){
         getMixerSlot(1)->getNode()->setGain(getMixerSlot(1)->getVolume() * _masterVolume);
-    }*/
+    }
 }
 
 /**
@@ -223,7 +224,11 @@ void SoundController::setTrackVolume(int slot, float volume){
     if(n == nullptr){
         //CULogError("setTrackVolume node is null, name: %s, slot: %i", n->getName().c_str(), slot);
     }
-    n->setGain(volume * _volumeToggle * _masterVolume);
+    if(slot == 1){
+        n->setGain(volume * _masterVolume);
+    } else {
+        n->setGain(volume * _volumeToggle * _masterVolume);
+    }
 }
 
 void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, float volume, bool loop){
