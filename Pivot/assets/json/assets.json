@@ -557,6 +557,7 @@
         "woods_0001": "json/level_json/woods/woods_0001.json",
         "tunnels_0000": "json/level_json/tunnels/tunnels_0000.json",
         "woods_0002": "json/level_json/woods/woods_0002.json",
-        "tutorial_0003": "json/level_json/tutorial/tutorial_0003.json"
+        "tutorial_0003": "json/level_json/tutorial/tutorial_0003.json",
+        "final_0000": "json/level_json/final/final_0000.json"
     }
 }
