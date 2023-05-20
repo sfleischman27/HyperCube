@@ -515,6 +515,8 @@ void GameplayController::reset() {
     resetCollectibleAlpha();
     _model->_endOfGame = false;
     
+    _playOutline = true;
+    
     /** set UI apha to 0.0 so it can fade in */
     auto color = _layer->getColor();
     auto newColor = Color4(color.r, color.g, color.b, 0.0);
