@@ -422,9 +422,11 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
         _shaderPointlight->setUniform3f("lpos", l.loc.x, l.loc.y, l.loc.z);
         float effectivePower = 1.0;
         if (1000.0 > 0.0) {
+            const float minEff = .4;
             float xFac = 2 * M_PI / 1000.0;
             float time = model->_currentTime->ellapsedMillis(*model->_pixelInTime);
             effectivePower = (std::cos(xFac * time) + 1.0) / 2.0;
+            effectivePower = effectivePower * (1.0 - minEff) + minEff;
         }
         _shaderPointlight->setUniform1f("effectivePower", effectivePower);
         _shaderPointlight->setUniform1f("power", l.intensity);
