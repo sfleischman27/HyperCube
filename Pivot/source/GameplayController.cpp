@@ -542,7 +542,7 @@ void GameplayController::load(std::string name){
     
     _playOutline = true;
 
-    _sound->streamSounds({ "lab_m", "lab_p" }, { 1.0, 0.0 }, true);
+    _sound->streamSounds({ "lab_m", "lab_p", "lab_r" }, { 1.0, 0.0, 0.0 }, true);
     
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();
@@ -909,6 +909,14 @@ void GameplayController::update(float dt) {
     }
     
     if (_model->_player->isGrounded() && _input->isRotating) {
+        if(_justRotated == false){
+            //#TODO set lab_r to 1
+            //_sound->playSound("lab_r", 1.0, true);
+            _sound->fadeOut("lab_m", 0.5f);
+            _sound->getSound("lab_r")->setVolume(1.0);
+            _sound->fadeIn("lab_r", 0.5f);
+            _justRotated = true;
+        }
 //        _plane->rotateNorm(_input->cutFactor/15000);
         //createCutObstacles();
         _plane->rotateNorm((_input->cutFactor - saveFloat)/1000 * _input->settings_invertRotate);
@@ -960,6 +968,9 @@ void GameplayController::update(float dt) {
             //_plane->debugCut(100);// enable this one to make a square of size 10 x 10 as the cut, useful for debugging
             createCutObstacles();
             //lastStablePlay2DPos = _model->_player->getPosition();
+            _justRotated = false;
+            _sound->fadeOut("lab_r", 0.5f);
+            _sound->fadeIn("lab_m", 0.5f);
         }
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;

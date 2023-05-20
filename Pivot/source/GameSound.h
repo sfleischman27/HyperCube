@@ -31,7 +31,9 @@ protected:
     /** is the sound streamed? (is it music) */
     bool _streaming;
     
-    std::shared_ptr<cugl::audio::AudioNode> _node;
+    //std::shared_ptr<cugl::audio::AudioNode> _n;
+    
+    std::shared_ptr<cugl::audio::AudioFader> _node;
     
 public:
     /** inits Sound with...
@@ -45,7 +47,12 @@ public:
         _source = source;
         _volume = volume;
         _streaming = streaming;
-        _node = _source->createNode();
+        _node = std::make_shared<cugl::audio::AudioFader>();
+        _node->init(2, 48000);
+        _node->attach(_source->createNode());
+        //std::shared_ptr<cugl::audio::AudioNode> n =_source->createNode();
+        //n->init(2, 48000);
+        //_node->attach(n);
         _node->setName(_name);
         /*
         if (cugl::AudioSample* sample = dynamic_cast<cugl::AudioSample*>(source.get()))
@@ -84,7 +91,7 @@ public:
         return _source;
     }
     
-    std::shared_ptr<cugl::audio::AudioNode> getNode(){
+    std::shared_ptr<cugl::audio::AudioFader> getNode(){
         return _node;
     }
     

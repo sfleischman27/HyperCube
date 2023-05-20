@@ -54,6 +54,7 @@ _fadein(0),
 _fadeout(0),
 _fadedip(0),
 _inmark(-1),
+_markOut(true),
 _outmark(-1),
 _dipmark(-1),
 _dipstop(0),
@@ -135,6 +136,7 @@ void AudioFader::dispose() {
         _fadein = 0;
         _inmark = -1;
         _fadeout = 0;
+        _markOut = true;
         _outmark = -1;
         _outkeep = false;
         _fadedip = 0;
@@ -581,9 +583,16 @@ Uint32 AudioFader::read(float* buffer, Uint32 frames) {
         return frames;
     } else {
         std::lock_guard<std::mutex> lock(_mutex);
-        if (!_outdone) {
+        if (!(_outdone && _markOut)) {
             Uint32 amt = input->read(buffer, frames);
             float gain = _ndgain.load(std::memory_order_relaxed);
+            
+            if(_outdone){
+                gain = 0;
+            }
+            
+            //CULog("outdone = %i", _outdone);
+            
             if (gain != 1) {
                 dsp::DSPMath::scale(buffer,gain,buffer,amt*_channels);
             }
@@ -611,7 +620,8 @@ bool AudioFader::completed() {
         outdone = _outdone;
     }
     std::shared_ptr<AudioNode> input = std::atomic_load_explicit(&_input,std::memory_order_relaxed);
-    return (input == nullptr || input->completed() || outdone);
+    bool od = _markOut && outdone;
+    return (input == nullptr || input->completed() || od);
 }
 
 /**

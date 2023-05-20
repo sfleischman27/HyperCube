@@ -479,6 +479,12 @@
             "file": "sounds/music/pivot-lab-p.ogg",
             "stream": true,
             "volume": 0.9
+        },
+        "lab_r": {
+            "type": "sample",
+            "file": "sounds/music/pivot-lab-r.ogg",
+            "stream": true,
+            "volume": 0.5
         }
     },
     "fonts": {

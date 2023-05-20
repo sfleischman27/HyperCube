@@ -92,6 +92,8 @@ protected:
     Sint64 _outmark;
     /** The current fade-out in frames; 0 if no active fade-out */
     Uint64 _fadeout;
+    /** Whether to mark this node as complete once faded out*/
+    bool   _markOut;
     /** Whether we have completed this node due to a fadeout */
     bool   _outdone;
     /** Whether to persist fade-out on a reset */
@@ -108,7 +110,7 @@ protected:
     bool   _diphalf;
     /** To prevent a race condition on pausing */
     bool   _dipstart;
-
+    
     /**
      * Performs a fade-in.
      *
@@ -286,6 +288,10 @@ public:
 
 #pragma mark -
 #pragma mark Fade In/Out Support
+    bool setMarkOut(bool b){
+        _markOut = b;
+        return _markOut;
+    }
     /**
      * Attaches an audio node to this fader.
      *

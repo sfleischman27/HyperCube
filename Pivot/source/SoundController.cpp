@@ -230,6 +230,23 @@ void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, f
     }
 }
 
+void SoundController::fadeIn(std::string name, float duration){
+    getSound(name)->getNode()->mark();
+    getSound(name)->getNode()->reset();
+    getSound(name)->getNode()->setMarkOut(false);
+    getSound(name)->getNode()->fadeIn(duration);
+}
+
+void SoundController::fadeOut(std::string name, float duration){
+    getSound(name)->getNode()->setMarkOut(false);
+    getSound(name)->getNode()->fadeOut(duration);
+}
+
+
+void SoundController::streamMixer(){
+    streamNode(_mixer, 1.0, true);
+}
+
 void SoundController::setSpinnerPan(float angle, float lowest){
     //channel 0, 1 = left, right
     //angle 0 = forward, -pi left pi right

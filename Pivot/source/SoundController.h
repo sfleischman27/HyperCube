@@ -172,6 +172,21 @@ public:
      * @param lowest the lowest value a panned channel can be.
      */
     void setSpinnerPan(float angle, float lowest);
+    
+    /**
+     * fades in selected audio
+     */
+    void fadeIn(std::string name, float duration);
+    
+    /**
+     * fades out selected audio
+     */
+    void fadeOut(std::string name, float duration);
+    
+    /**
+     * Streams current mixer contents
+     */
+    void streamMixer();
 };
 
 #endif /* SoundController_h */

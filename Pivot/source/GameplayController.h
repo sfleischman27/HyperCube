@@ -51,6 +51,10 @@ protected:
     
     bool _playOutline = true;
     
+    bool _justRotated = false;
+    
+    bool _justStoppedRotating = false;
+    
     /** Reference to the physics root of the scene graph */
     std::shared_ptr<cugl::scene2::SceneNode> _worldnode;
     //SET OF CUT COLLISION OBSTACLES
