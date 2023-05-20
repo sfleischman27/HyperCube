@@ -299,7 +299,7 @@
                                         "levelPosX": 0.125,
                                         "levelPosY": 0.05,
                                         "levelNumber": 9,
-                                        "levelState": "unlockedone"
+                                        "levelState": "caveunlockedone"
                                     }
                                 }
                             },
@@ -329,7 +329,7 @@
                                         "levelPosX": 0,
                                         "levelPosY": 0.05,
                                         "levelNumber": 10,
-                                        "levelState": "unlockedtwo"
+                                        "levelState": "caveunlockedtwo"
                                     }
                                 }
                             },
@@ -389,7 +389,7 @@
                                         "levelPosX": -0.125,
                                         "levelPosY": 0.05,
                                         "levelNumber": 12,
-                                        "levelState": "unlockedfour"
+                                        "levelState": "caveunlockedfour"
                                     }
                                 }
                             },
