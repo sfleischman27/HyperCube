@@ -818,8 +818,9 @@ void GameplayController::update(float dt) {
     lastFrameAngle = _model->getGlobalAngleDeg();
     _model->_currentTime->mark();
     
-    if(_model->_player->getVY() == 0.0f && !(_model->_player->isGrounded())){
+    if((_model->_player->getVY() > -5.0f && _model->_player->getVY() < 5.0f) && !(_model->_player->isGrounded())){
         _model->_player->timeStuckAtZeroYvelocity++;
+        CULog("I'm Stuck!!!");
     }
     
 #pragma mark SCENE TRANSITIONS
@@ -920,7 +921,7 @@ void GameplayController::update(float dt) {
         Trigger::showMessage(args);
     }
     
-    if(_model->_player->timeStuckAtZeroYvelocity > 100){
+    if(_model->_player->timeStuckAtZeroYvelocity > 50){
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_deathTime->mark();
         _model->_player->setPosition(lastStablePlay2DPos);
