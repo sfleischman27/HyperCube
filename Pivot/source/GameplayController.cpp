@@ -369,14 +369,16 @@ void GameplayController::createCutObstacles(){
  * Generates obstacle instances from a list of Poly2s. Each poly2 represents a new obstacle.
  * @param polys the list of Poly2s
  */
-void GameplayController::createObstacleFromPolys(std::vector<cugl::Poly2> polys){
+void GameplayController::createObstacleFromPolys(std::vector<std::shared_ptr<Poly2>> polys){
     //std::shared_ptr<Rect> bounds = std::make_shared<Rect>(Vec2::ZERO, getSize() / _physics->getScale());
     
     //std::shared_ptr<scene2::SceneNode> cutnode = scene2::SceneNode::alloc();
     
-    for(Poly2 p : polys){
-        std::vector<cugl::Vec2> vertices = p.getVertices();
-        std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(p);
+    for(std::shared_ptr<Poly2> p : polys){
+        std::vector<cugl::Vec2> vertices = p->getVertices();
+        std::shared_ptr<cugl::physics2::PolygonObstacle> obstacle = physics2::PolygonObstacle::alloc(*p);
+        
+        //obstacle->init(p.operator*());
         obstacle->setBodyType(b2_staticBody);
         //cutnode = scene2::SceneNode::alloc();
         //_cutnodes.insert(cutnode);

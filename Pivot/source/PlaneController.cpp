@@ -54,7 +54,7 @@ void PlaneController::calculateCut() {
 	std::shared_ptr<SimpleExtruder> extruder = std::make_shared<SimpleExtruder>();
 
 	// init the cut list
-	std::vector<Poly2> cut;
+	std::vector<std::shared_ptr<Poly2>> cut;
 
 	//do the cut
 	auto cutdata = _model->getColMesh()->intersectPlane(origin, normal);
@@ -81,7 +81,7 @@ void PlaneController::calculateCut() {
 		auto verts = std::vector<Vec2>{ v0, v1 };
 		extruder->set(Path2(verts));
 		extruder->calculate(width);
-		cut.push_back(extruder->getPolygon());
+		cut.push_back(std::make_shared<Poly2>(extruder->getPolygon()));
 
 		//CULog("v%f,%f,%f", v0.x, v0.y, 0.0f);
 		//CULog("v%f,%f,%f", v1.x, v1.y, 0.0f);
@@ -98,7 +98,7 @@ void PlaneController::calculateCut() {
 void PlaneController::debugCut(float size) {
 
 	// init the cut list
-	std::vector<Poly2> cut;
+	std::vector<std::shared_ptr<Poly2>> cut;
 
 	auto width = 1;
 
@@ -115,7 +115,7 @@ void PlaneController::debugCut(float size) {
     path.closed = true;
 	extruder->set(path);
 	extruder->calculate(width);
-	cut.push_back(extruder->getPolygon());
+	cut.push_back(std::make_shared<Poly2>(extruder->getPolygon()));
 
 	_model->setCut(cut);
 

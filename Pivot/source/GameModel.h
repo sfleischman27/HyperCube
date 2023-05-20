@@ -110,7 +110,7 @@ private:
 #pragma mark Cut State
 private:
     /** Vector of cut polygons */
-    std::vector<Poly2> _cut;
+    std::vector<std::shared_ptr<Poly2>> _cut;
 
 #pragma mark Collectibles State
 public:
@@ -372,14 +372,14 @@ public:
      *
      *  @param cut          The cut
      */
-    void setCut(std::vector<Poly2> cut) {
+    void setCut(std::vector<std::shared_ptr<Poly2>> cut) {
         _cut = cut;
     }
 
     /**
      *  Gets the cut
      */
-    std::vector<Poly2> getCut() {
+    std::vector<std::shared_ptr<Poly2>> getCut() {
         return _cut;
     }
 

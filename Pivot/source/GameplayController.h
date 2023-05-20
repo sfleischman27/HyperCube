@@ -154,7 +154,7 @@ public:
     */
     void createCutObstacles();
     
-    void createObstacleFromPolys(std::vector<cugl::Poly2> polys);
+    void createObstacleFromPolys(std::vector<std::shared_ptr<Poly2>> polys);
 
     
     
