@@ -162,8 +162,9 @@ protected:
 
 public:
 #pragma mark Sound + Sound Cues
-    bool _jumpCue;
-    bool _walkCue;
+    bool _jumpCue = false;
+    bool _landCue = false;
+    bool _walkCue = false;
     
     
 #pragma mark Hidden Constructors
