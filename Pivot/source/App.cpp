@@ -388,8 +388,11 @@ void PivotApp::updateEndScene(float timestep){
         case EndLevelMenu::Choice::NEXT:
             _endMenu.setActive(false);
             if(_levelSelect.isLast()){
-                _levelSelect.setActive(true);
-                _scene = State::LEVEL;
+                _credits.setActive(true);
+                _scene = State::CREDITS;
+            } else if(_levelSelect.getNextLevelString() == "lab_0000" && _levelSelect.getMaxLevel() == _levelSelect.levelNum()){
+                _cutscene.setActive(true);
+                _scene = State::CUTSCENE;
             } else {
                 _gameplay.setActive(true);
                 _gameplay.load(_levelSelect.getNextLevelString());
@@ -434,7 +437,6 @@ void PivotApp::updateCutscene(float timestep){
         case Cutscene::STORY1:
         case Cutscene::STORY2:
         case Cutscene::STORY3:
-        case Cutscene::BUTTON:
             _cutscene.update(timestep);
             break;
         case Cutscene::NEXT:
