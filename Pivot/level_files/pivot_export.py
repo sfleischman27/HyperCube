@@ -310,7 +310,7 @@ class ExportJsonOperator(bpy.types.Operator):
             }
             
         if path.isfile(dir+ f"textures/{name}_normal.png"):
-            new_tex_dict[f"{name}_normal"] = {
+            new_tex_dict[f"{name}-normal"] = {
             "file":f"textures/{name}_normal.png",
             "span": 1,
             "cols": 1
@@ -390,13 +390,18 @@ class ExportJsonOperator(bpy.types.Operator):
                 sprite_dict["color"] = None
                 sprite_dict["intense"] = None
                 sprite_dict["radius"] = None
+                sprite_dict["pulse"] = None
+                
                                
                 
                 for ch in sprite.children:
                     if ch.data.type  == 'POINT':
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
                         sprite_dict["intense"] = ch.data.energy/10000
-                        sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale*1000
+                        sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale*100
+                        pulse = ch.data.diffuse_factor*10000
+                        if pulse == 0 or pulse == 10000: pulse = None
+                        sprite_dict["pulse"] = pulse
                 
                 col_dict[f"{sprite_count}"] = sprite_dict
                 sprite_count += 1
@@ -441,6 +446,7 @@ class ExportJsonOperator(bpy.types.Operator):
                 sprite_dict["color"] = None
                 sprite_dict["intense"] = None
                 sprite_dict["radius"] = None
+                sprite_dict["pulse"] = None
                 
                 
                 for ch in sprite.children:
@@ -448,6 +454,9 @@ class ExportJsonOperator(bpy.types.Operator):
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
                         sprite_dict["intense"] = ch.data.energy/10000
                         sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale*100
+                        pulse = ch.data.diffuse_factor*10000
+                        if pulse == 0 or pulse == 10000: pulse = None
+                        sprite_dict["pulse"] = pulse
                 
                 deco_dict[f"{sprite_count}"] = sprite_dict
                 sprite_count += 1
@@ -483,6 +492,9 @@ class ExportJsonOperator(bpy.types.Operator):
                 sprite_dict["color"] = [obj.data.color.r,obj.data.color.g,obj.data.color.b]
                 sprite_dict["intense"] = obj.data.energy/10000
                 sprite_dict["radius"] = obj.data.shadow_soft_size*scene_scale*100
+                pulse = obj.data.diffuse_factor*10000
+                if pulse == 0 or pulse == 10000: pulse = None
+                sprite_dict["pulse"] = pulse
                 
                 
                 light_dict[f"{sprite_count}"] = sprite_dict
@@ -528,6 +540,7 @@ class ExportJsonOperator(bpy.types.Operator):
                 sprite_dict["color"] = None
                 sprite_dict["intense"] = None
                 sprite_dict["radius"] = None
+                sprite_dict["pulse"] = None
                 
                 
                 for ch in sprite.children:
@@ -535,6 +548,9 @@ class ExportJsonOperator(bpy.types.Operator):
                         sprite_dict["color"] = [ch.data.color.r, ch.data.color.g, ch.data.color.b]
                         sprite_dict["intense"] = ch.data.energy/100000
                         sprite_dict["radius"] = ch.data.shadow_soft_size*scene_scale*100
+                        pulse = ch.data.diffuse_factor*10000
+                        if pulse == 0 or pulse == 10000: pulse = None
+                        sprite_dict["pulse"] = pulse
                 
                 poster_dict[f"{sprite_count}"] = sprite_dict
                 sprite_count += 1

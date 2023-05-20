@@ -154,7 +154,7 @@ std::string LevelSelect::packToString(Pack pack){
         case Pack::ONE:
             return "lab";
         case Pack::TWO:
-            return "tunnel";
+            return "tunnels";
         case Pack::THREE:
             return "woods";
         case Pack::FOUR:

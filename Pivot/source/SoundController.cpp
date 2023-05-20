@@ -20,6 +20,11 @@ bool SoundController::init(std::shared_ptr<cugl::AssetManager> assets){
     //4 audio nodes (main music, portal music, ending music, menu music)
     //_mixer = std::make_shared<cugl::audio::AudioMixer>();
     _mixer = _mixer->alloc(4, 2, 48000);
+    
+    _panner = std::make_shared<cugl::audio::AudioPanner>();
+    _panner->init(2, 48000);
+    
+    _mixer->attach(1, _panner);
     _mixerwrapper = std::vector<std::shared_ptr<GameSound>>(_mixer->getWidth());
     return true;
 }
@@ -106,7 +111,7 @@ std::shared_ptr<GameSound> SoundController::createSound(std::string name){
  * @param name the name of the sound in the json.
  */
 void SoundController::attachSound(std::string name){
-    _mixerwrapper[getSound(name)->attachSound(_mixer)] = getSound(name);
+    _mixerwrapper[getSound(name)->attachSound(_mixer, _panner)] = getSound(name);
 }
 
 /**
@@ -225,3 +230,17 @@ void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, f
     }
 }
 
+void SoundController::setSpinnerPan(float angle, float lowest){
+    //channel 0, 1 = left, right
+    //angle 0 = forward, -pi left pi right
+    
+    float rad = cos(angle);
+    //_panner->setPan(1,1,0);
+    //_panner->setPan(0,0,1);
+    float left = (rad + 1)/2 * (1-lowest) + lowest;
+    float right = (-rad + 1)/2 * (1-lowest) + lowest;
+    
+    _panner->setPan(0,0,left);
+    _panner->setPan(1,1,right);
+    CULog("pan L R: %f, %f ", left, right);
+}
