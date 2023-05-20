@@ -836,7 +836,15 @@ void GameplayController::update(float dt) {
     }
     
     // not done pixeling in
-    if(!_model->_donePixelIn){ return; }
+    if(!_model->_donePixelIn){
+        // let gravity happen
+        _physics->update(dt);
+        currPlay2DPos = _model->_player->getPosition();
+        Vec2 displacement = currPlay2DPos - prevPlay2DPos;
+        updatePlayer3DLoc(displacement);
+        prevPlay2DPos = currPlay2DPos;
+        return;
+    }
     
     if(_playOutline){
         _sound->playSound("outline", 1);
@@ -885,6 +893,12 @@ void GameplayController::update(float dt) {
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_player->timeStuckAtZeroYvelocity = 0;
         _model->_player->justFinishedGettingUnstuck = true;
+        
+        // turn on stuck message
+        auto args = TriggerArgs();
+        args.messages = _model->_messages;
+        args.text = "HMM, I THINK I GOT STUCK";
+        Trigger::showMessage(args);
     }
     
     // update popups
@@ -903,8 +917,12 @@ void GameplayController::update(float dt) {
         _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
         
         if(_model->_player->justFinishedGettingUnstuck){
-            //TODO sarah this is when the stuck popup goes away
             _model->_player->justFinishedGettingUnstuck = false;
+            
+            // turn off stuck message
+            auto args = TriggerArgs();
+            args.messages = _model->_messages;
+            Trigger::stopMessages(args);
         }
     }
     
