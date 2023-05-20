@@ -859,8 +859,9 @@ void GameplayController::update(float dt) {
         _model->_deathTime->mark();
     }
     
-    if(_model->_player->timeStuckAtZeroYvelocity > 50){
+    if(_model->_player->timeStuckAtZeroYvelocity > 100){
         _model->_player->setPosition(lastStablePlay2DPos);
+        _model->_player->timeStuckAtZeroYvelocity = 0;
     }
     
     // update popups
