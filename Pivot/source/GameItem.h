@@ -41,6 +41,8 @@ protected:
     float _spriteScale;
     /** the offset angle of the item */
     float _offsetAngle;
+    /** the normal of the item */
+    Vec3 _normal;
     
 public:
     std::shared_ptr<cugl::SpriteSheet> rotateSpriteSheet;
@@ -213,6 +215,10 @@ public:
         _offsetAngle = offangle;
     }
     
+    void setNormal(Vec3 normal) {
+        _normal = normal;
+    }
+    
 #pragma mark Getters
 public:
     /**
@@ -264,6 +270,8 @@ public:
     float getScale() { return _spriteScale; }
     
     float getOffsetAngle() { return _offsetAngle; }
+    
+    Vec3 getNormal() { return _normal; }
     
 #pragma mark Helper Methods
 public:
