@@ -1066,10 +1066,20 @@ void GameplayController::update(float dt) {
 #pragma mark SOUND CUES
     
     if(_model->_player->_jumpCue){
-        //_sound->playSound("jump", 0.5, false);
-        /*if(_model->_player->isGrounded()){
-            _sound->playSound("jump_land", 0.5, false);
-        }*/
+        float jumpNumber = rand() % 12;
+        if(jumpNumber < 3){
+            _sound->playSound("jump_1", 1, false);
+        } else {
+            if(jumpNumber < 6) {
+                _sound->playSound("jump_2", 1, false);
+            } else {
+                if(jumpNumber < 9) {
+                    _sound->playSound("jump_3", 1, false);
+                } else {
+                    _sound->playSound("jump_4", 1, false);
+                }
+            }
+        }
         _model->_player->_jumpCue = false;
     }
     
@@ -1082,25 +1092,19 @@ void GameplayController::update(float dt) {
     }
     
     if(_model->_player->_walkCue){
-        
         float walkNumber = rand() % 12;
-        //CULog("walkNumber = %f", walkNumber);
-        
         if(walkNumber < 3){
-            //CULog("walk 1");
             _sound->playSound("walk_1", 1, false);
         } else {
             if(walkNumber < 6) {
-                //CULog("walk 2");
                 _sound->playSound("walk_2", 1, false);
             } else {
                 if(walkNumber < 9) {
-                    //CULog("walk 3");
                     _sound->playSound("walk_3", 1, false);
                 } else {
-                    //CULog("walk 4");
                     _sound->playSound("walk_4", 1, false);
-                }            }
+                }
+            }
         }
         _model->_player->_walkCue = false;
     }

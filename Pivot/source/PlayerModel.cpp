@@ -84,10 +84,6 @@ bool PlayerModel::init(const cugl::Vec2& pos, const cugl::Size& size, float scal
         _shootCooldown = 0;
         _jumpCooldown  = 0;
         
-        // Sound Cues
-        _jumpCue = false;
-        
-
         // fix rotation of player sprite
         int c = 7;
         for(int i = 0; i < c*c; i++){
@@ -274,7 +270,6 @@ void PlayerModel::applyForce() {
         //b2Vec2 force(0, DUDE_JUMP);
         //_body->ApplyLinearImpulse(force,_body->GetPosition(),true);
         _body->SetLinearVelocity(_body->GetLinearVelocity() + b2Vec2(0,DUDE_JUMP_V));
-        _jumpCue = true;
     }
     
 #ifndef CU_TOUCH_SCREEN
@@ -325,6 +320,7 @@ void PlayerModel::animate() {
     else if(getVY() > 0.1 && !isGrounded()){
         setLanding(false);
         if(animState != 3){
+            _jumpCue = true;
             animState = 3;
             setSpriteSheet("jump-launch");
             resetOtherSpritesheets("jump-launch");
