@@ -137,7 +137,7 @@ public:
     /** returns which slot should be used in the mixer given the string's name. mixer channel is determined by:
      *  _m: main level music
      *  _p: portal menu music
-     *  _e: level ending music _
+     *  _r: rotating music_
      * @param name the name of the sound in the json.
      */
     static int findMixerSlot(std::string name){
@@ -149,7 +149,7 @@ public:
             case 'p':
                 slot = 1; //portal
             break;
-            case 'e':
+            case 'r':
                 slot = 2;
             default:
                 slot = 3;

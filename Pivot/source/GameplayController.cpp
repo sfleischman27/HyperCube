@@ -959,6 +959,7 @@ void GameplayController::update(float dt) {
             Trigger::stopMessages(args);
         }
         if(_model->_player->justDied){
+            _sound->playSound("die", 1.0f);
             _model->_player->justDied = false;
             
             // turn off dead message

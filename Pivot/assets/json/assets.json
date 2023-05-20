@@ -476,6 +476,11 @@
             "file": "sounds/jump-land.wav",
             "volume": 0.5
         },
+        "die": {
+            "type": "sample",
+            "file": "sounds/die.wav",
+            "volume": 0.5
+        },
         "menu": {
             "type": "sample",
             "file": "sounds/music/pivot_menu.ogg",
@@ -503,6 +508,24 @@
         "lab_r": {
             "type": "sample",
             "file": "sounds/music/pivot-lab-r.ogg",
+            "stream": true,
+            "volume": 0.5
+        },
+        "swamp_m": {
+            "type": "sample",
+            "file": "sounds/music/pivot-swamp-m.ogg",
+            "stream": true,
+            "volume": 0.5
+        },
+        "swamp_p": {
+            "type": "sample",
+            "file": "sounds/music/pivot-swamp-p.ogg",
+            "stream": true,
+            "volume": 0.9
+        },
+        "swamp_r": {
+            "type": "sample",
+            "file": "sounds/music/pivot-swamp-r.ogg",
             "stream": true,
             "volume": 0.5
         }
