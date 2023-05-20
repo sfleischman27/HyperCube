@@ -1,10 +1,10 @@
 {
     "max_level": 0,
-    "buttons": true,
+    "buttons": false,
     "volume": 50.0,
     "music": true,
     "compass_180": true,
-    "rotate": false,
+    "rotate": true,
     "outline": true
 }
 
