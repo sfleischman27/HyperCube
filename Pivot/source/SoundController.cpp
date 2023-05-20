@@ -241,7 +241,7 @@ void SoundController::streamNode(std::shared_ptr<cugl::audio::AudioNode> node, f
 void SoundController::fadeIn(std::string name, float duration){    
     auto sound = getSound(name);
     
-    sound->setVolume(1.0);
+    setVolume(name, 1.0);
     
     if(sound->getNode()->isFadeIn()){
         sound->_keepFade = true;
@@ -311,7 +311,7 @@ void SoundController::checkFades(){
         if(!fader->getNode()->isFadeOut()){
             _fadeOuts.erase(_fadeOuts.begin() + i);
             if(fader->_keepFade){
-                fader->setVolume(0.0);
+                fader->getNode()->setGain(0.0);
             } else {
                 fader->_keepFade = true;
                 fadeIn(fader->getName(), DEFAULT_FADE);

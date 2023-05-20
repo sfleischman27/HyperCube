@@ -572,7 +572,8 @@ void GameplayController::load(std::string name){
     _packName = getPackName(name);
     //play sounds
     _playOutline = true;
-    _sound->streamSounds({getSongName("m"), getSongName("p"), getSongName("r")}, { 1.0, 0.0, 0.0 }, true);
+    _sound->streamSounds({getSongName("m"), getSongName("p"), getSongName("r")}, { 1.0, 0.0, 1.0 }, true);
+    _sound->getSound(getSongName("r"))->getNode()->setGain(0.0f);
     
     //_sound->streamSounds({ "end" }, 1.0, true);
     _model->updateCompassNum();
@@ -583,6 +584,8 @@ void GameplayController::load(std::string name){
     auto color = _layer->getColor();
     auto newColor = Color4(color.r, color.g, color.b, 0.0);
     _layer->setColor(newColor);
+    
+    _sound->setAllNodeGains();
 }
 
 std::string GameplayController::getSongName(std::string c){
