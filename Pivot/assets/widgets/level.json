@@ -7,7 +7,7 @@
         "levelPosX" : ["layout", "x_offset"],
         "levelPosY" : ["layout", "y_offset"],
         "levelState": ["children", "up", "data", "texture"],
-        "levelNumber": ["children", "label", "data", "text"]
+        "levelNumber": ["children", "numberpanel", "children", "label", "data", "text"]
     },
     "contents": {
         "type": "Button",
@@ -25,7 +25,7 @@
             "x_anchor": "left",
             "y_anchor": "top",
             "x_offset": 0,
-            "y_offset": 0
+            "y_offset": 0.2
         },
         "children": {
             "up":{
@@ -34,19 +34,38 @@
                     "texture": "unlocked"
                 }
             },
-            "label": {
-                "type": "Label",
-                "data": {
-                    "font": "roboto-bold",
-                    "text": "1",
-                    "foreground": [255,255,255,255],
-                    "background": [164,220,90,0],
-                    "halign": "center",
-                    "valign": "middle"
+            "numberpanel": {
+                "type": "Image",
+                "format": {
+                    "type": "Anchored"
                 },
-                "layout":{
-                    "x_anchor": "fill",
-                    "y_anchor": "fill"
+                "data": {
+                    "texture": "levelnumber",
+                    "anchor": [0.5,1],
+                    "size": [300,100],
+                    "scale": 1,
+                    "visible": "true"
+                },
+                "layout": {
+                    "x_anchor": "center",
+                    "y_anchor": "bottom"
+                },
+                "children": {
+                    "label": {
+                        "type": "Label",
+                        "data": {
+                            "font": "roboto-bold",
+                            "text": "1",
+                            "foreground": [255,255,255,255],
+                            "background": [164,220,90,0],
+                            "halign": "center",
+                            "valign": "middle"
+                        },
+                        "layout":{
+                            "x_anchor": "fill",
+                            "y_anchor": "fill"
+                        }
+                    }
                 }
             }
         }
