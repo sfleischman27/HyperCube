@@ -35,6 +35,10 @@ protected:
     /** panner for the portal hum */
     std::shared_ptr<cugl::audio::AudioPanner> _panner;
     
+    std::vector<std::shared_ptr<GameSound>> _fadeIns;
+    
+    std::vector<std::shared_ptr<GameSound>> _fadeOuts;
+    
     /** master volume, range 0 - 100 */
     float _masterVolume = 0.5f;
     
@@ -51,6 +55,10 @@ public:
     
     /** removes the sound hashmap */
     void dispose();
+    
+    void resetMixer(){
+        _mixer->reset();
+    }
     
 #pragma mark sound creation
     /**
@@ -117,6 +125,8 @@ public:
      *  @param volume the volume to switch the sound to
     */
     void setVolume(std::string name, float volume);
+    
+    void checkFades();
     
     void stopSound(std::string name);
     

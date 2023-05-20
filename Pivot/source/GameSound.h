@@ -42,6 +42,9 @@ public:
      * @param streaming if the sound will be streamed (music)
      * @param volume the volume of the sound, from 0.0 to 1.0
      */
+    
+    bool _keepFade = false;
+        
     GameSound(std::string name, std::shared_ptr<cugl::Sound> source, float volume, bool streaming){
         _name = name;
         _source = source;

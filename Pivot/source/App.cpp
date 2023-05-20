@@ -177,6 +177,7 @@ void PivotApp::update(float timestep) {
         case LEVEL:
             //level sound cues
             if(_levelSelect._playMusic){
+                _sound->resetMixer();
                 enqueueOnce("menu", 1, true);
                 _levelSelect._playMusic = false;
             }
