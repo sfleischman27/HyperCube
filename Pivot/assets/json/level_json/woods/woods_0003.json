@@ -1,0 +1,4512 @@
+{
+    "level_id": "woods_0003",
+    "player_loc": [
+        3653.8128662109375,
+        178.4923095703125,
+        50.100385665893555
+    ],
+    "norm": [
+        0.0,
+        -1.0,
+        0.0
+    ],
+    "exit": [
+        5128.5638427734375,
+        -263.90481185913086,
+        430.22856521606445
+    ],
+    "glowsticks": 4,
+    "shade_depth": 20,
+    "shade_color": [
+        0.010632873512804508,
+        0.021350648254156113,
+        0.08249522745609283
+    ],
+    "ambient_color": [
+        0.4992483854293823,
+        1.0,
+        0.0,
+        0.3799999952316284
+    ],
+    "cutline_color": [
+        1.0,
+        0.1843228042125702,
+        0.0
+    ],
+    "cutfill_color": [
+        1.0,
+        0.19785186648368835,
+        0.0
+    ],
+    "bg_color": [
+        1.0,
+        0.23626849055290222,
+        0.0
+    ],
+    "bg_image": "background_swamp",
+    "sprites": {
+        "0": {
+            "loc": [
+                4889.652099609375,
+                -208.90042877197266,
+                429.4430465698242
+            ],
+            "tex": "glow_cube",
+            "scale": 1.0,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": true,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "1": {
+            "loc": [
+                3547.3873596191406,
+                147.8178424835205,
+                -21.790208339691162
+            ],
+            "tex": "mushroom3",
+            "scale": 0.5671821236610413,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "2": {
+            "loc": [
+                3556.2471618652344,
+                213.84609603881836,
+                -7.5382750034332275
+            ],
+            "tex": "mushroom4",
+            "scale": 0.8818873167037964,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "3": {
+            "loc": [
+                3500.8600463867188,
+                71.27822017669678,
+                -9.40766191482544
+            ],
+            "tex": "mushroom2",
+            "scale": 0.747717559337616,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "4": {
+            "loc": [
+                3458.4114379882812,
+                116.11220359802246,
+                -2.452681303024292
+            ],
+            "tex": "mushroom1",
+            "scale": 0.8257964849472046,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "5": {
+            "loc": [
+                4769.151184082031,
+                100.87331676483154,
+                256.8840637207031
+            ],
+            "tex": "mushroom1",
+            "scale": 0.5469297766685486,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "6": {
+            "loc": [
+                4807.357238769531,
+                95.8197832107544,
+                259.6712303161621
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9178825616836548,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "7": {
+            "loc": [
+                3458.059814453125,
+                -68.20047950744629,
+                -18.859862565994263
+            ],
+            "tex": "mushroom3",
+            "scale": 0.8811400532722473,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "8": {
+            "loc": [
+                3471.769287109375,
+                254.61351776123047,
+                -9.71195125579834
+            ],
+            "tex": "mushroom2",
+            "scale": 0.7226936221122742,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "9": {
+            "loc": [
+                4702.795166015625,
+                100.17401504516602,
+                250.92403411865234
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6143811345100403,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "10": {
+            "loc": [
+                3465.2063598632812,
+                348.5535583496094,
+                -18.29005479812622
+            ],
+            "tex": "mushroom3",
+            "scale": 0.9507137537002563,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "11": {
+            "loc": [
+                3451.917724609375,
+                491.7924575805664,
+                -12.072098731994629
+            ],
+            "tex": "mushroom2",
+            "scale": 0.512722909450531,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "12": {
+            "loc": [
+                3437.586181640625,
+                517.1128234863281,
+                0.23494362831115723
+            ],
+            "tex": "mushroom1",
+            "scale": 0.9695745706558228,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "13": {
+            "loc": [
+                3443.4749145507812,
+                150.36619186401367,
+                -6.517287015914917
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6082996726036072,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "14": {
+            "loc": [
+                4652.660827636719,
+                51.11666393280029,
+                254.2655792236328
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5145204067230225,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "15": {
+            "loc": [
+                4715.952209472656,
+                65.49928283691406,
+                257.9785614013672
+            ],
+            "tex": "mushroom4",
+            "scale": 0.7189437747001648,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "16": {
+            "loc": [
+                4720.985595703125,
+                44.26952791213989,
+                258.28548431396484
+            ],
+            "tex": "mushroom4",
+            "scale": 0.6165422201156616,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "17": {
+            "loc": [
+                3453.6805419921875,
+                452.85223388671875,
+                -6.496899366378784
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6093904972076416,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "18": {
+            "loc": [
+                4927.139953613281,
+                -290.38888931274414,
+                249.65380477905273
+            ],
+            "tex": "mushroom3",
+            "scale": 0.6448907852172852,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "19": {
+            "loc": [
+                3907.0975952148438,
+                -17.578601598739624,
+                20.736412525177002
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9187889695167542,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "20": {
+            "loc": [
+                3598.6088256835938,
+                184.60765647888184,
+                -6.985076427459717
+            ],
+            "tex": "mushroom1",
+            "scale": 0.8211472034454346,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "21": {
+            "loc": [
+                3595.530517578125,
+                197.4296588897705,
+                -22.365476846694946
+            ],
+            "tex": "mushroom3",
+            "scale": 0.9962717294692993,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "22": {
+            "loc": [
+                3626.2507934570312,
+                189.77881622314453,
+                -15.438170433044434
+            ],
+            "tex": "mushroom1",
+            "scale": 0.5604449510574341,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "23": {
+            "loc": [
+                4794.462951660156,
+                -522.2169189453125,
+                262.3229866027832
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8607422113418579,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "24": {
+            "loc": [
+                4820.004150390625,
+                -547.8803100585938,
+                270.6581840515137
+            ],
+            "tex": "mushroom1",
+            "scale": 0.9682202935218811,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "25": {
+            "loc": [
+                4845.28515625,
+                -511.9867248535156,
+                269.66382217407227
+            ],
+            "tex": "mushroom1",
+            "scale": 0.91501784324646,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "26": {
+            "loc": [
+                4860.845031738281,
+                -493.4259262084961,
+                261.45762634277344
+            ],
+            "tex": "mushroom4",
+            "scale": 0.6516842842102051,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "27": {
+            "loc": [
+                4907.133728027344,
+                -497.1421661376953,
+                252.0809097290039
+            ],
+            "tex": "mushroom3",
+            "scale": 0.9412394762039185,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "28": {
+            "loc": [
+                4878.459533691406,
+                -549.234733581543,
+                261.0971374511719
+            ],
+            "tex": "mushroom2",
+            "scale": 0.7526419162750244,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "29": {
+            "loc": [
+                4883.752685546875,
+                -551.040168762207,
+                262.229793548584
+            ],
+            "tex": "mushroom1",
+            "scale": 0.5172629356384277,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "30": {
+            "loc": [
+                4905.5157470703125,
+                -556.1780700683594,
+                264.8294258117676
+            ],
+            "tex": "mushroom4",
+            "scale": 0.8987021446228027,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "31": {
+            "loc": [
+                4953.165222167969,
+                -503.88651275634766,
+                249.17560958862305
+            ],
+            "tex": "mushroom3",
+            "scale": 0.5865036845207214,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "32": {
+            "loc": [
+                5034.4774169921875,
+                -523.6306762695312,
+                268.47706604003906
+            ],
+            "tex": "mushroom1",
+            "scale": 0.8515203595161438,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "33": {
+            "loc": [
+                5061.412292480469,
+                -516.5363616943359,
+                265.4087448120117
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6873515248298645,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "34": {
+            "loc": [
+                4755.516052246094,
+                -410.9592590332031,
+                261.1149482727051
+            ],
+            "tex": "mushroom2",
+            "scale": 0.754213273525238,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "35": {
+            "loc": [
+                4763.065490722656,
+                -399.79109954833984,
+                262.9425735473633
+            ],
+            "tex": "mushroom4",
+            "scale": 0.7604691982269287,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "36": {
+            "loc": [
+                4780.833801269531,
+                -450.99317932128906,
+                261.0087242126465
+            ],
+            "tex": "mushroom2",
+            "scale": 0.744846761226654,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "37": {
+            "loc": [
+                4814.251281738281,
+                -464.1689147949219,
+                248.645263671875
+            ],
+            "tex": "mushroom3",
+            "scale": 0.521743655204773,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "38": {
+            "loc": [
+                4844.765197753906,
+                -483.37554931640625,
+                252.4933090209961
+            ],
+            "tex": "mushroom3",
+            "scale": 0.9915938377380371,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "39": {
+            "loc": [
+                4822.2113037109375,
+                -423.1092300415039,
+                260.4638786315918
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6967998147010803,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "40": {
+            "loc": [
+                4839.4652099609375,
+                -408.97667694091797,
+                261.079833984375
+            ],
+            "tex": "mushroom2",
+            "scale": 0.7511192560195923,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "41": {
+            "loc": [
+                4853.622009277344,
+                -421.8790283203125,
+                251.6224479675293
+            ],
+            "tex": "mushroom3",
+            "scale": 0.885261595249176,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "42": {
+            "loc": [
+                5002.872741699219,
+                -437.7025146484375,
+                265.2586212158203
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9301449060440063,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "43": {
+            "loc": [
+                4998.2828369140625,
+                -457.89400482177734,
+                250.57104873657227
+            ],
+            "tex": "mushroom3",
+            "scale": 0.756885826587677,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "44": {
+            "loc": [
+                4994.4068603515625,
+                -478.1249084472656,
+                267.30662536621094
+            ],
+            "tex": "mushroom1",
+            "scale": 0.7888973951339722,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "45": {
+            "loc": [
+                5050.830261230469,
+                -476.6881866455078,
+                264.42356872558594
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6346397399902344,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "46": {
+            "loc": [
+                5046.850036621094,
+                -413.6835403442383,
+                252.3865509033203
+            ],
+            "tex": "mushroom3",
+            "scale": 0.9785581231117249,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "47": {
+            "loc": [
+                4633.3634033203125,
+                -356.5728874206543,
+                262.6754913330078
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8918276429176331,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "48": {
+            "loc": [
+                4662.1580810546875,
+                -356.1682319641113,
+                263.2568130493164
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9430897831916809,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "49": {
+            "loc": [
+                4671.9847412109375,
+                -381.6386947631836,
+                264.90950775146484
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9045699238777161,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "50": {
+            "loc": [
+                4700.661071777344,
+                -386.6962471008301,
+                267.1530303955078
+            ],
+            "tex": "mushroom1",
+            "scale": 0.780678927898407,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "51": {
+            "loc": [
+                4726.939270019531,
+                -322.35004806518555,
+                259.7701644897461
+            ],
+            "tex": "mushroom4",
+            "scale": 0.5280616283416748,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "52": {
+            "loc": [
+                4694.816345214844,
+                -330.9246635437012,
+                263.2773742675781
+            ],
+            "tex": "mushroom4",
+            "scale": 0.784999668598175,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "53": {
+            "loc": [
+                4777.322692871094,
+                -344.9580955505371,
+                261.09393310546875
+            ],
+            "tex": "mushroom2",
+            "scale": 0.7523602247238159,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "54": {
+            "loc": [
+                4776.830078125,
+                -342.5034599304199,
+                261.8222541809082
+            ],
+            "tex": "mushroom4",
+            "scale": 0.6783949732780457,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "55": {
+            "loc": [
+                4770.731140136719,
+                -323.95136642456055,
+                261.28533935546875
+            ],
+            "tex": "mushroom2",
+            "scale": 0.7692394256591797,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "56": {
+            "loc": [
+                4744.19873046875,
+                -378.5693588256836,
+                263.56715393066406
+            ],
+            "tex": "mushroom4",
+            "scale": 0.8062262535095215,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "57": {
+            "loc": [
+                4933.8472900390625,
+                -365.4773635864258,
+                258.3908004760742
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5139874815940857,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "58": {
+            "loc": [
+                4915.4859619140625,
+                -323.8575325012207,
+                263.563175201416
+            ],
+            "tex": "mushroom1",
+            "scale": 0.5886056423187256,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "59": {
+            "loc": [
+                4931.626892089844,
+                -335.20988845825195,
+                263.11408615112305
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9305044412612915,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "60": {
+            "loc": [
+                4987.2052001953125,
+                -338.3772506713867,
+                264.8273162841797
+            ],
+            "tex": "mushroom4",
+            "scale": 0.8985487818717957,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "61": {
+            "loc": [
+                4982.062438964844,
+                -359.09972763061523,
+                249.51254653930664
+            ],
+            "tex": "mushroom3",
+            "scale": 0.6276470422744751,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "62": {
+            "loc": [
+                5053.756042480469,
+                -372.6020393371582,
+                262.04872131347656
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8365567922592163,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "63": {
+            "loc": [
+                5087.677673339844,
+                -376.614200592041,
+                258.32682037353516
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5083453059196472,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "64": {
+            "loc": [
+                4497.922546386719,
+                -263.04810333251953,
+                262.016544342041
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8777933716773987,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "65": {
+            "loc": [
+                4660.552062988281,
+                -251.0373077392578,
+                258.8529739379883
+            ],
+            "tex": "mushroom2",
+            "scale": 0.554744303226471,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "66": {
+            "loc": [
+                4623.626037597656,
+                -285.64079666137695,
+                261.73781967163086
+            ],
+            "tex": "mushroom4",
+            "scale": 0.6722114086151123,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "67": {
+            "loc": [
+                4672.519226074219,
+                -276.35292053222656,
+                263.3988456726074
+            ],
+            "tex": "mushroom1",
+            "scale": 0.57981276512146,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "68": {
+            "loc": [
+                4699.707458496094,
+                -303.69424057006836,
+                260.5347213745117
+            ],
+            "tex": "mushroom4",
+            "scale": 0.584072470664978,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "69": {
+            "loc": [
+                4726.014709472656,
+                -276.882625579834,
+                264.24372482299805
+            ],
+            "tex": "mushroom4",
+            "scale": 0.8557949662208557,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "70": {
+            "loc": [
+                4744.9754638671875,
+                -240.48011016845703,
+                249.7857437133789
+            ],
+            "tex": "mushroom3",
+            "scale": 0.6610009074211121,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "71": {
+            "loc": [
+                4732.0845947265625,
+                -294.86899185180664,
+                258.3661804199219
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5118172764778137,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "72": {
+            "loc": [
+                4776.676696777344,
+                -278.26527404785156,
+                250.19079971313477
+            ],
+            "tex": "mushroom3",
+            "scale": 0.7104593515396118,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "73": {
+            "loc": [
+                4799.452331542969,
+                -283.77656173706055,
+                262.9234809875488
+            ],
+            "tex": "mushroom1",
+            "scale": 0.5543808341026306,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "74": {
+            "loc": [
+                4980.073181152344,
+                -264.8760223388672,
+                261.12456130981445
+            ],
+            "tex": "mushroom2",
+            "scale": 0.7550579905509949,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "75": {
+            "loc": [
+                5024.293151855469,
+                -301.2938117980957,
+                263.52069091796875
+            ],
+            "tex": "mushroom4",
+            "scale": 0.8028243184089661,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "76": {
+            "loc": [
+                5028.040954589844,
+                -270.592041015625,
+                259.5291976928711
+            ],
+            "tex": "mushroom4",
+            "scale": 0.5104090571403503,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "77": {
+            "loc": [
+                5065.589050292969,
+                -288.8184928894043,
+                260.3867073059082
+            ],
+            "tex": "mushroom4",
+            "scale": 0.5732308626174927,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "78": {
+            "loc": [
+                3655.8538208007812,
+                96.6609239578247,
+                -19.893105506896973
+            ],
+            "tex": "mushroom4",
+            "scale": 0.5801137685775757,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "79": {
+            "loc": [
+                3679.9073486328125,
+                74.21365451812744,
+                -11.978852272033691
+            ],
+            "tex": "mushroom1",
+            "scale": 0.8390879034996033,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "80": {
+            "loc": [
+                3693.2959594726562,
+                67.92534637451172,
+                -20.463525772094727
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6102998852729797,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "81": {
+            "loc": [
+                3718.3565063476562,
+                83.95632076263428,
+                -14.55584716796875
+            ],
+            "tex": "mushroom4",
+            "scale": 0.8989054560661316,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "82": {
+            "loc": [
+                3732.9696044921875,
+                112.43597793579102,
+                -20.106081008911133
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6115978956222534,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "83": {
+            "loc": [
+                3722.4892578125,
+                102.61773586273193,
+                -19.156660079956055
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6974490284919739,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "84": {
+            "loc": [
+                3871.5379028320312,
+                55.59186315536499,
+                0.5878088474273682
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6606228947639465,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "85": {
+            "loc": [
+                3935.0155639648438,
+                53.909945487976074,
+                11.22261667251587
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5293925404548645,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "86": {
+            "loc": [
+                3944.7640380859375,
+                63.410423278808594,
+                19.906940937042236
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9839516282081604,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "87": {
+            "loc": [
+                3975.3621215820312,
+                59.57015514373779,
+                15.173890352249146
+            ],
+            "tex": "mushroom3",
+            "scale": 0.6531932950019836,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "88": {
+            "loc": [
+                4111.5540771484375,
+                88.12785816192627,
+                61.138675689697266
+            ],
+            "tex": "mushroom3",
+            "scale": 0.6551818251609802,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "89": {
+            "loc": [
+                4062.5288696289062,
+                117.98626518249512,
+                36.032323360443115
+            ],
+            "tex": "mushroom3",
+            "scale": 0.8719210624694824,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "90": {
+            "loc": [
+                4907.669494628906,
+                59.357126235961914,
+                249.4273910522461
+            ],
+            "tex": "mushroom3",
+            "scale": 0.626179039478302,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "91": {
+            "loc": [
+                3816.2539672851562,
+                50.8097243309021,
+                -7.008378028869629
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9393589496612549,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "92": {
+            "loc": [
+                3783.901611328125,
+                10.681531190872192,
+                -8.796576499938965
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9097070693969727,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "93": {
+            "loc": [
+                3816.736328125,
+                2.2370476126670837,
+                -0.7964785099029541
+            ],
+            "tex": "mushroom4",
+            "scale": 0.7851402759552002,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "94": {
+            "loc": [
+                3863.5804443359375,
+                41.87033748626709,
+                1.9868053197860718
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9338905215263367,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "95": {
+            "loc": [
+                3901.24560546875,
+                26.129481554031372,
+                13.050136804580688
+            ],
+            "tex": "mushroom4",
+            "scale": 0.8520115613937378,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "96": {
+            "loc": [
+                3923.0031127929688,
+                49.17295455932617,
+                15.317690372467041
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6889843940734863,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "97": {
+            "loc": [
+                3878.9198608398438,
+                -2.080200731754303,
+                9.565611124038696
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6028808951377869,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "98": {
+            "loc": [
+                3914.54833984375,
+                9.017032980918884,
+                16.94034433364868
+            ],
+            "tex": "mushroom2",
+            "scale": 0.7164750695228577,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "99": {
+            "loc": [
+                3954.1117553710938,
+                13.261319875717163,
+                25.99580192565918
+            ],
+            "tex": "mushroom2",
+            "scale": 0.552212119102478,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "100": {
+            "loc": [
+                3969.866455078125,
+                1.3066537380218506,
+                33.8516960144043
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6480363607406616,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "101": {
+            "loc": [
+                3959.701416015625,
+                17.465927124023438,
+                28.52794599533081
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6626728177070618,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "102": {
+            "loc": [
+                4027.3554077148438,
+                14.047988414764404,
+                58.36701679229736
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9498391151428223,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "103": {
+            "loc": [
+                4007.4794921875,
+                -3.0893977284431458,
+                48.86957311630249
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6004264950752258,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "104": {
+            "loc": [
+                4026.2044067382812,
+                2.7071804106235504,
+                60.384986877441406
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9935248494148254,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "105": {
+            "loc": [
+                4052.5291748046875,
+                -4.652899384498596,
+                73.98856925964355
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6695477962493896,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "106": {
+            "loc": [
+                4074.1491088867188,
+                5.75046581029892,
+                78.26735210418701
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8372275233268738,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "107": {
+            "loc": [
+                4098.3504638671875,
+                13.485054969787598,
+                77.52583312988281
+            ],
+            "tex": "mushroom3",
+            "scale": 0.9660937190055847,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "108": {
+            "loc": [
+                4113.503173828125,
+                16.381988763809204,
+                94.6507978439331
+            ],
+            "tex": "mushroom2",
+            "scale": 0.941196620464325,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "109": {
+            "loc": [
+                4193.867736816406,
+                -9.681134462356567,
+                124.50027275085449
+            ],
+            "tex": "mushroom3",
+            "scale": 0.7422493696212769,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "110": {
+            "loc": [
+                4198.046630859375,
+                0.23313341289758682,
+                133.10013580322266
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6173202395439148,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "111": {
+            "loc": [
+                4738.960266113281,
+                -33.18683433532715,
+                258.45948028564453
+            ],
+            "tex": "mushroom2",
+            "scale": 0.542340099811554,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "112": {
+            "loc": [
+                4814.039367675781,
+                35.507568359375,
+                264.62621688842773
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9554938673973083,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "113": {
+            "loc": [
+                4848.281433105469,
+                36.95252466201782,
+                262.04701232910156
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8795580863952637,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "114": {
+            "loc": [
+                4881.155456542969,
+                9.795727372169495,
+                265.0416603088379
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9205660820007324,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "115": {
+            "loc": [
+                4897.375427246094,
+                -21.095277547836304,
+                261.7043876647949
+            ],
+            "tex": "mushroom4",
+            "scale": 0.6701425909996033,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "116": {
+            "loc": [
+                4905.916931152344,
+                -2.0359636545181274,
+                263.13670349121094
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9337099194526672,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "117": {
+            "loc": [
+                4933.2730712890625,
+                12.869906544685364,
+                270.8242492675781
+            ],
+            "tex": "mushroom1",
+            "scale": 0.9771537184715271,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "118": {
+            "loc": [
+                4188.855712890625,
+                -85.64441013336182,
+                136.8880729675293
+            ],
+            "tex": "mushroom3",
+            "scale": 0.5676729679107666,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "119": {
+            "loc": [
+                4178.864562988281,
+                -64.27779960632324,
+                127.0816535949707
+            ],
+            "tex": "mushroom3",
+            "scale": 0.5521374940872192,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "120": {
+            "loc": [
+                4251.787353515625,
+                -121.8293571472168,
+                185.8035717010498
+            ],
+            "tex": "mushroom4",
+            "scale": 0.5365967154502869,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "121": {
+            "loc": [
+                4215.877746582031,
+                -75.90984153747559,
+                162.0466594696045
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8940582275390625,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "122": {
+            "loc": [
+                4240.846435546875,
+                -65.83545207977295,
+                175.87971305847168
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6704487204551697,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "123": {
+            "loc": [
+                4316.682189941406,
+                -112.9138126373291,
+                219.81119918823242
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8909518122673035,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "124": {
+            "loc": [
+                4675.468078613281,
+                -112.52946472167969,
+                267.2398147583008
+            ],
+            "tex": "mushroom1",
+            "scale": 0.7853907346725464,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "125": {
+            "loc": [
+                4642.6021728515625,
+                -92.56200504302979,
+                258.66447830200195
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5408716201782227,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "126": {
+            "loc": [
+                4739.966857910156,
+                -103.3949966430664,
+                252.11484909057617
+            ],
+            "tex": "mushroom3",
+            "scale": 0.9453840851783752,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "127": {
+            "loc": [
+                4769.732238769531,
+                -62.40937900543213,
+                263.4515838623047
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9625335931777954,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "128": {
+            "loc": [
+                4748.862121582031,
+                -94.66894912719727,
+                259.8038101196289
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6385914087295532,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "129": {
+            "loc": [
+                4779.0286865234375,
+                -81.22241973876953,
+                265.0366401672363
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9138841032981873,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "130": {
+            "loc": [
+                4833.8699951171875,
+                -43.05861234664917,
+                262.01507568359375
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8352057933807373,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "131": {
+            "loc": [
+                4845.456481933594,
+                -51.56366014480591,
+                248.93728637695312
+            ],
+            "tex": "mushroom3",
+            "scale": 0.5575512647628784,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "132": {
+            "loc": [
+                5007.770690917969,
+                -58.154775619506836,
+                258.45913314819336
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5200117826461792,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "133": {
+            "loc": [
+                5006.6807861328125,
+                -114.01609420776367,
+                263.8350639343262
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9940792322158813,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "134": {
+            "loc": [
+                5037.8697509765625,
+                -108.1908540725708,
+                262.98703384399414
+            ],
+            "tex": "mushroom1",
+            "scale": 0.55777907371521,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "135": {
+            "loc": [
+                5061.207214355469,
+                -112.58264350891113,
+                259.6010284423828
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6207101345062256,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "136": {
+            "loc": [
+                4310.393127441406,
+                -149.5184154510498,
+                215.50847053527832
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5514170527458191,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "137": {
+            "loc": [
+                4330.120788574219,
+                -146.1706485748291,
+                226.19943618774414
+            ],
+            "tex": "mushroom4",
+            "scale": 0.689138650894165,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "138": {
+            "loc": [
+                4419.9283447265625,
+                -167.4743137359619,
+                260.35303497314453
+            ],
+            "tex": "mushroom1",
+            "scale": 0.9546113610267639,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "139": {
+            "loc": [
+                4479.850891113281,
+                -205.35969352722168,
+                257.23261642456055
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6267050504684448,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "140": {
+            "loc": [
+                4448.159912109375,
+                -189.15570449829102,
+                257.0583267211914
+            ],
+            "tex": "mushroom1",
+            "scale": 0.5500645637512207,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "141": {
+            "loc": [
+                4528.77783203125,
+                -149.11334609985352,
+                257.74523162841797
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5198100805282593,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "142": {
+            "loc": [
+                4493.581298828125,
+                -201.47892379760742,
+                264.46701431274414
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9912918210029602,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "143": {
+            "loc": [
+                4554.792419433594,
+                -190.75468635559082,
+                267.321044921875
+            ],
+            "tex": "mushroom1",
+            "scale": 0.7982853055000305,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "144": {
+            "loc": [
+                4567.013366699219,
+                -212.66757774353027,
+                261.455623626709
+            ],
+            "tex": "mushroom4",
+            "scale": 0.6566404104232788,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "145": {
+            "loc": [
+                4557.560119628906,
+                -202.85548400878906,
+                265.49438095092773
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9566960334777832,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "146": {
+            "loc": [
+                4579.343688964844,
+                -210.25865745544434,
+                270.9698600769043
+            ],
+            "tex": "mushroom1",
+            "scale": 0.9848982691764832,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "147": {
+            "loc": [
+                4592.482360839844,
+                -207.18928146362305,
+                263.9181365966797
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6075966358184814,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "148": {
+            "loc": [
+                4609.046691894531,
+                -185.8603687286377,
+                266.07530212402344
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9899764657020569,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "149": {
+            "loc": [
+                4558.3082275390625,
+                -163.768648147583,
+                251.1208610534668
+            ],
+            "tex": "mushroom3",
+            "scale": 0.8440949320793152,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "150": {
+            "loc": [
+                4582.236145019531,
+                -171.76971244812012,
+                264.3282928466797
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6295430064201355,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "151": {
+            "loc": [
+                4596.583923339844,
+                -147.66507530212402,
+                261.4845962524414
+            ],
+            "tex": "mushroom4",
+            "scale": 0.6536605358123779,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "152": {
+            "loc": [
+                4633.2745361328125,
+                -160.44320487976074,
+                262.6675338745117
+            ],
+            "tex": "mushroom1",
+            "scale": 0.5406844019889832,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "153": {
+            "loc": [
+                4667.24658203125,
+                -177.73807334899902,
+                263.8079071044922
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9916883707046509,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "154": {
+            "loc": [
+                4695.290588378906,
+                -166.9888687133789,
+                261.9290657043457
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8260052800178528,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "155": {
+            "loc": [
+                4721.046691894531,
+                -220.48468589782715,
+                263.5661392211914
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9703672528266907,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "156": {
+            "loc": [
+                4995.223327636719,
+                -159.76589965820312,
+                249.72344589233398
+            ],
+            "tex": "mushroom3",
+            "scale": 0.6533921360969543,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "157": {
+            "loc": [
+                5066.2645263671875,
+                -210.12595748901367,
+                264.8670234680176
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6583675742149353,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "158": {
+            "loc": [
+                5085.464538574219,
+                -153.21060943603516,
+                263.2983093261719
+            ],
+            "tex": "mushroom2",
+            "scale": 0.9467501044273376,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "159": {
+            "loc": [
+                5067.911560058594,
+                -139.58226013183594,
+                265.03148651123047
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6671667098999023,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "160": {
+            "loc": [
+                4001.8821411132812,
+                129.98011779785156,
+                29.596318244934082
+            ],
+            "tex": "mushroom1",
+            "scale": 0.7894927263259888,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "161": {
+            "loc": [
+                3697.74658203125,
+                26.030218601226807,
+                -30.55062246322632
+            ],
+            "tex": "mushroom3",
+            "scale": 0.6225489974021912,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "162": {
+            "loc": [
+                3722.6934814453125,
+                15.96117639541626,
+                -19.237756729125977
+            ],
+            "tex": "mushroom2",
+            "scale": 0.6218796372413635,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "163": {
+            "loc": [
+                3725.2449951171875,
+                11.153961062431335,
+                -27.950342655181885
+            ],
+            "tex": "mushroom3",
+            "scale": 0.775602400302887,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "164": {
+            "loc": [
+                3730.1258544921875,
+                4.473960041999817,
+                -19.499812126159668
+            ],
+            "tex": "mushroom2",
+            "scale": 0.5375648736953735,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "165": {
+            "loc": [
+                4235.125183105469,
+                -24.694096565246582,
+                163.42269897460938
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6454107761383057,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "166": {
+            "loc": [
+                4545.304138183594,
+                -86.6048059463501,
+                260.90081787109375
+            ],
+            "tex": "mushroom2",
+            "scale": 0.7466305494308472,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "167": {
+            "loc": [
+                4505.018249511719,
+                -92.27786636352539,
+                258.18038177490234
+            ],
+            "tex": "mushroom2",
+            "scale": 0.577089786529541,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "168": {
+            "loc": [
+                4493.600524902344,
+                -135.7026653289795,
+                267.2142868041992
+            ],
+            "tex": "mushroom1",
+            "scale": 0.8974917531013489,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "169": {
+            "loc": [
+                4591.985046386719,
+                -117.80523300170898,
+                265.86560440063477
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9746139645576477,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "170": {
+            "loc": [
+                4602.655517578125,
+                -101.47268295288086,
+                262.6174125671387
+            ],
+            "tex": "mushroom2",
+            "scale": 0.8881044983863831,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "171": {
+            "loc": [
+                3887.705322265625,
+                139.12016677856445,
+                -16.550225257873535
+            ],
+            "tex": "mushroom3",
+            "scale": 0.9107750654220581,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "172": {
+            "loc": [
+                3958.6021118164062,
+                132.72907257080078,
+                -2.3365930318832397
+            ],
+            "tex": "mushroom3",
+            "scale": 0.5534388422966003,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "173": {
+            "loc": [
+                3844.5615844726562,
+                164.5259017944336,
+                -1.3577463626861572
+            ],
+            "tex": "mushroom1",
+            "scale": 0.9596784710884094,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "174": {
+            "loc": [
+                4568.67578125,
+                -43.120012283325195,
+                265.23704528808594
+            ],
+            "tex": "mushroom4",
+            "scale": 0.9468793869018555,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "175": {
+            "loc": [
+                4258.5643310546875,
+                -161.14105796813965,
+                189.32820510864258
+            ],
+            "tex": "mushroom3",
+            "scale": 0.9552408456802368,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "176": {
+            "loc": [
+                4601.4207763671875,
+                -332.1229019165039,
+                264.86080169677734
+            ],
+            "tex": "mushroom1",
+            "scale": 0.6580343246459961,
+            "norm": [
+                0.0,
+                0.0,
+                1.0
+            ],
+            "collectible": false,
+            "billboard": true,
+            "emissive": false,
+            "color": null,
+            "intense": null,
+            "radius": null,
+            "pulse": null
+        },
+        "177": {
+            "loc": [
+                3979.23681640625,
+                103.8527774810791,
+                28.114375114440918
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "178": {
+            "loc": [
+                3943.5634765625,
+                43.76057434082031,
+                26.890982627868652
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "179": {
+            "loc": [
+                3884.5625,
+                123.42090225219727,
+                -5.970096588134766
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "180": {
+            "loc": [
+                3775.2426147460938,
+                50.87020969390869,
+                -6.8789308071136475
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "181": {
+            "loc": [
+                3541.2330932617188,
+                175.47822189331055,
+                -0.4508514404296875
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "182": {
+            "loc": [
+                3456.328826904297,
+                277.79663848876953,
+                -0.44209299981594086
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "183": {
+            "loc": [
+                3468.724090576172,
+                101.11689376831055,
+                -0.44187937676906586
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "184": {
+            "loc": [
+                4072.5811157226562,
+                51.027950286865234,
+                77.58994007110596
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "185": {
+            "loc": [
+                4151.725891113281,
+                16.524914264678955,
+                117.9456901550293
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "186": {
+            "loc": [
+                4161.40771484375,
+                -27.9499454498291,
+                129.94713973999023
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "187": {
+            "loc": [
+                4253.955627441406,
+                -65.0411148071289,
+                190.7406406402588
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "188": {
+            "loc": [
+                4272.914245605469,
+                -131.66552352905273,
+                207.64005279541016
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "189": {
+            "loc": [
+                4317.371765136719,
+                -142.50742721557617,
+                229.27002716064453
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "190": {
+            "loc": [
+                4391.040954589844,
+                -195.37847709655762,
+                256.32730865478516
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "191": {
+            "loc": [
+                4468.4071044921875,
+                -148.89821434020996,
+                267.41218185424805
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "192": {
+            "loc": [
+                4526.941955566406,
+                -213.46557998657227,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "193": {
+            "loc": [
+                4656.51416015625,
+                -105.13024997711182,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "194": {
+            "loc": [
+                4688.2235107421875,
+                -182.76495742797852,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "195": {
+            "loc": [
+                4584.386474609375,
+                -131.34930801391602,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "196": {
+            "loc": [
+                4712.947814941406,
+                -8.000984191894531,
+                269.2815704345703
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "197": {
+            "loc": [
+                4821.974609375,
+                -40.133004665374756,
+                269.95803451538086
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "198": {
+            "loc": [
+                4795.476379394531,
+                50.2250714302063,
+                268.7950973510742
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "199": {
+            "loc": [
+                4903.840087890625,
+                -43.20655965805054,
+                316.24312591552734
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "200": {
+            "loc": [
+                5037.3134765625,
+                -119.87411880493164,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "201": {
+            "loc": [
+                5050.744812011719,
+                -235.9127960205078,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "202": {
+            "loc": [
+                4991.565246582031,
+                -404.1213722229004,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "203": {
+            "loc": [
+                4777.90673828125,
+                -298.09186935424805,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "204": {
+            "loc": [
+                4860.99072265625,
+                -399.83251571655273,
+                314.52874755859375
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "205": {
+            "loc": [
+                4747.904235839844,
+                -347.7452621459961,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "206": {
+            "loc": [
+                4908.688903808594,
+                -528.0373992919922,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "207": {
+            "loc": [
+                5015.7110595703125,
+                -502.77396392822266,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "208": {
+            "loc": [
+                5020.84912109375,
+                -308.5763816833496,
+                270.0066337585449
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "209": {
+            "loc": [
+                5076.911926269531,
+                -266.3865509033203,
+                387.08966064453125
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "210": {
+            "loc": [
+                5076.290283203125,
+                -266.0366897583008,
+                313.8390922546387
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "211": {
+            "loc": [
+                5076.420593261719,
+                -261.08715057373047,
+                344.04467010498047
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                0.3788551390171051,
+                1.0,
+                0.0016544725513085723
+            ],
+            "intense": 1.0,
+            "radius": 0.0,
+            "pulse": null
+        }
+    },
+    "sounds": {},
+    "collision_mesh": "meshes/woods/woods_0003_col.obj",
+    "render_mesh": "meshes/woods/woods_0003_dec.obj",
+    "triggers": {
+        "0": {
+            "type": "DEATH",
+            "mesh": "meshes/woods/woods_0003_death_0000.obj",
+            "image": null,
+            "message": null
+        }
+    }
+}
