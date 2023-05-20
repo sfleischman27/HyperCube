@@ -605,7 +605,7 @@ void RenderPipeline::render(const std::shared_ptr<GameModel>& model) {
 
     _shaderScreen->setUniform1f("blackFrac", blackFrac);
     _shaderScreen->setUniform1f("pixelFrac", pixelFrac);
-    //_shaderScreen->setUniform1f("time", model->_currentTime->ellapsedMillis(*model->_pixelInTime) / 1000.0f);
+    _shaderScreen->setUniform1f("time", model->_currentTime->ellapsedMillis(*model->_pixelInTime) / 1000.0f);
     _shaderScreen->setUniformVec2("screenSize", Vec2(screenSize.width, screenSize.height));
     _vertbuffScreen->loadVertexData(_meshFsq.vertices.data(), (int)_meshFsq.vertices.size());
     _vertbuffScreen->loadIndexData(_meshFsq.indices.data(), (int)_meshFsq.indices.size());
