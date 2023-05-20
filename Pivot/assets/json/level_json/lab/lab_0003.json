@@ -1,9 +1,9 @@
 {
     "level_id": "lab_0003",
     "player_loc": [
-        -4.0,
-        -42.47842025756836,
-        104.0
+        0.0,
+        -0.0,
+        0.0
     ],
     "norm": [
         -1.0,
@@ -11,9 +11,9 @@
         0.0
     ],
     "exit": [
-        325.65655517578125,
-        0.06973910331726074,
-        -136.59889221191406
+        -0.0,
+        -0.0,
+        0.0
     ],
     "glowsticks": 0,
     "shade_depth": 30,
@@ -23,10 +23,10 @@
         0.000467849982669577
     ],
     "ambient_color": [
-        1.0,
-        0.5,
-        0.5,
-        0.4000000059604645
+        0.6809903979301453,
+        0.026647865772247314,
+        0.010253485292196274,
+        0.0
     ],
     "cutline_color": [
         0.0,
@@ -34,9 +34,9 @@
         0.0
     ],
     "cutfill_color": [
-        1.0,
-        1.0,
-        1.0
+        0.0,
+        0.009999999776482582,
+        0.0
     ],
     "bg_color": [
         0.0038262885063886642,
@@ -47,9 +47,9 @@
     "sprites": {
         "0": {
             "loc": [
-                192.1004638671875,
-                92.45258331298828,
-                104.0
+                0.0,
+                -0.0,
+                0.0
             ],
             "tex": "orb",
             "scale": 1.0,
@@ -61,69 +61,497 @@
             "collectible": true,
             "billboard": true,
             "emissive": false,
-            "color": null,
-            "intense": null,
-            "radius": null
+            "color": [
+                1.0,
+                0.0002727329556364566,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
         },
         "1": {
             "loc": [
-                -88.0,
-                -1.9999847412109375,
-                -19.999954223632812
-            ],
-            "tex": "alarm",
-            "scale": -1.100000262260437,
-            "norm": [
+                -0.0,
                 0.0,
-                1.0,
                 0.0
             ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
             "collectible": false,
-            "billboard": true,
+            "billboard": false,
             "emissive": false,
-            "color": null,
-            "intense": null,
-            "radius": null
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
         },
         "2": {
             "loc": [
-                38.0,
-                -1.9999847412109375,
-                -63.99993896484375
-            ],
-            "tex": "lightning",
-            "scale": 11.520003318786621,
-            "norm": [
                 0.0,
-                -1.0,
+                0.0,
                 0.0
             ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
             "collectible": false,
-            "billboard": true,
+            "billboard": false,
             "emissive": false,
-            "color": null,
-            "intense": null,
-            "radius": null
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
         },
         "3": {
             "loc": [
-                38.0,
-                -1.5999755859375,
-                -119.99993896484375
-            ],
-            "tex": "lightning_flip",
-            "scale": 11.520003318786621,
-            "norm": [
                 0.0,
-                1.0,
+                0.0,
                 0.0
             ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
             "collectible": false,
-            "billboard": true,
+            "billboard": false,
             "emissive": false,
-            "color": null,
-            "intense": null,
-            "radius": null
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "4": {
+            "loc": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "5": {
+            "loc": [
+                0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "6": {
+            "loc": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "7": {
+            "loc": [
+                0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "8": {
+            "loc": [
+                0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "9": {
+            "loc": [
+                0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "10": {
+            "loc": [
+                0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "11": {
+            "loc": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "12": {
+            "loc": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "13": {
+            "loc": [
+                0.0,
+                -0.0,
+                0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "14": {
+            "loc": [
+                0.0,
+                -0.0,
+                0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "15": {
+            "loc": [
+                -0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "16": {
+            "loc": [
+                -0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "17": {
+            "loc": [
+                0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "18": {
+            "loc": [
+                0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "19": {
+            "loc": [
+                -0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "20": {
+            "loc": [
+                -0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "21": {
+            "loc": [
+                -0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "22": {
+            "loc": [
+                -0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": null
+        },
+        "23": {
+            "loc": [
+                0.0,
+                0.0,
+                -0.0
+            ],
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
+            "emissive": false,
+            "color": [
+                1.0,
+                0.0028918308671563864,
+                0.0
+            ],
+            "intense": 20.0,
+            "radius": 0.0,
+            "pulse": null
         }
     },
     "sounds": {},
@@ -137,30 +565,12 @@
             "message": null
         },
         "1": {
-            "type": "DEATH",
-            "mesh": "meshes/lab/lab_0003_death_0001.obj",
-            "image": null,
-            "message": null
-        },
-        "2": {
             "type": "MESSAGE",
             "mesh": "meshes/lab/lab_0003_message_0000.obj",
             "image": null,
-            "message": "THE REACTOR! IT'S DESTROYED!\nMAYBE I CAN FIX IT.\nI'LL NEED TO GET TO MY OFFICE"
+            "message": "ITS BLOCKEED!\nMAYBE GO LOOK AROUND OUTSIDE"
         },
-        "3": {
-            "type": "MESSAGE",
-            "mesh": "meshes/lab/lab_0003_message_0002.obj",
-            "image": null,
-            "message": "I'LL NEED MY KEY CARD FIRST\nIT'S IN MY OFFICE"
-        },
-        "4": {
-            "type": "MESSAGE",
-            "mesh": "meshes/lab/lab_0003_message_0004.obj",
-            "image": null,
-            "message": "GREAT! LETS GO GET MY TOOLS"
-        },
-        "5": {
+        "2": {
             "type": "EXITREGION",
             "mesh": "meshes/lab/lab_0003_exitregion_0000.obj",
             "image": null,
