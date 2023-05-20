@@ -28,7 +28,7 @@
                 "type": "Ninepatch",
                 "data": {
                     "texture": "message",
-                    "anchor": [1,0.5],
+                    "anchor": [1,1],
                     "visible": true,
                     "size": [1500,200],
                     "scale": 1,
@@ -36,7 +36,7 @@
                 },
                 "layout": {
                     "x_anchor": "left",
-                    "y_anchor": "middle"
+                    "y_anchor": "top"
                 },
                 "format":{
                     "type": "Anchored"
