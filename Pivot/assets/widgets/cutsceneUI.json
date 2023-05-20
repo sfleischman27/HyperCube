@@ -39,11 +39,12 @@
                         "data": {
                             "font": "cutscene-roboto",
                             "visible": "true",
-                            "text": "this is scene 1",
+                            "text": "I have made a grave error. The hyperdimensional \nreactor I built is faulty.",
                             "foreground": [255,255,255,255],
                             "background": [0,0,0,0],
-                            "halign": "center",
-                            "valign": "middle"
+                            "halign": "left",
+                            "valign": "middle",
+                            "padding": [150,0,0,0]
                         },
                         "layout":{
                             "x_anchor": "fill",
@@ -74,11 +75,12 @@
                         "data": {
                             "font": "cutscene-roboto",
                             "visible": "true",
-                            "text": "this is scene 2",
+                            "text": "Unfortunately, it is too late for me to turn it\noff without causing devastating results.",
                             "foreground": [255,255,255,255],
                             "background": [0,0,0,0],
-                            "halign": "center",
-                            "valign": "middle"
+                            "halign": "left",
+                            "valign": "middle",
+                            "padding": [150,0,0,0]
                         },
                         "layout":{
                             "x_anchor": "fill",
@@ -109,11 +111,12 @@
                         "data": {
                             "font": "cutscene-roboto",
                             "visible": "true",
-                            "text": "this is scene 3",
+                            "text": "A full collapse of the third dimension?! Oh no!",
                             "foreground": [255,255,255,255],
                             "background": [0,0,0,0],
-                            "halign": "center",
-                            "valign": "middle"
+                            "halign": "left",
+                            "valign": "middle",
+                            "padding": [150,0,0,0]
                         },
                         "layout":{
                             "x_anchor": "fill",
@@ -125,6 +128,9 @@
             },
             "nextscene": {
                 "type": "Button",
+                "format": {
+                    "type": "Anchored"
+                },
                 "data": {
                     "upnode": "up",
                     "size": [300, 200],
@@ -153,8 +159,7 @@
                             "foreground": [255,255,255,255],
                             "background": [0,0,0,0],
                             "halign": "center",
-                            "valign": "middle",
-                            "padding": [90,60,0,0]
+                            "valign": "middle"
                         },
                         "layout":{
                             "x_anchor": "fill",

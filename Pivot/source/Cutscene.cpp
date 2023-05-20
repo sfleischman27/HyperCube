@@ -119,7 +119,7 @@ void Cutscene::update(float timestep){
         case STORY1: {
             _story1->setVisible(true);
             auto color = _story1->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 2, 255));
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 1, 255));
             _story1->setColor(newColor);
             if (newColor.a == 255){
                 _counter += 2;
@@ -132,7 +132,7 @@ void Cutscene::update(float timestep){
         case STORY2:{
             _story2->setVisible(true);
             auto color = _story2->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 2, 255));
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 1, 255));
             _story2->setColor(newColor);
             if (newColor.a == 255){
                 _counter += 2;
@@ -145,7 +145,7 @@ void Cutscene::update(float timestep){
         case STORY3:{
             _story3->setVisible(true);
             auto color = _story3->getColor();
-            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 2, 255));
+            auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 1, 255));
             _story3->setColor(newColor);
             if (newColor.a == 255){
                 _counter += 2;
