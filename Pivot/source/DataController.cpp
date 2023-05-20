@@ -167,7 +167,6 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     std::vector<std::shared_ptr<cugl::Texture>> col_normal_texs;
     std::vector<float> col_scales;
     std::vector<float> col_angles;
-    std::vector<Collectible> _tempcols;
 
     for (int i = 0; i < sprites->size(); i++) {
         auto iscol = sprites->get(std::to_string(i))->get("collectible")->asBool();
@@ -198,27 +197,20 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             norm.z = sprites->get(std::to_string(i))->get("norm")->get(2)->asFloat();
             // TODO: convert normal to an angle,
             float offsetAngle = getOffsetAngleDeg(norm);
-//            col_angles.push_back(offsetAngle);
+            col_angles.push_back(offsetAngle);
             // use angle to offset the rotating sprite index so they dont all look the same
 
             //get sprite scale
             float scale = sprites->get(std::to_string(i))->get("scale")->asFloat();
-//            col_scales.push_back(scale);
+            col_scales.push_back(scale);
             // TODO use scale to scale sprites differently @matt
 
             // get sprite texture
             std::string texKey = tex;
             std::shared_ptr<Texture> tex = _assets->get<Texture>(texKey);
             std::shared_ptr<Texture> normaltex = _assets->get<Texture>(texKey + "-normal");
-            Collectible col = Collectible(loc, std::to_string(model->_expectedCol.size()), tex, offsetAngle, scale);
-            col.rotateSpriteSheet = SpriteSheet::alloc(tex, 6, 6);
-            col.rotateNormalSpriteSheet = SpriteSheet::alloc(normaltex, 6, 6);
-            col.setScale(scale);
-            col.setOffsetAngle(offsetAngle);
-            
-            
-//            col_texs.push_back(tex);
-//            col_normal_texs.push_back(normaltex);
+            col_texs.push_back(tex);
+            col_normal_texs.push_back(normaltex);
 
             // does the sprite emit light?
             auto haslight = !sprites->get(std::to_string(i))->get("color")->isNull();
@@ -233,14 +225,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
                 // TODO make lights for those sprites here
                 // those lights need to disappear when the collectible is collected
                 // same as glowsticks @jolene
-                col.setColor(color);
-                col.setIntense(intensity);
-                col.setRadius(radius);
-                col.setPulse(pulse);
             }
-            _tempcols.push_back(col);
-//            model->_collectibles.insert({std::to_string(model->_expectedCol.size()), col});
-//            model->_expectedCol.insert(std::to_string(model->_expectedCol.size()));
 
             //TODO if(isemit) put it in the emissive collectibles
         }
@@ -311,7 +296,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             decPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
             
             if(_assets->get<Texture>(texkey + "-normal") != nullptr){
-                decPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey+ "-normal"), 6, 6);
+                decPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 6, 6);
             }
             else {
                 decPtr->setIsemit(true);
@@ -365,7 +350,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
             posPtr->rotateSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 1, 1);
             
             if(_assets->get<Texture>(texkey + "-normal") != nullptr){
-                posPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey+ "-normal"), 1, 1);
+                posPtr->rotateNormalSpriteSheet = SpriteSheet::alloc(_assets->get<Texture>(texkey), 1, 1);
             }
             else {
                 posPtr->setIsemit(true);
@@ -380,8 +365,7 @@ bool DataController::resetGameModel(std::string level, const std::shared_ptr<Gam
     else {
         model->_nav_target = model->_exit->getPosition();
     }
-//    model->setCollectibles(col_locs, col_texs, col_normal_texs, col_scales, col_angles);
-    model->setCollectibles(_tempcols);
+    model->setCollectibles(col_locs, col_texs, col_normal_texs, col_scales, col_angles);
 
 
     // emitters (sound points)
