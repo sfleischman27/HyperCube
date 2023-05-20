@@ -1390,7 +1390,7 @@ void GameplayController::updateMessages() {
                 // change the background size
                 _model->_messBack->setContentWidth(1300);
                 _model->_messBack->setContentHeight(100);
-                _layer->doLayout();
+                _model->_messScene->doLayout();
                 // fade in active message
                 auto color = _model->_messScene->getColor();
                 auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
@@ -1417,7 +1417,7 @@ void GameplayController::updateMessages() {
                 _model->_messBack->setContentWidth(940);
             }
             // re-layout the UI to implement the size change
-            _layer->doLayout();
+            _model->_messScene->doLayout();
             // fade in active message
             auto color = _model->_messScene->getColor();
             auto newColor = Color4(color.r, color.g, color.b, std::min(color.a + 10, 255));
