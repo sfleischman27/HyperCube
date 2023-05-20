@@ -115,49 +115,49 @@
             "type": "MESSAGE",
             "mesh": "meshes/tutorial/tutorial_0000_message_0002.obj",
             "image": null,
-            "message": "HMM... FEELS LIKE A DEAD END\nTRY ROTATING AROUND"
+            "message": "HMM... FEELS LIKE A DEAD END\nTRY ROTATING AROUND!"
         },
         "7": {
             "type": "MESSAGE",
             "mesh": "meshes/tutorial/tutorial_0000_message_0004.obj",
             "image": null,
-            "message": "HI, IM DR.AXLE TURNER\nLET'S LEARN TO NAVIGATE\nTHIS STRANGE WORLD"
+            "message": "HI, IM DR.AXEL TURNER!\nLET'S LEARN TO NAVIGATE\nTHIS STRANGE WORLD..."
         },
         "8": {
             "type": "MESSAGE",
             "mesh": "meshes/tutorial/tutorial_0000_message_0006.obj",
             "image": null,
-            "message": "WEIRD, I CAN SEE MY TARGET\nBUT HOW DO I GET THERE?"
+            "message": "WEIRD, I CAN SEE MY TARGET,\nBUT HOW DO I GET THERE?"
         },
         "9": {
             "type": "MESSAGE",
             "mesh": "meshes/tutorial/tutorial_0000_message_0008.obj",
             "image": null,
-            "message": "WOAH! THAT WAS CRAZY!\nLET'S SEE WHAT ELSE WE CAN DO"
+            "message": "WOAH, THAT WAS CRAZY!\nLET'S SEE WHAT ELSE WE CAN DO..."
         },
         "10": {
             "type": "MESSAGE",
             "mesh": "meshes/tutorial/tutorial_0000_message_0010.obj",
             "image": null,
-            "message": "OH GEEZ! A HOLE IN THE FLOOR!\nUSE THE PLATFORM TO NOT FALL IN"
+            "message": "OH GEEZ, A HOLE IN THE FLOOR.\nUSE THE PLATFORM TO GET PAST IT!"
         },
         "11": {
             "type": "MESSAGE",
             "mesh": "meshes/tutorial/tutorial_0000_message_0012.obj",
             "image": null,
-            "message": "MAKE SURE TO COLLECT ALL THE CUBES\nBEFORE REACHING THE EXIT"
+            "message": "MAKE SURE TO COLLECT ALL THE CUBES\nBEFORE REACHING THE EXIT!"
         },
         "12": {
             "type": "MESSAGE",
             "mesh": "meshes/tutorial/tutorial_0000_message_0014.obj",
             "image": null,
-            "message": "NICE JOB!\nLETS FINISH THIS OFF"
+            "message": "NICE JOB!\nLETS FINISH THIS OFF."
         },
         "13": {
             "type": "MESSAGE",
             "mesh": "meshes/tutorial/tutorial_0000_message_0016.obj",
             "image": null,
-            "message": "LETS TRY NAVIGATING SOMETHING\nA BIT MORE TRICKY"
+            "message": "LETS TRY NAVIGATING SOMETHING\nA BIT MORE TRICKY..."
         },
         "14": {
             "type": "EXITREGION",
