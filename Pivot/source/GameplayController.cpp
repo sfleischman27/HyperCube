@@ -499,6 +499,7 @@ void GameplayController::reset() {
     _model->_startOfLevel = true;
     _model->_player->setFriction(_initFriction);
     _model->_player->setInertia(_initInertia);
+    _model->_glowstickOrder = 0;
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -551,6 +552,7 @@ void GameplayController::load(std::string name){
     _model->_startOfLevel = true;
     _model->_player->setFriction(_initFriction);
     _model->_player->setInertia(_initInertia);
+    _model->_glowstickOrder = 0;
     prevPlay2DPos = Vec2::ZERO;
     _physics->getWorld()->addObstacle(_model->_player);
     // change plane for new model
@@ -1106,14 +1108,14 @@ void GameplayController::update(float dt) {
             }else{
                 g = Glowstick(player3DPos-(_plane->getBasisRight()*10)-(_model->getPlaneNorm()*1));
             }
-            int num = _model->_glowsticks.size() % 4;
+            int num = _model->_glowstickOrder % 4;
             g.rotateSpriteSheet = _model->_glowstickSprites[num];
             g.setColor(_model->_glowstickColors[num]);
             g.setRotationalSprite(_model->getGlobalAngleDeg());
             _model->_glowsticks.push_back(g);
             _model->updateGlowstickCount();
             _model->_lightsFromItems[std::string(g.getPosition())] = GameModel::Light(g.getColor(), g.getIntense(), g.getPosition(), 2000.0, g.getPulse()); // hard coded for now
-            
+            _model->_glowstickOrder = _model->_glowstickOrder+1;
             _sound->playSound("glowstick_place", 0.75);
         }
         

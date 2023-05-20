@@ -183,6 +183,8 @@ public:
     std::map<int, std::shared_ptr<SpriteSheet>> _glowstickSprites;
     
     std::map<int, cugl::Vec3> _glowstickColors;
+    
+    int _glowstickOrder;
 
 #pragma mark Compass State
 public:
