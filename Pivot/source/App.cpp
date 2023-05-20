@@ -388,8 +388,8 @@ void PivotApp::updateEndScene(float timestep){
         case EndLevelMenu::Choice::NEXT:
             _endMenu.setActive(false);
             if(_levelSelect.isLast()){
-                _levelSelect.setActive(true);
-                _scene = State::LEVEL;
+                _credits.setActive(true);
+                _scene = State::CREDITS;
             } else if(_levelSelect.getNextLevelString() == "lab_0000" && _levelSelect.getMaxLevel() == _levelSelect.levelNum()){
                 _cutscene.setActive(true);
                 _scene = State::CUTSCENE;
