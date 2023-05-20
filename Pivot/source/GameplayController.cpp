@@ -885,6 +885,12 @@ void GameplayController::update(float dt) {
         _model->_player->setPosition(lastStablePlay2DPos);
         _model->_player->timeStuckAtZeroYvelocity = 0;
         _model->_player->justFinishedGettingUnstuck = true;
+        
+        // turn on stuck message
+        auto args = TriggerArgs();
+        args.messages = _model->_messages;
+        args.text = "HMM, I THINK I GOT STUCK";
+        Trigger::showMessage(args);
     }
     
     // update popups
@@ -903,8 +909,12 @@ void GameplayController::update(float dt) {
         _model->_player->setRotationalSprite(_model->getGlobalAngleDeg());
         
         if(_model->_player->justFinishedGettingUnstuck){
-            //TODO sarah this is when the stuck popup goes away
             _model->_player->justFinishedGettingUnstuck = false;
+            
+            // turn off stuck message
+            auto args = TriggerArgs();
+            args.messages = _model->_messages;
+            Trigger::stopMessages(args);
         }
     }
     
