@@ -166,7 +166,7 @@ public:
 public:
     /** Vector of collectibles in player backpack */
     std::unordered_set<std::string> _backpack;
-    
+private:
     /** Vector of collectibles need to be collected*/
     std::unordered_set<std::string> _expectedCol;
 
@@ -433,19 +433,19 @@ public:
      * @param locs  List of collectible locations
      * @param texs  List of collectible textures
      */
-//    void setCollectibles(std::vector<Vec3> locs, std::vector<std::shared_ptr<cugl::Texture>> texs, std::vector<std::shared_ptr<cugl::Texture>> normalTexs, std::vector<float> col_scales, std::vector<float> col_angles) {
-//        for(int i = 0; i < locs.size(); i++) {
-//            Collectible item = Collectible(locs[i], std::to_string(i));
-//            item.setScale(col_scales[i]);
-//            item.setOffsetAngle(col_angles[i]);
-//            item.setTexture(texs[i]);
-//            item.rotateSpriteSheet = SpriteSheet::alloc(texs[i], 6, 6);
-//            item.rotateNormalSpriteSheet = SpriteSheet::alloc(normalTexs[i], 6, 6);
-//            _collectibles.insert({std::to_string(i), item});
-//            _expectedCol.insert(std::to_string(i));
-//        }
-//
-//    }
+    void setCollectibles(std::vector<Vec3> locs, std::vector<std::shared_ptr<cugl::Texture>> texs, std::vector<std::shared_ptr<cugl::Texture>> normalTexs, std::vector<float> col_scales, std::vector<float> col_angles) {
+        for(int i = 0; i < locs.size(); i++) {
+            Collectible item = Collectible(locs[i], std::to_string(i));
+            item.setScale(col_scales[i]);
+            item.setOffsetAngle(col_angles[i]);
+            item.setTexture(texs[i]);
+            item.rotateSpriteSheet = SpriteSheet::alloc(texs[i], 6, 6);
+            item.rotateNormalSpriteSheet = SpriteSheet::alloc(normalTexs[i], 6, 6);
+            _collectibles.insert({std::to_string(i), item});
+            _expectedCol.insert(std::to_string(i));
+        }
+
+    }
 
     void clearPopups() {
         _popup->clear();

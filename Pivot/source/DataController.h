@@ -12,7 +12,6 @@
 #include <cugl/base/CUApplication.h>
 #include <cugl/cugl.h>
 #include "GameModel.h"
-#include "Collectible.h"
 #include <vector>
 
 /**
