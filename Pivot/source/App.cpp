@@ -403,7 +403,7 @@ void PivotApp::updateEndScene(float timestep){
                 _scene = State::CUTSCENE;
             } else {
                 _gameplay.setActive(true);
-                _gameplay.load(_levelSelect.getNextLevelString());
+                _gameplay.load(_levelSelect.getLevelString());
                 _scene = State::GAME;
             }
             break;
