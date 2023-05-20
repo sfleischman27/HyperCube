@@ -1079,7 +1079,7 @@ void GameplayController::update(float dt) {
             _justRotated = false;
             _sound->fadeIn(getSongName("m"), ROTATE_FADE);
             _sound->fadeOut(getSongName("r"), ROTATE_FADE);
-        }\
+        }
         _physics->update(dt);
         // std::cout<<"curr velocity (x,y): " << _model->_player->getVelocity().x << "," << _model->_player->getVelocity().y << std::endl;
     }
