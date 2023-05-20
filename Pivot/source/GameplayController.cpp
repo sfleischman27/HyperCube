@@ -1338,7 +1338,7 @@ void GameplayController::updateMessages() {
                 // turn on message
                 _model->_messScene->setVisible(true);
                 // change the background size
-                _model->_messBack->setContentWidth(1500);
+                _model->_messBack->setContentWidth(1300);
                 _model->_messBack->setContentHeight(100);
                 _layer->doLayout();
                 // fade in active message
@@ -1358,6 +1358,14 @@ void GameplayController::updateMessages() {
             // change the background size
             _model->_messBack->setContentWidth(1500);
             _model->_messBack->setContentHeight(100 * lines);
+            // custom widths for repeated messages
+            if(_model->_messages->getText() == "OUCH!"){
+                _model->_messBack->setContentWidth(260);
+            }
+            if(_model->_messages->getText() == "HMM, I THINK I GOT STUCK"){
+                _model->_messBack->setContentWidth(940);
+            }
+            // re-layout the UI to implement the size change
             _layer->doLayout();
             // fade in active message
             auto color = _model->_messScene->getColor();
