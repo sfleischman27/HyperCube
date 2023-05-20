@@ -883,6 +883,7 @@ void GameplayController::update(float dt) {
 #pragma mark -----
     
     if(_justCollected) {
+        _model->_collectTime->mark();
         fadeinCollectibles();
     }else{
         fadeoutCollectibles();

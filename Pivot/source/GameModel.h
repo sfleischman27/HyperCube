@@ -79,6 +79,8 @@ public:
     std::shared_ptr<Timestamp> _pixelOutTime;
     /** Current time */
     std::shared_ptr<Timestamp> _currentTime;
+    /** Player just got a collectible */
+    std::shared_ptr<Timestamp> _collectTime;
     
     /** True while pixeling in, false when pixeling out*/
     bool _pixelingIn;
@@ -249,6 +251,7 @@ public:
         _pixelInTime = std::make_shared<Timestamp>();
         _pixelOutTime = std::make_shared<Timestamp>();
         _currentTime = std::make_shared<Timestamp>();
+        _collectTime = std::make_shared<Timestamp>();
         _popup = std::make_shared<Popups>(Popups());
         _messages = std::make_shared<Messages>(Messages());
     }
