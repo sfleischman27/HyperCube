@@ -164,26 +164,26 @@ void RenderPipeline::billboardSetup(const std::shared_ptr<GameModel>& model) {
 
     // Player and exit
     std::shared_ptr<Texture> charSheet = model->_player->currentSpriteSheet->getTexture();
-    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, model->_player->currentSpriteSheet, false));
-    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, model->_exit->rotateSpriteSheet, true));
+    drawables.push_back(DrawObject(model->getPlayer3DLoc(), charSheet, model->_player->currentNormalSpriteSheet->getTexture(), true, model->_player->currentSpriteSheet, false, 1.0));
+    drawables.push_back(DrawObject(model->_exit->getPosition(), model->_exit->rotateSpriteSheet->getTexture(), NULL, false, model->_exit->rotateSpriteSheet, true, model->_exit->getScale()));
 
     // Collectibles
     std::map<std::string, Collectible> colls = model->getCollectibles();
     for (std::pair<std::string, Collectible> c : colls) {
         if (!c.second.getCollected()) {
-            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, c.second.rotateSpriteSheet, true));
+            drawables.push_back(DrawObject(c.second.getPosition(), c.second.rotateSpriteSheet->getTexture(), NULL, false, c.second.rotateSpriteSheet, true, c.second.getScale()));
         }
     }
 
     // Glowsticks
     for (Glowstick g : model->_glowsticks) {
-        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), NULL, false, NULL, true));
+        drawables.push_back(DrawObject(g.getPosition(), model->_glowsticks[0].getTexture(), NULL, false, NULL, true, g.getScale()));
     }
 
     // Decorations
     auto decor = model->getDecorations();
      for (auto d : decor) {
-         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->isEmissive() ? NULL : d->rotateNormalSpriteSheet->getTexture(), false, d->rotateSpriteSheet, false));
+         drawables.push_back(DrawObject(d->getPosition(), d->rotateSpriteSheet->getTexture(), d->isEmissive() ? NULL : d->rotateNormalSpriteSheet->getTexture(), false, d->rotateSpriteSheet, false, d->getScale()));
      }
 
     // Set bind points
@@ -213,7 +213,7 @@ bool RenderPipeline::constructBillMesh(const std::shared_ptr<GameModel>& model, 
     bool visible = false;
     for (float i = -sz.width / (2 * div); i <= sz.width / (2 * div); i += sz.width / div) {
         for (float j = -sz.height / (2 * div); j <= sz.height / (2 * div); j += sz.height / div) {
-            Vec3 addOn = (i * basisRight + j * basisUp) * 1.0; // TODO scale
+            Vec3 addOn = (i * basisRight + j * basisUp); // TODO scale
             tempV.texcoord = Vec2(i > 0 ? 1 : 0, j > 0 ? 0 : 1);
             if (dro.sheet != NULL) {
                 // assuming the spritesheet has square dimensions
