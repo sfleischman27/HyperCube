@@ -1,19 +1,19 @@
 {
-    "level_id": "final_0000",
+    "level_id": "final_0003",
     "player_loc": [
-        110.85479024539381,
-        634.0349865093594,
-        -139.74093954596356
+        -186.09708790056175,
+        -75.93802555018101,
+        -81.51967321837219
     ],
     "norm": [
-        1.0,
-        0.0,
+        -0.5038710832595825,
+        0.8637789487838745,
         0.0
     ],
     "exit": [
-        82.2054878599647,
-        -45.20939470403391,
-        -212.51579420691996
+        -70.47683457312814,
+        -121.25040601398723,
+        -129.7812688907743
     ],
     "glowsticks": 4,
     "shade_depth": 20,
@@ -47,20 +47,20 @@
     "sprites": {
         "0": {
             "loc": [
-                108.33744872395982,
-                91.93255659497481,
-                -138.06820324867658
+                0.293957222646668,
+                1.9825614201999997,
+                -211.8249311951513
             ],
-            "tex": "glow_cube",
+            "tex": "hypercube",
             "scale": 1.0,
             "norm": [
                 0.0,
                 0.0,
                 1.0
             ],
-            "collectible": true,
+            "collectible": false,
             "billboard": true,
-            "emissive": false,
+            "emissive": true,
             "color": null,
             "intense": null,
             "radius": null,
@@ -68,28 +68,28 @@
         },
         "1": {
             "loc": [
-                15.287278186824551,
-                -190.21957310091238,
-                -76.03475787695515
+                0.293957222646668,
+                1.9825614201999997,
+                -211.8249311951513
             ],
-            "tex": "glow_cube",
-            "scale": 1.0,
-            "norm": [
-                0.0,
-                0.0,
-                1.0
-            ],
-            "collectible": true,
-            "billboard": true,
+            "tex": null,
+            "scale": null,
+            "norm": null,
+            "collectible": false,
+            "billboard": false,
             "emissive": false,
-            "color": null,
-            "intense": null,
-            "radius": null,
-            "pulse": null
+            "color": [
+                1.0,
+                0.0048027923330664635,
+                0.0
+            ],
+            "intense": 2.0,
+            "radius": 0.0,
+            "pulse": 3458.646535873413
         }
     },
     "sounds": {},
-    "collision_mesh": "meshes/final/final_0000_col.obj",
-    "render_mesh": "meshes/final/final_0000_dec.obj",
+    "collision_mesh": "meshes/final/final_0003_col.obj",
+    "render_mesh": "meshes/final/final_0003_dec.obj",
     "triggers": {}
 }

@@ -385,6 +385,16 @@
             "file": "textures/tutorial_jump.png",
             "span": 1,
             "cols": 1
+        },
+        "hypercube": {
+            "file": "textures/hypercube.png",
+            "span": 1,
+            "cols": 1
+        },
+        "hypercube-normal": {
+            "file": "textures/hypercube_normal.png",
+            "span": 1,
+            "cols": 1
         }
     },
     "sounds": {
@@ -559,6 +569,9 @@
         "woods_0002": "json/level_json/woods/woods_0002.json",
         "tutorial_0003": "json/level_json/tutorial/tutorial_0003.json",
         "final_0000": "json/level_json/final/final_0000.json",
-        "woods_0003": "json/level_json/woods/woods_0003.json"
+        "woods_0003": "json/level_json/woods/woods_0003.json",
+        "final_0001": "json/level_json/final/final_0001.json",
+        "final_0002": "json/level_json/final/final_0002.json",
+        "final_0003": "json/level_json/final/final_0003.json"
     }
 }
