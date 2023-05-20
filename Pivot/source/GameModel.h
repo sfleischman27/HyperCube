@@ -158,6 +158,8 @@ public:
     
     std::shared_ptr<cugl::scene2::SceneNode> _messScene;
     
+    std::shared_ptr<cugl::scene2::NinePatch> _messBack;
+    
     std::shared_ptr<cugl::scene2::Label> _messText;
 
 #pragma mark Backpack State

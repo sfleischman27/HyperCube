@@ -227,6 +227,11 @@ public:
     void resetCollectibleUI(int col);
     
     /**
+     * Disables glowstick button if there are no glowsticks available in the level
+     */
+    void resetGlowstickButt();
+    
+    /**
      * Changes the collecttible UI to reflect the number of collectibles collected
      *
      * @param col  The number of collectibles in the level (1 to 4)
