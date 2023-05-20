@@ -595,7 +595,7 @@ std::string GameplayController::getPackName(std::string name){
     }
  
     if(name.substr(0, 3) == "tut"){
-        return "lab";
+        return "tutorial";
     } else if (name.substr(0, 3) == "lab"){
         return "lab";
     } else if (name.substr(0, 3) == "tun"){
