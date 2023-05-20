@@ -20,8 +20,6 @@ public:
         STORY2,
         /** Story 3 is being turned on */
         STORY3,
-        /** Story 4 is being turned on */
-        STORY4,
         /** Button is being turned on */
         BUTTON,
         /** The user has pressed the next button */
@@ -38,8 +36,6 @@ protected:
     std::shared_ptr<cugl::scene2::SceneNode> _story2;
     /** The third story element */
     std::shared_ptr<cugl::scene2::SceneNode> _story3;
-    /** The fourth story element */
-    std::shared_ptr<cugl::scene2::SceneNode> _story4;
     /** The next button */
     std::shared_ptr<cugl::scene2::Button> _butt;
     

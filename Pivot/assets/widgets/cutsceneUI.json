@@ -29,6 +29,24 @@
                 "layout": {
                     "x_anchor": "fill",
                     "y_anchor": "middle"
+                },
+                "children": {
+                    "scene1": {
+                        "type": "Label",
+                        "data": {
+                            "font": "roboto",
+                            "text": "this is scene 1",
+                            "foreground": [255,255,255,255],
+                            "background": [0,0,0,0],
+                            "halign": "center",
+                            "valign": "bottom"
+                        },
+                        "layout":{
+                            "x_anchor": "fill",
+                            "y_anchor": "bottom",
+                            "y_offset": -0.1
+                        }
+                    }
                 }
             },
             "cutscene2": {
@@ -42,6 +60,24 @@
                 "layout": {
                     "x_anchor": "fill",
                     "y_anchor": "middle"
+                },
+                "children": {
+                    "scene2": {
+                        "type": "Label",
+                        "data": {
+                            "font": "roboto",
+                            "text": "this is scene 2",
+                            "foreground": [255,255,255,255],
+                            "background": [0,0,0,0],
+                            "halign": "center",
+                            "valign": "bottom"
+                        },
+                        "layout":{
+                            "x_anchor": "fill",
+                            "y_anchor": "bottom",
+                            "y_offset": -0.1
+                        }
+                    }
                 }
             },
             "cutscene3": {
@@ -55,19 +91,24 @@
                 "layout": {
                     "x_anchor": "fill",
                     "y_anchor": "middle"
-                }
-            },
-            "cutscene4": {
-                "type": "Image",
-                "data": {
-                    "visible": false,
-                    "texture": "cutscene4",
-                    "scale": 0.75,
-                    "anchor": [0.5,0.5]
                 },
-                "layout": {
-                    "x_anchor": "fill",
-                    "y_anchor": "middle"
+                "children": {
+                    "scene3": {
+                        "type": "Label",
+                        "data": {
+                            "font": "roboto",
+                            "text": "this is scene 3",
+                            "foreground": [255,255,255,255],
+                            "background": [0,0,0,0],
+                            "halign": "center",
+                            "valign": "bottom"
+                        },
+                        "layout":{
+                            "x_anchor": "fill",
+                            "y_anchor": "bottom",
+                            "y_offset": -0.1
+                        }
+                    }
                 }
             },
             "nextscene": {
