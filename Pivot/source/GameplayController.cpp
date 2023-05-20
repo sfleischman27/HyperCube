@@ -940,6 +940,8 @@ void GameplayController::update(float dt) {
     // kill the player if marked dead
     if (_model->_player->isDead()) {
         _model->_player->setPosition(lastStablePlay2DPos);
+        _sound->playSound("die", 1.0f);
+
         _model->_player->setDead(false);
         _model->_deathTime->mark();
         _model->_player->justDied = true;
@@ -989,7 +991,6 @@ void GameplayController::update(float dt) {
             Trigger::stopMessages(args);
         }
         if(_model->_player->justDied){
-            _sound->playSound("die", 1.0f);
             _model->_player->justDied = false;
             
             // turn off dead message
