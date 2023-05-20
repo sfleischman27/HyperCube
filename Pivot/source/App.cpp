@@ -390,6 +390,9 @@ void PivotApp::updateEndScene(float timestep){
             if(_levelSelect.isLast()){
                 _levelSelect.setActive(true);
                 _scene = State::LEVEL;
+            } else if(_levelSelect.getNextLevelString() == "lab_0000" && _levelSelect.getMaxLevel() == _levelSelect.levelNum()){
+                _cutscene.setActive(true);
+                _scene = State::CUTSCENE;
             } else {
                 _gameplay.setActive(true);
                 _gameplay.load(_levelSelect.getNextLevelString());
