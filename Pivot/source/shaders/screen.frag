@@ -14,15 +14,11 @@ uniform float pixelFrac;
 uniform float tr;
 uniform vec2 screenSize;
 
-vec2 maxResolution = screenSize;
-vec2 minResolution = .0005 * screenSize;
-
 const float pi = 3.141592653;
 const float maxDistChange = .02;
 const float rMin = 0.0;
 const float rMax = sqrt(2.0) + maxDistChange;
 const float areaOfEffect = .3;
-float aspectRatio = screenSize.y / screenSize.x;
 
 vec2 nonLinearMix(vec2 a, vec2 b, float frac) {
     float t = pow(2.71828, -5.0 * frac);
@@ -30,6 +26,11 @@ vec2 nonLinearMix(vec2 a, vec2 b, float frac) {
 }
 
 void main(void) {
+    
+    // Previous globals
+    vec2 maxResolution = screenSize;
+    vec2 minResolution = .0005 * screenSize;
+    float aspectRatio = screenSize.y / screenSize.x;
     
     // Pixelate
     if (pixelFrac > 0.0) {
