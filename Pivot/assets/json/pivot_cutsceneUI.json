@@ -9,9 +9,6 @@
         "cutscene3": {
             "file": "textures/cutscene_story3.png"
         },
-        "cutscene4": {
-            "file": "textures/cutscene_story4.png"
-        },
         "nextscene": {
             "file": "textures/cutscene_button.png"
         },
